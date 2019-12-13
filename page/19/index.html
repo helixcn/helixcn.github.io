@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Jinlong Zhang&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Jinlong Zhang&#39;s Blog">
+<meta property="og:url" content="http:&#x2F;&#x2F;helixcn.github.io&#x2F;page&#x2F;19&#x2F;index.html">
+<meta property="og:site_name" content="Jinlong Zhang&#39;s Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Jinlong">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Jinlong Zhang&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jinlong Zhang&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://helixcn.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-2011-10-17-inno" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2011/10/17/2011-10-17-inno/" class="article-date">
+  <time datetime="2011-10-16T19:45:54.000Z" itemprop="datePublished">2011-10-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/10/17/2011-10-17-inno/">Inno setup 制作安装文件以编译FigTree为例</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Windows下安装文件的制作为软件的安装和卸载提供了方便。用户不再用担心可执行文件及动态连接库等保存在固定的文件夹中，只需要进行软件的安装和卸载，就可以将全部需要的可执行文件，以及程序运行所需要的文件创建和删除。这为程序管理提供了很大的方便。安装文件的制作有很多软件，如setup factory, Install shield wizard等等，但是对于小型软件，</p>
+<p>Inno setup，这样的小型安装文件制作工具就已经足够了。</p>
+<p>Inno setup开始于1997年，是完全免费的，从稳定上和兼容性上，甚至超过了一些商业软件。</p>
+<p>这里介绍一下如何用Inno setup创建一个setup文件。以FigTree为例。</p>
+<p>FigTree是爱丁堡大学的Andrew Rambaut编写的绘制进化树的软件，用Java写成，可以在多种平台上运行。但是Andrew提供的Windows下的程序包实际上是一个包含exe文件和动态连接库的文件夹，使用起来不是特别方便，因此用Inno</p>
+<p>Setup建立一个Windows安装文件，便于对程序的管理和使用。</p>
+<p>FigTree可以在 <a href="http://tree.bio.ed.ac.uk/software/figtree/" target="_blank" rel="noopener">http://tree.bio.ed.ac.uk/software/figtree/</a> 下载。下载Windows下的zip程序包，解压缩。</p>
+<p>下载Inno setup <a href="http://www.jrsoftware.org/isinfo.php" target="_blank" rel="noopener">http://www.jrsoftware.org/isinfo.php</a> 并安装。</p>
+<p>创建一个新的Project，按照界面给出的提示，Inno setup会自动生成一个脚本。编译该脚本，即可生成所需的exe文件。一般来说，首先要指定exe文件。其次要给出程序所要包含的文件夹，该文件夹中包含运行该exe所需的动态连接库等。</p>
+<p>还有就是创建ico文件，ico文件是Windows的图标，如果现有jpg或者png等其他格式的文件。可以在 <a href="http://iconverticons.com/转换成ico文件，作为该setup显示的图形。" target="_blank" rel="noopener">http://iconverticons.com/转换成ico文件，作为该setup显示的图形。</a></p>
+<p>了解以上信息，相信读者都能够编译出自己的Windows setup文件了。</p>
+<p><a href="http://blog.sciencenet.cn/home.php?mod=attachment&id=19462" target="_blank" rel="noopener">FigTree v1.3.1.zip</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://helixcn.github.io/2011/10/17/2011-10-17-inno/" data-id="ck44eqx1i00308kyacvmjfl9o" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2011-08-07-writting" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2011/08/07/2011-08-07-writting/" class="article-date">
+  <time datetime="2011-08-07T07:14:54.000Z" itemprop="datePublished">2011-08-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/08/07/2011-08-07-writting/">如何撰写生态学科研论文？</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>科研论文是科学家贡献的最直接标志。好的研究论文往往具有很强的生命力，在十几年，甚至几十年后还会有人引用。研究论文，作为当代最重要的科学研究著作的形式，理应受到特别的关注。而对于广大研究生而言，学会正确的撰写科研论文，也是学习的重要内容。科研论文最重要的目的是简明扼要得阐述科研成果。经过同行评议的科研论文意味着该成果已经正事进入学术圈，是对科学的重要贡献。因此，写好科研论文是十分必要的。</p>
+<p>对于理论性很强的生态学科而言，更是如此。为此，笔者做了如下总结，希望和生态学同仁共勉。</p>
+<p>数据分析好后，一般已经获得了撰写论文结果所需的图表等，因此，撰写研究论文一般按照以下顺序</p>
+<ol>
+<li>结果</li>
+<li>方法</li>
+<li>讨论</li>
+<li>前言</li>
+<li>摘要</li>
+</ol>
+<p>下面按照论文的一般顺序介绍各部分的主要写法</p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h1><p>   这部分主要是为了引出自己的研究的问题，以及这些问题为什么重要。</p>
+<ul>
+<li><p>第一段  研究的背景</p>
+</li>
+<li><p>第二段  研究领域的question,以及相应的假说;</p>
+</li>
+<li><p>第三段， 关于这些假说，人们都进行了哪些研究，但是还有什么地方不清楚</p>
+</li>
+<li><p>第四段， 提出自己要研究的问题，或者依据现有的理论，预测出的结果，经过分析之后，会给出怎样的结果，即要检验的hypothesis</p>
+</li>
+<li><p>第五段， 简要介绍这篇文章用什么数据，用什么方法以引出方法这部分</p>
+</li>
+</ul>
+<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a><strong>方法</strong></h1><p>这一部分介绍研究的材料和方法，以便别人能够重复你的研究。</p>
+<p>一般先写数据的获取，包括样地的描述，调查的方法，然后是统计分析的方法，最后介绍统计分析的软件。</p>
+<h1 id="结果"><a href="#结果" class="headerlink" title="结果"></a><strong>结果</strong></h1><p>这一部分给出分析最重要的结果。尽量用图给出，实在不行再用表格给出。给出最主要的信息就可以，因为结果可以有很多。但是支持或者不支持假说的，只有很少的关键的一部分，重点突出这部分</p>
+<h1 id="讨论"><a href="#讨论" class="headerlink" title="讨论"></a><strong>讨论</strong></h1><p>这一部分是深入阐述研究结果的意义与价值，升华论文的深度。指出研究的不足与进一步的发展方向。</p>
+<p>讨论往往需要先回顾一下讨论的问题。读者读到这里，往往忘记了作者要做什么问题，因此再重申一下检验的问题</p>
+<p>然后分别对检验的结果，一一进行评述，包括这些结果与前人研究的异同，以及这些结果带来的启示，目的就是深化论文发现结果的意义，将论文的思想表达清楚。</p>
+<p>之后要说一下本论文的不足之处，以及可以改进的地方，或者仍然研究不清楚的地方。甚至是研究展望。</p>
+<p>最后，对本文的发现和意义进行总结。</p>
+<h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a><strong>摘要</strong></h1><p>摘要部分往往最后撰写，摘要往往分成两种形式，第一种，直接报道科研数据，以及结果，在摘要中往往能够发现大量的数字；第二种，文字性的报道。但是无论哪种，都要说清楚论文的目的，主要方法，结果和新发现的意义。一篇好的摘要，如同一篇好的论文，虽然不能面面俱到，也是能够吸引读者深入读下去的。</p>
+<h1 id="其它"><a href="#其它" class="headerlink" title="其它"></a><strong>其它</strong></h1><p>​再之后，就是准备supporting information,包括论文分析数据用到的程序，一些不便放在正文中的图表等。</p>
+<p>​经过多次认真细致的修改之后，将格式按照投稿要求改好，才能投稿。 这里祝愿大家马到成功！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://helixcn.github.io/2011/08/07/2011-08-07-writting/" data-id="ck44eqx1s00358kyahiw2dmrb" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%86%99%E4%BD%9C/" rel="tag">写作</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2011-7-28-pcnm" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2011/07/28/2011-7-28-pcnm/" class="article-date">
+  <time datetime="2011-07-28T03:29:54.000Z" itemprop="datePublished">2011-07-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/07/28/2011-7-28-pcnm/">PCNM动画展示：生态学与空间统计学</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>PCNM (Principal Coordinates of Neighbourhood Matrix)是Legendre教授等开发出的表示空间关系的方法，类似于pcoa。常用于生物多样性空间格局研究中，例如在古田山beta多样性研究中，Legendre<strong>(</strong>2009<strong>)</strong>就使用了这种方法。用样地的规则栅格距离可以对点两两之间的距离关系进行PCNM模拟。 这里用到了vegan程序包将距离矩阵转换成PCNM的特征向量，用imagevect函数绘制PCNM特征向量在样地中的分布。希望对有兴趣的研究人员有帮助。</p>
+<p>将以下代码在R中运行即可。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#### Function imagevect</span></span><br><span class="line"><span class="comment">#### By Jinlong Zhang  &lt;Jinlongzhang01@gmail.com&gt;</span></span><br><span class="line"><span class="comment">#### Institute of Botany, the Chinese Academy of Sciences, Beijing ,China</span></span><br><span class="line"><span class="comment">#### Aug. 18, 2011</span></span><br><span class="line"> </span><br><span class="line">imagevect &lt;- <span class="keyword">function</span> (x, labels, contour = <span class="literal">FALSE</span>, gridsize = <span class="number">20</span>,</span><br><span class="line">                        axes = <span class="literal">TRUE</span>, nlabx = <span class="number">5</span>, nlaby = <span class="number">5</span>, <span class="keyword">...</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">require</span>(fields)</span><br><span class="line">   dimension &lt;- <span class="keyword">function</span>(x, unique = <span class="literal">FALSE</span>, sort = <span class="literal">FALSE</span>)&#123;</span><br><span class="line">        ncharX &lt;- substring(x, <span class="number">2</span>, regexpr(<span class="string">"Y"</span>, x)-<span class="number">1</span>)</span><br><span class="line">        ncharY &lt;- substring(x, nchar(ncharX)+<span class="number">3</span>, nchar(x))</span><br><span class="line">        <span class="keyword">if</span>(unique)&#123;</span><br><span class="line">            ncharX = unique(ncharX)</span><br><span class="line">            ncharY = unique(ncharY)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(sort)&#123;</span><br><span class="line">            ncharX = sort(as.numeric(ncharX))</span><br><span class="line">            ncharY = sort(as.numeric(ncharY))</span><br><span class="line">        &#125;</span><br><span class="line">        res &lt;- list(ncharX, ncharY)</span><br><span class="line">        <span class="keyword">return</span>(res)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    formatXY &lt;- <span class="keyword">function</span>(x)&#123;</span><br><span class="line">        ncharX &lt;- substring(x, <span class="number">2</span>, regexpr(<span class="string">"Y"</span>, x)-<span class="number">1</span>)</span><br><span class="line">        ncharY &lt;- substring(x, nchar(ncharX)+<span class="number">3</span>, nchar(x))</span><br><span class="line">        resX &lt;- c()</span><br><span class="line">        <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:length(ncharX))&#123;</span><br><span class="line">            n0x &lt;- paste( rep(rep(<span class="number">0</span>, length(ncharX[i])),</span><br><span class="line">                         times = (max(nchar(ncharX)) - nchar(ncharX[i]) + <span class="number">1</span>)),</span><br><span class="line">                         collapse = <span class="string">""</span>, sep = <span class="string">""</span>)</span><br><span class="line">            resX[i] &lt;- paste(<span class="string">"X"</span>, substring(n0x, <span class="number">2</span>, nchar(n0x)), ncharX[i], collapse = <span class="string">""</span>, sep = <span class="string">""</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        resY &lt;- c()</span><br><span class="line">        <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:length(ncharY))&#123;</span><br><span class="line">            n0x &lt;- paste( rep(rep(<span class="number">0</span>, length(ncharY[i])),</span><br><span class="line">                         times = (max(nchar(ncharY)) - nchar(ncharY[i]) + <span class="number">1</span>)),</span><br><span class="line">                         collapse = <span class="string">""</span>, sep = <span class="string">""</span>)</span><br><span class="line">            resY[i] &lt;- paste(<span class="string">"Y"</span>, substring(n0x, <span class="number">2</span>, nchar(n0x)), ncharY[i], collapse = <span class="string">""</span>, sep = <span class="string">""</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        res &lt;- paste(resX, resY, sep = <span class="string">""</span>)</span><br><span class="line">        <span class="keyword">return</span>(res)</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    sort.x &lt;- x[order(formatXY(labels))]</span><br><span class="line">    rrr &lt;- dimension(labels, unique = <span class="literal">TRUE</span>, sort = <span class="literal">TRUE</span>)</span><br><span class="line">    dims &lt;- c(length(rrr[[<span class="number">2</span>]]), length(rrr[[<span class="number">1</span>]]))</span><br><span class="line">    dim(sort.x) &lt;- dims</span><br><span class="line">    par(xaxs = <span class="string">"i"</span>, yaxs = <span class="string">"i"</span>)</span><br><span class="line">    image.plot(nnn &lt;- t(sort.x), axes = <span class="literal">FALSE</span>, <span class="keyword">...</span>)</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">if</span> (contour) &#123;</span><br><span class="line">        contour(nnn, add = <span class="literal">TRUE</span>, <span class="keyword">...</span>)</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">    <span class="keyword">if</span> (axes) &#123;</span><br><span class="line">        points(<span class="number">0</span>, <span class="number">0</span>, pch = <span class="string">" "</span>, cex = <span class="number">3</span>)                      <span class="comment">## invoke the large plot</span></span><br><span class="line">       </span><br><span class="line">     get.axis.ticks &lt;-</span><br><span class="line">              <span class="keyword">function</span>(nlabs = <span class="literal">NULL</span>, gridsize = <span class="literal">NULL</span>, limit_max = <span class="literal">NULL</span>)&#123;</span><br><span class="line">    </span><br><span class="line">         ngrid &lt;- (limit_max-<span class="number">0</span>)/gridsize                      <span class="comment">## Obtain number of labels to plot</span></span><br><span class="line">         per_grid &lt;- <span class="number">1</span>/(ngrid-<span class="number">1</span>)                              <span class="comment">## Obtain length for each grid</span></span><br><span class="line">         start &lt;- <span class="number">0</span> - (<span class="number">1</span>/(ngrid-<span class="number">1</span>))/<span class="number">2</span>                         <span class="comment">## starting point for the ticks</span></span><br><span class="line">         <span class="keyword">stop</span> &lt;- <span class="number">1</span> + (<span class="number">1</span>/(ngrid-<span class="number">1</span>))/<span class="number">2</span>                          <span class="comment">## stopping point for the ticks</span></span><br><span class="line">        </span><br><span class="line">         lab &lt;-(<span class="number">0</span>:nlabs*(limit_max/nlabs))</span><br><span class="line">         at &lt;- seq(from = start, to = <span class="keyword">stop</span>,</span><br><span class="line">                   by = ((<span class="number">1</span> + per_grid))/((length(lab)-<span class="number">1</span>)))   <span class="comment">## Position of the ticks</span></span><br><span class="line">        </span><br><span class="line">         <span class="keyword">return</span>(list(lab, at))</span><br><span class="line">        </span><br><span class="line">     &#125;</span><br><span class="line">       xaxis.position &lt;- get.axis.ticks(nlabs = nlabx, gridsize = gridsize,</span><br><span class="line">                                limit_max = gridsize * nrow(nnn))</span><br><span class="line">       yaxis.position &lt;- get.axis.ticks(nlabs = nlaby, gridsize = gridsize,</span><br><span class="line">                                limit_max = gridsize * ncol(nnn))</span><br><span class="line">       </span><br><span class="line">        axis(<span class="number">1</span>, labels = xaxis.position[[<span class="number">1</span>]], at = xaxis.position[[<span class="number">2</span>]])</span><br><span class="line">        axis(<span class="number">2</span>, labels = yaxis.position[[<span class="number">1</span>]], at = yaxis.position[[<span class="number">2</span>]])</span><br><span class="line">    &#125;</span><br><span class="line">    invisible(nnn)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(vegan)</span><br><span class="line"> </span><br><span class="line"><span class="comment">## 模拟一套数据</span></span><br><span class="line">X &lt;- seq(<span class="number">10</span>, <span class="number">590</span>, by = <span class="number">20</span>)</span><br><span class="line">Y &lt;- seq(<span class="number">10</span>, <span class="number">390</span>, by = <span class="number">20</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">## Label</span></span><br><span class="line">XY &lt;- expand.grid(X, Y)</span><br><span class="line">names &lt;- paste(<span class="string">"X"</span>, (XY[,<span class="number">1</span>] + <span class="number">10</span>)/<span class="number">20</span> ,<span class="string">"Y"</span>, (XY[,<span class="number">2</span>] + <span class="number">10</span>)/<span class="number">20</span> , sep = <span class="string">""</span>)</span><br><span class="line">rownames(XY) &lt;- names</span><br><span class="line"><span class="comment">## 计算样方两两之间的距离</span></span><br><span class="line">distXY &lt;- dist(XY)</span><br><span class="line"> </span><br><span class="line"><span class="comment">## 进行pcnm</span></span><br><span class="line">gtsPCNM &lt;- pcnm(distXY)</span><br><span class="line">head(gtsPCNM$vectors)</span><br><span class="line"> </span><br><span class="line"><span class="comment">## 绘制pcnm图</span></span><br><span class="line"><span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="number">10</span>)&#123;</span><br><span class="line">    imagevect(gtsPCNM$vectors[,i], labels = names,</span><br><span class="line">               col = topo.colors(<span class="number">100</span>))</span><br><span class="line">    Sys.sleep(<span class="number">0.3</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://image.sciencenet.cn/album/201107/28/192937icc5eoui067zzscc.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201107/28/192937y4umyez4m3359wef.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201107/28/192938zxzre2su2ttal9et.jpg" alt="img"></p>
+<p><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img">)<img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201107/28/192938m7agg44ggap0uzgt.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201107/28/192938lctlee4ppm344i8p.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201107/28/1929397vtm7zu61d0fn75h.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201107/28/192939zpyslgc6clc6mpcc.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201107/28/192939ispollo4sxpo0s0g.jpg" alt="img"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://helixcn.github.io/2011/07/28/2011-7-28-pcnm/" data-id="ck44eqx1r00348kya0blkc6jj" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2011-5-30-svn" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2011/05/29/2011-5-30-svn/" class="article-date">
+  <time datetime="2011-05-29T11:51:54.000Z" itemprop="datePublished">2011-05-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/05/29/2011-5-30-svn/">Tortoise SVN管理本地代码</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="什么是Tortoise-SVN"><a href="#什么是Tortoise-SVN" class="headerlink" title="什么是Tortoise SVN?"></a>什么是Tortoise SVN?</h1><p>TortoiseSVN是一个windows下的文档版本管理的开源软件。用户每次对自己编写的代码进行修改，都会记录在SVN的数据库中。Tortoise SVN能够在设定好的文件夹上添加相应的“对号”，“问号”等标识，标识当前代码的编辑状态，特别是有没有在数据库中保存。 对于代码的修改，用户可以添加相应的标注。对于每一次修改，数据库都有详细的记录，从而保证所编写的文档可以回到作者保存过的任何一个版本。</p>
+<p>这种版本控制策略在软件开发中是极为重要的，当然，在R程序包的开发中也十分重要。</p>
+<h1 id="用Tortoise-SVN管理本地R代码的大体过程如下："><a href="#用Tortoise-SVN管理本地R代码的大体过程如下：" class="headerlink" title="用Tortoise SVN管理本地R代码的大体过程如下："></a>用Tortoise SVN管理本地R代码的大体过程如下：</h1><ol>
+<li>下载和安装Tortoise SVN软件，各项均选择默认即可，网址如下 <a href="http://tortoisesvn.net/downloads.html" target="_blank" rel="noopener">http://tortoisesvn.net/downloads.html</a></li>
+<li>在本地硬盘上创建一个新目录，作为数据库的保存文件夹。例如 D:/packages/phylotools</li>
+<li>右键点击phylotools文件夹，Tortoise SVN&gt;Create a repository here.完成后，打开phylotools文件夹，我们会发现其中新增了一些文件和文件夹。这是版本数据库相应的文件，我们暂且不管。</li>
+<li>在本地硬盘上创建一个新文件夹，例如在C:/developing/. 点击鼠标右键，选择SVN Checkout。我们看到，developing文件夹下出现了一个phylotools空文件夹，该文件夹上有一个绿色的对号。我们发现，该文件夹是空的，绿色的对号表示，文件夹下的内容已经与数据库中的版本相同了。</li>
+<li>在该文件夹下创建新文件，或者将之前编写好的代码拷贝到C:/developing/phylotools文件夹下。此时发现每个文件上都被加上了蓝色的问号，这表明这些文件还没有和数据库链接起来。此时我们回到上级目录，C:packages, 右键点击phylotools文件夹，点击SVN Commit这样，该文件夹下的文件就全部导入数据，并且关联起来了。</li>
+<li>之后对其中任何代码的修改，均可以提供Comments，并且隔一段时间进行保存。<br>这样以后恢复到以前的版本，就容易多了。而不用隔一段时间备份一下新文件。因为SVN已经帮你把修改信息全部存到数据库里了。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://helixcn.github.io/2011/05/29/2011-5-30-svn/" data-id="ck44eqx1g002y8kya8ssn1gku" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" rel="tag">版本控制</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2011-05-28-slides" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2011/05/28/2011-05-28-slides/" class="article-date">
+  <time datetime="2011-05-28T06:09:54.000Z" itemprop="datePublished">2011-05-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/05/28/2011-05-28-slides/">报告《R与进化生态学：系统发育比较分析概述》</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>随着测序和进化树推断理论和技术的不断成熟，生态学家正努力将物种系统发育关系整合到生态学研究中，并逐渐发展出一系列研究物种性状和适应性演化规律的分析方法。这些研究方法大量运用计算机模拟，包括随机生灭过程和随机化等统计学手段。目前，这些方法在R中迅速发展。本报告简要介绍了系统发育比较分析中的主要内容，包括：祖先状态重建（Ancestral reconstruction）、物种分化速率随时间的变化(Lineages through time plot)、群落系统发育与物种共存(Community phylogenetics)、生态位进化(Niche evolution),以及这些方法在R的实现。</p>
+<p>这个报告是在中国第四届R语言会议上的报告，旨在介绍R中的系统发育比较方法。</p>
+<p><a href="http://blog.sciencenet.cn/home.php?mod=attachment&id=5977" target="_blank" rel="noopener">下载本幻灯片 pdf</a></p>
+<p><a href="http://blog.sciencenet.cn/home.php?mod=attachment&id=5977" target="_blank" rel="noopener">R与进化生态学_张金龙.pdf</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://helixcn.github.io/2011/05/28/2011-05-28-slides/" data-id="ck44eqx1e002w8kya4ju59fwa" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8A%A5%E5%91%8A/" rel="tag">报告</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2011-5-25-autocorrelation" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2011/05/24/2011-5-25-autocorrelation/" class="article-date">
+  <time datetime="2011-05-24T10:57:54.000Z" itemprop="datePublished">2011-05-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/05/24/2011-5-25-autocorrelation/">R语言检验空间自相关Moran&#39;s I和运行SAR模型</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>空间位置越接近的点，相应的变量也可能越相近，这种现象称为空间自相关。空间自相关能够改变人们对某些事物原因的判断。举例来说，一个地点物种数高，临近的点物种数也相应得会高些，但这并不一定是由于两个地点的环境条件都十分优越，而纯粹是由于两个地点之间在空间上更为接近。点与点之间空间关系的依赖性使得各点之间数据并不是独立的。</p>
+<p>为此，需要从空间关系检验空间自相关是否存在。空间自相关的检验，用Moran’s I 表示。 Moran’s I 与Pearson相关系数的算法类似，不过其计算时相关程度考虑的是点与点本身。在R的ape程序包中，有关于Moran’s I的详细的说明。为了检验Moran’s I的显著性，空间统计学家运动Randomization的方法，获得Moran’s I的零分布，继而求的各距离段中的Moran’s I是否显著偏离于零分布。</p>
+<p>为了尽量去除空间自相关的影响，统计学家开发出了空间自回归模型，SAR（Spatial Auto Regressive Model）,该模型在R的spdep中能够较为方便的实现。当然，也还有众多的程序包，如宏生态学数据分析的SAM程序包等。</p>
+<p>以下是在spdep程序包中如何计算和检验Moran’s I的详细过程，以及调用SAR模型，进行相应的统计推断等，供感兴趣的老师同学参考。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(spdep)</span><br><span class="line"><span class="comment">## Loading required package: sp</span></span><br><span class="line"><span class="comment">## Loading required package: Matrix</span></span><br><span class="line"><span class="comment">## Loading required package: spData</span></span><br><span class="line"><span class="keyword">library</span>(maps)</span><br><span class="line"><span class="keyword">library</span>(mapproj)</span><br><span class="line"><span class="keyword">library</span>(spdep)</span><br><span class="line"><span class="keyword">library</span>(RANN)</span><br><span class="line"><span class="keyword">library</span>(mapdata)</span><br><span class="line"></span><br><span class="line">map(<span class="string">"china"</span>, col = <span class="string">"gray40"</span>, ylim = c(<span class="number">18</span>,<span class="number">54</span>), xlab =<span class="string">"Longitude"</span>, ylab</span><br><span class="line">=<span class="string">"Latitude"</span>, main =<span class="string">"Sampling sites"</span>)</span><br><span class="line"></span><br><span class="line">map.axes()</span><br><span class="line">map.scale()<span class="comment">## 为了检验nsp是否具有空间自相关</span></span><br><span class="line">lat &lt;-sort(runif(<span class="number">50</span>, min=<span class="number">24</span>, max=<span class="number">35</span>), decreasing =<span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line">long &lt;-runif(<span class="number">50</span>, min=<span class="number">95</span>, max=<span class="number">120</span>)</span><br><span class="line"></span><br><span class="line">nsp &lt;-sort(round(rnorm(<span class="number">50</span>, <span class="number">800</span>, <span class="number">200</span>)))</span><br><span class="line"></span><br><span class="line">Pre &lt;-sort(rnorm(<span class="number">50</span>, <span class="number">1500</span>, <span class="number">300</span>))</span><br><span class="line"></span><br><span class="line">Elev &lt;-sort(rnorm(<span class="number">50</span>, <span class="number">1000</span>, <span class="number">200</span>), decreasing =<span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line">Time &lt;-factor(rep(c(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>), c(<span class="number">12</span>, <span class="number">18</span>, <span class="number">20</span>)))</span><br><span class="line"></span><br><span class="line">test0 &lt;- data.frame(long, lat, nsp, Pre,Elev, Time)</span><br><span class="line"></span><br><span class="line">points(long, lat, cex =exp(nsp/mean(nsp)), col = <span class="string">"red"</span>)</span><br><span class="line"></span><br><span class="line">nsp &lt;- test0$nsp</span><br><span class="line"></span><br><span class="line"><span class="comment">## 将test数据集转换成Spatial格式</span></span><br><span class="line">test &lt;- test0[,c(<span class="number">1</span>,<span class="number">2</span>)]</span><br><span class="line">sptest &lt;- SpatialPoints(test, proj4string = CRS(<span class="string">"+proj=longlat +datum=WGS84"</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">## 计算每个点最近的几个neighbour（这里k = 1,表示只计算一个的）</span></span><br><span class="line">nbk1 &lt;- knn2nb(knearneigh(sptest, k =<span class="number">5</span>, longlat =<span class="literal">TRUE</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">## 将nbk1转换成 spatial weight linkage object 对象</span></span><br><span class="line">snbk1 &lt;- make.sym.nb(nbk1)</span><br><span class="line"></span><br><span class="line"><span class="comment">### n.comp.nb() finds the number of disjoint connected subgraphs</span></span><br><span class="line"><span class="comment">### in the graphdepicted by nb.obj - a spatial neighbours list object.</span></span><br><span class="line"><span class="comment">### 查看每个点不相接的相邻点数量</span></span><br><span class="line">n.comp.nb(snbk1)$nc</span><br><span class="line"><span class="comment">## [1] 1</span></span><br><span class="line"><span class="comment">### 查看各点链接情况</span></span><br><span class="line">plot(nb2listw(snbk1), cbind(test$long, test$lat), add =<span class="literal">TRUE</span>)</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### Moran's Test检验该数据集是否存在显著的空间自相关</span></span><br><span class="line"><span class="comment">### Moran's I testunder randomisation</span></span><br><span class="line"></span><br><span class="line">moran.test(nsp, nb2listw(snbk1))</span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">##  Moran I test under randomisation</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## data:  nsp  </span></span><br><span class="line"><span class="comment">## weights: nb2listw(snbk1)    </span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## Moran I statistic standard deviate = 8.8677, p-value &lt; 2.2e-16</span></span><br><span class="line"><span class="comment">## alternative hypothesis: greater</span></span><br><span class="line"><span class="comment">## sample estimates:</span></span><br><span class="line"><span class="comment">## Moran I statistic       Expectation          Variance </span></span><br><span class="line"><span class="comment">##       0.671936139      -0.020408163       0.006095733</span></span><br><span class="line"><span class="comment">### Moran's ICorrelograms</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### par(mfrow = c(1,3))</span></span><br><span class="line"></span><br><span class="line">nsp.Moron.I &lt;- sp.correlogram(snbk1, nsp, order=<span class="number">6</span>, method=<span class="string">"I"</span>, zero.policy =<span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line">plot(nsp.Moron.I)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### SAR model</span></span><br><span class="line"><span class="comment">### Saddlepointapproximation for global Moran's I (Barndorff-Nielsen formula)</span></span><br><span class="line">lm.morantest.sad(lm(nsp~<span class="number">1</span>),nb2listw(snbk1))</span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">##  Saddlepoint approximation for global Moran's I (Barndorff-Nielsen</span></span><br><span class="line"><span class="comment">##  formula)</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## data:  </span></span><br><span class="line"><span class="comment">## model:lm(formula = nsp ~ 1)</span></span><br><span class="line"><span class="comment">## weights: nb2listw(snbk1)</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## Saddlepoint approximation = 6.7733, p-value = 6.292e-12</span></span><br><span class="line"><span class="comment">## alternative hypothesis: greater</span></span><br><span class="line"><span class="comment">## sample estimates:</span></span><br><span class="line"><span class="comment">## Observed Moran I </span></span><br><span class="line"><span class="comment">##        0.6719361</span></span><br><span class="line"><span class="comment">## sacsarlm</span></span><br><span class="line">COL.sacW.eig &lt;- sacsarlm(nsp ~ Pre + Elev +factor(Time), </span><br><span class="line">                         data= test0, nb2listw(snbk1, style=<span class="string">"W"</span>))</span><br><span class="line"></span><br><span class="line">summary(COL.sacW.eig,correlation=<span class="literal">TRUE</span>)</span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## Call:sacsarlm(formula = nsp ~ Pre + Elev + factor(Time), data = test0, </span></span><br><span class="line"><span class="comment">##     listw = nb2listw(snbk1, style = "W"))</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## Residuals:</span></span><br><span class="line"><span class="comment">##      Min       1Q   Median       3Q      Max </span></span><br><span class="line"><span class="comment">## -103.204  -18.260    2.159   19.739   52.779 </span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## Type: sac </span></span><br><span class="line"><span class="comment">## Coefficients: (asymptotic standard errors) </span></span><br><span class="line"><span class="comment">##                Estimate Std. Error z value Pr(&gt;|z|)</span></span><br><span class="line"><span class="comment">## (Intercept)   637.31705  298.77823  2.1331 0.032918</span></span><br><span class="line"><span class="comment">## Pre             0.33743    0.10993  3.0697 0.002143</span></span><br><span class="line"><span class="comment">## Elev           -0.43635    0.16205 -2.6927 0.007088</span></span><br><span class="line"><span class="comment">## factor(Time)2 -23.80507   18.68448 -1.2741 0.202644</span></span><br><span class="line"><span class="comment">## factor(Time)3  -8.52493   30.23387 -0.2820 0.777970</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## Rho: 0.16737</span></span><br><span class="line"><span class="comment">## Asymptotic standard error: 0.06605</span></span><br><span class="line"><span class="comment">##     z-value: 2.5339, p-value: 0.011279</span></span><br><span class="line"><span class="comment">## Lambda: -0.12972</span></span><br><span class="line"><span class="comment">## Asymptotic standard error: 0.26622</span></span><br><span class="line"><span class="comment">##     z-value: -0.48726, p-value: 0.62607</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## LR test value: 5.9974, p-value: 0.049852</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## Log likelihood: -243.6922 for sac model</span></span><br><span class="line"><span class="comment">## ML residual variance (sigma squared): 994.25, (sigma: 31.532)</span></span><br><span class="line"><span class="comment">## Number of observations: 50 </span></span><br><span class="line"><span class="comment">## Number of parameters estimated: 8 </span></span><br><span class="line"><span class="comment">## AIC: 503.38, (AIC for lm: 505.38)</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">##  Correlation of coefficients </span></span><br><span class="line"><span class="comment">##               sigma rho   lambda (Intercept) Pre   Elev  factor(Time)2</span></span><br><span class="line"><span class="comment">## rho           -0.04                                                   </span></span><br><span class="line"><span class="comment">## lambda         0.06 -0.29                                             </span></span><br><span class="line"><span class="comment">## (Intercept)    0.00  0.04 -0.01                                       </span></span><br><span class="line"><span class="comment">## Pre            0.01 -0.27  0.08  -0.94                                </span></span><br><span class="line"><span class="comment">## Elev           0.00 -0.11  0.03  -0.99        0.92                    </span></span><br><span class="line"><span class="comment">## factor(Time)2  0.01 -0.25  0.07   0.27       -0.37 -0.17              </span></span><br><span class="line"><span class="comment">## factor(Time)3  0.01 -0.31  0.09   0.24       -0.36 -0.11  0.87</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://helixcn.github.io/2011/05/24/2011-5-25-autocorrelation/" data-id="ck44eqx1b002s8kya4m305pww" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BB%9F%E8%AE%A1/" rel="tag">统计</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2011-5-18-ltt-plot" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2011/05/18/2011-5-18-ltt-plot/" class="article-date">
+  <time datetime="2011-05-18T04:02:54.000Z" itemprop="datePublished">2011-05-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/05/18/2011-5-18-ltt-plot/">ltt.plot从进化树推断物种分化的历史：分类单元数与时间的关系</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>NM Hallinan原著</p>
+<p>Nick Matzke增补</p>
+<p>今天我们分析生物类群在时间上的多样性是如何变化的。我们将用到分类单元数-时间图（Lineages-through-time plot）,该图可以用来描述物种多样化的总体趋势。我们将真实的格局与零分布进行比较，从而推断其与期望的差别。同时，我们还将学习一下几种用来推断物种丰富度随时间变化的似然方法。当然，第一步是用R模拟生成进化树。<br>在R中进行进化树的模拟<br>在tree平衡的试验中，你已经做了一些这方面的分析。在R中进行进化树模拟有几种方法。我们下面就将看到几种。ape程序包提供了进化树模拟的两个函数，rtree和rcoal. 两个函数随机生成枝长相等的进化树，但是都不能满足我们的需求。</p>
+<p>geiger程序包中的birthdeath.tree 用处更大些。 这一函数从两个分类单元开始，基于随机生灭过程（birth death BD）进行进化树的模拟。用户给出生成率，同时给出灭亡率， 以及该过程经历的时间或者分类单元数，就可完成进化树的模拟。如果让这一函数经历相同的时间，则它会给出不同的分类单元数，如果让它给出相同的分类单元数，则经历的时间会不同。下面首先要载入 geiger程序包。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(geiger)</span><br><span class="line">tree1  &lt;- birthdeath.tree(<span class="number">0.3</span>,<span class="number">0</span>,<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+
+<p>以上命令将建立一个λ=0.3, μ=0 的（物种生成和绝灭速率），经过十个时间单位的进化树。理论上，这将产生 2<em>exp(0.3</em>10) 个分类单元，但是也可能多些或少些。我们看一下其结果:</p>
+<h2 id="图1代码"><a href="#图1代码" class="headerlink" title="图1代码"></a>图1代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">plot(tree1)</span><br><span class="line">axisPhylo()</span><br></pre></td></tr></table></figure>
+<p>图 1<br>看起来怪怪的，像一只螃蟹？ 等一下，问题可以解决：</p>
+<h2 id="图2代码"><a href="#图2代码" class="headerlink" title="图2代码"></a>图2代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tree1&lt;-reorder(tree1)</span><br><span class="line">plot(tree1)</span><br><span class="line">axisPhylo()</span><br></pre></td></tr></table></figure>
+<p>图 2<br>你到进化树是否包括大约40个分类单元？ 是否具有10个时间单位？我们来建立另外一棵进化树，这棵进化树的灭绝速率不为0. 仍然设定λ=0.35, and μ=0.05，r仍然等于 0.3</p>
+<h2 id="图3代码"><a href="#图3代码" class="headerlink" title="图3代码"></a>图3代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tree2 &lt;- reorder(birthdeath.tree(<span class="number">0.35</span>,<span class="number">0.05</span>,<span class="number">10</span>))</span><br><span class="line">plot(tree2)</span><br><span class="line">axisPhylo()</span><br></pre></td></tr></table></figure>
+<p>图3<br>请注意，该树既包括了现存的，也包括了已经灭绝的分类单元。上一个例子中，我们没有获得绝灭的分类单元，那是因为 μ 为 0。我们可以将已经灭绝的分类单元去除。</p>
+<h2 id="图4代码"><a href="#图4代码" class="headerlink" title="图4代码"></a>图4代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tree2.pruned&lt;-prune.extinct.taxa(tree2)</span><br><span class="line">plot(tree2.pruned)</span><br><span class="line">axisPhylo()</span><br></pre></td></tr></table></figure>
+<p>图 4</p>
+<p>这就是上面的结果了。进化树中只包括了现存的分类单元。我们也可以生成一个分类单元数一定的进化树。</p>
+<h2 id="图5代码"><a href="#图5代码" class="headerlink" title="图5代码"></a>图5代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tree3 &lt;- reorder(birthdeath.tree(<span class="number">0.35</span>,<span class="number">0.05</span>,taxa.stop=<span class="number">40</span>))</span><br><span class="line">plot(tree3)</span><br><span class="line">axisPhylo()</span><br></pre></td></tr></table></figure>
+<p>图 5<br>这就是想获得的40个分类单元。由于一些分支灭绝，可能获得的分类单元数多于40个，这一过程在生成40个分类单元的时候结束。这一过程需要的时间是随机分布的。可能你注意到了，最后一个时间段重复的很厉害。这是由于当前仅包括40个分类单元数引起的。这一模拟过程并不是完全可信的，因为之后你仍然能够获得40个分类单元。我们这里不考虑这一问题。</p>
+<p>现在，我们将会用到我编写的函数，rdbtree.n. 这一函数的参数有 λ,  μ, 时长,以及分类单元数，继而依据这些参数生成一棵随机进化树。与此同时，λ 和 μ随时间的变化可以发生变化。需要注意的是，该函数本函数将给出一系列分支长度，虽然你选择的速率可能产生你所设定的分类单元数可能不能用这些枝长来生成。因此，选择速率的时候，要尽量有所参考。从网站上下载 rbdtree.n3.R 文件，或者远程读取。<br>source(“<a href="http://ib.berkeley.edu/courses/ib200b/labs/lab12/rbdtree.n3.R" target="_blank" rel="noopener">http://ib.berkeley.edu/courses/ib200b/labs/lab12/rbdtree.n3.R</a>“)<br>之后，运行函数 rbdtree.n：</p>
+<h2 id="图6代码"><a href="#图6代码" class="headerlink" title="图6代码"></a>图6代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tree4&lt;-rbdtree.n(<span class="number">40</span>,<span class="number">10</span>,<span class="number">0.35</span>,<span class="number">0.05</span>)</span><br><span class="line">plot(tree4)</span><br><span class="line">axisPhylo()</span><br></pre></td></tr></table></figure>
+<p>图6<br>很棒！ 现在的结果大体上能够符合我们检验所需要的零分布了。这是由于从分类单元数以及时间上，都设定了，而且，这两个因素对于分类单元数-时间图，都是有很大影响的。需要注意的是，可能存在着其他的假设更为合适的情况。</p>
+<p>分类单元数-时间图</p>
+<p>现在，我们就来做一些分类单元数时间图。该图为一个clade拥有的子代物种数量随时间变化的图。该过程的期望是，如果μ=0 而 λ为常数，则物种数随着时间指数性的增加。偏离于该期望时，就是说明多样化是随时间而变化的。我们将调用ape程序包的一些函数来绘制这些图形。</p>
+<h2 id="图7代码"><a href="#图7代码" class="headerlink" title="图7代码"></a>图7代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ltt.plot(tree1)</span><br></pre></td></tr></table></figure>
+<p>图 7<br>按照经验，y轴要经过对数转换。我们应用R 绘图函数的log = “y”来实现相应的功能，该参数将改变所选轴数值的显示方式，但是并不会改变数值本身。</p>
+<h2 id="图8代码"><a href="#图8代码" class="headerlink" title="图8代码"></a>图8代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ltt.plot(tree1,log=<span class="string">"y"</span>)</span><br></pre></td></tr></table></figure>
+<p>图 8<br>对于对数转换的图形，期望值应该为一条直线，我们可以在图形上添加一条直线，用来比较其异同。</p>
+<h2 id="图9代码"><a href="#图9代码" class="headerlink" title="图9代码"></a>图9代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lines(c(-<span class="number">10</span>,<span class="number">0</span>), c(<span class="number">2</span>,<span class="number">40</span>), lty=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<p>图 9<br>结果看起来确实不错。你还可以继续添加物种数-时间曲线到现有的图形上</p>
+<h2 id="图10代码"><a href="#图10代码" class="headerlink" title="图10代码"></a>图10代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ltt.lines(tree2,col=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<p>图 10<br>不错，但是看起来有点儿奇怪，这是由于我们两棵进化树最后的分类单元数不同。我们也可以同时绘制多棵进化树的物种数-时间曲线。</p>
+<h2 id="图11代码"><a href="#图11代码" class="headerlink" title="图11代码"></a>图11代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mltt.plot(tree1,tree2,tree3,tree4)</span><br></pre></td></tr></table></figure>
+<p>图 11<br>物种数-时间图的零分布<br>为了理解多样性系数会怎样影响物种数-时间图形的形状，我们需要了解这些图形在零假设的时候的形状。我们从一段给定时间的完全随机生灭过程的零假设开始。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">trees.yule &lt;- replicate(<span class="number">100</span>, birthdeath.tree(<span class="number">0.3</span>,<span class="number">0</span>,<span class="number">10</span>), simplify=<span class="literal">FALSE</span>)</span><br></pre></td></tr></table></figure>
+<p>以上函数将birthdeath.tree函数重复100次，创建了一个列表。我们用现有数据建立物种数-时间图</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mltt.plot(trees.yule, legend&#x3D;FALSE)</span><br></pre></td></tr></table></figure>
+<h2 id="图12代码"><a href="#图12代码" class="headerlink" title="图12代码"></a>图12代码</h2><p>图 12<br>问题来了，每棵进化树具有不同的分类单元数，你看到的大多数情况是，物种数比较多的图，其结尾分类单元数也比较多。如果你设定了物种数一定，那么将会有另外一个问题。让我们创建一些具有相同问题的进化树。</p>
+<h2 id="图13代码"><a href="#图13代码" class="headerlink" title="图13代码"></a>图13代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">trees.yule2&lt;-replicate(<span class="number">100</span>, rbdtree.n(<span class="number">40</span>,<span class="number">10</span>,<span class="number">0.3</span>,<span class="number">0</span>), simplify=<span class="literal">FALSE</span>)</span><br><span class="line">mltt.plot(trees.yule2, legend=<span class="literal">FALSE</span>, log=<span class="string">"y"</span>)</span><br></pre></td></tr></table></figure>
+<p>图 13<br>可以见到本图中的Yule进化树的分布，但是在与其他分布比较的时候会遇到困难，因为所有的线都是跳跃性的上升。因此，我编写了另一个函数，用来对任意参数值给出物种数-时间的零分布。</p>
+<h2 id="图14代码"><a href="#图14代码" class="headerlink" title="图14代码"></a>图14代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ltt.null(<span class="number">40</span>, <span class="number">10</span>, <span class="number">0.3</span>, <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p>图 14<br>该函数的参数与yule2进化树的例子是一致的。颜色的深浅代表了不同的p值。查看我们已经生成的yule2进化树的分布可以添加到这一图形中。</p>
+<h2 id="图15代码"><a href="#图15代码" class="headerlink" title="图15代码"></a>图15代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x &lt;- lapply(trees.yule2,ltt.lines)</span><br></pre></td></tr></table></figure>
+<p>图 15<br>我们将结果赋值给x, 因此，该函数就不会像屏幕中打印出一些无用的信息了。可以看出，大部分线都落在我们分布的中间部分。一部分跑到了95%置信区间以外。甚至有一条落在了99%置信区间，就像我们进行100次随机模拟所期望的。<br>现在看一下更高的灭绝速率下，这一分布会如何变化？ 我们将μ提高到0.1, λ提高到0.4, 因此净出生率仍然不发生变化，N==2<em>exp(r</em>t)仍然保持不变。在此之前，我们需要为零分布创建另外一个图，之后，用新参数模拟生成100棵进化树，最后，添加到我们的图上。</p>
+<h2 id="图16代码"><a href="#图16代码" class="headerlink" title="图16代码"></a>图16代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ltt.null(<span class="number">40</span>,<span class="number">10</span>,<span class="number">0.3</span>,<span class="number">0</span>)</span><br><span class="line">trees.bd&lt;-replicate(<span class="number">100</span>,rbdtree.n(<span class="number">40</span>,<span class="number">10</span>,<span class="number">0.4</span>,<span class="number">0.1</span>),simplify=<span class="literal">FALSE</span>)</span><br><span class="line">x &lt;- lapply(trees.bd,ltt.lines)</span><br></pre></td></tr></table></figure>
+<p>图 16<br>可以看出，这些分布并不相同。首先，灭绝速率较高时，起始部分延伸所需的时间更长。其次，图形变得更为凹陷，其中大部分分类单元低于Yule分布，甚至有些超出了99%的分布。这就意味着，lttplot的曲线越凹陷，则其μ值，也就是灭绝速率就越高。此时，我们倾向于认为，古老的分类单元更容易灭绝。但是大部分的分类单元仍然处于95%的置信区间内，因此，这一检验的效力是十分薄弱的。</p>
+<p>进化树与零分布的比较</p>
+<p>我们看一下一些实际的进化树，看其是否符合我们的零分布。laser程序包中已经收录了几棵进化树，我们以此为例。第一棵进化树包含了澳大利亚69种Agamid蜥蜴，相应的数据发表在Evolution上Rabosky (2006) Evolution 60:1152-1164。</p>
+<h2 id="图17代码"><a href="#图17代码" class="headerlink" title="图17代码"></a>图17代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">data(agamids)</span><br><span class="line">agamid.tree&lt;-read.tree(text=agamids)</span><br><span class="line">plot(agamid.tree)</span><br></pre></td></tr></table></figure>
+
+<p>图 17<br>很好，看起来这棵进化树不错。我们把它和零分布做一下比较。我们从Yule过程开始，可以用极大似然法估计λ。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">yule.agam&lt;-yule(agamid.tree)</span><br><span class="line">\&gt; yule.agam</span><br><span class="line">$lambda</span><br><span class="line">[1] 6.807443</span><br><span class="line"></span><br><span class="line">$se</span><br><span class="line">[1] 0.8316616</span><br><span class="line"></span><br><span class="line">$loglik</span><br><span class="line">[1] 283.4636</span><br><span class="line"></span><br><span class="line">attr(,&quot;class&quot;)</span><br><span class="line">[1] &quot;yule&quot;</span><br></pre></td></tr></table></figure>
+<p>同时，估计进化树的时间长度。即根的深度。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">btimes.agam&lt;-sort(branching.times(agamid.tree),decreasing=<span class="literal">TRUE</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">\&gt; btimes.agam</span><br><span class="line">      70       71      131      132       72       73       74      133 </span><br><span class="line">0.323855 0.322855 0.313397 0.307173 0.294147 0.270881 0.238577 0.238520 </span><br><span class="line">     109      135       75      134       76       77       85      110 </span><br><span class="line">0.222756 0.219480 0.217127 0.216939 0.213018 0.213018 0.213018 0.209613 </span><br><span class="line">     112      113       86       93      116      117       94      111 </span><br><span class="line">0.207659 0.202293 0.194939 0.183979 0.178225 0.172959 0.167084 0.162999 </span><br><span class="line">      98      118      123      115      124      106      102      128 </span><br><span class="line">0.162093 0.160592 0.157785 0.157288 0.154405 0.149574 0.144083 0.141278 </span><br><span class="line">     125       95      114       87      136       99       91      119 </span><br><span class="line">0.141127 0.140194 0.136160 0.133171 0.131567 0.124221 0.120235 0.118270 </span><br><span class="line">     103      105      107       88      137       89      127       78 </span><br><span class="line">0.112825 0.105969 0.104019 0.102561 0.087830 0.086799 0.085487 0.082827 </span><br><span class="line">      92      126      120       97      104      129      121      100 </span><br><span class="line">0.082356 0.074543 0.074123 0.073526 0.071486 0.069944 0.067407 0.063750 </span><br><span class="line">     122       96      108      130      101       80       83       81 </span><br><span class="line">0.062395 0.060306 0.051672 0.050408 0.049427 0.042118 0.035946 0.020464 </span><br><span class="line">      79       90       82       84 </span><br><span class="line">0.009766 0.008402 0.003883 0.001482 </span><br><span class="line">\&gt;</span><br></pre></td></tr></table></figure>
+
+<p>我们在零模型中可以运用这些值。</p>
+<h2 id="图18代码"><a href="#图18代码" class="headerlink" title="图18代码"></a>图18代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ltt.null(<span class="number">69</span>,btimes.agam[<span class="number">1</span>],yule.agam$lambda,<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>图 18<br>之后，我们可以添加上进化树的ltt.</p>
+<h2 id="图19代码"><a href="#图19代码" class="headerlink" title="图19代码"></a>图19代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ltt.lines(agamid.tree)</span><br></pre></td></tr></table></figure>
+<p>图 19</p>
+<p>该进化树的ltt线超出了99%的置信区间。在一开始符合的很好，但是在中间逐渐超越了我们的零模型的预期，最后有回到了预期的置信区间。这与我们的预期中的零分布有较大的不同；当μ逐渐升高，零分布将变得越来越凹陷，而不是当前这样。从图中大约可以看出，在0.22时间左右，存在一个物种分化异常高的时期，同时也包括约0.15时期（遗憾的是，我并不知道时间单位）。我们可以尝试拟合一个BD模型，以查看其与灭绝速率大于0的结果是否一致。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">birthdeath(agamid.tree)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&gt; birthdeath(agamid.tree)</span><br><span class="line">Estimation of Speciation and Extinction Rates</span><br><span class="line">            with Birth-Death Models</span><br><span class="line">     Phylogenetic tree: agamid.tree </span><br><span class="line">        Number of tips: 69 </span><br><span class="line">              Deviance: -566.9276 </span><br><span class="line">        Log-likelihood: 283.4638 </span><br><span class="line">   Parameter estimates:</span><br><span class="line">      d &#x2F; b &#x3D; 0   StdErr &#x3D; 0 </span><br><span class="line">      b - d &#x3D; 6.807467   StdErr &#x3D; 0.5881344 </span><br><span class="line">   (b: speciation rate, d: extinction rate)</span><br><span class="line">   Profile likelihood 95% confidence intervals:</span><br><span class="line">      d &#x2F; b: [0, 0.1605283]</span><br><span class="line">      b - d: [5.30515, 8.569748]</span><br></pre></td></tr></table></figure>
+
+<p>我们仍然得到灭绝速率为0，因此，不要保留那种想法。因为这种情况并不总是那么重要。在laser程序包中还有两个数据，并且只有物种分化时间，plethodon （highton and larson 1979 Syst. Zool. 28:579-599）以及 warblers （Lovette and Bermingham 1999 Proc. Roy. Soc. B. Lond. 266:1629-1636）。我们对这两套数据进行再分析。</p>
+<h2 id="图20代码"><a href="#图20代码" class="headerlink" title="图20代码"></a>图20代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">data(plethodon)</span><br><span class="line">yule.pleth &lt;- pureBirth(plethodon) <span class="comment">##This is like yule, but for vector of branching times</span></span><br><span class="line">ltt.null(length(plethodon)+<span class="number">1</span>, max(plethodon), yule.pleth$r1, <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>图 20<br>由于只给出了物种数和分化时间，我们需要自己将信息添加到ltt图中。</p>
+<h2 id="图21代码"><a href="#图21代码" class="headerlink" title="图21代码"></a>图21代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ntaxa.pleth &lt;- <span class="number">1</span>:length(plethodon) + <span class="number">1</span> <span class="comment">## Number of lineages corresponding to times</span></span><br><span class="line">segments(-plethodon, ntaxa.pleth, -plethodon, ntaxa.pleth-<span class="number">1</span>)</span><br><span class="line">segments(-plethodon, ntaxa.pleth, -c(plethodon[-<span class="number">1</span>],<span class="number">0</span>), ntaxa.pleth)</span><br></pre></td></tr></table></figure>
+
+<p>图 21<br>这一结果好于Agamid进化树的结果。从结果看来，在15到30个时间单位上，很长时间都没有发生物种分化，但是这并不出乎我们的意料。但是，有可能某一个类群在30个时间单位以前已经有很多分类单元了。我们下面就来对此进行检验。</p>
+<p>可以对分支时间数据拟合一个BD模型：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bd.pleth &lt;- bd(plethodon)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">\&gt; bd.pleth </span><br><span class="line">$LH</span><br><span class="line">[1] -45.28264</span><br><span class="line">$r1</span><br><span class="line">[1] 0.01098217</span><br><span class="line">$a</span><br><span class="line">[1] 0.8337962</span><br></pre></td></tr></table></figure>
+
+<p>aic [1] 94.56529 这一模型的拟合结果中，灭绝速率确实大于0，因此，我们设定如下的零分布。在此之前，我们必须先进行一个LRT(似然比检验)，来确保两者之间的差异是否显著。但是你已经知道了如何进行该检验，因此我们跳过这一步。该函数给出r和a=λ/μ,因此，我们需要首先计算λ和μ。 ## 图22代码 lam.pleth &lt;- bd.plethaic [1] 94.56529 这一模型的拟合结果中，灭绝速率确实大于0，因此，我们设定如下的零分布。在此之前，我们必须先进行一个LRT(似然比检验)，来确保两者之间的差异是否显著。但是你已经知道了如何进行该检验，因此我们跳过这一步。该函数给出r和a=λ/μ,因此，我们需要首先计算λ和μ。 </p>
+<h2 id="图22代码"><a href="#图22代码" class="headerlink" title="图22代码"></a>图22代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lam.pleth &lt;- bd.plethr1 / (<span class="number">1</span>-bd.pletha)mu.pleth&lt;−lam.pleth−bd.pletha)mu.pleth&lt;−lam.pleth−bd.plethr1</span><br><span class="line">ltt.null(length(plethodon)+<span class="number">1</span> ,max(plethodon), lam.pleth, mu.pleth)</span><br><span class="line">segments(-plethodon, ntaxa.pleth, -plethodon, ntaxa.pleth-<span class="number">1</span>)</span><br><span class="line">segments(-plethodon, ntaxa.pleth, -c(plethodon[-<span class="number">1</span>],<span class="number">0</span>), ntaxa.pleth)</span><br></pre></td></tr></table></figure>
+
+<p>图 22<br>问题： 对warblers数据重复这一分析。你估计的lambda值是怎样的？该图与零分布有什么差异？（具体说明<br>对进化速率变化的进化树模拟</p>
+<p>分类单元数-时间图与零分布不同究竟意味着什么？一般的假设认为这是由于多样化速率随时间变化。你可以用我提供的函数生成随机进化树，对这种零分布进行模拟。需要提供一个向量，该向量包含了每个时间段结束的时间。也可以设定出生和灭绝速率随时间的变化的向量，每个向量给出相应时间段的出生和灭绝速率。例如：</p>
+<h2 id="图23代码"><a href="#图23代码" class="headerlink" title="图23代码"></a>图23代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tree5&lt;-rbdtree.n(<span class="number">40</span>, c(<span class="number">3</span>,<span class="number">6</span>,<span class="number">10</span>), c(<span class="number">0.1</span>,<span class="number">1</span>,<span class="number">0.05</span>), <span class="number">0</span>)</span><br><span class="line">plot(tree5)</span><br></pre></td></tr></table></figure>
+
+<p>图 23<br>以上程序将生成一个40个分类单元的进化树，在时间段 0 - 3， 灭绝速率为0， μ= 0， λ is 0.1； 而在3 - 6时间段为1， 在第三个时间段，也就是6之后到结束的时候，λ 为 0.05. 可以看到，大部分分支出现在进化树的中间部分。 另外：</p>
+<h2 id="图24代码"><a href="#图24代码" class="headerlink" title="图24代码"></a>图24代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tree6 &lt;- mrbdtree.n(<span class="number">10</span>, <span class="number">40</span>, c(<span class="number">3</span>,<span class="number">6</span>,<span class="number">10</span>), c(<span class="number">0.1</span>,<span class="number">1</span>,<span class="number">0.05</span>), c(<span class="number">0.05</span>,<span class="number">0.05</span>,<span class="number">0</span>))</span><br><span class="line">mltt.plot(tree6)</span><br></pre></td></tr></table></figure>
+
+<p>图 24<br>将生成10棵进化树，其中的μ随时间变化。应该能很清楚的看到lttplot期望的分布格局。</p>
+<p>同时可以建立在某一个时刻具有一定物种数的进化树及类似的零分布，而不是对末端分类单元。 还记得plethodon图吗？</p>
+<h2 id="图25代码"><a href="#图25代码" class="headerlink" title="图25代码"></a>图25代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ltt.null(length(plethodon)+<span class="number">1</span>, max(plethodon), lam.pleth, mu.pleth)</span><br><span class="line">segments(-plethodon, ntaxa.pleth, -plethodon, ntaxa.pleth-<span class="number">1</span>)</span><br><span class="line">segments(-plethodon, ntaxa.pleth, -c(plethodon[-<span class="number">1</span>],<span class="number">0</span>), ntaxa.pleth)</span><br></pre></td></tr></table></figure>
+
+<p>图 25<br>所有内容都在我们期望的范围内，但是有一段时间较为奇怪，该段时间没有新物种形成。我在怀疑，是否整条ltt图都超出了我们的零分布，虽然说每个时刻都处于我们的零分布的预期。让我们来看一下，当将20个时间单元设定到物种分布为11个分类单元时，零分布会变成什么样子。</p>
+<h2 id="图26代码"><a href="#图26代码" class="headerlink" title="图26代码"></a>图26代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ltt.null(c(<span class="number">11</span>, length(plethodon)+<span class="number">1</span>), c(-<span class="number">20</span>,<span class="number">0</span>)+max(plethodon), lam.pleth, mu.pleth)</span><br><span class="line">segments(-plethodon, ntaxa.pleth, -plethodon, ntaxa.pleth-<span class="number">1</span>)</span><br><span class="line">segments(-plethodon, ntaxa.pleth, -c(plethodon[-<span class="number">1</span>],<span class="number">0</span>), ntaxa.pleth)</span><br></pre></td></tr></table></figure>
+
+<p>图 26<br>在我看来，这些也是可以的。事实上，除了靠右面的第二部分被强制设定为11个种之外，我没有看出这些零分布的显著差别。</p>
+<p>出生率的下降以及灭绝率的上升<br>好了，我们已经看到一些进化树的物种分化速率在初期似乎比后期要高。这一现象不能用常规的随机生灭过程解释。这一格局常常在大型进化树中遇到，通常被认为是适应辐射的标志。换句话说，这一格局可以解释为，演化早期拥有较高的物种分化速率， 而随着生态位被逐步填充， 物种分化速率降低。 但是， 也可以用灭绝速率升高来解释。</p>
+<p>我们看一下，我们的猜想是否正确。我们将会建立一对主观模型（arbitrary model）. 例如，我们将以60个种结束，并且将进化树分成两个时间段；我们将第一阶段设定为一个时间单位，后一个阶段设定为9个时间单位。同时，我们认为多样化速率r在第一阶段（r1）在第一阶段是第二阶段（r2）的10倍。相应的物种数可以通过公式计算，N=2<em>exp(r1t1)</em>exp(r2t2),那么我们将其中的已知数填入，解方程，得到r2=log(30)/19=0.179, and r1=1.79.<br>下面，我们看一下随着 μ的上升或 λ的下降，我们的零分布将会怎样变化？假如，我们设定μ1=0.05, λ1=1.84.之后，我们的第一个模型λ下降，令μ保持不变，而令λ2=.229，对于模型二，我们令λ保持不变，而μ2=1.661。我们将这两种模型同时和Yule分布进行比较。Yule分布的λ=log(30)/10=0.34</p>
+<h2 id="图27代码"><a href="#图27代码" class="headerlink" title="图27代码"></a>图27代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ltt.null(<span class="number">60</span>, <span class="number">10</span>, <span class="number">0.34</span>, <span class="number">0</span>)</span><br><span class="line">model.lambda &lt;- mrbdtree.n(<span class="number">10</span>, <span class="number">60</span>, c(<span class="number">1</span>,<span class="number">10</span>), c(<span class="number">1.84</span>,<span class="number">0.229</span>), <span class="number">0.05</span>)</span><br><span class="line">lapply(model.lambda, ltt.lines) -&gt; x</span><br></pre></td></tr></table></figure>
+
+<p>图 27</p>
+<p>看起来非常不错，分类群在早期迅速增加，之后回到了预期的曲线中。或许两个时间段在长度上接近，我们会得到更为平滑的曲线。 我们现在看一下，如果灭绝速率升高，将会有什么发生：</p>
+<h2 id="图28代码"><a href="#图28代码" class="headerlink" title="图28代码"></a>图28代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ltt.null(<span class="number">60</span>, <span class="number">10</span>, <span class="number">0.34</span>, <span class="number">0</span>)</span><br><span class="line">model.mu &lt;- mrbdtree.n(<span class="number">10</span>, <span class="number">60</span>, c(<span class="number">1</span>,<span class="number">10</span>), <span class="number">1.84</span>, c(<span class="number">0.05</span>, <span class="number">1.661</span>))</span><br><span class="line">lapply(model.mu, ltt.lines) -&gt; x</span><br></pre></td></tr></table></figure>
+
+<p>图 28</p>
+<p>Huh, 完全失效了。这表明，我们之间看到的格局（例如Agamid进化树），物种数在早期的增加，实际上是由于物种分化速率降低造成的。 我们无法提高灭绝速率，同时又生成一个凹陷的ltt图，虽然可以通过另一些参数的组合完成这一功能。<br>对这种格局的另外一种解释就是取样问题。我们认为随机取样能够降低最近的物种分化时间，但是对早期的分化则影响很小。这是由于古老的分支类群往往很大，从而在随机抽样的时候很难去除。在处理隐性物种（cryptic species）或者更高等级的分类单元时，这种情况变得尤为严重。我们下面就做一个80个物种的模拟数据，并且随机提取出20个种。</p>
+<h2 id="图29代码"><a href="#图29代码" class="headerlink" title="图29代码"></a>图29代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ltt.null(<span class="number">60</span>, <span class="number">10</span>, <span class="number">0.34</span>, <span class="number">0</span>)</span><br><span class="line">make.samp &lt;- <span class="keyword">function</span> () prune.random.taxa(rbdtree.n(<span class="number">100</span>, <span class="number">10</span>, <span class="number">0.3912</span>, <span class="number">0</span>), <span class="number">40</span>)</span><br><span class="line">x &lt;- replicate(<span class="number">10</span>, ltt.lines(make.samp()))</span><br></pre></td></tr></table></figure>
+
+<p>图 29<br>我们看到了，上面的函数几乎不起什么作用。</p>
+<p>用来探测分化速率变化的似然模型<br>laser程序包中有函数可以用来检验多样性速率的变化。第一个模型与Yule模型比较，其中的物种分化速率随时间是恒定的，而实际情况中，物种分化速率存在着发生者变化。（Rabosky 2006, Evolution 60:1152-1164）. 我们来检验一下模拟出的早期进化速率很高的那棵进化树。</p>
+<p>首先，我们用单一速率检验该模型。所有这些模型都对分化时间进行拟合，而不是整个进化树，因此，我们需要创建一个物种分支时间的向量。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">times.lambda &lt;- branching.times(model.lambda[[<span class="number">1</span>]])</span><br><span class="line">pureBirth(times.lambda)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">\&gt; pureBirth(times.lambda)</span><br><span class="line">$LH</span><br><span class="line">      61 </span><br><span class="line">36.49077</span><br><span class="line"></span><br><span class="line">$aic</span><br><span class="line">       61 </span><br><span class="line">-70.98154</span><br><span class="line"></span><br><span class="line">$r1</span><br><span class="line">       61 </span><br><span class="line">0.2117251</span><br></pre></td></tr></table></figure>
+
+<p>看起来非常合理。λ 比我们预想的要低一些，但这可能是由于曲线的凹凸度的后果。现在我们试验一下两个速率的模型。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yule2rate(times.lambda)</span><br><span class="line">yule2rate(times.lambda)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">        LH      st1       r1        r2       aic</span><br><span class="line">6 45.92311 9.010908 1.882302 0.1887342 -85.84621</span><br></pre></td></tr></table></figure>
+
+<p>看一下这一模型的结果。LH是Log likehihood. stl是物种分户速率变化的转折点。但是这些结果与我们时间上所做的转折如何比较？r1 和 r2分别是每个时间段的物种分化速率。 AIC是Akaike’s information criterion, 这是一种比较似然率的另外一种方法；即使在模型为非巢式的时候，仍然很有效。 AIC定义为 2k-2log(likelihood)，需要选择AIC值最低的模型。那么按照这一标准，什么才是最好的模型？ 此外，也可以用似然比检验（Likelihood Ratio Test）来选择模型。</p>
+<p>如果选择了两速率模型作为最好的，那么可以继续用 yule3rate, yule4rate, 或yule5rate. 同样可以用fitdAICrc来比较不同模型，虽然我没有看出在比较这些模型时的优势。<br>问题2。 Warbler进化树的最优模型是什么？ 该模型的参数是什么？</p>
+<p>模拟物种分化速率连续变化的进化树</p>
+<p>在Rabosky和Lovette 2008（Evolution 62 - 8: 1866 - 1875）中，作者提出了一个物种分化速率模型，该模型的多样性速率指数递减。他们提出了三种模型： λ(t)=λ0exp(-kt)， μ 对于 SPVAR是常数。λ 为常数， μ(t)=μ0(1-exp(-zt)) 对于EXVAR是常数，两者都是BOTHVAR的变量。我们估计成百上千的不同点上的速率来模拟这些数据。<br>对于SPVAR模型，期望的分类单元数为 N=2*exp(λ0[1-exp(-kt)]/k-μt)<br>因此，如果我们希望模拟的过程持续10个时间单位，产生60个物种，灭绝速率0.05，在开始的时候物种分化速率比后期高十倍，则满足 </p>
+<p>$exp(-10k)=0.1$</p>
+<p>$N=2λ0exp(-10k)/k-10μ)$</p>
+<p>因此 k = 0.23, λ0= 0.997</p>
+<p>如果我们将时间100等分，就将获得每个时刻的平均值<br>λ0exp(-kt)[exp(-kΔt)-1]/kΔt=1.009exp(-0.23t)。 之后创建一个向量</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lambdas &lt;- <span class="number">1.009</span>*exp(-<span class="number">0.23</span>*<span class="number">1</span>:<span class="number">100</span>/<span class="number">10</span>)</span><br><span class="line">lambdas</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">  [1] 0.9860578 0.9636373 0.9417266 0.9203141 0.8993884 0.8789386 0.8589537</span><br><span class="line">  [8] 0.8394232 0.8203368 0.8016844 0.7834561 0.7656422 0.7482334 0.7312205</span><br><span class="line"> [15] 0.7145943 0.6983462 0.6824676 0.6669500 0.6517852 0.6369652 0.6224822</span><br><span class="line"> [22] 0.6083285 0.5944966 0.5809792 0.5677692 0.5548596 0.5422434 0.5299142</span><br><span class="line"> [29] 0.5178652 0.5060903 0.4945830 0.4833374 0.4723475 0.4616075 0.4511117</span><br><span class="line"> [36] 0.4408546 0.4308306 0.4210346 0.4114613 0.4021057 0.3929628 0.3840278</span><br><span class="line"> [43] 0.3752960 0.3667627 0.3584234 0.3502738 0.3423094 0.3345261 0.3269198</span><br><span class="line"> [50] 0.3194865 0.3122222 0.3051230 0.2981853 0.2914053 0.2847794 0.2783043</span><br><span class="line"> [57] 0.2719763 0.2657923 0.2597488 0.2538428 0.2480710 0.2424305 0.2369182</span><br><span class="line"> [64] 0.2315313 0.2262668 0.2211221 0.2160943 0.2111809 0.2063792 0.2016866</span><br><span class="line"> [71] 0.1971008 0.1926192 0.1882395 0.1839594 0.1797766 0.1756889 0.1716942</span><br><span class="line"> [78] 0.1677903 0.1639752 0.1602468 0.1566032 0.1530424 0.1495626 0.1461619</span><br><span class="line"> [85] 0.1428386 0.1395908 0.1364168 0.1333150 0.1302838 0.1273215 0.1244265</span><br><span class="line"> [92] 0.1215973 0.1188325 0.1161306 0.1134900 0.1109096 0.1083877 0.1059233</span><br><span class="line"> [99] 0.1035148 0.1011612</span><br><span class="line"></span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+
+<p>之后，可以建立一些进化树，并且绘制出来。</p>
+<h2 id="图30代码"><a href="#图30代码" class="headerlink" title="图30代码"></a>图30代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">trees.spvar &lt;- mrbdtree.n(<span class="number">10</span>, <span class="number">60</span>, <span class="number">1</span>:<span class="number">100</span>/<span class="number">10</span>, lambdas, <span class="number">0.05</span>)</span><br><span class="line">ltt.null(<span class="number">60</span>, <span class="number">10</span>, <span class="number">0.34</span>, <span class="number">0</span>)</span><br><span class="line">lapply(trees.spvar, ltt.lines) -&gt; x</span><br></pre></td></tr></table></figure>
+
+<p>图 30<br>这与我们想要解释的真实进化树极为相似，在早期都具有较高的分化速率。我们也可以建立一个相反的模型，在每个区间μ不断升高，而r保持不变，但是λ为常数。这可以通过 λ2=λ0 - μ1以及 μ2(t)=λ0 - λ1(t)实现。 我们可以建立这些进化树，并且与SPVAR进化树进行比较。</p>
+<h2 id="图31代码"><a href="#图31代码" class="headerlink" title="图31代码"></a>图31代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mus &lt;- <span class="number">0.997</span>-lambdas</span><br><span class="line">trees.exvar &lt;- mrbdtree.n(<span class="number">10</span>, <span class="number">60</span>, <span class="number">1</span>:<span class="number">100</span>/<span class="number">10</span>, <span class="number">0.947</span>, mus)</span><br><span class="line">lapply(trees.exvar,ltt.lines,col=<span class="number">3</span>)-&gt;x</span><br></pre></td></tr></table></figure>
+
+<p>图 31<br>问题3 EXVAR模拟的进化树总体上应该是什么形状？ 它们看起来是否与我们说的早期物种分化速率较高的进化树相似？ 这些现象说明什么过程能够生成这些进化树?</p>
+<p>用似然率连续变化模型的拟合<br>如果你注意到，上面提到的论文的作者，就是laser程序包的作者（现在是Huelsenbeck实验室的博士后， 很快就要成为Michigan大学的老师）， 那么在这个程序包中发现几个用来拟合物种分化速率连续变化的模型的函数就不奇怪了。该程序包中包含了拟合SPVAR, EXVAR和BOTHVAR的函数， 也就是我在前一段中提到的。同时，也有随着物种丰富度的升高，物种分化速率下降的模型。 我们仅简要介绍其中的内容，如果你有兴趣，可以查看其选项。<br>我们用SPVAR模型来拟合SPVAR模拟生成的进化树，同时看一下它是如何工作的。首先检验一下其物种分化速率为常量的零假设。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">times.spvar &lt;- branching.times(trees.spvar[[<span class="number">1</span>]])</span><br><span class="line">bd(times.spvar)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">$LH</span><br><span class="line">     61 </span><br><span class="line">35.7508</span><br><span class="line">$r1</span><br><span class="line">      61 </span><br><span class="line">0.209041</span><br><span class="line">$a</span><br><span class="line">[1] 0</span><br><span class="line">$aic</span><br><span class="line">       61 </span><br><span class="line">-67.50159</span><br><span class="line"></span><br><span class="line">之后，检查SPVAR模型</span><br><span class="line">fitSPVAR(times.spvar)</span><br><span class="line">\&gt; fitSPVAR(times.spvar)</span><br><span class="line">$model</span><br><span class="line">[1] &quot;SPVAR&quot;</span><br><span class="line"></span><br><span class="line">$LH</span><br><span class="line">[1] 47.27787</span><br><span class="line"></span><br><span class="line">$aic</span><br><span class="line">[1] -88.55573</span><br><span class="line"></span><br><span class="line">$lam0</span><br><span class="line">[1] 1.081366</span><br><span class="line"></span><br><span class="line">$k</span><br><span class="line">[1] 0.2593436</span><br><span class="line"></span><br><span class="line">$mu0</span><br><span class="line">[1] 0.001</span><br></pre></td></tr></table></figure>
+<p>你是如何估计模型参数的？ 你青睐那种模型？ 我们这里暂不涉及EXVAR和BOTHVAR，但是你应该了解到了如何使用它们。我们简要查看一下密度依赖多样化模型。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DDX(times.spvar)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">\&gt; DDX(times.spvar)</span><br><span class="line">$LH</span><br><span class="line">[1] 45.96522</span><br><span class="line"></span><br><span class="line">$aic</span><br><span class="line">[1] -87.93044</span><br><span class="line"></span><br><span class="line">$r1</span><br><span class="line">[1] 2.532487</span><br><span class="line"></span><br><span class="line">$xparam</span><br><span class="line">[1] 0.7286594</span><br></pre></td></tr></table></figure>
+
+<p>该模型拟合的效果好吗？ 如果想要理解这一模型的意思，则必须查看laser程序包的帮助文件。不仅如此，如果想要了解R任何函数的使用方法，都需要查看帮助文件。 我只介绍了其中很少一部分函数的用法，你可以参考更多的选项及功能。</p>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><ul>
+<li><p>Rabosky, D. L. (2006). “Likelihood methods for detecting temporal shifts in diversification rates.” Evolution 60(6): 1152-1164.<br><a href="http://dx.doi.org/10.1111/j.0014-3820.2006.tb01194.x" target="_blank" rel="noopener">http://dx.doi.org/10.1111/j.0014-3820.2006.tb01194.x</a><br>Link: <a href="http://onlinelibrary.wiley.com/doi/10.1111/j.0014-3820.2006.tb01194.x/abstract" target="_blank" rel="noopener">http://onlinelibrary.wiley.com/doi/10.1111/j.0014-3820.2006.tb01194.x/abstract</a></p>
+</li>
+<li><p>Rabosky, D. L. (2006). “LASER: a maximum likelihood toolkit for detecting temporal shifts in diversification rates from molecular phylogenies.” Evolutionary Bioinformatics Online 2: 247-250<br>Link: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2674670/?tool=pubmed" target="_blank" rel="noopener">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2674670/?tool=pubmed</a></p>
+</li>
+<li><p>Rabosky, D. L. and I. J. Lovette (2008). “Explosive evolutionary radiations: decreasing speciation or increasing extinction through time?” Evolution 62(8): 1866-1875.<br><a href="http://dx.doi.org/10.1111/j.1558-5646.2008.00409.x" target="_blank" rel="noopener">http://dx.doi.org/10.1111/j.1558-5646.2008.00409.x</a><br>Link: <a href="http://onlinelibrary.wiley.com/doi/10.1111/j.1558-5646.2008.00409.x/full" target="_blank" rel="noopener">http://onlinelibrary.wiley.com/doi/10.1111/j.1558-5646.2008.00409.x/full</a></p>
+</li>
+<li><p>Harmon, L. J., J. T. Weir, et al. (2008). “GEIGER: investigating evolutionary radiations.” Bioinformatics 24(1): 129-131.<br><a href="http://dx.doi.org/10.1093/bioinformatics/btm538" target="_blank" rel="noopener">http://dx.doi.org/10.1093/bioinformatics/btm538</a><br>Link: <a href="http://bioinformatics.oxfordjournals.org/content/24/1/129.abstract" target="_blank" rel="noopener">http://bioinformatics.oxfordjournals.org/content/24/1/129.abstract</a></p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://helixcn.github.io/2011/05/18/2011-5-18-ltt-plot/" data-id="ck44eqx1y003d8kya81svevmr" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BF%9B%E5%8C%96/" rel="tag">进化</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2011-04-16-spring2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2011/04/16/2011-04-16-spring2/" class="article-date">
+  <time datetime="2011-04-16T02:56:54.000Z" itemprop="datePublished">2011-04-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/04/16/2011-04-16-spring2/">银杏的春天</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>春天里的银杏充满着渴望，充满着憧憬，充满着期待。春天里的银杏静静的，无花也芬芳。</p>
+<p><img src="http://image.sciencenet.cn/album/201104/16/185619xhax8dvz7ds8qhbd.jpg" alt="img"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://helixcn.github.io/2011/04/16/2011-04-16-spring2/" data-id="ck44eqx1c002u8kya7xis71r6" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" rel="tag">行摄匆匆</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2011-4-2-midspring" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2011/04/02/2011-4-2-midspring/" class="article-date">
+  <time datetime="2011-04-02T04:58:54.000Z" itemprop="datePublished">2011-04-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/04/02/2011-4-2-midspring/">春之印象：仲春</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>才十天的光景，西山已经从初春走进仲春，到处是绚烂的花草，四处弥漫着醉人的花香.</p>
+<p>夕阳西下</p>
+<p><a href="http://image.sciencenet.cn/album/201104/02/205526nnatwll6tfalrlpe.jpg" target="_blank" rel="noopener"><img src="http://image.sciencenet.cn/album/201104/02/205526nnatwll6tfalrlpe.jpg" alt="img"></a></p>
+<p>桃花</p>
+<p><a href="http://image.sciencenet.cn/album/201104/02/205525kt58kt0u2vgk52vi.jpg" target="_blank" rel="noopener"><img src="http://image.sciencenet.cn/album/201104/02/205525kt58kt0u2vgk52vi.jpg" alt="img"></a></p>
+<p>山茱萸<br><a href="http://image.sciencenet.cn/album/201104/02/205524anpacjzzaeqaqjjz.jpg" target="_blank" rel="noopener"><img src="http://image.sciencenet.cn/album/201104/02/205524anpacjzzaeqaqjjz.jpg" alt="img"></a></p>
+<p>植物园回廊<br><a href="http://image.sciencenet.cn/album/201104/02/205523yh239klfyrckklys.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>迎红杜鹃<br><a href="http://image.sciencenet.cn/album/201104/02/205521wyida30khdaititw.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>香荚蒾<br><a href="http://image.sciencenet.cn/album/201104/02/205520dh42k6opmmlygn2m.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>杏梅<br><a href="http://image.sciencenet.cn/album/201104/02/205519tz705as570m4t0m0.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a href="http://image.sciencenet.cn/album/201104/02/205518zws5vpll5ow53rzd.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a href="http://image.sciencenet.cn/album/201104/02/205516hfq9hp9qf6aodqd6.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>迎红杜鹃<br><a href="http://image.sciencenet.cn/album/201104/02/20551560zxxa94p6mvmu0s.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a href="http://image.sciencenet.cn/album/201104/02/2055149m222b9v839gzg3z.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>榆叶梅<br><a href="http://image.sciencenet.cn/album/201104/02/2055133gt3o6jgjtyw6tww.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a href="http://image.sciencenet.cn/album/201104/02/205512yrfb5zppp0frfdrz.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a href="http://image.sciencenet.cn/album/201104/02/205510gcwcyrrqbtqwt2cr.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a href="http://image.sciencenet.cn/album/201104/02/205509bzay6bb4b0aqbrqq.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>领春木<br><a href="http://image.sciencenet.cn/album/201104/02/205508pdteyenpd4tezkxd.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>黄山木兰<br><a href="http://image.sciencenet.cn/album/201104/02/205507fdx3c2fjqyxcoqja.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a href="http://image.sciencenet.cn/album/201104/02/2055069vkqvg7jk89bzgd7.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a href="http://image.sciencenet.cn/album/201104/02/205505bqfynbwhc0xgk3d3.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a href="http://image.sciencenet.cn/album/201104/02/205503xy2alaccychhxhaa.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>玉兰<br><a href="http://image.sciencenet.cn/album/201104/02/205502o4n64548ob1focy5.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a href="http://image.sciencenet.cn/album/201104/02/205500kqnvvpiv99lt2zaf.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a href="http://image.sciencenet.cn/album/201104/02/205459ddfc82xenjrae1nd.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>重瓣榆叶梅<br><a href="http://image.sciencenet.cn/album/201104/02/205457rr0crm20b36eu0ud.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a href="http://image.sciencenet.cn/album/201104/02/205456kbjnndoo7sfttgo7.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>垂柳</p>
+<p><a href="http://image.sciencenet.cn/album/201104/02/20545526l22w1kkw2s2wr3.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>黄杨</p>
+<p><a href="http://image.sciencenet.cn/album/201104/02/205454lry6hobodgzdlu0y.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>玉兰<br><a href="http://image.sciencenet.cn/album/201104/02/205453a60650ba66ykd9b5.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a href="http://image.sciencenet.cn/album/201104/02/205452tgxvllzxg9tsyyoe.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a href="http://image.sciencenet.cn/album/201104/02/2054510gkh6b8pbz0ebb67.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a href="http://image.sciencenet.cn/album/201104/02/205450rt86c66a8o9aa89a.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a href="http://image.sciencenet.cn/album/201104/02/205449b23g8rjbjxzdbn2i.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a href="http://image.sciencenet.cn/album/201104/02/205447pr89zuukgkuogrxc.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a href="http://image.sciencenet.cn/album/201104/02/205446jia811vpa9fqwzu6.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>蜡梅</p>
+<p><a href="http://image.sciencenet.cn/album/201104/02/20544579227w9akw67eae0.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>迎春<br><a href="http://image.sciencenet.cn/album/201104/02/205438vcxtuc1ttwv7xwuq.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>连翘<br><a href="http://image.sciencenet.cn/album/201104/02/205439z2nz2kkd2jkhm3wc.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>洋水仙<br><a href="http://image.sciencenet.cn/album/201104/02/2054409wjwbpy9bp3p4pp9.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a href="http://image.sciencenet.cn/album/201104/02/205442l94dh6dv0dcii54y.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a href="http://image.sciencenet.cn/album/201104/02/20544318hofa8cac8ma1zf.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>洋水仙<br><a href="http://image.sciencenet.cn/album/201104/02/205434siafaiii5fhc7dd6.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a href="http://image.sciencenet.cn/album/201104/02/205436q1wsu2pyyz6fr5u2.jpg" target="_blank" rel="noopener"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://helixcn.github.io/2011/04/02/2011-4-2-midspring/" data-id="ck44eqx19002q8kya2rskaqai" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" rel="tag">行摄匆匆</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2011-4-2-ntsys" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2011/04/01/2011-4-2-ntsys/" class="article-date">
+  <time datetime="2011-04-01T10:58:54.000Z" itemprop="datePublished">2011-04-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/04/01/2011-4-2-ntsys/">NTsys实现聚类分析及树状图的绘制</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>注意：聚类分析和树状图在R软件中能够十分方便的实现，而在NTsys中实现的过程较为复杂。但由于NTsys软件是图形界面操作的，这里仍然列出相应的操作步骤，以供同仁参考。</strong></p>
+<p><strong>以下内容 首次发表在planta论坛</strong></p>
+<p><strong>NTsys</strong>可以处理质量性状与连续数量性状，并据此计算多种距离矩阵，根据距离矩阵采取适当的聚类方法得到聚类图。<br>每一个运算步骤，均有相应的模块执行，需要做的只是选择相应的参数。<br>以UPGMA法为例，对于数量性状，常遵循以下步骤: </p>
+<h1 id="1-矩阵的制作"><a href="#1-矩阵的制作" class="headerlink" title="1 矩阵的制作"></a>1 矩阵的制作</h1><p>操作：在Excel里，按照<strong>NTsys</strong>的要求面做好矩阵。 </p>
+<ul>
+<li>第1行第1个数字一般填1，代表要处理的数据为数字矩阵。 </li>
+<li>第1行第2个数字填行数，</li>
+<li>第3个数字填列数。 </li>
+<li>第1行第4个数字，如果有缺失值填1，没有缺失值填0.当然最好不要有缺失值。 </li>
+<li>第2行 按照顺序填写每一列的名称。第2行的定格要空出来。 </li>
+<li>第3行 开始才是正式的数据矩阵。从第3行开始，第1列作为要操作的单元名称。<br>数据准备好后，一般要存为Excel97格式。 </li>
+</ul>
+<p>再用ntedit打开，查看是否有错误，如果没有错误，建议另存为“.nts”格式的文件，如data.nts. </p>
+<h1 id="2-矩阵的标准化，数据标准化的是为了便于数据的横向比较。"><a href="#2-矩阵的标准化，数据标准化的是为了便于数据的横向比较。" class="headerlink" title="2 矩阵的标准化，数据标准化的是为了便于数据的横向比较。"></a>2 矩阵的标准化，数据标准化的是为了便于数据的横向比较。</h1><p>操作：采用左侧output&amp;Transf. 栏下的Standardization模块. 一般是将数据减去算术平均值，并除以标准差，转换为N(0,1)分布。 </p>
+<h1 id="3-计算距离矩阵"><a href="#3-计算距离矩阵" class="headerlink" title="3 计算距离矩阵"></a>3 计算距离矩阵</h1><p>操作：采用左侧Similarity 栏下的 Interval data模块（又称simint），默认为平均分类距离（Average taxonomic distance）。<br>其公式可以参考帮助文件。<br>当然，有多种距离可供选择：<br>如： </p>
+<ul>
+<li>Bray-Curtis distance. </li>
+<li>DIST Average taxonomic distance. </li>
+<li>DISTSQ Squared average distances. </li>
+<li>EUCLID Euclidean distances. </li>
+<li>EUCLIDSQ Euclidean distances squared. </li>
+<li>MANHAT Average Manhattan distances (city block). </li>
+<li>PSHAPE Penrose’s shape coefficient. </li>
+<li>PSIZE Penrose’s size coefficient. </li>
+<li>CORR Pearson product-moment correlation. </li>
+<li><h1 id="4-依据第3步计算出的距离矩阵，进行聚类分析，计算聚类树矩阵。"><a href="#4-依据第3步计算出的距离矩阵，进行聚类分析，计算聚类树矩阵。" class="headerlink" title="4 依据第3步计算出的距离矩阵，进行聚类分析，计算聚类树矩阵。"></a>4 依据第3步计算出的距离矩阵，进行聚类分析，计算聚类树矩阵。</h1>操作：点击左侧Clustering栏下的 SAHN模块，默认为UPGMA。<br>也有多种算法可以选择。这里采用UPGMA. </li>
+</ul>
+<h1 id="5-Mantel检验"><a href="#5-Mantel检验" class="headerlink" title="5 Mantel检验"></a>5 Mantel检验</h1><p>将第4步计算出的聚类树矩阵，和第三部计算的距离矩阵进行比较，进行Mantel检测，计算协表距离矩阵，及相关性系数。以表示该聚类树对原始距离矩阵的代表程度。<br>操作： 点击左侧Graphics栏下的 Matrix comparison plot输入聚类树矩阵与距离矩阵，运行即可。 </p>
+<h1 id="6-绘制聚类树图"><a href="#6-绘制聚类树图" class="headerlink" title="6 绘制聚类树图"></a>6 绘制聚类树图</h1><p>操作： 点击左侧Graphics栏下的 Tree plot，选择聚类树距离文件，就可做出聚类结果图。 </p>
+<p>当然，一步一步操作非常麻烦，所以建议最好用批处理命令进行。<br>批处理命令脚本的编写：</p>
+<ul>
+<li>“为注释行 </li>
+<li>*为命令行 </li>
+<li>“*”后紧跟模块名称， </li>
+<li>“o”为要读取的文件，</li>
+<li>“r”为运行后的结果存储的文件<br>另有多种参数。 </li>
+</ul>
+<p>对数量性状进行聚类分析，采用UPGMA方法的批处理代码如下： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&quot; Standardize the variables </span><br><span class="line">*stand o&#x3D;data.nts r&#x3D;sdata.nts </span><br><span class="line">&quot; Compute a distance matrix </span><br><span class="line">*simint o&#x3D;sdata.nts r&#x3D;dist.nts c&#x3D;dist </span><br><span class="line">&quot; Do a single-link cluster analysis of the distance matrix </span><br><span class="line">*sahn o&#x3D;dist.nts r&#x3D;tree.nts </span><br><span class="line">&quot; Compute cophenetic values </span><br><span class="line">*coph o&#x3D;tree.nts r&#x3D;coph.nts </span><br><span class="line">&quot; Compute the cophenetic correlation </span><br><span class="line">*mxcomp x&#x3D;coph.nts y&#x3D;dist.nts </span><br><span class="line">&quot; Display phenogram </span><br><span class="line">*tree o&#x3D;tree.nts </span><br><span class="line">&quot; Display distance matrix </span><br><span class="line">*output o&#x3D;dist.nts</span><br></pre></td></tr></table></figure>
+
+<p>将以上脚本复制到记事本中，将扩展名改为.ntb文件，就可执行批处理命令了。</p>
+<p>下载相应的文档和软件</p>
+<ul>
+<li><p><a href="http://bbs.sciencenet.cn/home.php?mod=attachment&id=3339" target="_blank" rel="noopener">ntsys.rar</a></p>
+</li>
+<li><p><a href="http://bbs.sciencenet.cn/home.php?mod=attachment&id=3340" target="_blank" rel="noopener">NTsys软件进行聚类分析UPGMA.pdf</a>  [该文档为转载]</p>
+</li>
+</ul>
+<p><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></p>
+<p>聚类树状图 举例</p>
+<h1 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h1><p>NTsys进行主成分分析的脚本</p>
+<p>主成份分析的散点图<br><strong>ntsys</strong>目前可以绘制三维的散点图 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&quot; Standardize variables (rows) </span><br><span class="line">*stand o&#x3D;data.nts r&#x3D;sdata.nts </span><br><span class="line">&quot; Compute correlations among variables (rows) </span><br><span class="line">*simint o&#x3D;sdata.nts c&#x3D;corr r&#x3D;corr.nts d&#x3D;row </span><br><span class="line">&quot; Output the correlation matrix </span><br><span class="line">*output o&#x3D;corr.nts </span><br><span class="line">&quot; Extract first 3 PCA axes from correlation matrix </span><br><span class="line">*eigen o&#x3D;corr.nts n&#x3D;3 r&#x3D;vect.nts val&#x3D;val.nts </span><br><span class="line">&quot; Output principal component axes </span><br><span class="line">*output o&#x3D;vect.nts </span><br><span class="line">&quot; Project objects onto PCA axes </span><br><span class="line">*proj o&#x3D;sdata.nts d&#x3D;col f&#x3D;vect.nts r&#x3D;proj.nts </span><br><span class="line">&quot; Output projections </span><br><span class="line">*output o&#x3D;proj.nts </span><br><span class="line">&quot; Display 3D plot of projection of objects </span><br><span class="line">*mod3d o&#x3D;proj.nts </span><br><span class="line">&quot; Display 3D plot of variables defining the PCA axes </span><br><span class="line">*mod3d o&#x3D;vect.nts d&#x3D;col</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://helixcn.github.io/2011/04/01/2011-4-2-ntsys/" data-id="ck44eqx18002p8kya9kad70r7" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/18/">&amp;laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><span class="page-number current">19</span><a class="page-number" href="/page/20/">20</a><a class="page-number" href="/page/21/">21</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/20/">下一页 &amp;raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/R%E7%BC%96%E7%A8%8B/" rel="tag">R编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%BA%E7%89%A9/" rel="tag">人物</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%99%E4%BD%9C/" rel="tag">写作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" rel="tag">可视化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E4%B9%A6/" rel="tag">图书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" rel="tag">图像处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9C%B0%E7%90%86/" rel="tag">地理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A3%B0%E6%98%8E/" rel="tag">声明</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A9%E6%96%87/" rel="tag">天文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%AF%9D%E5%BD%95/" rel="tag">对话录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%83%E5%BE%97/" rel="tag">心得</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E5%91%8A/" rel="tag">报告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E7%89%88/" rel="tag">排版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%85%E4%B9%A1/" rel="tag">故乡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" rel="tag">数据分析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" rel="tag">标本馆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%88%86%E7%B1%BB/" rel="tag">植物分类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%90%8D/" rel="tag">植物学名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%82%E8%81%8C/" rel="tag">求职</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%BD%AE%E4%BF%8A%E7%9A%84%E8%AF%97/" rel="tag">潮俊的诗</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" rel="tag">版本控制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%80%81/" rel="tag">生态</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%80%81%E8%B5%84%E8%AE%AF/" rel="tag">生态资讯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%94%E7%A9%B6%E8%B5%84%E8%AE%AF/" rel="tag">研究资讯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%91%E7%A0%94%E7%AC%94%E8%AE%B0/" rel="tag">科研笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B3%BB%E7%BB%9F%E5%8F%91%E8%82%B2/" rel="tag">系统发育</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%9F%E8%AE%A1/" rel="tag">统计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" rel="tag">行摄匆匆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%81%E9%97%BB%E5%BD%95/" rel="tag">见闻录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%97%E6%AD%8C/" rel="tag">诗歌</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E4%BB%8B%E7%BB%8D/" rel="tag">软件介绍</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E5%8C%96/" rel="tag">进化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E6%83%B3/" rel="tag">随想</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A9%B3%E8%AE%BA/" rel="tag">驳论</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/R%E7%BC%96%E7%A8%8B/" style="font-size: 19.38px;">R编程</a> <a href="/tags/%E4%BA%BA%E7%89%A9/" style="font-size: 11.88px;">人物</a> <a href="/tags/%E5%86%99%E4%BD%9C/" style="font-size: 13.75px;">写作</a> <a href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" style="font-size: 13.13px;">可视化</a> <a href="/tags/%E5%9B%BE%E4%B9%A6/" style="font-size: 10px;">图书</a> <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" style="font-size: 11.88px;">图像处理</a> <a href="/tags/%E5%9C%B0%E7%90%86/" style="font-size: 17.5px;">地理</a> <a href="/tags/%E5%A3%B0%E6%98%8E/" style="font-size: 10.63px;">声明</a> <a href="/tags/%E5%A4%A9%E6%96%87/" style="font-size: 16.25px;">天文</a> <a href="/tags/%E5%AF%B9%E8%AF%9D%E5%BD%95/" style="font-size: 10px;">对话录</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 10px;">心得</a> <a href="/tags/%E6%8A%A5%E5%91%8A/" style="font-size: 13.13px;">报告</a> <a href="/tags/%E6%8E%92%E7%89%88/" style="font-size: 14.38px;">排版</a> <a href="/tags/%E6%95%85%E4%B9%A1/" style="font-size: 10.63px;">故乡</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" style="font-size: 10px;">数据分析</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10.63px;">数据库</a> <a href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" style="font-size: 15px;">标本馆</a> <a href="/tags/%E6%A4%8D%E7%89%A9%E5%88%86%E7%B1%BB/" style="font-size: 10px;">植物分类</a> <a href="/tags/%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%90%8D/" style="font-size: 10px;">植物学名</a> <a href="/tags/%E6%B1%82%E8%81%8C/" style="font-size: 10px;">求职</a> <a href="/tags/%E6%BD%AE%E4%BF%8A%E7%9A%84%E8%AF%97/" style="font-size: 10px;">潮俊的诗</a> <a href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" style="font-size: 11.25px;">版本控制</a> <a href="/tags/%E7%94%9F%E6%80%81/" style="font-size: 16.88px;">生态</a> <a href="/tags/%E7%94%9F%E6%80%81%E8%B5%84%E8%AE%AF/" style="font-size: 10px;">生态资讯</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E8%B5%84%E8%AE%AF/" style="font-size: 10px;">研究资讯</a> <a href="/tags/%E7%A7%91%E7%A0%94%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">科研笔记</a> <a href="/tags/%E7%B3%BB%E7%BB%9F%E5%8F%91%E8%82%B2/" style="font-size: 10px;">系统发育</a> <a href="/tags/%E7%BB%9F%E8%AE%A1/" style="font-size: 18.13px;">统计</a> <a href="/tags/%E7%BC%96%E7%A8%8B/" style="font-size: 10.63px;">编程</a> <a href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" style="font-size: 15.63px;">行摄匆匆</a> <a href="/tags/%E8%A7%81%E9%97%BB%E5%BD%95/" style="font-size: 10px;">见闻录</a> <a href="/tags/%E8%AF%97%E6%AD%8C/" style="font-size: 15px;">诗歌</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 20px;">软件</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E4%BB%8B%E7%BB%8D/" style="font-size: 10px;">软件介绍</a> <a href="/tags/%E8%BF%9B%E5%8C%96/" style="font-size: 10.63px;">进化</a> <a href="/tags/%E9%9A%8F%E6%83%B3/" style="font-size: 12.5px;">随想</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 18.75px;">随笔</a> <a href="/tags/%E9%A9%B3%E8%AE%BA/" style="font-size: 10px;">驳论</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">十月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">九月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">五月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">三月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">二月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">十月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05/">五月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">四月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">三月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">十二月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">八月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">六月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">五月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">二月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">一月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">十二月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">十一月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">十月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">八月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">七月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">五月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">四月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">三月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">二月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">十二月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">十一月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">九月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">八月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">七月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">六月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">五月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">四月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">三月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/01/">一月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/08/">八月 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/07/">七月 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/06/">六月 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">五月 2009</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/10/29/2019-10-29/">用phylotools建立supermatrix</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/10/2019-10-10/">从DNA序列到系统发育多样性-在环保部环科院的讲座</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/29/2019-07-29/">冰糕、奶糕</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/18/2019-07-18/">描写一流科学家需要怎样的写作技巧？</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/12/2019-07-12/">植物生物多样性、进化和地理学主要学术刊物（20190712）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Jinlong<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

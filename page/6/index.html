@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Jinlong Zhang&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Jinlong Zhang&#39;s Blog">
+<meta property="og:url" content="http:&#x2F;&#x2F;helixcn.github.io&#x2F;page&#x2F;6&#x2F;index.html">
+<meta property="og:site_name" content="Jinlong Zhang&#39;s Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Jinlong">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Jinlong Zhang&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jinlong Zhang&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://helixcn.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-2018-4-28-arrow" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/04/27/2018-4-28-arrow/" class="article-date">
+  <time datetime="2018-04-27T09:03:54.000Z" itemprop="datePublished">2018-04-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/27/2018-4-28-arrow/">用R绘制采样点地图——带指北针、比例尺、图例</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="用R绘制采样点地图——带指北针、比例尺、图例"><a href="#用R绘制采样点地图——带指北针、比例尺、图例" class="headerlink" title="用R绘制采样点地图——带指北针、比例尺、图例"></a>用R绘制采样点地图——带指北针、比例尺、图例</h1><p>已有 4286 次阅读 2018-4-28 01:03 |系统分类:<a href="http://blog.sciencenet.cn/home.php?mod=space&do=blog&view=all&uid=255662&catid=1" target="_blank" rel="noopener">科研笔记</a>    <a href="http://blog.sciencenet.cn/###" target="_blank" rel="noopener">推荐到群组</a>  </p>
+<p>本例子中的代码已经不推荐使用，tmap版本的地图示例参见 <a href="http://blog.sciencenet.cn/blog-255662-1144743.html" target="_blank" rel="noopener">http://blog.sciencenet.cn/blog-255662-1144743.html </a></p>
+<p>如果所示： 用R绘制的采样点地图——带指北针、比例尺、图例等 </p>
+<p>更多请参考 <a href="https://news-at.zhihu.com/story/9275383" target="_blank" rel="noopener">https://news-at.zhihu.com/story/9275383</a></p>
+<p>源代码和数据下载 <a href="http://blog.sciencenet.cn/home.php?mod=attachment&id=194129" target="_blank" rel="noopener">用R绘制采样点地图.zip</a></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">"/Users/jinlong/world map"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(maps)     <span class="comment">## 提供绘制世界地图的函数</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(mapdata)  <span class="comment">## 提供世界地图</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(openxlsx) <span class="comment">## 读取xlsx文件</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(ggplot2)  <span class="comment">## 绘图核心函数</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(ggsn)     <span class="comment">## 提供指北针</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(legendMap) <span class="comment">## 提供比例尺</span></span><br><span class="line"></span><br><span class="line">\<span class="comment">### devtools::install_github("3wen/legendMap")</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(maptools) <span class="comment">## 提供readShapePoly函数， 读取中国多边形数据</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">\<span class="comment">### Download https://simplemaps.com/static/data/world-cities/basic/simplemaps-worldcities-basic.csv</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">china0   &lt;-readShapePoly(<span class="string">"bou1_4p"</span>) <span class="comment">## 读取中国地图</span></span><br><span class="line"></span><br><span class="line">china_df &lt;-fortify(china0) <span class="comment">## 将list转换为ggplot可以使用的dataframe</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">\<span class="comment">##读取数据https://simplemaps.com/static/data/world-cities/basic/simplemaps-worldcities-basic.csv</span></span><br><span class="line"></span><br><span class="line">cities &lt;-read.csv(<span class="string">"simplemaps-worldcities-basic.csv"</span>)</span><br><span class="line"></span><br><span class="line">cities &lt;-cities[sample(<span class="number">1</span>:nrow(cities),size =<span class="number">200</span>), ] <span class="comment">## 元数据有7000条， 这里随机选出100条</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pdf(file =<span class="string">"sampling sites location.pdf"</span>,width =<span class="number">11.5</span>,height =<span class="number">5.8</span>)</span><br><span class="line"></span><br><span class="line">\<span class="comment">### tiff(filename = "sampling sites location.tiff",</span></span><br><span class="line"></span><br><span class="line">\<span class="comment">###      width = 7200, height = 3600, res = 600,</span></span><br><span class="line"></span><br><span class="line">\<span class="comment">###      compression = "lzw")  ## 如果输出tiff文件，600dpi，宽度7200像素，高度3600像素</span></span><br><span class="line"></span><br><span class="line">rrr &lt;-ggplot()+</span><br><span class="line"></span><br><span class="line">borders(colour=<span class="string">'darkgrey'</span>)+                 <span class="comment">##添加世界地图</span></span><br><span class="line"></span><br><span class="line">geom_polygon(data =china_df,</span><br><span class="line"></span><br><span class="line"> aes(x =long, y =lat, group =group), colour =<span class="string">"darkgrey"</span>,</span><br><span class="line"></span><br><span class="line"> fill =<span class="string">"white"</span>)+                          <span class="comment">##添加中国地图</span></span><br><span class="line"></span><br><span class="line">geom_point(data =cities,</span><br><span class="line"></span><br><span class="line"> aes(x=lng,y=lat,colour=pop),size =<span class="number">2</span>)+ <span class="comment">##点的颜色代表人口</span></span><br><span class="line"></span><br><span class="line"> theme_bw()+                               <span class="comment">##简约风格主题</span></span><br><span class="line"></span><br><span class="line"> ggtitle(<span class="string">"Population of World Cities"</span>)+    <span class="comment">##标题</span></span><br><span class="line"></span><br><span class="line"> scale_bar(lon =<span class="number">100</span>,lat =-<span class="number">60</span>,</span><br><span class="line"></span><br><span class="line">​           distance_lon =<span class="number">1000</span>,distance_lat =<span class="number">200</span>,</span><br><span class="line"></span><br><span class="line">​           distance_legend =<span class="number">500</span>,dist_unit =<span class="string">"km"</span>,</span><br><span class="line"></span><br><span class="line">​           arrow_length =<span class="number">0</span>,arrow_distance =<span class="number">0</span>,</span><br><span class="line"></span><br><span class="line">​           arrow_north_size =<span class="number">0</span>)+    <span class="comment">##比例尺</span></span><br><span class="line"></span><br><span class="line"> xlab(<span class="string">"Longitude (Degree)"</span>)+         <span class="comment">##横坐标</span></span><br><span class="line"></span><br><span class="line"> ylab(<span class="string">"Latitude (Degree)"</span>)+          <span class="comment">##纵坐标</span></span><br><span class="line"></span><br><span class="line"> scale_colour_gradientn(colours=c(<span class="string">"green"</span>,<span class="string">"yellow"</span>,<span class="string">"orange"</span>,<span class="string">"red"</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">north2(rrr,<span class="number">.82</span>,<span class="number">.88</span>)                   <span class="comment">## 数字是指定指北针的位置</span></span><br><span class="line"></span><br><span class="line">dev.off()</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://helixcn.github.io/2018/04/27/2018-4-28-arrow/" data-id="ck44eqxlw00b08kya14qc1o9j" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9C%B0%E7%90%86/" rel="tag">地理</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2018-4-24-fdp" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/04/24/2018-4-24-fdp/" class="article-date">
+  <time datetime="2018-04-24T04:11:54.000Z" itemprop="datePublished">2018-04-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/24/2018-4-24-fdp/">大样地海拔数据的克里格插值与地形图绘制</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近收到几位同学求助， 咨询如何通过全站仪测得的海拔数据绘制大样地的地形图以及计算地形因子，本文作简要说明。本文中，“样方”是大样地中边长为20m的样方。前面的博文 （<a href="http://blog.sciencenet.cn/blog-255662-1081363.html" target="_blank" rel="noopener">http://blog.sciencenet.cn/blog-255662-1081363.html</a>   ）简要介绍了大样地中样方的命名方法以及物种调查数据的整理过程，可供参考。</p>
+<p>大样地研究除了收集物种分布数据，还需要获得每个样方对应的环境因子才能进行进一步分析。环境因子又包括地形变量和土壤因子变量，这里只说地形数据。地形数据一般包括某尺度下（如5m, 10m, 20m, 50m, 100m等）每个样方中心点的海拔、坡度、坡向以及凹凸度等。其中坡度、坡向和凹凸度又都是通过样方中心点海拔矩阵计算得出的。</p>
+<p>每个样方中心点的海拔有两种获取方式：（1） 用全站仪直接测量，但是这种情况极少见；（2）对全站仪测得的海拔数据进行克里格插值之后，再在海拔模型上从中心点坐标提取。</p>
+<p>为什么不全都用全站仪在每个20m样方的中心点直接测量呢？ 这是由于全站仪在打点时一般都是测量各样方顶点的海拔。有些样方的顶点正好位于深沟内或巨石上，难以获得，此时只能在附近的点测量。因此大多数情况下，全站仪所测得的数据并总不出现在样方顶点。所以第二种处理方式就很常见了。</p>
+<p>有些研究中，样方的海拔没有经过克里格插值之后再提取中心点，而是直接用四个顶点海拔的平均值，这也是一种近似的处理方法。仍然是上述原因，相应条件不容易满足。</p>
+<p>下面以西双版纳补蚌大样地的海拔数据为例， 介绍海拔数据读取，克里格插值，并提取20m中心点的海拔。获得样方中心点海拔之后，即可计算出坡度、坡向和凹凸度等（<a href="http://blog.sciencenet.cn/blog-255662-690600.html" target="_blank" rel="noopener">http://blog.sciencenet.cn/blog-255662-690600.html</a> ）</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">"C:/Users/jlzhang/Desktop/bubeng plot"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(gstat)</span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(sp)</span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(raster)</span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(openxlsx)</span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(lattice)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">#### 边长为20m米的点阵</span></span><br><span class="line"></span><br><span class="line">bubeng.grid &lt;- expand.grid(x = seq(<span class="number">0</span>, <span class="number">400</span>, <span class="number">20</span>), y = seq(<span class="number">0</span>, <span class="number">500</span>, <span class="number">20</span>))</span><br><span class="line"></span><br><span class="line">coordinates(bubeng.grid) &lt;- ~ x + y</span><br><span class="line"></span><br><span class="line">gridded(bubeng.grid) &lt;- <span class="literal">TRUE</span></span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">## 数据来源 https://doi.org/10.1371/journal.pone.0108450.s008</span></span><br><span class="line"></span><br><span class="line">bubeng.topo20160318 &lt;- read.xlsx(<span class="string">"bubeng_topo.xlsx"</span>)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">## 指定横纵坐标</span></span><br><span class="line"></span><br><span class="line">coordinates(bubeng.topo20160318) = ~ x + y</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">## 变异函数</span></span><br><span class="line"></span><br><span class="line">bubeng_variogram &lt;- variogram(alt ~ <span class="number">1</span>, data = bubeng.topo20160318)</span><br><span class="line"></span><br><span class="line">plot(bubeng_variogram)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">### 拟合高斯模型， 初始值选择参见 （How Kriging works—Help）</span></span><br><span class="line"></span><br><span class="line">bubeng_variogram.fit = fit.variogram(bubeng_variogram, model = vgm(psill = <span class="number">10</span>, <span class="string">"Gau"</span>, range = <span class="number">200</span>, nugget = <span class="number">.1</span>))</span><br><span class="line"></span><br><span class="line">plot(bubeng_variogram, bubeng_variogram.fit)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">### 进行克里格插值</span></span><br><span class="line"></span><br><span class="line">bubeng.krig &lt;- krige(alt ~ <span class="number">1</span>, bubeng.topo20160318, bubeng.grid, model = bubeng_variogram.fit)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">### 绘图</span></span><br><span class="line"></span><br><span class="line">levelplot(bubeng.krig$var1.pred ~ bubeng.krig$x+bubeng.krig$y, cuts = <span class="number">50</span>,</span><br><span class="line"></span><br><span class="line">          main=<span class="string">"Ordinary kriging predictions"</span>,contour = <span class="literal">TRUE</span>,</span><br><span class="line"></span><br><span class="line">          labels = <span class="literal">TRUE</span>, col.regions = terrain.colors(<span class="number">255</span>),  pretty = <span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">## 三维图</span></span><br><span class="line"></span><br><span class="line">wireframe(bubeng.krig$var1.pred ~ bubeng.krig$x+bubeng.krig$y,</span><br><span class="line"></span><br><span class="line">          main=<span class="string">"Ordinary kriging predictions"</span>,</span><br><span class="line"></span><br><span class="line">          labels = <span class="literal">TRUE</span>, col.regions = terrain.colors(<span class="number">255</span>),  pretty = <span class="literal">TRUE</span>, drape = <span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">## 转换为raster</span></span><br><span class="line"></span><br><span class="line">dat &lt;- data.frame(bubeng.krig$var1.pred, bubeng.krig$x, bubeng.krig$y)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">### Convert the object x to a raster object.</span></span><br><span class="line"></span><br><span class="line">rdat &lt;- raster(bubeng.krig)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">### plot the raster</span></span><br><span class="line"></span><br><span class="line">plot(rdat, col = terrain.colors(<span class="number">255</span>))</span><br><span class="line"></span><br><span class="line">contour(rdat, add = <span class="literal">TRUE</span>, nlevel = <span class="number">15</span>)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">### 获得每个20m样方的中心点</span></span><br><span class="line"></span><br><span class="line">x10 &lt;- seq(<span class="number">10</span>, <span class="number">400</span>-<span class="number">10</span>, by = <span class="number">20</span>)</span><br><span class="line"></span><br><span class="line">y10 &lt;- seq(<span class="number">10</span>, <span class="number">500</span>-<span class="number">10</span>, by = <span class="number">20</span>)</span><br><span class="line"></span><br><span class="line">grids10 &lt;- expand.grid(x10, y10)</span><br><span class="line"></span><br><span class="line">plot(Var2 ~ Var1, data = grids10)</span><br><span class="line"></span><br><span class="line">coordinates(grids10) &lt;- c(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">###从raster图层中提取海拔</span></span><br><span class="line"></span><br><span class="line">alt_center &lt;- extract(x = rdat, y = grids10)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">### 20m样方的中心点海拔数据</span></span><br><span class="line"></span><br><span class="line">res_alt_center &lt;- data.frame(grids10, alt_center)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<p>参考文献</p>
+<p>How Kriging works—Help | ArcGIS for Desktop. (2018). Available at: <a href="http://desktop.arcgis.com/en/arcmap/10.3/tools/3d-analyst-toolbox/how-kriging-works.htm" target="_blank" rel="noopener">http://desktop.arcgis.com/en/arcmap/10.3/tools/3d-analyst-toolbox/how-kriging-works.htm</a>. Last accessed 24 April 2018.</p>
+<p>Hu, Y.-H., Kitching, R.L., Lan, G.-Y., Zhang, J.-L., Sha, L.-Q. &amp; Cao, M. (2014). Size-Class Effect Contributes to Tree Species Assembly through Influencing Dispersal in Tropical Forests. PLoS ONE, 9, e108450.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://helixcn.github.io/2018/04/24/2018-4-24-fdp/" data-id="ck44eqxlq00aw8kya6nua7fk0" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%94%9F%E6%80%81/" rel="tag">生态</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2018-04-12-waybackmachine" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/04/12/2018-04-12-waybackmachine/" class="article-date">
+  <time datetime="2018-04-12T01:24:54.000Z" itemprop="datePublished">2018-04-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/12/2018-04-12-waybackmachine/">网络时光与网络时光机</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>如果你学过代码管理， 就一定知道Subversions， 知道Tortoise SVN， 知道git。 这些软件能记录你对代码的修改， 每做出一定的修改后， 通常是修改了一些Bug或者增加了一些新的功能， 就保存一次修改意见， 这样就增加了一个版本。 好比攀岩， 每向上一步， 就加上一个锚定点， 确保不会从山崖上滑落。如果进行了错误的更改， 那么最好的办法就是回到之前的版本， SVN以及git都有相应的机制帮你回到之前某一个版本。所以SVN或者git称得上是软件源代码的时光机， 不但保证你稳步向前， 还能带你回到过去。</p>
+<p>那么已经关闭的网站， 能否回到过去呢？ 答案可能是否定的， 如果网站没有进行很好地备份，数据损坏后， 再回去， 几乎是不可能的。不过有一种方法， 可以让你查看过去某一个时间点的一部分网页， 就是网络时光机 <a href="https://web.archive.org/。通过搜索网址，" target="_blank" rel="noopener">https://web.archive.org/。通过搜索网址，</a> 就可以查看该网址指向的网站， 在某年某月某日的网页。</p>
+<p>网络时光机并不是真正网站回到了过去， 而是在某一个时间点， 通过下载软件， 下载了某一个指定网站的完整网页， 备份存档。 这样在将来就可以访问，再回到这个界面，仿佛回到了过去一样。</p>
+<p>1998年， 我第一次接触电脑， 那时候PC的操作系统还是DOS。有一次上计算机课， 启动电脑时我不小心选择了Windows95，老师看到后赶紧过来吼到： “谁让你开Windows了？ Windows界面化操作， 那么复杂， 属于“超纲”的内容，不能打开”。 所谓“超纲”， 就是超出教学大纲的范围， 一般是比较难的教学内容， 学生可能很难理解。 当时我们学习DOS和QuickBasic， 对世界上其他地方发生的事情一无所知。</p>
+<p>其实早在1986年， 美国就建成了连接主要大学的NSFNET网络， 网络通讯协议在更早的七十年代就已经确立， 也就是说，互联网在那时候就已经诞生了。1998年， 互联网已经在蓬勃发展。重要的机构陆续建立了自己的网站。</p>
+<p>上大学后当然也少不了学习计算机， 这就要提到学校的机房。要进入机房， 先要买一副鞋套，要保证机房里面一尘不染。 每人带着一张1.44M的软盘，机箱上有一个软驱， 重要的资料，一般是计算机作业， 或者要打印的文档， 就都保存在这张软盘内，以便在机房的电脑上修改。</p>
+<p>不过机房里的电脑实在是不争气。因为是投射显示器，眼睛看一会儿就回觉得发酸流泪， Windows98系统也经常无缘无故的死机， 再加上机房用电负荷增加，经常跳闸断电更为修改电脑作业增加了无数烦恼： 要么文件损坏， 要么几个小时的打字内容因为断电没能保存。 宏病毒是Office 软件的座上客， Word、PowerPoint和Excel可能在毫无征兆下中毒， 再打开后内容被清空， 也无法恢复。由于计算机配置太低，要读取PDF，打开Adobe Reader 都要几分钟的时间。2005年前后 ，1.44寸软盘终于逐渐被U盘取代， 谁那时候有一个128M的U盘， 也能足够风光一阵了。</p>
+<p>QQ号成了非常紧俏的商品， 帮忙申请QQ号是讨女孩子欢心的重要法宝。 坐在网吧里，跟相邻的电脑网聊居然会成为一种享受。 当然， 更多人是在打游戏， 暗黑、魔兽、CS等等， 不过由于我不打游戏， 所以也说不上来很多。网吧里， 除了打游戏的，网络对骂的，看电影的，呼呼大睡的，二手烟更是充斥了网吧的每个房间， 电脑桌甚至键盘上，都不难找到被烟灰烫伤的地方。 有些大学生甚至连续几个月不上课， 也不回宿舍， 饿了叫外卖，完全在网吧里过日子。 我的一位室友就因为抑郁， 在网吧打游戏， 连续五个月没有回宿舍。 把他找回来的时候， 他脸色惨白， 人几乎瘦成了骷髅， 我都担心他能不能站起来， 担心一旦站起来，风会不会把他吹倒。虽然沉迷在网吧的学生有不少， 学校门口的“超越”和“飞跃”两个网吧还是二十四小时开放，后来据说加强监管，不过因为我去的很少，就不清楚情况了。</p>
+<p>那时候我特别迷恋一个植物学网站， 网站叫做 “原本山川，极命草木”， 这是中科院植物所的植物爱好者开设的网站，因为网址为 <a href="http://www.emay.com.cn" target="_blank" rel="noopener">http://www.emay.com.cn</a>, 大家都称它为 “义妹” 论坛。也就是在那个论坛， 我认识了山东大学的刘冰、北京大学的刘夙、北京林业大学的林秦文、植物所高贤明等几位老师，那时候都是网友。 我的注册网名是 mrstarlitsky，头像是一个星系。</p>
+<p>管理员“静生”在论坛里非常活跃， 帖子数长期居第一位， 发言也毫无忌惮， 我有时候怀疑他帖子的真实性。静生对在同一个单位工作的同事多有指责， 虽然有些时候不无道理， 但是现在想起来有些内容是不便在网络发表的。</p>
+<p>emay论坛里面最吸引人的， 就是有人贴上天南海北的植物求助鉴定， 然后谁能提供相应的线索， 也许就能帮上大忙， 也有人分享自己考察的照片， 展示当地特别的植物。我在大一以后痴迷于认植物，常常抱着书本不放， 抄写了《东北植物检索表》的全部拉丁名和中文名， 抄写了《中国种子植物科属检索表》的各属， 并且努力背诵各科属之间的区别。图书馆的植物图鉴和地方植物志，被我借了个遍。 emay论坛也是我一展身手的好地方，除了北方的植物， emay上南方的照片很多， 这让我感觉南方的植物更丰富， 所以一直非常想到南方看看。也许这就是为什么我现在会在南方工作。</p>
+<p>emay网站好像有一种魔力， 让人不断分享， 也不断收获。 后来的普兰塔论坛也有这种魔力。 由于种种因素， 这两个论坛都没有能够坚持下来， 让人觉得很可惜。这两个网站是承载了自己成长过程中的重要回忆。</p>
+<p>日月如梭， 过去的时光是回不去了。 要了解网站在当时的样子，就在web.archive.org看看吧。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://helixcn.github.io/2018/04/12/2018-04-12-waybackmachine/" data-id="ck44eqxlo00au8kya5ba6c6bi" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2018-4-6-review" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/04/06/2018-4-6-review/" class="article-date">
+  <time datetime="2018-04-06T01:14:54.000Z" itemprop="datePublished">2018-04-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/06/2018-4-6-review/">修改综述遇到的一些问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> 修改论文、综述或者申请书，真的很累， 甚至感觉比自己写还要累。总结起来， 大概有以下方面的问题：</p>
+<p><strong>1. 缺乏中心思想，看不出作者的观点。</strong> 看了半天，不知道作者想说什么。</p>
+<p><strong>2. 缺乏清晰的结构。</strong>结构不清晰，想要看懂不容易。</p>
+<p><strong>3. 行文冗长，絮絮叨叨</strong>。唉，作者高兴就好……</p>
+<p><strong>4. 内容空泛</strong>。XXX将有力促进生物多样性保护，改善环境，保护绿水青山。是的，我也同意，但是是怎么保护的？ 说得太大， 我有点儿不信呢。</p>
+<p><strong>5. 引入不必要的概念。</strong>本来能用一句话说清楚的事， 非要弄出一个新概念或新的专业词汇。抽象出新词汇或者引用过时的概念都不太好。如，XXX将促进“生态平衡”……问题是现在谁还用生态平衡？ </p>
+<p><strong>6. 观点前后矛盾。</strong>刚刚说的XXX很重要， 下一段马上说， XXX不重要了。真是180°大转弯，变化太快，小心刹不住车啊。</p>
+<p><strong>7. 逻辑不清。</strong>本来大部分文字读起来就挺枯燥的， 你再来个不按套路出牌，后果可想而知。 如果按照，（1）是什么问题，（2）问题的后果，（3）问题的成因，（4）怎么解决问题的顺序写，读者就容易理解。 没错， 思维是发散的， 思想是立体的， 但文字是线性的。既然如此， 行文时最好能把要说的事按照一定顺序串起来， 而且必须以一种容易理解的顺序串起来。如果一个人先说（1）问题该怎么解决，再说（2）问题的后果，（3）什么问题， 最后再（4）解释问题的成因， 读者心里恐怕要骂人了。</p>
+<p><strong>8. 缺乏论据。</strong>论述的要求就是有理有据，还是摆点儿事实比较好，因为这些是你的论据啊 。虽然论点可能是你最早意识到的，但是还是要收集证据去支持论点， 做到有理有据， 否则又流于空泛了。</p>
+<p><strong>9. 论据选择不当。</strong>举例：要说明物种分布区预测的算法存在缺陷， 但后面引用的是关于物种分布数据不足的论文， 然后一直在强调数据是怎样不足……这，我还真不知道说点儿什么好。</p>
+<p><strong>10.用词不准。</strong>专业人士，用词还是准确一点儿好。比如phylogenetic diversity, 就翻译为“系统发育多样性”吧， 至于“谱系多样性”，额，麻烦再改改吧，倒不是说完全不行， 而是“谱系”已经另有所指，不要再和“系统发育多样性”掺和了。这让我想起几种植物：苦苣菜、苦荬菜、苣荬菜、苦菜、小苦荬……命可真够苦的。做研究本来就不容易，不要再用中文增加困难了……</p>
+<p><strong>11.语法错误。</strong> 英文没有学好的童鞋们， 请继续努力哦</p>
+<p><strong>12.英式中文和中式英文。</strong>“DNA条形码图书馆的组建与物种丰富的自然群落的关系特别密切，物种准确鉴定将促进详细的生态学司法研究。”……好了， 你爱说什么说什么， 这中文我看起来不太爽……别拦我，我下次直接百度翻译。在这里，我要友善提示一下，要“小心落水”哦：Take care to fall into water….</p>
+<p><strong>13.图表质量太差。</strong>重要的事情说三遍： 三线表， 三线表， 三线表；分辨率， 分辨率， 分辨率……</p>
+<p><strong>14.引用文献不足或缺少重要细节。</strong>做进化树，还是要介绍用什么软件建的树吧；同理， 物种分布区预测， 也要说清楚是用什么软件预测的。All the statistical analysis were carried out in R， 就这么一句话就概括了数据分析部分，真的很厉害……但是，你说的我做不出来， 我面壁思过去了</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://helixcn.github.io/2018/04/06/2018-4-6-review/" data-id="ck44eqxld00aq8kya0sbq8vw7" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%86%99%E4%BD%9C/" rel="tag">写作</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2018-04-03-rss" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/04/03/2018-04-03-rss/" class="article-date">
+  <time datetime="2018-04-03T01:02:54.000Z" itemprop="datePublished">2018-04-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/03/2018-04-03-rss/">用RSS追踪研究植物生态学研究进展简明教程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>下载附件 <a href="http://blog.sciencenet.cn/home.php?mod=attachment&id=182842" target="_blank" rel="noopener">plant_ecology rss.zip</a> 解压缩，有两个文件 RSSOwl.2.2.1.Setup.exe 和 plant_ecology.opml 文件</li>
+</ol>
+<ol start="2">
+<li>双击安装RSSOwl.2.2.1.Setup.exe开始安装RSS浏览器， 选默认就好， 安装过程没什么好说的。因为RSSOwl是用Java写的， 因此如果没有安装Java Runtime的电脑， 需要先安装Java SE （<a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html" target="_blank" rel="noopener">http://www.oracle.com/technetwork/java/javase/downloads/index.html</a>）。</li>
+</ol>
+<ol start="3">
+<li>批量导入RSS数据源</li>
+</ol>
+<p>点击 File&gt; Import &gt; 在Choose Source 界面选择 Import Feeds from a file or website &gt; Browse , 选择 RSS for plant ecology 20180403.opml, 点击open &gt; next &gt; Finish</p>
+<p> 如果之前已经导入过opml文件， 则不能重复导入。</p>
+<ol start="4">
+<li>单独导入RSS数据源， 以Journal of Ecology为例</li>
+</ol>
+<p>首先要找到该杂志的网页， 找到RSS图标， 点击图标， 可以见到RSS网址，或者RSS的内容， 这个网址称为Feed。按住Contrl + C 复制该网址。</p>
+<p>点击File下方的 + ，在新弹出的New Feed 窗口选择 Create a new feed to read news,复制的网址应该已经自动填写好了，点击Finish即可。</p>
+<p><a href="http://blog.sciencenet.cn/home.php?mod=attachment&id=182842" target="_blank" rel="noopener">plant_ecology rss.zip</a></p>
+<p><a href="http://blog.sciencenet.cn/home.php?mod=attachment&id=182848" target="_blank" rel="noopener">RSS追踪科研进展.pdf</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://helixcn.github.io/2018/04/03/2018-04-03-rss/" data-id="ck44eqxl900ao8kya4bgcevo6" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2018-3-28-moutains" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/03/28/2018-3-28-moutains/" class="article-date">
+  <time datetime="2018-03-27T17:58:54.000Z" itemprop="datePublished">2018-03-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/28/2018-3-28-moutains/">行走山间</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一个人行走山间</p>
+<p>哪管料峭春寒</p>
+<p>白桦林下</p>
+<p>菟葵娇羞不语</p>
+<p>什么节日</p>
+<p>朵朵金盏被阳光装满</p>
+<p>鞑靼香崖边伫立</p>
+<p>红粉佳人飞花入眼</p>
+<p>银莲花素淡如云</p>
+<p>槲寄生的新装唤醒了群山</p>
+<p>十二年前</p>
+<p>春天到了帽儿山</p>
+<p>今时今日</p>
+<p>春天也到了帽儿山</p>
+<p>2018年3月27日</p>
+<p>题记：</p>
+<p>笔者曾于2004-2006年之间到黑龙江尚志市帽儿山吕家围子观察早春植物。不知不觉已经过去了十二年，不由得感慨山花不老，光阴易逝……</p>
+<p>注：</p>
+<p>菟葵 （<em>Eranthis stellata</em> Maxim.），毛茛科，菟葵属， 分布于东北。3月下旬，冰雪初融时开花，初时花低垂，因此称娇羞不语。</p>
+<p>金盏： 即侧金盏花 （<em>Adonis amurensis</em> Regel et Radde）， 毛茛科， 侧金盏花属。早春冰雪初融时开花， 先花后叶， 花色金黄， 极艳丽。</p>
+<p>鞑靼香：即兴安杜鹃 （<em>Rhododendron dauricum</em> Linn.）， 俗称鞑靼香， 达子香。常生于山崖边，四月中旬开花，花色粉紫色。</p>
+<p>银莲花：指黑水银莲花（<em>Anemone amurensis</em> (Korsh.) Kom.）和多被银莲花（<em>Anemone raddeana</em> Regel）， 两者都是毛茛科小草本， 常成片生于林下。 清晨花被片打开， 黄昏后花被片关闭，花朵随太阳转动。花色纯白， 素雅。</p>
+<p>槲寄生（<em>Viscum coloratum</em> (Kom.) Nakai）：俗称冻青， 为槲寄生科半寄生常绿灌木，常生于山杨（<em>Populus davidiana<em>Dode）、蒙古栎（</em>Quercus mongolica</em> Fisch. ex Ledeb.）上。春天到来，愈发嫩绿。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://helixcn.github.io/2018/03/28/2018-3-28-moutains/" data-id="ck44eqxl800am8kya6phk5rcg" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AF%97%E6%AD%8C/" rel="tag">诗歌</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2018-2-22-styler" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/02/22/2018-2-22-styler/" class="article-date">
+  <time datetime="2018-02-21T22:10:54.000Z" itemprop="datePublished">2018-02-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/22/2018-2-22-styler/">R代码的可读性与编程风格</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近收到不少R编程方面的求助，请求帮忙修改代码。不过有些人的代码， 实在很难看懂。 计算机代码是高度考验逻辑思维、记忆力和想象力的，代码的每一步都应该简单直接，易于理解， 这样整个脚本才能容易理解。</p>
+<p>为了能看懂这些代码，对相关的求助也必须提出基本要求： 必须要有R脚本和数据，二者缺一不可， 否则这活儿根本接不了。本来帮忙看代码，帮回答或者解决技术问题就是义务性的，看到糟糕的代码，不知道要多耗费多少脑细胞， 心情也差了很多。</p>
+<p>看看收到的R代码有什么常见问题：</p>
+<h2 id="1-脚本没有列明目的"><a href="#1-脚本没有列明目的" class="headerlink" title="1. 脚本没有列明目的"></a>1. 脚本没有列明目的</h2><p>R脚本一般是为了计算或者绘图， 如果目的不够明确， 说明作者可能没有想清楚。 如果脚本想要干什么都说不清楚， 是没有办法将目标化繁为简， 用计算机语言实现的。 所以最重要的一步， 就是要在计算机脚本最前面写一个标题， 上面说清楚这个脚本是干什么的， 是谁写的，什么时候写的。</p>
+<h2 id="2-重要步骤没有备注，重要函数和算法没有列出参考文献"><a href="#2-重要步骤没有备注，重要函数和算法没有列出参考文献" class="headerlink" title="2. 重要步骤没有备注，重要函数和算法没有列出参考文献"></a>2. 重要步骤没有备注，重要函数和算法没有列出参考文献</h2><p>计算机语言中， 一些核心的算法， 往往是最复杂的， 也是程序的核心部分，最好能有清楚的注释， 有时候还要列出参考文献， 以便核对。 否则计算机代码就很容易成为天书。</p>
+<h2 id="3-变量名极短，常用a、b、c、d等命名但是没有注释"><a href="#3-变量名极短，常用a、b、c、d等命名但是没有注释" class="headerlink" title="3. 变量名极短，常用a、b、c、d等命名但是没有注释"></a>3. 变量名极短，常用a、b、c、d等命名但是没有注释</h2><p>让计算机代码成为天书的另外一种方法就是使用极为简短的变量名， a, b, c, d, var 或者 data这样的变量名, 一个星期之后，连编写代码的人也看不懂了。 计算机代码要想能让人看懂，变量名称要有良好的注释， 最好能自明其意， 同时变量名称之间不能太相似。 trait, community, species, specielist, community_structure, res_pd都是好的变量名，而 a, b, var, t, data, 都是不好的变量名。 说到这里，不得不说一下变量命名的风格：有人建议用大小写命名区分变量的不同部分， 增加可读性， 例如 ComStruct， 这本来无可厚非， 但是输入过程中频繁切换大小写， 其实是很麻烦的事，最好能避免。有人建议用点 . 分隔，也就是com.struct，这本来是很好的选择，但是.也用来做S3子函数的命名， 所以有时候用.命名并不十分妥当。 我个人比较推荐用下环线分隔不同的部分，例如 com_struct, 这样在Notepad++等编辑器里面也更容易找到同一个词， 便于查看数据处理的流程。</p>
+<h2 id="4-没有缩进"><a href="#4-没有缩进" class="headerlink" title="4. 没有缩进"></a>4. 没有缩进</h2><p>代码没有良好的缩进，说明编写代码的人没有很好的编程习惯， 或多或少会造成阅读的障碍。</p>
+<h2 id="5-变量重复命名，同一变量出现多次或者用常用函数名命名"><a href="#5-变量重复命名，同一变量出现多次或者用常用函数名命名" class="headerlink" title="5. 变量重复命名，同一变量出现多次或者用常用函数名命名"></a>5. 变量重复命名，同一变量出现多次或者用常用函数名命名</h2><p>让人费解的是， 变量名称有几乎无数种可能，但有些人偏偏喜欢让某变量名在一个脚本中要反复出现，并且不断覆盖前面的变量。 这样做的后果就是，检查脚本的时候自己都糊涂了， 不知道哪个函数控制哪个变量。 最可怕的是data 作为变量名出现多次。 要知道， data在R中是调取内部数据的函数，所有的变量在取名的时候应该避免和R的常用函数重名。</p>
+<h2 id="6-运算过程过于隐晦，-在不必要的时候使用apply函数或者循环"><a href="#6-运算过程过于隐晦，-在不必要的时候使用apply函数或者循环" class="headerlink" title="6. 运算过程过于隐晦， 在不必要的时候使用apply函数或者循环"></a>6. 运算过程过于隐晦， 在不必要的时候使用apply函数或者循环</h2><p>简单明了的代码，才能长远。 但是有些代码太复杂了， 复杂的原因是因为运算过程太隐晦， 太难理解，例如本来就没有几个要读取的数据表，不知道为什么要用sapply或者for循环来读取，造成读取后的数据结果复杂， 难以访问。 任何一个单层循环或者多层循环，看似复杂， 其实都是从最简单的一层数据开始的，然后用[i]或者[j]控制下标的走向完成循环。 apply函数家族实现了矢量预算，能节省循环，但为了简单明了，编程时应该尽量避开循环和apply函数。apply虽好， 但最好也不要贪杯。</p>
+<h2 id="7-lt-或者-两侧缺少空格"><a href="#7-lt-或者-两侧缺少空格" class="headerlink" title="7. &lt;- 或者 = 两侧缺少空格"></a>7. &lt;- 或者 = 两侧缺少空格</h2><p>在&lt;- 或者 = 两侧加上空格， 是R用户的基本修养， 这里就不多说了。</p>
+<p>说了这么多， 只是希望所见到的R脚本能够：目标明确，结构清楚，变量自己能表明自己的意思，尽量不用注释，也能够看懂。 当然，关键语句的注释仍然是必不可少的。要编写高质量R脚本， 有兴趣的老师同学还可以参考 Google R风格指南 <a href="https://google.github.io/styleguide/Rguide.xml" target="_blank" rel="noopener">https://google.github.io/styleguide/Rguide.xml</a> 或其中文版 <a href="https://nanx.me/rstyle/" target="_blank" rel="noopener">https://nanx.me/rstyle/</a> 。 虽然风格是只是形式上的， 但好的风格会对编程有很大的帮助。</p>
+<p>2017-9-19 初稿</p>
+<p>2018-2-22 修改</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://helixcn.github.io/2018/02/22/2018-2-22-styler/" data-id="ck44eqxlj00as8kyagqiqgb1n" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2018-2-21-paper" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/02/21/2018-2-21-paper/" class="article-date">
+  <time datetime="2018-02-20T16:56:54.000Z" itemprop="datePublished">2018-02-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/21/2018-2-21-paper/">高水平论文讨论的写法 -- 从祝燕等(2018)的论文说起</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>大年三十这天，中国科学院植物研究所祝燕师姐的一篇关于热带地区树种密度制约的论文在Ecology Letters上线了。其实最有发言权的应当是作者本人 （<a href="http://www.biodiv.ibcas.ac.cn/staff/zhuyan.html" target="_blank" rel="noopener">http://www.biodiv.ibcas.ac.cn/staff/zhuyan.html</a> ），但是她一直忙于科研，而且极为低调和谦逊，很少抛头露面。因此，笔者在这里简要介绍一下她的这项研究，并谈谈读后感，最后谈谈高水平论文的讨论是怎么写出来的。也非常感谢她长期以来对我的帮助与支持。</p>
+<p>热带地区的物种共存一直是生态学家们关注的问题。近些年来， 一些生态学家研究森林大型监测样地内相同种个体密度、不同种个体密度、水分、光照等因子对不同树种幼苗的生长和生存状况的影响，以探讨物种共存机制。这些研究一般只局限在幼苗阶段。祝燕等（2018）基于巴拿马BCI 50公顷样地中47个个体数大于30个的树种的数据，分析了不同成长阶段: 幼苗 (高度 ≥ 20 cm ，胸径 &lt; 1 cm), 幼树 (胸径 1–4.9 cm ), 小树 (胸径 5–9.9 cm) 和 成熟树 (胸径 ≥ 10 cm )的生存率随同种个体密度、异种个体密度以及相对生长速率的变化规律。</p>
+<p>一般来说，由于幼苗监测样方和大样地起测标准不同，整合相应结果会有一定困难。但该研究基于相对生长速率，很好地整合了不同阶段密度制约分析的结果。研究发现，生长速率越快的树木，死亡率也越高；生长速率越慢的树木，死亡率越低。树木的死亡率可能与对病原体以及机械伤害的抵抗能力有关。该研究中，树种相应的生活史对策在成长过程中没有变化。研究的结论十分明确，文章也并不长，正文中也不包括复杂的公式。</p>
+<p>实际上，理论性强的论文，并不一定满是公式。相反，公式只是某种思想以数学方式的实现，是作为工具而存在的。生态学因为研究的是各种关系，所以只要在论文中阐述清楚了所探讨问题之间的关系，就是理论性较强的论文，也就容易发在高影响因子的刊物上。</p>
+<p>该研究使用了广义线性混合模型 Generalized Linear Mixed Models (GLMM)。GLMM听起来很复杂，但是其实与广义线性模型大同小异，只是增加了解释变量的一些随机效应，虽然在编写软件时复杂， 但是理解起来并不复杂。近年来，GLMM几乎已经成了群落生态研究的标准配置。lme4程序包的出现，更是让拟合广义线性混合模型简化了很多。普通人只要认真学习一段时间就能快速上手。</p>
+<p>本研究创新的地方，在于整合了不同阶段的相对生长速率，也就是生活史对策，从而将树种的生存情况在不同生长阶段都做了理论上的探讨，这确实是研究上的突破。Ecology Letters的影响因子达9.449， 在生态学150多种生态学期刊中排名第二，投稿和审稿要求极为严格和苛刻，拒稿率一直居高不下，能够发表是非常难的。论文能发表在Ecology Letters上，除了研究本身的新意、工作扎实等因素之外，最重要的就是论文的讨论的力度，特别是抓住一个问题，进行深入讨论，以获得新知。</p>
+<p>高引用率的论文， 不一定是鸿篇巨制，也不一定是长篇大论：其实只需要抓住一个明确的问题， 通过令人信服的方法收集数据并进行检验，得到相关的结果后再深入讨论，就有可能成为高引用率的论文。虽然高引用率的论文不一定都发在高影响因子的刊物上，但是高影响因子的刊物发表的大部分论文都有相对较高的引用率，也更受业界关注。</p>
+<p>深入讨论学术问题，是学术写作的重中之重。研究结果的意义以及研究的贡献，都是通过讨论部分展现出来的。该研究的几位合作者也都是生态学名家，如Hubbell是世界上第一个大型森林监测样地：巴拿马BCI样地 （<a href="http://ctfs.si.edu/webatlas/datasets/bci/" target="_blank" rel="noopener">http://ctfs.si.edu/webatlas/datasets/bci/）</a>  的建立者之一，更是群落生态学中中性理论的主要提出者；Richard Condit博士则是BCI样地的当前负责人。不难想象，作者们在写作过程中一定少不了对内容的斟酌和适当的取舍，以确保论文短小精悍。</p>
+<p>研究论文写作的确有一定的套路。虽然被有些人称为八股文式的写法，但由于这样容易被人接受，仍然是现在最重要的写作方式，所以值得借鉴。这里主要谈谈这篇论文的讨论部分是怎么写的。</p>
+<p>讨论的主要内容，一般是将研究结果放在大的研究背景中，以更深入地阐述研究的意义，使其有所启发。生态学研究是讨论一般性的原理和机制，要从研究结果中抽象出新的认知，需要有数据支撑，但是讨论的主题不能过于具体，否则读者可能会觉得研究不具有代表性。深入来讲，研究基本上都是在为某一种作用、机制或原理提供相应的证据，所以最应该着眼于理论上的贡献。</p>
+<p>这篇论文的讨论部分主要按照以下顺序：简单介绍背景以及主要发现，然后逐项展开。按照以下各方面分别讨论。</p>
+<ol>
+<li><p>本研究结果支持哪些已有的结论和研究；</p>
+</li>
+<li><p>本研究结果否定了哪些已有的结论和研究；</p>
+</li>
+<li><p>本研究在之前的研究基础上有什么新的发现，澄清了哪些问题；</p>
+</li>
+<li><p>为新发现和相关机制提供相应的解释；</p>
+</li>
+<li><p>本研究的不足，如数据量、分析方法等的不足之处以及原因；</p>
+</li>
+<li><p>研究有哪些潜在的问题需要进一步澄清以及下一步的研究方向。</p>
+</li>
+</ol>
+<p>在以上六个点都论述之后，就很容易方便地引出结论。这种方法是学术论文讨论的一般模式，这篇论文在很多方面都给我们做出了很好的示范。</p>
+<p>参考：</p>
+<p>Zhu, Y., Queenborough, S. A., Condit, R., Hubbell, S. P., Ma, K. P., &amp; Comita, L. S. (2018). Density-dependent survival varies with species life history strategy in a tropical forest. <em>Ecology Letters</em>. （<a href="http://onlinelibrary.wiley.com/doi/10.1111/ele.12915/full" target="_blank" rel="noopener">http://onlinelibrary.wiley.com/doi/10.1111/ele.12915/full</a> ）</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://helixcn.github.io/2018/02/21/2018-2-21-paper/" data-id="ck44eqxl200ag8kyahx1h7irf" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2018-2-20-compoundleaves" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/02/20/2018-2-20-compoundleaves/" class="article-date">
+  <time datetime="2018-02-20T00:31:54.000Z" itemprop="datePublished">2018-02-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/20/2018-2-20-compoundleaves/">怎样鉴定羽状复叶植物的营养体？</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>全世界现存的被子植物约35-40万种，分布于300多个科中。对于普通人来说， 能认识几百种已经比较困难。绝大部分植物分类学家也只是熟悉某一类群或者某一地区的植物。植物分类学家鉴定植物、描述植物时往往需要有完整花果的标本，以确保准确。这是因为，叶的形态变异往往较大，花果往往具有相对稳定的形态特征，所以更为可靠。不过在做植物区系调查或者植被调查时，有可能只能采集到无花无果的标本作凭证。基于无花无果的标本进行植物鉴定，结论准确与否高度依赖植物鉴定者的专业水平。</p>
+<p>植物的叶分可为单叶和复叶。植物的小叶在叶轴的两侧排列成羽毛状，就是这里所说的羽状复叶植物。所谓“营养体”就是指无花无果的植物或者植物标本。植物鉴定需要相关人员认真学习形态解剖的基础知识， 并且要经过不断刻苦记忆和练习，才能达到准确鉴定的程度。无论如何，依靠营养体鉴定植物，准确性会大打折扣，以下为个人鉴定植物的经验之谈， 仅供参考。</p>
+<p>羽状复叶的植物常见于漆树科、芸香科、胡桃科、无患子科、苦木科、豆科、蔷薇科、紫葳科、木犀科、楝科、五加科、省沽油科、橄榄科、酢酱草科等。由于系统位置较为分散， 认不好，就很容易弄出笑话。 本人就曾经根据一张照片，在没有看清楚特征的情况下， 将韧荚红豆 Ormosia indurata 认到白蜡树属 Fraxinus，真是相差十万八千里。后来看到果实，才确定是一种红豆。也难怪， 因为韧荚红豆的叶近对生， 照片中的几个叶都是对生， 所以当时才怀疑是光蜡树 Fraxinus griffithii。</p>
+<p>这里根据个人经验列出一些观察植物时要回答的问题，回答这些问题后， 加上不断练习，基本上能将东亚地区的羽状复叶植物营养体划分到科或者属。</p>
+<ol>
+<li>叶对生还是互生？ 对生： 多见于省沽油科、芸香科、紫葳科、木犀科</li>
+<li>叶是否有叶枕？ 有叶枕， 多见于豆科</li>
+<li>叶是否有乳汁？ 有乳汁， 多见于漆树科</li>
+<li>芽是否裸露？ 多见于无患子科、木犀科等</li>
+<li>叶痕以及叶迹的形状？ 如胡桃属多为猴脸状</li>
+<li>叶轴上是否具翼？ 如盐肤木属</li>
+<li>叶轴上是否有刺？ 如花椒属</li>
+<li>小叶轴是否在小叶着生处膨大或者弯曲？ 是：多见于白蜡树属，省沽油属等</li>
+<li>小叶有多少枚？奇数还是偶数？</li>
+<li>小叶是对生还是互生？ 小叶对生， 如盐肤木</li>
+<li>小叶是否有托叶？</li>
+<li>小叶是否有小叶柄？ 如臭椿、大叶山楝</li>
+<li>小叶叶基是圆形？楔形？偏斜？ 叶基圆形， 如臭椿属；叶基偏斜， 如樫木属</li>
+<li>小叶的总体叶形： 披针形， 卵形， 椭圆形， 长椭圆形，矩形， 倒卵形， 倒披针形等</li>
+<li>小叶的叶尖形状： 急尖、渐尖、尾尖、钝、微凹、有小尖头等</li>
+<li>小叶的质地： 纸质？ 革质？ 硬纸质？ 厚革质</li>
+<li>小叶叶片是否沿小叶柄下延？</li>
+<li>小叶侧脉的条数以及是否弧形向上弯曲？</li>
+<li>小叶基部是否有腺点？ 叶基部有腺点，见于臭椿属等</li>
+<li>小叶叶片上是否有有油腺点？ 有：常见于花椒属、吴茱萸属等</li>
+<li>小叶是否有锯齿？ 如果有锯齿是在先端还是在基部？</li>
+<li>顶端小叶是否增大，或者缩小？</li>
+<li>小叶的毛被如何？</li>
+<li>小叶的网脉是否明显？</li>
+<li>小叶叶脉是否在正面凹陷， 在叶背面凸起？</li>
+</ol>
+<p>当然， 这些特征只能帮你分一个大概。要准确鉴定，还是需要花果特征的标本，并且最好能咨询一下该地区的分类学专家了。</p>
+<p><a href="http://image.sciencenet.cn/home/201802/20/160241l1b8w9ow0bbzv0l8.jpg" target="_blank" rel="noopener"><img src="http://image.sciencenet.cn/home/201802/20/160241l1b8w9ow0bbzv0l8.jpg" alt="img"></a></p>
+<p>图1 盐肤木 Rhus chinensis， Anacardiaceae 漆树科，Rhus盐麸木属</p>
+<p><a href="http://image.sciencenet.cn/home/201802/20/160311urykyyjiuz2zfvvr.jpg" target="_blank" rel="noopener"><img src="http://image.sciencenet.cn/home/201802/20/160311urykyyjiuz2zfvvr.jpg" alt="img"></a></p>
+<p>图2 伯乐树Bretschneidera sinensis，Akaniaceae叠珠树科，Bretschneidera伯乐树属</p>
+<p><a href="http://image.sciencenet.cn/home/201802/20/160330f4vvleljxpejjjjt.jpg" target="_blank" rel="noopener"><img src="http://image.sciencenet.cn/home/201802/20/160330f4vvleljxpejjjjt.jpg" alt="img"></a></p>
+<p>图3 无患子 Sapindus saponaria， Sapindaceae无患子科，Sapindus无患子属</p>
+<p><a href="http://image.sciencenet.cn/home/201802/20/160357lhbm6hy1en0mklhh.jpg" target="_blank" rel="noopener"><img src="http://image.sciencenet.cn/home/201802/20/160357lhbm6hy1en0mklhh.jpg" alt="img"></a></p>
+<p>图4 白背麸杨Rhus hypoleuca， Anacardiaceae漆树科，Rhus盐麸木属</p>
+<p><a href="http://image.sciencenet.cn/home/201802/20/160417ym90ww0avbwmwwr0.jpg" target="_blank" rel="noopener"><img src="http://image.sciencenet.cn/home/201802/20/160417ym90ww0avbwmwwr0.jpg" alt="img"></a></p>
+<p>图5 野漆 Toxicodendron succedaneum， Anacardiaceae漆树科， Toxicodendron漆树属</p>
+<p><a href="http://image.sciencenet.cn/home/201802/20/160449bjjuc6k35uz1lt41.jpg" target="_blank" rel="noopener"><img src="http://image.sciencenet.cn/home/201802/20/160449bjjuc6k35uz1lt41.jpg" alt="img"></a></p>
+<p>图6 楝叶吴茱萸Tetradium glabrifolium，Rutaceae芸香科，Tetradium吴茱萸属</p>
+<p><a href="http://image.sciencenet.cn/home/201802/20/160529aqzr5qqxiqxqy52n.jpg" target="_blank" rel="noopener"><img src="http://image.sciencenet.cn/home/201802/20/160529aqzr5qqxiqxqy52n.jpg" alt="img"></a></p>
+<p>图7 黄皮Clausena lansium， Rutaceae芸香科， Clausena黄皮属</p>
+<p><a href="http://image.sciencenet.cn/home/201802/20/160552watwtt6xxxtwmam3.jpg" target="_blank" rel="noopener"><img src="http://image.sciencenet.cn/home/201802/20/160552watwtt6xxxtwmam3.jpg" alt="img"></a></p>
+<p>图8 凹叶红豆Ormosia emarginata， Fabaceae豆科，Ormosia红豆属</p>
+<p><a href="http://image.sciencenet.cn/home/201802/20/160612v62ukoaovt6vktr6.jpg" target="_blank" rel="noopener"><img src="http://image.sciencenet.cn/home/201802/20/160612v62ukoaovt6vktr6.jpg" alt="img"></a></p>
+<p>图9 龙眼Dimocarpus longana，Sapindaceae无患子科，Dimocarpus龙眼属</p>
+<p><a href="http://image.sciencenet.cn/home/201802/20/160632f9uwwb956lze69wn.jpg" target="_blank" rel="noopener"><img src="http://image.sciencenet.cn/home/201802/20/160632f9uwwb956lze69wn.jpg" alt="img"></a></p>
+<p>图10 红柴枝 Meliosma oldhamii， Sabiaceae清风藤科， Meliosma泡花树属</p>
+<p><a href="http://image.sciencenet.cn/home/201802/20/160651aa9d348w394y4999.jpg" target="_blank" rel="noopener"><img src="http://image.sciencenet.cn/home/201802/20/160651aa9d348w394y4999.jpg" alt="img"></a></p>
+<p>图11 白蜡树属 Fraxinus 木犀科 Oleaceae （存疑）</p>
+<p><a href="http://image.sciencenet.cn/home/201802/20/160721i3ft8odef3jz3jlj.jpg" target="_blank" rel="noopener"><img src="http://image.sciencenet.cn/home/201802/20/160721i3ft8odef3jz3jlj.jpg" alt="img"></a></p>
+<p>图12 枫杨Pterocarya stenoptera， Juglandaceae胡桃科， Pterocarya枫杨属 （种存疑）</p>
+<p><a href="http://image.sciencenet.cn/home/201802/20/160744peezfynube1b7n6h.jpg" target="_blank" rel="noopener"><img src="http://image.sciencenet.cn/home/201802/20/160744peezfynube1b7n6h.jpg" alt="img"></a></p>
+<p>图13 荔枝Litchi chinensis，Sapindaceae无患子科，Litchi荔枝属</p>
+<p><a href="http://image.sciencenet.cn/home/201802/20/160803rc8jv9zxc55xczjv.jpg" target="_blank" rel="noopener"><img src="http://image.sciencenet.cn/home/201802/20/160803rc8jv9zxc55xczjv.jpg" alt="img"></a></p>
+<p>图14 华西花楸Sorbus wilsoniana， Rosaceae蔷薇科， Sorbus花楸属</p>
+<p><a href="http://image.sciencenet.cn/home/201802/20/160827msq4zm6v6mmrms5n.jpg" target="_blank" rel="noopener"><img src="http://image.sciencenet.cn/home/201802/20/160827msq4zm6v6mmrms5n.jpg" alt="img"></a></p>
+<p>图15 南酸枣 Choerospondias axillaris， Anacardiaceae漆树科， Choerospondias南酸枣属</p>
+<p><a href="http://image.sciencenet.cn/home/201802/20/160927daarotmwnpwtr3nn.jpg" target="_blank" rel="noopener"><img src="http://image.sciencenet.cn/home/201802/20/160927daarotmwnpwtr3nn.jpg" alt="img"></a></p>
+<p>图16 马尾树Rhoiptelea chiliantha， Juglandaceae胡桃科， Rhoiptelea马尾树属</p>
+<p><a href="http://image.sciencenet.cn/home/201802/20/160950g3ee330033z5d55d.jpg" target="_blank" rel="noopener"><img src="http://image.sciencenet.cn/home/201802/20/160950g3ee330033z5d55d.jpg" alt="img"></a></p>
+<p>图17 化香 Platycarya strobilacea，Juglandaceae胡桃科， Platycarya化香树属</p>
+<p><a href="http://image.sciencenet.cn/home/201802/20/161013uz3252uzv12g25pk.jpg" target="_blank" rel="noopener"><img src="http://image.sciencenet.cn/home/201802/20/161013uz3252uzv12g25pk.jpg" alt="img"></a></p>
+<p>图18 青钱柳Cyclocarya paliurus，Juglandaceae胡桃科，Cyclocarya青钱柳属</p>
+<p><a href="http://image.sciencenet.cn/home/201802/20/161425iqqq99w6x1nqapab.jpg" target="_blank" rel="noopener"><img src="http://image.sciencenet.cn/home/201802/20/161425iqqq99w6x1nqapab.jpg" alt="img"></a></p>
+<p>图19 橄榄 Canarium album， Burseraceae  橄榄科，Canarium橄榄属</p>
+<p><a href="http://image.sciencenet.cn/home/201802/20/161454vrbk046yjfpy77fp.jpg" target="_blank" rel="noopener"><img src="http://image.sciencenet.cn/home/201802/20/161454vrbk046yjfpy77fp.jpg" alt="img"></a></p>
+<p>图 20 人面子Dracontomelon duperreanum， Anacardiaceae漆树科， Dracontomelon人面子属</p>
+<p><a href="http://image.sciencenet.cn/home/201802/20/161515awwg8hho8emzu8oo.jpg" target="_blank" rel="noopener"><img src="http://image.sciencenet.cn/home/201802/20/161515awwg8hho8emzu8oo.jpg" alt="img"></a></p>
+<p>图21 韶子Nephelium chryseum， Sapindaceae无患子科， Nephelium韶子属</p>
+<p><a href="http://image.sciencenet.cn/home/201802/20/161644ypteaytos1typssw.jpg" target="_blank" rel="noopener"><img src="http://image.sciencenet.cn/home/201802/20/161644ypteaytos1typssw.jpg" alt="img"></a></p>
+<p>图 22 乌榄 Canarium pimela， Burseraceae橄榄科，Canarium橄榄属</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://helixcn.github.io/2018/02/20/2018-2-20-compoundleaves/" data-id="ck44eqxl600ak8kyae6amctui" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" rel="tag">标本馆</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2018-2-15-theory" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/02/14/2018-2-15-theory/" class="article-date">
+  <time datetime="2018-02-14T09:20:54.000Z" itemprop="datePublished">2018-02-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/14/2018-2-15-theory/">从高端制瓷业到进化生态的理论研究</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在微信里刚读到一篇关于中国制瓷业历史与现状的报道，让人很有感触 (志钧瓷坊 2018)。忽然想到一个问题：为什么我们发表的相当一部分研究论文读起来索然无味？甚至还有的期刊，因为国人灌水太多而不得不做出调整？这可能要从理论研究的深度说起，甚至涉及科学研究的本质。由于也没做什么前期调查，这里只说说自己的感受，算是读后感。如有不同意见，也十分欢迎拍砖。</p>
+<p>根据这篇报道，中国不能占据陶瓷业的制高点，可能主要是因为业界还没有彻底觉醒：历史上输给日本人是因为我们太保守，中国过去教徒弟只是口授心传，对各种秘方更是严格保密，一些工艺失传之后，后人只能不断再进行探索， 造成工艺水平停滞不前；输给欧洲人是因为欧洲人掌握了出奇制胜的方法：用科学指导技术。欧洲人靠科学指导制瓷，中国靠经验指导制瓷，很显然后者会被前者打败。</p>
+<p>现代科学发源于欧洲，现代世界的格局，深受几次科学与技术革命的影响。其实不仅制瓷业，其它工业领域莫不如此。在很多领域，我们都在努力追赶，不过差距仍然是显著的：虽然在研究论文的数量上我们有了长足进步，但创新明显不足。这可能与我们缺乏相应的文化传统，也与学科没有深厚的积累有关，尤其重要的是， 对青年学者的理论研究的训练严重不足。这里就谈谈自己有点儿了解的植物生态与进化方向。</p>
+<p>最近几年，在植物生态学与进化领域，中国学者的科研论文在主流期刊上并不罕见了，但是最大问题就是创新性严重不足，或者理论深度不够。一部分论文发表在知名刊物上的论文，主要是靠拼数据，拼人力物力，换句话说，论文是用钱砸出来的。例如研究某个科的进化，动不动就全基因组测几百个种，这样的研究是非常费钱，非常费劳动力的。几百万甚至上千万人民币的项目中，相当一部分钱用于运行外国生产的测序仪器，使用外国进口的昂贵试剂，再使用外国人提出的算法以及他们编写的计算机程序进行拼接和注释。与此同时，有大量研究生在做着简单而重复性的实验工作，在这个过程中，并不一定受到足够的训练。</p>
+<p>虽然这些研究可能能发到Nature，Science等顶级刊物，但是国外同行看到这种方式也只能叹息。相比之下，他们掌握不了那么多资源。也可能是欧美的竞争更为激烈，很多欧美学者，只能多从理论的深度上下功夫。对理论的严格训练以及深入思考， 让一些青年学者在博士毕业时就提出了一些新的方法，甚至编写了一些软件，为研究方向带来了质的突破。例如，密歇根大学的Dan Rabosky （<a href="https://scholar.google.com/citations?user=0NdRYeoAAAAJ&amp;hl=zh-CN）读博士期间就开发了laser程序包用于估计进化树上的物种形成和灭绝的速率，做了一期博士后之后，成立研究组开发了BAMM程序包" target="_blank" rel="noopener">https://scholar.google.com/citations?user=0NdRYeoAAAAJ&amp;hl=zh-CN）读博士期间就开发了laser程序包用于估计进化树上的物种形成和灭绝的速率，做了一期博士后之后，成立研究组开发了BAMM程序包</a> (Rabosky et al. 2014)。类似的，用于估计祖先分布区的LAGRANGE (Ree and Smith 2008) 和BioGeoBEARS (Matzke 2013)，用于构建进化树的RAxML (Stamatakis 2014)等软件包也都经历过这样的发展过程。作者们的理论基础极为扎实，由于在理论上的突破，大都能年纪轻轻就站在生态和进化理论舞台的中心，极大促进学科的发展。相比之下， 我国青年学者却没有成长起来， 其中一个因素应该就是缺乏足够的基础理论学习。</p>
+<p>很多人分析数据写论文，只停留在使用别人提供的软件上， 对背后的原理和算法缺乏足够的兴趣， 更别提在理论上进一步发展了。 必须要承认，很多生物学专业的学生在数学和计算机上没有很好的基础， 这也是很多人不想了解背后理论的原因之一。很多时候，分析数据只是出于实用的目的， 研究人员只需要获得进化树或者获得遗传距离，获得祖先分布区，并不用关心这些结果是怎么得来的。虽然如此，如果研究缺乏创新性，论文读起来就容易索然无味。</p>
+<p>理论做得好不好，主要看在理论性强的刊物上发表论文的多少，并不一定看影响因子高低。生态学与进化领域，代表性刊物主要有 Ecology，Ecological Monographs，American Naturalist，Ecology Letters，Systematic Biology，Evolution，Annual Review in Ecology and Evolution，Trends in Ecology and Evolution, Methods in Ecology and Evolution等。目前，国内的学者在这些刊物上发表论文数量还很少，编写软件的也就更少。目前为止，似乎只有用于推断祖先分布区的RASP (Y. Yu et al. 2015) 和绘制进化树的ggtree (G. Yu et al. 2017) 达到了国际主流的水平 （欢迎补充）。理论研究做得深入，自然能写出高水平的论文和软件。研究论文有实质性的贡献， 读起来也就会不会索然无味了。</p>
+<p>科学本身是完备的理论体系，需要不断创新，其知识和理论也要不断更新。西方人掌握着科学研究的话语权，其根源就在于他们掌握了让科学不断成长的方法，让知识之树不但长青而且还在不断生长。从这点来看，我们确实还要加强基础理论的学习与研究，在多发好文章的同时，做好传承和创新。</p>
+<h1 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h1><ol>
+<li>Matzke, Nicholas J. 2013. “BioGeoBEARS: BioGeography with Bayesian (and Likelihood) Evolutionary Analysis in R Scripts.” R Package, Version 0.2 1: 2013.</li>
+<li>Rabosky, Daniel L., Michael Grundler, Carlos Anderson, Pascal Title, Jeff J. Shi, Joseph W. Brown, Huateng Huang, and Joanna G. Larson. 2014. “BAMMtools: An R Package for the Analysis of Evolutionary Dynamics on Phylogenetic Trees.” Edited by Steven Kembel. Methods in Ecology and Evolution 5 (7): 701–7. <a href="https://doi.org/10.1111/2041-210X.12199" target="_blank" rel="noopener">https://doi.org/10.1111/2041-210X.12199</a>.</li>
+<li>Ree, Richard H., and Stephen A. Smith. 2008. “Maximum Likelihood Inference of Geographic Range Evolution by Dispersal, Local Extinction, and Cladogenesis.” Systematic Biology 57 (1): 4–14.</li>
+<li>Stamatakis, Alexandros. 2014. “RAxML Version 8: A Tool for Phylogenetic Analysis and Post-Analysis of Large Phylogenies.” Bioinformatics 30 (9): 1312–13. <a href="https://doi.org/10.1093/bioinformatics/btu033" target="_blank" rel="noopener">https://doi.org/10.1093/bioinformatics/btu033</a>.</li>
+<li>Yu, Guangchuang, David K. Smith, Huachen Zhu, Yi Guan, and Tommy Tsan-Yuk Lam. 2017. “Ggtree: An R Package for Visualization and Annotation of Phylogenetic Trees with Their Covariates and Other Associated Data.” Methods in Ecology and Evolution 8 (1): 28–36.</li>
+<li>Yu, Yan, A.J. Harris, Christopher Blair, and Xingjin He. 2015. “RASP (Reconstruct Ancestral State in Phylogenies): A Tool for Historical Biogeography.” Molecular Phylogenetics and Evolution 87 (June): 46–49. <a href="https://doi.org/10.1016/j.ympev.2015.03.008" target="_blank" rel="noopener">https://doi.org/10.1016/j.ympev.2015.03.008</a>.</li>
+<li>志钧瓷坊. 2018. “为什么有1700多年的历史沉淀的中国还诞生不了世界顶级的瓷器品牌？.” 2018. <a href="https://mp.weixin.qq.com/s/qLFuBJzTRAPiouHmWrZJPA" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/qLFuBJzTRAPiouHmWrZJPA</a> .</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://helixcn.github.io/2018/02/14/2018-2-15-theory/" data-id="ck44eqxl000ae8kya9l0o33cn" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E6%83%B3/" rel="tag">随想</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/5/">&amp;laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/7/">下一页 &amp;raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/R%E7%BC%96%E7%A8%8B/" rel="tag">R编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%BA%E7%89%A9/" rel="tag">人物</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%99%E4%BD%9C/" rel="tag">写作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" rel="tag">可视化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E4%B9%A6/" rel="tag">图书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" rel="tag">图像处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9C%B0%E7%90%86/" rel="tag">地理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A3%B0%E6%98%8E/" rel="tag">声明</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A9%E6%96%87/" rel="tag">天文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%AF%9D%E5%BD%95/" rel="tag">对话录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%83%E5%BE%97/" rel="tag">心得</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E5%91%8A/" rel="tag">报告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E7%89%88/" rel="tag">排版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%85%E4%B9%A1/" rel="tag">故乡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" rel="tag">数据分析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" rel="tag">标本馆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%88%86%E7%B1%BB/" rel="tag">植物分类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%90%8D/" rel="tag">植物学名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%82%E8%81%8C/" rel="tag">求职</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%BD%AE%E4%BF%8A%E7%9A%84%E8%AF%97/" rel="tag">潮俊的诗</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" rel="tag">版本控制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%80%81/" rel="tag">生态</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%80%81%E8%B5%84%E8%AE%AF/" rel="tag">生态资讯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%94%E7%A9%B6%E8%B5%84%E8%AE%AF/" rel="tag">研究资讯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%91%E7%A0%94%E7%AC%94%E8%AE%B0/" rel="tag">科研笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B3%BB%E7%BB%9F%E5%8F%91%E8%82%B2/" rel="tag">系统发育</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%9F%E8%AE%A1/" rel="tag">统计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" rel="tag">行摄匆匆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%81%E9%97%BB%E5%BD%95/" rel="tag">见闻录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%97%E6%AD%8C/" rel="tag">诗歌</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E4%BB%8B%E7%BB%8D/" rel="tag">软件介绍</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E5%8C%96/" rel="tag">进化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E6%83%B3/" rel="tag">随想</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A9%B3%E8%AE%BA/" rel="tag">驳论</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/R%E7%BC%96%E7%A8%8B/" style="font-size: 19.38px;">R编程</a> <a href="/tags/%E4%BA%BA%E7%89%A9/" style="font-size: 11.88px;">人物</a> <a href="/tags/%E5%86%99%E4%BD%9C/" style="font-size: 13.75px;">写作</a> <a href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" style="font-size: 13.13px;">可视化</a> <a href="/tags/%E5%9B%BE%E4%B9%A6/" style="font-size: 10px;">图书</a> <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" style="font-size: 11.88px;">图像处理</a> <a href="/tags/%E5%9C%B0%E7%90%86/" style="font-size: 17.5px;">地理</a> <a href="/tags/%E5%A3%B0%E6%98%8E/" style="font-size: 10.63px;">声明</a> <a href="/tags/%E5%A4%A9%E6%96%87/" style="font-size: 16.25px;">天文</a> <a href="/tags/%E5%AF%B9%E8%AF%9D%E5%BD%95/" style="font-size: 10px;">对话录</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 10px;">心得</a> <a href="/tags/%E6%8A%A5%E5%91%8A/" style="font-size: 13.13px;">报告</a> <a href="/tags/%E6%8E%92%E7%89%88/" style="font-size: 14.38px;">排版</a> <a href="/tags/%E6%95%85%E4%B9%A1/" style="font-size: 10.63px;">故乡</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" style="font-size: 10px;">数据分析</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10.63px;">数据库</a> <a href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" style="font-size: 15px;">标本馆</a> <a href="/tags/%E6%A4%8D%E7%89%A9%E5%88%86%E7%B1%BB/" style="font-size: 10px;">植物分类</a> <a href="/tags/%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%90%8D/" style="font-size: 10px;">植物学名</a> <a href="/tags/%E6%B1%82%E8%81%8C/" style="font-size: 10px;">求职</a> <a href="/tags/%E6%BD%AE%E4%BF%8A%E7%9A%84%E8%AF%97/" style="font-size: 10px;">潮俊的诗</a> <a href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" style="font-size: 11.25px;">版本控制</a> <a href="/tags/%E7%94%9F%E6%80%81/" style="font-size: 16.88px;">生态</a> <a href="/tags/%E7%94%9F%E6%80%81%E8%B5%84%E8%AE%AF/" style="font-size: 10px;">生态资讯</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E8%B5%84%E8%AE%AF/" style="font-size: 10px;">研究资讯</a> <a href="/tags/%E7%A7%91%E7%A0%94%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">科研笔记</a> <a href="/tags/%E7%B3%BB%E7%BB%9F%E5%8F%91%E8%82%B2/" style="font-size: 10px;">系统发育</a> <a href="/tags/%E7%BB%9F%E8%AE%A1/" style="font-size: 18.13px;">统计</a> <a href="/tags/%E7%BC%96%E7%A8%8B/" style="font-size: 10.63px;">编程</a> <a href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" style="font-size: 15.63px;">行摄匆匆</a> <a href="/tags/%E8%A7%81%E9%97%BB%E5%BD%95/" style="font-size: 10px;">见闻录</a> <a href="/tags/%E8%AF%97%E6%AD%8C/" style="font-size: 15px;">诗歌</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 20px;">软件</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E4%BB%8B%E7%BB%8D/" style="font-size: 10px;">软件介绍</a> <a href="/tags/%E8%BF%9B%E5%8C%96/" style="font-size: 10.63px;">进化</a> <a href="/tags/%E9%9A%8F%E6%83%B3/" style="font-size: 12.5px;">随想</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 18.75px;">随笔</a> <a href="/tags/%E9%A9%B3%E8%AE%BA/" style="font-size: 10px;">驳论</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">五月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">二月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">十月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">九月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">七月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">五月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">三月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">二月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">一月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">十月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05/">五月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">四月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">三月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">一月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">十二月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">十月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">八月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">六月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">五月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">二月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">一月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">十二月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">十一月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">十月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">八月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">七月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">五月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">四月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">三月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">二月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">十二月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">十一月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">九月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">八月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">七月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">六月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">五月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">四月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">三月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/01/">一月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/08/">八月 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/07/">七月 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/06/">六月 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">五月 2009</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/10/29/2019-10-29/">用phylotools建立supermatrix</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/10/2019-10-10/">从DNA序列到系统发育多样性-在环保部环科院的讲座</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/29/2019-07-29/">冰糕、奶糕</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/18/2019-07-18/">描写一流科学家需要怎样的写作技巧？</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/12/2019-07-12/">植物生物多样性、进化和地理学主要学术刊物（20190712）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Jinlong<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
