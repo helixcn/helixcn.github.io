@@ -113,20 +113,58 @@
 <li>Windows下，请安装Rtools，Rtools中包含gfortran编译器，安装时请将Rtools添加到启动 路径，参考 (<a target="_blank" rel="noopener" href="https://github.com/helixcn/programing_in_r_cn/blob/master/beamer/00_software_installation.pdf">https://github.com/helixcn/programing_in_r_cn/blob/master/beamer/00_software_installation.pdf</a> )</li>
 </ol>
 <h1 id="方法1，编译代码后加载和调用Fortran代码"><a href="#方法1，编译代码后加载和调用Fortran代码" class="headerlink" title="方法1，编译代码后加载和调用Fortran代码"></a>方法1，编译代码后加载和调用Fortran代码</h1><p>将Fortran代码编译为share library后，再用R的<code>.Fortran</code>函数调用。</p>
-<h2 id="编译和调用Fortran77代码"><a href="#编译和调用Fortran77代码" class="headerlink" title="编译和调用Fortran77代码"></a>编译和调用Fortran77代码</h2><h3 id="Fortran-77源代码"><a href="#Fortran-77源代码" class="headerlink" title="Fortran 77源代码"></a>Fortran 77源代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">C   Content of file factorial.f</span><br><span class="line">C   FINDING THE FACTORIAL IN FORTRAN 77</span><br><span class="line">        SUBROUTINE FACTO1(N,ANSWER)        </span><br><span class="line">        INTEGER N, ANSWER, I</span><br><span class="line">        ANSWER &#x3D; 1</span><br><span class="line">        DO 100 I &#x3D; 2,N</span><br><span class="line">            ANSWER &#x3D; ANSWER * I</span><br><span class="line"> 100     CONTINUE</span><br><span class="line">        END</span><br></pre></td></tr></table></figure>
-
-<h3 id="Mac和Linux下的R脚本"><a href="#Mac和Linux下的R脚本" class="headerlink" title="Mac和Linux下的R脚本"></a>Mac和Linux下的R脚本</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;/Users/jinlong/Desktop/fortran_example/fortran77/&quot;</span>)</span><br><span class="line">system(<span class="string">&quot;R CMD SHLIB factorial.f&quot;</span>)</span><br><span class="line">dyn.load(<span class="string">&quot;factorial.so&quot;</span>)</span><br><span class="line">.Fortran(<span class="string">&quot;facto1&quot;</span>,n=<span class="built_in">as.integer</span>(<span class="number">5</span>),answer=<span class="built_in">as.integer</span>(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
-
-<h3 id="Windows下的R脚本"><a href="#Windows下的R脚本" class="headerlink" title="Windows下的R脚本"></a>Windows下的R脚本</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;C:\Users\jlzhang\Desktop\fortran77&quot;</span>)</span><br><span class="line">system(<span class="string">&quot;Rcmd SHLIB factorial.f&quot;</span>)</span><br><span class="line">dyn.load(<span class="string">&quot;factorial.dll&quot;</span>)</span><br><span class="line">.Fortran(<span class="string">&quot;facto1&quot;</span>,n=<span class="built_in">as.integer</span>(<span class="number">5</span>),answer=<span class="built_in">as.integer</span>(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
-
-<h2 id="编译和调用Fortran90代码"><a href="#编译和调用Fortran90代码" class="headerlink" title="编译和调用Fortran90代码"></a>编译和调用Fortran90代码</h2><h3 id="Fortran90源代码"><a href="#Fortran90源代码" class="headerlink" title="Fortran90源代码"></a>Fortran90源代码</h3><figure class="highlight f90"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">! Content of file factorial.f90</span></span><br><span class="line"><span class="comment">! Finding the factorial in Fortran 90</span></span><br><span class="line"><span class="function"><span class="keyword">subroutine</span></span> facto2(n,answer)      </span><br><span class="line"><span class="keyword">implicit</span> <span class="keyword">none</span></span><br><span class="line">    <span class="keyword">integer</span> n, answer, i</span><br><span class="line">    answer = <span class="number">1</span></span><br><span class="line">    <span class="keyword">do</span> i = <span class="number">2</span>,n</span><br><span class="line">        answer = answer * i      </span><br><span class="line">    <span class="keyword">end</span> <span class="keyword">do</span></span><br><span class="line"><span class="keyword">end</span> <span class="function"><span class="keyword">subroutine</span></span> facto2</span><br></pre></td></tr></table></figure>
-
-<h3 id="Linux下的R代码"><a href="#Linux下的R代码" class="headerlink" title="Linux下的R代码"></a>Linux下的R代码</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;/Users/jinlong/Desktop/fortran_example/fortran90/&quot;</span>)</span><br><span class="line">system(<span class="string">&quot;R CMD SHLIB factorial.f90&quot;</span>)</span><br><span class="line">dyn.load(<span class="string">&quot;factorial.so&quot;</span>)</span><br><span class="line">.Fortran(<span class="string">&quot;facto2&quot;</span>,n=<span class="built_in">as.integer</span>(<span class="number">5</span>),answer=<span class="built_in">as.integer</span>(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
-
-<h3 id="Windows下的R代码"><a href="#Windows下的R代码" class="headerlink" title="Windows下的R代码"></a>Windows下的R代码</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;C:\Users\jlzhang\Desktop\fortran90&quot;</span>)</span><br><span class="line">system(<span class="string">&quot;Rcmd SHLIB factorial.f90&quot;</span>)</span><br><span class="line">dyn.load(<span class="string">&quot;factorial.dll&quot;</span>)</span><br><span class="line">.Fortran(<span class="string">&quot;facto2&quot;</span>, n=<span class="built_in">as.integer</span>(<span class="number">5</span>), answer=<span class="built_in">as.integer</span>(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
-
-<h1 id="方法2，使用inline程序包"><a href="#方法2，使用inline程序包" class="headerlink" title="方法2，使用inline程序包"></a>方法2，使用inline程序包</h1><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">library(inline)</span><br><span class="line">fcode &lt;- <span class="string">&quot;</span></span><br><span class="line"><span class="string">      integer::i</span></span><br><span class="line"><span class="string">      do i = 2, n(1)</span></span><br><span class="line"><span class="string">         res(1) = res(1) * i</span></span><br><span class="line"><span class="string">      end do</span></span><br><span class="line"><span class="string">&quot;</span></span><br><span class="line">fcodefun &lt;- cfunction(signature(n=<span class="string">&quot;integer&quot;</span>, res = <span class="string">&quot;integer&quot;</span>),</span><br><span class="line">                     fcode, convention=<span class="string">&quot;.Fortran&quot;</span>)</span><br><span class="line">fcodefun(n = <span class="built_in">as.integer</span>(<span class="number">5</span>), res = <span class="built_in">as.integer</span>(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
-
+<h2 id="编译和调用Fortran77代码"><a href="#编译和调用Fortran77代码" class="headerlink" title="编译和调用Fortran77代码"></a>编译和调用Fortran77代码</h2><h3 id="Fortran-77源代码"><a href="#Fortran-77源代码" class="headerlink" title="Fortran 77源代码"></a>Fortran 77源代码</h3><pre><code class="f77">C   Content of file factorial.f
+C   FINDING THE FACTORIAL IN FORTRAN 77
+        SUBROUTINE FACTO1(N,ANSWER)        
+        INTEGER N, ANSWER, I
+        ANSWER = 1
+        DO 100 I = 2,N
+            ANSWER = ANSWER * I
+ 100     CONTINUE
+        END
+</code></pre>
+<h3 id="Mac和Linux下的R脚本"><a href="#Mac和Linux下的R脚本" class="headerlink" title="Mac和Linux下的R脚本"></a>Mac和Linux下的R脚本</h3><pre><code class="R">setwd(&quot;/Users/jinlong/Desktop/fortran_example/fortran77/&quot;)
+system(&quot;R CMD SHLIB factorial.f&quot;)
+dyn.load(&quot;factorial.so&quot;)
+.Fortran(&quot;facto1&quot;,n=as.integer(5),answer=as.integer(1))
+</code></pre>
+<h3 id="Windows下的R脚本"><a href="#Windows下的R脚本" class="headerlink" title="Windows下的R脚本"></a>Windows下的R脚本</h3><pre><code class="R">setwd(&quot;C:\Users\jlzhang\Desktop\fortran77&quot;)
+system(&quot;Rcmd SHLIB factorial.f&quot;)
+dyn.load(&quot;factorial.dll&quot;)
+.Fortran(&quot;facto1&quot;,n=as.integer(5),answer=as.integer(1))
+</code></pre>
+<h2 id="编译和调用Fortran90代码"><a href="#编译和调用Fortran90代码" class="headerlink" title="编译和调用Fortran90代码"></a>编译和调用Fortran90代码</h2><h3 id="Fortran90源代码"><a href="#Fortran90源代码" class="headerlink" title="Fortran90源代码"></a>Fortran90源代码</h3><pre><code class="f90">  ! Content of file factorial.f90
+  ! Finding the factorial in Fortran 90
+  subroutine facto2(n,answer)      
+  implicit none
+      integer n, answer, i
+      answer = 1
+      do i = 2,n
+          answer = answer * i      
+      end do
+  end subroutine facto2
+</code></pre>
+<h3 id="Linux下的R代码"><a href="#Linux下的R代码" class="headerlink" title="Linux下的R代码"></a>Linux下的R代码</h3><pre><code class="R">setwd(&quot;/Users/jinlong/Desktop/fortran_example/fortran90/&quot;)
+system(&quot;R CMD SHLIB factorial.f90&quot;)
+dyn.load(&quot;factorial.so&quot;)
+.Fortran(&quot;facto2&quot;,n=as.integer(5),answer=as.integer(1))
+</code></pre>
+<h3 id="Windows下的R代码"><a href="#Windows下的R代码" class="headerlink" title="Windows下的R代码"></a>Windows下的R代码</h3><pre><code class="R">setwd(&quot;C:\Users\jlzhang\Desktop\fortran90&quot;)
+system(&quot;Rcmd SHLIB factorial.f90&quot;)
+dyn.load(&quot;factorial.dll&quot;)
+.Fortran(&quot;facto2&quot;, n=as.integer(5), answer=as.integer(1))
+</code></pre>
+<h1 id="方法2，使用inline程序包"><a href="#方法2，使用inline程序包" class="headerlink" title="方法2，使用inline程序包"></a>方法2，使用inline程序包</h1><pre><code class="R">library(inline)
+fcode &lt;- &quot;
+      integer::i
+      do i = 2, n(1)
+         res(1) = res(1) * i
+      end do
+&quot;
+fcodefun &lt;- cfunction(signature(n=&quot;integer&quot;, res = &quot;integer&quot;),
+                     fcode, convention=&quot;.Fortran&quot;)
+fcodefun(n = as.integer(5), res = as.integer(1))
+</code></pre>
 <p>若要将Fortran编写到程序包中， 则需要将fortran源代码放入src文件夹中， 用.Fortran()直接调用fortran中的subroutine。R程序包的源代码中是不允许有已经编译好的可执行程序的， 因为这会造成安全风险以及可移植性的问题。注意，.Fortran()中的参数数据类型，必须与fortran代码中的类型一致，一般用 as.integer, as.double， as.character等转换成fortran代码能识别的数据类型。</p>
 <p>labdsv程序包（<a target="_blank" rel="noopener" href="https://cran.r-project.org/web/packages/labdsv/index.html">https://cran.r-project.org/web/packages/labdsv/index.html</a> ）中包含了f77，可供参考。</p>
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
@@ -141,7 +179,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2015/05/02/2015-5-2-rfortran/" data-id="ckmq2gwsq007iq88412rfakeu" data-title="R中调用FORTRAN的两种方式" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2015/05/02/2015-5-2-rfortran/" data-id="ckmq42aj7007a1k84be3kfu79" data-title="R中调用FORTRAN的两种方式" class="article-share-link">Share</a>
       
       
       
@@ -217,6 +255,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -230,10 +272,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

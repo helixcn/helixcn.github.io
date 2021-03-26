@@ -112,12 +112,17 @@
 <li> 安装devtools程序包</li>
 </ol>
 <p>在R的命令行中，输入：</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">&quot;devtools&quot;</span>)</span><br></pre></td></tr></table></figure>
+<pre><code class="R">install.packages(&quot;devtools&quot;)
+</code></pre>
 <ol start="4">
 <li><p>从 github 安装 herblabel</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">library(devtools)</span><br><span class="line">install_github(<span class="string">&quot;helixcn/plantlist&quot;</span>)</span><br></pre></td></tr></table></figure></li>
+<pre><code class="R">library(devtools)
+install_github(&quot;helixcn/plantlist&quot;)
+</code></pre>
+</li>
 <li><p>安装openxlsx程序包, 用于读取内置的xlsx模板</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">&quot;openxlsx&quot;</span>)</span><br></pre></td></tr></table></figure>
+<pre><code class="R">install.packages(&quot;openxlsx&quot;)
+</code></pre>
 <p>至此, herblabel及其相关的程序包安装完成.</p>
 </li>
 <li><p>herblabel程序包的更新</p>
@@ -125,8 +130,9 @@
 </ol>
 <p>Herblabel程序包会根据用户反馈的意见, 进行修改, 或者增加相应的功能, 因此每隔一段时间, 就发布发新版本.</p>
 <p>更新该程序包, 请用如下R命令从github重新安装:</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">library(devtools)</span><br><span class="line">install_github(<span class="string">&quot;helixcn/herblabel&quot;</span>)</span><br></pre></td></tr></table></figure>
-
+<pre><code class="R">library(devtools)
+install_github(&quot;helixcn/herblabel&quot;)
+</code></pre>
 <p>打印标本标签以及鉴定标签</p>
 <p>标本标签以及鉴定标签所用的数据均保存在Excel模板中. 主要步骤如下:</p>
 <ol>
@@ -187,7 +193,16 @@
 <li>DATE_IDENTIFIED(重要):鉴定的日期, 最好也是2015-8-6类似的格式</li>
 <li>TYPE_STATUS:该标本是否为模式标本</li>
 <li>PROCESSED_BY:本条记录的录入人</li>
-<li>DATE_LASTMODIFIED:本条记录上次更改的日期<br>假设 DARWIN_CORE_HERBARIUM_RECORDS.xlsx 保存在 D:/herbarium/, 则输入以下命令， 即可生成rtf标签：<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;D:/herbarium/&quot;</span>) <span class="comment">## 注意斜杠要向右</span></span><br><span class="line">library(herblabel)</span><br><span class="line">library(openxlsx)</span><br><span class="line">dat &lt;- read.xlsx(<span class="string">&quot;DARWIN_CORE_HERBARIUM_RECORDS.xlsx&quot;</span>)</span><br><span class="line"><span class="comment">### 检查拼写等</span></span><br><span class="line">herbarium_label(dat, outfile = <span class="string">&quot;herbarium_labels.rtf&quot;</span>)</span><br><span class="line"><span class="comment">### 不进行检查</span></span><br><span class="line">herbarium_label(dat, spellcheck = <span class="literal">FALSE</span>, outfile = <span class="string">&quot;herbarium_labels_no_checking.rtf&quot;</span>)</span><br></pre></td></tr></table></figure></li>
+<li>DATE_LASTMODIFIED:本条记录上次更改的日期<br>假设 DARWIN_CORE_HERBARIUM_RECORDS.xlsx 保存在 D:/herbarium/, 则输入以下命令， 即可生成rtf标签：<pre><code class="R">setwd(&quot;D:/herbarium/&quot;) ## 注意斜杠要向右
+library(herblabel)
+library(openxlsx)
+dat &lt;- read.xlsx(&quot;DARWIN_CORE_HERBARIUM_RECORDS.xlsx&quot;)
+### 检查拼写等
+herbarium_label(dat, outfile = &quot;herbarium_labels.rtf&quot;)
+### 不进行检查
+herbarium_label(dat, spellcheck = FALSE, outfile = &quot;herbarium_labels_no_checking.rtf&quot;)
+</code></pre>
+</li>
 </ul>
 <p>默认情况下， spellcheck = TRUE, 此时herbarium_label函数将进行（1） 物种有效性的检查 ， 即是否是The Plantlist 网站上的接受名 （2）属的拼写检查 （3） 科的拼写检查 （4） 科属对应关系的检查。 在Remarks这一列中， 如有列出伴生种， 则拉丁文部分会自动转换为斜体。 如果未能转换成斜体， 则需要检查其拼写。 这些信息会在生成的RTF文件中给出提示。</p>
 <ol>
@@ -217,15 +232,24 @@
 <p>打印鉴定标签:</p>
 <p>将该ANNOTATION_TEMPLATE.xlsx 拷贝到 D:/herbarium/</p>
 <p>填好相应的鉴定信息后, 在Rgui中运行如下命令:</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;D:/herbarium&quot;</span>)</span><br><span class="line">library(herblabel)</span><br><span class="line">library(openxlsx)</span><br><span class="line">dat &lt;- read.xlsx(<span class="string">&quot;ANNOTATION_TEMPLATE.xlsx&quot;</span>)                    </span><br><span class="line">annotation_label(dat)</span><br></pre></td></tr></table></figure>
-
+<pre><code class="R">  setwd(&quot;D:/herbarium&quot;)
+  library(herblabel)
+  library(openxlsx)
+  dat &lt;- read.xlsx(&quot;ANNOTATION_TEMPLATE.xlsx&quot;)                    
+  annotation_label(dat)
+</code></pre>
 <p>由herbarium_label函数和annotation_label生成的rtf文件， 可以用Microsoft Word打开， 进行进一步的调整 （如某些物种的斜体，或者间距的调整）。</p>
 <p>3.从中文名匹配并填写学名,命名人和科属等信息</p>
 <p>在打印标签时, 人们希望尽量输入少的数据,因为输入的内容越多,出错的几率也越大, 特别是植物的学名, 不少人对拉丁文的拼写并不熟悉, 很容易在输入时出现错误. 此外, 命名人的缩写有不同的格式, 稍有不慎, 拼写就会出问题. 此外, 将一个完整学名按照科, 属, 种加词, 命名人, 种下等级, 种下等级加词, 种下等级命名人填写, 也相当费时费力. 为此, herblabel程序包中提供了fill_dwc函数, 目的是, 依照模板中出现的中文名, 在herblabel内置的数据库内找到对应的学名, 并且查找该种对应的apgiii科, 并填写到模板中, 随后将学名按照属, 种加词, 命名人, 种下等级, 种下等级加词, 种下等级命名人等自动填写到模板中.</p>
 <p>使用方法</p>
 <p>在Excel模板DARWIN_CORE_HERBARIUM_RECORDS.xlsx中, 将中国植物志接受的中文名,或者plantlist给出的完整的拉丁名拷贝到对应Excel模板的 LOCAL_NAME 一列, 之后运行如下命令即可:</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;D:/herbarium/&quot;</span>) <span class="comment">## 注意斜杠要向右</span></span><br><span class="line">library(herblabel)</span><br><span class="line">library(openxlsx)</span><br><span class="line">dat &lt;- read.xlsx(<span class="string">&quot;DARWIN_CORE_HERBARIUM_RECORDS.xlsx&quot;</span>)</span><br><span class="line">dwc_filled &lt;- fill_dwc(dat) <span class="comment">### 检查拼写等</span></span><br><span class="line">herbarium_label(dwc_filled, outfile = <span class="string">&quot;herbarium_labels.rtf&quot;</span>)</span><br></pre></td></tr></table></figure>
-
+<pre><code class="R">setwd(&quot;D:/herbarium/&quot;) ## 注意斜杠要向右
+library(herblabel)
+library(openxlsx)
+dat &lt;- read.xlsx(&quot;DARWIN_CORE_HERBARIUM_RECORDS.xlsx&quot;)
+dwc_filled &lt;- fill_dwc(dat) ### 检查拼写等
+herbarium_label(dwc_filled, outfile = &quot;herbarium_labels.rtf&quot;)
+</code></pre>
 <p>4.模板信息的保存与更新, 以及生成RTF文件的自动保存</p>
 <p>如果用户不希望一次性打印Excel模板中所有的记录, 则应该用subset函数进行筛选 (参考 <a target="_blank" rel="noopener" href="http://www.statmethods.net/management/subset.html">http://www.statmethods.net/management/subset.html</a>). 但是更多人希望将每次打印的标本记录自动更新到一个完整的Excel记录中, 并且完整保存每次运行的Excel模板, 以及生成的RTF文件. 实际上笔者已经提供了运行herblabel程序包的R脚本 run_herblabel (<a target="_blank" rel="noopener" href="https://github.com/helixcn/run_herblabel">https://github.com/helixcn/run_herblabel</a>) .</p>
 <p>使用方法如下:</p>
@@ -251,12 +275,12 @@
 <p>Jinlong Zhang (2016). herblabel: Making Labels for Herbarium</p>
 <p> Specimens in RTF and More. R package version 0.4.4.</p>
 <p> <a target="_blank" rel="noopener" href="https://github.com/helixcn/herblabel">https://github.com/helixcn/herblabel</a></p>
-<p>如果您对herblabel程序包有任何意见或建议， 请联系 <a href="mailto:&#x6a;&#x69;&#x6e;&#x6c;&#x6f;&#x6e;&#103;&#122;&#104;&#x61;&#110;&#x67;&#48;&#49;&#64;&#103;&#109;&#x61;&#105;&#108;&#46;&#x63;&#x6f;&#x6d;">&#x6a;&#x69;&#x6e;&#x6c;&#x6f;&#x6e;&#103;&#122;&#104;&#x61;&#110;&#x67;&#48;&#49;&#64;&#103;&#109;&#x61;&#105;&#108;&#46;&#x63;&#x6f;&#x6d;</a> 或 本人的qq 85168042</p>
+<p>如果您对herblabel程序包有任何意见或建议， 请联系 <a href="mailto:&#106;&#105;&#x6e;&#108;&#111;&#110;&#103;&#122;&#104;&#x61;&#110;&#x67;&#48;&#x31;&#64;&#x67;&#x6d;&#x61;&#105;&#108;&#46;&#99;&#x6f;&#109;">&#106;&#105;&#x6e;&#108;&#111;&#110;&#103;&#122;&#104;&#x61;&#110;&#x67;&#48;&#x31;&#64;&#x67;&#x6d;&#x61;&#105;&#108;&#46;&#99;&#x6f;&#109;</a> 或 本人的qq 85168042</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/12/10/2014-12-10-herblabel2/" data-id="ckmq2gws40061q884ekjqbjir" data-title="herblabel R程序包打印植物标本标签 (2017年1月9日更新)" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/12/10/2014-12-10-herblabel2/" data-id="ckmq42ais005w1k84f1hof0o9" data-title="herblabel R程序包打印植物标本标签 (2017年1月9日更新)" class="article-share-link">Share</a>
       
       
       
@@ -332,6 +356,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -345,10 +373,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

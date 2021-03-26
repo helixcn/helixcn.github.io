@@ -111,10 +111,115 @@
       
         <p>PCNM (Principal Coordinates of Neighbourhood Matrix)是Legendre教授等开发出的表示空间关系的方法，类似于pcoa。常用于生物多样性空间格局研究中，例如在古田山beta多样性研究中，Legendre**(<strong>2009</strong>)**就使用了这种方法。用样地的规则栅格距离可以对点两两之间的距离关系进行PCNM模拟。 这里用到了vegan程序包将距离矩阵转换成PCNM的特征向量，用imagevect函数绘制PCNM特征向量在样地中的分布。希望对有兴趣的研究人员有帮助。</p>
 <p>将以下代码在R中运行即可。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#### Function imagevect</span></span><br><span class="line"><span class="comment">#### By Jinlong Zhang  &lt;Jinlongzhang01@gmail.com&gt;</span></span><br><span class="line"><span class="comment">#### Institute of Botany, the Chinese Academy of Sciences, Beijing ,China</span></span><br><span class="line"><span class="comment">#### Aug. 18, 2011</span></span><br><span class="line"> </span><br><span class="line">imagevect &lt;- <span class="keyword">function</span> (x, labels, contour = <span class="literal">FALSE</span>, gridsize = <span class="number">20</span>,</span><br><span class="line">                        axes = <span class="literal">TRUE</span>, nlabx = <span class="number">5</span>, nlaby = <span class="number">5</span>, ...)</span><br><span class="line">&#123;</span><br><span class="line">    require(fields)</span><br><span class="line">   dimension &lt;- <span class="keyword">function</span>(x, unique = <span class="literal">FALSE</span>, sort = <span class="literal">FALSE</span>)&#123;</span><br><span class="line">        ncharX &lt;- substring(x, <span class="number">2</span>, regexpr(<span class="string">&quot;Y&quot;</span>, x)-<span class="number">1</span>)</span><br><span class="line">        ncharY &lt;- substring(x, nchar(ncharX)+<span class="number">3</span>, nchar(x))</span><br><span class="line">        <span class="keyword">if</span>(unique)&#123;</span><br><span class="line">            ncharX = unique(ncharX)</span><br><span class="line">            ncharY = unique(ncharY)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(sort)&#123;</span><br><span class="line">            ncharX = sort(<span class="built_in">as.numeric</span>(ncharX))</span><br><span class="line">            ncharY = sort(<span class="built_in">as.numeric</span>(ncharY))</span><br><span class="line">        &#125;</span><br><span class="line">        res &lt;- <span class="built_in">list</span>(ncharX, ncharY)</span><br><span class="line">        <span class="built_in">return</span>(res)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    formatXY &lt;- <span class="keyword">function</span>(x)&#123;</span><br><span class="line">        ncharX &lt;- substring(x, <span class="number">2</span>, regexpr(<span class="string">&quot;Y&quot;</span>, x)-<span class="number">1</span>)</span><br><span class="line">        ncharY &lt;- substring(x, nchar(ncharX)+<span class="number">3</span>, nchar(x))</span><br><span class="line">        resX &lt;- <span class="built_in">c</span>()</span><br><span class="line">        <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(ncharX))&#123;</span><br><span class="line">            n0x &lt;- paste( <span class="built_in">rep</span>(<span class="built_in">rep</span>(<span class="number">0</span>, <span class="built_in">length</span>(ncharX[i])),</span><br><span class="line">                         times = (<span class="built_in">max</span>(nchar(ncharX)) - nchar(ncharX[i]) + <span class="number">1</span>)),</span><br><span class="line">                         collapse = <span class="string">&quot;&quot;</span>, sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">            resX[i] &lt;- paste(<span class="string">&quot;X&quot;</span>, substring(n0x, <span class="number">2</span>, nchar(n0x)), ncharX[i], collapse = <span class="string">&quot;&quot;</span>, sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        resY &lt;- <span class="built_in">c</span>()</span><br><span class="line">        <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(ncharY))&#123;</span><br><span class="line">            n0x &lt;- paste( <span class="built_in">rep</span>(<span class="built_in">rep</span>(<span class="number">0</span>, <span class="built_in">length</span>(ncharY[i])),</span><br><span class="line">                         times = (<span class="built_in">max</span>(nchar(ncharY)) - nchar(ncharY[i]) + <span class="number">1</span>)),</span><br><span class="line">                         collapse = <span class="string">&quot;&quot;</span>, sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">            resY[i] &lt;- paste(<span class="string">&quot;Y&quot;</span>, substring(n0x, <span class="number">2</span>, nchar(n0x)), ncharY[i], collapse = <span class="string">&quot;&quot;</span>, sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        res &lt;- paste(resX, resY, sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">        <span class="built_in">return</span>(res)</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    sort.x &lt;- x[order(formatXY(labels))]</span><br><span class="line">    rrr &lt;- dimension(labels, unique = <span class="literal">TRUE</span>, sort = <span class="literal">TRUE</span>)</span><br><span class="line">    dims &lt;- <span class="built_in">c</span>(<span class="built_in">length</span>(rrr[[<span class="number">2</span>]]), <span class="built_in">length</span>(rrr[[<span class="number">1</span>]]))</span><br><span class="line">    <span class="built_in">dim</span>(sort.x) &lt;- dims</span><br><span class="line">    par(xaxs = <span class="string">&quot;i&quot;</span>, yaxs = <span class="string">&quot;i&quot;</span>)</span><br><span class="line">    image.plot(nnn &lt;- t(sort.x), axes = <span class="literal">FALSE</span>, ...)</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">if</span> (contour) &#123;</span><br><span class="line">        contour(nnn, add = <span class="literal">TRUE</span>, ...)</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">    <span class="keyword">if</span> (axes) &#123;</span><br><span class="line">        points(<span class="number">0</span>, <span class="number">0</span>, pch = <span class="string">&quot; &quot;</span>, cex = <span class="number">3</span>)                      <span class="comment">## invoke the large plot</span></span><br><span class="line">       </span><br><span class="line">     get.axis.ticks &lt;-</span><br><span class="line">              <span class="keyword">function</span>(nlabs = <span class="literal">NULL</span>, gridsize = <span class="literal">NULL</span>, limit_max = <span class="literal">NULL</span>)&#123;</span><br><span class="line">    </span><br><span class="line">         ngrid &lt;- (limit_max-<span class="number">0</span>)/gridsize                      <span class="comment">## Obtain number of labels to plot</span></span><br><span class="line">         per_grid &lt;- 1/(ngrid-<span class="number">1</span>)                              <span class="comment">## Obtain length for each grid</span></span><br><span class="line">         start &lt;- 0 - (<span class="number">1</span>/(ngrid-<span class="number">1</span>))/<span class="number">2</span>                         <span class="comment">## starting point for the ticks</span></span><br><span class="line">         stop &lt;- 1 + (<span class="number">1</span>/(ngrid-<span class="number">1</span>))/<span class="number">2</span>                          <span class="comment">## stopping point for the ticks</span></span><br><span class="line">        </span><br><span class="line">         lab &lt;-(<span class="number">0</span>:nlabs*(limit_max/nlabs))</span><br><span class="line">         at &lt;- seq(from = start, to = stop,</span><br><span class="line">                   by = ((<span class="number">1</span> + per_grid))/((<span class="built_in">length</span>(lab)-<span class="number">1</span>)))   <span class="comment">## Position of the ticks</span></span><br><span class="line">        </span><br><span class="line">         <span class="built_in">return</span>(<span class="built_in">list</span>(lab, at))</span><br><span class="line">        </span><br><span class="line">     &#125;</span><br><span class="line">       xaxis.position &lt;- get.axis.ticks(nlabs = nlabx, gridsize = gridsize,</span><br><span class="line">                                limit_max = gridsize * nrow(nnn))</span><br><span class="line">       yaxis.position &lt;- get.axis.ticks(nlabs = nlaby, gridsize = gridsize,</span><br><span class="line">                                limit_max = gridsize * ncol(nnn))</span><br><span class="line">       </span><br><span class="line">        axis(<span class="number">1</span>, labels = xaxis.position[[<span class="number">1</span>]], at = xaxis.position[[<span class="number">2</span>]])</span><br><span class="line">        axis(<span class="number">2</span>, labels = yaxis.position[[<span class="number">1</span>]], at = yaxis.position[[<span class="number">2</span>]])</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">invisible</span>(nnn)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">library(vegan)</span><br><span class="line"> </span><br><span class="line"><span class="comment">## 模拟一套数据</span></span><br><span class="line">X &lt;- seq(<span class="number">10</span>, <span class="number">590</span>, by = <span class="number">20</span>)</span><br><span class="line">Y &lt;- seq(<span class="number">10</span>, <span class="number">390</span>, by = <span class="number">20</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">## Label</span></span><br><span class="line">XY &lt;- expand.grid(X, Y)</span><br><span class="line">names &lt;- paste(<span class="string">&quot;X&quot;</span>, (XY[,<span class="number">1</span>] + <span class="number">10</span>)/<span class="number">20</span> ,<span class="string">&quot;Y&quot;</span>, (XY[,<span class="number">2</span>] + <span class="number">10</span>)/<span class="number">20</span> , sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">rownames(XY) &lt;- <span class="built_in">names</span></span><br><span class="line"><span class="comment">## 计算样方两两之间的距离</span></span><br><span class="line">distXY &lt;- dist(XY)</span><br><span class="line"> </span><br><span class="line"><span class="comment">## 进行pcnm</span></span><br><span class="line">gtsPCNM &lt;- pcnm(distXY)</span><br><span class="line">head(gtsPCNM$vectors)</span><br><span class="line"> </span><br><span class="line"><span class="comment">## 绘制pcnm图</span></span><br><span class="line"><span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="number">10</span>)&#123;</span><br><span class="line">    imagevect(gtsPCNM$vectors[,i], labels = <span class="built_in">names</span>,</span><br><span class="line">               col = topo.colors(<span class="number">100</span>))</span><br><span class="line">    Sys.sleep(<span class="number">0.3</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre><code class="R">#### Function imagevect
+#### By Jinlong Zhang  &lt;Jinlongzhang01@gmail.com&gt;
+#### Institute of Botany, the Chinese Academy of Sciences, Beijing ,China
+#### Aug. 18, 2011
+ 
+imagevect &lt;- function (x, labels, contour = FALSE, gridsize = 20,
+                        axes = TRUE, nlabx = 5, nlaby = 5, ...)
+&#123;
+    require(fields)
+   dimension &lt;- function(x, unique = FALSE, sort = FALSE)&#123;
+        ncharX &lt;- substring(x, 2, regexpr(&quot;Y&quot;, x)-1)
+        ncharY &lt;- substring(x, nchar(ncharX)+3, nchar(x))
+        if(unique)&#123;
+            ncharX = unique(ncharX)
+            ncharY = unique(ncharY)
+        &#125;
+        if(sort)&#123;
+            ncharX = sort(as.numeric(ncharX))
+            ncharY = sort(as.numeric(ncharY))
+        &#125;
+        res &lt;- list(ncharX, ncharY)
+        return(res)
+    &#125;
+    
+    formatXY &lt;- function(x)&#123;
+        ncharX &lt;- substring(x, 2, regexpr(&quot;Y&quot;, x)-1)
+        ncharY &lt;- substring(x, nchar(ncharX)+3, nchar(x))
+        resX &lt;- c()
+        for(i in 1:length(ncharX))&#123;
+            n0x &lt;- paste( rep(rep(0, length(ncharX[i])),
+                         times = (max(nchar(ncharX)) - nchar(ncharX[i]) + 1)),
+                         collapse = &quot;&quot;, sep = &quot;&quot;)
+            resX[i] &lt;- paste(&quot;X&quot;, substring(n0x, 2, nchar(n0x)), ncharX[i], collapse = &quot;&quot;, sep = &quot;&quot;)
+        &#125;
+        resY &lt;- c()
+        for(i in 1:length(ncharY))&#123;
+            n0x &lt;- paste( rep(rep(0, length(ncharY[i])),
+                         times = (max(nchar(ncharY)) - nchar(ncharY[i]) + 1)),
+                         collapse = &quot;&quot;, sep = &quot;&quot;)
+            resY[i] &lt;- paste(&quot;Y&quot;, substring(n0x, 2, nchar(n0x)), ncharY[i], collapse = &quot;&quot;, sep = &quot;&quot;)
+        &#125;
+        res &lt;- paste(resX, resY, sep = &quot;&quot;)
+        return(res)
+    &#125;
+ 
+    sort.x &lt;- x[order(formatXY(labels))]
+    rrr &lt;- dimension(labels, unique = TRUE, sort = TRUE)
+    dims &lt;- c(length(rrr[[2]]), length(rrr[[1]]))
+    dim(sort.x) &lt;- dims
+    par(xaxs = &quot;i&quot;, yaxs = &quot;i&quot;)
+    image.plot(nnn &lt;- t(sort.x), axes = FALSE, ...)
+ 
+    if (contour) &#123;
+        contour(nnn, add = TRUE, ...)
+    &#125;
+   
+    if (axes) &#123;
+        points(0, 0, pch = &quot; &quot;, cex = 3)                      ## invoke the large plot
+       
+     get.axis.ticks &lt;-
+              function(nlabs = NULL, gridsize = NULL, limit_max = NULL)&#123;
+    
+         ngrid &lt;- (limit_max-0)/gridsize                      ## Obtain number of labels to plot
+         per_grid &lt;- 1/(ngrid-1)                              ## Obtain length for each grid
+         start &lt;- 0 - (1/(ngrid-1))/2                         ## starting point for the ticks
+         stop &lt;- 1 + (1/(ngrid-1))/2                          ## stopping point for the ticks
+        
+         lab &lt;-(0:nlabs*(limit_max/nlabs))
+         at &lt;- seq(from = start, to = stop,
+                   by = ((1 + per_grid))/((length(lab)-1)))   ## Position of the ticks
+        
+         return(list(lab, at))
+        
+     &#125;
+       xaxis.position &lt;- get.axis.ticks(nlabs = nlabx, gridsize = gridsize,
+                                limit_max = gridsize * nrow(nnn))
+       yaxis.position &lt;- get.axis.ticks(nlabs = nlaby, gridsize = gridsize,
+                                limit_max = gridsize * ncol(nnn))
+       
+        axis(1, labels = xaxis.position[[1]], at = xaxis.position[[2]])
+        axis(2, labels = yaxis.position[[1]], at = yaxis.position[[2]])
+    &#125;
+    invisible(nnn)
+&#125;
+</code></pre>
+<pre><code class="R">library(vegan)
+ 
+## 模拟一套数据
+X &lt;- seq(10, 590, by = 20)
+Y &lt;- seq(10, 390, by = 20)
+ 
+## Label
+XY &lt;- expand.grid(X, Y)
+names &lt;- paste(&quot;X&quot;, (XY[,1] + 10)/20 ,&quot;Y&quot;, (XY[,2] + 10)/20 , sep = &quot;&quot;)
+rownames(XY) &lt;- names
+## 计算样方两两之间的距离
+distXY &lt;- dist(XY)
+ 
+## 进行pcnm
+gtsPCNM &lt;- pcnm(distXY)
+head(gtsPCNM$vectors)
+ 
+## 绘制pcnm图
+for(i in 1:10)&#123;
+    imagevect(gtsPCNM$vectors[,i], labels = names,
+               col = topo.colors(100))
+    Sys.sleep(0.3)
+&#125;
+</code></pre>
 <p><img src="http://image.sciencenet.cn/album/201107/28/192937icc5eoui067zzscc.jpg" alt="img"></p>
 <p><img src="http://image.sciencenet.cn/album/201107/28/192937y4umyez4m3359wef.jpg" alt="img"></p>
 <p><img src="http://image.sciencenet.cn/album/201107/28/192938zxzre2su2ttal9et.jpg" alt="img"></p>
@@ -128,7 +233,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2011/07/28/2011-7-28-pcnm/" data-id="ckmq2gwr20036q8840hle8b2u" data-title="PCNM动画展示：生态学与空间统计学" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2011/07/28/2011-7-28-pcnm/" data-id="ckmq42ahv003b1k843krcf3gw" data-title="PCNM动画展示：生态学与空间统计学" class="article-share-link">Share</a>
       
       
       
@@ -204,6 +309,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -217,10 +326,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

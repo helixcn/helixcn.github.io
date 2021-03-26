@@ -73,6 +73,100 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2011-12-1-markovchain" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2011/12/01/2011-12-1-markovchain/" class="article-date">
+  <time class="dt-published" datetime="2011-11-30T23:04:54.000Z" itemprop="datePublished">2011-12-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2011/12/01/2011-12-1-markovchain/">一个简单的马尔可夫链</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>在一个随机过程中，如果事件发生概率在t时刻所处的状态为已知时，它在t + 1时刻只与t时刻的状态有关，而与之前所处的状态无关，则称该过程具有马尔可夫性。</p>
+<p>时间和状态都是离散的马尔可夫过程称为马尔可夫链。马尔可夫链在经济学，社会学，生命科学领域有着广泛的应用。这里举例说明。</p>
+<p>例子： 姜华平、陈海泳对某城市2002年居民出行方式所占比例进行了调查。结果如下:<br>公交车bus,自行车Bicycle,步行walk,其他other<br>19%, 14%, 56%, 11%</p>
+<p>本时期各出行方式转移概率如下表(%)<br>|        |bus |   bicycle | walk  |other|<br>|—|—|—|—|—|<br>|bus     | 90 |     4     | 2     |4    |<br>|bicycle |  7 |    86     | 1     |6    |<br>|walk    |  8 |     7     |80     |5    |<br>|other   | 10 |     2     | 3     |85   |       </p>
+<p>假设该城市居民每天出行总人数为468万人次，出行人数不变，各出行方式的转移概率也不变</p>
+<p>问题： </p>
+<ol>
+<li>预测2006年该城市乘公交出行的人数</li>
+<li>经历足够长的时间，求出行方式的比例是多少？</li>
+</ol>
+<p>解：</p>
+<pre><code class="R">## 分析：这是一个时间齐次马尔科夫过程，可根据转移矩阵的初始定义进行推断
+## 第一问
+## 根据题目写出转移矩阵
+T &lt;- matrix(c(90, 4 , 2 , 4 ,
+              7 , 86, 1 , 6 ,
+              8 , 7 , 80, 5 ,
+              10, 2 , 3 , 85 )/100,
+              nrow = 4, ncol = 4, byrow = TRUE)
+# 初始矩阵
+p &lt;- matrix(c(19, 14, 56, 11)/100, nrow = 1, ncol = 4, byrow = TRUE)
+## 下一年的概率应该为当年分配概率和转移矩阵的乘积
+## 2003
+p1 &lt;- p%*%T
+## 2004
+p2 &lt;- p1%*%T
+## 2005
+p3 &lt;- p2%*%T
+## 2006
+p4 &lt;- p3%*%T
+## 2006年乘坐公交车出行的总人数应为
+res &lt;- 468 * p4[1]
+
+## 第二问，用计算机模拟的方法，通过对转移矩阵的平衡状态近似求解
+## 初始化一个空向量
+s &lt;- c()
+## 假设一个人在初始时刻选择1公交车出行
+s[1] &lt;- 1
+## 则其在t1时刻选择任何一种出行方式的概率如下
+T[s[j-1],]
+## 但是他选择的出行方式可以是随机的，故用sample按照前一个状态的概率，随机抽取一次
+ res &lt;- sample(1:4, size = 1, prob = T[s[j-1],])
+## 抽取的结果，就是t1时的状态
+## 而 t2时的状态只受到t1时状态的影响，因此又回到T[s[j-1],]，至此完成一次模拟
+## 每一次抽样都是只受到前一次抽样的影响
+for (j in 2:50000)
+   s[j] &lt;- sample(1:4, size = 1, prob = T[s[j-1],])
+## 在进行多次模拟后，马尔可夫链逐渐收敛。
+### 模拟50000代的概率分配如下
+res &lt;- table(s[1:50000])/50000
+names(res) &lt;- c(&quot;bus&quot;, &quot;bicycle&quot;, &quot;walk&quot;, &quot;other&quot;)
+</code></pre>
+<h2 id="题外"><a href="#题外" class="headerlink" title="题外"></a>题外</h2><p>无论假设s[1] = 1,2,3 还是4，进行多次模拟后，所得的结果是非常接近的。这也表明，马尔可夫过程的平衡状态与初始值无关。</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>待添加</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2011/12/01/2011-12-1-markovchain/" data-id="ckmq42ahp002r1k842p5j3d8t" data-title="一个简单的马尔可夫链" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BB%9F%E8%AE%A1/" rel="tag">统计</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-2011-11-19-likelihoodsurf" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2011/11/18/2011-11-19-likelihoodsurf/" class="article-date">
@@ -105,11 +199,125 @@
 </ol>
 <p>以下的例子给出全部的R代码和相应说明。</p>
 <p>该例子引自:<br><a target="_blank" rel="noopener" href="http://www.unc.edu/courses/2010fall/ecol/563/001/docs/lectures/lecture10.htm#Rcode">http://www.unc.edu/courses/2010fall/ecol/563/001/docs/lectures/lecture10.htm#Rcode</a></p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 实例： 假设有以下数据, 记录每个枝条上蚜虫的数量，该数据出自</span></span><br><span class="line"><span class="comment">##Krebs, Charles. 1999. Ecological Methodology.</span></span><br><span class="line"><span class="comment">## Menlo Park, CA: Addison-Wesley. 130页</span></span><br><span class="line"></span><br><span class="line"><span class="comment">###########################################################</span></span><br><span class="line"><span class="comment">#######################原始数据############################</span></span><br><span class="line"><span class="comment">###########################################################</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### 数据导入</span></span><br><span class="line"></span><br><span class="line">num.stems &lt;- <span class="built_in">c</span>(<span class="number">6</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">6</span>,<span class="number">6</span>,<span class="number">2</span>,<span class="number">5</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">4</span>)</span><br><span class="line">aphids_count &lt;- <span class="built_in">c</span>(<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>)</span><br><span class="line">aphids &lt;- data.frame(aphids_count, num.stems)</span><br><span class="line"></span><br><span class="line"><span class="comment">### Raw Data,整理出二项分布拟合所需要的格式</span></span><br><span class="line">aphids_raw &lt;- <span class="built_in">rep</span>(aphids_count, num.stems)</span><br><span class="line"></span><br><span class="line"><span class="comment">###########################################################</span></span><br><span class="line"><span class="comment">####################写出对数似然函数#######################</span></span><br><span class="line"><span class="comment">###########################################################</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## 二项分布的对数似然函数，用来绘制对数似然曲线和趋势面</span></span><br><span class="line"></span><br><span class="line">nnominb.loglik &lt;- <span class="keyword">function</span>(p) &#123;</span><br><span class="line">    res &lt;- <span class="built_in">sum</span>(<span class="built_in">log</span>(dnbinom(aphids_raw, mu = p[<span class="number">1</span>], size = p[<span class="number">2</span>])))</span><br><span class="line">    <span class="built_in">return</span>(res)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">## 二项分布的负对数似然函数，nlm()函数只能求最小值，因此极大</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## 似然值时必须用到此函数</span></span><br><span class="line">neg.nnominb.loglik &lt;- <span class="keyword">function</span>(p) &#123;</span><br><span class="line">    res &lt;- <span class="built_in">sum</span>(<span class="built_in">log</span>(dnbinom(aphids_raw, mu = p[<span class="number">1</span>], size = p[<span class="number">2</span>])))</span><br><span class="line">    <span class="built_in">return</span>(-res)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">###########################################################</span></span><br><span class="line"><span class="comment">###################估计对数似然函数极值####################</span></span><br><span class="line"><span class="comment">###########################################################</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#利用nlm估计极值</span></span><br><span class="line">out.NB &lt;- nlm(neg.nnominb.loglik, <span class="built_in">c</span>(<span class="number">4</span>,<span class="number">4</span>))</span><br><span class="line"><span class="comment"># estimate 是对两个参数的估计，即对neg.nnominb.loglik函数参数p的估计</span></span><br><span class="line">out.NB</span><br><span class="line"></span><br><span class="line"><span class="comment">###########################################################</span></span><br><span class="line"><span class="comment">###################图 1 ##绘制似然曲线#####################</span></span><br><span class="line"><span class="comment">###########################################################</span></span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">### x 序列</span></span><br><span class="line">x &lt;- seq(<span class="number">0.1</span>, <span class="number">10</span>, by = <span class="number">0.1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 计算y</span></span><br><span class="line">y_max &lt;- sapply(x, <span class="keyword">function</span>(x) nnominb.loglik(p = <span class="built_in">c</span>(out.NB$estimate[<span class="number">1</span>], x)))</span><br><span class="line">plot(y_max ~ x, type = <span class="string">&quot;l&quot;</span>, ylab = <span class="string">&quot;Log Likelihood&quot;</span>, xlab = <span class="string">&quot;Size&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 当mu = 2时</span></span><br><span class="line">y_2 &lt;- sapply(x, <span class="keyword">function</span>(x) nnominb.loglik(p = <span class="built_in">c</span>(<span class="number">2</span>, x)))</span><br><span class="line">lines(y_2 ~ x, col = <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 当mu = 5时</span></span><br><span class="line">y_5 &lt;- sapply(x, <span class="keyword">function</span>(x) nnominb.loglik(p = <span class="built_in">c</span>(<span class="number">5</span>, x)))</span><br><span class="line">lines(y_5 ~ x, col = <span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 添加图例</span></span><br><span class="line">legend(<span class="string">&#x27;bottomright&#x27;</span>, <span class="built_in">c</span>(<span class="built_in">expression</span>(mu==<span class="string">&#x27;MLE (3.46)&#x27;</span>),</span><br><span class="line">        <span class="built_in">expression</span>(mu==<span class="number">2</span>), <span class="built_in">expression</span>(mu==<span class="number">5</span>)),</span><br><span class="line">        col=<span class="built_in">c</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>), lty=<span class="built_in">c</span>(<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>), cex=<span class="number">.9</span>, bty=<span class="string">&#x27;n&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">###########################################################</span></span><br><span class="line"><span class="comment">##################图 2#绘制栅格图##########################</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">### 绘制栅格图</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## 按照值设色</span></span><br><span class="line">image(seq(<span class="number">2</span>,<span class="number">5</span>,<span class="number">.1</span>), seq(<span class="number">1</span>,<span class="number">4</span>,<span class="number">.1</span>), z.matrix, col = cm.colors(<span class="number">30</span>),</span><br><span class="line">      xlab = <span class="built_in">expression</span>(mu), ylab = <span class="string">&quot;Number of Trials&quot;</span>)</span><br><span class="line"><span class="comment">## 添加等高线</span></span><br><span class="line">contour(seq(<span class="number">2</span>,<span class="number">5</span>,<span class="number">.1</span>), seq(<span class="number">1</span>,<span class="number">4</span>,<span class="number">.1</span>), z.matrix, add = <span class="literal">TRUE</span>)</span><br><span class="line"><span class="comment">## 极大似然值</span></span><br><span class="line">points(x = out.NB$estimate[<span class="number">1</span>], y = out.NB$estimate[<span class="number">2</span>], pch = <span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">###########################################################</span></span><br><span class="line"><span class="comment">###############图 3绘制3D 对数似然面#######################</span></span><br><span class="line"><span class="comment">###########################################################</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">### 计算趋势面原始数据</span></span><br><span class="line"><span class="comment">### 构建网格</span></span><br><span class="line">grids &lt;- expand.grid(mu=seq(<span class="number">2</span>,<span class="number">5</span>,<span class="number">.1</span>), theta=seq(<span class="number">1</span>,<span class="number">4</span>,<span class="number">.1</span>))</span><br><span class="line"><span class="comment">### 计算z值</span></span><br><span class="line">grids$z &lt;- apply(grids, <span class="number">1</span>, <span class="keyword">function</span>(x) nnominb.loglik(p = <span class="built_in">c</span>(x[<span class="number">1</span>], x[<span class="number">2</span>])))</span><br><span class="line"><span class="comment">### 趋势面原始数据</span></span><br><span class="line">z.matrix &lt;- matrix(grids$z, nrow=<span class="built_in">length</span>(seq(<span class="number">2</span>,<span class="number">5</span>,<span class="number">.1</span>)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">### 绘制三维趋势面</span></span><br><span class="line"></span><br><span class="line">persp(seq(<span class="number">2</span>,<span class="number">5</span>,<span class="number">.1</span>), seq(<span class="number">1</span>,<span class="number">4</span>,<span class="number">.1</span>), z.matrix,</span><br><span class="line">      xlab=<span class="built_in">expression</span>(mu), ylab=<span class="built_in">expression</span>(theta), zlab=<span class="string">&#x27;Log Likelihood&#x27;</span>,</span><br><span class="line">      ticktype=<span class="string">&#x27;detailed&#x27;</span>, theta=<span class="number">30</span>, phi=<span class="number">20</span>, d = <span class="number">4</span>)</span><br><span class="line"><span class="comment">###########################################################</span></span><br><span class="line"></span><br><span class="line"><span class="comment">##########图 4##绘制对数似然面的三维设色图#################</span></span><br><span class="line">library(lattice)       </span><br><span class="line">wireframe(z~mu*theta, data=grids, xlab=<span class="built_in">expression</span>(mu),</span><br><span class="line">          ylab=<span class="built_in">expression</span>(theta), zlab=<span class="string">&quot;Log-nlikelihood&quot;</span>,</span><br><span class="line">          scales = <span class="built_in">list</span>(arrows = <span class="literal">FALSE</span>), drape=<span class="literal">TRUE</span>,</span><br><span class="line">          par.settings=<span class="built_in">list</span>(par.zlab.text=<span class="built_in">list</span>(cex=<span class="number">.75</span>),</span><br><span class="line">          axis.text=<span class="built_in">list</span>(cex=<span class="number">.75</span>)))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code class="R">## 实例： 假设有以下数据, 记录每个枝条上蚜虫的数量，该数据出自
+##Krebs, Charles. 1999. Ecological Methodology.
+## Menlo Park, CA: Addison-Wesley. 130页
+
+###########################################################
+#######################原始数据############################
+###########################################################
+
+### 数据导入
+
+num.stems &lt;- c(6,8,9,6,6,2,5,3,1,4)
+aphids_count &lt;- c(0,1,2,3,4,5,6,7,8,9)
+aphids &lt;- data.frame(aphids_count, num.stems)
+
+### Raw Data,整理出二项分布拟合所需要的格式
+aphids_raw &lt;- rep(aphids_count, num.stems)
+
+###########################################################
+####################写出对数似然函数#######################
+###########################################################
+
+## 二项分布的对数似然函数，用来绘制对数似然曲线和趋势面
+
+nnominb.loglik &lt;- function(p) &#123;
+    res &lt;- sum(log(dnbinom(aphids_raw, mu = p[1], size = p[2])))
+    return(res)
+&#125;
+## 二项分布的负对数似然函数，nlm()函数只能求最小值，因此极大
+
+## 似然值时必须用到此函数
+neg.nnominb.loglik &lt;- function(p) &#123;
+    res &lt;- sum(log(dnbinom(aphids_raw, mu = p[1], size = p[2])))
+    return(-res)
+
+&#125;
+
+###########################################################
+###################估计对数似然函数极值####################
+###########################################################
+
+#利用nlm估计极值
+out.NB &lt;- nlm(neg.nnominb.loglik, c(4,4))
+# estimate 是对两个参数的估计，即对neg.nnominb.loglik函数参数p的估计
+out.NB
+
+###########################################################
+###################图 1 ##绘制似然曲线#####################
+###########################################################
+
+ 
+
+### x 序列
+x &lt;- seq(0.1, 10, by = 0.1)
+
+### 计算y
+y_max &lt;- sapply(x, function(x) nnominb.loglik(p = c(out.NB$estimate[1], x)))
+plot(y_max ~ x, type = &quot;l&quot;, ylab = &quot;Log Likelihood&quot;, xlab = &quot;Size&quot;)
+
+### 当mu = 2时
+y_2 &lt;- sapply(x, function(x) nnominb.loglik(p = c(2, x)))
+lines(y_2 ~ x, col = 2)
+
+### 当mu = 5时
+y_5 &lt;- sapply(x, function(x) nnominb.loglik(p = c(5, x)))
+lines(y_5 ~ x, col = 3)
+
+### 添加图例
+legend(&#39;bottomright&#39;, c(expression(mu==&#39;MLE (3.46)&#39;),
+        expression(mu==2), expression(mu==5)),
+        col=c(1,2,3), lty=c(1,1,1), cex=.9, bty=&#39;n&#39;)
+
+###########################################################
+##################图 2#绘制栅格图##########################
+
+
+### 绘制栅格图
+
+## 按照值设色
+image(seq(2,5,.1), seq(1,4,.1), z.matrix, col = cm.colors(30),
+      xlab = expression(mu), ylab = &quot;Number of Trials&quot;)
+## 添加等高线
+contour(seq(2,5,.1), seq(1,4,.1), z.matrix, add = TRUE)
+## 极大似然值
+points(x = out.NB$estimate[1], y = out.NB$estimate[2], pch = 3)
+
+###########################################################
+###############图 3绘制3D 对数似然面#######################
+###########################################################
+
+
+### 计算趋势面原始数据
+### 构建网格
+grids &lt;- expand.grid(mu=seq(2,5,.1), theta=seq(1,4,.1))
+### 计算z值
+grids$z &lt;- apply(grids, 1, function(x) nnominb.loglik(p = c(x[1], x[2])))
+### 趋势面原始数据
+z.matrix &lt;- matrix(grids$z, nrow=length(seq(2,5,.1)))
+
+
+### 绘制三维趋势面
+
+persp(seq(2,5,.1), seq(1,4,.1), z.matrix,
+      xlab=expression(mu), ylab=expression(theta), zlab=&#39;Log Likelihood&#39;,
+      ticktype=&#39;detailed&#39;, theta=30, phi=20, d = 4)
+###########################################################
+
+##########图 4##绘制对数似然面的三维设色图#################
+library(lattice)       
+wireframe(z~mu*theta, data=grids, xlab=expression(mu),
+          ylab=expression(theta), zlab=&quot;Log-nlikelihood&quot;,
+          scales = list(arrows = FALSE), drape=TRUE,
+          par.settings=list(par.zlab.text=list(cex=.75),
+          axis.text=list(cex=.75)))
+</code></pre>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2011/11/18/2011-11-19-likelihoodsurf/" data-id="ckmq2gwqu002mq8843g7nfv8t" data-title="二项分布的对数似然面:算法与R语言实现" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2011/11/18/2011-11-19-likelihoodsurf/" data-id="ckmq42aho002m1k84fxk02xbv" data-title="二项分布的对数似然面:算法与R语言实现" class="article-share-link">Share</a>
       
       
       
@@ -150,15 +358,100 @@
 <p>likelihood即为各种概率密度的乘积</p>
 <p>注意R code 中的 prod(dnorm(dat, mean_val[i], sd_val[j]))</p>
 <p>以下是绘制拟合正态分布的似然面。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### 绘制似然面： Likelihood Surface</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## Author：jinlongzhang01@gmail.com</span></span><br><span class="line"></span><br><span class="line">LikSurf &lt;- <span class="keyword">function</span>(dat, precision = <span class="number">0.05</span>)&#123;</span><br><span class="line"></span><br><span class="line">    mean_val &lt;- seq(<span class="built_in">min</span>(dat), <span class="built_in">sqrt</span>(<span class="built_in">max</span>(dat)), by = precision)</span><br><span class="line"></span><br><span class="line">    sd_val &lt;- seq(<span class="number">0</span>, <span class="built_in">exp</span>(sd(dat)), by = precision)</span><br><span class="line"></span><br><span class="line">    mat &lt;- <span class="built_in">rep</span>(<span class="literal">NA</span>, <span class="built_in">length</span>(mean_val)*<span class="built_in">length</span>(sd_val))</span><br><span class="line"></span><br><span class="line">    <span class="built_in">dim</span>(mat) &lt;- <span class="built_in">c</span>(<span class="built_in">length</span>(mean_val), <span class="built_in">length</span>(sd_val))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(mean_val))&#123;</span><br><span class="line"></span><br><span class="line">       <span class="keyword">for</span>(j <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(sd_val))&#123;</span><br><span class="line"></span><br><span class="line">           mat[i, j] &lt;- <span class="built_in">prod</span>(dnorm(dat, mean_val[i], sd_val[j]))</span><br><span class="line"></span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#contour(mat)</span></span><br><span class="line"></span><br><span class="line">    res &lt;- <span class="built_in">list</span>(xaxis = axisTicks(<span class="built_in">range</span>(mean_val), <span class="built_in">log</span> = <span class="literal">FALSE</span>),</span><br><span class="line"></span><br><span class="line">                yaxis = axisTicks(<span class="built_in">range</span>(sd_val), <span class="built_in">log</span> = <span class="literal">FALSE</span>),</span><br><span class="line"></span><br><span class="line">                 mean_val = mean_val, sd_val = sd_val,</span><br><span class="line"></span><br><span class="line">                 mat = mat, pre = precision)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">class</span>(res) &lt;- <span class="string">&quot;LikSurf&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">return</span>(<span class="built_in">invisible</span>(res))</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">print.LikSurf &lt;- <span class="keyword">function</span>(x)&#123;</span><br><span class="line"></span><br><span class="line">    cat(<span class="string">&quot;This is a likelihood surface with&quot;</span>, <span class="string">&quot;nx_range: &quot;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="built_in">range</span>(x$xaxis), <span class="string">&quot;ny_range:&quot;</span>, <span class="built_in">range</span>(x$yaxis),</span><br><span class="line"></span><br><span class="line">    <span class="string">&quot;nprecision&quot;</span>, x$pre, <span class="string">&quot;n&quot;</span>)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">contour.LikSurf &lt;- <span class="keyword">function</span>(x, ...)&#123;</span><br><span class="line"></span><br><span class="line">    contour(x = x$mean_val, y = x$sd_val, z = x$mat, axes = <span class="literal">FALSE</span>, xlab = <span class="string">&quot;Mean&quot;</span>, ylab = <span class="string">&quot;sd&quot;</span>, ...)</span><br><span class="line"></span><br><span class="line">    axis(<span class="number">1</span>, x$xaxis); axis(<span class="number">2</span>, x$yaxis); box()</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">image.LikSurf &lt;- <span class="keyword">function</span>(x, ...)&#123;</span><br><span class="line"></span><br><span class="line">    image(x = x$mean_val, y = x$sd_val, z = x$mat, axes = <span class="literal">FALSE</span>, xlab = <span class="string">&quot;Mean&quot;</span>, ylab = <span class="string">&quot;sd&quot;</span>, ...)</span><br><span class="line"></span><br><span class="line">    axis(<span class="number">1</span>, x$xaxis); axis(<span class="number">2</span>, x$yaxis); box()</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">### 以上函数拷贝到R中即可</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### 应用举例</span></span><br><span class="line"></span><br><span class="line">dat = <span class="built_in">c</span>(-<span class="number">0.77</span>, <span class="number">6.50</span>, <span class="number">2.17</span>, -<span class="number">0.51</span>, <span class="number">1.1</span>, <span class="number">2.52</span>, <span class="number">0.17</span>, -<span class="number">0.01</span>, <span class="number">1.02</span>, <span class="number">0.11</span>, -<span class="number">0.31</span>, -<span class="number">0.12</span>, <span class="number">0.25</span>, <span class="number">0.84</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#dat = rnorm(10)</span></span><br><span class="line"></span><br><span class="line">lks &lt;- LikSurf(dat, precision = <span class="number">0.05</span>)</span><br><span class="line"></span><br><span class="line">image(lks, col = cm.colors(<span class="number">20</span>))</span><br><span class="line"></span><br><span class="line">contour(lks, drawlabels = <span class="literal">TRUE</span>, add = <span class="literal">TRUE</span>)</span><br></pre></td></tr></table></figure>
+<pre><code class="R">### 绘制似然面： Likelihood Surface
 
+## Author：jinlongzhang01@gmail.com
 
+LikSurf &lt;- function(dat, precision = 0.05)&#123;
+
+    mean_val &lt;- seq(min(dat), sqrt(max(dat)), by = precision)
+
+    sd_val &lt;- seq(0, exp(sd(dat)), by = precision)
+
+    mat &lt;- rep(NA, length(mean_val)*length(sd_val))
+
+    dim(mat) &lt;- c(length(mean_val), length(sd_val))
+
+    for(i in 1:length(mean_val))&#123;
+
+       for(j in 1:length(sd_val))&#123;
+
+           mat[i, j] &lt;- prod(dnorm(dat, mean_val[i], sd_val[j]))
+
+       &#125;
+
+    &#125;
+
+    #contour(mat)
+
+    res &lt;- list(xaxis = axisTicks(range(mean_val), log = FALSE),
+
+                yaxis = axisTicks(range(sd_val), log = FALSE),
+
+                 mean_val = mean_val, sd_val = sd_val,
+
+                 mat = mat, pre = precision)
+
+    class(res) &lt;- &quot;LikSurf&quot;
+
+    return(invisible(res))
+
+&#125;
+
+ 
+
+print.LikSurf &lt;- function(x)&#123;
+
+    cat(&quot;This is a likelihood surface with&quot;, &quot;nx_range: &quot;,
+
+    range(x$xaxis), &quot;ny_range:&quot;, range(x$yaxis),
+
+    &quot;nprecision&quot;, x$pre, &quot;n&quot;)
+
+&#125;
+
+ 
+
+contour.LikSurf &lt;- function(x, ...)&#123;
+
+    contour(x = x$mean_val, y = x$sd_val, z = x$mat, axes = FALSE, xlab = &quot;Mean&quot;, ylab = &quot;sd&quot;, ...)
+
+    axis(1, x$xaxis); axis(2, x$yaxis); box()
+
+&#125;
+
+ 
+
+image.LikSurf &lt;- function(x, ...)&#123;
+
+    image(x = x$mean_val, y = x$sd_val, z = x$mat, axes = FALSE, xlab = &quot;Mean&quot;, ylab = &quot;sd&quot;, ...)
+
+    axis(1, x$xaxis); axis(2, x$yaxis); box()
+
+&#125;
+
+ 
+
+### 以上函数拷贝到R中即可
+
+### 应用举例
+
+dat = c(-0.77, 6.50, 2.17, -0.51, 1.1, 2.52, 0.17, -0.01, 1.02, 0.11, -0.31, -0.12, 0.25, 0.84)
+
+#dat = rnorm(10)
+
+lks &lt;- LikSurf(dat, precision = 0.05)
+
+image(lks, col = cm.colors(20))
+
+contour(lks, drawlabels = TRUE, add = TRUE)
+</code></pre>
 <p>似然面： 求极大似然</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2011/11/18/2011-11-18-liksuf/" data-id="ckmq2gwqt002hq884gne33chh" data-title="用R语言绘制似然面Likelihood Surface" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2011/11/18/2011-11-18-liksuf/" data-id="ckmq42ahn002k1k84ahaja692" data-title="用R语言绘制似然面Likelihood Surface" class="article-share-link">Share</a>
       
       
       
@@ -228,7 +521,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2011/11/05/2011-11-5-ocean/" data-id="ckmq2gwqt002jq8843yffeobu" data-title="6亿年来的海陆变迁" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2011/11/05/2011-11-5-ocean/" data-id="ckmq42ahp002p1k84ba0n5pev" data-title="6亿年来的海陆变迁" class="article-share-link">Share</a>
       
       
       
@@ -291,21 +584,91 @@
 <p>R运算过程中，应该尽量减少循环的使用，特别是嵌套循环。R提供了 apply，replicate等一系列函数，来代替循环，应该尽量应用这些函数， 提高效率。 如果在R中实在太慢，那么核心部分只能依靠C或者Fortran 等语言编写，然后再用R调用这些编译好的模块，达到更高的效率。</p>
 <p>运算过程中，需要大量用到if等条件作为判别的标准。if和while都是需要数据TRUE/FALSE这样的逻辑类型变量，这就意味着，if内部，往往是对条件的判别，例如 is.na, is.matrix, is.numeric等等，或者对大小的比较，如，if(x &gt; 0)， if(x == 1)， if(length(x)== 3)等等。if后面，如果是1行，则花括号可以省略，否则就必须要将所有的语句都放在花括号中。这和循环是一致的。</p>
 <p>例子1</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## if与条件判断</span></span><br><span class="line"></span><br><span class="line">fun.test &lt;- <span class="keyword">function</span>(a, b, method = <span class="string">&quot;add&quot;</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span>(method == <span class="string">&quot;add&quot;</span>) &#123; <span class="comment">## 如果if或者for/while；</span></span><br><span class="line">        res &lt;- a + b       <span class="comment">## 等后面的语句只有一行，则无需使用花括号。</span></span><br><span class="line">     &#125;</span><br><span class="line">    <span class="keyword">if</span>(method == <span class="string">&quot;subtract&quot;</span>)&#123;</span><br><span class="line">        res &lt;- a - b</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span>(res)           <span class="comment">## 返回值</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="R">## if与条件判断
 
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### 检验结果</span></span><br><span class="line">fun.test(a = <span class="number">10</span>, b = <span class="number">8</span>, method = <span class="string">&quot;add&quot;</span>)</span><br><span class="line">fun.test(a = <span class="number">10</span>, b = <span class="number">8</span>, method = <span class="string">&quot;substract&quot;</span>)</span><br></pre></td></tr></table></figure>
+fun.test &lt;- function(a, b, method = &quot;add&quot;)&#123;
+    if(method == &quot;add&quot;) &#123; ## 如果if或者for/while；
+        res &lt;- a + b       ## 等后面的语句只有一行，则无需使用花括号。
+     &#125;
+    if(method == &quot;subtract&quot;)&#123;
+        res &lt;- a - b
+    &#125;
+    return(res)           ## 返回值
+
+&#125;
+</code></pre>
+<pre><code class="R">### 检验结果
+fun.test(a = 10, b = 8, method = &quot;add&quot;)
+fun.test(a = 10, b = 8, method = &quot;substract&quot;)
+</code></pre>
 <p>for循环有些时候是必须要用到的，for循环内部，往往需要用下标，访问数据内的一定元素，例如向量内的元素，这时候用方括号表示。一维的数据组合，或者数组，常常称为向量。二维的数据组合，往往称为矩阵，或者数据框。具体的访问方式主要是方括号内部有没有逗号的区别。for循环或者while循环有时候让人觉得比较困惑，可能需要专门的时间进行讲解。</p>
 <p>例2</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### for循环与算法</span></span><br><span class="line"></span><br><span class="line">test.sum &lt;- <span class="keyword">function</span>(x)</span><br><span class="line">&#123;</span><br><span class="line">    res &lt;- 0               <span class="comment">###  设置初始值，在第一次循环的时候使用</span></span><br><span class="line">    <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(x))&#123;</span><br><span class="line">        res &lt;- res + x[i] <span class="comment">## 这部分是算法的核心，</span></span><br><span class="line"><span class="comment">##总是总右面开始计算，结果存到左边的对象</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span>(res)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="R">### for循环与算法
 
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### 检验函数</span></span><br><span class="line">a &lt;- <span class="built_in">c</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">6</span>,<span class="number">1</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">8</span>)</span><br><span class="line">test.sum(a)</span><br><span class="line"><span class="built_in">sum</span>(a)</span><br></pre></td></tr></table></figure>
+test.sum &lt;- function(x)
+&#123;
+    res &lt;- 0               ###  设置初始值，在第一次循环的时候使用
+    for(i in 1:length(x))&#123;
+        res &lt;- res + x[i] ## 这部分是算法的核心，
+##总是总右面开始计算，结果存到左边的对象
+    &#125;
+    return(res)
+&#125;
+</code></pre>
+<pre><code class="R">### 检验函数
+a &lt;- c(1,2,1,6,1,8,9,8)
+test.sum(a)
+sum(a)
+</code></pre>
 <p>无论是什么样的函数，算法才是最关键的。往往需要巧妙得设计算法，让函数快捷高效。</p>
 <p>（3）. 返回值。</p>
 <p>返回值就是函数给出的结果。打个比方，编写一个函数，就像自己攒一个机器，例如现在攒好 一台豆浆机，该豆浆机要求输入大豆，输入的大豆就是参数， 返回的结果，就是豆浆。如果该豆浆机需要不停地输入大豆， 而不能产出豆浆，这样的机器就一定会被扔掉。函数也是一样的， 需要给出返回值。 R中默认的情况是将最后一句作为返回值。但是为了函数的可读性起见，应该尽量指名返回值。返回值用return()函数给出。 函数在内部处理过程中，一旦遇到return()，就会终止运行， 将return()内的数据作为函数处理的结果给出。</p>
 <p>下面举例说明R函数的编写方法。</p>
 <p>例3 计算标准差</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">sd2 &lt;- <span class="keyword">function</span>(x)</span><br><span class="line">&#123;</span><br><span class="line">   <span class="comment"># 异常处理，当输入的数据不是数值类型时报错   </span></span><br><span class="line">   <span class="keyword">if</span>(!<span class="built_in">is.numeric</span>(x))&#123;</span><br><span class="line">      stop(<span class="string">&quot;the input data must be numeric!n&quot;</span>) </span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment"># 异常处理，当仅输入一个数据的时候，告知不能计算标准差</span></span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span>(<span class="built_in">length</span>(x) == <span class="number">1</span>)&#123;</span><br><span class="line">      stop(<span class="string">&quot;can not compute sd for one number,</span></span><br><span class="line"><span class="string">           a numeric vector required.n&quot;</span>)</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="comment">## 初始化一个临时向量，保存循环的结果，</span></span><br><span class="line">   <span class="comment">## 求每个值与平均值的平方  </span></span><br><span class="line">   x2 &lt;- <span class="built_in">c</span>()</span><br><span class="line">   <span class="comment">## 求该向量的平均值 </span></span><br><span class="line">   meanx &lt;- mean(x)</span><br><span class="line"></span><br><span class="line">   <span class="comment">## 循环 </span></span><br><span class="line">   <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(x))&#123;   </span><br><span class="line">       xn &lt;- x[i] - meanx  </span><br><span class="line">       x2[i] &lt;- xn^<span class="number">2</span></span><br><span class="line">   &#125;</span><br><span class="line">      <span class="comment">## 求总平方和</span></span><br><span class="line">   sum2 &lt;- <span class="built_in">sum</span>(x2)</span><br><span class="line">   <span class="comment"># 计算标准差</span></span><br><span class="line">   sd &lt;- <span class="built_in">sqrt</span>(sum2/(<span class="built_in">length</span>(x)-<span class="number">1</span>))</span><br><span class="line">   <span class="comment"># 返回值</span></span><br><span class="line">   <span class="built_in">return</span>(sd)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">## 程序的检验</span></span><br><span class="line"><span class="comment">## 正常的情况</span></span><br><span class="line">sd2(<span class="built_in">c</span>(<span class="number">2</span>,<span class="number">6</span>,<span class="number">4</span>,<span class="number">9</span>,<span class="number">12</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">## 一个数值的情况</span></span><br><span class="line">sd2(<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 输入数据不为数值类型时</span></span><br><span class="line">sd2(<span class="built_in">c</span>(<span class="string">&quot;1&quot;</span>, <span class="string">&quot;2&quot;</span>))</span><br></pre></td></tr></table></figure>
+<pre><code class="R">sd2 &lt;- function(x)
+&#123;
+   # 异常处理，当输入的数据不是数值类型时报错   
+   if(!is.numeric(x))&#123;
+      stop(&quot;the input data must be numeric!n&quot;) 
+   &#125;
 
+   # 异常处理，当仅输入一个数据的时候，告知不能计算标准差
+
+   if(length(x) == 1)&#123;
+      stop(&quot;can not compute sd for one number,
+           a numeric vector required.n&quot;)
+   &#125;
+   ## 初始化一个临时向量，保存循环的结果，
+   ## 求每个值与平均值的平方  
+   x2 &lt;- c()
+   ## 求该向量的平均值 
+   meanx &lt;- mean(x)
+
+   ## 循环 
+   for(i in 1:length(x))&#123;   
+       xn &lt;- x[i] - meanx  
+       x2[i] &lt;- xn^2
+   &#125;
+      ## 求总平方和
+   sum2 &lt;- sum(x2)
+   # 计算标准差
+   sd &lt;- sqrt(sum2/(length(x)-1))
+   # 返回值
+   return(sd)
+&#125;
+
+ 
+
+## 程序的检验
+## 正常的情况
+sd2(c(2,6,4,9,12))
+
+## 一个数值的情况
+sd2(3)
+
+## 输入数据不为数值类型时
+sd2(c(&quot;1&quot;, &quot;2&quot;))
+</code></pre>
 <p>这样，一个完整的函数就编写完成了。当然，实际情况下，函数往往更为复杂，可能要上百行。但是好的编程人员往往将复杂的函数编写成小的函数。以便于程序的修改和维护，即使其中出现错误，也很好修改。</p>
 <p>再有就是编写R函数时一定要注意缩进，编辑器用Notepad++, TinnR, Rstudio等，同时用等距字体（如Consolas, Courier new等）和语法高亮显示。这样便于快速寻找到其中的错误。</p>
 <p>感谢 黄继红博士，杜彦君博士，毛岭峰博士，饶米德，冯刚对本文提出的意见和建议。</p>
@@ -315,7 +678,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2011/10/26/2011-10-26-functions/" data-id="ckmq2gwqr002eq884cx8m0sx6" data-title="如何编写R函数" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2011/10/26/2011-10-26-functions/" data-id="ckmq42ahm002h1k84ehx670lr" data-title="如何编写R函数" class="article-share-link">Share</a>
       
       
       
@@ -367,7 +730,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2011/10/17/2011-10-17-inno/" data-id="ckmq2gwqq002cq8848q9p5834" data-title="Inno setup 制作安装文件以编译FigTree为例" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2011/10/17/2011-10-17-inno/" data-id="ckmq42ahm002f1k8438rwcv64" data-title="Inno setup 制作安装文件以编译FigTree为例" class="article-share-link">Share</a>
       
       
       
@@ -442,7 +805,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2011/08/07/2011-08-07-writting/" data-id="ckmq2gwqo0024q884bpfa0wq1" data-title="如何撰写生态学科研论文？" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2011/08/07/2011-08-07-writting/" data-id="ckmq42ahl002c1k848rbzck58" data-title="如何撰写生态学科研论文？" class="article-share-link">Share</a>
       
       
       
@@ -480,10 +843,115 @@
       
         <p>PCNM (Principal Coordinates of Neighbourhood Matrix)是Legendre教授等开发出的表示空间关系的方法，类似于pcoa。常用于生物多样性空间格局研究中，例如在古田山beta多样性研究中，Legendre**(<strong>2009</strong>)**就使用了这种方法。用样地的规则栅格距离可以对点两两之间的距离关系进行PCNM模拟。 这里用到了vegan程序包将距离矩阵转换成PCNM的特征向量，用imagevect函数绘制PCNM特征向量在样地中的分布。希望对有兴趣的研究人员有帮助。</p>
 <p>将以下代码在R中运行即可。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#### Function imagevect</span></span><br><span class="line"><span class="comment">#### By Jinlong Zhang  &lt;Jinlongzhang01@gmail.com&gt;</span></span><br><span class="line"><span class="comment">#### Institute of Botany, the Chinese Academy of Sciences, Beijing ,China</span></span><br><span class="line"><span class="comment">#### Aug. 18, 2011</span></span><br><span class="line"> </span><br><span class="line">imagevect &lt;- <span class="keyword">function</span> (x, labels, contour = <span class="literal">FALSE</span>, gridsize = <span class="number">20</span>,</span><br><span class="line">                        axes = <span class="literal">TRUE</span>, nlabx = <span class="number">5</span>, nlaby = <span class="number">5</span>, ...)</span><br><span class="line">&#123;</span><br><span class="line">    require(fields)</span><br><span class="line">   dimension &lt;- <span class="keyword">function</span>(x, unique = <span class="literal">FALSE</span>, sort = <span class="literal">FALSE</span>)&#123;</span><br><span class="line">        ncharX &lt;- substring(x, <span class="number">2</span>, regexpr(<span class="string">&quot;Y&quot;</span>, x)-<span class="number">1</span>)</span><br><span class="line">        ncharY &lt;- substring(x, nchar(ncharX)+<span class="number">3</span>, nchar(x))</span><br><span class="line">        <span class="keyword">if</span>(unique)&#123;</span><br><span class="line">            ncharX = unique(ncharX)</span><br><span class="line">            ncharY = unique(ncharY)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(sort)&#123;</span><br><span class="line">            ncharX = sort(<span class="built_in">as.numeric</span>(ncharX))</span><br><span class="line">            ncharY = sort(<span class="built_in">as.numeric</span>(ncharY))</span><br><span class="line">        &#125;</span><br><span class="line">        res &lt;- <span class="built_in">list</span>(ncharX, ncharY)</span><br><span class="line">        <span class="built_in">return</span>(res)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    formatXY &lt;- <span class="keyword">function</span>(x)&#123;</span><br><span class="line">        ncharX &lt;- substring(x, <span class="number">2</span>, regexpr(<span class="string">&quot;Y&quot;</span>, x)-<span class="number">1</span>)</span><br><span class="line">        ncharY &lt;- substring(x, nchar(ncharX)+<span class="number">3</span>, nchar(x))</span><br><span class="line">        resX &lt;- <span class="built_in">c</span>()</span><br><span class="line">        <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(ncharX))&#123;</span><br><span class="line">            n0x &lt;- paste( <span class="built_in">rep</span>(<span class="built_in">rep</span>(<span class="number">0</span>, <span class="built_in">length</span>(ncharX[i])),</span><br><span class="line">                         times = (<span class="built_in">max</span>(nchar(ncharX)) - nchar(ncharX[i]) + <span class="number">1</span>)),</span><br><span class="line">                         collapse = <span class="string">&quot;&quot;</span>, sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">            resX[i] &lt;- paste(<span class="string">&quot;X&quot;</span>, substring(n0x, <span class="number">2</span>, nchar(n0x)), ncharX[i], collapse = <span class="string">&quot;&quot;</span>, sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        resY &lt;- <span class="built_in">c</span>()</span><br><span class="line">        <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(ncharY))&#123;</span><br><span class="line">            n0x &lt;- paste( <span class="built_in">rep</span>(<span class="built_in">rep</span>(<span class="number">0</span>, <span class="built_in">length</span>(ncharY[i])),</span><br><span class="line">                         times = (<span class="built_in">max</span>(nchar(ncharY)) - nchar(ncharY[i]) + <span class="number">1</span>)),</span><br><span class="line">                         collapse = <span class="string">&quot;&quot;</span>, sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">            resY[i] &lt;- paste(<span class="string">&quot;Y&quot;</span>, substring(n0x, <span class="number">2</span>, nchar(n0x)), ncharY[i], collapse = <span class="string">&quot;&quot;</span>, sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        res &lt;- paste(resX, resY, sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">        <span class="built_in">return</span>(res)</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    sort.x &lt;- x[order(formatXY(labels))]</span><br><span class="line">    rrr &lt;- dimension(labels, unique = <span class="literal">TRUE</span>, sort = <span class="literal">TRUE</span>)</span><br><span class="line">    dims &lt;- <span class="built_in">c</span>(<span class="built_in">length</span>(rrr[[<span class="number">2</span>]]), <span class="built_in">length</span>(rrr[[<span class="number">1</span>]]))</span><br><span class="line">    <span class="built_in">dim</span>(sort.x) &lt;- dims</span><br><span class="line">    par(xaxs = <span class="string">&quot;i&quot;</span>, yaxs = <span class="string">&quot;i&quot;</span>)</span><br><span class="line">    image.plot(nnn &lt;- t(sort.x), axes = <span class="literal">FALSE</span>, ...)</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">if</span> (contour) &#123;</span><br><span class="line">        contour(nnn, add = <span class="literal">TRUE</span>, ...)</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">    <span class="keyword">if</span> (axes) &#123;</span><br><span class="line">        points(<span class="number">0</span>, <span class="number">0</span>, pch = <span class="string">&quot; &quot;</span>, cex = <span class="number">3</span>)                      <span class="comment">## invoke the large plot</span></span><br><span class="line">       </span><br><span class="line">     get.axis.ticks &lt;-</span><br><span class="line">              <span class="keyword">function</span>(nlabs = <span class="literal">NULL</span>, gridsize = <span class="literal">NULL</span>, limit_max = <span class="literal">NULL</span>)&#123;</span><br><span class="line">    </span><br><span class="line">         ngrid &lt;- (limit_max-<span class="number">0</span>)/gridsize                      <span class="comment">## Obtain number of labels to plot</span></span><br><span class="line">         per_grid &lt;- 1/(ngrid-<span class="number">1</span>)                              <span class="comment">## Obtain length for each grid</span></span><br><span class="line">         start &lt;- 0 - (<span class="number">1</span>/(ngrid-<span class="number">1</span>))/<span class="number">2</span>                         <span class="comment">## starting point for the ticks</span></span><br><span class="line">         stop &lt;- 1 + (<span class="number">1</span>/(ngrid-<span class="number">1</span>))/<span class="number">2</span>                          <span class="comment">## stopping point for the ticks</span></span><br><span class="line">        </span><br><span class="line">         lab &lt;-(<span class="number">0</span>:nlabs*(limit_max/nlabs))</span><br><span class="line">         at &lt;- seq(from = start, to = stop,</span><br><span class="line">                   by = ((<span class="number">1</span> + per_grid))/((<span class="built_in">length</span>(lab)-<span class="number">1</span>)))   <span class="comment">## Position of the ticks</span></span><br><span class="line">        </span><br><span class="line">         <span class="built_in">return</span>(<span class="built_in">list</span>(lab, at))</span><br><span class="line">        </span><br><span class="line">     &#125;</span><br><span class="line">       xaxis.position &lt;- get.axis.ticks(nlabs = nlabx, gridsize = gridsize,</span><br><span class="line">                                limit_max = gridsize * nrow(nnn))</span><br><span class="line">       yaxis.position &lt;- get.axis.ticks(nlabs = nlaby, gridsize = gridsize,</span><br><span class="line">                                limit_max = gridsize * ncol(nnn))</span><br><span class="line">       </span><br><span class="line">        axis(<span class="number">1</span>, labels = xaxis.position[[<span class="number">1</span>]], at = xaxis.position[[<span class="number">2</span>]])</span><br><span class="line">        axis(<span class="number">2</span>, labels = yaxis.position[[<span class="number">1</span>]], at = yaxis.position[[<span class="number">2</span>]])</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">invisible</span>(nnn)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">library(vegan)</span><br><span class="line"> </span><br><span class="line"><span class="comment">## 模拟一套数据</span></span><br><span class="line">X &lt;- seq(<span class="number">10</span>, <span class="number">590</span>, by = <span class="number">20</span>)</span><br><span class="line">Y &lt;- seq(<span class="number">10</span>, <span class="number">390</span>, by = <span class="number">20</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">## Label</span></span><br><span class="line">XY &lt;- expand.grid(X, Y)</span><br><span class="line">names &lt;- paste(<span class="string">&quot;X&quot;</span>, (XY[,<span class="number">1</span>] + <span class="number">10</span>)/<span class="number">20</span> ,<span class="string">&quot;Y&quot;</span>, (XY[,<span class="number">2</span>] + <span class="number">10</span>)/<span class="number">20</span> , sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">rownames(XY) &lt;- <span class="built_in">names</span></span><br><span class="line"><span class="comment">## 计算样方两两之间的距离</span></span><br><span class="line">distXY &lt;- dist(XY)</span><br><span class="line"> </span><br><span class="line"><span class="comment">## 进行pcnm</span></span><br><span class="line">gtsPCNM &lt;- pcnm(distXY)</span><br><span class="line">head(gtsPCNM$vectors)</span><br><span class="line"> </span><br><span class="line"><span class="comment">## 绘制pcnm图</span></span><br><span class="line"><span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="number">10</span>)&#123;</span><br><span class="line">    imagevect(gtsPCNM$vectors[,i], labels = <span class="built_in">names</span>,</span><br><span class="line">               col = topo.colors(<span class="number">100</span>))</span><br><span class="line">    Sys.sleep(<span class="number">0.3</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre><code class="R">#### Function imagevect
+#### By Jinlong Zhang  &lt;Jinlongzhang01@gmail.com&gt;
+#### Institute of Botany, the Chinese Academy of Sciences, Beijing ,China
+#### Aug. 18, 2011
+ 
+imagevect &lt;- function (x, labels, contour = FALSE, gridsize = 20,
+                        axes = TRUE, nlabx = 5, nlaby = 5, ...)
+&#123;
+    require(fields)
+   dimension &lt;- function(x, unique = FALSE, sort = FALSE)&#123;
+        ncharX &lt;- substring(x, 2, regexpr(&quot;Y&quot;, x)-1)
+        ncharY &lt;- substring(x, nchar(ncharX)+3, nchar(x))
+        if(unique)&#123;
+            ncharX = unique(ncharX)
+            ncharY = unique(ncharY)
+        &#125;
+        if(sort)&#123;
+            ncharX = sort(as.numeric(ncharX))
+            ncharY = sort(as.numeric(ncharY))
+        &#125;
+        res &lt;- list(ncharX, ncharY)
+        return(res)
+    &#125;
+    
+    formatXY &lt;- function(x)&#123;
+        ncharX &lt;- substring(x, 2, regexpr(&quot;Y&quot;, x)-1)
+        ncharY &lt;- substring(x, nchar(ncharX)+3, nchar(x))
+        resX &lt;- c()
+        for(i in 1:length(ncharX))&#123;
+            n0x &lt;- paste( rep(rep(0, length(ncharX[i])),
+                         times = (max(nchar(ncharX)) - nchar(ncharX[i]) + 1)),
+                         collapse = &quot;&quot;, sep = &quot;&quot;)
+            resX[i] &lt;- paste(&quot;X&quot;, substring(n0x, 2, nchar(n0x)), ncharX[i], collapse = &quot;&quot;, sep = &quot;&quot;)
+        &#125;
+        resY &lt;- c()
+        for(i in 1:length(ncharY))&#123;
+            n0x &lt;- paste( rep(rep(0, length(ncharY[i])),
+                         times = (max(nchar(ncharY)) - nchar(ncharY[i]) + 1)),
+                         collapse = &quot;&quot;, sep = &quot;&quot;)
+            resY[i] &lt;- paste(&quot;Y&quot;, substring(n0x, 2, nchar(n0x)), ncharY[i], collapse = &quot;&quot;, sep = &quot;&quot;)
+        &#125;
+        res &lt;- paste(resX, resY, sep = &quot;&quot;)
+        return(res)
+    &#125;
+ 
+    sort.x &lt;- x[order(formatXY(labels))]
+    rrr &lt;- dimension(labels, unique = TRUE, sort = TRUE)
+    dims &lt;- c(length(rrr[[2]]), length(rrr[[1]]))
+    dim(sort.x) &lt;- dims
+    par(xaxs = &quot;i&quot;, yaxs = &quot;i&quot;)
+    image.plot(nnn &lt;- t(sort.x), axes = FALSE, ...)
+ 
+    if (contour) &#123;
+        contour(nnn, add = TRUE, ...)
+    &#125;
+   
+    if (axes) &#123;
+        points(0, 0, pch = &quot; &quot;, cex = 3)                      ## invoke the large plot
+       
+     get.axis.ticks &lt;-
+              function(nlabs = NULL, gridsize = NULL, limit_max = NULL)&#123;
+    
+         ngrid &lt;- (limit_max-0)/gridsize                      ## Obtain number of labels to plot
+         per_grid &lt;- 1/(ngrid-1)                              ## Obtain length for each grid
+         start &lt;- 0 - (1/(ngrid-1))/2                         ## starting point for the ticks
+         stop &lt;- 1 + (1/(ngrid-1))/2                          ## stopping point for the ticks
+        
+         lab &lt;-(0:nlabs*(limit_max/nlabs))
+         at &lt;- seq(from = start, to = stop,
+                   by = ((1 + per_grid))/((length(lab)-1)))   ## Position of the ticks
+        
+         return(list(lab, at))
+        
+     &#125;
+       xaxis.position &lt;- get.axis.ticks(nlabs = nlabx, gridsize = gridsize,
+                                limit_max = gridsize * nrow(nnn))
+       yaxis.position &lt;- get.axis.ticks(nlabs = nlaby, gridsize = gridsize,
+                                limit_max = gridsize * ncol(nnn))
+       
+        axis(1, labels = xaxis.position[[1]], at = xaxis.position[[2]])
+        axis(2, labels = yaxis.position[[1]], at = yaxis.position[[2]])
+    &#125;
+    invisible(nnn)
+&#125;
+</code></pre>
+<pre><code class="R">library(vegan)
+ 
+## 模拟一套数据
+X &lt;- seq(10, 590, by = 20)
+Y &lt;- seq(10, 390, by = 20)
+ 
+## Label
+XY &lt;- expand.grid(X, Y)
+names &lt;- paste(&quot;X&quot;, (XY[,1] + 10)/20 ,&quot;Y&quot;, (XY[,2] + 10)/20 , sep = &quot;&quot;)
+rownames(XY) &lt;- names
+## 计算样方两两之间的距离
+distXY &lt;- dist(XY)
+ 
+## 进行pcnm
+gtsPCNM &lt;- pcnm(distXY)
+head(gtsPCNM$vectors)
+ 
+## 绘制pcnm图
+for(i in 1:10)&#123;
+    imagevect(gtsPCNM$vectors[,i], labels = names,
+               col = topo.colors(100))
+    Sys.sleep(0.3)
+&#125;
+</code></pre>
 <p><img src="http://image.sciencenet.cn/album/201107/28/192937icc5eoui067zzscc.jpg" alt="img"></p>
 <p><img src="http://image.sciencenet.cn/album/201107/28/192937y4umyez4m3359wef.jpg" alt="img"></p>
 <p><img src="http://image.sciencenet.cn/album/201107/28/192938zxzre2su2ttal9et.jpg" alt="img"></p>
@@ -497,7 +965,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2011/07/28/2011-7-28-pcnm/" data-id="ckmq2gwr20036q8840hle8b2u" data-title="PCNM动画展示：生态学与空间统计学" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2011/07/28/2011-7-28-pcnm/" data-id="ckmq42ahv003b1k843krcf3gw" data-title="PCNM动画展示：生态学与空间统计学" class="article-share-link">Share</a>
       
       
       
@@ -547,7 +1015,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2011/05/29/2011-5-30-svn/" data-id="ckmq2gwr10033q884654m75rg" data-title="Tortoise SVN管理本地代码" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2011/05/29/2011-5-30-svn/" data-id="ckmq42ahu00381k84ccc9helt" data-title="Tortoise SVN管理本地代码" class="article-share-link">Share</a>
       
       
       
@@ -591,60 +1059,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2011/05/28/2011-05-28-slides/" data-id="ckmq2gwqp0029q884g7ot8zlz" data-title="报告《R与进化生态学：系统发育比较分析概述》" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2011/05/28/2011-05-28-slides/" data-id="ckmq42ahk002a1k8449n62255" data-title="报告《R与进化生态学：系统发育比较分析概述》" class="article-share-link">Share</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8A%A5%E5%91%8A/" rel="tag">报告</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-2011-5-25-autocorrelation" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2011/05/24/2011-5-25-autocorrelation/" class="article-date">
-  <time class="dt-published" datetime="2011-05-24T10:57:54.000Z" itemprop="datePublished">2011-05-24</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2011/05/24/2011-5-25-autocorrelation/">R语言检验空间自相关Moran&#39;s I和运行SAR模型</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>空间位置越接近的点，相应的变量也可能越相近，这种现象称为空间自相关。空间自相关能够改变人们对某些事物原因的判断。举例来说，一个地点物种数高，临近的点物种数也相应得会高些，但这并不一定是由于两个地点的环境条件都十分优越，而纯粹是由于两个地点之间在空间上更为接近。点与点之间空间关系的依赖性使得各点之间数据并不是独立的。</p>
-<p>为此，需要从空间关系检验空间自相关是否存在。空间自相关的检验，用Moran’s I 表示。 Moran’s I 与Pearson相关系数的算法类似，不过其计算时相关程度考虑的是点与点本身。在R的ape程序包中，有关于Moran’s I的详细的说明。为了检验Moran’s I的显著性，空间统计学家运动Randomization的方法，获得Moran’s I的零分布，继而求的各距离段中的Moran’s I是否显著偏离于零分布。</p>
-<p>为了尽量去除空间自相关的影响，统计学家开发出了空间自回归模型，SAR（Spatial Auto Regressive Model）,该模型在R的spdep中能够较为方便的实现。当然，也还有众多的程序包，如宏生态学数据分析的SAM程序包等。</p>
-<p>以下是在spdep程序包中如何计算和检验Moran’s I的详细过程，以及调用SAR模型，进行相应的统计推断等，供感兴趣的老师同学参考。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">library(spdep)</span><br><span class="line"><span class="comment">## Loading required package: sp</span></span><br><span class="line"><span class="comment">## Loading required package: Matrix</span></span><br><span class="line"><span class="comment">## Loading required package: spData</span></span><br><span class="line">library(maps)</span><br><span class="line">library(mapproj)</span><br><span class="line">library(spdep)</span><br><span class="line">library(RANN)</span><br><span class="line">library(mapdata)</span><br><span class="line"></span><br><span class="line">map(<span class="string">&quot;china&quot;</span>, col = <span class="string">&quot;gray40&quot;</span>, ylim = <span class="built_in">c</span>(<span class="number">18</span>,<span class="number">54</span>), xlab =<span class="string">&quot;Longitude&quot;</span>, ylab</span><br><span class="line">=<span class="string">&quot;Latitude&quot;</span>, main =<span class="string">&quot;Sampling sites&quot;</span>)</span><br><span class="line"></span><br><span class="line">map.axes()</span><br><span class="line">map.scale()<span class="comment">## 为了检验nsp是否具有空间自相关</span></span><br><span class="line">lat &lt;-sort(runif(<span class="number">50</span>, <span class="built_in">min</span>=<span class="number">24</span>, <span class="built_in">max</span>=<span class="number">35</span>), decreasing =<span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line">long &lt;-runif(<span class="number">50</span>, <span class="built_in">min</span>=<span class="number">95</span>, <span class="built_in">max</span>=<span class="number">120</span>)</span><br><span class="line"></span><br><span class="line">nsp &lt;-sort(<span class="built_in">round</span>(rnorm(<span class="number">50</span>, <span class="number">800</span>, <span class="number">200</span>)))</span><br><span class="line"></span><br><span class="line">Pre &lt;-sort(rnorm(<span class="number">50</span>, <span class="number">1500</span>, <span class="number">300</span>))</span><br><span class="line"></span><br><span class="line">Elev &lt;-sort(rnorm(<span class="number">50</span>, <span class="number">1000</span>, <span class="number">200</span>), decreasing =<span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line">Time &lt;-factor(<span class="built_in">rep</span>(<span class="built_in">c</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>), <span class="built_in">c</span>(<span class="number">12</span>, <span class="number">18</span>, <span class="number">20</span>)))</span><br><span class="line"></span><br><span class="line">test0 &lt;- data.frame(long, lat, nsp, Pre,Elev, Time)</span><br><span class="line"></span><br><span class="line">points(long, lat, cex =<span class="built_in">exp</span>(nsp/mean(nsp)), col = <span class="string">&quot;red&quot;</span>)</span><br><span class="line"></span><br><span class="line">nsp &lt;- test0$nsp</span><br><span class="line"></span><br><span class="line"><span class="comment">## 将test数据集转换成Spatial格式</span></span><br><span class="line">test &lt;- test0[,<span class="built_in">c</span>(<span class="number">1</span>,<span class="number">2</span>)]</span><br><span class="line">sptest &lt;- SpatialPoints(test, proj4string = CRS(<span class="string">&quot;+proj=longlat +datum=WGS84&quot;</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">## 计算每个点最近的几个neighbour（这里k = 1,表示只计算一个的）</span></span><br><span class="line">nbk1 &lt;- knn2nb(knearneigh(sptest, k =<span class="number">5</span>, longlat =<span class="literal">TRUE</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">## 将nbk1转换成 spatial weight linkage object 对象</span></span><br><span class="line">snbk1 &lt;- make.sym.nb(nbk1)</span><br><span class="line"></span><br><span class="line"><span class="comment">### n.comp.nb() finds the number of disjoint connected subgraphs</span></span><br><span class="line"><span class="comment">### in the graphdepicted by nb.obj - a spatial neighbours list object.</span></span><br><span class="line"><span class="comment">### 查看每个点不相接的相邻点数量</span></span><br><span class="line">n.comp.nb(snbk1)$nc</span><br><span class="line"><span class="comment">## [1] 1</span></span><br><span class="line"><span class="comment">### 查看各点链接情况</span></span><br><span class="line">plot(nb2listw(snbk1), cbind(test$long, test$lat), add =<span class="literal">TRUE</span>)</span><br></pre></td></tr></table></figure>
-
-
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### Moran&#x27;s Test检验该数据集是否存在显著的空间自相关</span></span><br><span class="line"><span class="comment">### Moran&#x27;s I testunder randomisation</span></span><br><span class="line"></span><br><span class="line">moran.test(nsp, nb2listw(snbk1))</span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">##  Moran I test under randomisation</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## data:  nsp  </span></span><br><span class="line"><span class="comment">## weights: nb2listw(snbk1)    </span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## Moran I statistic standard deviate = 8.8677, p-value &lt; 2.2e-16</span></span><br><span class="line"><span class="comment">## alternative hypothesis: greater</span></span><br><span class="line"><span class="comment">## sample estimates:</span></span><br><span class="line"><span class="comment">## Moran I statistic       Expectation          Variance </span></span><br><span class="line"><span class="comment">##       0.671936139      -0.020408163       0.006095733</span></span><br><span class="line"><span class="comment">### Moran&#x27;s ICorrelograms</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### par(mfrow = c(1,3))</span></span><br><span class="line"></span><br><span class="line">nsp.Moron.I &lt;- sp.correlogram(snbk1, nsp, order=<span class="number">6</span>, method=<span class="string">&quot;I&quot;</span>, zero.policy =<span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line">plot(nsp.Moron.I)</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### SAR model</span></span><br><span class="line"><span class="comment">### Saddlepointapproximation for global Moran&#x27;s I (Barndorff-Nielsen formula)</span></span><br><span class="line">lm.morantest.sad(lm(nsp~<span class="number">1</span>),nb2listw(snbk1))</span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">##  Saddlepoint approximation for global Moran&#x27;s I (Barndorff-Nielsen</span></span><br><span class="line"><span class="comment">##  formula)</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## data:  </span></span><br><span class="line"><span class="comment">## model:lm(formula = nsp ~ 1)</span></span><br><span class="line"><span class="comment">## weights: nb2listw(snbk1)</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## Saddlepoint approximation = 6.7733, p-value = 6.292e-12</span></span><br><span class="line"><span class="comment">## alternative hypothesis: greater</span></span><br><span class="line"><span class="comment">## sample estimates:</span></span><br><span class="line"><span class="comment">## Observed Moran I </span></span><br><span class="line"><span class="comment">##        0.6719361</span></span><br><span class="line"><span class="comment">## sacsarlm</span></span><br><span class="line">COL.sacW.eig &lt;- sacsarlm(nsp ~ Pre + Elev +factor(Time), </span><br><span class="line">                         data= test0, nb2listw(snbk1, style=<span class="string">&quot;W&quot;</span>))</span><br><span class="line"></span><br><span class="line">summary(COL.sacW.eig,correlation=<span class="literal">TRUE</span>)</span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## Call:sacsarlm(formula = nsp ~ Pre + Elev + factor(Time), data = test0, </span></span><br><span class="line"><span class="comment">##     listw = nb2listw(snbk1, style = &quot;W&quot;))</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## Residuals:</span></span><br><span class="line"><span class="comment">##      Min       1Q   Median       3Q      Max </span></span><br><span class="line"><span class="comment">## -103.204  -18.260    2.159   19.739   52.779 </span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## Type: sac </span></span><br><span class="line"><span class="comment">## Coefficients: (asymptotic standard errors) </span></span><br><span class="line"><span class="comment">##                Estimate Std. Error z value Pr(&gt;|z|)</span></span><br><span class="line"><span class="comment">## (Intercept)   637.31705  298.77823  2.1331 0.032918</span></span><br><span class="line"><span class="comment">## Pre             0.33743    0.10993  3.0697 0.002143</span></span><br><span class="line"><span class="comment">## Elev           -0.43635    0.16205 -2.6927 0.007088</span></span><br><span class="line"><span class="comment">## factor(Time)2 -23.80507   18.68448 -1.2741 0.202644</span></span><br><span class="line"><span class="comment">## factor(Time)3  -8.52493   30.23387 -0.2820 0.777970</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## Rho: 0.16737</span></span><br><span class="line"><span class="comment">## Asymptotic standard error: 0.06605</span></span><br><span class="line"><span class="comment">##     z-value: 2.5339, p-value: 0.011279</span></span><br><span class="line"><span class="comment">## Lambda: -0.12972</span></span><br><span class="line"><span class="comment">## Asymptotic standard error: 0.26622</span></span><br><span class="line"><span class="comment">##     z-value: -0.48726, p-value: 0.62607</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## LR test value: 5.9974, p-value: 0.049852</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## Log likelihood: -243.6922 for sac model</span></span><br><span class="line"><span class="comment">## ML residual variance (sigma squared): 994.25, (sigma: 31.532)</span></span><br><span class="line"><span class="comment">## Number of observations: 50 </span></span><br><span class="line"><span class="comment">## Number of parameters estimated: 8 </span></span><br><span class="line"><span class="comment">## AIC: 503.38, (AIC for lm: 505.38)</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">##  Correlation of coefficients </span></span><br><span class="line"><span class="comment">##               sigma rho   lambda (Intercept) Pre   Elev  factor(Time)2</span></span><br><span class="line"><span class="comment">## rho           -0.04                                                   </span></span><br><span class="line"><span class="comment">## lambda         0.06 -0.29                                             </span></span><br><span class="line"><span class="comment">## (Intercept)    0.00  0.04 -0.01                                       </span></span><br><span class="line"><span class="comment">## Pre            0.01 -0.27  0.08  -0.94                                </span></span><br><span class="line"><span class="comment">## Elev           0.00 -0.11  0.03  -0.99        0.92                    </span></span><br><span class="line"><span class="comment">## factor(Time)2  0.01 -0.25  0.07   0.27       -0.37 -0.17              </span></span><br><span class="line"><span class="comment">## factor(Time)3  0.01 -0.31  0.09   0.24       -0.36 -0.11  0.87</span></span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2011/05/24/2011-5-25-autocorrelation/" data-id="ckmq2gwr30038q884ekyd0fyr" data-title="R语言检验空间自相关Moran&#39;s I和运行SAR模型" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BB%9F%E8%AE%A1/" rel="tag">统计</a></li></ul>
 
     </footer>
   </div>
@@ -704,6 +1123,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -717,10 +1140,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

@@ -117,8 +117,88 @@
 <li>V，   日落时食甚</li>
 <li>VI，  日落时初亏<br>还有一条线段表示日食南界。在这个区域内部，可以见到日偏食的完整过程。区域之外则不可见。由于月亮自西向东运行，其速度远远超过太阳的向东运行的速度。因此，日食总是从西侧开始，在东侧结束。<br>公元前2000年到公元3000年每一次日食kmz文件， 可以在 <a target="_blank" rel="noopener" href="http://xjubier.free.fr/en/site_pages/SolarEclipsesGoogleEarth.html">http://xjubier.free.fr/en/site_pages/SolarEclipsesGoogleEarth.html</a> 下载。kmz文件可以被google earth读取。<br>为了生成清晰度更高的日食界限图，笔者编写了相应的R函数，以绘制日食界限图。该函数基于maptools、mapproj、mapdata。使用前请先下载这三个程序包。<br>由于绘制地图必须采用一定的投影方式，这里默认的投影方式为斜轴等面积投影。当然，高手可以通过阅读R的帮助信息，改变相应的地图投影方式，线段的颜色等，以达到满意的效果。<br>图2 - 6<br>plotkml绘制的日食界限图</li>
 </ul>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line">plotkml &lt;- </span><br><span class="line"><span class="keyword">function</span>(file, projection = <span class="string">&quot;azequalarea&quot;</span> , parameter = <span class="literal">NULL</span>, grid = <span class="literal">TRUE</span>, info = <span class="literal">TRUE</span>,... )&#123;</span><br><span class="line">	 require(maptools)</span><br><span class="line">     require(mapproj)</span><br><span class="line">     require(mapdata)</span><br><span class="line">    <span class="comment">#match.arg(projection)</span></span><br><span class="line">    zz &lt;- getKMLcoordinates(file, ignoreAltitude = <span class="literal">TRUE</span>)</span><br><span class="line">	x11(<span class="number">11</span>,<span class="number">9</span>)</span><br><span class="line">    m &lt;- map(<span class="string">&#x27;world&#x27;</span>,proj= projection, parameter = parameter, orient=<span class="built_in">c</span>(zz[[<span class="number">1</span>]][<span class="number">2</span>], zz[[<span class="number">1</span>]][<span class="number">1</span>], <span class="number">0</span>), ...)</span><br><span class="line">    </span><br><span class="line">	<span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(zz))&#123;                              <span class="comment">## Add lines to graph</span></span><br><span class="line">	    <span class="keyword">if</span>(is.data.frame(zz[[i]]))&#123;</span><br><span class="line">		    <span class="keyword">if</span>(ncol(zz[[i]]) &gt; <span class="number">3</span>)&#123;</span><br><span class="line">		        i = i + <span class="number">1</span></span><br><span class="line">            &#125;		                                     <span class="comment">## Avoid  ncol &gt; 3</span></span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">if</span>(<span class="built_in">is.list</span>(zz[[i]]))&#123;</span><br><span class="line">		    i = i + <span class="number">1</span>			                         <span class="comment">## Avoid  list &gt; 3</span></span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">        <span class="keyword">if</span>(is.vector(zz[[i]]))&#123;</span><br><span class="line">            points(mapproject(<span class="built_in">list</span>(y = zz[[i]][<span class="number">2</span>], x= zz[[i]][<span class="number">1</span>])), pch = <span class="string">&quot;*&quot;</span>, cex = <span class="number">2</span>, col = <span class="number">2</span>)</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">if</span>(<span class="built_in">is.matrix</span>(zz[[i]]))&#123;</span><br><span class="line">            lines(mapproject(<span class="built_in">list</span>(y = zz[[i]][,<span class="number">2</span>], x= zz[[i]][,<span class="number">1</span>])), col = <span class="string">&quot;blue&quot;</span>, ...)</span><br><span class="line">        &#125; </span><br><span class="line">		<span class="comment">## print(i) used in debugging</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">	<span class="keyword">if</span>(grid)&#123;   <span class="comment">## Add map grid</span></span><br><span class="line">        map.grid(m, lty = <span class="number">1</span>, col = <span class="string">&quot;grey&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">	file1 &lt;- readLines(file)</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span>(title)&#123; <span class="comment">## Add title</span></span><br><span class="line">	    <span class="comment">#file &lt;- &quot;c:/ASE_1800_04_24__4cdcf4f5330fb.kml&quot;</span></span><br><span class="line">        daterecord &lt;- file1[grepl(<span class="string">&quot;when&quot;</span>, file1)]</span><br><span class="line">        date &lt;- substring(gsub(<span class="string">&quot; &quot;</span>, <span class="string">&quot;&quot;</span>, daterecord), <span class="number">7</span>, <span class="number">16</span>)</span><br><span class="line">        type &lt;- file1[grepl(<span class="string">&quot;Type:&quot;</span>, file1)]</span><br><span class="line">        stype &lt;- gsub(<span class="string">&quot; &quot;</span>, <span class="string">&quot;&quot;</span>, type)</span><br><span class="line">        typesolar &lt;- substring(stype, <span class="number">12</span>, regexpr(<span class="string">&quot;&lt;br&quot;</span>, stype) - <span class="number">1</span>)</span><br><span class="line">        title(paste(typesolar, <span class="string">&quot;solar eclipse on&quot;</span>, date))</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(info)&#123;  <span class="comment">## Add details for this eclipse</span></span><br><span class="line">	    <span class="comment">##UT</span></span><br><span class="line">		<span class="comment">## detail information</span></span><br><span class="line">		bg &lt;- which(grepl(<span class="string">&quot;&lt;li&gt;Magnitude:&quot;</span>, file1))</span><br><span class="line">		info &lt;- file1[bg:(bg+<span class="number">4</span>)]</span><br><span class="line">		infosub &lt;- gsub(<span class="string">&quot;&lt;/li&gt;&quot;</span>, <span class="string">&quot;&quot;</span>, gsub(<span class="string">&quot;&amp;nbsp;&quot;</span>,<span class="string">&quot;&quot;</span>,gsub(<span class="string">&quot;&lt;li&gt;&quot;</span>, <span class="string">&quot;&quot;</span>,gsub(<span class="string">&quot; &quot;</span>, <span class="string">&quot;&quot;</span>, info))))</span><br><span class="line">        text(-<span class="number">1.3</span>, seq(<span class="number">1.4</span>, <span class="number">1.1</span>, by = -<span class="number">0.1</span>),infosub[<span class="number">1</span>:<span class="number">4</span>])</span><br><span class="line">		</span><br><span class="line">		<span class="comment">## Partial Eclipse Begins</span></span><br><span class="line">		bg &lt;- <span class="built_in">min</span>(which(grepl(<span class="string">&quot;&lt;name&gt;P1&quot;</span>, file1)))</span><br><span class="line">        sub &lt;- file1[bg:(bg+<span class="number">100</span>)]</span><br><span class="line">        ind &lt;- <span class="built_in">min</span>(which(regexpr(<span class="string">&quot;&lt;longitude&gt;&quot;</span>,sub)&gt;<span class="number">0</span>))</span><br><span class="line">		info &lt;- sub[<span class="built_in">c</span>(ind, ind +<span class="number">1</span>)]</span><br><span class="line">		info1 &lt;- gsub(<span class="string">&quot;de&quot;</span>, <span class="string">&quot;de:&quot;</span>,gsub(<span class="string">&quot;/longitude&quot;</span>,<span class="string">&quot;&quot;</span>,gsub(<span class="string">&quot;/latitude&quot;</span>, <span class="string">&quot;&quot;</span>, gsub(<span class="string">&quot;[&lt;-&gt;]&quot;</span>, <span class="string">&quot;&quot;</span>, gsub(<span class="string">&quot; &quot;</span>, <span class="string">&quot;&quot;</span>,info)))))</span><br><span class="line">		information &lt;- <span class="built_in">c</span>(<span class="string">&quot;Partial Eclipse begins:&quot;</span>, info1)</span><br><span class="line">		text(-<span class="number">1.3</span>,seq(-<span class="number">1.1</span>, -<span class="number">1.3</span>, by = -<span class="number">0.1</span>),information)</span><br><span class="line">		</span><br><span class="line">		<span class="comment">## Partial Eclipse Ends</span></span><br><span class="line">		bg &lt;- <span class="built_in">min</span>(which(grepl(<span class="string">&quot;last external&quot;</span>, file1)))</span><br><span class="line">        sub &lt;- file1[bg:(bg+<span class="number">100</span>)]</span><br><span class="line">        ind &lt;- <span class="built_in">min</span>(which(regexpr(<span class="string">&quot;&lt;longitude&gt;&quot;</span>,sub)&gt;<span class="number">0</span>))</span><br><span class="line">		info &lt;- sub[<span class="built_in">c</span>(ind, ind +<span class="number">1</span>)]</span><br><span class="line">		info1 &lt;- gsub(<span class="string">&quot;de&quot;</span>, <span class="string">&quot;de:&quot;</span>,gsub(<span class="string">&quot;/longitude&quot;</span>,<span class="string">&quot;&quot;</span>,gsub(<span class="string">&quot;/latitude&quot;</span>, <span class="string">&quot;&quot;</span>, gsub(<span class="string">&quot;[&lt;-&gt;]&quot;</span>, <span class="string">&quot;&quot;</span>, gsub(<span class="string">&quot; &quot;</span>, <span class="string">&quot;&quot;</span>,info)))))</span><br><span class="line">		information &lt;- <span class="built_in">c</span>(<span class="string">&quot;Partial Eclipse ends:&quot;</span>, info1)</span><br><span class="line">		text(<span class="number">1.3</span>,seq(-<span class="number">1.1</span>, -<span class="number">1.3</span>, by = -<span class="number">0.1</span>),information)</span><br><span class="line">		</span><br><span class="line">		<span class="comment">## Greatest Eclipse Point</span></span><br><span class="line">		bg &lt;- <span class="built_in">min</span>(which(grepl(<span class="string">&quot;Greatest Eclipse Point&quot;</span>, file1)))</span><br><span class="line">        sub &lt;- file1[bg:(bg+<span class="number">100</span>)]</span><br><span class="line">        ind &lt;- <span class="built_in">min</span>(which(regexpr(<span class="string">&quot;&lt;longitude&gt;&quot;</span>,sub)&gt;<span class="number">0</span>))</span><br><span class="line">		info &lt;- sub[<span class="built_in">c</span>(ind, ind +<span class="number">1</span>)]</span><br><span class="line">		info1 &lt;- gsub(<span class="string">&quot;de&quot;</span>, <span class="string">&quot;de:&quot;</span>,gsub(<span class="string">&quot;/longitude&quot;</span>,<span class="string">&quot;&quot;</span>,gsub(<span class="string">&quot;/latitude&quot;</span>, <span class="string">&quot;&quot;</span>, gsub(<span class="string">&quot;[&lt;-&gt;]&quot;</span>, <span class="string">&quot;&quot;</span>, gsub(<span class="string">&quot; &quot;</span>, <span class="string">&quot;&quot;</span>,info)))))</span><br><span class="line">		information &lt;- <span class="built_in">c</span>(<span class="string">&quot;Greatest Eclipse:&quot;</span>, info1)</span><br><span class="line">		text(<span class="number">1.3</span>,seq(<span class="number">1.3</span>, <span class="number">1.1</span>, by = -<span class="number">0.1</span>),information)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre><code class="R">plotkml &lt;- 
+function(file, projection = &quot;azequalarea&quot; , parameter = NULL, grid = TRUE, info = TRUE,... )&#123;
+     require(maptools)
+     require(mapproj)
+     require(mapdata)
+    #match.arg(projection)
+    zz &lt;- getKMLcoordinates(file, ignoreAltitude = TRUE)
+    x11(11,9)
+    m &lt;- map(&#39;world&#39;,proj= projection, parameter = parameter, orient=c(zz[[1]][2], zz[[1]][1], 0), ...)
+    
+    for(i in 1:length(zz))&#123;                              ## Add lines to graph
+        if(is.data.frame(zz[[i]]))&#123;
+            if(ncol(zz[[i]]) &gt; 3)&#123;
+                i = i + 1
+            &#125;                                             ## Avoid  ncol &gt; 3
+        &#125;
+        
+        if(is.list(zz[[i]]))&#123;
+            i = i + 1                                     ## Avoid  list &gt; 3
+        &#125;
+        
+        if(is.vector(zz[[i]]))&#123;
+            points(mapproject(list(y = zz[[i]][2], x= zz[[i]][1])), pch = &quot;*&quot;, cex = 2, col = 2)
+        &#125;
+        
+        if(is.matrix(zz[[i]]))&#123;
+            lines(mapproject(list(y = zz[[i]][,2], x= zz[[i]][,1])), col = &quot;blue&quot;, ...)
+        &#125; 
+        ## print(i) used in debugging
+    &#125;
+    
+    if(grid)&#123;   ## Add map grid
+        map.grid(m, lty = 1, col = &quot;grey&quot;)
+    &#125;
+    file1 &lt;- readLines(file)
+    
+    if(title)&#123; ## Add title
+        #file &lt;- &quot;c:/ASE_1800_04_24__4cdcf4f5330fb.kml&quot;
+        daterecord &lt;- file1[grepl(&quot;when&quot;, file1)]
+        date &lt;- substring(gsub(&quot; &quot;, &quot;&quot;, daterecord), 7, 16)
+        type &lt;- file1[grepl(&quot;Type:&quot;, file1)]
+        stype &lt;- gsub(&quot; &quot;, &quot;&quot;, type)
+        typesolar &lt;- substring(stype, 12, regexpr(&quot;&lt;br&quot;, stype) - 1)
+        title(paste(typesolar, &quot;solar eclipse on&quot;, date))
+    &#125;
+    if(info)&#123;  ## Add details for this eclipse
+        ##UT
+        ## detail information
+        bg &lt;- which(grepl(&quot;&lt;li&gt;Magnitude:&quot;, file1))
+        info &lt;- file1[bg:(bg+4)]
+        infosub &lt;- gsub(&quot;&lt;/li&gt;&quot;, &quot;&quot;, gsub(&quot;&amp;nbsp;&quot;,&quot;&quot;,gsub(&quot;&lt;li&gt;&quot;, &quot;&quot;,gsub(&quot; &quot;, &quot;&quot;, info))))
+        text(-1.3, seq(1.4, 1.1, by = -0.1),infosub[1:4])
+        
+        ## Partial Eclipse Begins
+        bg &lt;- min(which(grepl(&quot;&lt;name&gt;P1&quot;, file1)))
+        sub &lt;- file1[bg:(bg+100)]
+        ind &lt;- min(which(regexpr(&quot;&lt;longitude&gt;&quot;,sub)&gt;0))
+        info &lt;- sub[c(ind, ind +1)]
+        info1 &lt;- gsub(&quot;de&quot;, &quot;de:&quot;,gsub(&quot;/longitude&quot;,&quot;&quot;,gsub(&quot;/latitude&quot;, &quot;&quot;, gsub(&quot;[&lt;-&gt;]&quot;, &quot;&quot;, gsub(&quot; &quot;, &quot;&quot;,info)))))
+        information &lt;- c(&quot;Partial Eclipse begins:&quot;, info1)
+        text(-1.3,seq(-1.1, -1.3, by = -0.1),information)
+        
+        ## Partial Eclipse Ends
+        bg &lt;- min(which(grepl(&quot;last external&quot;, file1)))
+        sub &lt;- file1[bg:(bg+100)]
+        ind &lt;- min(which(regexpr(&quot;&lt;longitude&gt;&quot;,sub)&gt;0))
+        info &lt;- sub[c(ind, ind +1)]
+        info1 &lt;- gsub(&quot;de&quot;, &quot;de:&quot;,gsub(&quot;/longitude&quot;,&quot;&quot;,gsub(&quot;/latitude&quot;, &quot;&quot;, gsub(&quot;[&lt;-&gt;]&quot;, &quot;&quot;, gsub(&quot; &quot;, &quot;&quot;,info)))))
+        information &lt;- c(&quot;Partial Eclipse ends:&quot;, info1)
+        text(1.3,seq(-1.1, -1.3, by = -0.1),information)
+        
+        ## Greatest Eclipse Point
+        bg &lt;- min(which(grepl(&quot;Greatest Eclipse Point&quot;, file1)))
+        sub &lt;- file1[bg:(bg+100)]
+        ind &lt;- min(which(regexpr(&quot;&lt;longitude&gt;&quot;,sub)&gt;0))
+        info &lt;- sub[c(ind, ind +1)]
+        info1 &lt;- gsub(&quot;de&quot;, &quot;de:&quot;,gsub(&quot;/longitude&quot;,&quot;&quot;,gsub(&quot;/latitude&quot;, &quot;&quot;, gsub(&quot;[&lt;-&gt;]&quot;, &quot;&quot;, gsub(&quot; &quot;, &quot;&quot;,info)))))
+        information &lt;- c(&quot;Greatest Eclipse:&quot;, info1)
+        text(1.3,seq(1.3, 1.1, by = -0.1),information)
+    &#125;
+&#125;
+</code></pre>
 <p><img src="http://blog.sciencenet.cn/upload/blog/images/2010/11/20101116173940441.jpg" alt="img"><br>图2 2009年7月22日日全食路线图</p>
 <p><img src="http://blog.sciencenet.cn/upload/blog/images/2010/11/20101116173955956.jpg" alt="img"><br>图3 2020年6月21日日环食</p>
 <p><img src="http://blog.sciencenet.cn/upload/blog/images/2010/11/20101116174011378.jpg" alt="img"><br>图4 2021年6月10日日环食</p>
@@ -132,7 +212,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2010/11/16/2010-11-16-boundaryeclipse/" data-id="ckmq2gwq5000uq884hmp27auu" data-title="如何绘制日食界限图？" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2010/11/16/2010-11-16-boundaryeclipse/" data-id="ckmq42ah700141k848sk70r7w" data-title="如何绘制日食界限图？" class="article-share-link">Share</a>
       
       
       
@@ -208,6 +288,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -221,10 +305,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

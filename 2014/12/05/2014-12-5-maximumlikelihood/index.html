@@ -103,14 +103,43 @@
 <p>在分析中，如果一件事情已经发生，在计算其Likelihood时，就是将理论上的各种状态相乘，获得联合概率密度。求该联合概率密度，在参数取什么值时， 保证联合概率密度最大， 就是极大似然估计。</p>
 <p>例如： 假设从一个袋子里，随机抽取白球和黑球，每一次抽完， 都放回到袋子里，共抽取了100次， 得到80个黑球， 20个白球， 求袋子中， 黑球与白球的比例是多大时， 最有可能得到当前的结果？</p>
 <p>分析： 袋子里的球， 非黑即白， 可以简化为， 二项分布， 即一件事情发生还是不发生的概率。 假设抽到黑球的概率为p， 那么抽到白球的概率为1-p。在本例子中，抽取100次， 抽到了80个黑球， 其概率为p^80, 而抽到白球的概率为 1-p, 发生了20次， 因此概率为 (1 - p)^20。 因此， 产生抽样结果的概率为p^80*(1 - p)^20，这就是联合概率密度。为了便于批量计算， 这里写成了R函数。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### Likelihood函数， 用来计算在p取值不同时， 当前结果（即80个黑球， 20个白球）发生的可能性。 </span></span><br><span class="line">likelihood &lt;- <span class="keyword">function</span>(p) &#123;p^<span class="number">80</span>*(<span class="number">1</span> - p)^<span class="number">20</span>&#125; </span><br><span class="line"></span><br><span class="line"><span class="comment">###生成p的取值序列，p值取0.01， 意思是 100个白球里面， 有1个黑球， 99个黑球。</span></span><br><span class="line"><span class="comment">### 不难想象， 这种情况下， 抽取100次， 抽到80个黑球的可能性一定很小。 </span></span><br><span class="line">p &lt;- seq(<span class="number">0.01</span>, <span class="number">0.99</span>, by = <span class="number">0.001</span>) </span><br><span class="line"> </span><br><span class="line"><span class="comment">### 计算p不同取值时， 抽取到80个黑球， 20个白球的可能性（likelihood）。</span></span><br><span class="line">res.like &lt;- likelihood(p) </span><br><span class="line"></span><br><span class="line"><span class="comment">### 绘图</span></span><br><span class="line">plot(res.like, type = <span class="string">&quot;l&quot;</span>, col = <span class="string">&quot;red&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">### 由于likelihood是概率的乘机， 一般都很小， 所以在取自然对数之后，更加方便计算机处理， 所以一般都取自然对数。</span></span><br><span class="line"><span class="comment">### 这就是loglikelihood。</span></span><br><span class="line">loglikelihood &lt;- <span class="keyword">function</span>(p) &#123;<span class="built_in">log</span>(p^<span class="number">80</span>*(<span class="number">1</span> - p)^<span class="number">20</span>)&#125; </span><br><span class="line"></span><br><span class="line"><span class="comment">### 计算log likelihoodres.loglike &lt;- loglikelihood(p)</span></span><br><span class="line"><span class="comment">### 绘图， 可查看loglikelihood与参数p的关系</span></span><br><span class="line">plot(res.loglike, type = <span class="string">&quot;l&quot;</span>, col = <span class="string">&quot;red&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">### 用optimize可以通过数值方法，求函数的极值。</span></span><br><span class="line">optimize(loglikelihood, interval = <span class="built_in">c</span>(<span class="number">0</span>, <span class="number">1</span>),maximum = <span class="literal">TRUE</span>)</span><br><span class="line"><span class="comment">## $maximum</span></span><br><span class="line"><span class="comment">## [1] 0.7999832</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $objective</span></span><br><span class="line"><span class="comment">## [1] -50.04024</span></span><br></pre></td></tr></table></figure>
+<pre><code class="R">### Likelihood函数， 用来计算在p取值不同时， 当前结果（即80个黑球， 20个白球）发生的可能性。 
+likelihood &lt;- function(p) &#123;p^80*(1 - p)^20&#125; 
 
+###生成p的取值序列，p值取0.01， 意思是 100个白球里面， 有1个黑球， 99个黑球。
+### 不难想象， 这种情况下， 抽取100次， 抽到80个黑球的可能性一定很小。 
+p &lt;- seq(0.01, 0.99, by = 0.001) 
+ 
+### 计算p不同取值时， 抽取到80个黑球， 20个白球的可能性（likelihood）。
+res.like &lt;- likelihood(p) 
+
+### 绘图
+plot(res.like, type = &quot;l&quot;, col = &quot;red&quot;)
+
+
+### 由于likelihood是概率的乘机， 一般都很小， 所以在取自然对数之后，更加方便计算机处理， 所以一般都取自然对数。
+### 这就是loglikelihood。
+loglikelihood &lt;- function(p) &#123;log(p^80*(1 - p)^20)&#125; 
+
+### 计算log likelihoodres.loglike &lt;- loglikelihood(p)
+### 绘图， 可查看loglikelihood与参数p的关系
+plot(res.loglike, type = &quot;l&quot;, col = &quot;red&quot;)
+
+
+### 用optimize可以通过数值方法，求函数的极值。
+optimize(loglikelihood, interval = c(0, 1),maximum = TRUE)
+## $maximum
+## [1] 0.7999832
+## 
+## $objective
+## [1] -50.04024
+</code></pre>
 <p>由于获得likelihood的最大值的解析解常常十分困难， 实际情况在求maximum likelihood时， 大部分会用到数值方法。而且也不一定是求最大值， 而是求函数的最小值。 具体可参考R软件的 optim, nlm等函数的帮助文档。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/12/05/2014-12-5-maximumlikelihood/" data-id="ckmq2gws40063q884a3tffpbs" data-title="从黑球、白球到极大似然估计" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/12/05/2014-12-5-maximumlikelihood/" data-id="ckmq42ait00601k8483px3o5k" data-title="从黑球、白球到极大似然估计" class="article-share-link">Share</a>
       
       
       
@@ -186,6 +215,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -199,10 +232,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

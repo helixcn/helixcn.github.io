@@ -6,12 +6,12 @@
   
   <title>PyEphem基本功能介绍 | Jinlong Zhang&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="PyEphem为Python下的一个程序包， 用来进行天文历算， 虽然是爱好者编写的， 但是由于使用VOS87行星运动数据， 计算精度达到了很高的精度， 足以满足一般的观测需要。 详情参见 http:&#x2F;&#x2F;rhodesmill.org&#x2F;pyephem&#x2F; 本文是学习该程序包的读书笔记。 火星在2018年的星座1234import ephemm &#x3D; ephem.Mars(&amp;#x27;2018&amp;#x27;">
+  <meta name="description" content="PyEphem为Python下的一个程序包， 用来进行天文历算， 虽然是爱好者编写的， 但是由于使用VOS87行星运动数据， 计算精度达到了很高的精度， 足以满足一般的观测需要。 详情参见 http:&#x2F;&#x2F;rhodesmill.org&#x2F;pyephem&#x2F; 本文是学习该程序包的读书笔记。 火星在2018年的星座import ephem m &#x3D; ephem.Mars(&#39;2018&#39;) pri">
 <meta property="og:type" content="article">
 <meta property="og:title" content="PyEphem基本功能介绍">
 <meta property="og:url" content="https://helixcn.github.io/2014/09/22/2014-9-13-pyephem/index.html">
 <meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
-<meta property="og:description" content="PyEphem为Python下的一个程序包， 用来进行天文历算， 虽然是爱好者编写的， 但是由于使用VOS87行星运动数据， 计算精度达到了很高的精度， 足以满足一般的观测需要。 详情参见 http:&#x2F;&#x2F;rhodesmill.org&#x2F;pyephem&#x2F; 本文是学习该程序包的读书笔记。 火星在2018年的星座1234import ephemm &#x3D; ephem.Mars(&amp;#x27;2018&amp;#x27;">
+<meta property="og:description" content="PyEphem为Python下的一个程序包， 用来进行天文历算， 虽然是爱好者编写的， 但是由于使用VOS87行星运动数据， 计算精度达到了很高的精度， 足以满足一般的观测需要。 详情参见 http:&#x2F;&#x2F;rhodesmill.org&#x2F;pyephem&#x2F; 本文是学习该程序包的读书笔记。 火星在2018年的星座import ephem m &#x3D; ephem.Mars(&#39;2018&#39;) pri">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2014-09-22T08:10:54.000Z">
 <meta property="article:modified_time" content="2021-03-26T05:34:24.557Z">
@@ -99,51 +99,349 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>PyEphem为Python下的一个程序包， 用来进行天文历算， 虽然是爱好者编写的， 但是由于使用VOS87行星运动数据， 计算精度达到了很高的精度， 足以满足一般的观测需要。 详情参见 <a target="_blank" rel="noopener" href="http://rhodesmill.org/pyephem/">http://rhodesmill.org/pyephem/</a> 本文是学习该程序包的读书笔记。</p>
-<h2 id="火星在2018年的星座"><a href="#火星在2018年的星座" class="headerlink" title="火星在2018年的星座"></a>火星在2018年的星座</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ephem</span><br><span class="line">m = ephem.Mars(<span class="string">&#x27;2018&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(ephem.constellation(m))</span><br><span class="line">(<span class="string">&#x27;Lib&#x27;</span>, <span class="string">&#x27;Libra&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="火星在2018年的星座"><a href="#火星在2018年的星座" class="headerlink" title="火星在2018年的星座"></a>火星在2018年的星座</h2><pre><code class="python">import ephem
+m = ephem.Mars(&#39;2018&#39;)
+print(ephem.constellation(m))
+(&#39;Lib&#39;, &#39;Libra&#39;)
+</code></pre>
+<h2 id="计算不同天体在1970年1月1日0时的位置等信息"><a href="#计算不同天体在1970年1月1日0时的位置等信息" class="headerlink" title="计算不同天体在1970年1月1日0时的位置等信息"></a>计算不同天体在1970年1月1日0时的位置等信息</h2><pre><code class="python">from ephem import *
+mars = Mars(&#39;1970&#39;) # 火星
+print(&#39;%s, %s, %.10f&#39; % (mars.name, mars.elong, mars.size))
 
-<h2 id="计算不同天体在1970年1月1日0时的位置等信息"><a href="#计算不同天体在1970年1月1日0时的位置等信息" class="headerlink" title="计算不同天体在1970年1月1日0时的位置等信息"></a>计算不同天体在1970年1月1日0时的位置等信息</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> ephem <span class="keyword">import</span> *</span><br><span class="line">mars = Mars(<span class="string">&#x27;1970&#x27;</span>) <span class="comment"># 火星</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s, %s, %.10f&#x27;</span> % (mars.name, mars.elong, mars.size))</span><br><span class="line"></span><br><span class="line">sun = Sun(<span class="string">&#x27;1970&#x27;</span>) <span class="comment"># 太阳</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s, %s, %.10f&#x27;</span> % (sun.name, sun.elong, sun.size))</span><br><span class="line"></span><br><span class="line">moon = Moon(<span class="string">&#x27;1970&#x27;</span>) <span class="comment"># 月亮</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s, %s, %.10f&#x27;</span> % (moon.name, moon.elong, moon.size))</span><br><span class="line"></span><br><span class="line">mercury = Mercury(<span class="string">&#x27;1970&#x27;</span>) <span class="comment"># 水星</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s, %s, %.10f&#x27;</span> % (mercury.name, mercury.elong, mercury.size))</span><br><span class="line"></span><br><span class="line">venus = Venus(<span class="string">&#x27;1970&#x27;</span>) <span class="comment"># 金星</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s, %s, %.10f&#x27;</span> % (venus.name, venus.elong, venus.size))</span><br><span class="line"></span><br><span class="line">jupiter = Jupiter(<span class="string">&#x27;1970&#x27;</span>) <span class="comment"># 木星</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s, %s, %.10f&#x27;</span> % (jupiter.name, jupiter.elong, jupiter.size))</span><br><span class="line"></span><br><span class="line">saturn = Saturn(<span class="string">&#x27;1970&#x27;</span>) <span class="comment"># 土星</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s, %s, %.10f&#x27;</span> % (saturn.name, saturn.elong, saturn.size))</span><br><span class="line"></span><br><span class="line">uranus = Uranus(<span class="string">&#x27;1970&#x27;</span>) <span class="comment"># 天王星</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s, %s, %.10f&#x27;</span> % (uranus.name, uranus.elong, uranus.size))</span><br><span class="line"></span><br><span class="line">neptune = Neptune(<span class="string">&#x27;1970&#x27;</span>) <span class="comment"># 海王星</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s, %s, %.10f&#x27;</span> % (neptune.name, neptune.elong, neptune.size))</span><br><span class="line"></span><br><span class="line">pluto = Pluto(<span class="string">&#x27;1970&#x27;</span>) <span class="comment"># 冥王星</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s, %s , %.10f&#x27;</span> % (pluto.name, pluto.elong, pluto.size))</span><br><span class="line">Mars, <span class="number">62</span>:04:<span class="number">48.0</span>, <span class="number">5.9295825958</span></span><br><span class="line">Sun, <span class="number">0</span>:<span class="number">00</span>:<span class="number">00.0</span>, <span class="number">1951.8359375000</span></span><br><span class="line">Moon, -<span class="number">89</span>:<span class="number">27</span>:<span class="number">48.3</span>, <span class="number">1831.0117187500</span></span><br><span class="line">Mercury, <span class="number">18</span>:<span class="number">52</span>:<span class="number">17.4</span>, <span class="number">7.5804867744</span></span><br><span class="line">Venus, -<span class="number">5</span>:<span class="number">42</span>:<span class="number">32.4</span>, <span class="number">9.9605798721</span></span><br><span class="line">Jupiter, -<span class="number">67</span>:<span class="number">50</span>:<span class="number">24.1</span>, <span class="number">34.2474060059</span></span><br><span class="line">Saturn, <span class="number">111</span>:<span class="number">52</span>:<span class="number">32.6</span>, <span class="number">18.8122367859</span></span><br><span class="line">Uranus, -<span class="number">91</span>:<span class="number">26</span>:<span class="number">29.1</span>, <span class="number">3.8586533070</span></span><br><span class="line">Neptune, -<span class="number">40</span>:<span class="number">17</span>:<span class="number">59.5</span>, <span class="number">2.1982953548</span></span><br><span class="line">Pluto, -<span class="number">102</span>:<span class="number">16</span>:<span class="number">48.8</span> , <span class="number">0.2606950402</span></span><br><span class="line"><span class="comment">### a_ra — Astrometric geocentric right ascension for the epoch specified</span></span><br><span class="line"><span class="comment">### a_dec — Astrometric geocentric declination for the epoch specified</span></span><br><span class="line"><span class="comment">### g_ra and ra — Apparent geocentric right ascension for the epoch-of-date</span></span><br><span class="line"><span class="comment">### g_dec and dec — Apparent geocentric declination for the epoch-of-date</span></span><br><span class="line"><span class="comment">### elong — Elongation (angle to sun)</span></span><br><span class="line"><span class="comment">### mag — Magnitude</span></span><br><span class="line"><span class="comment">### size — Size (diameter in arcseconds)</span></span><br><span class="line"><span class="comment">### radius — Size (radius as an angle)</span></span><br><span class="line"><span class="comment">### circumpolar — whether it stays above the horizon</span></span><br><span class="line"><span class="comment">### neverup — whether is stays below the horizon</span></span><br><span class="line"><span class="comment">############################################ </span></span><br><span class="line">hlon — Heliocentric longitude (see <span class="built_in">next</span> paragraph)</span><br><span class="line"><span class="comment">### hlat — Heliocentric latitude (see next paragraph)</span></span><br><span class="line"><span class="comment">### sun_distance — Distance to Sun (AU)</span></span><br><span class="line"><span class="comment">### earth_distance — Distance to Earth (AU)</span></span><br><span class="line"><span class="comment">### phase — Percent of surface illuminated</span></span><br></pre></td></tr></table></figure>
+sun = Sun(&#39;1970&#39;) # 太阳
+print(&#39;%s, %s, %.10f&#39; % (sun.name, sun.elong, sun.size))
 
-<h2 id="已知观测者的位置，-包括-经纬度和海拔，-观测日期和时刻，-求天体的高度和方位"><a href="#已知观测者的位置，-包括-经纬度和海拔，-观测日期和时刻，-求天体的高度和方位" class="headerlink" title="已知观测者的位置， 包括 经纬度和海拔， 观测日期和时刻， 求天体的高度和方位"></a>已知观测者的位置， 包括 经纬度和海拔， 观测日期和时刻， 求天体的高度和方位</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">gatech = Observer()</span><br><span class="line">gatech.lon = <span class="string">&#x27;114.169576&#x27;</span></span><br><span class="line">gatech.lat = <span class="string">&#x27;22.451939&#x27;</span></span><br><span class="line">gatech.elevation = <span class="number">5</span></span><br><span class="line">gatech.date = <span class="string">&#x27;2014/9/22 22:30:00&#x27;</span></span><br><span class="line">v = Venus(gatech)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s, %s&#x27;</span> % (v.alt, v.az))</span><br><span class="line"><span class="number">11</span>:<span class="number">47</span>:<span class="number">49.3</span>, <span class="number">89</span>:<span class="number">41</span>:<span class="number">14.6</span></span><br></pre></td></tr></table></figure>
+moon = Moon(&#39;1970&#39;) # 月亮
+print(&#39;%s, %s, %.10f&#39; % (moon.name, moon.elong, moon.size))
 
-<h2 id="已知彗星的根数，-计算彗星的亮度和位置，-读取的格式为-xephem格式"><a href="#已知彗星的根数，-计算彗星的亮度和位置，-读取的格式为-xephem格式" class="headerlink" title="已知彗星的根数， 计算彗星的亮度和位置， 读取的格式为 xephem格式"></a>已知彗星的根数， 计算彗星的亮度和位置， 读取的格式为 xephem格式</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">line = <span class="string">&quot;C/2002 Y1 (Juels-Holvorcem),e,103.7816,166.2194,128.8232,242.5695,</span></span><br><span class="line"><span class="string">0.0002609,0.99705756,0.0000,04/13.2508/2003,2000,g  6.5,4.0&quot;</span></span><br><span class="line">yh = ephem.readdb(line)</span><br><span class="line">yh.compute(<span class="string">&#x27;2007/10/1&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%.10f&#x27;</span> % yh.earth_distance)</span><br><span class="line"><span class="built_in">print</span>(yh.mag)</span><br><span class="line"><span class="number">14.8046731949</span></span><br><span class="line"><span class="number">23.96</span></span><br><span class="line"><span class="comment">## 已知人造卫星的轨道根数， 计算其在任意时刻的高度和方位</span></span><br><span class="line"><span class="comment">### 读取 xephem格式用 readdb 方法</span></span><br><span class="line"><span class="comment">### 写出 xepheme格式， 用 writedb 方法</span></span><br><span class="line"><span class="comment">######### 人造卫星为 tle格式, 这里用readtle方法来阅读</span></span><br><span class="line">line1 = <span class="string">&quot;ISS (ZARYA)&quot;</span></span><br><span class="line">line2 = <span class="string">&quot;1 25544U 98067A   03097.78853147  .00021906  00000-0  28403-3 0  8652&quot;</span></span><br><span class="line">line3 = <span class="string">&quot;2 25544  51.6361  13.7980 0004256  35.6671  59.2566 15.58778559250029&quot;</span></span><br><span class="line">iss = ephem.readtle(line1, line2, line3)</span><br><span class="line">iss.compute(<span class="string">&#x27;2003/3/23&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s %s&#x27;</span> % (iss.sublong, iss.sublat))</span><br><span class="line">-<span class="number">76</span>:<span class="number">24</span>:<span class="number">18.3</span> <span class="number">13</span>:05:<span class="number">31.1</span></span><br><span class="line">(<span class="string">&#x27;Sgr&#x27;</span>, <span class="string">&#x27;Sagittarius&#x27;</span>)</span><br><span class="line"><span class="number">50.54</span></span><br><span class="line">V2 - P274</span><br><span class="line">V2 - P135</span><br><span class="line">V1 - P273</span><br></pre></td></tr></table></figure>
+mercury = Mercury(&#39;1970&#39;) # 水星
+print(&#39;%s, %s, %.10f&#39; % (mercury.name, mercury.elong, mercury.size))
 
-<h2 id="计算月亮在某时刻所在星座"><a href="#计算月亮在某时刻所在星座" class="headerlink" title="计算月亮在某时刻所在星座"></a>计算月亮在某时刻所在星座</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">m = Moon(<span class="string">&#x27;1980/6/1&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(constellation(m))</span><br><span class="line">(<span class="string">&#x27;Sgr&#x27;</span>, <span class="string">&#x27;Sagittarius&#x27;</span>)</span><br></pre></td></tr></table></figure>
+venus = Venus(&#39;1970&#39;) # 金星
+print(&#39;%s, %s, %.10f&#39; % (venus.name, venus.elong, venus.size))
 
-<h2 id="查询某一赤经赤纬在不同星图中的页码"><a href="#查询某一赤经赤纬在不同星图中的页码" class="headerlink" title="查询某一赤经赤纬在不同星图中的页码"></a>查询某一赤经赤纬在不同星图中的页码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">####### Uranometria by Johannes Bayer.</span></span><br><span class="line"><span class="comment">####### Uranometria 2000.0 edited by Wil Tirion.</span></span><br><span class="line"><span class="comment">#######  Millennium Star Atlas by Roger W. Sinnott and Michael A. C. Perryman.</span></span><br><span class="line"></span><br><span class="line">ra, dec = <span class="string">&#x27;7:16:00&#x27;</span>, <span class="string">&#x27;-6:17:00&#x27;</span><span class="built_in">print</span>(ephem.uranometria(ra, dec))</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(ephem.uranometria2000(ra, dec))</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(ephem.millennium_atlas(ra, dec))</span><br></pre></td></tr></table></figure>
+jupiter = Jupiter(&#39;1970&#39;) # 木星
+print(&#39;%s, %s, %.10f&#39; % (jupiter.name, jupiter.elong, jupiter.size))
 
-<h2 id="转换儒略日"><a href="#转换儒略日" class="headerlink" title="转换儒略日"></a>转换儒略日</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ephem.julian_date(<span class="string">&#x27;2000/1/1&#x27;</span>)</span><br></pre></td></tr></table></figure>
+saturn = Saturn(&#39;1970&#39;) # 土星
+print(&#39;%s, %s, %.10f&#39; % (saturn.name, saturn.elong, saturn.size))
 
-<h2 id="计算-Delta-T"><a href="#计算-Delta-T" class="headerlink" title="计算 Delta T"></a>计算 Delta T</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(ephem.delta_t(<span class="string">&#x27;1980&#x27;</span>))</span><br></pre></td></tr></table></figure>
+uranus = Uranus(&#39;1970&#39;) # 天王星
+print(&#39;%s, %s, %.10f&#39; % (uranus.name, uranus.elong, uranus.size))
 
-<h2 id="计算两个物件的角距"><a href="#计算两个物件的角距" class="headerlink" title="计算两个物件的角距"></a>计算两个物件的角距</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">m1 = ephem.Moon(<span class="string">&#x27;1970/1/16&#x27;</span>)</span><br><span class="line">m2 = ephem.Moon(<span class="string">&#x27;1970/1/17&#x27;</span>)</span><br><span class="line">s = ephem.separation(m1, m2)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;In one day the Moon moved %s&quot;</span> % s)</span><br><span class="line">In one day the Moon moved <span class="number">12</span>:<span class="number">33</span>:<span class="number">28.5</span></span><br></pre></td></tr></table></figure>
+neptune = Neptune(&#39;1970&#39;) # 海王星
+print(&#39;%s, %s, %.10f&#39; % (neptune.name, neptune.elong, neptune.size))
 
-<h2 id="坐标系转换"><a href="#坐标系转换" class="headerlink" title="坐标系转换"></a>坐标系转换</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">np = Equatorial(<span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;90&#x27;</span>, epoch=<span class="string">&#x27;2000&#x27;</span>)</span><br><span class="line">g = Galactic(np)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s %s&#x27;</span> % (g.lon, g.lat))</span><br><span class="line"><span class="comment">####   Equatorial</span></span><br><span class="line"><span class="comment">####   ra — right ascension</span></span><br><span class="line"><span class="comment">####   dec — declination</span></span><br><span class="line"><span class="comment">####   epoch — epoch of the coordinate</span></span><br><span class="line"><span class="comment">####   Ecliptic</span></span><br><span class="line"><span class="comment">####   lon — ecliptic longitude (+E)</span></span><br><span class="line"><span class="comment">####   lat — ecliptic latitude (+N)</span></span><br><span class="line"><span class="comment">####   epoch — epoch of the coordinate</span></span><br><span class="line"><span class="comment">####   Galactic</span></span><br><span class="line"><span class="comment">####   lon — galactic longitude (+E)</span></span><br><span class="line"><span class="comment">####   lat — galactic latitude (+N)</span></span><br><span class="line"><span class="comment">####   epoch — epoch of the coordinate</span></span><br><span class="line"><span class="number">122</span>:<span class="number">55</span>:<span class="number">54.9</span> <span class="number">27</span>:07:<span class="number">41.7</span></span><br></pre></td></tr></table></figure>
+pluto = Pluto(&#39;1970&#39;) # 冥王星
+print(&#39;%s, %s , %.10f&#39; % (pluto.name, pluto.elong, pluto.size))
+Mars, 62:04:48.0, 5.9295825958
+Sun, 0:00:00.0, 1951.8359375000
+Moon, -89:27:48.3, 1831.0117187500
+Mercury, 18:52:17.4, 7.5804867744
+Venus, -5:42:32.4, 9.9605798721
+Jupiter, -67:50:24.1, 34.2474060059
+Saturn, 111:52:32.6, 18.8122367859
+Uranus, -91:26:29.1, 3.8586533070
+Neptune, -40:17:59.5, 2.1982953548
+Pluto, -102:16:48.8 , 0.2606950402
+### a_ra — Astrometric geocentric right ascension for the epoch specified
+### a_dec — Astrometric geocentric declination for the epoch specified
+### g_ra and ra — Apparent geocentric right ascension for the epoch-of-date
+### g_dec and dec — Apparent geocentric declination for the epoch-of-date
+### elong — Elongation (angle to sun)
+### mag — Magnitude
+### size — Size (diameter in arcseconds)
+### radius — Size (radius as an angle)
+### circumpolar — whether it stays above the horizon
+### neverup — whether is stays below the horizon
+############################################ 
+hlon — Heliocentric longitude (see next paragraph)
+### hlat — Heliocentric latitude (see next paragraph)
+### sun_distance — Distance to Sun (AU)
+### earth_distance — Distance to Earth (AU)
+### phase — Percent of surface illuminated
+</code></pre>
+<h2 id="已知观测者的位置，-包括-经纬度和海拔，-观测日期和时刻，-求天体的高度和方位"><a href="#已知观测者的位置，-包括-经纬度和海拔，-观测日期和时刻，-求天体的高度和方位" class="headerlink" title="已知观测者的位置， 包括 经纬度和海拔， 观测日期和时刻， 求天体的高度和方位"></a>已知观测者的位置， 包括 经纬度和海拔， 观测日期和时刻， 求天体的高度和方位</h2><pre><code class="python">gatech = Observer()
+gatech.lon = &#39;114.169576&#39;
+gatech.lat = &#39;22.451939&#39;
+gatech.elevation = 5
+gatech.date = &#39;2014/9/22 22:30:00&#39;
+v = Venus(gatech)
+print(&#39;%s, %s&#39; % (v.alt, v.az))
+11:47:49.3, 89:41:14.6
+</code></pre>
+<h2 id="已知彗星的根数，-计算彗星的亮度和位置，-读取的格式为-xephem格式"><a href="#已知彗星的根数，-计算彗星的亮度和位置，-读取的格式为-xephem格式" class="headerlink" title="已知彗星的根数， 计算彗星的亮度和位置， 读取的格式为 xephem格式"></a>已知彗星的根数， 计算彗星的亮度和位置， 读取的格式为 xephem格式</h2><pre><code class="python">line = &quot;C/2002 Y1 (Juels-Holvorcem),e,103.7816,166.2194,128.8232,242.5695,
+0.0002609,0.99705756,0.0000,04/13.2508/2003,2000,g  6.5,4.0&quot;
+yh = ephem.readdb(line)
+yh.compute(&#39;2007/10/1&#39;)
+print(&#39;%.10f&#39; % yh.earth_distance)
+print(yh.mag)
+14.8046731949
+23.96
+## 已知人造卫星的轨道根数， 计算其在任意时刻的高度和方位
+### 读取 xephem格式用 readdb 方法
+### 写出 xepheme格式， 用 writedb 方法
+######### 人造卫星为 tle格式, 这里用readtle方法来阅读
+line1 = &quot;ISS (ZARYA)&quot;
+line2 = &quot;1 25544U 98067A   03097.78853147  .00021906  00000-0  28403-3 0  8652&quot;
+line3 = &quot;2 25544  51.6361  13.7980 0004256  35.6671  59.2566 15.58778559250029&quot;
+iss = ephem.readtle(line1, line2, line3)
+iss.compute(&#39;2003/3/23&#39;)
+print(&#39;%s %s&#39; % (iss.sublong, iss.sublat))
+-76:24:18.3 13:05:31.1
+(&#39;Sgr&#39;, &#39;Sagittarius&#39;)
+50.54
+V2 - P274
+V2 - P135
+V1 - P273
+</code></pre>
+<h2 id="计算月亮在某时刻所在星座"><a href="#计算月亮在某时刻所在星座" class="headerlink" title="计算月亮在某时刻所在星座"></a>计算月亮在某时刻所在星座</h2><pre><code class="python">m = Moon(&#39;1980/6/1&#39;)
+print(constellation(m))
+(&#39;Sgr&#39;, &#39;Sagittarius&#39;)
+</code></pre>
+<h2 id="查询某一赤经赤纬在不同星图中的页码"><a href="#查询某一赤经赤纬在不同星图中的页码" class="headerlink" title="查询某一赤经赤纬在不同星图中的页码"></a>查询某一赤经赤纬在不同星图中的页码</h2><pre><code class="python">####### Uranometria by Johannes Bayer.
+####### Uranometria 2000.0 edited by Wil Tirion.
+#######  Millennium Star Atlas by Roger W. Sinnott and Michael A. C. Perryman.
 
-<h2 id="计算某地点的天象"><a href="#计算某地点的天象" class="headerlink" title="计算某地点的天象"></a>计算某地点的天象</h2><h3 id="天体的高度和方位"><a href="#天体的高度和方位" class="headerlink" title="天体的高度和方位"></a>天体的高度和方位</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#### Describes a position on Earth’s surface.lowell = ephem.Observer()</span></span><br><span class="line">lowell.lon = <span class="string">&#x27;-111:32.1&#x27;</span></span><br><span class="line">lowell.lat = <span class="string">&#x27;35:05.8&#x27;</span></span><br><span class="line">lowell.elevation = <span class="number">2198</span></span><br><span class="line">lowell.date = <span class="string">&#x27;1986/3/13&#x27;</span></span><br><span class="line">j = ephem.Jupiter()</span><br><span class="line">j.compute(lowell)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s %s&#x27;</span> % (j.alt, j.az))</span><br><span class="line"><span class="comment">##  Attributes can be set:</span></span><br><span class="line"><span class="comment">##      date — Date and time</span></span><br><span class="line"><span class="comment">##      epoch — Epoch for astrometric RA/dec</span></span><br><span class="line"><span class="comment">##      lat — Latitude (+N)</span></span><br><span class="line"><span class="comment">##      lon — Longitude (+E)</span></span><br><span class="line"><span class="comment">##      elevation — Elevation (m)</span></span><br><span class="line"><span class="comment">##      temp — Temperature (°C)</span></span><br><span class="line"><span class="comment">##      pressure — Atmospheric pressure (mBar)</span></span><br><span class="line"><span class="comment">##  ##      The date defaults to now().</span></span><br><span class="line"><span class="comment">##      The epoch defaults to &#x27;2000&#x27;.</span></span><br><span class="line"><span class="comment">##      The temp defaults to 25°C.</span></span><br><span class="line"><span class="comment">##      The pressure defaults to 1010mBar.</span></span><br><span class="line"><span class="comment">##      Other attributes default to zero.</span></span><br><span class="line"><span class="number">0</span>:<span class="number">57</span>:<span class="number">44.7</span> <span class="number">256</span>:<span class="number">41</span>:<span class="number">01.3</span></span><br></pre></td></tr></table></figure>
+ra, dec = &#39;7:16:00&#39;, &#39;-6:17:00&#39;print(ephem.uranometria(ra, dec))
 
-<h3 id="天体的升降与中天时刻"><a href="#天体的升降与中天时刻" class="headerlink" title="天体的升降与中天时刻"></a>天体的升降与中天时刻</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">############## 内置的城市位置数据</span></span><br><span class="line">city = city(<span class="string">&#x27;Beijing&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s %s&#x27;</span> % (city.lat, city.lon))</span><br><span class="line"><span class="comment">############# 天体的升降和中天</span></span><br><span class="line">sitka = Observer()</span><br><span class="line">sitka.date = <span class="string">&#x27;1999/6/27&#x27;</span></span><br><span class="line">sitka.lat = <span class="string">&#x27;57:10&#x27;</span></span><br><span class="line">sitka.lon = <span class="string">&#x27;-135:15&#x27;</span>m = Mars()</span><br><span class="line"><span class="built_in">print</span>(sitka.next_transit(m))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s %s&#x27;</span> % (m.alt, m.az))</span><br><span class="line"><span class="built_in">print</span>(sitka.next_rising(m, start=<span class="string">&#x27;1999/6/28&#x27;</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s %s&#x27;</span> % (m.alt, m.az))</span><br><span class="line"><span class="comment">#### 给定观测者之后， 每个天体可以使用方法 （人造卫星除外）</span></span><br><span class="line"><span class="comment">### previous_transit()</span></span><br><span class="line"><span class="comment">### next_transit()</span></span><br><span class="line"><span class="comment">### previous_antitransit()</span></span><br><span class="line"><span class="comment">### next_antitransit()</span></span><br><span class="line"><span class="comment">### previous_rising()</span></span><br><span class="line"><span class="comment">### next_rising()</span></span><br><span class="line"><span class="comment">### previous_setting()</span></span><br><span class="line"><span class="comment">### next_setting()</span></span><br><span class="line"><span class="number">39</span>:<span class="number">54</span>:<span class="number">15.2</span> <span class="number">116</span>:<span class="number">24</span>:<span class="number">26.7</span></span><br><span class="line"><span class="number">1999</span>/<span class="number">6</span>/<span class="number">27</span> 04:<span class="number">22</span>:<span class="number">45</span></span><br><span class="line"><span class="number">21</span>:<span class="number">18</span>:<span class="number">33.6</span> <span class="number">180</span>:<span class="number">00</span>:<span class="number">00.0</span></span><br><span class="line"><span class="number">1999</span>/<span class="number">6</span>/<span class="number">28</span> <span class="number">23</span>:<span class="number">28</span>:<span class="number">25</span></span><br><span class="line">-<span class="number">0</span>:<span class="number">00</span>:<span class="number">05.8</span> <span class="number">111</span>:<span class="number">10</span>:<span class="number">41.6</span></span><br></pre></td></tr></table></figure>
+print(ephem.uranometria2000(ra, dec))
 
-<h2 id="人造卫星升落和中天时刻等"><a href="#人造卫星升落和中天时刻等" class="headerlink" title="人造卫星升落和中天时刻等"></a>人造卫星升落和中天时刻等</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##### 某年某月某日， 某地， 计算人造卫星掠过的时刻</span></span><br><span class="line">line1 = <span class="string">&quot;IRIDIUM 80 [+]&quot;</span></span><br><span class="line">line2 = <span class="string">&quot;1 25469U 98051C   09119.61415140 -.00000218  00000-0 -84793-4 0  4781&quot;</span></span><br><span class="line">line3 = <span class="string">&quot;2 25469  86.4029 183.4052 0002522  86.7221 273.4294 14.34215064557061&quot;</span></span><br><span class="line">iridium_80 = ephem.readtle(line1, line2, line3)</span><br><span class="line"></span><br><span class="line">city.date = <span class="string">&#x27;2009/5/1&#x27;</span></span><br><span class="line">info = city.next_pass(iridium_80)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Rise time: %s azimuth: %s&quot;</span> % (info[<span class="number">0</span>], info[<span class="number">1</span>]))</span><br><span class="line"><span class="comment">####  返回值的时刻####  </span></span><br><span class="line"><span class="number">0</span>  Rise time<span class="comment">####  </span></span><br><span class="line"><span class="number">1</span>  Rise azimuth<span class="comment">####  </span></span><br><span class="line"><span class="number">2</span>  Transit time<span class="comment">####  </span></span><br><span class="line"><span class="number">3</span>  Transit altitude<span class="comment">####  </span></span><br><span class="line"><span class="number">4</span>  <span class="type">Set</span> time<span class="comment">####  </span></span><br><span class="line"><span class="number">5</span>  <span class="type">Set</span> azimuth</span><br><span class="line"><span class="comment">##############################################</span></span><br><span class="line">Rise time: <span class="number">2009</span>/<span class="number">5</span>/<span class="number">1</span> <span class="number">00</span>:<span class="number">45</span>:05 azimuth: <span class="number">6</span>:<span class="number">13</span>:<span class="number">37.5</span></span><br></pre></td></tr></table></figure>
+print(ephem.millennium_atlas(ra, dec))
+</code></pre>
+<h2 id="转换儒略日"><a href="#转换儒略日" class="headerlink" title="转换儒略日"></a>转换儒略日</h2><pre><code class="python">ephem.julian_date(&#39;2000/1/1&#39;)
+</code></pre>
+<h2 id="计算-Delta-T"><a href="#计算-Delta-T" class="headerlink" title="计算 Delta T"></a>计算 Delta T</h2><pre><code class="python">print(ephem.delta_t(&#39;1980&#39;))
+</code></pre>
+<h2 id="计算两个物件的角距"><a href="#计算两个物件的角距" class="headerlink" title="计算两个物件的角距"></a>计算两个物件的角距</h2><pre><code class="python">m1 = ephem.Moon(&#39;1970/1/16&#39;)
+m2 = ephem.Moon(&#39;1970/1/17&#39;)
+s = ephem.separation(m1, m2)
+print(&quot;In one day the Moon moved %s&quot; % s)
+In one day the Moon moved 12:33:28.5
+</code></pre>
+<h2 id="坐标系转换"><a href="#坐标系转换" class="headerlink" title="坐标系转换"></a>坐标系转换</h2><pre><code class="python">np = Equatorial(&#39;0&#39;, &#39;90&#39;, epoch=&#39;2000&#39;)
+g = Galactic(np)
+print(&#39;%s %s&#39; % (g.lon, g.lat))
+####   Equatorial
+####   ra — right ascension
+####   dec — declination
+####   epoch — epoch of the coordinate
+####   Ecliptic
+####   lon — ecliptic longitude (+E)
+####   lat — ecliptic latitude (+N)
+####   epoch — epoch of the coordinate
+####   Galactic
+####   lon — galactic longitude (+E)
+####   lat — galactic latitude (+N)
+####   epoch — epoch of the coordinate
+122:55:54.9 27:07:41.7
+</code></pre>
+<h2 id="计算某地点的天象"><a href="#计算某地点的天象" class="headerlink" title="计算某地点的天象"></a>计算某地点的天象</h2><h3 id="天体的高度和方位"><a href="#天体的高度和方位" class="headerlink" title="天体的高度和方位"></a>天体的高度和方位</h3><pre><code class="python">#### Describes a position on Earth’s surface.lowell = ephem.Observer()
+lowell.lon = &#39;-111:32.1&#39;
+lowell.lat = &#39;35:05.8&#39;
+lowell.elevation = 2198
+lowell.date = &#39;1986/3/13&#39;
+j = ephem.Jupiter()
+j.compute(lowell)
+print(&#39;%s %s&#39; % (j.alt, j.az))
+##  Attributes can be set:
+##      date — Date and time
+##      epoch — Epoch for astrometric RA/dec
+##      lat — Latitude (+N)
+##      lon — Longitude (+E)
+##      elevation — Elevation (m)
+##      temp — Temperature (°C)
+##      pressure — Atmospheric pressure (mBar)
+##  ##      The date defaults to now().
+##      The epoch defaults to &#39;2000&#39;.
+##      The temp defaults to 25°C.
+##      The pressure defaults to 1010mBar.
+##      Other attributes default to zero.
+0:57:44.7 256:41:01.3
+</code></pre>
+<h3 id="天体的升降与中天时刻"><a href="#天体的升降与中天时刻" class="headerlink" title="天体的升降与中天时刻"></a>天体的升降与中天时刻</h3><pre><code class="python">############## 内置的城市位置数据
+city = city(&#39;Beijing&#39;)
+print(&#39;%s %s&#39; % (city.lat, city.lon))
+############# 天体的升降和中天
+sitka = Observer()
+sitka.date = &#39;1999/6/27&#39;
+sitka.lat = &#39;57:10&#39;
+sitka.lon = &#39;-135:15&#39;m = Mars()
+print(sitka.next_transit(m))
+print(&#39;%s %s&#39; % (m.alt, m.az))
+print(sitka.next_rising(m, start=&#39;1999/6/28&#39;))
+print(&#39;%s %s&#39; % (m.alt, m.az))
+#### 给定观测者之后， 每个天体可以使用方法 （人造卫星除外）
+### previous_transit()
+### next_transit()
+### previous_antitransit()
+### next_antitransit()
+### previous_rising()
+### next_rising()
+### previous_setting()
+### next_setting()
+39:54:15.2 116:24:26.7
+1999/6/27 04:22:45
+21:18:33.6 180:00:00.0
+1999/6/28 23:28:25
+-0:00:05.8 111:10:41.6
+</code></pre>
+<h2 id="人造卫星升落和中天时刻等"><a href="#人造卫星升落和中天时刻等" class="headerlink" title="人造卫星升落和中天时刻等"></a>人造卫星升落和中天时刻等</h2><pre><code class="python">##### 某年某月某日， 某地， 计算人造卫星掠过的时刻
+line1 = &quot;IRIDIUM 80 [+]&quot;
+line2 = &quot;1 25469U 98051C   09119.61415140 -.00000218  00000-0 -84793-4 0  4781&quot;
+line3 = &quot;2 25469  86.4029 183.4052 0002522  86.7221 273.4294 14.34215064557061&quot;
+iridium_80 = ephem.readtle(line1, line2, line3)
 
-<h2 id="计算日出时刻"><a href="#计算日出时刻" class="headerlink" title="计算日出时刻"></a>计算日出时刻</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">sun = Sun()</span><br><span class="line">greenwich = Observer()</span><br><span class="line">greenwich.lat = <span class="string">&#x27;51:28:38&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(greenwich.horizon)</span><br><span class="line">greenwich.date = <span class="string">&#x27;2007/10/1&#x27;</span></span><br><span class="line">r1 = greenwich.next_rising(sun)</span><br><span class="line">greenwich.pressure = <span class="number">0</span></span><br><span class="line">greenwich.horizon = <span class="string">&#x27;-0:34&#x27;</span></span><br><span class="line">greenwich.date = <span class="string">&#x27;2007/10/1&#x27;</span></span><br><span class="line">r2 = greenwich.next_rising(sun)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Visual sunrise: %s&#x27;</span> % r1)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Naval Observatory sunrise: %s&#x27;</span> % r2)</span><br><span class="line"><span class="number">0</span>:<span class="number">00</span>:<span class="number">00.0</span></span><br><span class="line">Visual sunrise: <span class="number">2007</span>/<span class="number">10</span>/<span class="number">1</span> 05:<span class="number">59</span>:<span class="number">30</span></span><br><span class="line">Naval Observatory sunrise: <span class="number">2007</span>/<span class="number">10</span>/<span class="number">1</span> 05:<span class="number">59</span>:<span class="number">50</span></span><br></pre></td></tr></table></figure>
+city.date = &#39;2009/5/1&#39;
+info = city.next_pass(iridium_80)
+print(&quot;Rise time: %s azimuth: %s&quot; % (info[0], info[1]))
+####  返回值的时刻####  
+0  Rise time####  
+1  Rise azimuth####  
+2  Transit time####  
+3  Transit altitude####  
+4  Set time####  
+5  Set azimuth
+##############################################
+Rise time: 2009/5/1 00:45:05 azimuth: 6:13:37.5
+</code></pre>
+<h2 id="计算日出时刻"><a href="#计算日出时刻" class="headerlink" title="计算日出时刻"></a>计算日出时刻</h2><pre><code class="python">sun = Sun()
+greenwich = Observer()
+greenwich.lat = &#39;51:28:38&#39;
+print(greenwich.horizon)
+greenwich.date = &#39;2007/10/1&#39;
+r1 = greenwich.next_rising(sun)
+greenwich.pressure = 0
+greenwich.horizon = &#39;-0:34&#39;
+greenwich.date = &#39;2007/10/1&#39;
+r2 = greenwich.next_rising(sun)
+print(&#39;Visual sunrise: %s&#39; % r1)
+print(&#39;Naval Observatory sunrise: %s&#39; % r2)
+0:00:00.0
+Visual sunrise: 2007/10/1 05:59:30
+Naval Observatory sunrise: 2007/10/1 05:59:50
+</code></pre>
+<h2 id="恒星时"><a href="#恒星时" class="headerlink" title="恒星时"></a>恒星时</h2><pre><code class="python">madrid = ephem.city(&#39;Madrid&#39;)
+madrid.date = &#39;1978/10/3 11:32&#39;
+print(madrid.sidereal_time())
+12:04:28.09
+2000/3/20 07:35:17
+2000/6/21 01:47:51
+Spring lasted 92.8 days
+</code></pre>
+<h2 id="春分，-秋分，-冬至，-夏至的时刻"><a href="#春分，-秋分，-冬至，-夏至的时刻" class="headerlink" title="春分， 秋分， 冬至， 夏至的时刻"></a>春分， 秋分， 冬至， 夏至的时刻</h2><pre><code class="python">d1 = ephem.next_equinox(&#39;2000&#39;)
+print(d1)
+d2 = ephem.next_solstice(d1)
+print(d2)
+t = d2 - d1
+print(&quot;Spring lasted %.1f days&quot; % t)
+#### 相应的方法
+#### previous_solstice()
+#### next_solstice()
+######## previous_equinox()
+#### next_equinox()
+######## previous_vernal_equinox()
+#### next_vernal_equinox()
+</code></pre>
+<h2 id="月相"><a href="#月相" class="headerlink" title="月相"></a>月相</h2><pre><code class="python">d1 = ephem.next_full_moon(&#39;1984&#39;)
+print(d1)
 
-<h2 id="恒星时"><a href="#恒星时" class="headerlink" title="恒星时"></a>恒星时</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">madrid = ephem.city(<span class="string">&#x27;Madrid&#x27;</span>)</span><br><span class="line">madrid.date = <span class="string">&#x27;1978/10/3 11:32&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(madrid.sidereal_time())</span><br><span class="line"><span class="number">12</span>:04:<span class="number">28.09</span></span><br><span class="line"><span class="number">2000</span>/<span class="number">3</span>/<span class="number">20</span> 07:<span class="number">35</span>:<span class="number">17</span></span><br><span class="line"><span class="number">2000</span>/<span class="number">6</span>/<span class="number">21</span> 01:<span class="number">47</span>:<span class="number">51</span></span><br><span class="line">Spring lasted <span class="number">92.8</span> days</span><br></pre></td></tr></table></figure>
+d2 = ephem.next_new_moon(d1)
+print(d2)
+### 朔
+### previous_new_moon()
+### next_new_moon()
+### 上弦月
+### previous_first_quarter_moon()
+### next_first_quarter_moon()
+### 望
+### previous_full_moon()
+### next_full_moon()
+### 下弦月
+### previous_last_quarter_moon()
+### next_last_quarter_moon()
+1984/1/18 14:05:10
+1984/2/1 23:46:25
+</code></pre>
+<h2 id="角度转换"><a href="#角度转换" class="headerlink" title="角度转换"></a>角度转换</h2><pre><code class="python">a = ephem.degrees(&#39;180:00:00&#39;)
+print(a)
+a
+print(&quot;180° is %f radians&quot; % a)
+h = ephem.hours(&#39;1:00:00&#39;)
+deg = ephem.degrees(h)
+print(&quot;1h right ascension = %s°&quot; % deg)
+## 时间和角度输入
+ephem.degrees(ephem.pi / 32)
+ephem.degrees(&#39;5.625&#39;)
+ephem.degrees(&#39;5:37.5&#39;)
+ephem.degrees(&#39;5:37:30&#39;)
+ephem.degrees(&#39;5:37:30.0&#39;)
+ephem.hours(&#39;0.375&#39;)
+ephem.hours(&#39;0:22.5&#39;)
+ephem.hours(&#39;0:22:30&#39;)
+ephem.hours(&#39;0:22:30.0&#39;)
+180:00:00.0
+180° is 3.141593 radians
+1h right ascension = 15:00:00.0°
+#### 日期时间的输入d = ephem.Date(&#39;1997/3/9 5:13&#39;)
+print(d)
+d
+d.triple()
+d.tuple()
+d + ephem.hour
+print(ephem.date(d + ephem.hour))
+print(ephem.date(d + 1))
+### 输入日期的格式ephem.Date(35497.7197916667)
+ephem.Date(&#39;1997/3/10.2197916667&#39;)
+ephem.Date(&#39;1997/3/10 05.275&#39;)
+ephem.Date(&#39;1997/3/10 05:16.5&#39;)
+ephem.Date(&#39;1997/3/10 05:16:30&#39;)
+ephem.Date(&#39;1997/3/10 05:16:30.0&#39;)
+ephem.Date((1997, 3, 10.2197916667))
+ephem.Date((1997, 3, 10, 5, 16, 30.0))
+1997/3/9 05:13:00
+1997/3/9 06:13:00
+1997/3/10 05:13:00
+35497.71979166667
+</code></pre>
+<h2 id="亮星列表"><a href="#亮星列表" class="headerlink" title="亮星列表"></a>亮星列表</h2><pre><code class="python">rigel = ephem.star(&#39;Rigel&#39;)
+print(&#39;%s %s&#39; % (rigel._ra, rigel._dec))
+5:14:32.30 -8:12:06.0
+</code></pre>
+<h2 id="城市列表"><a href="#城市列表" class="headerlink" title="城市列表"></a>城市列表</h2><pre><code class="python">stuttgart = ephem.city(&#39;Stuttgart&#39;)
+print(stuttgart)
+print(stuttgart.lon)
+&lt;ephem.Observer date=&#39;2018/8/27 05:17:01&#39; 
+epoch=&#39;2000/1/1 12:00:00&#39; 
+lon=&#39;9:10:50.8&#39; 
+lat=&#39;48:46:37.6&#39; 
+elevation=249.205185m 
+horizon=0:00:00.0 
+temp=15.0C 
+pressure=983.6685758505818mBar&gt;
+9:10:50.8
+</code></pre>
+<h2 id="天文常量"><a href="#天文常量" class="headerlink" title="天文常量"></a>天文常量</h2><pre><code class="python">#### PyEphem provides constants for the dates of a few major star-atlas epochs:
+#### 不同历元#  B1900# B1950# J2000
+### PyEphem provides, for reference, the length of four distances, all in meters:
 
-<h2 id="春分，-秋分，-冬至，-夏至的时刻"><a href="#春分，-秋分，-冬至，-夏至的时刻" class="headerlink" title="春分， 秋分， 冬至， 夏至的时刻"></a>春分， 秋分， 冬至， 夏至的时刻</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">d1 = ephem.next_equinox(<span class="string">&#x27;2000&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(d1)</span><br><span class="line">d2 = ephem.next_solstice(d1)</span><br><span class="line"><span class="built_in">print</span>(d2)</span><br><span class="line">t = d2 - d1</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Spring lasted %.1f days&quot;</span> % t)</span><br><span class="line"><span class="comment">#### 相应的方法</span></span><br><span class="line"><span class="comment">#### previous_solstice()</span></span><br><span class="line"><span class="comment">#### next_solstice()</span></span><br><span class="line"><span class="comment">######## previous_equinox()</span></span><br><span class="line"><span class="comment">#### next_equinox()</span></span><br><span class="line"><span class="comment">######## previous_vernal_equinox()</span></span><br><span class="line"><span class="comment">#### next_vernal_equinox()</span></span><br></pre></td></tr></table></figure>
+### 天文常量print(ephem.meters_per_au)
+print(ephem.earth_radius)
+print(ephem.moon_radius)
+print(ephem.sun_radius)
+#### PyEphem provides the speed of light in meters per second:
+## 光速 m/sprint(ephem.c)
+149597870000.0
+6378160.0
+1740000.0
+695000000.0
+299792458.0
+</code></pre>
 
-<h2 id="月相"><a href="#月相" class="headerlink" title="月相"></a>月相</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">d1 = ephem.next_full_moon(<span class="string">&#x27;1984&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(d1)</span><br><span class="line"></span><br><span class="line">d2 = ephem.next_new_moon(d1)</span><br><span class="line"><span class="built_in">print</span>(d2)</span><br><span class="line"><span class="comment">### 朔</span></span><br><span class="line"><span class="comment">### previous_new_moon()</span></span><br><span class="line"><span class="comment">### next_new_moon()</span></span><br><span class="line"><span class="comment">### 上弦月</span></span><br><span class="line"><span class="comment">### previous_first_quarter_moon()</span></span><br><span class="line"><span class="comment">### next_first_quarter_moon()</span></span><br><span class="line"><span class="comment">### 望</span></span><br><span class="line"><span class="comment">### previous_full_moon()</span></span><br><span class="line"><span class="comment">### next_full_moon()</span></span><br><span class="line"><span class="comment">### 下弦月</span></span><br><span class="line"><span class="comment">### previous_last_quarter_moon()</span></span><br><span class="line"><span class="comment">### next_last_quarter_moon()</span></span><br><span class="line"><span class="number">1984</span>/<span class="number">1</span>/<span class="number">18</span> <span class="number">14</span>:05:<span class="number">10</span></span><br><span class="line"><span class="number">1984</span>/<span class="number">2</span>/<span class="number">1</span> <span class="number">23</span>:<span class="number">46</span>:<span class="number">25</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="角度转换"><a href="#角度转换" class="headerlink" title="角度转换"></a>角度转换</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">a = ephem.degrees(<span class="string">&#x27;180:00:00&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(a)</span><br><span class="line">a</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;180° is %f radians&quot;</span> % a)</span><br><span class="line">h = ephem.hours(<span class="string">&#x27;1:00:00&#x27;</span>)</span><br><span class="line">deg = ephem.degrees(h)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;1h right ascension = %s°&quot;</span> % deg)</span><br><span class="line"><span class="comment">## 时间和角度输入</span></span><br><span class="line">ephem.degrees(ephem.pi / <span class="number">32</span>)</span><br><span class="line">ephem.degrees(<span class="string">&#x27;5.625&#x27;</span>)</span><br><span class="line">ephem.degrees(<span class="string">&#x27;5:37.5&#x27;</span>)</span><br><span class="line">ephem.degrees(<span class="string">&#x27;5:37:30&#x27;</span>)</span><br><span class="line">ephem.degrees(<span class="string">&#x27;5:37:30.0&#x27;</span>)</span><br><span class="line">ephem.hours(<span class="string">&#x27;0.375&#x27;</span>)</span><br><span class="line">ephem.hours(<span class="string">&#x27;0:22.5&#x27;</span>)</span><br><span class="line">ephem.hours(<span class="string">&#x27;0:22:30&#x27;</span>)</span><br><span class="line">ephem.hours(<span class="string">&#x27;0:22:30.0&#x27;</span>)</span><br><span class="line"><span class="number">180</span>:<span class="number">00</span>:<span class="number">00.0</span></span><br><span class="line"><span class="number">180</span>° <span class="keyword">is</span> <span class="number">3.141593</span> radians</span><br><span class="line">1h right ascension = <span class="number">15</span>:<span class="number">00</span>:<span class="number">00.0</span>°</span><br><span class="line"><span class="comment">#### 日期时间的输入d = ephem.Date(&#x27;1997/3/9 5:13&#x27;)</span></span><br><span class="line"><span class="built_in">print</span>(d)</span><br><span class="line">d</span><br><span class="line">d.triple()</span><br><span class="line">d.<span class="built_in">tuple</span>()</span><br><span class="line">d + ephem.hour</span><br><span class="line"><span class="built_in">print</span>(ephem.date(d + ephem.hour))</span><br><span class="line"><span class="built_in">print</span>(ephem.date(d + <span class="number">1</span>))</span><br><span class="line"><span class="comment">### 输入日期的格式ephem.Date(35497.7197916667)</span></span><br><span class="line">ephem.Date(<span class="string">&#x27;1997/3/10.2197916667&#x27;</span>)</span><br><span class="line">ephem.Date(<span class="string">&#x27;1997/3/10 05.275&#x27;</span>)</span><br><span class="line">ephem.Date(<span class="string">&#x27;1997/3/10 05:16.5&#x27;</span>)</span><br><span class="line">ephem.Date(<span class="string">&#x27;1997/3/10 05:16:30&#x27;</span>)</span><br><span class="line">ephem.Date(<span class="string">&#x27;1997/3/10 05:16:30.0&#x27;</span>)</span><br><span class="line">ephem.Date((<span class="number">1997</span>, <span class="number">3</span>, <span class="number">10.2197916667</span>))</span><br><span class="line">ephem.Date((<span class="number">1997</span>, <span class="number">3</span>, <span class="number">10</span>, <span class="number">5</span>, <span class="number">16</span>, <span class="number">30.0</span>))</span><br><span class="line"><span class="number">1997</span>/<span class="number">3</span>/<span class="number">9</span> 05:<span class="number">13</span>:<span class="number">00</span></span><br><span class="line"><span class="number">1997</span>/<span class="number">3</span>/<span class="number">9</span> 06:<span class="number">13</span>:<span class="number">00</span></span><br><span class="line"><span class="number">1997</span>/<span class="number">3</span>/<span class="number">10</span> 05:<span class="number">13</span>:<span class="number">00</span></span><br><span class="line"><span class="number">35497.71979166667</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="亮星列表"><a href="#亮星列表" class="headerlink" title="亮星列表"></a>亮星列表</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rigel = ephem.star(<span class="string">&#x27;Rigel&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s %s&#x27;</span> % (rigel._ra, rigel._dec))</span><br><span class="line"><span class="number">5</span>:<span class="number">14</span>:<span class="number">32.30</span> -<span class="number">8</span>:<span class="number">12</span>:<span class="number">06.0</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="城市列表"><a href="#城市列表" class="headerlink" title="城市列表"></a>城市列表</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">stuttgart = ephem.city(<span class="string">&#x27;Stuttgart&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(stuttgart)</span><br><span class="line"><span class="built_in">print</span>(stuttgart.lon)</span><br><span class="line">&lt;ephem.Observer date=<span class="string">&#x27;2018/8/27 05:17:01&#x27;</span> </span><br><span class="line">epoch=<span class="string">&#x27;2000/1/1 12:00:00&#x27;</span> </span><br><span class="line">lon=<span class="string">&#x27;9:10:50.8&#x27;</span> </span><br><span class="line">lat=<span class="string">&#x27;48:46:37.6&#x27;</span> </span><br><span class="line">elevation=<span class="number">249.205185</span>m </span><br><span class="line">horizon=<span class="number">0</span>:<span class="number">00</span>:<span class="number">00.0</span> </span><br><span class="line">temp=<span class="number">15.0</span>C </span><br><span class="line">pressure=<span class="number">983.6685758505818</span>mBar&gt;</span><br><span class="line"><span class="number">9</span>:<span class="number">10</span>:<span class="number">50.8</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="天文常量"><a href="#天文常量" class="headerlink" title="天文常量"></a>天文常量</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#### PyEphem provides constants for the dates of a few major star-atlas epochs:</span></span><br><span class="line"><span class="comment">#### 不同历元#  B1900# B1950# J2000</span></span><br><span class="line"><span class="comment">### PyEphem provides, for reference, the length of four distances, all in meters:</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### 天文常量print(ephem.meters_per_au)</span></span><br><span class="line"><span class="built_in">print</span>(ephem.earth_radius)</span><br><span class="line"><span class="built_in">print</span>(ephem.moon_radius)</span><br><span class="line"><span class="built_in">print</span>(ephem.sun_radius)</span><br><span class="line"><span class="comment">#### PyEphem provides the speed of light in meters per second:</span></span><br><span class="line"><span class="comment">## 光速 m/sprint(ephem.c)</span></span><br><span class="line"><span class="number">149597870000.0</span></span><br><span class="line"><span class="number">6378160.0</span></span><br><span class="line"><span class="number">1740000.0</span></span><br><span class="line"><span class="number">695000000.0</span></span><br><span class="line"><span class="number">299792458.0</span></span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/09/22/2014-9-13-pyephem/" data-id="ckmq2gws9006kq884gmz90hi6" data-title="PyEphem基本功能介绍" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/09/22/2014-9-13-pyephem/" data-id="ckmq42aix006e1k8417o13sdj" data-title="PyEphem基本功能介绍" class="article-share-link">Share</a>
       
       
       
@@ -219,6 +517,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -232,10 +534,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

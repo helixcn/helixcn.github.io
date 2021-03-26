@@ -115,13 +115,113 @@
 <p>在中国科学院紫金山天文台编纂的《中国天文年历》上，有相应年份逐日的儒略日表，可供参考。</p>
 <p>还是回到原来的问题，如何计算公历中两个日期相差的天数？办法之一，就是将二者都转换成儒略日，计算其差值。实际上，天文学家也是依靠儒略日来计算天体动态的。</p>
 <p>下面是已知日期计算儒略日和已知儒略日计算日期的方法。用R语言写成。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### 已知日期计算儒略日</span></span><br><span class="line"><span class="comment">### y 年 m 月 d日</span></span><br><span class="line"></span><br><span class="line">date2jd &lt;- <span class="keyword">function</span>(y,m,d)&#123;</span><br><span class="line">   n=<span class="number">0</span></span><br><span class="line">   G=<span class="number">0</span></span><br><span class="line">   <span class="keyword">if</span>(y*<span class="number">372</span>+m*<span class="number">31</span>+<span class="built_in">floor</span>(d)&gt;=<span class="number">588829</span>)&#123;</span><br><span class="line">   G=<span class="number">1</span></span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">if</span>(m&lt;=<span class="number">2</span>) &#123;</span><br><span class="line">   m = m +<span class="number">12</span></span><br><span class="line">   y = y -<span class="number">1</span></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span>(G) &#123;</span><br><span class="line">   n=<span class="built_in">floor</span>(y/<span class="number">100</span>)</span><br><span class="line">   n=<span class="number">2</span>-n+<span class="built_in">floor</span>(n/<span class="number">4</span>)</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   res &lt;- <span class="built_in">floor</span>(<span class="number">365.25</span>*(y+<span class="number">4716</span>)) + <span class="built_in">floor</span>(<span class="number">30.6001</span>*(m+<span class="number">1</span>)) + d + n - <span class="number">1524.5</span></span><br><span class="line">   <span class="built_in">return</span>(res)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">### 已知儒略日，计算日期的公式</span></span><br><span class="line"><span class="comment">###</span></span><br><span class="line"></span><br><span class="line">jd2date &lt;- <span class="keyword">function</span>(jd)&#123;</span><br><span class="line">    <span class="comment">### 转换日期格式</span></span><br><span class="line">    <span class="comment">### 已知儒略日，用jd2date求得到日期，变为年，月，日</span></span><br><span class="line">    jdate2vect &lt;- <span class="keyword">function</span>(xxx)&#123;</span><br><span class="line">        year = xxx[[<span class="number">1</span>]]</span><br><span class="line">        month = xxx[[<span class="number">2</span>]]</span><br><span class="line">        day &lt;- xxx[[<span class="number">3</span>]]</span><br><span class="line">        frac &lt;- xxx[[<span class="number">6</span>]]/(<span class="number">60</span>*<span class="number">60</span>*<span class="number">24</span>)+xxx[[<span class="number">5</span>]]/(<span class="number">60</span>*<span class="number">24</span>)+xxx[[<span class="number">4</span>]]/<span class="number">24</span></span><br><span class="line">        day.dec &lt;- day + frac</span><br><span class="line">        res &lt;- <span class="built_in">c</span>(year, month, day.dec)</span><br><span class="line">        <span class="built_in">names</span>(res) &lt;- <span class="built_in">c</span>(<span class="string">&quot;Year&quot;</span>,<span class="string">&quot;Month&quot;</span>,<span class="string">&quot;Day&quot;</span>)</span><br><span class="line">        <span class="built_in">return</span>(res)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">   D = <span class="built_in">floor</span>(jd+<span class="number">0.5</span>)</span><br><span class="line">   <span class="built_in">F</span>= jd+<span class="number">0.5</span>-D</span><br><span class="line">   <span class="keyword">if</span>(D&gt;=<span class="number">2299161</span>) &#123;</span><br><span class="line">      <span class="built_in">c</span> = <span class="built_in">floor</span>((D-<span class="number">1867216.25</span>)/<span class="number">36524.25</span>)</span><br><span class="line">      D = D + <span class="number">1</span>+<span class="built_in">c</span>-<span class="built_in">floor</span>(<span class="built_in">c</span>/<span class="number">4</span>);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   D = D + <span class="number">1524</span>;              </span><br><span class="line">   r.Y = <span class="built_in">floor</span>((D-<span class="number">122.1</span>)/<span class="number">365.25</span>);</span><br><span class="line">   D = D - <span class="built_in">floor</span>(<span class="number">365.25</span>*r.Y);  </span><br><span class="line">   r.M = <span class="built_in">floor</span>(D/<span class="number">30.601</span>);</span><br><span class="line">   D = D- <span class="built_in">floor</span>(<span class="number">30.601</span>*r.M);  </span><br><span class="line">   r.D = D;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span>(r.M&gt;<span class="number">13</span>)&#123;</span><br><span class="line">      r.M=r.M - <span class="number">13</span></span><br><span class="line">      r.Y=r.Y  - <span class="number">4715</span>;</span><br><span class="line">   &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      r.M =r.M - <span class="number">1</span></span><br><span class="line">      r.Y = r.Y- <span class="number">4716</span></span><br><span class="line">   &#125;</span><br><span class="line">   <span class="built_in">F</span>= <span class="built_in">F</span>*<span class="number">24</span>;</span><br><span class="line">   r.h=<span class="built_in">floor</span>(<span class="built_in">F</span>);</span><br><span class="line">   <span class="built_in">F</span>= <span class="built_in">F</span> -r.h;</span><br><span class="line">   <span class="built_in">F</span> = <span class="built_in">F</span> * <span class="number">60</span>;</span><br><span class="line">   r.m=<span class="built_in">floor</span>(<span class="built_in">F</span>);</span><br><span class="line">   <span class="built_in">F</span>= <span class="built_in">F</span> - r.m;</span><br><span class="line">   <span class="built_in">F</span> = <span class="built_in">F</span> * <span class="number">60</span>;</span><br><span class="line">   r.s=<span class="built_in">F</span>;</span><br><span class="line">   res &lt;- <span class="built_in">list</span>(r.Y, r.M, r.D, r.h, r.m, <span class="built_in">round</span>(r.s,<span class="number">2</span>))</span><br><span class="line">   <span class="built_in">names</span>(res) &lt;- <span class="built_in">c</span>(<span class="string">&quot;Year&quot;</span>,<span class="string">&quot;Month&quot;</span>,<span class="string">&quot;Day&quot;</span>,<span class="string">&quot;Hour&quot;</span>,<span class="string">&quot;Minute&quot;</span>,<span class="string">&quot;Second&quot;</span>)</span><br><span class="line">   <span class="built_in">return</span>(jdate2vect(res));</span><br><span class="line"></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ## date2jd 举例</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># ## 求2010年9月21日与1980年1月1日相差的天数</span></span><br><span class="line">date2jd(<span class="number">2010</span>,<span class="number">9</span>,<span class="number">21</span>) - date2jd(<span class="number">1980</span>,<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line"><span class="comment"># 结果：11221天</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># ## 求2035年9月2日北京日全食距离现在的天数</span></span><br><span class="line">date2jd(<span class="number">2035</span>,<span class="number">9</span>,<span class="number">2</span>) - date2jd(<span class="number">2010</span>,<span class="number">9</span>,<span class="number">21</span>)</span><br><span class="line"><span class="comment"># 结果：9112天</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># ## 求美国独立距离现在的天数</span></span><br><span class="line">date2jd(<span class="number">2010</span>,<span class="number">9</span>,<span class="number">21</span>) - date2jd(<span class="number">1776</span>,<span class="number">7</span>,<span class="number">4</span>)</span><br><span class="line"><span class="comment"># 结果：85545天</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ## 求公元前841年1月1日（西周共和元年）距离现在的天数</span></span><br><span class="line">date2jd(<span class="number">2010</span>,<span class="number">9</span>,<span class="number">21</span>) - date2jd(-<span class="number">841</span>,<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line"><span class="comment"># 结果：1041578 天</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ## 儒略日转年月日举例</span></span><br><span class="line"><span class="comment"># #已知儒略日为2455230.5，求其对应的公历日期。</span></span><br><span class="line">jd2date(<span class="number">2455230.5</span>)</span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># 结果：</span></span><br><span class="line"><span class="comment">#  Year Month   Day</span></span><br><span class="line"><span class="comment">#  2010     2     3</span></span><br><span class="line"><span class="comment">#  是2010年2月3日。</span></span><br></pre></td></tr></table></figure>
+<pre><code class="R">### 已知日期计算儒略日
+### y 年 m 月 d日
+
+date2jd &lt;- function(y,m,d)&#123;
+   n=0
+   G=0
+   if(y*372+m*31+floor(d)&gt;=588829)&#123;
+   G=1
+   &#125;
+   if(m&lt;=2) &#123;
+   m = m +12
+   y = y -1
+   &#125;
+
+   if(G) &#123;
+   n=floor(y/100)
+   n=2-n+floor(n/4)
+   &#125;
+
+   res &lt;- floor(365.25*(y+4716)) + floor(30.6001*(m+1)) + d + n - 1524.5
+   return(res)
+&#125;
+
+### 已知儒略日，计算日期的公式
+###
+
+jd2date &lt;- function(jd)&#123;
+    ### 转换日期格式
+    ### 已知儒略日，用jd2date求得到日期，变为年，月，日
+    jdate2vect &lt;- function(xxx)&#123;
+        year = xxx[[1]]
+        month = xxx[[2]]
+        day &lt;- xxx[[3]]
+        frac &lt;- xxx[[6]]/(60*60*24)+xxx[[5]]/(60*24)+xxx[[4]]/24
+        day.dec &lt;- day + frac
+        res &lt;- c(year, month, day.dec)
+        names(res) &lt;- c(&quot;Year&quot;,&quot;Month&quot;,&quot;Day&quot;)
+        return(res)
+    &#125;
+
+   D = floor(jd+0.5)
+   F= jd+0.5-D
+   if(D&gt;=2299161) &#123;
+      c = floor((D-1867216.25)/36524.25)
+      D = D + 1+c-floor(c/4);
+   &#125;
+
+   D = D + 1524;              
+   r.Y = floor((D-122.1)/365.25);
+   D = D - floor(365.25*r.Y);  
+   r.M = floor(D/30.601);
+   D = D- floor(30.601*r.M);  
+   r.D = D;
+
+   if(r.M&gt;13)&#123;
+      r.M=r.M - 13
+      r.Y=r.Y  - 4715;
+   &#125;else&#123;
+      r.M =r.M - 1
+      r.Y = r.Y- 4716
+   &#125;
+   F= F*24;
+   r.h=floor(F);
+   F= F -r.h;
+   F = F * 60;
+   r.m=floor(F);
+   F= F - r.m;
+   F = F * 60;
+   r.s=F;
+   res &lt;- list(r.Y, r.M, r.D, r.h, r.m, round(r.s,2))
+   names(res) &lt;- c(&quot;Year&quot;,&quot;Month&quot;,&quot;Day&quot;,&quot;Hour&quot;,&quot;Minute&quot;,&quot;Second&quot;)
+   return(jdate2vect(res));
+
+  &#125;
+</code></pre>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><pre><code class="R"># ## date2jd 举例
+# 
+# ## 求2010年9月21日与1980年1月1日相差的天数
+date2jd(2010,9,21) - date2jd(1980,1,1)
+# 结果：11221天
+# 
+# ## 求2035年9月2日北京日全食距离现在的天数
+date2jd(2035,9,2) - date2jd(2010,9,21)
+# 结果：9112天
+# 
+# ## 求美国独立距离现在的天数
+date2jd(2010,9,21) - date2jd(1776,7,4)
+# 结果：85545天
+
+# ## 求公元前841年1月1日（西周共和元年）距离现在的天数
+date2jd(2010,9,21) - date2jd(-841,1,1)
+# 结果：1041578 天
+
+# ## 儒略日转年月日举例
+# #已知儒略日为2455230.5，求其对应的公历日期。
+jd2date(2455230.5)
+# 
+# 结果：
+#  Year Month   Day
+#  2010     2     3
+#  是2010年2月3日。
+</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2010/09/21/2010-9-21-daydiff/" data-id="ckmq2gwqi001qq884fvsu9fte" data-title="如何计算两日期相差的天数？" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2010/09/21/2010-9-21-daydiff/" data-id="ckmq42ahf001v1k8456xtbex7" data-title="如何计算两日期相差的天数？" class="article-share-link">Share</a>
       
       
       
@@ -197,6 +297,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -210,10 +314,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

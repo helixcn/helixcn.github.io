@@ -6,12 +6,12 @@
   
   <title>利用LaTeX编写植物检索表 | Jinlong Zhang&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="模板如下： 12345678910111213141516171819\documentclass[11pt,a4paper]&amp;#123;article&amp;#125;\usepackage&amp;#123;dichokey&amp;#125;\usepackage&amp;#123;CJK&amp;#125;\pagestyle&amp;#123;empty&amp;#125;\begin&amp;#123;document&amp;#125;\begin&amp;#">
+  <meta name="description" content="模板如下： \documentclass[11pt,a4paper]&amp;#123;article&amp;#125; \usepackage&amp;#123;dichokey&amp;#125; \usepackage&amp;#123;CJK&amp;#125; \pagestyle&amp;#123;empty&amp;#125; \begin&amp;#123;document&amp;#125; \begin&amp;#123;CJK*&amp;#125;&amp;#123;UTF8">
 <meta property="og:type" content="article">
 <meta property="og:title" content="利用LaTeX编写植物检索表">
 <meta property="og:url" content="https://helixcn.github.io/2013/05/14/2013-5-14-latexkeys/index.html">
 <meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
-<meta property="og:description" content="模板如下： 12345678910111213141516171819\documentclass[11pt,a4paper]&amp;#123;article&amp;#125;\usepackage&amp;#123;dichokey&amp;#125;\usepackage&amp;#123;CJK&amp;#125;\pagestyle&amp;#123;empty&amp;#125;\begin&amp;#123;document&amp;#125;\begin&amp;#">
+<meta property="og:description" content="模板如下： \documentclass[11pt,a4paper]&amp;#123;article&amp;#125; \usepackage&amp;#123;dichokey&amp;#125; \usepackage&amp;#123;CJK&amp;#125; \pagestyle&amp;#123;empty&amp;#125; \begin&amp;#123;document&amp;#125; \begin&amp;#123;CJK*&amp;#125;&amp;#123;UTF8">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://blog.sciencenet.cn/static/js/grey.gif">
 <meta property="og:image" content="http://blog.sciencenet.cn/static/js/grey.gif">
@@ -102,17 +102,85 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>模板如下：</p>
-<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\documentclass</span>[11pt,a4paper]&#123;article&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;dichokey&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;CJK&#125;</span><br><span class="line"><span class="keyword">\pagestyle</span>&#123;empty&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;CJK*&#125;&#123;UTF8&#125;&#123;song&#125;</span><br><span class="line"><span class="keyword">\noindenttextbf</span>&#123;large 香港藤黄科分属检索表&#125;<span class="keyword">\</span></span><br><span class="line"><span class="keyword"></span><span class="keyword">\(</span>根据《香港植物志》 (2011)卷I 196页)<span class="keyword">\</span></span><br><span class="line"><span class="keyword"></span><span class="keyword">\vspace</span>&#123;2ex&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;Key&#125;&#123;&#125;</span><br><span class="line"><span class="keyword">\alter</span> 浆果或者核果</span><br><span class="line"><span class="keyword">\alter</span> 侧脉平行而不分叉， 核果 name&#123;胡桐属Calophyllum&#125;</span><br><span class="line"><span class="keyword">\alter</span> 侧脉分叉， 浆果name&#123;山竹子属Garcinia&#125;</span><br><span class="line"><span class="keyword">\alter</span> 蒴果</span><br><span class="line"><span class="keyword">\alter</span> 灌木或乔木， 叶片无腺点，种子具翅 name&#123;黄牛木属 Cratoxylum&#125; </span><br><span class="line"><span class="keyword">\alter</span> 草本，叶片具腺点， 果无翅 name&#123;金丝桃属 Hypericum&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;Key&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;CJK*&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="latex">\documentclass[11pt,a4paper]&#123;article&#125;
+\usepackage&#123;dichokey&#125;
+\usepackage&#123;CJK&#125;
+\pagestyle&#123;empty&#125;
+\begin&#123;document&#125;
+\begin&#123;CJK*&#125;&#123;UTF8&#125;&#123;song&#125;
+\noindenttextbf&#123;large 香港藤黄科分属检索表&#125;\
+\(根据《香港植物志》 (2011)卷I 196页)\
+\vspace&#123;2ex&#125;
+\begin&#123;Key&#125;&#123;&#125;
+\alter 浆果或者核果
+\alter 侧脉平行而不分叉， 核果 name&#123;胡桐属Calophyllum&#125;
+\alter 侧脉分叉， 浆果name&#123;山竹子属Garcinia&#125;
+\alter 蒴果
+\alter 灌木或乔木， 叶片无腺点，种子具翅 name&#123;黄牛木属 Cratoxylum&#125; 
+\alter 草本，叶片具腺点， 果无翅 name&#123;金丝桃属 Hypericum&#125;
+\end&#123;Key&#125;
+\end&#123;CJK*&#125;
+\end&#123;document&#125;
+</code></pre>
 <p>用pdfLaTeX编译， 编译后的效果如图<br><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></p>
 <p>例2</p>
-<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\documentclass</span>[15px,a4paper]&#123;article&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;dichokey&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;CJK&#125;</span><br><span class="line"><span class="keyword">\linespread</span>&#123;1.2&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;CJK*&#125;&#123;UTF8&#125;&#123;song&#125;</span><br><span class="line"><span class="keyword">\noindenttextbf</span>&#123;Largecenterline&#123;广州地区大戟科分属检索表&#125;&#125;<span class="keyword">\</span></span><br><span class="line"><span class="keyword"></span><span class="keyword">\centerline</span>&#123;(根据邢福武教授主编《广州野生植物》(2007) 111页)&#125;<span class="keyword">\</span></span><br><span class="line"><span class="keyword"></span><span class="keyword">\begin</span>&#123;Key&#125;&#123;&#125;</span><br><span class="line"><span class="keyword">\alter</span> 三出复叶name&#123;重阳木属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 单叶</span><br><span class="line"><span class="keyword">\alter</span> 子房每室有2胚珠，叶柄顶部和叶片基部无腺体</span><br><span class="line"><span class="keyword">\alter</span> 具花瓣name&#123;土蜜树属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 无花瓣</span><br><span class="line"><span class="keyword">\alter</span> 雌花具有花盘和腺体</span><br><span class="line"><span class="keyword">\alter</span> 子房1-2室，稀3室；核果name&#123;五月茶属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 子房3-15室，蒴果或浆果状</span><br><span class="line"><span class="keyword">\alter</span> 雄花有不育雄蕊name&#123;白饭树属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 雄花无不育雄蕊name&#123;叶下珠属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 雌花无花盘或腺体</span><br><span class="line"><span class="keyword">\alter</span> 叶在小枝上不呈两列name&#123;银柴属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 叶在小枝上排成两列</span><br><span class="line"><span class="keyword">\alter</span> 雄蕊（3）4-8，花药合生，子房通常4-15室，花柱顶端具裂缝或者小裂齿name&#123;算盘子属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 雄蕊3，花药通常分离，子房3室，花柱2裂</span><br><span class="line"><span class="keyword">\alter</span> 花药离生或6深裂，宿存花萼通常陀螺状name&#123;守宫木属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 花萼6浅裂，宿存花萼盘状 name&#123;黑面神属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 子房每室具有1枚胚珠，叶柄顶部和叶片基部常有各式腺体</span><br><span class="line"><span class="keyword">\alter</span> 多为草本</span><br><span class="line"><span class="keyword">\alter</span> 叶对生，少数为互生，植株具乳汁name&#123;大戟属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 叶互生，无乳汁</span><br><span class="line"><span class="keyword">\alter</span> 花序穗状或总状，腋生name&#123;铁苋菜属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 圆锥花序顶生name&#123;蓖麻属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 乔木或灌木</span><br><span class="line"><span class="keyword">\alter</span> 雄花与雌花具花瓣，稀雌花无花瓣</span><br><span class="line"><span class="keyword">\alter</span> 花丝在花蕾顶部内弯，基部被绵毛name&#123;巴豆属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 花丝在花蕾顶部不内弯，基部无绵毛name&#123;油桐属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 雄花与雌花均无花瓣</span><br><span class="line"><span class="keyword">\alter</span> 雄花簇生于苞腋，再排成穗状花序或者总状花序；花蕾时雄蕊已经伸出</span><br><span class="line"><span class="keyword">\alter</span> 花雌雄同株，稀雌雄异株，穗状花序顶生name&#123;乌桕属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 花雌雄异株，总状花序腋生name&#123;白桐树属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 雄花密集成团伞花序或者簇生，再排成穗状、总状或者圆锥花序，花蕾时雄蕊内藏</span><br><span class="line"><span class="keyword">\alter</span> 雄花的萼片或者花萼裂片覆瓦状排列name&#123;黄桐属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 雄花的萼片或者花萼裂片镊合状排列</span><br><span class="line"><span class="keyword">\alter</span> 叶对生，花雌雄异株name&#123;野桐属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 叶互生，花雌雄异株或同株</span><br><span class="line"><span class="keyword">\alter</span> 叶下面和蒴果被散生或密生的颗粒状腺体name&#123;血桐属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 叶两面和果均无颗粒状腺体name&#123;山麻杆属&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;Key&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;CJK*&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br></pre></td></tr></table></figure>
-
+<pre><code class="latex">\documentclass[15px,a4paper]&#123;article&#125;
+\usepackage&#123;dichokey&#125;
+\usepackage&#123;CJK&#125;
+\linespread&#123;1.2&#125;
+\begin&#123;document&#125;
+\begin&#123;CJK*&#125;&#123;UTF8&#125;&#123;song&#125;
+\noindenttextbf&#123;Largecenterline&#123;广州地区大戟科分属检索表&#125;&#125;\
+\centerline&#123;(根据邢福武教授主编《广州野生植物》(2007) 111页)&#125;\
+\begin&#123;Key&#125;&#123;&#125;
+\alter 三出复叶name&#123;重阳木属&#125;
+\alter 单叶
+\alter 子房每室有2胚珠，叶柄顶部和叶片基部无腺体
+\alter 具花瓣name&#123;土蜜树属&#125;
+\alter 无花瓣
+\alter 雌花具有花盘和腺体
+\alter 子房1-2室，稀3室；核果name&#123;五月茶属&#125;
+\alter 子房3-15室，蒴果或浆果状
+\alter 雄花有不育雄蕊name&#123;白饭树属&#125;
+\alter 雄花无不育雄蕊name&#123;叶下珠属&#125;
+\alter 雌花无花盘或腺体
+\alter 叶在小枝上不呈两列name&#123;银柴属&#125;
+\alter 叶在小枝上排成两列
+\alter 雄蕊（3）4-8，花药合生，子房通常4-15室，花柱顶端具裂缝或者小裂齿name&#123;算盘子属&#125;
+\alter 雄蕊3，花药通常分离，子房3室，花柱2裂
+\alter 花药离生或6深裂，宿存花萼通常陀螺状name&#123;守宫木属&#125;
+\alter 花萼6浅裂，宿存花萼盘状 name&#123;黑面神属&#125;
+\alter 子房每室具有1枚胚珠，叶柄顶部和叶片基部常有各式腺体
+\alter 多为草本
+\alter 叶对生，少数为互生，植株具乳汁name&#123;大戟属&#125;
+\alter 叶互生，无乳汁
+\alter 花序穗状或总状，腋生name&#123;铁苋菜属&#125;
+\alter 圆锥花序顶生name&#123;蓖麻属&#125;
+\alter 乔木或灌木
+\alter 雄花与雌花具花瓣，稀雌花无花瓣
+\alter 花丝在花蕾顶部内弯，基部被绵毛name&#123;巴豆属&#125;
+\alter 花丝在花蕾顶部不内弯，基部无绵毛name&#123;油桐属&#125;
+\alter 雄花与雌花均无花瓣
+\alter 雄花簇生于苞腋，再排成穗状花序或者总状花序；花蕾时雄蕊已经伸出
+\alter 花雌雄同株，稀雌雄异株，穗状花序顶生name&#123;乌桕属&#125;
+\alter 花雌雄异株，总状花序腋生name&#123;白桐树属&#125;
+\alter 雄花密集成团伞花序或者簇生，再排成穗状、总状或者圆锥花序，花蕾时雄蕊内藏
+\alter 雄花的萼片或者花萼裂片覆瓦状排列name&#123;黄桐属&#125;
+\alter 雄花的萼片或者花萼裂片镊合状排列
+\alter 叶对生，花雌雄异株name&#123;野桐属&#125;
+\alter 叶互生，花雌雄异株或同株
+\alter 叶下面和蒴果被散生或密生的颗粒状腺体name&#123;血桐属&#125;
+\alter 叶两面和果均无颗粒状腺体name&#123;山麻杆属&#125;
+\end&#123;Key&#125;
+\end&#123;CJK*&#125;
+\end&#123;document&#125;
+</code></pre>
 <p><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2013/05/14/2013-5-14-latexkeys/" data-id="ckmq2gwrt0057q884edlk54fl" data-title="利用LaTeX编写植物检索表" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2013/05/14/2013-5-14-latexkeys/" data-id="ckmq42aik00521k8400qse8dw" data-title="利用LaTeX编写植物检索表" class="article-share-link">Share</a>
       
       
       
@@ -188,6 +256,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -201,10 +273,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

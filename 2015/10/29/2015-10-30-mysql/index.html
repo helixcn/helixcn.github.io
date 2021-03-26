@@ -6,12 +6,12 @@
   
   <title>mySQL简明入门 | Jinlong Zhang&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="详情请参考http:&#x2F;&#x2F;downloads.mysql.com&#x2F;docs&#x2F;mysql-tutorial-excerpt-5.1-en.pdf 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869">
+  <meta name="description" content="详情请参考http:&#x2F;&#x2F;downloads.mysql.com&#x2F;docs&#x2F;mysql-tutorial-excerpt-5.1-en.pdf mysql -u root -p --- 回车 --- 密码 12345  --- Ctrl + D 退出  --- 查看版本 SELECT VERSION(), CURRENT_DATE;  --- 查看数据库 SHOW DATABASES;  --- 创">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mySQL简明入门">
 <meta property="og:url" content="https://helixcn.github.io/2015/10/29/2015-10-30-mysql/index.html">
 <meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
-<meta property="og:description" content="详情请参考http:&#x2F;&#x2F;downloads.mysql.com&#x2F;docs&#x2F;mysql-tutorial-excerpt-5.1-en.pdf 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869">
+<meta property="og:description" content="详情请参考http:&#x2F;&#x2F;downloads.mysql.com&#x2F;docs&#x2F;mysql-tutorial-excerpt-5.1-en.pdf mysql -u root -p --- 回车 --- 密码 12345  --- Ctrl + D 退出  --- 查看版本 SELECT VERSION(), CURRENT_DATE;  --- 查看数据库 SHOW DATABASES;  --- 创">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2015-10-29T09:13:54.000Z">
 <meta property="article:modified_time" content="2021-03-26T05:34:24.560Z">
@@ -99,11 +99,373 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>详情请参考<br><a target="_blank" rel="noopener" href="http://downloads.mysql.com/docs/mysql-tutorial-excerpt-5.1-en.pdf">http://downloads.mysql.com/docs/mysql-tutorial-excerpt-5.1-en.pdf</a></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br></pre></td><td class="code"><pre><span class="line">mysql <span class="operator">-</span>u root <span class="operator">-</span>p <span class="comment">--- 回车</span></span><br><span class="line"><span class="comment">--- 密码 12345</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--- Ctrl + D 退出</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--- 查看版本</span></span><br><span class="line"><span class="keyword">SELECT</span> VERSION(), <span class="built_in">CURRENT_DATE</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 查看数据库</span></span><br><span class="line"><span class="keyword">SHOW</span> DATABASES;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 创建数据库</span></span><br><span class="line"> <span class="keyword">CREATE</span> DATABASE menagerie;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 使用数据库</span></span><br><span class="line"> USE menagerie</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 创建表格</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> pet (name <span class="type">VARCHAR</span>(<span class="number">20</span>), owner <span class="type">VARCHAR</span>(<span class="number">20</span>), species <span class="type">VARCHAR</span>(<span class="number">20</span>), sex <span class="type">CHAR</span>(<span class="number">1</span>),birth <span class="type">DATE</span>, death <span class="type">DATE</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 显示数据库中的表格的名称</span></span><br><span class="line"><span class="keyword">SHOW</span> TABLES;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 显示表格各列的属性</span></span><br><span class="line"><span class="keyword">DESCRIBE</span> pet;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 从本地读取文件</span></span><br><span class="line">LOAD DATA <span class="keyword">LOCAL</span> INFILE <span class="string">&#x27;/path/pet.txt&#x27;</span> <span class="keyword">INTO</span> <span class="keyword">TABLE</span> pet;</span><br><span class="line">注意, 如果是Windows, 要使用 LINES TERMINATED <span class="keyword">BY</span> <span class="string">&#x27;rn&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 在表格中插入一行</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> pet <span class="keyword">VALUES</span> (<span class="string">&#x27;Puffball&#x27;</span>,<span class="string">&#x27;Diane&#x27;</span>,<span class="string">&#x27;hamster&#x27;</span>,<span class="string">&#x27;f&#x27;</span>,<span class="string">&#x27;1999-03-30&#x27;</span>,<span class="keyword">NULL</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> pet <span class="keyword">VALUES</span> (<span class="string">&#x27;Fluffy&#x27;</span>,<span class="string">&#x27; Harold &#x27;</span>,<span class="string">&#x27;cat &#x27;</span>,<span class="string">&#x27;f &#x27;</span>,<span class="string">&#x27;1993-02-04&#x27;</span>,<span class="keyword">NULL</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> pet <span class="keyword">VALUES</span> (<span class="string">&#x27;Claws &#x27;</span>,<span class="string">&#x27;Gwen &#x27;</span>,<span class="string">&#x27;cat &#x27;</span>,<span class="string">&#x27;m &#x27;</span>,<span class="string">&#x27;1994-03-17&#x27;</span>,<span class="keyword">NULL</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> pet <span class="keyword">VALUES</span> (<span class="string">&#x27;Buffy &#x27;</span>,<span class="string">&#x27;Harold &#x27;</span>,<span class="string">&#x27;dog &#x27;</span>,<span class="string">&#x27;f &#x27;</span>,<span class="string">&#x27;1989-05-13&#x27;</span>,<span class="keyword">NULL</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> pet <span class="keyword">VALUES</span> (<span class="string">&#x27;Fang &#x27;</span>,<span class="string">&#x27;Benny&#x27;</span>,<span class="string">&#x27; dog &#x27;</span>,<span class="string">&#x27;m &#x27;</span>,<span class="string">&#x27;1990-08-27&#x27;</span>,<span class="keyword">NULL</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> pet <span class="keyword">VALUES</span> (<span class="string">&#x27;Bowser &#x27;</span>,<span class="string">&#x27;Diane &#x27;</span>,<span class="string">&#x27;dog &#x27;</span>,<span class="string">&#x27;m &#x27;</span>,<span class="string">&#x27;1979-08-31&#x27;</span>,<span class="string">&#x27;1995-07-29&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> pet <span class="keyword">VALUES</span> (<span class="string">&#x27;Chirpy&#x27;</span>,<span class="string">&#x27; Gwen&#x27;</span>,<span class="string">&#x27; bird&#x27;</span>,<span class="string">&#x27; f&#x27;</span>,<span class="string">&#x27; 1998-09-11&#x27;</span>,<span class="keyword">NULL</span>)</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> pet <span class="keyword">VALUES</span> (<span class="string">&#x27;Whistler&#x27;</span>,<span class="string">&#x27; Gwen&#x27;</span>,<span class="string">&#x27; bird&#x27;</span>,<span class="string">&#x27; NULL&#x27;</span>, <span class="string">&#x27;1997-12-09&#x27;</span>,<span class="keyword">NULL</span>)</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> pet <span class="keyword">VALUES</span> (<span class="string">&#x27;Slim&#x27;</span>,<span class="string">&#x27; Benny&#x27;</span>,<span class="string">&#x27; snake&#x27;</span>,<span class="string">&#x27; m &#x27;</span>,<span class="string">&#x27;1996-04-29&#x27;</span>,<span class="keyword">NULL</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 从数据表中获取数据 </span></span><br><span class="line"><span class="comment">---SELECT 的基本语句格式: </span></span><br><span class="line"><span class="comment">---SELECT what_to_select</span></span><br><span class="line"><span class="comment">---FROM which_table</span></span><br><span class="line"><span class="comment">---WHERE conditions_to_satisfy;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--- 查询全部数据</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> pet;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 修改部分数据 </span></span><br><span class="line">UPDATE pet <span class="keyword">SET</span> birth <span class="operator">=</span> <span class="string">&#x27;1989-08-31&#x27;</span> <span class="keyword">WHERE</span> name <span class="operator">=</span> <span class="string">&#x27;Bowser&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 查询部分数据 </span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> pet <span class="keyword">WHERE</span> name <span class="operator">=</span> <span class="string">&#x27;Bowser&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 比较运算 </span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> pet <span class="keyword">WHERE</span> birth <span class="operator">&gt;=</span> <span class="string">&#x27;1998-1-1&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 逻辑运算 AND</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> pet <span class="keyword">WHERE</span> species <span class="operator">=</span> <span class="string">&#x27;dog&#x27;</span> <span class="keyword">AND</span> sex <span class="operator">=</span> <span class="string">&#x27;f&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 逻辑运算 OR</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> pet <span class="keyword">WHERE</span> species <span class="operator">=</span> <span class="string">&#x27;snake&#x27;</span> <span class="keyword">OR</span> species <span class="operator">=</span> <span class="string">&#x27;bird&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 运算的优先级</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> pet <span class="keyword">WHERE</span> (species <span class="operator">=</span> <span class="string">&#x27;cat&#x27;</span> <span class="keyword">AND</span> sex <span class="operator">=</span> <span class="string">&#x27;m&#x27;</span>) <span class="keyword">OR</span> (species <span class="operator">=</span> <span class="string">&#x27;dog&#x27;</span> <span class="keyword">AND</span> sex <span class="operator">=</span> <span class="string">&#x27;f&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 选择特定的列</span></span><br><span class="line"><span class="keyword">SELECT</span> name, birth <span class="keyword">FROM</span> pet;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> owner <span class="keyword">FROM</span> pet;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 去重复 </span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> owner <span class="keyword">FROM</span> pet;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- SELECT 的基本组合</span></span><br><span class="line"><span class="keyword">SELECT</span> name, species, birth <span class="keyword">FROM</span> pet <span class="keyword">WHERE</span> species <span class="operator">=</span> <span class="string">&#x27;dog&#x27;</span> <span class="keyword">OR</span> species <span class="operator">=</span> <span class="string">&#x27;cat&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 排序, 默认是 由小到大排序</span></span><br><span class="line"><span class="keyword">SELECT</span> name, birth <span class="keyword">FROM</span> pet <span class="keyword">ORDER</span> <span class="keyword">BY</span> birth;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 由大到小排序</span></span><br><span class="line"><span class="keyword">SELECT</span> name, birth <span class="keyword">FROM</span> pet <span class="keyword">ORDER</span> <span class="keyword">BY</span> birth <span class="keyword">DESC</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 多个列排序</span></span><br><span class="line"><span class="keyword">SELECT</span> name, species, birth <span class="keyword">FROM</span> pet <span class="keyword">ORDER</span> <span class="keyword">BY</span> species, birth <span class="keyword">DESC</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 当前日期 </span></span><br><span class="line">CURDATE()</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 两个日期相隔时间</span></span><br><span class="line">TIMESTAMPDIFF()</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 形成新的一列 </span></span><br><span class="line"><span class="keyword">AS</span> age (见后面的例子)</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 日期计算</span></span><br><span class="line"><span class="keyword">SELECT</span> name, birth, CURDATE(), TIMESTAMPDIFF(<span class="keyword">YEAR</span>,birth,CURDATE()) <span class="keyword">AS</span> age <span class="keyword">FROM</span> pet;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 加入新一列的表格再排序, 按照name</span></span><br><span class="line"><span class="keyword">SELECT</span> name, birth, CURDATE(), TIMESTAMPDIFF(<span class="keyword">YEAR</span>,birth,CURDATE()) <span class="keyword">AS</span> age <span class="keyword">FROM</span> pet <span class="keyword">ORDER</span> BYname;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 加入新一列的表格再排序, 按照 age</span></span><br><span class="line"><span class="keyword">SELECT</span> name, birth, CURDATE(), TIMESTAMPDIFF(<span class="keyword">YEAR</span>,birth,CURDATE()) <span class="keyword">AS</span> age <span class="keyword">FROM</span> pet <span class="keyword">ORDER</span> BYage;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 判断 is not null</span></span><br><span class="line"><span class="keyword">SELECT</span> name, birth, death, TIMESTAMPDIFF(<span class="keyword">YEAR</span>,birth,death) <span class="keyword">AS</span> age <span class="keyword">FROM</span> pet <span class="keyword">WHERE</span> death <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> age;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 时间计算</span></span><br><span class="line"><span class="keyword">YEAR</span>(), <span class="keyword">MONTH</span>(), DAYOFMONTH()</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 哪个月份出生 </span></span><br><span class="line"><span class="keyword">SELECT</span> name, birth, <span class="keyword">MONTH</span>(birth) <span class="keyword">FROM</span> pet;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 按照运算出的结果查找</span></span><br><span class="line"><span class="keyword">SELECT</span> name, birth <span class="keyword">FROM</span> pet <span class="keyword">WHERE</span> <span class="keyword">MONTH</span>(birth) <span class="operator">=</span> <span class="number">5</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 十二月份等的处理</span></span><br><span class="line"><span class="keyword">SELECT</span> name, birth <span class="keyword">FROM</span> pet <span class="keyword">WHERE</span> <span class="keyword">MONTH</span>(birth) <span class="operator">=</span> <span class="built_in">MOD</span>(<span class="keyword">MONTH</span>(CURDATE()), <span class="number">12</span>) <span class="operator">+</span> <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 对NULL的判断</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="number">1</span> <span class="keyword">IS</span> <span class="keyword">NULL</span>, <span class="number">1</span> <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">---匹配与正则表达式, 寻找name中以b开头的</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> pet <span class="keyword">WHERE</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;b%&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">---寻找name中以fy结尾的</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> pet <span class="keyword">WHERE</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;%fy&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">---寻找名字中含有w的</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> pet <span class="keyword">WHERE</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;%w%&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">---寻找名字只包含五个字母的, 用五个_</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> pet <span class="keyword">WHERE</span> name <span class="keyword">LIKE</span> <span class="string">&#x27;_____&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">---正则表达式的关键字</span></span><br><span class="line">REGEXP <span class="keyword">and</span> <span class="keyword">NOT</span> REGEXP operators (<span class="keyword">or</span> RLIKE <span class="keyword">and</span> <span class="keyword">NOT</span> RLIKE)</span><br><span class="line"></span><br><span class="line"><span class="comment">---正则表达式</span></span><br><span class="line"><span class="comment">---. 任意单个字符</span></span><br><span class="line"><span class="comment">---[a-z] a到z的任意字符</span></span><br><span class="line"><span class="comment">---[0-9] 0到9的任意字符</span></span><br><span class="line"><span class="comment">---“*” 之前, 放任何字符, 表示的是任意重复次数的该字符</span></span><br><span class="line"><span class="comment">---.* 表示任意重复次数的任意字符</span></span><br><span class="line"><span class="comment">---^ 开始</span></span><br><span class="line"><span class="comment">---$ 结束</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--- 正则表达式举例</span></span><br><span class="line"><span class="comment">--- 以b开始的人名(不区分大小写)</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> pet <span class="keyword">WHERE</span> name REGEXP <span class="string">&#x27;^b&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 匹配大小写 BINARY, 名字以小写的b开头的</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> pet <span class="keyword">WHERE</span> name REGEXP <span class="type">BINARY</span> <span class="string">&#x27;^b&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 名字以fy结尾的</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> pet <span class="keyword">WHERE</span> name REGEXP <span class="string">&#x27;fy$&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 名字中含有w的</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> pet <span class="keyword">WHERE</span> name REGEXP <span class="string">&#x27;w&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 名字仅由五个字母组成</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> pet <span class="keyword">WHERE</span> name REGEXP <span class="string">&#x27;^.....$&#x27;</span>;</span><br><span class="line"><span class="comment">--或者 </span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> pet <span class="keyword">WHERE</span> name REGEXP <span class="string">&#x27;^.&#123;5&#125;$&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 统计表格的行数 </span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> pet;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- GROUP BY, 针对每一个水平进行计算</span></span><br><span class="line"><span class="keyword">SELECT</span> owner, <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> pet <span class="keyword">GROUP</span> <span class="keyword">BY</span> owner;</span><br><span class="line"><span class="keyword">SELECT</span> species, <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> pet <span class="keyword">GROUP</span> <span class="keyword">BY</span> species;</span><br><span class="line"><span class="keyword">SELECT</span> sex, <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> pet <span class="keyword">GROUP</span> <span class="keyword">BY</span> sex;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 分组可以同时考虑几个因素</span></span><br><span class="line"><span class="keyword">SELECT</span> species, sex, <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> pet <span class="keyword">GROUP</span> <span class="keyword">BY</span> species, sex;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 进一步筛选, 只要 dog 或者 cat的部分记录</span></span><br><span class="line"><span class="keyword">SELECT</span> species, sex, <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> pet <span class="keyword">WHERE</span> species <span class="operator">=</span> <span class="string">&#x27;dog&#x27;</span> <span class="keyword">OR</span> species <span class="operator">=</span> <span class="string">&#x27;cat&#x27;</span> <span class="keyword">GROUP</span> BYspecies, sex;</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 只保留已知性别的, 按照 species 和 sex 统计</span></span><br><span class="line"><span class="keyword">SELECT</span> species, sex, <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> pet <span class="keyword">WHERE</span> sex <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span> <span class="keyword">GROUP</span> <span class="keyword">BY</span> species, sex;</span><br><span class="line"></span><br><span class="line">注意: <span class="keyword">select</span>后面的列, 如果使用了<span class="built_in">count</span>()函数, 则后面的<span class="keyword">group</span> <span class="keyword">by</span>后面, 必须跟上相同的列. 否则mysql会报错. </span><br><span class="line"></span><br><span class="line"><span class="comment">------使用多个表格</span></span><br><span class="line"><span class="comment">---创建一个新的表</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> event (name <span class="type">VARCHAR</span>(<span class="number">20</span>), <span class="type">date</span> <span class="type">DATE</span>, type <span class="type">VARCHAR</span>(<span class="number">15</span>), remark <span class="type">VARCHAR</span>(<span class="number">255</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">---载入数据</span></span><br><span class="line">LOAD DATA INFILE <span class="string">&#x27;/home/jinlong/programming/mysql/event.txt&#x27;</span> <span class="keyword">INTO</span> <span class="keyword">TABLE</span> event;</span><br><span class="line"></span><br><span class="line"><span class="comment">---同时查询两个表格, 注意应该先将两个表格 </span></span><br><span class="line"><span class="comment">---用 INNER JOIN 合并.</span></span><br><span class="line"><span class="comment">---ON 表格合并的凭借 对于pet表格来说, 是name, 所以是 pet.name</span></span><br><span class="line"><span class="comment">----对于event表格来说, 也是name, 所以是event.name</span></span><br><span class="line"><span class="comment">---而筛选的条件,是 event表格中的type为 &#x27;litter&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> pet.name, </span><br><span class="line"> (<span class="keyword">YEAR</span>(<span class="type">date</span>)<span class="operator">-</span><span class="keyword">YEAR</span>(birth)) <span class="operator">-</span> (<span class="keyword">RIGHT</span>(<span class="type">date</span>,<span class="number">5</span>)<span class="operator">&lt;</span><span class="keyword">RIGHT</span>(birth,<span class="number">5</span>)) <span class="keyword">AS</span> age,remark</span><br><span class="line"> <span class="keyword">FROM</span> pet <span class="keyword">INNER</span> <span class="keyword">JOIN</span> event</span><br><span class="line"><span class="keyword">ON</span> pet.name <span class="operator">=</span> event.name </span><br><span class="line"> <span class="keyword">WHERE</span> event.type <span class="operator">=</span> <span class="string">&#x27;litter&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">---为了计算的方便, 有时候可以将同一个表格进行 INNER JOIN</span></span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">SELECT</span> p1.name, p1.sex, p2.name, p2.sex, p1.species</span><br><span class="line"> <span class="keyword">FROM</span> pet <span class="keyword">AS</span> p1 <span class="keyword">INNER</span> <span class="keyword">JOIN</span> pet <span class="keyword">AS</span> p2</span><br><span class="line"><span class="keyword">ON</span> p1.species <span class="operator">=</span> p2.species <span class="keyword">AND</span> p1.sex <span class="operator">=</span> <span class="string">&#x27;f&#x27;</span> <span class="keyword">AND</span> p2.sex <span class="operator">=</span> <span class="string">&#x27;m&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">---查询数据库的名称</span></span><br><span class="line"><span class="keyword">SELECT</span> DATABASE();</span><br><span class="line"></span><br><span class="line"><span class="comment">---显示表名</span></span><br><span class="line"><span class="keyword">SHOW</span> TABLES;</span><br><span class="line"></span><br><span class="line"><span class="comment">---获取表格的结构</span></span><br><span class="line"><span class="keyword">DESCRIBE</span> pet;</span><br><span class="line"></span><br><span class="line"><span class="comment">---# MYSQL的批处理 从terminal运行</span></span><br><span class="line"><span class="comment">---UNIX平台</span></span><br><span class="line">mysql <span class="operator">&lt;</span> batch<span class="operator">-</span>file </span><br><span class="line"><span class="comment">---WINDOWS 平台</span></span><br><span class="line">mysql <span class="operator">-</span>e &quot;source batch-file&quot;</span><br><span class="line"></span><br><span class="line"><span class="comment">---# </span></span><br><span class="line"><span class="comment">---从terminal运行 mySQL的批处理文件</span></span><br><span class="line">mysql <span class="operator">-</span>h host <span class="operator">-</span>u <span class="keyword">user</span> <span class="operator">-</span>p <span class="operator">&lt;</span> batch<span class="operator">-</span>file</span><br><span class="line"></span><br><span class="line"><span class="comment">---从terminal运行 结果的分屏显示</span></span><br><span class="line">mysql <span class="operator">&lt;</span> batch<span class="operator">-</span>file <span class="operator">|</span> more</span><br><span class="line"></span><br><span class="line"><span class="comment">---从terminal运行 输出结果导出到文件</span></span><br><span class="line">mysql <span class="operator">&lt;</span> batch<span class="operator">-</span>file <span class="operator">&gt;</span> mysql.out</span><br><span class="line"></span><br><span class="line"><span class="comment">---从terminal运行 在批处理模式下显示输出</span></span><br><span class="line">mysql <span class="operator">-</span>t</span><br><span class="line"></span><br><span class="line"><span class="comment">---从terminal运行 在批处理模式下, 保存输入的命令</span></span><br><span class="line">mysql <span class="operator">-</span>vvv</span><br><span class="line"></span><br><span class="line"><span class="comment">---在mySQL中运行脚本文件</span></span><br><span class="line">source filename;</span><br><span class="line">或 . filename;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">------------------------------------------------------------------##</span></span><br><span class="line"><span class="comment">--- 创建一个商品价目表, 并基于该表做各种查询</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">show</span> databases;</span><br><span class="line"><span class="keyword">create</span> database test;</span><br><span class="line">use test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> shop (</span><br><span class="line">article <span class="type">INT</span>(<span class="number">4</span>) UNSIGNED ZEROFILL <span class="keyword">DEFAULT</span> <span class="string">&#x27;0000&#x27;</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">dealer <span class="type">CHAR</span>(<span class="number">20</span>)</span><br><span class="line"><span class="keyword">DEFAULT</span> <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">price</span><br><span class="line"><span class="keyword">DOUBLE</span>(<span class="number">16</span>,<span class="number">2</span>)</span><br><span class="line"><span class="keyword">DEFAULT</span> <span class="string">&#x27;0.00&#x27;</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line"><span class="keyword">PRIMARY</span> KEY(article, dealer));</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> shop <span class="keyword">VALUES</span></span><br><span class="line">(<span class="number">1</span>,<span class="string">&#x27;A&#x27;</span>,<span class="number">3.45</span>),(<span class="number">1</span>,<span class="string">&#x27;B&#x27;</span>,<span class="number">3.99</span>),(<span class="number">2</span>,<span class="string">&#x27;A&#x27;</span>,<span class="number">10.99</span>),(<span class="number">3</span>,<span class="string">&#x27;B&#x27;</span>,<span class="number">1.45</span>),</span><br><span class="line">(<span class="number">3</span>,<span class="string">&#x27;C&#x27;</span>,<span class="number">1.69</span>),(<span class="number">3</span>,<span class="string">&#x27;D&#x27;</span>,<span class="number">1.25</span>),(<span class="number">4</span>,<span class="string">&#x27;D&#x27;</span>,<span class="number">19.95</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> shop;</span><br><span class="line"></span><br><span class="line"><span class="comment">---查找最贵商品</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">MAX</span>(article) <span class="keyword">AS</span> article <span class="keyword">FROM</span> shop;</span><br><span class="line"></span><br><span class="line"><span class="comment">---查找最高价对应的货品, 供应商</span></span><br><span class="line"><span class="keyword">SELECT</span> article, dealer, price</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">shop</span><br><span class="line"><span class="keyword">WHERE</span> price<span class="operator">=</span>(<span class="keyword">SELECT</span> <span class="built_in">MAX</span>(price) <span class="keyword">FROM</span> shop);</span><br><span class="line"></span><br><span class="line"><span class="comment">---每一组的最贵商品</span></span><br><span class="line"><span class="keyword">SELECT</span> article, <span class="built_in">MAX</span>(price) <span class="keyword">AS</span> price</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">shop</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> article;</span><br><span class="line"></span><br><span class="line"><span class="comment">---每组最贵商品所在的行</span></span><br><span class="line"><span class="keyword">SELECT</span> article, dealer, price</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">shop s1</span><br><span class="line"><span class="keyword">WHERE</span> price<span class="operator">=</span>(<span class="keyword">SELECT</span> <span class="built_in">MAX</span>(s2.price)</span><br><span class="line"><span class="keyword">FROM</span> shop s2</span><br><span class="line"><span class="keyword">WHERE</span> s1.article <span class="operator">=</span> s2.article);</span><br><span class="line"></span><br><span class="line"><span class="comment">---临时变量</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="variable">@min</span>_price:<span class="operator">=</span><span class="built_in">MIN</span>(price),<span class="variable">@max</span>_price:<span class="operator">=</span><span class="built_in">MAX</span>(price) <span class="keyword">FROM</span> shop;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> shop <span class="keyword">WHERE</span> price<span class="operator">=</span><span class="variable">@min</span>_price <span class="keyword">OR</span> price<span class="operator">=</span><span class="variable">@max</span>_price;</span><br><span class="line"></span><br><span class="line"><span class="comment">------------------------------------##</span></span><br><span class="line"><span class="comment">---# KEYS</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> person (</span><br><span class="line">id <span class="type">SMALLINT</span> UNSIGNED <span class="keyword">NOT</span> <span class="keyword">NULL</span> AUTO_INCREMENT,</span><br><span class="line">name <span class="type">CHAR</span>(<span class="number">60</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line"><span class="keyword">PRIMARY</span> KEY (id)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> shirt (</span><br><span class="line">id <span class="type">SMALLINT</span> UNSIGNED <span class="keyword">NOT</span> <span class="keyword">NULL</span> AUTO_INCREMENT,</span><br><span class="line">style ENUM(<span class="string">&#x27;t-shirt&#x27;</span>, <span class="string">&#x27;polo&#x27;</span>, <span class="string">&#x27;dress&#x27;</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">color ENUM(<span class="string">&#x27;red&#x27;</span>, <span class="string">&#x27;blue&#x27;</span>, <span class="string">&#x27;orange&#x27;</span>, <span class="string">&#x27;white&#x27;</span>, <span class="string">&#x27;black&#x27;</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">owner <span class="type">SMALLINT</span> UNSIGNED <span class="keyword">NOT</span> <span class="keyword">NULL</span> <span class="keyword">REFERENCES</span> person(id),</span><br><span class="line"><span class="keyword">PRIMARY</span> KEY (id)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> person <span class="keyword">VALUES</span> (<span class="keyword">NULL</span>, <span class="string">&#x27;Antonio Paz&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="variable">@last</span> :<span class="operator">=</span> LAST_INSERT_ID();</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> shirt <span class="keyword">VALUES</span></span><br><span class="line">(<span class="keyword">NULL</span>, <span class="string">&#x27;polo&#x27;</span>, <span class="string">&#x27;blue&#x27;</span>, <span class="variable">@last</span>),</span><br><span class="line">(<span class="keyword">NULL</span>, <span class="string">&#x27;dress&#x27;</span>, <span class="string">&#x27;white&#x27;</span>, <span class="variable">@last</span>),</span><br><span class="line">(<span class="keyword">NULL</span>, <span class="string">&#x27;t-shirt&#x27;</span>, <span class="string">&#x27;blue&#x27;</span>, <span class="variable">@last</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> person <span class="keyword">VALUES</span> (<span class="keyword">NULL</span>, <span class="string">&#x27;Lilliana Angelovska&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="variable">@last</span> :<span class="operator">=</span> LAST_INSERT_ID();</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> shirt <span class="keyword">VALUES</span></span><br><span class="line">(<span class="keyword">NULL</span>, <span class="string">&#x27;dress&#x27;</span>, <span class="string">&#x27;orange&#x27;</span>, <span class="variable">@last</span>),</span><br><span class="line">(<span class="keyword">NULL</span>, <span class="string">&#x27;polo&#x27;</span>, <span class="string">&#x27;red&#x27;</span>, <span class="variable">@last</span>),</span><br><span class="line">(<span class="keyword">NULL</span>, <span class="string">&#x27;dress&#x27;</span>, <span class="string">&#x27;blue&#x27;</span>, <span class="variable">@last</span>),</span><br><span class="line">(<span class="keyword">NULL</span>, <span class="string">&#x27;t-shirt&#x27;</span>, <span class="string">&#x27;white&#x27;</span>, <span class="variable">@last</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> person;</span><br><span class="line"></span><br><span class="line">##<span class="comment">---查询keys</span></span><br><span class="line"><span class="keyword">SELECT</span> field1_index, field2_index <span class="keyword">FROM</span> test_table</span><br><span class="line"><span class="keyword">WHERE</span> field1_index <span class="operator">=</span> <span class="string">&#x27;1&#x27;</span> <span class="keyword">OR</span> field2_index <span class="operator">=</span> <span class="string">&#x27;1&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--- 查询每个月的访问量</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t1 (<span class="keyword">year</span> <span class="keyword">YEAR</span>(<span class="number">4</span>), <span class="keyword">month</span> <span class="type">INT</span>(<span class="number">2</span>) UNSIGNED ZEROFILL,</span><br><span class="line"><span class="keyword">day</span> <span class="type">INT</span>(<span class="number">2</span>) UNSIGNED ZEROFILL);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> t1 <span class="keyword">VALUES</span>(<span class="number">2000</span>,<span class="number">1</span>,<span class="number">1</span>),(<span class="number">2000</span>,<span class="number">1</span>,<span class="number">20</span>),(<span class="number">2000</span>,<span class="number">1</span>,<span class="number">30</span>),(<span class="number">2000</span>,<span class="number">2</span>,<span class="number">2</span>),</span><br><span class="line">(<span class="number">2000</span>,<span class="number">2</span>,<span class="number">23</span>),(<span class="number">2000</span>,<span class="number">2</span>,<span class="number">23</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">year</span>,<span class="keyword">month</span>,BIT_COUNT(BIT_OR(<span class="number">1</span><span class="operator">&lt;&lt;</span><span class="keyword">day</span>)) <span class="keyword">AS</span> days <span class="keyword">FROM</span> t1</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> <span class="keyword">year</span>,<span class="keyword">month</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">---为行增加 unique identity for new rows</span></span><br><span class="line">AUTO_INCREMENT</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> animals (</span><br><span class="line">id MEDIUMINT <span class="keyword">NOT</span> <span class="keyword">NULL</span> AUTO_INCREMENT,</span><br><span class="line">name <span class="type">CHAR</span>(<span class="number">30</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line"><span class="keyword">PRIMARY</span> KEY (id)</span><br><span class="line">) ENGINE<span class="operator">=</span>INNODB;</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> animals (name) <span class="keyword">VALUES</span></span><br><span class="line">(<span class="string">&#x27;dog&#x27;</span>),(<span class="string">&#x27;cat&#x27;</span>),(<span class="string">&#x27;penguin&#x27;</span>),</span><br><span class="line">(<span class="string">&#x27;lax&#x27;</span>),(<span class="string">&#x27;whale&#x27;</span>),(<span class="string">&#x27;ostrich&#x27;</span>);</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> animals;</span><br></pre></td></tr></table></figure>
+<pre><code class="SQL">mysql -u root -p --- 回车
+--- 密码 12345
+
+--- Ctrl + D 退出
+
+--- 查看版本
+SELECT VERSION(), CURRENT_DATE;
+
+--- 查看数据库
+SHOW DATABASES;
+
+--- 创建数据库
+ CREATE DATABASE menagerie;
+
+--- 使用数据库
+ USE menagerie
+
+--- 创建表格
+CREATE TABLE pet (name VARCHAR(20), owner VARCHAR(20), species VARCHAR(20), sex CHAR(1),birth DATE, death DATE);
+
+--- 显示数据库中的表格的名称
+SHOW TABLES;
+
+--- 显示表格各列的属性
+DESCRIBE pet;
+
+--- 从本地读取文件
+LOAD DATA LOCAL INFILE &#39;/path/pet.txt&#39; INTO TABLE pet;
+注意, 如果是Windows, 要使用 LINES TERMINATED BY &#39;rn&#39;;
+
+--- 在表格中插入一行
+INSERT INTO pet VALUES (&#39;Puffball&#39;,&#39;Diane&#39;,&#39;hamster&#39;,&#39;f&#39;,&#39;1999-03-30&#39;,NULL);
+INSERT INTO pet VALUES (&#39;Fluffy&#39;,&#39; Harold &#39;,&#39;cat &#39;,&#39;f &#39;,&#39;1993-02-04&#39;,NULL);
+INSERT INTO pet VALUES (&#39;Claws &#39;,&#39;Gwen &#39;,&#39;cat &#39;,&#39;m &#39;,&#39;1994-03-17&#39;,NULL);
+INSERT INTO pet VALUES (&#39;Buffy &#39;,&#39;Harold &#39;,&#39;dog &#39;,&#39;f &#39;,&#39;1989-05-13&#39;,NULL);
+INSERT INTO pet VALUES (&#39;Fang &#39;,&#39;Benny&#39;,&#39; dog &#39;,&#39;m &#39;,&#39;1990-08-27&#39;,NULL);
+INSERT INTO pet VALUES (&#39;Bowser &#39;,&#39;Diane &#39;,&#39;dog &#39;,&#39;m &#39;,&#39;1979-08-31&#39;,&#39;1995-07-29&#39;);
+INSERT INTO pet VALUES (&#39;Chirpy&#39;,&#39; Gwen&#39;,&#39; bird&#39;,&#39; f&#39;,&#39; 1998-09-11&#39;,NULL)
+INSERT INTO pet VALUES (&#39;Whistler&#39;,&#39; Gwen&#39;,&#39; bird&#39;,&#39; NULL&#39;, &#39;1997-12-09&#39;,NULL)
+INSERT INTO pet VALUES (&#39;Slim&#39;,&#39; Benny&#39;,&#39; snake&#39;,&#39; m &#39;,&#39;1996-04-29&#39;,NULL)
+
+--- 从数据表中获取数据 
+---SELECT 的基本语句格式: 
+---SELECT what_to_select
+---FROM which_table
+---WHERE conditions_to_satisfy;
+
+--- 查询全部数据
+SELECT * FROM pet;
+
+--- 修改部分数据 
+UPDATE pet SET birth = &#39;1989-08-31&#39; WHERE name = &#39;Bowser&#39;;
+
+--- 查询部分数据 
+SELECT * FROM pet WHERE name = &#39;Bowser&#39;;
+
+--- 比较运算 
+SELECT * FROM pet WHERE birth &gt;= &#39;1998-1-1&#39;;
+
+--- 逻辑运算 AND
+SELECT * FROM pet WHERE species = &#39;dog&#39; AND sex = &#39;f&#39;;
+
+--- 逻辑运算 OR
+SELECT * FROM pet WHERE species = &#39;snake&#39; OR species = &#39;bird&#39;;
+
+--- 运算的优先级
+SELECT * FROM pet WHERE (species = &#39;cat&#39; AND sex = &#39;m&#39;) OR (species = &#39;dog&#39; AND sex = &#39;f&#39;);
+
+--- 选择特定的列
+SELECT name, birth FROM pet;
+
+SELECT owner FROM pet;
+
+--- 去重复 
+SELECT DISTINCT owner FROM pet;
+
+--- SELECT 的基本组合
+SELECT name, species, birth FROM pet WHERE species = &#39;dog&#39; OR species = &#39;cat&#39;;
+
+--- 排序, 默认是 由小到大排序
+SELECT name, birth FROM pet ORDER BY birth;
+
+--- 由大到小排序
+SELECT name, birth FROM pet ORDER BY birth DESC;
+
+--- 多个列排序
+SELECT name, species, birth FROM pet ORDER BY species, birth DESC;
+
+--- 当前日期 
+CURDATE()
+
+--- 两个日期相隔时间
+TIMESTAMPDIFF()
+
+--- 形成新的一列 
+AS age (见后面的例子)
+
+--- 日期计算
+SELECT name, birth, CURDATE(), TIMESTAMPDIFF(YEAR,birth,CURDATE()) AS age FROM pet;
+
+--- 加入新一列的表格再排序, 按照name
+SELECT name, birth, CURDATE(), TIMESTAMPDIFF(YEAR,birth,CURDATE()) AS age FROM pet ORDER BYname;
+
+--- 加入新一列的表格再排序, 按照 age
+SELECT name, birth, CURDATE(), TIMESTAMPDIFF(YEAR,birth,CURDATE()) AS age FROM pet ORDER BYage;
+
+--- 判断 is not null
+SELECT name, birth, death, TIMESTAMPDIFF(YEAR,birth,death) AS age FROM pet WHERE death IS NOT NULL ORDER BY age;
+
+--- 时间计算
+YEAR(), MONTH(), DAYOFMONTH()
+
+--- 哪个月份出生 
+SELECT name, birth, MONTH(birth) FROM pet;
+
+--- 按照运算出的结果查找
+SELECT name, birth FROM pet WHERE MONTH(birth) = 5;
+
+--- 十二月份等的处理
+SELECT name, birth FROM pet WHERE MONTH(birth) = MOD(MONTH(CURDATE()), 12) + 1;
+
+--- 对NULL的判断
+SELECT 1 IS NULL, 1 IS NOT NULL;
+
+---匹配与正则表达式, 寻找name中以b开头的
+SELECT * FROM pet WHERE name LIKE &#39;b%&#39;;
+
+---寻找name中以fy结尾的
+SELECT * FROM pet WHERE name LIKE &#39;%fy&#39;;
+
+---寻找名字中含有w的
+SELECT * FROM pet WHERE name LIKE &#39;%w%&#39;;
+
+---寻找名字只包含五个字母的, 用五个_
+SELECT * FROM pet WHERE name LIKE &#39;_____&#39;;
+
+---正则表达式的关键字
+REGEXP and NOT REGEXP operators (or RLIKE and NOT RLIKE)
+
+---正则表达式
+---. 任意单个字符
+---[a-z] a到z的任意字符
+---[0-9] 0到9的任意字符
+---“*” 之前, 放任何字符, 表示的是任意重复次数的该字符
+---.* 表示任意重复次数的任意字符
+---^ 开始
+---$ 结束
+
+--- 正则表达式举例
+--- 以b开始的人名(不区分大小写)
+SELECT * FROM pet WHERE name REGEXP &#39;^b&#39;;
+
+--- 匹配大小写 BINARY, 名字以小写的b开头的
+SELECT * FROM pet WHERE name REGEXP BINARY &#39;^b&#39;;
+
+--- 名字以fy结尾的
+SELECT * FROM pet WHERE name REGEXP &#39;fy$&#39;;
+
+--- 名字中含有w的
+SELECT * FROM pet WHERE name REGEXP &#39;w&#39;;
+
+--- 名字仅由五个字母组成
+SELECT * FROM pet WHERE name REGEXP &#39;^.....$&#39;;
+--或者 
+SELECT * FROM pet WHERE name REGEXP &#39;^.&#123;5&#125;$&#39;;
+
+--- 统计表格的行数 
+SELECT COUNT(*) FROM pet;
+
+--- GROUP BY, 针对每一个水平进行计算
+SELECT owner, COUNT(*) FROM pet GROUP BY owner;
+SELECT species, COUNT(*) FROM pet GROUP BY species;
+SELECT sex, COUNT(*) FROM pet GROUP BY sex;
+
+--- 分组可以同时考虑几个因素
+SELECT species, sex, COUNT(*) FROM pet GROUP BY species, sex;
+
+--- 进一步筛选, 只要 dog 或者 cat的部分记录
+SELECT species, sex, COUNT(*) FROM pet WHERE species = &#39;dog&#39; OR species = &#39;cat&#39; GROUP BYspecies, sex;
+
+--- 只保留已知性别的, 按照 species 和 sex 统计
+SELECT species, sex, COUNT(*) FROM pet WHERE sex IS NOT NULL GROUP BY species, sex;
+
+注意: select后面的列, 如果使用了count()函数, 则后面的group by后面, 必须跟上相同的列. 否则mysql会报错. 
+
+------使用多个表格
+---创建一个新的表
+CREATE TABLE event (name VARCHAR(20), date DATE, type VARCHAR(15), remark VARCHAR(255));
+
+---载入数据
+LOAD DATA INFILE &#39;/home/jinlong/programming/mysql/event.txt&#39; INTO TABLE event;
+
+---同时查询两个表格, 注意应该先将两个表格 
+---用 INNER JOIN 合并.
+---ON 表格合并的凭借 对于pet表格来说, 是name, 所以是 pet.name
+----对于event表格来说, 也是name, 所以是event.name
+---而筛选的条件,是 event表格中的type为 &#39;litter&#39;
+
+SELECT pet.name, 
+ (YEAR(date)-YEAR(birth)) - (RIGHT(date,5)&lt;RIGHT(birth,5)) AS age,remark
+ FROM pet INNER JOIN event
+ON pet.name = event.name 
+ WHERE event.type = &#39;litter&#39;;
+
+---为了计算的方便, 有时候可以将同一个表格进行 INNER JOIN
+mysql&gt; SELECT p1.name, p1.sex, p2.name, p2.sex, p1.species
+ FROM pet AS p1 INNER JOIN pet AS p2
+ON p1.species = p2.species AND p1.sex = &#39;f&#39; AND p2.sex = &#39;m&#39;;
+
+---查询数据库的名称
+SELECT DATABASE();
+
+---显示表名
+SHOW TABLES;
+
+---获取表格的结构
+DESCRIBE pet;
+
+---# MYSQL的批处理 从terminal运行
+---UNIX平台
+mysql &lt; batch-file 
+---WINDOWS 平台
+mysql -e &quot;source batch-file&quot;
+
+---# 
+---从terminal运行 mySQL的批处理文件
+mysql -h host -u user -p &lt; batch-file
+
+---从terminal运行 结果的分屏显示
+mysql &lt; batch-file | more
+
+---从terminal运行 输出结果导出到文件
+mysql &lt; batch-file &gt; mysql.out
+
+---从terminal运行 在批处理模式下显示输出
+mysql -t
+
+---从terminal运行 在批处理模式下, 保存输入的命令
+mysql -vvv
+
+---在mySQL中运行脚本文件
+source filename;
+或 . filename;
+
+
+------------------------------------------------------------------##
+--- 创建一个商品价目表, 并基于该表做各种查询
+
+show databases;
+create database test;
+use test;
+
+CREATE TABLE shop (
+article INT(4) UNSIGNED ZEROFILL DEFAULT &#39;0000&#39; NOT NULL,
+dealer CHAR(20)
+DEFAULT &#39;&#39;
+NOT NULL,
+price
+DOUBLE(16,2)
+DEFAULT &#39;0.00&#39; NOT NULL,
+PRIMARY KEY(article, dealer));
+
+INSERT INTO shop VALUES
+(1,&#39;A&#39;,3.45),(1,&#39;B&#39;,3.99),(2,&#39;A&#39;,10.99),(3,&#39;B&#39;,1.45),
+(3,&#39;C&#39;,1.69),(3,&#39;D&#39;,1.25),(4,&#39;D&#39;,19.95);
+
+SELECT * FROM shop;
+
+---查找最贵商品
+SELECT MAX(article) AS article FROM shop;
+
+---查找最高价对应的货品, 供应商
+SELECT article, dealer, price
+FROM
+shop
+WHERE price=(SELECT MAX(price) FROM shop);
+
+---每一组的最贵商品
+SELECT article, MAX(price) AS price
+FROM
+shop
+GROUP BY article;
+
+---每组最贵商品所在的行
+SELECT article, dealer, price
+FROM
+shop s1
+WHERE price=(SELECT MAX(s2.price)
+FROM shop s2
+WHERE s1.article = s2.article);
+
+---临时变量
+SELECT @min_price:=MIN(price),@max_price:=MAX(price) FROM shop;
+SELECT * FROM shop WHERE price=@min_price OR price=@max_price;
+
+------------------------------------##
+---# KEYS
+
+CREATE TABLE person (
+id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+name CHAR(60) NOT NULL,
+PRIMARY KEY (id)
+);
+
+CREATE TABLE shirt (
+id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+style ENUM(&#39;t-shirt&#39;, &#39;polo&#39;, &#39;dress&#39;) NOT NULL,
+color ENUM(&#39;red&#39;, &#39;blue&#39;, &#39;orange&#39;, &#39;white&#39;, &#39;black&#39;) NOT NULL,
+owner SMALLINT UNSIGNED NOT NULL REFERENCES person(id),
+PRIMARY KEY (id)
+);
+
+INSERT INTO person VALUES (NULL, &#39;Antonio Paz&#39;);
+
+SELECT @last := LAST_INSERT_ID();
+
+INSERT INTO shirt VALUES
+(NULL, &#39;polo&#39;, &#39;blue&#39;, @last),
+(NULL, &#39;dress&#39;, &#39;white&#39;, @last),
+(NULL, &#39;t-shirt&#39;, &#39;blue&#39;, @last);
+
+INSERT INTO person VALUES (NULL, &#39;Lilliana Angelovska&#39;);
+
+SELECT @last := LAST_INSERT_ID();
+
+INSERT INTO shirt VALUES
+(NULL, &#39;dress&#39;, &#39;orange&#39;, @last),
+(NULL, &#39;polo&#39;, &#39;red&#39;, @last),
+(NULL, &#39;dress&#39;, &#39;blue&#39;, @last),
+(NULL, &#39;t-shirt&#39;, &#39;white&#39;, @last);
+
+SELECT * FROM person;
+
+##---查询keys
+SELECT field1_index, field2_index FROM test_table
+WHERE field1_index = &#39;1&#39; OR field2_index = &#39;1&#39;
+
+--- 查询每个月的访问量
+
+CREATE TABLE t1 (year YEAR(4), month INT(2) UNSIGNED ZEROFILL,
+day INT(2) UNSIGNED ZEROFILL);
+INSERT INTO t1 VALUES(2000,1,1),(2000,1,20),(2000,1,30),(2000,2,2),
+(2000,2,23),(2000,2,23);
+
+
+SELECT year,month,BIT_COUNT(BIT_OR(1&lt;&lt;day)) AS days FROM t1
+GROUP BY year,month;
+
+
+---为行增加 unique identity for new rows
+AUTO_INCREMENT
+
+CREATE TABLE animals (
+id MEDIUMINT NOT NULL AUTO_INCREMENT,
+name CHAR(30) NOT NULL,
+PRIMARY KEY (id)
+) ENGINE=INNODB;
+INSERT INTO animals (name) VALUES
+(&#39;dog&#39;),(&#39;cat&#39;),(&#39;penguin&#39;),
+(&#39;lax&#39;),(&#39;whale&#39;),(&#39;ostrich&#39;);
+SELECT * FROM animals;
+</code></pre>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2015/10/29/2015-10-30-mysql/" data-id="ckmq2gwsj006zq884aj501n4o" data-title="mySQL简明入门" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2015/10/29/2015-10-30-mysql/" data-id="ckmq42aj2006u1k84gk7ea9lc" data-title="mySQL简明入门" class="article-share-link">Share</a>
       
       
       
@@ -179,6 +541,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -192,10 +558,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

@@ -108,11 +108,125 @@
 </ol>
 <p>以下的例子给出全部的R代码和相应说明。</p>
 <p>该例子引自:<br><a target="_blank" rel="noopener" href="http://www.unc.edu/courses/2010fall/ecol/563/001/docs/lectures/lecture10.htm#Rcode">http://www.unc.edu/courses/2010fall/ecol/563/001/docs/lectures/lecture10.htm#Rcode</a></p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 实例： 假设有以下数据, 记录每个枝条上蚜虫的数量，该数据出自</span></span><br><span class="line"><span class="comment">##Krebs, Charles. 1999. Ecological Methodology.</span></span><br><span class="line"><span class="comment">## Menlo Park, CA: Addison-Wesley. 130页</span></span><br><span class="line"></span><br><span class="line"><span class="comment">###########################################################</span></span><br><span class="line"><span class="comment">#######################原始数据############################</span></span><br><span class="line"><span class="comment">###########################################################</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### 数据导入</span></span><br><span class="line"></span><br><span class="line">num.stems &lt;- <span class="built_in">c</span>(<span class="number">6</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">6</span>,<span class="number">6</span>,<span class="number">2</span>,<span class="number">5</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">4</span>)</span><br><span class="line">aphids_count &lt;- <span class="built_in">c</span>(<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>)</span><br><span class="line">aphids &lt;- data.frame(aphids_count, num.stems)</span><br><span class="line"></span><br><span class="line"><span class="comment">### Raw Data,整理出二项分布拟合所需要的格式</span></span><br><span class="line">aphids_raw &lt;- <span class="built_in">rep</span>(aphids_count, num.stems)</span><br><span class="line"></span><br><span class="line"><span class="comment">###########################################################</span></span><br><span class="line"><span class="comment">####################写出对数似然函数#######################</span></span><br><span class="line"><span class="comment">###########################################################</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## 二项分布的对数似然函数，用来绘制对数似然曲线和趋势面</span></span><br><span class="line"></span><br><span class="line">nnominb.loglik &lt;- <span class="keyword">function</span>(p) &#123;</span><br><span class="line">    res &lt;- <span class="built_in">sum</span>(<span class="built_in">log</span>(dnbinom(aphids_raw, mu = p[<span class="number">1</span>], size = p[<span class="number">2</span>])))</span><br><span class="line">    <span class="built_in">return</span>(res)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">## 二项分布的负对数似然函数，nlm()函数只能求最小值，因此极大</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## 似然值时必须用到此函数</span></span><br><span class="line">neg.nnominb.loglik &lt;- <span class="keyword">function</span>(p) &#123;</span><br><span class="line">    res &lt;- <span class="built_in">sum</span>(<span class="built_in">log</span>(dnbinom(aphids_raw, mu = p[<span class="number">1</span>], size = p[<span class="number">2</span>])))</span><br><span class="line">    <span class="built_in">return</span>(-res)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">###########################################################</span></span><br><span class="line"><span class="comment">###################估计对数似然函数极值####################</span></span><br><span class="line"><span class="comment">###########################################################</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#利用nlm估计极值</span></span><br><span class="line">out.NB &lt;- nlm(neg.nnominb.loglik, <span class="built_in">c</span>(<span class="number">4</span>,<span class="number">4</span>))</span><br><span class="line"><span class="comment"># estimate 是对两个参数的估计，即对neg.nnominb.loglik函数参数p的估计</span></span><br><span class="line">out.NB</span><br><span class="line"></span><br><span class="line"><span class="comment">###########################################################</span></span><br><span class="line"><span class="comment">###################图 1 ##绘制似然曲线#####################</span></span><br><span class="line"><span class="comment">###########################################################</span></span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">### x 序列</span></span><br><span class="line">x &lt;- seq(<span class="number">0.1</span>, <span class="number">10</span>, by = <span class="number">0.1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 计算y</span></span><br><span class="line">y_max &lt;- sapply(x, <span class="keyword">function</span>(x) nnominb.loglik(p = <span class="built_in">c</span>(out.NB$estimate[<span class="number">1</span>], x)))</span><br><span class="line">plot(y_max ~ x, type = <span class="string">&quot;l&quot;</span>, ylab = <span class="string">&quot;Log Likelihood&quot;</span>, xlab = <span class="string">&quot;Size&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 当mu = 2时</span></span><br><span class="line">y_2 &lt;- sapply(x, <span class="keyword">function</span>(x) nnominb.loglik(p = <span class="built_in">c</span>(<span class="number">2</span>, x)))</span><br><span class="line">lines(y_2 ~ x, col = <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 当mu = 5时</span></span><br><span class="line">y_5 &lt;- sapply(x, <span class="keyword">function</span>(x) nnominb.loglik(p = <span class="built_in">c</span>(<span class="number">5</span>, x)))</span><br><span class="line">lines(y_5 ~ x, col = <span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 添加图例</span></span><br><span class="line">legend(<span class="string">&#x27;bottomright&#x27;</span>, <span class="built_in">c</span>(<span class="built_in">expression</span>(mu==<span class="string">&#x27;MLE (3.46)&#x27;</span>),</span><br><span class="line">        <span class="built_in">expression</span>(mu==<span class="number">2</span>), <span class="built_in">expression</span>(mu==<span class="number">5</span>)),</span><br><span class="line">        col=<span class="built_in">c</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>), lty=<span class="built_in">c</span>(<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>), cex=<span class="number">.9</span>, bty=<span class="string">&#x27;n&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">###########################################################</span></span><br><span class="line"><span class="comment">##################图 2#绘制栅格图##########################</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">### 绘制栅格图</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## 按照值设色</span></span><br><span class="line">image(seq(<span class="number">2</span>,<span class="number">5</span>,<span class="number">.1</span>), seq(<span class="number">1</span>,<span class="number">4</span>,<span class="number">.1</span>), z.matrix, col = cm.colors(<span class="number">30</span>),</span><br><span class="line">      xlab = <span class="built_in">expression</span>(mu), ylab = <span class="string">&quot;Number of Trials&quot;</span>)</span><br><span class="line"><span class="comment">## 添加等高线</span></span><br><span class="line">contour(seq(<span class="number">2</span>,<span class="number">5</span>,<span class="number">.1</span>), seq(<span class="number">1</span>,<span class="number">4</span>,<span class="number">.1</span>), z.matrix, add = <span class="literal">TRUE</span>)</span><br><span class="line"><span class="comment">## 极大似然值</span></span><br><span class="line">points(x = out.NB$estimate[<span class="number">1</span>], y = out.NB$estimate[<span class="number">2</span>], pch = <span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">###########################################################</span></span><br><span class="line"><span class="comment">###############图 3绘制3D 对数似然面#######################</span></span><br><span class="line"><span class="comment">###########################################################</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">### 计算趋势面原始数据</span></span><br><span class="line"><span class="comment">### 构建网格</span></span><br><span class="line">grids &lt;- expand.grid(mu=seq(<span class="number">2</span>,<span class="number">5</span>,<span class="number">.1</span>), theta=seq(<span class="number">1</span>,<span class="number">4</span>,<span class="number">.1</span>))</span><br><span class="line"><span class="comment">### 计算z值</span></span><br><span class="line">grids$z &lt;- apply(grids, <span class="number">1</span>, <span class="keyword">function</span>(x) nnominb.loglik(p = <span class="built_in">c</span>(x[<span class="number">1</span>], x[<span class="number">2</span>])))</span><br><span class="line"><span class="comment">### 趋势面原始数据</span></span><br><span class="line">z.matrix &lt;- matrix(grids$z, nrow=<span class="built_in">length</span>(seq(<span class="number">2</span>,<span class="number">5</span>,<span class="number">.1</span>)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">### 绘制三维趋势面</span></span><br><span class="line"></span><br><span class="line">persp(seq(<span class="number">2</span>,<span class="number">5</span>,<span class="number">.1</span>), seq(<span class="number">1</span>,<span class="number">4</span>,<span class="number">.1</span>), z.matrix,</span><br><span class="line">      xlab=<span class="built_in">expression</span>(mu), ylab=<span class="built_in">expression</span>(theta), zlab=<span class="string">&#x27;Log Likelihood&#x27;</span>,</span><br><span class="line">      ticktype=<span class="string">&#x27;detailed&#x27;</span>, theta=<span class="number">30</span>, phi=<span class="number">20</span>, d = <span class="number">4</span>)</span><br><span class="line"><span class="comment">###########################################################</span></span><br><span class="line"></span><br><span class="line"><span class="comment">##########图 4##绘制对数似然面的三维设色图#################</span></span><br><span class="line">library(lattice)       </span><br><span class="line">wireframe(z~mu*theta, data=grids, xlab=<span class="built_in">expression</span>(mu),</span><br><span class="line">          ylab=<span class="built_in">expression</span>(theta), zlab=<span class="string">&quot;Log-nlikelihood&quot;</span>,</span><br><span class="line">          scales = <span class="built_in">list</span>(arrows = <span class="literal">FALSE</span>), drape=<span class="literal">TRUE</span>,</span><br><span class="line">          par.settings=<span class="built_in">list</span>(par.zlab.text=<span class="built_in">list</span>(cex=<span class="number">.75</span>),</span><br><span class="line">          axis.text=<span class="built_in">list</span>(cex=<span class="number">.75</span>)))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code class="R">## 实例： 假设有以下数据, 记录每个枝条上蚜虫的数量，该数据出自
+##Krebs, Charles. 1999. Ecological Methodology.
+## Menlo Park, CA: Addison-Wesley. 130页
+
+###########################################################
+#######################原始数据############################
+###########################################################
+
+### 数据导入
+
+num.stems &lt;- c(6,8,9,6,6,2,5,3,1,4)
+aphids_count &lt;- c(0,1,2,3,4,5,6,7,8,9)
+aphids &lt;- data.frame(aphids_count, num.stems)
+
+### Raw Data,整理出二项分布拟合所需要的格式
+aphids_raw &lt;- rep(aphids_count, num.stems)
+
+###########################################################
+####################写出对数似然函数#######################
+###########################################################
+
+## 二项分布的对数似然函数，用来绘制对数似然曲线和趋势面
+
+nnominb.loglik &lt;- function(p) &#123;
+    res &lt;- sum(log(dnbinom(aphids_raw, mu = p[1], size = p[2])))
+    return(res)
+&#125;
+## 二项分布的负对数似然函数，nlm()函数只能求最小值，因此极大
+
+## 似然值时必须用到此函数
+neg.nnominb.loglik &lt;- function(p) &#123;
+    res &lt;- sum(log(dnbinom(aphids_raw, mu = p[1], size = p[2])))
+    return(-res)
+
+&#125;
+
+###########################################################
+###################估计对数似然函数极值####################
+###########################################################
+
+#利用nlm估计极值
+out.NB &lt;- nlm(neg.nnominb.loglik, c(4,4))
+# estimate 是对两个参数的估计，即对neg.nnominb.loglik函数参数p的估计
+out.NB
+
+###########################################################
+###################图 1 ##绘制似然曲线#####################
+###########################################################
+
+ 
+
+### x 序列
+x &lt;- seq(0.1, 10, by = 0.1)
+
+### 计算y
+y_max &lt;- sapply(x, function(x) nnominb.loglik(p = c(out.NB$estimate[1], x)))
+plot(y_max ~ x, type = &quot;l&quot;, ylab = &quot;Log Likelihood&quot;, xlab = &quot;Size&quot;)
+
+### 当mu = 2时
+y_2 &lt;- sapply(x, function(x) nnominb.loglik(p = c(2, x)))
+lines(y_2 ~ x, col = 2)
+
+### 当mu = 5时
+y_5 &lt;- sapply(x, function(x) nnominb.loglik(p = c(5, x)))
+lines(y_5 ~ x, col = 3)
+
+### 添加图例
+legend(&#39;bottomright&#39;, c(expression(mu==&#39;MLE (3.46)&#39;),
+        expression(mu==2), expression(mu==5)),
+        col=c(1,2,3), lty=c(1,1,1), cex=.9, bty=&#39;n&#39;)
+
+###########################################################
+##################图 2#绘制栅格图##########################
+
+
+### 绘制栅格图
+
+## 按照值设色
+image(seq(2,5,.1), seq(1,4,.1), z.matrix, col = cm.colors(30),
+      xlab = expression(mu), ylab = &quot;Number of Trials&quot;)
+## 添加等高线
+contour(seq(2,5,.1), seq(1,4,.1), z.matrix, add = TRUE)
+## 极大似然值
+points(x = out.NB$estimate[1], y = out.NB$estimate[2], pch = 3)
+
+###########################################################
+###############图 3绘制3D 对数似然面#######################
+###########################################################
+
+
+### 计算趋势面原始数据
+### 构建网格
+grids &lt;- expand.grid(mu=seq(2,5,.1), theta=seq(1,4,.1))
+### 计算z值
+grids$z &lt;- apply(grids, 1, function(x) nnominb.loglik(p = c(x[1], x[2])))
+### 趋势面原始数据
+z.matrix &lt;- matrix(grids$z, nrow=length(seq(2,5,.1)))
+
+
+### 绘制三维趋势面
+
+persp(seq(2,5,.1), seq(1,4,.1), z.matrix,
+      xlab=expression(mu), ylab=expression(theta), zlab=&#39;Log Likelihood&#39;,
+      ticktype=&#39;detailed&#39;, theta=30, phi=20, d = 4)
+###########################################################
+
+##########图 4##绘制对数似然面的三维设色图#################
+library(lattice)       
+wireframe(z~mu*theta, data=grids, xlab=expression(mu),
+          ylab=expression(theta), zlab=&quot;Log-nlikelihood&quot;,
+          scales = list(arrows = FALSE), drape=TRUE,
+          par.settings=list(par.zlab.text=list(cex=.75),
+          axis.text=list(cex=.75)))
+</code></pre>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2011/11/18/2011-11-19-likelihoodsurf/" data-id="ckmq2gwqu002mq8843g7nfv8t" data-title="二项分布的对数似然面:算法与R语言实现" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2011/11/18/2011-11-19-likelihoodsurf/" data-id="ckmq42aho002m1k84fxk02xbv" data-title="二项分布的对数似然面:算法与R语言实现" class="article-share-link">Share</a>
       
       
       
@@ -188,6 +302,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -201,10 +319,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

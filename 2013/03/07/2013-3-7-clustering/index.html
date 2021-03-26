@@ -6,12 +6,12 @@
   
   <title>物种按照数量性状聚类并且保存为树状图 | Jinlong Zhang&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="物种按照数量性状聚类并且保存为树状图 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364######### Generate a simulated data set ##########trait1 &lt;-">
+  <meta name="description" content="物种按照数量性状聚类并且保存为树状图 ######### Generate a simulated data set ##########  trait1 &lt;- runif(30)*8 + 15  trait2 &lt;- runif(30)*500 + 2300  trait3 &lt;- runif(30)*120 + 450  dat &lt;- data.frame(trait1,">
 <meta property="og:type" content="article">
 <meta property="og:title" content="物种按照数量性状聚类并且保存为树状图">
 <meta property="og:url" content="https://helixcn.github.io/2013/03/07/2013-3-7-clustering/index.html">
 <meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
-<meta property="og:description" content="物种按照数量性状聚类并且保存为树状图 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364######### Generate a simulated data set ##########trait1 &lt;-">
+<meta property="og:description" content="物种按照数量性状聚类并且保存为树状图 ######### Generate a simulated data set ##########  trait1 &lt;- runif(30)*8 + 15  trait2 &lt;- runif(30)*500 + 2300  trait3 &lt;- runif(30)*120 + 450  dat &lt;- data.frame(trait1,">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2013-03-06T18:14:54.000Z">
 <meta property="article:modified_time" content="2021-03-26T05:34:24.543Z">
@@ -99,12 +99,76 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>物种按照数量性状聚类并且保存为树状图</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">######### Generate a simulated data set ##########</span></span><br><span class="line"></span><br><span class="line">trait1 &lt;- runif(<span class="number">30</span>)*<span class="number">8</span> + <span class="number">15</span></span><br><span class="line"></span><br><span class="line">trait2 &lt;- runif(<span class="number">30</span>)*<span class="number">500</span> + <span class="number">2300</span></span><br><span class="line"></span><br><span class="line">trait3 &lt;- runif(<span class="number">30</span>)*<span class="number">120</span> + <span class="number">450</span></span><br><span class="line"></span><br><span class="line">dat &lt;- data.frame(trait1, trait2, trait3)</span><br><span class="line"></span><br><span class="line">rownames(dat) &lt;- paste(<span class="string">&quot;SP&quot;</span>, <span class="number">1</span>:<span class="number">30</span>, sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">##############################</span></span><br><span class="line"></span><br><span class="line"><span class="comment">###################</span></span><br><span class="line"><span class="comment">### Rescale (standarization and centralization) all the columns</span></span><br><span class="line">scaled.dat &lt;- scale(dat)</span><br><span class="line"></span><br><span class="line"><span class="comment">## Euclidean Distance matrix for Trait1 </span></span><br><span class="line">dist.trait1 &lt;- dist(scaled.dat[,<span class="number">1</span>])</span><br><span class="line">dist.trait2 &lt;- dist(scaled.dat[,<span class="number">2</span>])</span><br><span class="line">dist.trait3 &lt;- dist(scaled.dat[,<span class="number">2</span>])</span><br><span class="line">dist.traits &lt;- dist(scaled.dat)</span><br><span class="line"><span class="comment">## Hierachical clustering of the distance matrices, using UPGMA</span></span><br><span class="line"></span><br><span class="line">hclust.trait1 &lt;- hclust(dist.trait1, method = <span class="string">&quot;average&quot;</span>)</span><br><span class="line">hclust.trait2 &lt;- hclust(dist.trait2, method = <span class="string">&quot;average&quot;</span>)</span><br><span class="line">hclust.trait3 &lt;- hclust(dist.trait3, method = <span class="string">&quot;average&quot;</span>)</span><br><span class="line">hclust.traits &lt;- hclust(dist.traits, method = <span class="string">&quot;average&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#### May not be displayed properly</span></span><br><span class="line">par(mfrow = <span class="built_in">c</span>(<span class="number">2</span>, <span class="number">2</span>))</span><br><span class="line">plot(hclust.trait1 )</span><br><span class="line">plot(hclust.trait2 )</span><br><span class="line">plot(hclust.trait3 )</span><br><span class="line">plot(hclust.traits )</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">## Convert the hclust into dendrograms</span></span><br><span class="line">dendro.trait1 &lt;- as.dendrogram(hclust.trait1)</span><br><span class="line">dendro.trait2 &lt;- as.dendrogram(hclust.trait2)</span><br><span class="line">dendro.trait3 &lt;- as.dendrogram(hclust.trait3)</span><br><span class="line">dendro.traits &lt;- as.dendrogram(hclust.traits)</span><br><span class="line"></span><br><span class="line"><span class="comment">#### Plot the dendrogram #########</span></span><br><span class="line">plot(dendro.trait1, horiz = <span class="literal">TRUE</span>)</span><br><span class="line">plot(dendro.trait2, horiz = <span class="literal">TRUE</span>)</span><br><span class="line">plot(dendro.trait3, horiz = <span class="literal">TRUE</span>)</span><br><span class="line">plot(dendro.traits, horiz = <span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#### Using APE package to convert the dendrograms to phylo, so that the &quot;phylo&quot; objects can be saved as newick tree files for subsequent analysis.</span></span><br><span class="line">library(ape)</span><br><span class="line">tree.trait1 &lt;- as.phylo(hclust.trait1)</span><br><span class="line">tree.trait2 &lt;- as.phylo(hclust.trait2)</span><br><span class="line">tree.trait3 &lt;- as.phylo(hclust.trait3)</span><br><span class="line">tree.trait4 &lt;- as.phylo(hclust.traits)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#### Save the phylogenies to disk</span></span><br><span class="line">write.tree(tree.trait1, <span class="string">&quot;tree.trait1.tre&quot;</span>)</span><br><span class="line">write.tree(tree.trait2, <span class="string">&quot;tree.trait2.tre&quot;</span>)</span><br><span class="line">write.tree(tree.trait3, <span class="string">&quot;tree.trait3.tre&quot;</span>)</span><br><span class="line">write.tree(tree.trait4, <span class="string">&quot;tree.trait4.tre&quot;</span>)</span><br></pre></td></tr></table></figure>
+<pre><code class="R">######### Generate a simulated data set ##########
+
+trait1 &lt;- runif(30)*8 + 15
+
+trait2 &lt;- runif(30)*500 + 2300
+
+trait3 &lt;- runif(30)*120 + 450
+
+dat &lt;- data.frame(trait1, trait2, trait3)
+
+rownames(dat) &lt;- paste(&quot;SP&quot;, 1:30, sep = &quot;&quot;)
+
+##############################
+
+###################
+### Rescale (standarization and centralization) all the columns
+scaled.dat &lt;- scale(dat)
+
+## Euclidean Distance matrix for Trait1 
+dist.trait1 &lt;- dist(scaled.dat[,1])
+dist.trait2 &lt;- dist(scaled.dat[,2])
+dist.trait3 &lt;- dist(scaled.dat[,2])
+dist.traits &lt;- dist(scaled.dat)
+## Hierachical clustering of the distance matrices, using UPGMA
+
+hclust.trait1 &lt;- hclust(dist.trait1, method = &quot;average&quot;)
+hclust.trait2 &lt;- hclust(dist.trait2, method = &quot;average&quot;)
+hclust.trait3 &lt;- hclust(dist.trait3, method = &quot;average&quot;)
+hclust.traits &lt;- hclust(dist.traits, method = &quot;average&quot;)
+
+#### May not be displayed properly
+par(mfrow = c(2, 2))
+plot(hclust.trait1 )
+plot(hclust.trait2 )
+plot(hclust.trait3 )
+plot(hclust.traits )
+
+
+## Convert the hclust into dendrograms
+dendro.trait1 &lt;- as.dendrogram(hclust.trait1)
+dendro.trait2 &lt;- as.dendrogram(hclust.trait2)
+dendro.trait3 &lt;- as.dendrogram(hclust.trait3)
+dendro.traits &lt;- as.dendrogram(hclust.traits)
+
+#### Plot the dendrogram #########
+plot(dendro.trait1, horiz = TRUE)
+plot(dendro.trait2, horiz = TRUE)
+plot(dendro.trait3, horiz = TRUE)
+plot(dendro.traits, horiz = TRUE)
+
+
+#### Using APE package to convert the dendrograms to phylo, so that the &quot;phylo&quot; objects can be saved as newick tree files for subsequent analysis.
+library(ape)
+tree.trait1 &lt;- as.phylo(hclust.trait1)
+tree.trait2 &lt;- as.phylo(hclust.trait2)
+tree.trait3 &lt;- as.phylo(hclust.trait3)
+tree.trait4 &lt;- as.phylo(hclust.traits)
+
+
+#### Save the phylogenies to disk
+write.tree(tree.trait1, &quot;tree.trait1.tre&quot;)
+write.tree(tree.trait2, &quot;tree.trait2.tre&quot;)
+write.tree(tree.trait3, &quot;tree.trait3.tre&quot;)
+write.tree(tree.trait4, &quot;tree.trait4.tre&quot;)
+</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2013/03/07/2013-3-7-clustering/" data-id="ckmq2gwro004vq8849dgx8j66" data-title="物种按照数量性状聚类并且保存为树状图" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2013/03/07/2013-3-7-clustering/" data-id="ckmq42aif004w1k84577wg7ut" data-title="物种按照数量性状聚类并且保存为树状图" class="article-share-link">Share</a>
       
       
       
@@ -180,6 +244,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -193,10 +261,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

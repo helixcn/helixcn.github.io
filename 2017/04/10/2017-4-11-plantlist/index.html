@@ -109,8 +109,13 @@
 <li>去掉非ASCII字符，或者用近似的字母代替原来的字母。 </li>
 </ol>
 <p>StackOverFlow上Wickham提出的一个解决方案， 举例如下： </p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">x &lt;- <span class="built_in">c</span>(<span class="string">&quot;Ekstru00f8m&quot;</span>, <span class="string">&quot;Ju00f6reskog&quot;</span>, <span class="string">&quot;biu00dfchen Zu00fcrcher&quot;</span>)</span><br><span class="line">x</span><br><span class="line"><span class="comment">#&gt; [1] &quot;Ekstrøm&quot;         &quot;Jöreskog&quot;        &quot;bißchen Zürcher&quot;</span></span><br><span class="line"></span><br><span class="line">stringi::stri_trans_general(x, <span class="string">&quot;latin-ascii&quot;</span>)</span><br><span class="line"><span class="comment">#&gt; [1] &quot;Ekstrom&quot;          &quot;Joreskog&quot;         &quot;bisschen Zurcher&quot;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="R">x &lt;- c(&quot;Ekstru00f8m&quot;, &quot;Ju00f6reskog&quot;, &quot;biu00dfchen Zu00fcrcher&quot;)
+x
+#&gt; [1] &quot;Ekstrøm&quot;         &quot;Jöreskog&quot;        &quot;bißchen Zürcher&quot;
 
+stringi::stri_trans_general(x, &quot;latin-ascii&quot;)
+#&gt; [1] &quot;Ekstrom&quot;          &quot;Joreskog&quot;         &quot;bisschen Zurcher&quot;
+</code></pre>
 <ol start="2">
 <li>用UTF编码的转义字符。<br>未能查到从GB2312或者GB18030转换为UTF8字符的算法。 但是有一种方式可以实现的。 那就是使用 openxlsx程序包先将字符以xlsx格式保存在Excel文件中， 保存后用read.xlsx读取， 生成了UTF8转义字符串。 经过转换后的字符串可以在R程序包中正常处理了。</li>
 </ol>
@@ -119,7 +124,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2017/04/10/2017-4-11-plantlist/" data-id="ckmq2gwtj0099q884cb988ji8" data-title="plantlist程序包已经恢复从Rforge下载或安装" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2017/04/10/2017-4-11-plantlist/" data-id="ckmq42ajp008u1k842hux5ap4" data-title="plantlist程序包已经恢复从Rforge下载或安装" class="article-share-link">Share</a>
       
       
       
@@ -195,6 +200,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -208,10 +217,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

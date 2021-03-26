@@ -73,6 +73,98 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2014-11-8-mlinlm" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2014/11/07/2014-11-8-mlinlm/" class="article-date">
+  <time class="dt-published" datetime="2014-11-07T09:16:54.000Z" itemprop="datePublished">2014-11-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2014/11/07/2014-11-8-mlinlm/">线性模型参数的极大似然估计</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>要了解响应变量y与因变量x之间的关系， 人们常用到线性回归。 常用 y = a*x + b表示， 然而更一般格式为</p>
+<p><code>y = beta1*x + beta0 + error</code></p>
+<p>其中beta0， beta1是参数,分别为截距和因变量的系数，error为残差。按照线性模型的假设， 残差应符合正态分布，一般取均值mean为0， 只需要估计标准差sd即可。 。</p>
+<p>本文的目的是用R程序的实例说明如何用极大似然估计进行简单的线性回归的参数。 按照以下步骤完成：</p>
+<p>因本文需要用到bbmle程序包， 没有安装的读者， 需要用 <code>install.packages(&quot;bbmle&quot;)</code>安装bbmle程序包。</p>
+<p>步骤：</p>
+<ol>
+<li>生成要拟合的数据， 并绘图</li>
+<li>通过R函数的内置lm方法建立线性模型， 并计算AIC以及LogLikelihood以便进行比较</li>
+<li>建立对数似然函数 Log Likelihood</li>
+<li>利用bbmle程序包的 mle2函数， 用数值优化算法(Optimization)求似然函数的最大值，从而给出所求参数的估计值。</li>
+<li>基于最大对数似然值 Maximum Log Likelihood求该模型的AIC值（Akaike Information Criterion）</li>
+</ol>
+<pre><code class="R">library(bbmle)  ### 导入bbmle程序包
+set.seed(12345) ### 设定随机数种子
+x = 1:60        ### 生成x数据， 共60个值
+y = x*5 + 20 + rnorm(60, 0, 20) ## 生成y数据， 这里假设已知 beta1 = 5， beta0 = 20， mu = 0, sd = 20
+plot(y ~ x, main = &quot;Fitting of a Linear Model &quot;) ## 观察数据
+linmod &lt;- lm(y ~ x) ## 建立线性模型
+lines(x, fitted(linmod) , lty = 1, col = &quot;red&quot;, lwd = 2)  ## 添加线段
+segments(x0 = x, y0 = y, x1 = x, y1 = fitted(linmod))  ## 添加残差线
+summary(linmod)  ## 查看模型的拟合参数
+(AIC1 &lt;- AIC(linmod))  ## Akaike Information Criterion
+(logLik1 &lt;- logLik(linmod)) ## Loglikelihood
+
+##################################################
+### Log Likelihood Function
+### 函数的一般形式
+### y = beta1*x + beta0 + error
+### 而error一项， 服从正态分布
+### 所以 error = y - beta1*x - beta0
+### 所以Loglikelihood函数可以写成如下形式：
+LL &lt;- function(beta0, beta1, mu, sigma)&#123;
+   R = y - x*beta1 - beta0  
+   -sum(dnorm(R, mu, sigma, log = TRUE))
+&#125;
+
+### mle2函数， 可以用来估计似然函数去极值时，各参数的取值， 调用方式如下：
+res &lt;- mle2(LL, start = list(beta0 = 1, beta1 = 2, mu = 1, sigma = 1), fixed = list(mu = 0))
+summary(res)
+
+### 因为mle2的结果是S4类型， 所以这里用@提取
+### 基于参数估计，计算y2的取值
+y2 = x*(res@coef[2]) + res@coef[1]
+### 添加极大似然估计值
+points(y2 ~ x, col= &quot;blue&quot;, type = &quot;b&quot;, pch = 19)
+### 用mle2得出来的Maximum Log Likelihood
+(logLik2 &lt;- logLik(res))
+### 计算AIC, 的公式为 AIC = -2*logLik + 2*p, 其中logLike为 Maximum Log Likelihood， p为参数的个数。
+### 因为在参数估计中， mu为一个常数0，我们只估计了sigma， 所以估计的参数是3个
+(AIC2 = -2*logLik(res) + 2*3)
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2014/11/07/2014-11-8-mlinlm/" data-id="ckmq42air005u1k849u6s9ukt" data-title="线性模型参数的极大似然估计" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BB%9F%E8%AE%A1/" rel="tag">统计</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-2014-10-31-fitting" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2014/10/31/2014-10-31-fitting/" class="article-date">
@@ -96,11 +188,140 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <h1 id="R拟合统计分布并绘制曲线"><a href="#R拟合统计分布并绘制曲线" class="headerlink" title="R拟合统计分布并绘制曲线"></a>R拟合统计分布并绘制曲线</h1><p>在统计分析中， 经常会用到统计分布拟合， 这里介绍MASS程序包的 <code>fitdistr()</code>, 该函数可以用来拟合  <code>&quot;beta&quot;, &quot;cauchy&quot;, &quot;chi-squared&quot;, &quot;exponential&quot;, &quot;f&quot;, &quot;gamma&quot;, &quot;geometric&quot;, &quot;log-normal&quot;, &quot;lognormal&quot;, &quot;logistic&quot;, &quot;negative binomial&quot;, &quot;normal&quot;, &quot;Poisson&quot;, &quot;t&quot;</code> 以及 <code>&quot;weibull&quot;</code> 的概率密度分布， 现举例如下：</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br></pre></td><td class="code"><pre><span class="line">library(MASS)</span><br><span class="line"></span><br><span class="line"><span class="comment">#### Gammadistribution</span></span><br><span class="line">x &lt;-rgamma(<span class="number">100</span>, shape =<span class="number">5</span>, rate =<span class="number">0.1</span>)</span><br><span class="line">res &lt;- fitdistr(x, <span class="string">&quot;gamma&quot;</span>)</span><br><span class="line">h &lt;-hist(x)</span><br><span class="line">xfit &lt;-seq(<span class="built_in">min</span>(x), <span class="built_in">max</span>(x), by=(<span class="built_in">max</span>(x)-<span class="built_in">min</span>(x))/<span class="number">100</span>)</span><br><span class="line">yfit &lt;-dgamma(xfit,res[[<span class="number">1</span>]][<span class="number">1</span>],res[[<span class="number">1</span>]][<span class="number">2</span>])</span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(xfit)</span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">####&quot;beta&quot;                </span></span><br><span class="line">x &lt;-rbeta(<span class="number">100</span>, shape1 =<span class="number">5</span>, shape2 =<span class="number">2</span>)</span><br><span class="line">res &lt;- fitdistr(x, <span class="string">&quot;beta&quot;</span>, start=<span class="built_in">list</span>(shape1 =<span class="number">4</span>, shape2 =<span class="number">1</span>))</span><br><span class="line">h &lt;-hist(x)</span><br><span class="line">xfit &lt;-seq(<span class="built_in">min</span>(x), <span class="built_in">max</span>(x), by=(<span class="built_in">max</span>(x)-<span class="built_in">min</span>(x))/<span class="number">100</span>)</span><br><span class="line">yfit &lt;-dbeta(xfit,res[[<span class="number">1</span>]][<span class="number">1</span>],res[[<span class="number">1</span>]][<span class="number">2</span>])</span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(xfit)</span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">####&quot;cauchy&quot;,            </span></span><br><span class="line"><span class="string">&quot;cauchy&quot;</span>,</span><br><span class="line">x &lt;-rcauchy(<span class="number">100</span>, location =<span class="number">200</span>, scale=<span class="number">300</span>)</span><br><span class="line">res &lt;- fitdistr(x, <span class="string">&quot;cauchy&quot;</span>)</span><br><span class="line">h &lt;-hist(x)</span><br><span class="line">xfit &lt;-seq(<span class="built_in">min</span>(x), <span class="built_in">max</span>(x), by=(<span class="built_in">max</span>(x)-<span class="built_in">min</span>(x))/<span class="number">100</span>)</span><br><span class="line">yfit &lt;-dcauchy(xfit,res[[<span class="number">1</span>]][<span class="number">1</span>],res[[<span class="number">1</span>]][<span class="number">2</span>])</span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(xfit)</span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">####&quot;chi-squared&quot;,        </span></span><br><span class="line"><span class="string">&quot;chi-squared&quot;</span>,</span><br><span class="line">x &lt;-rchisq(<span class="number">100</span>, df=<span class="number">5</span>, ncp =<span class="number">2</span>)</span><br><span class="line">res &lt;- fitdistr(x, <span class="string">&quot;chi-squared&quot;</span>, start=<span class="built_in">list</span>(df=<span class="number">2</span>, ncp =<span class="number">1</span>))</span><br><span class="line">h &lt;-hist(x)</span><br><span class="line">xfit &lt;-seq(<span class="built_in">min</span>(x), <span class="built_in">max</span>(x), by=(<span class="built_in">max</span>(x)-<span class="built_in">min</span>(x))/<span class="number">100</span>)</span><br><span class="line">yfit &lt;-dchisq(xfit,res[[<span class="number">1</span>]][<span class="number">1</span>],res[[<span class="number">1</span>]][<span class="number">2</span>])</span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(xfit)</span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">####&quot;exponential&quot;,        </span></span><br><span class="line"><span class="string">&quot;exponential&quot;</span></span><br><span class="line">x &lt;-rexp(<span class="number">100</span>, rate =<span class="number">10</span>)</span><br><span class="line">res &lt;- fitdistr(x, <span class="string">&quot;exponential&quot;</span>)</span><br><span class="line">h &lt;-hist(x)</span><br><span class="line">xfit &lt;-seq(<span class="built_in">min</span>(x), <span class="built_in">max</span>(x), by=(<span class="built_in">max</span>(x)-<span class="built_in">min</span>(x))/<span class="number">100</span>)</span><br><span class="line">yfit &lt;-dexp(xfit,res[[<span class="number">1</span>]][<span class="number">1</span>])</span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(xfit)</span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">####&quot;f&quot;,                  </span></span><br><span class="line"><span class="string">&quot;f&quot;</span></span><br><span class="line">x &lt;-rf(<span class="number">100</span>, df1 =<span class="number">60</span>, df2 =<span class="number">50</span>)</span><br><span class="line">res &lt;- fitdistr(x, <span class="string">&quot;f&quot;</span>, start=<span class="built_in">list</span>(df1 =<span class="number">10</span>, df2 =<span class="number">2</span>))</span><br><span class="line">h &lt;-hist(x)</span><br><span class="line">xfit &lt;-seq(<span class="built_in">min</span>(x), <span class="built_in">max</span>(x), by=(<span class="built_in">max</span>(x)-<span class="built_in">min</span>(x))/<span class="number">100</span>)</span><br><span class="line">yfit &lt;-df(xfit,res[[<span class="number">1</span>]][<span class="number">1</span>], res[[<span class="number">1</span>]][<span class="number">2</span>])</span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(xfit)</span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">####&quot;lognormal&quot;,          </span></span><br><span class="line"><span class="string">&quot;lognormal&quot;</span></span><br><span class="line">x &lt;-rlnorm(<span class="number">100</span>, meanlog =<span class="number">5</span>, sdlog =<span class="number">1.5</span>)</span><br><span class="line">res &lt;- fitdistr(x, <span class="string">&quot;lognormal&quot;</span>)</span><br><span class="line">h &lt;-hist(x)</span><br><span class="line">xfit &lt;-seq(<span class="built_in">min</span>(x), <span class="built_in">max</span>(x), by=(<span class="built_in">max</span>(x)-<span class="built_in">min</span>(x))/<span class="number">100</span>)</span><br><span class="line">yfit &lt;-dlnorm(xfit,res[[<span class="number">1</span>]][<span class="number">1</span>], res[[<span class="number">1</span>]][<span class="number">2</span>])</span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(xfit)</span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">####&quot;logistic&quot;,          </span></span><br><span class="line"><span class="string">&quot;logistic&quot;</span>,</span><br><span class="line">x &lt;-rlogis(<span class="number">100</span>, location =<span class="number">5</span>, scale=<span class="number">2</span>)</span><br><span class="line">res &lt;- fitdistr(x, <span class="string">&quot;logistic&quot;</span>, start=<span class="built_in">list</span>(location=<span class="number">5</span>, scale=<span class="number">2</span>))</span><br><span class="line">h &lt;-hist(x)</span><br><span class="line">xfit &lt;-seq(<span class="built_in">min</span>(x), <span class="built_in">max</span>(x), by=(<span class="built_in">max</span>(x)-<span class="built_in">min</span>(x))/<span class="number">100</span>)</span><br><span class="line">yfit &lt;-dlogis(xfit,res[[<span class="number">1</span>]][<span class="number">1</span>], res[[<span class="number">1</span>]][<span class="number">2</span>])</span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(xfit)</span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#### &quot;negativebinomial&quot;,  </span></span><br><span class="line"><span class="string">&quot;negative binomial&quot;</span>,</span><br><span class="line">x &lt;-rnbinom(<span class="number">100</span>, size =<span class="number">300</span>, prob =<span class="number">.3</span>)</span><br><span class="line">res &lt;- fitdistr(x, <span class="string">&quot;negative binomial&quot;</span>)</span><br><span class="line">h &lt;-hist(x)</span><br><span class="line">xfit &lt;-<span class="built_in">floor</span>(seq(<span class="built_in">min</span>(x), <span class="built_in">max</span>(x), by=(<span class="built_in">max</span>(x)-<span class="built_in">min</span>(x))/<span class="number">100</span>))</span><br><span class="line">yfit &lt;-dnbinom(xfit,size = res[[<span class="number">1</span>]][<span class="number">1</span>], mu = res[[<span class="number">1</span>]][<span class="number">2</span>])</span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(xfit)</span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>)</span><br><span class="line"><span class="comment">####&quot;normal&quot;,            </span></span><br><span class="line"><span class="string">&quot;normal&quot;</span></span><br><span class="line">x &lt;-rnorm(<span class="number">100</span>, mean=<span class="number">15</span>, sd=<span class="number">2</span>)</span><br><span class="line">res &lt;- fitdistr(x, <span class="string">&quot;normal&quot;</span>)</span><br><span class="line">h &lt;-hist(x)</span><br><span class="line">xfit &lt;-seq(<span class="built_in">min</span>(x), <span class="built_in">max</span>(x), by=(<span class="built_in">max</span>(x)-<span class="built_in">min</span>(x))/<span class="number">100</span>)</span><br><span class="line">yfit &lt;-dnorm(xfit, mean= res[[<span class="number">1</span>]][<span class="number">1</span>], sd= res[[<span class="number">1</span>]][<span class="number">2</span>])</span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(xfit)</span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">####&quot;Poisson&quot;,            </span></span><br><span class="line"><span class="string">&quot;Poisson&quot;</span>,</span><br><span class="line">x &lt;-rpois(<span class="number">100</span>, lambda =<span class="number">400</span>)</span><br><span class="line">res &lt;- fitdistr(x, <span class="string">&quot;Poisson&quot;</span>)</span><br><span class="line">h &lt;-hist(x)</span><br><span class="line">xfit &lt;-<span class="built_in">floor</span>(seq(<span class="built_in">min</span>(x), <span class="built_in">max</span>(x), by=(<span class="built_in">max</span>(x)-<span class="built_in">min</span>(x))/<span class="number">100</span>))</span><br><span class="line">yfit &lt;-dpois(xfit,res[[<span class="number">1</span>]][<span class="number">1</span>])</span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(xfit)</span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">####&quot;t&quot;                  </span></span><br><span class="line"><span class="string">&quot;t&quot;</span></span><br><span class="line">x &lt;-rt(<span class="number">100</span>, df=<span class="number">5</span>)</span><br><span class="line">res &lt;- fitdistr(x, <span class="string">&quot;t&quot;</span>)</span><br><span class="line">h &lt;-hist(x)</span><br><span class="line">xfit &lt;-seq(<span class="built_in">min</span>(x), <span class="built_in">max</span>(x), by=(<span class="built_in">max</span>(x)-<span class="built_in">min</span>(x))/<span class="number">100</span>)</span><br><span class="line">yfit &lt;-dt(xfit,res[[<span class="number">1</span>]][<span class="number">3</span>])  </span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(xfit)</span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">####&quot;weibull&quot;            </span></span><br><span class="line"><span class="string">&quot;weibull&quot;</span></span><br><span class="line">x &lt;-rweibull(<span class="number">100</span>, shape =<span class="number">5</span>, scale=<span class="number">9</span>)</span><br><span class="line">res &lt;- fitdistr(x, <span class="string">&quot;weibull&quot;</span>, start=<span class="built_in">list</span>(shape =<span class="number">1</span>, scale=<span class="number">1</span>))</span><br><span class="line">h &lt;-hist(x)</span><br><span class="line">xfit &lt;-seq(<span class="built_in">min</span>(x), <span class="built_in">max</span>(x), by=(<span class="built_in">max</span>(x)-<span class="built_in">min</span>(x))/<span class="number">100</span>)</span><br><span class="line">yfit &lt;-dweibull(xfit,res[[<span class="number">1</span>]][<span class="number">1</span>], res[[<span class="number">1</span>]][<span class="number">2</span>])</span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(xfit)</span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<pre><code class="R">library(MASS)
+
+#### Gammadistribution
+x &lt;-rgamma(100, shape =5, rate =0.1)
+res &lt;- fitdistr(x, &quot;gamma&quot;)
+h &lt;-hist(x)
+xfit &lt;-seq(min(x), max(x), by=(max(x)-min(x))/100)
+yfit &lt;-dgamma(xfit,res[[1]][1],res[[1]][2])
+yfit &lt;- yfit*diff(h$mids[1:2])*length(xfit)
+lines(xfit, yfit, col=&quot;blue&quot;, lwd=2)
+
+####&quot;beta&quot;                
+x &lt;-rbeta(100, shape1 =5, shape2 =2)
+res &lt;- fitdistr(x, &quot;beta&quot;, start=list(shape1 =4, shape2 =1))
+h &lt;-hist(x)
+xfit &lt;-seq(min(x), max(x), by=(max(x)-min(x))/100)
+yfit &lt;-dbeta(xfit,res[[1]][1],res[[1]][2])
+yfit &lt;- yfit*diff(h$mids[1:2])*length(xfit)
+lines(xfit, yfit, col=&quot;blue&quot;, lwd=2)
+
+####&quot;cauchy&quot;,            
+&quot;cauchy&quot;,
+x &lt;-rcauchy(100, location =200, scale=300)
+res &lt;- fitdistr(x, &quot;cauchy&quot;)
+h &lt;-hist(x)
+xfit &lt;-seq(min(x), max(x), by=(max(x)-min(x))/100)
+yfit &lt;-dcauchy(xfit,res[[1]][1],res[[1]][2])
+yfit &lt;- yfit*diff(h$mids[1:2])*length(xfit)
+lines(xfit, yfit, col=&quot;blue&quot;, lwd=2)
+
+####&quot;chi-squared&quot;,        
+&quot;chi-squared&quot;,
+x &lt;-rchisq(100, df=5, ncp =2)
+res &lt;- fitdistr(x, &quot;chi-squared&quot;, start=list(df=2, ncp =1))
+h &lt;-hist(x)
+xfit &lt;-seq(min(x), max(x), by=(max(x)-min(x))/100)
+yfit &lt;-dchisq(xfit,res[[1]][1],res[[1]][2])
+yfit &lt;- yfit*diff(h$mids[1:2])*length(xfit)
+lines(xfit, yfit, col=&quot;blue&quot;, lwd=2)
+
+####&quot;exponential&quot;,        
+&quot;exponential&quot;
+x &lt;-rexp(100, rate =10)
+res &lt;- fitdistr(x, &quot;exponential&quot;)
+h &lt;-hist(x)
+xfit &lt;-seq(min(x), max(x), by=(max(x)-min(x))/100)
+yfit &lt;-dexp(xfit,res[[1]][1])
+yfit &lt;- yfit*diff(h$mids[1:2])*length(xfit)
+lines(xfit, yfit, col=&quot;blue&quot;, lwd=2)
+
+####&quot;f&quot;,                  
+&quot;f&quot;
+x &lt;-rf(100, df1 =60, df2 =50)
+res &lt;- fitdistr(x, &quot;f&quot;, start=list(df1 =10, df2 =2))
+h &lt;-hist(x)
+xfit &lt;-seq(min(x), max(x), by=(max(x)-min(x))/100)
+yfit &lt;-df(xfit,res[[1]][1], res[[1]][2])
+yfit &lt;- yfit*diff(h$mids[1:2])*length(xfit)
+lines(xfit, yfit, col=&quot;blue&quot;, lwd=2)
+
+####&quot;lognormal&quot;,          
+&quot;lognormal&quot;
+x &lt;-rlnorm(100, meanlog =5, sdlog =1.5)
+res &lt;- fitdistr(x, &quot;lognormal&quot;)
+h &lt;-hist(x)
+xfit &lt;-seq(min(x), max(x), by=(max(x)-min(x))/100)
+yfit &lt;-dlnorm(xfit,res[[1]][1], res[[1]][2])
+yfit &lt;- yfit*diff(h$mids[1:2])*length(xfit)
+lines(xfit, yfit, col=&quot;blue&quot;, lwd=2)
+
+####&quot;logistic&quot;,          
+&quot;logistic&quot;,
+x &lt;-rlogis(100, location =5, scale=2)
+res &lt;- fitdistr(x, &quot;logistic&quot;, start=list(location=5, scale=2))
+h &lt;-hist(x)
+xfit &lt;-seq(min(x), max(x), by=(max(x)-min(x))/100)
+yfit &lt;-dlogis(xfit,res[[1]][1], res[[1]][2])
+yfit &lt;- yfit*diff(h$mids[1:2])*length(xfit)
+lines(xfit, yfit, col=&quot;blue&quot;, lwd=2)
+
+#### &quot;negativebinomial&quot;,  
+&quot;negative binomial&quot;,
+x &lt;-rnbinom(100, size =300, prob =.3)
+res &lt;- fitdistr(x, &quot;negative binomial&quot;)
+h &lt;-hist(x)
+xfit &lt;-floor(seq(min(x), max(x), by=(max(x)-min(x))/100))
+yfit &lt;-dnbinom(xfit,size = res[[1]][1], mu = res[[1]][2])
+yfit &lt;- yfit*diff(h$mids[1:2])*length(xfit)
+lines(xfit, yfit, col=&quot;blue&quot;, lwd=2)
+####&quot;normal&quot;,            
+&quot;normal&quot;
+x &lt;-rnorm(100, mean=15, sd=2)
+res &lt;- fitdistr(x, &quot;normal&quot;)
+h &lt;-hist(x)
+xfit &lt;-seq(min(x), max(x), by=(max(x)-min(x))/100)
+yfit &lt;-dnorm(xfit, mean= res[[1]][1], sd= res[[1]][2])
+yfit &lt;- yfit*diff(h$mids[1:2])*length(xfit)
+lines(xfit, yfit, col=&quot;blue&quot;, lwd=2)
+
+####&quot;Poisson&quot;,            
+&quot;Poisson&quot;,
+x &lt;-rpois(100, lambda =400)
+res &lt;- fitdistr(x, &quot;Poisson&quot;)
+h &lt;-hist(x)
+xfit &lt;-floor(seq(min(x), max(x), by=(max(x)-min(x))/100))
+yfit &lt;-dpois(xfit,res[[1]][1])
+yfit &lt;- yfit*diff(h$mids[1:2])*length(xfit)
+lines(xfit, yfit, col=&quot;blue&quot;, lwd=2)
+
+####&quot;t&quot;                  
+&quot;t&quot;
+x &lt;-rt(100, df=5)
+res &lt;- fitdistr(x, &quot;t&quot;)
+h &lt;-hist(x)
+xfit &lt;-seq(min(x), max(x), by=(max(x)-min(x))/100)
+yfit &lt;-dt(xfit,res[[1]][3])  
+yfit &lt;- yfit*diff(h$mids[1:2])*length(xfit)
+lines(xfit, yfit, col=&quot;blue&quot;, lwd=2)
+
+####&quot;weibull&quot;            
+&quot;weibull&quot;
+x &lt;-rweibull(100, shape =5, scale=9)
+res &lt;- fitdistr(x, &quot;weibull&quot;, start=list(shape =1, scale=1))
+h &lt;-hist(x)
+xfit &lt;-seq(min(x), max(x), by=(max(x)-min(x))/100)
+yfit &lt;-dweibull(xfit,res[[1]][1], res[[1]][2])
+yfit &lt;- yfit*diff(h$mids[1:2])*length(xfit)
+lines(xfit, yfit, col=&quot;blue&quot;, lwd=2)
+</code></pre>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/10/31/2014-10-31-fitting/" data-id="ckmq2gws1005rq884a7xm70kw" data-title="R拟合统计分布并绘制曲线" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/10/31/2014-10-31-fitting/" data-id="ckmq42aiq005o1k849ip820fd" data-title="R拟合统计分布并绘制曲线" class="article-share-link">Share</a>
       
       
       
@@ -147,11 +368,20 @@
 <p>并配置好启动 路径， 即将所需要的任何exe文件的路径， 拷贝到 电脑&gt;属性&gt;高级系统设置&gt;高级&gt;环境变量&gt;系统变量&gt;路径 中 如:</p>
 <p>此外， 这里假设读者使用文本编辑器 Notepad++ 。</p>
 <p>Rcpp程序包已经提供了多种C++的类模板， 可以让C++函数返回多种R对象。假设现有一个C++函数， 名叫Eccentricity，该函数用于计算某天体的轨道偏心率随时间的变化，输入参数为儒略日（日期的某种记录方法）, 在正常的C++语法中， 该函数定义如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">Eccentricity</span><span class="params">(<span class="keyword">double</span> JD)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">double</span> JD3  = JD;</span><br><span class="line"><span class="keyword">double</span> T = (JD3 - <span class="number">2451545.0</span>) / <span class="number">36525.0</span>;</span><br><span class="line"><span class="keyword">double</span> Tsquared = T*T;</span><br><span class="line"><span class="keyword">return</span> ((<span class="number">1</span> - <span class="number">0.002516</span>*T - <span class="number">0.0000074</span>*Tsquared));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="cpp">double Eccentricity(double JD)
 
+&#123;
+double JD3  = JD;
+double T = (JD3 - 2451545.0) / 36525.0;
+double Tsquared = T*T;
+return ((1 - 0.002516*T - 0.0000074*Tsquared));
+&#125;
+</code></pre>
 <p>现在我们需要有一个Rcpp形成的包骨架(package skeleton)，假设名叫 skycalc。在R中运行如下命令生成基于Rcpp的R包骨架:</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">library(Rcpp)</span><br><span class="line">Rcpp.package.skeleton(<span class="string">&quot;skycalc&quot;</span>)</span><br><span class="line">getwd()</span><br></pre></td></tr></table></figure>
-
+<pre><code class="R">library(Rcpp)
+Rcpp.package.skeleton(&quot;skycalc&quot;)
+getwd()
+</code></pre>
 <p>skycalc保存在getwd()所示的文件夹下， 有 man、R、src三个文件夹以及DESCRIPTION、NAMESPACE 以及 Read-and-delete-me三个文本文件，这个三个文件没有任何扩展名。</p>
 <ul>
 <li>man文件夹保存的是所有R函数以及R程序包的帮助文件文件，遵循是Latex格式，需要逐项填写。</li>
@@ -166,36 +396,67 @@
 </ul>
 <p>这些示例文件在本例中均可以删除。</p>
 <p>我们的目标是：将Eccentricity函数，放在C++源代码中。假设函数保存在名为Eccentricity.cpp的纯文本文件， 为了能够在R中直接调用该函数， 需要将其参数数据类型以及返回值的数据类型更改为R能够识别的格式。因为R只能识别一种称为SEXP的数据类型， 所以这里做如下更改：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">RcppExport SEXP <span class="title">Eccentricity</span><span class="params">(SEXP JD)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">double</span> JD3  = Rcpp::as&lt;<span class="keyword">double</span>&gt;(JD);</span><br><span class="line"><span class="keyword">double</span> T = (JD3 - <span class="number">2451545.0</span>) / <span class="number">36525.0</span>;</span><br><span class="line"><span class="keyword">double</span> Tsquared = T*T;</span><br><span class="line"><span class="keyword">return</span> (<span class="built_in">wrap</span>(<span class="number">1</span> - <span class="number">0.002516</span>*T - <span class="number">0.0000074</span>*Tsquared));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="cpp">RcppExport SEXP Eccentricity(SEXP JD)
+&#123;
+double JD3  = Rcpp::as&lt;double&gt;(JD);
+double T = (JD3 - 2451545.0) / 36525.0;
+double Tsquared = T*T;
+return (wrap(1 - 0.002516*T - 0.0000074*Tsquared));
+&#125;
+</code></pre>
 <p>在类型前，更加上RcppExport，返回值return里面，先套用wrap函数，以便返回为R能识别的SEXP数据类型。</p>
 <p>为在Eccentricity.cpp文件中加上引用的头文件：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Rcpp.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> Rcpp;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br></pre></td></tr></table></figure>
+<pre><code class="cpp">#include &lt;Rcpp.h&gt;
+using namespace Rcpp;
+using namespace std;
+</code></pre>
 <p>此时， Eccentricity.cpp文件内容如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">///////////////cpp文件开始//////////////////////</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Rcpp.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> Rcpp;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function">RcppExport SEXP <span class="title">Eccentricity</span><span class="params">(SEXP JD)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">double</span> JD3  = Rcpp::as&lt;<span class="keyword">double</span>&gt;(JD);</span><br><span class="line"><span class="keyword">double</span> T = (JD3 - <span class="number">2451545.0</span>) / <span class="number">36525.0</span>;</span><br><span class="line"><span class="keyword">double</span> Tsquared = T*T;</span><br><span class="line"><span class="keyword">return</span> (<span class="built_in">wrap</span>(<span class="number">1</span> - <span class="number">0.002516</span>*T - <span class="number">0.0000074</span>*Tsquared));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">///////////////cpp文件结束//////////////////////</span></span><br></pre></td></tr></table></figure>
+<pre><code class="cpp">///////////////cpp文件开始//////////////////////
 
+#include &lt;Rcpp.h&gt;
+using namespace Rcpp;
+using namespace std;
+RcppExport SEXP Eccentricity(SEXP JD)
+&#123;
+double JD3  = Rcpp::as&lt;double&gt;(JD);
+double T = (JD3 - 2451545.0) / 36525.0;
+double Tsquared = T*T;
+return (wrap(1 - 0.002516*T - 0.0000074*Tsquared));
+&#125;
+
+///////////////cpp文件结束//////////////////////
+</code></pre>
 <p>这样 Eccentricity.cpp 文件就准备好了，将其保存在src文件夹中。</p>
 <p>为了能够在R中调用编译后的C++函数，可使用R的.Call()函数调用dll库（cpp文件经过编译后， 在Windows中编译为dll文件）。但为了更为方便地使用这些函数，一般为编写一个与C++函数形式上类似的R函数，该R函数的名称和各参数最好能与C++函数对应。为此，我们可以写一个R函数EccentricityR， 该R函数可定义如下：</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">EccentricityR &lt;- <span class="keyword">function</span>(JD) &#123;</span><br><span class="line">   .Call(<span class="string">&#x27;Eccentricity&#x27;</span>, JD, PACKAGE = <span class="string">&#x27;skycalc&#x27;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre><code class="R">EccentricityR &lt;- function(JD) &#123;
+   .Call(&#39;Eccentricity&#39;, JD, PACKAGE = &#39;skycalc&#39;)
+&#125;
+</code></pre>
 <p>其中JD为该R函数的参数， 直接通过.Call传递给DLL中的Eccentricity。</p>
 <p>在Notepad++中，拷贝以上R函数， 并且另存为 EccentricityR.R 文件， 放在skycalc程序包下的R文件夹下。</p>
 <p>为了生成该EccentricityR函数的帮助文件，需要将该函数粘贴到Rconsole中， 之后运行R命令 prompt(EccentricityR)，所形成的EccentricityR.Rd 文件需要进一步根据参数的意义填写和编辑。之后放到man文件夹下。</p>
 <p>编辑和填写DESCRIPTION以及NAMESPACE两个文本文件 (参考 <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/blog-255662-247614.html">http://blog.sciencenet.cn/blog-255662-247614.html</a> )。删除 Read-and-delete-me文件。这样，程序包的源文件就做好了。</p>
 <p>下面准备编译或安装R程序包的Window批处理文件，bat文件</p>
 <h2 id="R包的检查的bat文件"><a href="#R包的检查的bat文件" class="headerlink" title="R包的检查的bat文件"></a>R包的检查的bat文件</h2><p>新建一个纯文本文件，并将扩展名txt更改为.bat，将以下内容拷贝到该文件夹中：</p>
-<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Rcmd check skycalc</span><br><span class="line"><span class="built_in">PAUSE</span></span><br></pre></td></tr></table></figure>
-
+<pre><code class="bat">Rcmd check skycalc
+PAUSE
+</code></pre>
 <p>将该文件命名为 check skycalc package.bat， 双击该bat文件， 可以对skycalc程序包中的错误进行检查。 如果要提交程序包到CRAN，检查过程中不能有任何错误或者warning。</p>
 <h2 id="建立Windows版本的安装包的bat文件"><a href="#建立Windows版本的安装包的bat文件" class="headerlink" title="建立Windows版本的安装包的bat文件"></a>建立Windows版本的安装包的bat文件</h2><p>(2)新建一个纯文本文件，并将扩展名txt更改为.bat</p>
 <p>将以下内容拷贝到该文件夹中</p>
-<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Rcmd INSTALL --build skycalc</span><br><span class="line"><span class="built_in">PAUSE</span></span><br></pre></td></tr></table></figure>
+<pre><code class="bat">Rcmd INSTALL --build skycalc
+PAUSE
+</code></pre>
 <p>将该文件命名为 build skycalc package Windows Binary.bat， 双击该文件， 可以建立Windows系统下的R程序包。</p>
 <h2 id="创建源代码包的bat文件"><a href="#创建源代码包的bat文件" class="headerlink" title="创建源代码包的bat文件"></a>创建源代码包的bat文件</h2><p>新建一个纯文本文件，并将扩展名txt更改为.bat，将以下内容拷贝到该文件夹中</p>
-<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Rcmd build skycalc</span><br><span class="line"><span class="built_in">pause</span></span><br></pre></td></tr></table></figure>
-
+<pre><code class="bat">Rcmd build skycalc
+pause
+</code></pre>
 <p>将该文件命名为 build skycalc package Linux Source Code.bat， 双击该文件，可以建立Linux系统下的安装包，其实是源文件。</p>
 <h2 id="直接安装程序包的bat文件"><a href="#直接安装程序包的bat文件" class="headerlink" title="直接安装程序包的bat文件"></a>直接安装程序包的bat文件</h2><p>新建一个纯文本文件，并将扩展名txt更改为.bat，将以下内容拷贝到该文件夹中：</p>
-<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Rcmd INSTALL skycalc</span><br><span class="line"><span class="built_in">PAUSE</span></span><br></pre></td></tr></table></figure>
+<pre><code class="bat">Rcmd INSTALL skycalc
+PAUSE
+</code></pre>
 <p>将该文件命名为 install skycalc package.bat， 双击该文件， 可以安装skycalc到当前的R中。</p>
 <h1 id="运行批处理命令"><a href="#运行批处理命令" class="headerlink" title="运行批处理命令"></a>运行批处理命令</h1><p>将以上四个.bat文件， 放置到skycalc文件夹所在的文件夹（例如， skycalc所 在的文件夹为study， 则bat文件需要放置在study文件夹下）</p>
 <p>双击文件， 即可完成程序包的编译和检查等。</p>
@@ -210,7 +471,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/10/15/2014-10-15-Rcpp/" data-id="ckmq2gws0005nq884cgbf5s3g" data-title="R程序包整合C++：Rcpp使用简明指南" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/10/15/2014-10-15-Rcpp/" data-id="ckmq42aip005m1k84exle8nrc" data-title="R程序包整合C++：Rcpp使用简明指南" class="article-share-link">Share</a>
       
       
       
@@ -247,11 +508,40 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>以下为R代码</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">\<span class="comment">##### 第一个方案</span></span><br><span class="line">\<span class="comment">##### 拟合正态分布</span></span><br><span class="line">x &lt;- <span class="built_in">log</span>(rlnorm(<span class="number">1000</span>))*<span class="number">500</span> <span class="comment">### 提取数据框</span></span><br><span class="line">h &lt;- hist(x, ylim = <span class="built_in">c</span>(<span class="number">0</span>, <span class="number">300</span>))  <span class="comment">## 绘制频率直方图</span></span><br><span class="line">xfit &lt;- seq(<span class="built_in">min</span>(x),<span class="built_in">max</span>(x),<span class="built_in">length</span>=<span class="number">500</span>) <span class="comment">### 取要计算的x值</span></span><br><span class="line">yfit &lt;- dnorm(xfit, mean=mean(x), sd=sd(x)) <span class="comment">### 假设是正态分布， 则对应的概率密度为 yfit</span></span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(x) <span class="comment">### 求x向量内每一个值与前面数值的差, 以确定在y方向上， 应该放大多少倍</span></span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>)  <span class="comment">### 绘制曲线</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">\<span class="comment">##### 第二个方案</span></span><br><span class="line">\<span class="comment">##### 拟合对数正态分布</span></span><br><span class="line">x &lt;- rlnorm(<span class="number">1000</span>)*<span class="number">1000</span>  <span class="comment">### 提取第一列</span></span><br><span class="line">h &lt;- hist(x, ylim = <span class="built_in">c</span>(<span class="number">0</span>, <span class="number">1000</span>), breaks = <span class="number">25</span>)  <span class="comment">## 绘制频率直方图</span></span><br><span class="line">xfit &lt;- seq(<span class="built_in">min</span>(x),<span class="built_in">max</span>(x),<span class="built_in">length</span>=<span class="number">500</span>) <span class="comment">### 取要绘图的x值取值范围</span></span><br><span class="line">yfit &lt;- dlnorm(xfit, meanlog=<span class="built_in">log</span>(mean(x)), sdlog=sd(<span class="built_in">log</span>(x))) <span class="comment">### 假设是对数正态分布， 则对应的概率密度为 yfit</span></span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(x) <span class="comment">### 求x向量内每一个值与前面数值的差, 以确定在y方向上， 应该放大多少倍</span></span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>) <span class="comment">### 绘制曲线</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">\<span class="comment">##### 第三个方案</span></span><br><span class="line">\<span class="comment">##### 基于核密度估计</span></span><br><span class="line">x &lt;- rlnorm(<span class="number">1000</span>)*<span class="number">1000</span>   <span class="comment">### 提取第一列</span></span><br><span class="line">h &lt;- hist(x, breaks = <span class="number">25</span>)  <span class="comment">## 绘制频率直方图</span></span><br><span class="line">xfit &lt;- seq(<span class="built_in">min</span>(x),<span class="built_in">max</span>(x),<span class="built_in">length</span>=<span class="number">500</span>) <span class="comment">### 取要绘图的x值取值范围</span></span><br><span class="line">yfit &lt;- density(x, n = <span class="built_in">length</span>(xfit))$y <span class="comment">### 假设是对数正态分布， 则对应的概率密度为 yfit</span></span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(xfit) <span class="comment">### 求x向量内每一个值与前面数值的差, 以确定在y方向上， 应该放大多少倍</span></span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>) <span class="comment">### 绘制曲线</span></span><br></pre></td></tr></table></figure>
+<pre><code class="R">\##### 第一个方案
+\##### 拟合正态分布
+x &lt;- log(rlnorm(1000))*500 ### 提取数据框
+h &lt;- hist(x, ylim = c(0, 300))  ## 绘制频率直方图
+xfit &lt;- seq(min(x),max(x),length=500) ### 取要计算的x值
+yfit &lt;- dnorm(xfit, mean=mean(x), sd=sd(x)) ### 假设是正态分布， 则对应的概率密度为 yfit
+yfit &lt;- yfit*diff(h$mids[1:2])*length(x) ### 求x向量内每一个值与前面数值的差, 以确定在y方向上， 应该放大多少倍
+lines(xfit, yfit, col=&quot;blue&quot;, lwd=2)  ### 绘制曲线
+
+
+\##### 第二个方案
+\##### 拟合对数正态分布
+x &lt;- rlnorm(1000)*1000  ### 提取第一列
+h &lt;- hist(x, ylim = c(0, 1000), breaks = 25)  ## 绘制频率直方图
+xfit &lt;- seq(min(x),max(x),length=500) ### 取要绘图的x值取值范围
+yfit &lt;- dlnorm(xfit, meanlog=log(mean(x)), sdlog=sd(log(x))) ### 假设是对数正态分布， 则对应的概率密度为 yfit
+yfit &lt;- yfit*diff(h$mids[1:2])*length(x) ### 求x向量内每一个值与前面数值的差, 以确定在y方向上， 应该放大多少倍
+lines(xfit, yfit, col=&quot;blue&quot;, lwd=2) ### 绘制曲线
+
+
+\##### 第三个方案
+\##### 基于核密度估计
+x &lt;- rlnorm(1000)*1000   ### 提取第一列
+h &lt;- hist(x, breaks = 25)  ## 绘制频率直方图
+xfit &lt;- seq(min(x),max(x),length=500) ### 取要绘图的x值取值范围
+yfit &lt;- density(x, n = length(xfit))$y ### 假设是对数正态分布， 则对应的概率密度为 yfit
+yfit &lt;- yfit*diff(h$mids[1:2])*length(xfit) ### 求x向量内每一个值与前面数值的差, 以确定在y方向上， 应该放大多少倍
+lines(xfit, yfit, col=&quot;blue&quot;, lwd=2) ### 绘制曲线
+</code></pre>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/09/25/2014-9-25-fitting/" data-id="ckmq2gwsa006mq884b8yzh99v" data-title="在频率直方图上添加拟合的曲线－以对数正态分布为例" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/09/25/2014-9-25-fitting/" data-id="ckmq42aiy006h1k8434fga79c" data-title="在频率直方图上添加拟合的曲线－以对数正态分布为例" class="article-share-link">Share</a>
       
       
       
@@ -288,51 +578,349 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>PyEphem为Python下的一个程序包， 用来进行天文历算， 虽然是爱好者编写的， 但是由于使用VOS87行星运动数据， 计算精度达到了很高的精度， 足以满足一般的观测需要。 详情参见 <a target="_blank" rel="noopener" href="http://rhodesmill.org/pyephem/">http://rhodesmill.org/pyephem/</a> 本文是学习该程序包的读书笔记。</p>
-<h2 id="火星在2018年的星座"><a href="#火星在2018年的星座" class="headerlink" title="火星在2018年的星座"></a>火星在2018年的星座</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ephem</span><br><span class="line">m = ephem.Mars(<span class="string">&#x27;2018&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(ephem.constellation(m))</span><br><span class="line">(<span class="string">&#x27;Lib&#x27;</span>, <span class="string">&#x27;Libra&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="火星在2018年的星座"><a href="#火星在2018年的星座" class="headerlink" title="火星在2018年的星座"></a>火星在2018年的星座</h2><pre><code class="python">import ephem
+m = ephem.Mars(&#39;2018&#39;)
+print(ephem.constellation(m))
+(&#39;Lib&#39;, &#39;Libra&#39;)
+</code></pre>
+<h2 id="计算不同天体在1970年1月1日0时的位置等信息"><a href="#计算不同天体在1970年1月1日0时的位置等信息" class="headerlink" title="计算不同天体在1970年1月1日0时的位置等信息"></a>计算不同天体在1970年1月1日0时的位置等信息</h2><pre><code class="python">from ephem import *
+mars = Mars(&#39;1970&#39;) # 火星
+print(&#39;%s, %s, %.10f&#39; % (mars.name, mars.elong, mars.size))
 
-<h2 id="计算不同天体在1970年1月1日0时的位置等信息"><a href="#计算不同天体在1970年1月1日0时的位置等信息" class="headerlink" title="计算不同天体在1970年1月1日0时的位置等信息"></a>计算不同天体在1970年1月1日0时的位置等信息</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> ephem <span class="keyword">import</span> *</span><br><span class="line">mars = Mars(<span class="string">&#x27;1970&#x27;</span>) <span class="comment"># 火星</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s, %s, %.10f&#x27;</span> % (mars.name, mars.elong, mars.size))</span><br><span class="line"></span><br><span class="line">sun = Sun(<span class="string">&#x27;1970&#x27;</span>) <span class="comment"># 太阳</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s, %s, %.10f&#x27;</span> % (sun.name, sun.elong, sun.size))</span><br><span class="line"></span><br><span class="line">moon = Moon(<span class="string">&#x27;1970&#x27;</span>) <span class="comment"># 月亮</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s, %s, %.10f&#x27;</span> % (moon.name, moon.elong, moon.size))</span><br><span class="line"></span><br><span class="line">mercury = Mercury(<span class="string">&#x27;1970&#x27;</span>) <span class="comment"># 水星</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s, %s, %.10f&#x27;</span> % (mercury.name, mercury.elong, mercury.size))</span><br><span class="line"></span><br><span class="line">venus = Venus(<span class="string">&#x27;1970&#x27;</span>) <span class="comment"># 金星</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s, %s, %.10f&#x27;</span> % (venus.name, venus.elong, venus.size))</span><br><span class="line"></span><br><span class="line">jupiter = Jupiter(<span class="string">&#x27;1970&#x27;</span>) <span class="comment"># 木星</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s, %s, %.10f&#x27;</span> % (jupiter.name, jupiter.elong, jupiter.size))</span><br><span class="line"></span><br><span class="line">saturn = Saturn(<span class="string">&#x27;1970&#x27;</span>) <span class="comment"># 土星</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s, %s, %.10f&#x27;</span> % (saturn.name, saturn.elong, saturn.size))</span><br><span class="line"></span><br><span class="line">uranus = Uranus(<span class="string">&#x27;1970&#x27;</span>) <span class="comment"># 天王星</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s, %s, %.10f&#x27;</span> % (uranus.name, uranus.elong, uranus.size))</span><br><span class="line"></span><br><span class="line">neptune = Neptune(<span class="string">&#x27;1970&#x27;</span>) <span class="comment"># 海王星</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s, %s, %.10f&#x27;</span> % (neptune.name, neptune.elong, neptune.size))</span><br><span class="line"></span><br><span class="line">pluto = Pluto(<span class="string">&#x27;1970&#x27;</span>) <span class="comment"># 冥王星</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s, %s , %.10f&#x27;</span> % (pluto.name, pluto.elong, pluto.size))</span><br><span class="line">Mars, <span class="number">62</span>:04:<span class="number">48.0</span>, <span class="number">5.9295825958</span></span><br><span class="line">Sun, <span class="number">0</span>:<span class="number">00</span>:<span class="number">00.0</span>, <span class="number">1951.8359375000</span></span><br><span class="line">Moon, -<span class="number">89</span>:<span class="number">27</span>:<span class="number">48.3</span>, <span class="number">1831.0117187500</span></span><br><span class="line">Mercury, <span class="number">18</span>:<span class="number">52</span>:<span class="number">17.4</span>, <span class="number">7.5804867744</span></span><br><span class="line">Venus, -<span class="number">5</span>:<span class="number">42</span>:<span class="number">32.4</span>, <span class="number">9.9605798721</span></span><br><span class="line">Jupiter, -<span class="number">67</span>:<span class="number">50</span>:<span class="number">24.1</span>, <span class="number">34.2474060059</span></span><br><span class="line">Saturn, <span class="number">111</span>:<span class="number">52</span>:<span class="number">32.6</span>, <span class="number">18.8122367859</span></span><br><span class="line">Uranus, -<span class="number">91</span>:<span class="number">26</span>:<span class="number">29.1</span>, <span class="number">3.8586533070</span></span><br><span class="line">Neptune, -<span class="number">40</span>:<span class="number">17</span>:<span class="number">59.5</span>, <span class="number">2.1982953548</span></span><br><span class="line">Pluto, -<span class="number">102</span>:<span class="number">16</span>:<span class="number">48.8</span> , <span class="number">0.2606950402</span></span><br><span class="line"><span class="comment">### a_ra — Astrometric geocentric right ascension for the epoch specified</span></span><br><span class="line"><span class="comment">### a_dec — Astrometric geocentric declination for the epoch specified</span></span><br><span class="line"><span class="comment">### g_ra and ra — Apparent geocentric right ascension for the epoch-of-date</span></span><br><span class="line"><span class="comment">### g_dec and dec — Apparent geocentric declination for the epoch-of-date</span></span><br><span class="line"><span class="comment">### elong — Elongation (angle to sun)</span></span><br><span class="line"><span class="comment">### mag — Magnitude</span></span><br><span class="line"><span class="comment">### size — Size (diameter in arcseconds)</span></span><br><span class="line"><span class="comment">### radius — Size (radius as an angle)</span></span><br><span class="line"><span class="comment">### circumpolar — whether it stays above the horizon</span></span><br><span class="line"><span class="comment">### neverup — whether is stays below the horizon</span></span><br><span class="line"><span class="comment">############################################ </span></span><br><span class="line">hlon — Heliocentric longitude (see <span class="built_in">next</span> paragraph)</span><br><span class="line"><span class="comment">### hlat — Heliocentric latitude (see next paragraph)</span></span><br><span class="line"><span class="comment">### sun_distance — Distance to Sun (AU)</span></span><br><span class="line"><span class="comment">### earth_distance — Distance to Earth (AU)</span></span><br><span class="line"><span class="comment">### phase — Percent of surface illuminated</span></span><br></pre></td></tr></table></figure>
+sun = Sun(&#39;1970&#39;) # 太阳
+print(&#39;%s, %s, %.10f&#39; % (sun.name, sun.elong, sun.size))
 
-<h2 id="已知观测者的位置，-包括-经纬度和海拔，-观测日期和时刻，-求天体的高度和方位"><a href="#已知观测者的位置，-包括-经纬度和海拔，-观测日期和时刻，-求天体的高度和方位" class="headerlink" title="已知观测者的位置， 包括 经纬度和海拔， 观测日期和时刻， 求天体的高度和方位"></a>已知观测者的位置， 包括 经纬度和海拔， 观测日期和时刻， 求天体的高度和方位</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">gatech = Observer()</span><br><span class="line">gatech.lon = <span class="string">&#x27;114.169576&#x27;</span></span><br><span class="line">gatech.lat = <span class="string">&#x27;22.451939&#x27;</span></span><br><span class="line">gatech.elevation = <span class="number">5</span></span><br><span class="line">gatech.date = <span class="string">&#x27;2014/9/22 22:30:00&#x27;</span></span><br><span class="line">v = Venus(gatech)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s, %s&#x27;</span> % (v.alt, v.az))</span><br><span class="line"><span class="number">11</span>:<span class="number">47</span>:<span class="number">49.3</span>, <span class="number">89</span>:<span class="number">41</span>:<span class="number">14.6</span></span><br></pre></td></tr></table></figure>
+moon = Moon(&#39;1970&#39;) # 月亮
+print(&#39;%s, %s, %.10f&#39; % (moon.name, moon.elong, moon.size))
 
-<h2 id="已知彗星的根数，-计算彗星的亮度和位置，-读取的格式为-xephem格式"><a href="#已知彗星的根数，-计算彗星的亮度和位置，-读取的格式为-xephem格式" class="headerlink" title="已知彗星的根数， 计算彗星的亮度和位置， 读取的格式为 xephem格式"></a>已知彗星的根数， 计算彗星的亮度和位置， 读取的格式为 xephem格式</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">line = <span class="string">&quot;C/2002 Y1 (Juels-Holvorcem),e,103.7816,166.2194,128.8232,242.5695,</span></span><br><span class="line"><span class="string">0.0002609,0.99705756,0.0000,04/13.2508/2003,2000,g  6.5,4.0&quot;</span></span><br><span class="line">yh = ephem.readdb(line)</span><br><span class="line">yh.compute(<span class="string">&#x27;2007/10/1&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%.10f&#x27;</span> % yh.earth_distance)</span><br><span class="line"><span class="built_in">print</span>(yh.mag)</span><br><span class="line"><span class="number">14.8046731949</span></span><br><span class="line"><span class="number">23.96</span></span><br><span class="line"><span class="comment">## 已知人造卫星的轨道根数， 计算其在任意时刻的高度和方位</span></span><br><span class="line"><span class="comment">### 读取 xephem格式用 readdb 方法</span></span><br><span class="line"><span class="comment">### 写出 xepheme格式， 用 writedb 方法</span></span><br><span class="line"><span class="comment">######### 人造卫星为 tle格式, 这里用readtle方法来阅读</span></span><br><span class="line">line1 = <span class="string">&quot;ISS (ZARYA)&quot;</span></span><br><span class="line">line2 = <span class="string">&quot;1 25544U 98067A   03097.78853147  .00021906  00000-0  28403-3 0  8652&quot;</span></span><br><span class="line">line3 = <span class="string">&quot;2 25544  51.6361  13.7980 0004256  35.6671  59.2566 15.58778559250029&quot;</span></span><br><span class="line">iss = ephem.readtle(line1, line2, line3)</span><br><span class="line">iss.compute(<span class="string">&#x27;2003/3/23&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s %s&#x27;</span> % (iss.sublong, iss.sublat))</span><br><span class="line">-<span class="number">76</span>:<span class="number">24</span>:<span class="number">18.3</span> <span class="number">13</span>:05:<span class="number">31.1</span></span><br><span class="line">(<span class="string">&#x27;Sgr&#x27;</span>, <span class="string">&#x27;Sagittarius&#x27;</span>)</span><br><span class="line"><span class="number">50.54</span></span><br><span class="line">V2 - P274</span><br><span class="line">V2 - P135</span><br><span class="line">V1 - P273</span><br></pre></td></tr></table></figure>
+mercury = Mercury(&#39;1970&#39;) # 水星
+print(&#39;%s, %s, %.10f&#39; % (mercury.name, mercury.elong, mercury.size))
 
-<h2 id="计算月亮在某时刻所在星座"><a href="#计算月亮在某时刻所在星座" class="headerlink" title="计算月亮在某时刻所在星座"></a>计算月亮在某时刻所在星座</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">m = Moon(<span class="string">&#x27;1980/6/1&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(constellation(m))</span><br><span class="line">(<span class="string">&#x27;Sgr&#x27;</span>, <span class="string">&#x27;Sagittarius&#x27;</span>)</span><br></pre></td></tr></table></figure>
+venus = Venus(&#39;1970&#39;) # 金星
+print(&#39;%s, %s, %.10f&#39; % (venus.name, venus.elong, venus.size))
 
-<h2 id="查询某一赤经赤纬在不同星图中的页码"><a href="#查询某一赤经赤纬在不同星图中的页码" class="headerlink" title="查询某一赤经赤纬在不同星图中的页码"></a>查询某一赤经赤纬在不同星图中的页码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">####### Uranometria by Johannes Bayer.</span></span><br><span class="line"><span class="comment">####### Uranometria 2000.0 edited by Wil Tirion.</span></span><br><span class="line"><span class="comment">#######  Millennium Star Atlas by Roger W. Sinnott and Michael A. C. Perryman.</span></span><br><span class="line"></span><br><span class="line">ra, dec = <span class="string">&#x27;7:16:00&#x27;</span>, <span class="string">&#x27;-6:17:00&#x27;</span><span class="built_in">print</span>(ephem.uranometria(ra, dec))</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(ephem.uranometria2000(ra, dec))</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(ephem.millennium_atlas(ra, dec))</span><br></pre></td></tr></table></figure>
+jupiter = Jupiter(&#39;1970&#39;) # 木星
+print(&#39;%s, %s, %.10f&#39; % (jupiter.name, jupiter.elong, jupiter.size))
 
-<h2 id="转换儒略日"><a href="#转换儒略日" class="headerlink" title="转换儒略日"></a>转换儒略日</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ephem.julian_date(<span class="string">&#x27;2000/1/1&#x27;</span>)</span><br></pre></td></tr></table></figure>
+saturn = Saturn(&#39;1970&#39;) # 土星
+print(&#39;%s, %s, %.10f&#39; % (saturn.name, saturn.elong, saturn.size))
 
-<h2 id="计算-Delta-T"><a href="#计算-Delta-T" class="headerlink" title="计算 Delta T"></a>计算 Delta T</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(ephem.delta_t(<span class="string">&#x27;1980&#x27;</span>))</span><br></pre></td></tr></table></figure>
+uranus = Uranus(&#39;1970&#39;) # 天王星
+print(&#39;%s, %s, %.10f&#39; % (uranus.name, uranus.elong, uranus.size))
 
-<h2 id="计算两个物件的角距"><a href="#计算两个物件的角距" class="headerlink" title="计算两个物件的角距"></a>计算两个物件的角距</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">m1 = ephem.Moon(<span class="string">&#x27;1970/1/16&#x27;</span>)</span><br><span class="line">m2 = ephem.Moon(<span class="string">&#x27;1970/1/17&#x27;</span>)</span><br><span class="line">s = ephem.separation(m1, m2)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;In one day the Moon moved %s&quot;</span> % s)</span><br><span class="line">In one day the Moon moved <span class="number">12</span>:<span class="number">33</span>:<span class="number">28.5</span></span><br></pre></td></tr></table></figure>
+neptune = Neptune(&#39;1970&#39;) # 海王星
+print(&#39;%s, %s, %.10f&#39; % (neptune.name, neptune.elong, neptune.size))
 
-<h2 id="坐标系转换"><a href="#坐标系转换" class="headerlink" title="坐标系转换"></a>坐标系转换</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">np = Equatorial(<span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;90&#x27;</span>, epoch=<span class="string">&#x27;2000&#x27;</span>)</span><br><span class="line">g = Galactic(np)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s %s&#x27;</span> % (g.lon, g.lat))</span><br><span class="line"><span class="comment">####   Equatorial</span></span><br><span class="line"><span class="comment">####   ra — right ascension</span></span><br><span class="line"><span class="comment">####   dec — declination</span></span><br><span class="line"><span class="comment">####   epoch — epoch of the coordinate</span></span><br><span class="line"><span class="comment">####   Ecliptic</span></span><br><span class="line"><span class="comment">####   lon — ecliptic longitude (+E)</span></span><br><span class="line"><span class="comment">####   lat — ecliptic latitude (+N)</span></span><br><span class="line"><span class="comment">####   epoch — epoch of the coordinate</span></span><br><span class="line"><span class="comment">####   Galactic</span></span><br><span class="line"><span class="comment">####   lon — galactic longitude (+E)</span></span><br><span class="line"><span class="comment">####   lat — galactic latitude (+N)</span></span><br><span class="line"><span class="comment">####   epoch — epoch of the coordinate</span></span><br><span class="line"><span class="number">122</span>:<span class="number">55</span>:<span class="number">54.9</span> <span class="number">27</span>:07:<span class="number">41.7</span></span><br></pre></td></tr></table></figure>
+pluto = Pluto(&#39;1970&#39;) # 冥王星
+print(&#39;%s, %s , %.10f&#39; % (pluto.name, pluto.elong, pluto.size))
+Mars, 62:04:48.0, 5.9295825958
+Sun, 0:00:00.0, 1951.8359375000
+Moon, -89:27:48.3, 1831.0117187500
+Mercury, 18:52:17.4, 7.5804867744
+Venus, -5:42:32.4, 9.9605798721
+Jupiter, -67:50:24.1, 34.2474060059
+Saturn, 111:52:32.6, 18.8122367859
+Uranus, -91:26:29.1, 3.8586533070
+Neptune, -40:17:59.5, 2.1982953548
+Pluto, -102:16:48.8 , 0.2606950402
+### a_ra — Astrometric geocentric right ascension for the epoch specified
+### a_dec — Astrometric geocentric declination for the epoch specified
+### g_ra and ra — Apparent geocentric right ascension for the epoch-of-date
+### g_dec and dec — Apparent geocentric declination for the epoch-of-date
+### elong — Elongation (angle to sun)
+### mag — Magnitude
+### size — Size (diameter in arcseconds)
+### radius — Size (radius as an angle)
+### circumpolar — whether it stays above the horizon
+### neverup — whether is stays below the horizon
+############################################ 
+hlon — Heliocentric longitude (see next paragraph)
+### hlat — Heliocentric latitude (see next paragraph)
+### sun_distance — Distance to Sun (AU)
+### earth_distance — Distance to Earth (AU)
+### phase — Percent of surface illuminated
+</code></pre>
+<h2 id="已知观测者的位置，-包括-经纬度和海拔，-观测日期和时刻，-求天体的高度和方位"><a href="#已知观测者的位置，-包括-经纬度和海拔，-观测日期和时刻，-求天体的高度和方位" class="headerlink" title="已知观测者的位置， 包括 经纬度和海拔， 观测日期和时刻， 求天体的高度和方位"></a>已知观测者的位置， 包括 经纬度和海拔， 观测日期和时刻， 求天体的高度和方位</h2><pre><code class="python">gatech = Observer()
+gatech.lon = &#39;114.169576&#39;
+gatech.lat = &#39;22.451939&#39;
+gatech.elevation = 5
+gatech.date = &#39;2014/9/22 22:30:00&#39;
+v = Venus(gatech)
+print(&#39;%s, %s&#39; % (v.alt, v.az))
+11:47:49.3, 89:41:14.6
+</code></pre>
+<h2 id="已知彗星的根数，-计算彗星的亮度和位置，-读取的格式为-xephem格式"><a href="#已知彗星的根数，-计算彗星的亮度和位置，-读取的格式为-xephem格式" class="headerlink" title="已知彗星的根数， 计算彗星的亮度和位置， 读取的格式为 xephem格式"></a>已知彗星的根数， 计算彗星的亮度和位置， 读取的格式为 xephem格式</h2><pre><code class="python">line = &quot;C/2002 Y1 (Juels-Holvorcem),e,103.7816,166.2194,128.8232,242.5695,
+0.0002609,0.99705756,0.0000,04/13.2508/2003,2000,g  6.5,4.0&quot;
+yh = ephem.readdb(line)
+yh.compute(&#39;2007/10/1&#39;)
+print(&#39;%.10f&#39; % yh.earth_distance)
+print(yh.mag)
+14.8046731949
+23.96
+## 已知人造卫星的轨道根数， 计算其在任意时刻的高度和方位
+### 读取 xephem格式用 readdb 方法
+### 写出 xepheme格式， 用 writedb 方法
+######### 人造卫星为 tle格式, 这里用readtle方法来阅读
+line1 = &quot;ISS (ZARYA)&quot;
+line2 = &quot;1 25544U 98067A   03097.78853147  .00021906  00000-0  28403-3 0  8652&quot;
+line3 = &quot;2 25544  51.6361  13.7980 0004256  35.6671  59.2566 15.58778559250029&quot;
+iss = ephem.readtle(line1, line2, line3)
+iss.compute(&#39;2003/3/23&#39;)
+print(&#39;%s %s&#39; % (iss.sublong, iss.sublat))
+-76:24:18.3 13:05:31.1
+(&#39;Sgr&#39;, &#39;Sagittarius&#39;)
+50.54
+V2 - P274
+V2 - P135
+V1 - P273
+</code></pre>
+<h2 id="计算月亮在某时刻所在星座"><a href="#计算月亮在某时刻所在星座" class="headerlink" title="计算月亮在某时刻所在星座"></a>计算月亮在某时刻所在星座</h2><pre><code class="python">m = Moon(&#39;1980/6/1&#39;)
+print(constellation(m))
+(&#39;Sgr&#39;, &#39;Sagittarius&#39;)
+</code></pre>
+<h2 id="查询某一赤经赤纬在不同星图中的页码"><a href="#查询某一赤经赤纬在不同星图中的页码" class="headerlink" title="查询某一赤经赤纬在不同星图中的页码"></a>查询某一赤经赤纬在不同星图中的页码</h2><pre><code class="python">####### Uranometria by Johannes Bayer.
+####### Uranometria 2000.0 edited by Wil Tirion.
+#######  Millennium Star Atlas by Roger W. Sinnott and Michael A. C. Perryman.
 
-<h2 id="计算某地点的天象"><a href="#计算某地点的天象" class="headerlink" title="计算某地点的天象"></a>计算某地点的天象</h2><h3 id="天体的高度和方位"><a href="#天体的高度和方位" class="headerlink" title="天体的高度和方位"></a>天体的高度和方位</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#### Describes a position on Earth’s surface.lowell = ephem.Observer()</span></span><br><span class="line">lowell.lon = <span class="string">&#x27;-111:32.1&#x27;</span></span><br><span class="line">lowell.lat = <span class="string">&#x27;35:05.8&#x27;</span></span><br><span class="line">lowell.elevation = <span class="number">2198</span></span><br><span class="line">lowell.date = <span class="string">&#x27;1986/3/13&#x27;</span></span><br><span class="line">j = ephem.Jupiter()</span><br><span class="line">j.compute(lowell)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s %s&#x27;</span> % (j.alt, j.az))</span><br><span class="line"><span class="comment">##  Attributes can be set:</span></span><br><span class="line"><span class="comment">##      date — Date and time</span></span><br><span class="line"><span class="comment">##      epoch — Epoch for astrometric RA/dec</span></span><br><span class="line"><span class="comment">##      lat — Latitude (+N)</span></span><br><span class="line"><span class="comment">##      lon — Longitude (+E)</span></span><br><span class="line"><span class="comment">##      elevation — Elevation (m)</span></span><br><span class="line"><span class="comment">##      temp — Temperature (°C)</span></span><br><span class="line"><span class="comment">##      pressure — Atmospheric pressure (mBar)</span></span><br><span class="line"><span class="comment">##  ##      The date defaults to now().</span></span><br><span class="line"><span class="comment">##      The epoch defaults to &#x27;2000&#x27;.</span></span><br><span class="line"><span class="comment">##      The temp defaults to 25°C.</span></span><br><span class="line"><span class="comment">##      The pressure defaults to 1010mBar.</span></span><br><span class="line"><span class="comment">##      Other attributes default to zero.</span></span><br><span class="line"><span class="number">0</span>:<span class="number">57</span>:<span class="number">44.7</span> <span class="number">256</span>:<span class="number">41</span>:<span class="number">01.3</span></span><br></pre></td></tr></table></figure>
+ra, dec = &#39;7:16:00&#39;, &#39;-6:17:00&#39;print(ephem.uranometria(ra, dec))
 
-<h3 id="天体的升降与中天时刻"><a href="#天体的升降与中天时刻" class="headerlink" title="天体的升降与中天时刻"></a>天体的升降与中天时刻</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">############## 内置的城市位置数据</span></span><br><span class="line">city = city(<span class="string">&#x27;Beijing&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s %s&#x27;</span> % (city.lat, city.lon))</span><br><span class="line"><span class="comment">############# 天体的升降和中天</span></span><br><span class="line">sitka = Observer()</span><br><span class="line">sitka.date = <span class="string">&#x27;1999/6/27&#x27;</span></span><br><span class="line">sitka.lat = <span class="string">&#x27;57:10&#x27;</span></span><br><span class="line">sitka.lon = <span class="string">&#x27;-135:15&#x27;</span>m = Mars()</span><br><span class="line"><span class="built_in">print</span>(sitka.next_transit(m))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s %s&#x27;</span> % (m.alt, m.az))</span><br><span class="line"><span class="built_in">print</span>(sitka.next_rising(m, start=<span class="string">&#x27;1999/6/28&#x27;</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s %s&#x27;</span> % (m.alt, m.az))</span><br><span class="line"><span class="comment">#### 给定观测者之后， 每个天体可以使用方法 （人造卫星除外）</span></span><br><span class="line"><span class="comment">### previous_transit()</span></span><br><span class="line"><span class="comment">### next_transit()</span></span><br><span class="line"><span class="comment">### previous_antitransit()</span></span><br><span class="line"><span class="comment">### next_antitransit()</span></span><br><span class="line"><span class="comment">### previous_rising()</span></span><br><span class="line"><span class="comment">### next_rising()</span></span><br><span class="line"><span class="comment">### previous_setting()</span></span><br><span class="line"><span class="comment">### next_setting()</span></span><br><span class="line"><span class="number">39</span>:<span class="number">54</span>:<span class="number">15.2</span> <span class="number">116</span>:<span class="number">24</span>:<span class="number">26.7</span></span><br><span class="line"><span class="number">1999</span>/<span class="number">6</span>/<span class="number">27</span> 04:<span class="number">22</span>:<span class="number">45</span></span><br><span class="line"><span class="number">21</span>:<span class="number">18</span>:<span class="number">33.6</span> <span class="number">180</span>:<span class="number">00</span>:<span class="number">00.0</span></span><br><span class="line"><span class="number">1999</span>/<span class="number">6</span>/<span class="number">28</span> <span class="number">23</span>:<span class="number">28</span>:<span class="number">25</span></span><br><span class="line">-<span class="number">0</span>:<span class="number">00</span>:<span class="number">05.8</span> <span class="number">111</span>:<span class="number">10</span>:<span class="number">41.6</span></span><br></pre></td></tr></table></figure>
+print(ephem.uranometria2000(ra, dec))
 
-<h2 id="人造卫星升落和中天时刻等"><a href="#人造卫星升落和中天时刻等" class="headerlink" title="人造卫星升落和中天时刻等"></a>人造卫星升落和中天时刻等</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##### 某年某月某日， 某地， 计算人造卫星掠过的时刻</span></span><br><span class="line">line1 = <span class="string">&quot;IRIDIUM 80 [+]&quot;</span></span><br><span class="line">line2 = <span class="string">&quot;1 25469U 98051C   09119.61415140 -.00000218  00000-0 -84793-4 0  4781&quot;</span></span><br><span class="line">line3 = <span class="string">&quot;2 25469  86.4029 183.4052 0002522  86.7221 273.4294 14.34215064557061&quot;</span></span><br><span class="line">iridium_80 = ephem.readtle(line1, line2, line3)</span><br><span class="line"></span><br><span class="line">city.date = <span class="string">&#x27;2009/5/1&#x27;</span></span><br><span class="line">info = city.next_pass(iridium_80)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Rise time: %s azimuth: %s&quot;</span> % (info[<span class="number">0</span>], info[<span class="number">1</span>]))</span><br><span class="line"><span class="comment">####  返回值的时刻####  </span></span><br><span class="line"><span class="number">0</span>  Rise time<span class="comment">####  </span></span><br><span class="line"><span class="number">1</span>  Rise azimuth<span class="comment">####  </span></span><br><span class="line"><span class="number">2</span>  Transit time<span class="comment">####  </span></span><br><span class="line"><span class="number">3</span>  Transit altitude<span class="comment">####  </span></span><br><span class="line"><span class="number">4</span>  <span class="type">Set</span> time<span class="comment">####  </span></span><br><span class="line"><span class="number">5</span>  <span class="type">Set</span> azimuth</span><br><span class="line"><span class="comment">##############################################</span></span><br><span class="line">Rise time: <span class="number">2009</span>/<span class="number">5</span>/<span class="number">1</span> <span class="number">00</span>:<span class="number">45</span>:05 azimuth: <span class="number">6</span>:<span class="number">13</span>:<span class="number">37.5</span></span><br></pre></td></tr></table></figure>
+print(ephem.millennium_atlas(ra, dec))
+</code></pre>
+<h2 id="转换儒略日"><a href="#转换儒略日" class="headerlink" title="转换儒略日"></a>转换儒略日</h2><pre><code class="python">ephem.julian_date(&#39;2000/1/1&#39;)
+</code></pre>
+<h2 id="计算-Delta-T"><a href="#计算-Delta-T" class="headerlink" title="计算 Delta T"></a>计算 Delta T</h2><pre><code class="python">print(ephem.delta_t(&#39;1980&#39;))
+</code></pre>
+<h2 id="计算两个物件的角距"><a href="#计算两个物件的角距" class="headerlink" title="计算两个物件的角距"></a>计算两个物件的角距</h2><pre><code class="python">m1 = ephem.Moon(&#39;1970/1/16&#39;)
+m2 = ephem.Moon(&#39;1970/1/17&#39;)
+s = ephem.separation(m1, m2)
+print(&quot;In one day the Moon moved %s&quot; % s)
+In one day the Moon moved 12:33:28.5
+</code></pre>
+<h2 id="坐标系转换"><a href="#坐标系转换" class="headerlink" title="坐标系转换"></a>坐标系转换</h2><pre><code class="python">np = Equatorial(&#39;0&#39;, &#39;90&#39;, epoch=&#39;2000&#39;)
+g = Galactic(np)
+print(&#39;%s %s&#39; % (g.lon, g.lat))
+####   Equatorial
+####   ra — right ascension
+####   dec — declination
+####   epoch — epoch of the coordinate
+####   Ecliptic
+####   lon — ecliptic longitude (+E)
+####   lat — ecliptic latitude (+N)
+####   epoch — epoch of the coordinate
+####   Galactic
+####   lon — galactic longitude (+E)
+####   lat — galactic latitude (+N)
+####   epoch — epoch of the coordinate
+122:55:54.9 27:07:41.7
+</code></pre>
+<h2 id="计算某地点的天象"><a href="#计算某地点的天象" class="headerlink" title="计算某地点的天象"></a>计算某地点的天象</h2><h3 id="天体的高度和方位"><a href="#天体的高度和方位" class="headerlink" title="天体的高度和方位"></a>天体的高度和方位</h3><pre><code class="python">#### Describes a position on Earth’s surface.lowell = ephem.Observer()
+lowell.lon = &#39;-111:32.1&#39;
+lowell.lat = &#39;35:05.8&#39;
+lowell.elevation = 2198
+lowell.date = &#39;1986/3/13&#39;
+j = ephem.Jupiter()
+j.compute(lowell)
+print(&#39;%s %s&#39; % (j.alt, j.az))
+##  Attributes can be set:
+##      date — Date and time
+##      epoch — Epoch for astrometric RA/dec
+##      lat — Latitude (+N)
+##      lon — Longitude (+E)
+##      elevation — Elevation (m)
+##      temp — Temperature (°C)
+##      pressure — Atmospheric pressure (mBar)
+##  ##      The date defaults to now().
+##      The epoch defaults to &#39;2000&#39;.
+##      The temp defaults to 25°C.
+##      The pressure defaults to 1010mBar.
+##      Other attributes default to zero.
+0:57:44.7 256:41:01.3
+</code></pre>
+<h3 id="天体的升降与中天时刻"><a href="#天体的升降与中天时刻" class="headerlink" title="天体的升降与中天时刻"></a>天体的升降与中天时刻</h3><pre><code class="python">############## 内置的城市位置数据
+city = city(&#39;Beijing&#39;)
+print(&#39;%s %s&#39; % (city.lat, city.lon))
+############# 天体的升降和中天
+sitka = Observer()
+sitka.date = &#39;1999/6/27&#39;
+sitka.lat = &#39;57:10&#39;
+sitka.lon = &#39;-135:15&#39;m = Mars()
+print(sitka.next_transit(m))
+print(&#39;%s %s&#39; % (m.alt, m.az))
+print(sitka.next_rising(m, start=&#39;1999/6/28&#39;))
+print(&#39;%s %s&#39; % (m.alt, m.az))
+#### 给定观测者之后， 每个天体可以使用方法 （人造卫星除外）
+### previous_transit()
+### next_transit()
+### previous_antitransit()
+### next_antitransit()
+### previous_rising()
+### next_rising()
+### previous_setting()
+### next_setting()
+39:54:15.2 116:24:26.7
+1999/6/27 04:22:45
+21:18:33.6 180:00:00.0
+1999/6/28 23:28:25
+-0:00:05.8 111:10:41.6
+</code></pre>
+<h2 id="人造卫星升落和中天时刻等"><a href="#人造卫星升落和中天时刻等" class="headerlink" title="人造卫星升落和中天时刻等"></a>人造卫星升落和中天时刻等</h2><pre><code class="python">##### 某年某月某日， 某地， 计算人造卫星掠过的时刻
+line1 = &quot;IRIDIUM 80 [+]&quot;
+line2 = &quot;1 25469U 98051C   09119.61415140 -.00000218  00000-0 -84793-4 0  4781&quot;
+line3 = &quot;2 25469  86.4029 183.4052 0002522  86.7221 273.4294 14.34215064557061&quot;
+iridium_80 = ephem.readtle(line1, line2, line3)
 
-<h2 id="计算日出时刻"><a href="#计算日出时刻" class="headerlink" title="计算日出时刻"></a>计算日出时刻</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">sun = Sun()</span><br><span class="line">greenwich = Observer()</span><br><span class="line">greenwich.lat = <span class="string">&#x27;51:28:38&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(greenwich.horizon)</span><br><span class="line">greenwich.date = <span class="string">&#x27;2007/10/1&#x27;</span></span><br><span class="line">r1 = greenwich.next_rising(sun)</span><br><span class="line">greenwich.pressure = <span class="number">0</span></span><br><span class="line">greenwich.horizon = <span class="string">&#x27;-0:34&#x27;</span></span><br><span class="line">greenwich.date = <span class="string">&#x27;2007/10/1&#x27;</span></span><br><span class="line">r2 = greenwich.next_rising(sun)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Visual sunrise: %s&#x27;</span> % r1)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Naval Observatory sunrise: %s&#x27;</span> % r2)</span><br><span class="line"><span class="number">0</span>:<span class="number">00</span>:<span class="number">00.0</span></span><br><span class="line">Visual sunrise: <span class="number">2007</span>/<span class="number">10</span>/<span class="number">1</span> 05:<span class="number">59</span>:<span class="number">30</span></span><br><span class="line">Naval Observatory sunrise: <span class="number">2007</span>/<span class="number">10</span>/<span class="number">1</span> 05:<span class="number">59</span>:<span class="number">50</span></span><br></pre></td></tr></table></figure>
+city.date = &#39;2009/5/1&#39;
+info = city.next_pass(iridium_80)
+print(&quot;Rise time: %s azimuth: %s&quot; % (info[0], info[1]))
+####  返回值的时刻####  
+0  Rise time####  
+1  Rise azimuth####  
+2  Transit time####  
+3  Transit altitude####  
+4  Set time####  
+5  Set azimuth
+##############################################
+Rise time: 2009/5/1 00:45:05 azimuth: 6:13:37.5
+</code></pre>
+<h2 id="计算日出时刻"><a href="#计算日出时刻" class="headerlink" title="计算日出时刻"></a>计算日出时刻</h2><pre><code class="python">sun = Sun()
+greenwich = Observer()
+greenwich.lat = &#39;51:28:38&#39;
+print(greenwich.horizon)
+greenwich.date = &#39;2007/10/1&#39;
+r1 = greenwich.next_rising(sun)
+greenwich.pressure = 0
+greenwich.horizon = &#39;-0:34&#39;
+greenwich.date = &#39;2007/10/1&#39;
+r2 = greenwich.next_rising(sun)
+print(&#39;Visual sunrise: %s&#39; % r1)
+print(&#39;Naval Observatory sunrise: %s&#39; % r2)
+0:00:00.0
+Visual sunrise: 2007/10/1 05:59:30
+Naval Observatory sunrise: 2007/10/1 05:59:50
+</code></pre>
+<h2 id="恒星时"><a href="#恒星时" class="headerlink" title="恒星时"></a>恒星时</h2><pre><code class="python">madrid = ephem.city(&#39;Madrid&#39;)
+madrid.date = &#39;1978/10/3 11:32&#39;
+print(madrid.sidereal_time())
+12:04:28.09
+2000/3/20 07:35:17
+2000/6/21 01:47:51
+Spring lasted 92.8 days
+</code></pre>
+<h2 id="春分，-秋分，-冬至，-夏至的时刻"><a href="#春分，-秋分，-冬至，-夏至的时刻" class="headerlink" title="春分， 秋分， 冬至， 夏至的时刻"></a>春分， 秋分， 冬至， 夏至的时刻</h2><pre><code class="python">d1 = ephem.next_equinox(&#39;2000&#39;)
+print(d1)
+d2 = ephem.next_solstice(d1)
+print(d2)
+t = d2 - d1
+print(&quot;Spring lasted %.1f days&quot; % t)
+#### 相应的方法
+#### previous_solstice()
+#### next_solstice()
+######## previous_equinox()
+#### next_equinox()
+######## previous_vernal_equinox()
+#### next_vernal_equinox()
+</code></pre>
+<h2 id="月相"><a href="#月相" class="headerlink" title="月相"></a>月相</h2><pre><code class="python">d1 = ephem.next_full_moon(&#39;1984&#39;)
+print(d1)
 
-<h2 id="恒星时"><a href="#恒星时" class="headerlink" title="恒星时"></a>恒星时</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">madrid = ephem.city(<span class="string">&#x27;Madrid&#x27;</span>)</span><br><span class="line">madrid.date = <span class="string">&#x27;1978/10/3 11:32&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(madrid.sidereal_time())</span><br><span class="line"><span class="number">12</span>:04:<span class="number">28.09</span></span><br><span class="line"><span class="number">2000</span>/<span class="number">3</span>/<span class="number">20</span> 07:<span class="number">35</span>:<span class="number">17</span></span><br><span class="line"><span class="number">2000</span>/<span class="number">6</span>/<span class="number">21</span> 01:<span class="number">47</span>:<span class="number">51</span></span><br><span class="line">Spring lasted <span class="number">92.8</span> days</span><br></pre></td></tr></table></figure>
+d2 = ephem.next_new_moon(d1)
+print(d2)
+### 朔
+### previous_new_moon()
+### next_new_moon()
+### 上弦月
+### previous_first_quarter_moon()
+### next_first_quarter_moon()
+### 望
+### previous_full_moon()
+### next_full_moon()
+### 下弦月
+### previous_last_quarter_moon()
+### next_last_quarter_moon()
+1984/1/18 14:05:10
+1984/2/1 23:46:25
+</code></pre>
+<h2 id="角度转换"><a href="#角度转换" class="headerlink" title="角度转换"></a>角度转换</h2><pre><code class="python">a = ephem.degrees(&#39;180:00:00&#39;)
+print(a)
+a
+print(&quot;180° is %f radians&quot; % a)
+h = ephem.hours(&#39;1:00:00&#39;)
+deg = ephem.degrees(h)
+print(&quot;1h right ascension = %s°&quot; % deg)
+## 时间和角度输入
+ephem.degrees(ephem.pi / 32)
+ephem.degrees(&#39;5.625&#39;)
+ephem.degrees(&#39;5:37.5&#39;)
+ephem.degrees(&#39;5:37:30&#39;)
+ephem.degrees(&#39;5:37:30.0&#39;)
+ephem.hours(&#39;0.375&#39;)
+ephem.hours(&#39;0:22.5&#39;)
+ephem.hours(&#39;0:22:30&#39;)
+ephem.hours(&#39;0:22:30.0&#39;)
+180:00:00.0
+180° is 3.141593 radians
+1h right ascension = 15:00:00.0°
+#### 日期时间的输入d = ephem.Date(&#39;1997/3/9 5:13&#39;)
+print(d)
+d
+d.triple()
+d.tuple()
+d + ephem.hour
+print(ephem.date(d + ephem.hour))
+print(ephem.date(d + 1))
+### 输入日期的格式ephem.Date(35497.7197916667)
+ephem.Date(&#39;1997/3/10.2197916667&#39;)
+ephem.Date(&#39;1997/3/10 05.275&#39;)
+ephem.Date(&#39;1997/3/10 05:16.5&#39;)
+ephem.Date(&#39;1997/3/10 05:16:30&#39;)
+ephem.Date(&#39;1997/3/10 05:16:30.0&#39;)
+ephem.Date((1997, 3, 10.2197916667))
+ephem.Date((1997, 3, 10, 5, 16, 30.0))
+1997/3/9 05:13:00
+1997/3/9 06:13:00
+1997/3/10 05:13:00
+35497.71979166667
+</code></pre>
+<h2 id="亮星列表"><a href="#亮星列表" class="headerlink" title="亮星列表"></a>亮星列表</h2><pre><code class="python">rigel = ephem.star(&#39;Rigel&#39;)
+print(&#39;%s %s&#39; % (rigel._ra, rigel._dec))
+5:14:32.30 -8:12:06.0
+</code></pre>
+<h2 id="城市列表"><a href="#城市列表" class="headerlink" title="城市列表"></a>城市列表</h2><pre><code class="python">stuttgart = ephem.city(&#39;Stuttgart&#39;)
+print(stuttgart)
+print(stuttgart.lon)
+&lt;ephem.Observer date=&#39;2018/8/27 05:17:01&#39; 
+epoch=&#39;2000/1/1 12:00:00&#39; 
+lon=&#39;9:10:50.8&#39; 
+lat=&#39;48:46:37.6&#39; 
+elevation=249.205185m 
+horizon=0:00:00.0 
+temp=15.0C 
+pressure=983.6685758505818mBar&gt;
+9:10:50.8
+</code></pre>
+<h2 id="天文常量"><a href="#天文常量" class="headerlink" title="天文常量"></a>天文常量</h2><pre><code class="python">#### PyEphem provides constants for the dates of a few major star-atlas epochs:
+#### 不同历元#  B1900# B1950# J2000
+### PyEphem provides, for reference, the length of four distances, all in meters:
 
-<h2 id="春分，-秋分，-冬至，-夏至的时刻"><a href="#春分，-秋分，-冬至，-夏至的时刻" class="headerlink" title="春分， 秋分， 冬至， 夏至的时刻"></a>春分， 秋分， 冬至， 夏至的时刻</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">d1 = ephem.next_equinox(<span class="string">&#x27;2000&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(d1)</span><br><span class="line">d2 = ephem.next_solstice(d1)</span><br><span class="line"><span class="built_in">print</span>(d2)</span><br><span class="line">t = d2 - d1</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Spring lasted %.1f days&quot;</span> % t)</span><br><span class="line"><span class="comment">#### 相应的方法</span></span><br><span class="line"><span class="comment">#### previous_solstice()</span></span><br><span class="line"><span class="comment">#### next_solstice()</span></span><br><span class="line"><span class="comment">######## previous_equinox()</span></span><br><span class="line"><span class="comment">#### next_equinox()</span></span><br><span class="line"><span class="comment">######## previous_vernal_equinox()</span></span><br><span class="line"><span class="comment">#### next_vernal_equinox()</span></span><br></pre></td></tr></table></figure>
+### 天文常量print(ephem.meters_per_au)
+print(ephem.earth_radius)
+print(ephem.moon_radius)
+print(ephem.sun_radius)
+#### PyEphem provides the speed of light in meters per second:
+## 光速 m/sprint(ephem.c)
+149597870000.0
+6378160.0
+1740000.0
+695000000.0
+299792458.0
+</code></pre>
 
-<h2 id="月相"><a href="#月相" class="headerlink" title="月相"></a>月相</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">d1 = ephem.next_full_moon(<span class="string">&#x27;1984&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(d1)</span><br><span class="line"></span><br><span class="line">d2 = ephem.next_new_moon(d1)</span><br><span class="line"><span class="built_in">print</span>(d2)</span><br><span class="line"><span class="comment">### 朔</span></span><br><span class="line"><span class="comment">### previous_new_moon()</span></span><br><span class="line"><span class="comment">### next_new_moon()</span></span><br><span class="line"><span class="comment">### 上弦月</span></span><br><span class="line"><span class="comment">### previous_first_quarter_moon()</span></span><br><span class="line"><span class="comment">### next_first_quarter_moon()</span></span><br><span class="line"><span class="comment">### 望</span></span><br><span class="line"><span class="comment">### previous_full_moon()</span></span><br><span class="line"><span class="comment">### next_full_moon()</span></span><br><span class="line"><span class="comment">### 下弦月</span></span><br><span class="line"><span class="comment">### previous_last_quarter_moon()</span></span><br><span class="line"><span class="comment">### next_last_quarter_moon()</span></span><br><span class="line"><span class="number">1984</span>/<span class="number">1</span>/<span class="number">18</span> <span class="number">14</span>:05:<span class="number">10</span></span><br><span class="line"><span class="number">1984</span>/<span class="number">2</span>/<span class="number">1</span> <span class="number">23</span>:<span class="number">46</span>:<span class="number">25</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="角度转换"><a href="#角度转换" class="headerlink" title="角度转换"></a>角度转换</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">a = ephem.degrees(<span class="string">&#x27;180:00:00&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(a)</span><br><span class="line">a</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;180° is %f radians&quot;</span> % a)</span><br><span class="line">h = ephem.hours(<span class="string">&#x27;1:00:00&#x27;</span>)</span><br><span class="line">deg = ephem.degrees(h)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;1h right ascension = %s°&quot;</span> % deg)</span><br><span class="line"><span class="comment">## 时间和角度输入</span></span><br><span class="line">ephem.degrees(ephem.pi / <span class="number">32</span>)</span><br><span class="line">ephem.degrees(<span class="string">&#x27;5.625&#x27;</span>)</span><br><span class="line">ephem.degrees(<span class="string">&#x27;5:37.5&#x27;</span>)</span><br><span class="line">ephem.degrees(<span class="string">&#x27;5:37:30&#x27;</span>)</span><br><span class="line">ephem.degrees(<span class="string">&#x27;5:37:30.0&#x27;</span>)</span><br><span class="line">ephem.hours(<span class="string">&#x27;0.375&#x27;</span>)</span><br><span class="line">ephem.hours(<span class="string">&#x27;0:22.5&#x27;</span>)</span><br><span class="line">ephem.hours(<span class="string">&#x27;0:22:30&#x27;</span>)</span><br><span class="line">ephem.hours(<span class="string">&#x27;0:22:30.0&#x27;</span>)</span><br><span class="line"><span class="number">180</span>:<span class="number">00</span>:<span class="number">00.0</span></span><br><span class="line"><span class="number">180</span>° <span class="keyword">is</span> <span class="number">3.141593</span> radians</span><br><span class="line">1h right ascension = <span class="number">15</span>:<span class="number">00</span>:<span class="number">00.0</span>°</span><br><span class="line"><span class="comment">#### 日期时间的输入d = ephem.Date(&#x27;1997/3/9 5:13&#x27;)</span></span><br><span class="line"><span class="built_in">print</span>(d)</span><br><span class="line">d</span><br><span class="line">d.triple()</span><br><span class="line">d.<span class="built_in">tuple</span>()</span><br><span class="line">d + ephem.hour</span><br><span class="line"><span class="built_in">print</span>(ephem.date(d + ephem.hour))</span><br><span class="line"><span class="built_in">print</span>(ephem.date(d + <span class="number">1</span>))</span><br><span class="line"><span class="comment">### 输入日期的格式ephem.Date(35497.7197916667)</span></span><br><span class="line">ephem.Date(<span class="string">&#x27;1997/3/10.2197916667&#x27;</span>)</span><br><span class="line">ephem.Date(<span class="string">&#x27;1997/3/10 05.275&#x27;</span>)</span><br><span class="line">ephem.Date(<span class="string">&#x27;1997/3/10 05:16.5&#x27;</span>)</span><br><span class="line">ephem.Date(<span class="string">&#x27;1997/3/10 05:16:30&#x27;</span>)</span><br><span class="line">ephem.Date(<span class="string">&#x27;1997/3/10 05:16:30.0&#x27;</span>)</span><br><span class="line">ephem.Date((<span class="number">1997</span>, <span class="number">3</span>, <span class="number">10.2197916667</span>))</span><br><span class="line">ephem.Date((<span class="number">1997</span>, <span class="number">3</span>, <span class="number">10</span>, <span class="number">5</span>, <span class="number">16</span>, <span class="number">30.0</span>))</span><br><span class="line"><span class="number">1997</span>/<span class="number">3</span>/<span class="number">9</span> 05:<span class="number">13</span>:<span class="number">00</span></span><br><span class="line"><span class="number">1997</span>/<span class="number">3</span>/<span class="number">9</span> 06:<span class="number">13</span>:<span class="number">00</span></span><br><span class="line"><span class="number">1997</span>/<span class="number">3</span>/<span class="number">10</span> 05:<span class="number">13</span>:<span class="number">00</span></span><br><span class="line"><span class="number">35497.71979166667</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="亮星列表"><a href="#亮星列表" class="headerlink" title="亮星列表"></a>亮星列表</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rigel = ephem.star(<span class="string">&#x27;Rigel&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%s %s&#x27;</span> % (rigel._ra, rigel._dec))</span><br><span class="line"><span class="number">5</span>:<span class="number">14</span>:<span class="number">32.30</span> -<span class="number">8</span>:<span class="number">12</span>:<span class="number">06.0</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="城市列表"><a href="#城市列表" class="headerlink" title="城市列表"></a>城市列表</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">stuttgart = ephem.city(<span class="string">&#x27;Stuttgart&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(stuttgart)</span><br><span class="line"><span class="built_in">print</span>(stuttgart.lon)</span><br><span class="line">&lt;ephem.Observer date=<span class="string">&#x27;2018/8/27 05:17:01&#x27;</span> </span><br><span class="line">epoch=<span class="string">&#x27;2000/1/1 12:00:00&#x27;</span> </span><br><span class="line">lon=<span class="string">&#x27;9:10:50.8&#x27;</span> </span><br><span class="line">lat=<span class="string">&#x27;48:46:37.6&#x27;</span> </span><br><span class="line">elevation=<span class="number">249.205185</span>m </span><br><span class="line">horizon=<span class="number">0</span>:<span class="number">00</span>:<span class="number">00.0</span> </span><br><span class="line">temp=<span class="number">15.0</span>C </span><br><span class="line">pressure=<span class="number">983.6685758505818</span>mBar&gt;</span><br><span class="line"><span class="number">9</span>:<span class="number">10</span>:<span class="number">50.8</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="天文常量"><a href="#天文常量" class="headerlink" title="天文常量"></a>天文常量</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#### PyEphem provides constants for the dates of a few major star-atlas epochs:</span></span><br><span class="line"><span class="comment">#### 不同历元#  B1900# B1950# J2000</span></span><br><span class="line"><span class="comment">### PyEphem provides, for reference, the length of four distances, all in meters:</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### 天文常量print(ephem.meters_per_au)</span></span><br><span class="line"><span class="built_in">print</span>(ephem.earth_radius)</span><br><span class="line"><span class="built_in">print</span>(ephem.moon_radius)</span><br><span class="line"><span class="built_in">print</span>(ephem.sun_radius)</span><br><span class="line"><span class="comment">#### PyEphem provides the speed of light in meters per second:</span></span><br><span class="line"><span class="comment">## 光速 m/sprint(ephem.c)</span></span><br><span class="line"><span class="number">149597870000.0</span></span><br><span class="line"><span class="number">6378160.0</span></span><br><span class="line"><span class="number">1740000.0</span></span><br><span class="line"><span class="number">695000000.0</span></span><br><span class="line"><span class="number">299792458.0</span></span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/09/22/2014-9-13-pyephem/" data-id="ckmq2gws9006kq884gmz90hi6" data-title="PyEphem基本功能介绍" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/09/22/2014-9-13-pyephem/" data-id="ckmq42aix006e1k8417o13sdj" data-title="PyEphem基本功能介绍" class="article-share-link">Share</a>
       
       
       
@@ -377,7 +965,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/09/11/2014-9-11-heilongjiangplants/" data-id="ckmq2gws8006fq884fdtw4fuf" data-title="《黑龙江常见野生植物图鉴》出版" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/09/11/2014-9-11-heilongjiangplants/" data-id="ckmq42aix006c1k841vng6nnq" data-title="《黑龙江常见野生植物图鉴》出版" class="article-share-link">Share</a>
       
       
       
@@ -415,11 +1003,41 @@
       
         <p>举例： 一个均匀的坐标轴上，x取0.5时，y为0.7， x取11.5时，y为13.9，问x取6.1时， y的值。</p>
 <p>该题为插值问题，可以用线性插值公式解决：<br>参见： <a target="_blank" rel="noopener" href="http://zh.wikipedia.org/wiki/%E7%BA%BF%E6%80%A7%E6%8F%92%E5%80%BC">http://zh.wikipedia.org/wiki/%E7%BA%BF%E6%80%A7%E6%8F%92%E5%80%BC</a><br>该公式其实也可以通过解一元二次方程来推导。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 线性方程一般的形式如下：</span></span><br><span class="line">y = a*X + b</span><br><span class="line"></span><br><span class="line">所以题目中的关系也可用以下方程组来表示： </span><br><span class="line"><span class="comment">## 0.7  = a*0.5 + b</span></span><br><span class="line"><span class="comment">## 13.9 = a*11.5 + b</span></span><br><span class="line"></span><br><span class="line">即： </span><br><span class="line">a*<span class="number">0.5</span> + b = <span class="number">0.7</span></span><br><span class="line">a*<span class="number">11.5</span> + b ＝ <span class="number">13.9</span></span><br><span class="line"></span><br><span class="line"><span class="comment">##写成矩阵形式如下</span></span><br><span class="line">Ax =b</span><br><span class="line"></span><br><span class="line"><span class="comment">###在R中，可用solve 函数对线性方程组求解</span></span><br><span class="line"><span class="comment">### 示例R code 如下：</span></span><br><span class="line">A &lt;- matrix(<span class="built_in">c</span>(<span class="number">0.5</span>, <span class="number">1</span>, <span class="number">11.5</span>, <span class="number">1</span>), nrow = <span class="number">2</span>, byrow = <span class="literal">TRUE</span>)</span><br><span class="line">b &lt;- <span class="built_in">c</span>(<span class="number">0.7</span>, <span class="number">13.9</span>)</span><br><span class="line">res &lt;- solve(A, b)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 写成函数</span></span><br><span class="line">fx &lt;- <span class="keyword">function</span>(x)&#123;   </span><br><span class="line">   y &lt;- res[<span class="number">1</span>]*x + res[<span class="number">2</span>]</span><br><span class="line">   <span class="built_in">return</span>(y)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fx(<span class="number">6.1</span>)</span><br><span class="line"><span class="comment">### 结果为7.42</span></span><br><span class="line"><span class="comment">### 所以当x取值为6.1时， y为7.42</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code class="R">## 线性方程一般的形式如下：
+y = a*X + b
+
+所以题目中的关系也可用以下方程组来表示： 
+## 0.7  = a*0.5 + b
+## 13.9 = a*11.5 + b
+
+即： 
+a*0.5 + b = 0.7
+a*11.5 + b ＝ 13.9
+
+##写成矩阵形式如下
+Ax =b
+
+###在R中，可用solve 函数对线性方程组求解
+### 示例R code 如下：
+A &lt;- matrix(c(0.5, 1, 11.5, 1), nrow = 2, byrow = TRUE)
+b &lt;- c(0.7, 13.9)
+res &lt;- solve(A, b)
+
+### 写成函数
+fx &lt;- function(x)&#123;   
+   y &lt;- res[1]*x + res[2]
+   return(y)
+&#125;
+
+fx(6.1)
+### 结果为7.42
+### 所以当x取值为6.1时， y为7.42
+</code></pre>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/07/17/2014-7-17-interpolation/" data-id="ckmq2gws7006dq8845dcfeiap" data-title="一个简单的线性插值问题" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/07/17/2014-7-17-interpolation/" data-id="ckmq42aiw006a1k847lbr6rwo" data-title="一个简单的线性插值问题" class="article-share-link">Share</a>
       
       
       
@@ -462,7 +1080,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/05/11/2014-5-11-codes/" data-id="ckmq2gws50065q8842w6p1dxi" data-title="生态和进化中的现代统计：基于R语言的应用-练习和代码" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/05/11/2014-5-11-codes/" data-id="ckmq42aiw00681k84bxcw3ppc" data-title="生态和进化中的现代统计：基于R语言的应用-练习和代码" class="article-share-link">Share</a>
       
       
       
@@ -505,7 +1123,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/05/10/2014-05-11-slides1/" data-id="ckmq2gwrx005fq88473acahfw" data-title="生态和进化中的现代统计：基于R语言的应用" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/05/10/2014-05-11-slides1/" data-id="ckmq42aim005c1k845wln51rs" data-title="生态和进化中的现代统计：基于R语言的应用" class="article-share-link">Share</a>
       
       
       
@@ -591,59 +1209,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/05/04/2014-05-4-rpacks/" data-id="ckmq2gwry005hq884byc80c9e" data-title="R packages for Phylogenetic Comparative Methods" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/05/04/2014-05-4-rpacks/" data-id="ckmq42ain005e1k84f0xqeln3" data-title="R packages for Phylogenetic Comparative Methods" class="article-share-link">Share</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-2014-03-31-photos2llist" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2014/03/31/2014-03-31-photos2llist/" class="article-date">
-  <time class="dt-published" datetime="2014-03-31T01:39:54.000Z" itemprop="datePublished">2014-03-31</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2014/03/31/2014-03-31-photos2llist/">通过重命名的照片整理植物名录</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>在生物多样性调查中， 数码照片是快速记录物种信息的手段之一。 调查人员如果对一个地点的植物已经足够熟悉， 无需将所有植物踏查结果写到记录本上， 而是对见到的每种植物拍照， 可回到办公室再进行鉴定和整理。 这样既提高了野外工作的效率， 也提高了鉴定的准确性。 植物照片， 作为的一广义的标本，若有疑问， 可以供专家进一步研究和分析， 并且， 实在有必要， 可以回到野外， 采集标本。 </p>
-<p>拍摄的照片， 一般是按照地点， 放到文件夹中。按照相机的品牌和型号不同， 照片的名称以IMG_，DSC或DSCN开头，后面是照片的顺序号， 除专业摄影师， 方便后期的处理， 保存为别的格式之外， 一般情况下， 照片均保存为.JPG格式。.JPG的扩展名一般不要修改， 否则在Windows中打开文件会遇到困难。 </p>
-<p>对照片的重命名， 一般用标准中文名称（中国植物志的正式中文名）， 这样便于管理。依据照片中的物种， 为植物重命名， 一般加在.JPG之前， 而前面的IMG以及顺序号均保留。 一些浏览照片的程序包，如ACDSee， XnView等， 提供重命名的快捷方式， 以及批量重命名的方法；天南星等网友准备的植物名称词库， 也可以快速准确的输入中文植物名，因此， 如果对照片中的植物熟悉的话， 对照片重命名一般可以很快完成。 </p>
-<p>有了重命名的照片， 可以用以下方法，快速生成植物名录。这里仍然用本人比较熟悉的R软件：</p>
-<p>（注意： 本功能已经置于 R 程序包 plantlist中, <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=space&uid=255662&do=blog&id=813796">http://blog.sciencenet.cn/home.php?mod=space&amp;uid=255662&amp;do=blog&amp;id=813796</a>  ， 用户只需给出路径， 即可获得结果， 该结果同时包括APGIII系统的分科）</p>
-<p>以下代码仅供参考， 请使用最新版（Ver 0.0.4）的 tpllist<br>定义一个R函数：</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">cnplist &lt;- <span class="keyword">function</span>(path)&#123;</span><br><span class="line">   setwd(path)</span><br><span class="line">   temp.photo.list &lt;- list.files()</span><br><span class="line">   photo.list &lt;- temp.photo.list[grepl(<span class="string">&quot;.JPG&quot;</span>, temp.photo.list)]</span><br><span class="line">   list.res &lt;- <span class="built_in">list</span>()</span><br><span class="line">   sp.list.cn &lt;- unique(gsub(<span class="string">&quot;.JPG&quot;</span>,<span class="string">&quot;&quot;</span>,gsub(<span class="string">&quot;[0-9]&quot;</span>,<span class="string">&quot;&quot;</span>,gsub(<span class="string">&quot;DSC&quot;</span>, <span class="string">&quot;&quot;</span>, gsub(pattern = <span class="string">&quot;DSCN&quot;</span>, <span class="string">&quot;&quot;</span>, gsub(pattern = <span class="string">&quot;IMG_&quot;</span>, replacement = <span class="string">&quot;&quot;</span>, x = photo.list))))))</span><br><span class="line">   sp.list.cn &lt;- sp.list.cn[!sp.list.cn == <span class="string">&quot;&quot;</span>]</span><br><span class="line">   sp.list.cn.data.frame &lt;- as.data.frame(sp.list.cn)</span><br><span class="line">   res &lt;- merge(x = sp.list.cn.data.frame,  y = spdat, by.x = <span class="string">&quot;sp.list.cn&quot;</span>, by.y = <span class="string">&quot;NAME_CN&quot;</span>, all.x = <span class="literal">TRUE</span> )</span><br><span class="line">   write.csv(res, paste(<span class="string">&quot;checklist.csv&quot;</span>, sep = <span class="string">&quot;&quot;</span>))</span><br><span class="line">   <span class="built_in">return</span>(res)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>读取中文名学名对照表（参见本文附件 <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=attachment&id=51735">plantnames.csv</a> ）：</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">spdat &lt;- read.csv(<span class="string">&quot;plantnames.csv&quot;</span>, header = <span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#### 函数的使用方法举例</span></span><br><span class="line"><span class="comment">#### 列出梧桐寨瀑布文件夹下， 所有物种的名录</span></span><br><span class="line">cnplist(<span class="string">&quot;C:\Plant photos database\2014\20140120梧桐寨瀑布&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#### 列出2014目录下，每个文件夹中包括的物种名：</span></span><br><span class="line"></span><br><span class="line">dirs &lt;- <span class="string">&quot;C:\Plant photos database\2014&quot;</span></span><br><span class="line">aaa &lt;- list.dirs(dirs)</span><br><span class="line"><span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(aaa))&#123;</span><br><span class="line">   cnplist(aaa[i])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/03/31/2014-03-31-photos2llist/" data-id="ckmq2gwrw005dq884c5asgu5g" data-title="通过重命名的照片整理植物名录" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" rel="tag">标本馆</a></li></ul>
 
     </footer>
   </div>
@@ -703,6 +1273,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -716,10 +1290,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

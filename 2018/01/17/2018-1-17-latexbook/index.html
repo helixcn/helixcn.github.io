@@ -120,16 +120,93 @@
 </ol>
 <p>编译的方法是： 将代码部分保存到文本文件中， 用UTF-8编码。 之后用XeLaTeX编译即可生成中文文档。 虽然生成的图书效果值得商榷， 但是相信编译为书稿后， 再交给专业排版人员， 一定能省很多事。 最主要的是可以用Latex直接写公式。</p>
 <p>利用这个模板，编写植物名录、植物图集等会容易很多。可以借助其他脚本语言如Python或者R处理相应的数据库，生成tex代码，\include{}之后，再编译即可。</p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%%% Latex代码开始</span></span><br><span class="line"><span class="keyword">\documentclass</span>[utf8]&#123;book&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;titletoc&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;titlesec&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;ctexcap&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>[b5paper,text=&#123;125mm,195mm&#125;,centering,left=1in,right=1in,top=1in,bottom=1in]&#123;geometry&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>[]&#123;geometry&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;imakeidx&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;multicol&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;hyperref&#125;</span><br><span class="line"><span class="keyword">\makeindex</span></span><br><span class="line"><span class="keyword">\bibliographystyle</span>&#123;plain&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line"><span class="keyword">\title</span>&#123;<span class="keyword">\heiti</span>中国植物多样性地理图集&#125;</span><br><span class="line"><span class="keyword">\author</span>&#123;<span class="keyword">\fangsong</span>中国科学院植物研究所 编著&#125;</span><br><span class="line"><span class="keyword">\date</span>&#123;2018年1月&#125;</span><br><span class="line"><span class="keyword">\frontmatter</span></span><br><span class="line"><span class="keyword">\maketitle</span></span><br><span class="line"><span class="keyword">\chapter</span>&#123;序 I&#125;</span><br><span class="line">这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言</span><br><span class="line"><span class="keyword">\chapter</span>&#123;序 II&#125;</span><br><span class="line">这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分</span><br><span class="line"><span class="keyword">\chapter</span>&#123;前~言&#125;</span><br><span class="line">这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分</span><br><span class="line">这部分是前言</span><br><span class="line"><span class="keyword">\renewcommand</span><span class="keyword">\contentsname</span>&#123;目~录&#125;</span><br><span class="line"><span class="keyword">\tableofcontents</span></span><br><span class="line"><span class="keyword">\mainmatter</span></span><br><span class="line"><span class="keyword">\part</span>&#123;总论&#125;</span><br><span class="line"><span class="keyword">\chapter</span>&#123;中国植物调查的历史&#125;</span><br><span class="line"><span class="keyword">\section</span>&#123;一级节标题&#125;</span><br><span class="line"><span class="keyword">\subsection</span>&#123;二级节标题&#125;</span><br><span class="line"><span class="keyword">\subsubsection</span>&#123;三级节标题&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;multicols&#125;&#123;2&#125;</span><br><span class="line">清朝中期，外国人就开始中国采集植物标本。清朝中期， 外国人就开始中国采集植物标本。清朝中期， 外国人就开始中国采集植物标本。清朝中期， 外国人就开始中国采集植物标本。清朝中期，外国人就开始中国采集植物标本。清朝中期， 外国人就开始中国采集植物标本。</span><br><span class="line"><span class="keyword">\end</span>&#123;multicols&#125;</span><br><span class="line"><span class="keyword">\chapter</span>&#123;植物区系分区&#125;</span><br><span class="line"><span class="keyword">\section</span>&#123;一级节标题&#125;</span><br><span class="line"><span class="keyword">\subsection</span>&#123;二级节标题&#125;</span><br><span class="line"><span class="keyword">\subsubsection</span>&#123;三级节标题&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;multicols&#125;&#123;2&#125;</span><br><span class="line">和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物<span class="keyword">\index</span>&#123;调查&#125;和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集</span><br><span class="line"><span class="keyword">\end</span>&#123;multicols&#125;</span><br><span class="line"><span class="keyword">\part</span>&#123;植物多样性分区概述&#125;</span><br><span class="line"><span class="keyword">\chapter</span>&#123;东北地区&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;multicols&#125;&#123;2&#125;</span><br><span class="line">Lorem ipsum dolor sit amet,consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore etdolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamcolaboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in <span class="keyword">\index</span>&#123;reprehenderit&#125; in voluptate velit essecillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat nonproident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span><br><span class="line"><span class="keyword">\end</span>&#123;multicols&#125;</span><br><span class="line"><span class="keyword">\chapter</span>&#123;华北地区&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;multicols&#125;&#123;2&#125;</span><br><span class="line">Lorem ipsum dolor sit amet,consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore etdolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamcolaboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor inreprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officiadeserunt mollit anim id est laborum.</span><br><span class="line"><span class="keyword">\end</span>&#123;multicols&#125;</span><br><span class="line"><span class="keyword">\include</span>&#123;angiosperms&#125;</span><br><span class="line"><span class="keyword">\appendix</span></span><br><span class="line"><span class="keyword">\chapter</span>&#123;APG分类系统的科名&#125;</span><br><span class="line">内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容文内容正文内容正文内容正文<span class="keyword">\index</span>&#123;内容&#125;</span><br><span class="line">内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容正文内容正文<span class="keyword">\cite</span>&#123;DK1&#125;.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">\renewcommand</span><span class="keyword">\indexname</span>&#123;索~~引&#125;</span><br><span class="line"><span class="keyword">\printindex</span></span><br><span class="line"><span class="keyword">\addcontentsline</span>&#123;toc&#125;&#123;chapter&#125;&#123;索~引&#125;</span><br><span class="line"><span class="keyword">\backmatter</span></span><br><span class="line"><span class="keyword">\addcontentsline</span>&#123;toc&#125;&#123;chapter&#125;&#123;参考文献&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;thebibliography&#125;&#123;参考文献&#125;</span><br><span class="line"><span class="keyword">\bibitem</span>[Knuth1 et al. 1997]&#123;DK1&#125; D. Knuth, T.A.O.C.P. , Vol.1, Addison-Wesley, 1997.</span><br><span class="line"><span class="keyword">\bibitem</span>[Knuth2]&#123;DK2&#125; D. Knuth, T.A.O.C.P. , Vol.2, Addison-Wesley, 1997.</span><br><span class="line"><span class="keyword">\bibitem</span>[TONG YH 2014]&#123;TONG&#125; TONG YH, PANG KS, XIAN NH,2014. Carpinus insularis(Betulaceae), A new species from HongKong [J]. J Trop Subtrop Bot, 22(2): 121-124. [童毅华， 彭权森，夏念和，2014.香港桦木科一新种——香港鹅耳枥 [J]. 热带亚热带植物学报，22(2):121-124.]</span><br><span class="line"><span class="keyword">\bibitem</span>[XIA NH 2008]&#123;XIA&#125; XIA NH, DENG YF, YIP KL,2008. Syzygium impressum (Myrtaceae), A new species from HongKong [J]. J Trop Subtrop Bot, 16(1):19-22. [夏念和，邓云飞，叶国梁，2008. 香港桃金娘科一新种-凹脉赤楠 [J].热带亚热带植物学报，16(1):19-22.]</span><br><span class="line"><span class="keyword">\end</span>&#123;thebibliography&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\chapter</span>&#123;后~~记&#125;</span><br><span class="line">后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容</span><br><span class="line"><span class="keyword">\begin</span>&#123;flushright&#125;</span><br><span class="line">作~~者~~~~~~~~~</span><br><span class="line">2018年1月~~~~~</span><br><span class="line"><span class="keyword">\end</span>&#123;flushright&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br><span class="line"><span class="comment">%% Latex代码结束</span></span><br></pre></td></tr></table></figure>
+<pre><code class="tex">%%% Latex代码开始
+\documentclass[utf8]&#123;book&#125;
+\usepackage&#123;titletoc&#125;
+\usepackage&#123;titlesec&#125;
+\usepackage&#123;ctexcap&#125;
+\usepackage[b5paper,text=&#123;125mm,195mm&#125;,centering,left=1in,right=1in,top=1in,bottom=1in]&#123;geometry&#125;
+\usepackage[]&#123;geometry&#125;
+\usepackage&#123;imakeidx&#125;
+\usepackage&#123;multicol&#125;
+\usepackage&#123;hyperref&#125;
+\makeindex
+\bibliographystyle&#123;plain&#125;
+\begin&#123;document&#125;
+\title&#123;\heiti中国植物多样性地理图集&#125;
+\author&#123;\fangsong中国科学院植物研究所 编著&#125;
+\date&#123;2018年1月&#125;
+\frontmatter
+\maketitle
+\chapter&#123;序 I&#125;
+这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言
+\chapter&#123;序 II&#125;
+这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分
+\chapter&#123;前~言&#125;
+这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分
+这部分是前言
+\renewcommand\contentsname&#123;目~录&#125;
+\tableofcontents
+\mainmatter
+\part&#123;总论&#125;
+\chapter&#123;中国植物调查的历史&#125;
+\section&#123;一级节标题&#125;
+\subsection&#123;二级节标题&#125;
+\subsubsection&#123;三级节标题&#125;
+\begin&#123;multicols&#125;&#123;2&#125;
+清朝中期，外国人就开始中国采集植物标本。清朝中期， 外国人就开始中国采集植物标本。清朝中期， 外国人就开始中国采集植物标本。清朝中期， 外国人就开始中国采集植物标本。清朝中期，外国人就开始中国采集植物标本。清朝中期， 外国人就开始中国采集植物标本。
+\end&#123;multicols&#125;
+\chapter&#123;植物区系分区&#125;
+\section&#123;一级节标题&#125;
+\subsection&#123;二级节标题&#125;
+\subsubsection&#123;三级节标题&#125;
+\begin&#123;multicols&#125;&#123;2&#125;
+和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物\index&#123;调查&#125;和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集
+\end&#123;multicols&#125;
+\part&#123;植物多样性分区概述&#125;
+\chapter&#123;东北地区&#125;
+\begin&#123;multicols&#125;&#123;2&#125;
+Lorem ipsum dolor sit amet,consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore etdolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamcolaboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in \index&#123;reprehenderit&#125; in voluptate velit essecillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat nonproident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+\end&#123;multicols&#125;
+\chapter&#123;华北地区&#125;
+\begin&#123;multicols&#125;&#123;2&#125;
+Lorem ipsum dolor sit amet,consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore etdolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamcolaboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor inreprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officiadeserunt mollit anim id est laborum.
+\end&#123;multicols&#125;
+\include&#123;angiosperms&#125;
+\appendix
+\chapter&#123;APG分类系统的科名&#125;
+内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容文内容正文内容正文内容正文\index&#123;内容&#125;
+内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容正文内容正文\cite&#123;DK1&#125;.
 
 
+\renewcommand\indexname&#123;索~~引&#125;
+\printindex
+\addcontentsline&#123;toc&#125;&#123;chapter&#125;&#123;索~引&#125;
+\backmatter
+\addcontentsline&#123;toc&#125;&#123;chapter&#125;&#123;参考文献&#125;
+\begin&#123;thebibliography&#125;&#123;参考文献&#125;
+\bibitem[Knuth1 et al. 1997]&#123;DK1&#125; D. Knuth, T.A.O.C.P. , Vol.1, Addison-Wesley, 1997.
+\bibitem[Knuth2]&#123;DK2&#125; D. Knuth, T.A.O.C.P. , Vol.2, Addison-Wesley, 1997.
+\bibitem[TONG YH 2014]&#123;TONG&#125; TONG YH, PANG KS, XIAN NH,2014. Carpinus insularis(Betulaceae), A new species from HongKong [J]. J Trop Subtrop Bot, 22(2): 121-124. [童毅华， 彭权森，夏念和，2014.香港桦木科一新种——香港鹅耳枥 [J]. 热带亚热带植物学报，22(2):121-124.]
+\bibitem[XIA NH 2008]&#123;XIA&#125; XIA NH, DENG YF, YIP KL,2008. Syzygium impressum (Myrtaceae), A new species from HongKong [J]. J Trop Subtrop Bot, 16(1):19-22. [夏念和，邓云飞，叶国梁，2008. 香港桃金娘科一新种-凹脉赤楠 [J].热带亚热带植物学报，16(1):19-22.]
+\end&#123;thebibliography&#125;
+
+\chapter&#123;后~~记&#125;
+后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容
+\begin&#123;flushright&#125;
+作~~者~~~~~~~~~
+2018年1月~~~~~
+\end&#123;flushright&#125;
+\end&#123;document&#125;
+%% Latex代码结束
+</code></pre>
 <p><a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=attachment&id=151326">中文图书模板.pdf</a></p>
 <p><a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=attachment&id=151327">中文图书模板.tex</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/01/17/2018-1-17-latexbook/" data-id="ckmq2gwtv00aeq8848fguhwyi" data-title="一个较为完整的中文图书Latex模板" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/01/17/2018-1-17-latexbook/" data-id="ckmq42ak100a21k848dwx23zr" data-title="一个较为完整的中文图书Latex模板" class="article-share-link">Share</a>
       
       
       
@@ -205,6 +282,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -218,10 +299,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

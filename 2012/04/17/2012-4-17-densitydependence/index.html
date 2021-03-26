@@ -6,12 +6,12 @@
   
   <title>群落密度制约：寻找圆盘和圆环内的点 | Jinlong Zhang&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="在基于个体水平的样地数据分析中，有时候需要找到某一个个体周围的所有个体。特别是在进行密度制约相应研究时，寻找这样的点就更为重要。 为了减少运算量，我们需要先找出某一个点上下左右（各变化所给半径后）所围成的正方形内的所有物种，再基于此小数据集，计算每个个体周围的个体数量。下面是给出两个函数，分别计算从每个个体开始，所给半径的圆内，所有出现个体的ID，以及所给圆环内，所有出现个体的ID. 123456">
+  <meta name="description" content="在基于个体水平的样地数据分析中，有时候需要找到某一个个体周围的所有个体。特别是在进行密度制约相应研究时，寻找这样的点就更为重要。 为了减少运算量，我们需要先找出某一个点上下左右（各变化所给半径后）所围成的正方形内的所有物种，再基于此小数据集，计算每个个体周围的个体数量。下面是给出两个函数，分别计算从每个个体开始，所给半径的圆内，所有出现个体的ID，以及所给圆环内，所有出现个体的ID. ## Ind">
 <meta property="og:type" content="article">
 <meta property="og:title" content="群落密度制约：寻找圆盘和圆环内的点">
 <meta property="og:url" content="https://helixcn.github.io/2012/04/17/2012-4-17-densitydependence/index.html">
 <meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
-<meta property="og:description" content="在基于个体水平的样地数据分析中，有时候需要找到某一个个体周围的所有个体。特别是在进行密度制约相应研究时，寻找这样的点就更为重要。 为了减少运算量，我们需要先找出某一个点上下左右（各变化所给半径后）所围成的正方形内的所有物种，再基于此小数据集，计算每个个体周围的个体数量。下面是给出两个函数，分别计算从每个个体开始，所给半径的圆内，所有出现个体的ID，以及所给圆环内，所有出现个体的ID. 123456">
+<meta property="og:description" content="在基于个体水平的样地数据分析中，有时候需要找到某一个个体周围的所有个体。特别是在进行密度制约相应研究时，寻找这样的点就更为重要。 为了减少运算量，我们需要先找出某一个点上下左右（各变化所给半径后）所围成的正方形内的所有物种，再基于此小数据集，计算每个个体周围的个体数量。下面是给出两个函数，分别计算从每个个体开始，所给半径的圆内，所有出现个体的ID，以及所给圆环内，所有出现个体的ID. ## Ind">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2012-04-17T07:11:54.000Z">
 <meta property="article:modified_time" content="2021-03-26T05:34:24.526Z">
@@ -100,12 +100,108 @@
       
         <p>在基于个体水平的样地数据分析中，有时候需要找到某一个个体周围的所有个体。特别是在进行密度制约相应研究时，寻找这样的点就更为重要。</p>
 <p>为了减少运算量，我们需要先找出某一个点上下左右（各变化所给半径后）所围成的正方形内的所有物种，再基于此小数据集，计算每个个体周围的个体数量。下面是给出两个函数，分别计算从每个个体开始，所给半径的圆内，所有出现个体的ID，以及所给圆环内，所有出现个体的ID.</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## Individuals within the round plate given the radius from each individual</span></span><br><span class="line"></span><br><span class="line">round.id &lt;- <span class="keyword">function</span> (dat, r = <span class="number">20</span>)&#123;</span><br><span class="line">    gx &lt;- dat$gx</span><br><span class="line">    gy &lt;- dat$gy</span><br><span class="line">    id.list &lt;- <span class="built_in">list</span>()    <span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1</span>:nrow(dat))&#123;</span><br><span class="line">        x &lt;- gx[i]</span><br><span class="line">        y &lt;- gy[i]</span><br><span class="line">        dat.sub &lt;- dat[(gx &lt; x + r) &amp; </span><br><span class="line">                         (gx &gt; x - r) &amp; </span><br><span class="line">                         (gy &lt; y + r) &amp; </span><br><span class="line">                         (gy &gt; y - r), ]        </span><br><span class="line">          <span class="keyword">if</span>(nrow(dat.sub) &gt; <span class="number">1</span>)&#123;</span><br><span class="line">            sp &lt;- <span class="built_in">c</span>()            </span><br><span class="line">            <span class="keyword">for</span>(j <span class="keyword">in</span> <span class="number">1</span>:nrow(dat.sub))&#123;</span><br><span class="line">                mat &lt;- data.frame(<span class="built_in">c</span>(x, dat.sub$gx[j]), </span><br><span class="line">                                  <span class="built_in">c</span>(y, dat.sub$gy[j]))</span><br><span class="line">                sp[j] &lt;- (dist(mat) &lt;= r)</span><br><span class="line">            &#125;</span><br><span class="line">            id.include &lt;- dat.sub$ID[sp]</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            id.include &lt;- 0</span><br><span class="line">        &#125;</span><br><span class="line">        id.list[[i]] &lt;- id.include</span><br><span class="line">    &#125;    </span><br><span class="line">    <span class="built_in">return</span>(id.list)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#### </span></span><br><span class="line"></span><br><span class="line">Ringring.id &lt;- <span class="keyword">function</span> (dat, r = <span class="built_in">c</span>(<span class="number">20</span>, <span class="number">25</span>))&#123;</span><br><span class="line">    r1 &lt;- <span class="built_in">max</span>(r)</span><br><span class="line">    r2 &lt;- <span class="built_in">min</span>(r)</span><br><span class="line">    gx &lt;- dat$gx</span><br><span class="line">    gy &lt;- dat$gy</span><br><span class="line">    id.list &lt;- <span class="built_in">list</span>()    </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1</span>:nrow(dat))&#123;</span><br><span class="line">        x &lt;- gx[i]</span><br><span class="line">        y &lt;- gy[i]</span><br><span class="line">        dat.sub &lt;- dat[(gx &lt; x + r1) &amp;</span><br><span class="line">                         (gx &gt; x - r1) &amp;</span><br><span class="line">                         (gy &lt; y + r1) &amp;</span><br><span class="line">                         (gy &gt; y - r1), ]        </span><br><span class="line">                         </span><br><span class="line">           <span class="keyword">if</span>(nrow(dat.sub) &gt; <span class="number">1</span>)&#123;</span><br><span class="line">           sp &lt;- <span class="built_in">c</span>()           </span><br><span class="line">           <span class="keyword">for</span>(j <span class="keyword">in</span> <span class="number">1</span>:nrow(dat.sub))&#123;</span><br><span class="line">               mat &lt;- data.frame(<span class="built_in">c</span>(x, dat.sub$gx[j]), </span><br><span class="line">                                 <span class="built_in">c</span>(y, dat.sub$gy[j]))</span><br><span class="line">               sp[j] &lt;- (dist(mat) &lt;= r1 &amp; dist(mat) &gt;= r2)</span><br><span class="line">           &#125;</span><br><span class="line">           id.include &lt;- dat.sub$ID[sp]</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">           id.include &lt;- 0</span><br><span class="line">        &#125;</span><br><span class="line">        id.list[[i]] &lt;- id.include</span><br><span class="line">    &#125;    </span><br><span class="line">    <span class="built_in">return</span>(id.list)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">### Example</span></span><br><span class="line">ID &lt;- 1:<span class="number">300</span></span><br><span class="line">gx &lt;- runif(<span class="number">300</span>, <span class="number">0</span>, <span class="number">100</span>)</span><br><span class="line">gy &lt;- runif(<span class="number">300</span>, <span class="number">0</span>, <span class="number">100</span>)</span><br><span class="line">dat &lt;- data.frame(ID, gx, gy)</span><br><span class="line">res.round &lt;- round.id(dat, r = <span class="number">25</span>)</span><br><span class="line">par(mfrow = <span class="built_in">c</span>(<span class="number">1</span>, <span class="number">2</span>)) </span><br><span class="line"><span class="comment">### Circle</span></span><br><span class="line">plot(gy ~ gx, data = dat, col = <span class="string">&quot;gray&quot;</span> )</span><br><span class="line">vt = seq(-<span class="built_in">pi</span>,<span class="built_in">pi</span>,by=<span class="number">0.002</span>);</span><br><span class="line">x = <span class="number">25</span> * <span class="built_in">sin</span>(vt) + gx[<span class="number">10</span>];</span><br><span class="line">y = <span class="number">25</span> * <span class="built_in">cos</span>(vt) + gy[<span class="number">10</span>];</span><br><span class="line"></span><br><span class="line">lines(y ~ x);</span><br><span class="line"></span><br><span class="line">points(gx[<span class="number">10</span>] , gy[<span class="number">10</span>] , pch = <span class="number">19</span>, col = <span class="number">2</span>)</span><br><span class="line">round10 &lt;- res.round[[<span class="number">10</span>]]</span><br><span class="line">points(gx[round10], gy[round10], col = <span class="string">&quot;green&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">##### Ring</span></span><br><span class="line"></span><br><span class="line">res.ring &lt;- ring.id(dat, <span class="built_in">c</span>(<span class="number">15</span>, <span class="number">25</span>))</span><br><span class="line">plot(gy ~ gx, data = dat, col = <span class="string">&quot;gray&quot;</span> )</span><br><span class="line">vt = seq(-<span class="built_in">pi</span>,<span class="built_in">pi</span>,by=<span class="number">0.002</span>);</span><br><span class="line">x1 = <span class="number">25</span> * <span class="built_in">sin</span>(vt) + gx[<span class="number">10</span>];</span><br><span class="line">y1 = <span class="number">25</span> * <span class="built_in">cos</span>(vt) + gy[<span class="number">10</span>];</span><br><span class="line"></span><br><span class="line">lines(y1 ~ x1);</span><br><span class="line">x2 = <span class="number">15</span> * <span class="built_in">sin</span>(vt) + gx[<span class="number">10</span>];</span><br><span class="line">y2 = <span class="number">15</span> * <span class="built_in">cos</span>(vt) + gy[<span class="number">10</span>];</span><br><span class="line"></span><br><span class="line">lines(y2 ~ x2);</span><br><span class="line">points(gx[<span class="number">10</span>] , gy[<span class="number">10</span>] , pch = <span class="number">19</span>, col = <span class="number">2</span>)</span><br><span class="line">ring10 &lt;- res.ring[[<span class="number">10</span>]]</span><br><span class="line"></span><br><span class="line">points(gx[ring10], gy[ring10], col = <span class="string">&quot;blue&quot;</span>)</span><br></pre></td></tr></table></figure>
+<pre><code class="R">## Individuals within the round plate given the radius from each individual
+
+round.id &lt;- function (dat, r = 20)&#123;
+    gx &lt;- dat$gx
+    gy &lt;- dat$gy
+    id.list &lt;- list()    for (i in 1:nrow(dat))&#123;
+        x &lt;- gx[i]
+        y &lt;- gy[i]
+        dat.sub &lt;- dat[(gx &lt; x + r) &amp; 
+                         (gx &gt; x - r) &amp; 
+                         (gy &lt; y + r) &amp; 
+                         (gy &gt; y - r), ]        
+          if(nrow(dat.sub) &gt; 1)&#123;
+            sp &lt;- c()            
+            for(j in 1:nrow(dat.sub))&#123;
+                mat &lt;- data.frame(c(x, dat.sub$gx[j]), 
+                                  c(y, dat.sub$gy[j]))
+                sp[j] &lt;- (dist(mat) &lt;= r)
+            &#125;
+            id.include &lt;- dat.sub$ID[sp]
+        &#125; else &#123;
+            id.include &lt;- 0
+        &#125;
+        id.list[[i]] &lt;- id.include
+    &#125;    
+    return(id.list)
+&#125;
+
+#### 
+
+Ringring.id &lt;- function (dat, r = c(20, 25))&#123;
+    r1 &lt;- max(r)
+    r2 &lt;- min(r)
+    gx &lt;- dat$gx
+    gy &lt;- dat$gy
+    id.list &lt;- list()    
+    
+    for (i in 1:nrow(dat))&#123;
+        x &lt;- gx[i]
+        y &lt;- gy[i]
+        dat.sub &lt;- dat[(gx &lt; x + r1) &amp;
+                         (gx &gt; x - r1) &amp;
+                         (gy &lt; y + r1) &amp;
+                         (gy &gt; y - r1), ]        
+                         
+           if(nrow(dat.sub) &gt; 1)&#123;
+           sp &lt;- c()           
+           for(j in 1:nrow(dat.sub))&#123;
+               mat &lt;- data.frame(c(x, dat.sub$gx[j]), 
+                                 c(y, dat.sub$gy[j]))
+               sp[j] &lt;- (dist(mat) &lt;= r1 &amp; dist(mat) &gt;= r2)
+           &#125;
+           id.include &lt;- dat.sub$ID[sp]
+        &#125; else &#123;
+           id.include &lt;- 0
+        &#125;
+        id.list[[i]] &lt;- id.include
+    &#125;    
+    return(id.list)
+&#125;
+### Example
+ID &lt;- 1:300
+gx &lt;- runif(300, 0, 100)
+gy &lt;- runif(300, 0, 100)
+dat &lt;- data.frame(ID, gx, gy)
+res.round &lt;- round.id(dat, r = 25)
+par(mfrow = c(1, 2)) 
+### Circle
+plot(gy ~ gx, data = dat, col = &quot;gray&quot; )
+vt = seq(-pi,pi,by=0.002);
+x = 25 * sin(vt) + gx[10];
+y = 25 * cos(vt) + gy[10];
+
+lines(y ~ x);
+
+points(gx[10] , gy[10] , pch = 19, col = 2)
+round10 &lt;- res.round[[10]]
+points(gx[round10], gy[round10], col = &quot;green&quot;)
+
+##### Ring
+
+res.ring &lt;- ring.id(dat, c(15, 25))
+plot(gy ~ gx, data = dat, col = &quot;gray&quot; )
+vt = seq(-pi,pi,by=0.002);
+x1 = 25 * sin(vt) + gx[10];
+y1 = 25 * cos(vt) + gy[10];
+
+lines(y1 ~ x1);
+x2 = 15 * sin(vt) + gx[10];
+y2 = 15 * cos(vt) + gy[10];
+
+lines(y2 ~ x2);
+points(gx[10] , gy[10] , pch = 19, col = 2)
+ring10 &lt;- res.ring[[10]]
+
+points(gx[ring10], gy[ring10], col = &quot;blue&quot;)
+</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2012/04/17/2012-4-17-densitydependence/" data-id="ckmq2gwr9003sq8848mk1earr" data-title="群落密度制约：寻找圆盘和圆环内的点" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2012/04/17/2012-4-17-densitydependence/" data-id="ckmq42ai1003s1k84gi9ybv9k" data-title="群落密度制约：寻找圆盘和圆环内的点" class="article-share-link">Share</a>
       
       
       
@@ -181,6 +277,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -194,10 +294,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

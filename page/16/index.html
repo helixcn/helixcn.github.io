@@ -73,6 +73,81 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2014-03-31-photos2llist" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2014/03/31/2014-03-31-photos2llist/" class="article-date">
+  <time class="dt-published" datetime="2014-03-31T01:39:54.000Z" itemprop="datePublished">2014-03-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2014/03/31/2014-03-31-photos2llist/">通过重命名的照片整理植物名录</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>在生物多样性调查中， 数码照片是快速记录物种信息的手段之一。 调查人员如果对一个地点的植物已经足够熟悉， 无需将所有植物踏查结果写到记录本上， 而是对见到的每种植物拍照， 可回到办公室再进行鉴定和整理。 这样既提高了野外工作的效率， 也提高了鉴定的准确性。 植物照片， 作为的一广义的标本，若有疑问， 可以供专家进一步研究和分析， 并且， 实在有必要， 可以回到野外， 采集标本。 </p>
+<p>拍摄的照片， 一般是按照地点， 放到文件夹中。按照相机的品牌和型号不同， 照片的名称以IMG_，DSC或DSCN开头，后面是照片的顺序号， 除专业摄影师， 方便后期的处理， 保存为别的格式之外， 一般情况下， 照片均保存为.JPG格式。.JPG的扩展名一般不要修改， 否则在Windows中打开文件会遇到困难。 </p>
+<p>对照片的重命名， 一般用标准中文名称（中国植物志的正式中文名）， 这样便于管理。依据照片中的物种， 为植物重命名， 一般加在.JPG之前， 而前面的IMG以及顺序号均保留。 一些浏览照片的程序包，如ACDSee， XnView等， 提供重命名的快捷方式， 以及批量重命名的方法；天南星等网友准备的植物名称词库， 也可以快速准确的输入中文植物名，因此， 如果对照片中的植物熟悉的话， 对照片重命名一般可以很快完成。 </p>
+<p>有了重命名的照片， 可以用以下方法，快速生成植物名录。这里仍然用本人比较熟悉的R软件：</p>
+<p>（注意： 本功能已经置于 R 程序包 plantlist中, <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=space&uid=255662&do=blog&id=813796">http://blog.sciencenet.cn/home.php?mod=space&amp;uid=255662&amp;do=blog&amp;id=813796</a>  ， 用户只需给出路径， 即可获得结果， 该结果同时包括APGIII系统的分科）</p>
+<p>以下代码仅供参考， 请使用最新版（Ver 0.0.4）的 tpllist<br>定义一个R函数：</p>
+<pre><code class="R">cnplist &lt;- function(path)&#123;
+   setwd(path)
+   temp.photo.list &lt;- list.files()
+   photo.list &lt;- temp.photo.list[grepl(&quot;.JPG&quot;, temp.photo.list)]
+   list.res &lt;- list()
+   sp.list.cn &lt;- unique(gsub(&quot;.JPG&quot;,&quot;&quot;,gsub(&quot;[0-9]&quot;,&quot;&quot;,gsub(&quot;DSC&quot;, &quot;&quot;, gsub(pattern = &quot;DSCN&quot;, &quot;&quot;, gsub(pattern = &quot;IMG_&quot;, replacement = &quot;&quot;, x = photo.list))))))
+   sp.list.cn &lt;- sp.list.cn[!sp.list.cn == &quot;&quot;]
+   sp.list.cn.data.frame &lt;- as.data.frame(sp.list.cn)
+   res &lt;- merge(x = sp.list.cn.data.frame,  y = spdat, by.x = &quot;sp.list.cn&quot;, by.y = &quot;NAME_CN&quot;, all.x = TRUE )
+   write.csv(res, paste(&quot;checklist.csv&quot;, sep = &quot;&quot;))
+   return(res)
+&#125;
+</code></pre>
+<p>读取中文名学名对照表（参见本文附件 <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=attachment&id=51735">plantnames.csv</a> ）：</p>
+<pre><code class="R">spdat &lt;- read.csv(&quot;plantnames.csv&quot;, header = TRUE)
+
+#### 函数的使用方法举例
+#### 列出梧桐寨瀑布文件夹下， 所有物种的名录
+cnplist(&quot;C:\Plant photos database\2014\20140120梧桐寨瀑布&quot;)
+
+
+#### 列出2014目录下，每个文件夹中包括的物种名：
+
+dirs &lt;- &quot;C:\Plant photos database\2014&quot;
+aaa &lt;- list.dirs(dirs)
+for(i in 1:length(aaa))&#123;
+   cnplist(aaa[i])
+&#125;
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2014/03/31/2014-03-31-photos2llist/" data-id="ckmq42aim005a1k848lnxeqta" data-title="通过重命名的照片整理植物名录" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" rel="tag">标本馆</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-2014-3-20-communityphylogenetics" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2014/03/20/2014-3-20-communityphylogenetics/" class="article-date">
@@ -107,7 +182,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/03/20/2014-3-20-communityphylogenetics/" data-id="ckmq2gws60069q8843czw227e" data-title="2014年1月版纳园 群落系统发育数据分析研讨班幻灯片" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/03/20/2014-3-20-communityphylogenetics/" data-id="ckmq42aiv00641k845xtjej4d" data-title="2014年1月版纳园 群落系统发育数据分析研讨班幻灯片" class="article-share-link">Share</a>
       
       
       
@@ -164,7 +239,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/03/20/2014-3-20-hk80/" data-id="ckmq2gws7006bq884ec9gdpgg" data-title="HK80：香港所用地理坐标之间的相互转换" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/03/20/2014-3-20-hk80/" data-id="ckmq42aiv00661k84fozhg7eu" data-title="HK80：香港所用地理坐标之间的相互转换" class="article-share-link">Share</a>
       
       
       
@@ -216,7 +291,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/02/17/2014-2-17-coordinates/" data-id="ckmq2gws50067q8840ch0cuqt" data-title="基于数码相机和GPS整理物种坐标的一个方案" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/02/17/2014-2-17-coordinates/" data-id="ckmq42aiu00621k846z9x1asy" data-title="基于数码相机和GPS整理物种坐标的一个方案" class="article-share-link">Share</a>
       
       
       
@@ -254,16 +329,49 @@
       
         <p>Rnw文档是保存了R代码的Latex文档。人们希望Latex中的R代码可以自动运行， 并将运行结果， 复制到Latex代码中。 同时， 给出绘制的图形等。</p>
 <p>例如以下的代码， 是一篇Rnw文档的内容， 将其拷贝， 粘贴到记事本中， 另存为test.Rnw文件即可。 注意编码要选ANSI。</p>
-<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\documentclass</span>[CJK]&#123;cctart&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;verbatim&#125;</span><br><span class="line"><span class="keyword">\title</span>&#123;中文文章里面如何使用knitr？ &#125;</span><br><span class="line"><span class="keyword">\author</span>&#123;张金龙&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line"><span class="keyword">\maketitle</span></span><br><span class="line">在本例子中， 我们将演示在R中， 如何调用 hclust() 并且将结果写入 LaTeX&#123;&#125; 文件中:</span><br><span class="line">&lt;&lt;&gt;&gt;=</span><br><span class="line">x&lt;-c(1,2,6,8,11)</span><br><span class="line">dim(x)&lt;-c(5,1)</span><br><span class="line">d&lt;-dist(x)</span><br><span class="line">d</span><br><span class="line">hc&lt;-hclust(d, &quot;single&quot;)</span><br><span class="line">dend&lt;-as.dendrogram(hc)</span><br><span class="line">@</span><br><span class="line">绘制的树状图:， 目前，kintr程序包在处理Rnw文档时， 不允许注释中有中文</span><br><span class="line">begin&#123;center&#125;</span><br><span class="line">&lt;&lt;fig=TRUE,echo=FALSE&gt;&gt;=</span><br><span class="line">par(mfrow = c(2, 2),mar = c(4,3,1,2))</span><br><span class="line">plot(dend)</span><br><span class="line">plot(dend, nodePar=list(pch = c(1,NA),</span><br><span class="line">   cex=0.8, lab.cex=0.8), type = &quot;t&quot;,</span><br><span class="line">   center=TRUE)</span><br><span class="line">plot(dend, edgePar=list(col = 1:2,</span><br><span class="line">   lty = 2:3), dLeaf=1,</span><br><span class="line">   edge.root = TRUE)</span><br><span class="line">plot(dend, nodePar=list(pch = 2:1,</span><br><span class="line">   cex=.4*2:1, col=2:3),</span><br><span class="line">   horiz=TRUE)</span><br><span class="line">@</span><br><span class="line"><span class="keyword">\end</span>&#123;center&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br></pre></td></tr></table></figure>
-
+<pre><code class="latex">\documentclass[CJK]&#123;cctart&#125;
+\usepackage&#123;verbatim&#125;
+\title&#123;中文文章里面如何使用knitr？ &#125;
+\author&#123;张金龙&#125;
+\begin&#123;document&#125;
+\maketitle
+在本例子中， 我们将演示在R中， 如何调用 hclust() 并且将结果写入 LaTeX&#123;&#125; 文件中:
+&lt;&lt;&gt;&gt;=
+x&lt;-c(1,2,6,8,11)
+dim(x)&lt;-c(5,1)
+d&lt;-dist(x)
+d
+hc&lt;-hclust(d, &quot;single&quot;)
+dend&lt;-as.dendrogram(hc)
+@
+绘制的树状图:， 目前，kintr程序包在处理Rnw文档时， 不允许注释中有中文
+begin&#123;center&#125;
+&lt;&lt;fig=TRUE,echo=FALSE&gt;&gt;=
+par(mfrow = c(2, 2),mar = c(4,3,1,2))
+plot(dend)
+plot(dend, nodePar=list(pch = c(1,NA),
+   cex=0.8, lab.cex=0.8), type = &quot;t&quot;,
+   center=TRUE)
+plot(dend, edgePar=list(col = 1:2,
+   lty = 2:3), dLeaf=1,
+   edge.root = TRUE)
+plot(dend, nodePar=list(pch = 2:1,
+   cex=.4*2:1, col=2:3),
+   horiz=TRUE)
+@
+\end&#123;center&#125;
+\end&#123;document&#125;
+</code></pre>
 <p>在Rnw文档中， R代码需要放在 <code>&lt;&lt;fig=TRUE,echo=TRUE&gt;&gt;=</code> 和 <code>@</code> 之间。 其中的代码一定要可以执行。 在后续处理中，R的Sweave函数和knitr程序包中的knitr函数， 都能够生成相应的tex文件， 以及所需要包含的pdf图形。</p>
 <p><code>fig=TRUE</code> 表示， 要包括代码生成的图形；<br><code>echo=TRUE</code> 表示， 要包括运行结果所生成的代码。</p>
 <p>Sweave函数就是为了处理Rnw文件而生的。 但是Sweave在处理中文的Latex文档时， 需要设定的参数很多， 并且常常出错。幸运的是，我们还有谢益辉编写的knitr程序包。</p>
 <p>kintr在处理Rnw文档非常方便。 假设Rnw文档放在</p>
 <p><code>C:/Users/Jinlong/Desktop/Sweave</code></p>
 <p>文件夹之下，名为test.Rmw， 则使用以下R代码:</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;C:/Users/USER/Desktop/Sweave&quot;</span>) <span class="comment">### 转换到工作目录，</span></span><br><span class="line">library(kintr) <span class="comment">###导入kintr程序包</span></span><br><span class="line">knit(<span class="string">&quot;test.Rnw&quot;</span>)</span><br></pre></td></tr></table></figure>
-
+<pre><code class="R">setwd(&quot;C:/Users/USER/Desktop/Sweave&quot;) ### 转换到工作目录，
+library(kintr) ###导入kintr程序包
+knit(&quot;test.Rnw&quot;)
+</code></pre>
 <p>即可在该目录下， 生成.tex文档， 以及需要包含的文件。</p>
 <p>用TexWorks编译成pdf文档即可。</p>
 <p>注意：kintr程序包在处理Rnw文档时，R代码的注释中不允许注释中有中文</p>
@@ -271,7 +379,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/01/08/2014-1-8-knitr/" data-id="ckmq2gws1005pq884bitjdt95" data-title="使用knitr处理Rnw文档" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/01/08/2014-1-8-knitr/" data-id="ckmq42aip005k1k84aowhdvp5" data-title="使用knitr处理Rnw文档" class="article-share-link">Share</a>
       
       
       
@@ -348,7 +456,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/01/06/2014-1-6-maclehose/" data-id="ckmq2gwrz005lq8843byn51ir" data-title="苍茫的大地－香港麦理浩径第八段" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/01/06/2014-1-6-maclehose/" data-id="ckmq42aio005i1k841jd4detu" data-title="苍茫的大地－香港麦理浩径第八段" class="article-share-link">Share</a>
       
       
       
@@ -393,14 +501,127 @@
 </ol>
 <p>这里介绍用skycalc程序包如何计算一个地点， 给定日期的日出日落时刻。</p>
 <p>R代码如下： </p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">library(skycalc)</span><br><span class="line"><span class="comment">### 儒略日转换为年月日时分秒的函数</span></span><br><span class="line">Julian2Date &lt;-<span class="keyword">function</span>(jd)&#123;</span><br><span class="line">int2 &lt;-</span><br><span class="line"><span class="keyword">function</span>(v)&#123;</span><br><span class="line">  <span class="built_in">return</span>(<span class="built_in">floor</span>(v));</span><br><span class="line">&#125;</span><br><span class="line">   r =<span class="built_in">list</span>();</span><br><span class="line">  D = int2(jd+<span class="number">0.5</span>);</span><br><span class="line">  <span class="built_in">F</span>= jd+<span class="number">0.5</span>-D <span class="comment">#取得日数的整数部份A及小数部分F</span></span><br><span class="line">  <span class="keyword">if</span>(D &gt;=<span class="number">2299161</span>)&#123;</span><br><span class="line">       <span class="built_in">c</span>= int2((D-<span class="number">1867216.25</span>)/<span class="number">36524.25</span>);</span><br><span class="line">       D= D +<span class="number">1</span>+<span class="built_in">c</span>- int2(<span class="built_in">c</span>/<span class="number">4</span>);</span><br><span class="line">   &#125;</span><br><span class="line">  D  = D +<span class="number">1524</span>;              </span><br><span class="line">  r$Y = int2((D -<span class="number">122.1</span>)/<span class="number">365.25</span>);<span class="comment">#年数</span></span><br><span class="line">  D  = D - int2(<span class="number">365.25</span>*r$Y);  </span><br><span class="line">  r$M = int2(D/<span class="number">30.601</span>); <span class="comment">#月数</span></span><br><span class="line">  D  = D - int2(<span class="number">30.601</span>*r$M);</span><br><span class="line">  r$D = D; <span class="comment">#日数</span></span><br><span class="line">  <span class="keyword">if</span>(r$M&gt;<span class="number">13</span>)&#123;</span><br><span class="line">      r$M = r$M -<span class="number">13</span>;</span><br><span class="line">      r$Y = r$Y -<span class="number">4715</span>;</span><br><span class="line">   &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      r$M = r$M -  <span class="number">1</span>;</span><br><span class="line">      r$Y = r$Y -<span class="number">4716</span>;</span><br><span class="line">   &#125;</span><br><span class="line">  <span class="comment">#日的小数转为时分秒</span></span><br><span class="line">  <span class="built_in">F</span> = <span class="built_in">F</span> *<span class="number">24</span>;</span><br><span class="line">  r$h=int2(<span class="built_in">F</span>);</span><br><span class="line">  <span class="built_in">F</span> = <span class="built_in">F</span> - r$h;</span><br><span class="line">  <span class="built_in">F</span> = <span class="built_in">F</span> *<span class="number">60</span>;</span><br><span class="line">  r$m=int2(<span class="built_in">F</span>);</span><br><span class="line">  <span class="built_in">F</span> = <span class="built_in">F</span> -r$m;</span><br><span class="line">  <span class="built_in">F</span> = <span class="built_in">F</span> *<span class="number">60</span>;</span><br><span class="line">  r$s=<span class="built_in">F</span>;</span><br><span class="line">  <span class="built_in">return</span>(r);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">sunRTScalc &lt;-<span class="keyword">function</span>(year, month, day, longitude, latitude,  zone,</span><br><span class="line">                      bGregorianCalendar =<span class="literal">TRUE</span>,</span><br><span class="line">                      type =<span class="built_in">c</span>(<span class="string">&quot;rise&quot;</span>, <span class="string">&quot;transit&quot;</span>, <span class="string">&quot;set&quot;</span>))&#123;</span><br><span class="line">   type &lt;- match.arg(type)</span><br><span class="line">   JD = CAADate_DateToJD(year, month, day, bGregorianCalendar);</span><br><span class="line">   SunDetails1 = CAAElliptical_Calculate_Sun(JD -<span class="number">1</span>)</span><br><span class="line">   Alpha1 = SunDetails1$ApparentGeocentricRA;</span><br><span class="line">   Delta1 = SunDetails1$ApparentGeocentricDeclination;</span><br><span class="line">   SunDetails2 = CAAElliptical_Calculate_Sun(JD)</span><br><span class="line">   Alpha2 = SunDetails2$ApparentGeocentricRA;</span><br><span class="line">   Delta2 = SunDetails2$ApparentGeocentricDeclination;</span><br><span class="line">   SunDetails3 = CAAElliptical_Calculate_Sun(JD +<span class="number">1</span>)</span><br><span class="line">   Alpha3 = SunDetails3$ApparentGeocentricRA;</span><br><span class="line">   Delta3 = SunDetails3$ApparentGeocentricDeclination;</span><br><span class="line">   RiseTransitSetTime =CAARiseTransitSet_Calculate(JD,</span><br><span class="line">   Alpha1, Delta1, Alpha2, Delta2, Alpha3,Delta3,</span><br><span class="line">   longitude, latitude, -<span class="number">0.8333</span>);</span><br><span class="line">   <span class="keyword">if</span>(type ==<span class="string">&quot;rise&quot;</span>)&#123;</span><br><span class="line">       rtsJD =(JD +(RiseTransitSetTime$details.Rise/<span class="number">24.00</span>));</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">if</span>(type ==<span class="string">&quot;set&quot;</span>)&#123;</span><br><span class="line">       rtsJD =(JD +(RiseTransitSetTime$details.Set/<span class="number">24.00</span>));</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">if</span>(type ==<span class="string">&quot;transit&quot;</span>)&#123;</span><br><span class="line">       rtsJD =(JD +(RiseTransitSetTime$details.Transit/<span class="number">24.00</span>));</span><br><span class="line">   &#125;</span><br><span class="line">   lclJD = rtsJD -(zone/<span class="number">24.00</span>);</span><br><span class="line">   <span class="built_in">return</span>(Julian2Date(lclJD))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="R">library(skycalc)
+### 儒略日转换为年月日时分秒的函数
+Julian2Date &lt;-function(jd)&#123;
+int2 &lt;-
+function(v)&#123;
+  return(floor(v));
+&#125;
+   r =list();
+  D = int2(jd+0.5);
+  F= jd+0.5-D #取得日数的整数部份A及小数部分F
+  if(D &gt;=2299161)&#123;
+       c= int2((D-1867216.25)/36524.25);
+       D= D +1+c- int2(c/4);
+   &#125;
+  D  = D +1524;              
+  r$Y = int2((D -122.1)/365.25);#年数
+  D  = D - int2(365.25*r$Y);  
+  r$M = int2(D/30.601); #月数
+  D  = D - int2(30.601*r$M);
+  r$D = D; #日数
+  if(r$M&gt;13)&#123;
+      r$M = r$M -13;
+      r$Y = r$Y -4715;
+   &#125;else&#123;
+      r$M = r$M -  1;
+      r$Y = r$Y -4716;
+   &#125;
+  #日的小数转为时分秒
+  F = F *24;
+  r$h=int2(F);
+  F = F - r$h;
+  F = F *60;
+  r$m=int2(F);
+  F = F -r$m;
+  F = F *60;
+  r$s=F;
+  return(r);
+&#125;
 
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### 例一</span></span><br><span class="line"><span class="comment">### 计算美国波士顿 (西经 74.73057,  北纬 39.275787) 2009年8月9日的日出日落时刻</span></span><br><span class="line">sunRTScalc(year =<span class="number">2009</span>, month =<span class="number">8</span>, day =<span class="number">9</span>, longitude =<span class="number">74.73057</span>,  </span><br><span class="line">          latitude =<span class="number">39.275787</span>, zone =<span class="number">4</span>, bGregorianCalendar=<span class="literal">TRUE</span>, type =<span class="string">&quot;rise&quot;</span>)</span><br><span class="line"><span class="comment">### 因为波士顿的日落已经发生在格林尼治子午圈的下一天 (波士顿当地时间(西四区)2009年8月9日20h01m39m，对应世界时2009年8月10日00h01m39m)， 所里这里在日期上需要加1.</span></span><br><span class="line"></span><br><span class="line">sunRTScalc(year =<span class="number">2009</span>, month =<span class="number">8</span>, day =<span class="number">10</span>, longitude =<span class="number">74.73057</span>,  </span><br><span class="line">          latitude =<span class="number">39.275787</span>, zone =<span class="number">4</span>, bGregorianCalendar=<span class="literal">TRUE</span>, type =<span class="string">&quot;set&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">### 例二</span></span><br><span class="line"><span class="comment">### 计算北京天安门 (东经 -116.391325,  北纬 39.907356) 2014年1月5日的日出日落时刻</span></span><br><span class="line"><span class="comment">### 日出 因为北京的日出时刻发生在北京时间4h45m43.7s，对应的世界时为1月4日23h36m13.8s， 因此， 在日期上需要减去一天</span></span><br><span class="line">sunRTScalc(year =<span class="number">2014</span>, month =<span class="number">1</span>, day =<span class="number">4</span>, longitude =-<span class="number">116.391325</span>,  </span><br><span class="line">          latitude =<span class="number">39.907356</span>, zone =-<span class="number">8</span>, bGregorianCalendar =<span class="literal">TRUE</span>, type =<span class="string">&quot;rise&quot;</span>)</span><br><span class="line"><span class="comment">### 日落</span></span><br><span class="line">sunRTScalc(year =<span class="number">2014</span>, month =<span class="number">1</span>, day =<span class="number">5</span>, longitude =-<span class="number">116.391325</span>,  </span><br><span class="line">          latitude =<span class="number">39.907356</span>, zone =-<span class="number">8</span>, bGregorianCalendar =<span class="literal">TRUE</span>, type =<span class="string">&quot;set&quot;</span>)</span><br><span class="line"><span class="comment">### 中天</span></span><br><span class="line">sunRTScalc(year =<span class="number">2014</span>, month =<span class="number">1</span>, day =<span class="number">5</span>, longitude =-<span class="number">116.391325</span>,  </span><br><span class="line">          latitude =<span class="number">39.907356</span>, zone =-<span class="number">8</span>, bGregorianCalendar =<span class="literal">TRUE</span>, type =<span class="string">&quot;transit&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 例三</span></span><br><span class="line"><span class="comment">### 计算2014年6月20日北京天安门 (东经 -116.391325,  北纬 39.907356) 的日出日落时刻</span></span><br><span class="line"><span class="comment">### 日出 因为北京的日出时刻发生在北京时间4h45m43.7s，对应的世界时为6月19日22h45m43.7s， 因此， 在日期上需要减去一天</span></span><br><span class="line">sunRTScalc(year =<span class="number">2014</span>, month =<span class="number">6</span>, day =<span class="number">19</span>, longitude =-<span class="number">116.391325</span>,  </span><br><span class="line">          latitude =<span class="number">39.907356</span>, zone =-<span class="number">8</span>, bGregorianCalendar =<span class="literal">TRUE</span>, type =<span class="string">&quot;rise&quot;</span>)</span><br><span class="line"><span class="comment">### 日落</span></span><br><span class="line">sunRTScalc(year =<span class="number">2014</span>, month =<span class="number">6</span>, day =<span class="number">20</span>, longitude =-<span class="number">116.391325</span>,  </span><br><span class="line">          latitude =<span class="number">39.907356</span>, zone =-<span class="number">8</span>, bGregorianCalendar =<span class="literal">TRUE</span>, type =<span class="string">&quot;set&quot;</span>)</span><br><span class="line"><span class="comment">### 中天</span></span><br><span class="line">sunRTScalc(year =<span class="number">2014</span>, month =<span class="number">6</span>, day =<span class="number">20</span>, longitude =-<span class="number">116.391325</span>,  </span><br><span class="line">          latitude =<span class="number">39.907356</span>, zone =-<span class="number">8</span>, bGregorianCalendar =<span class="literal">TRUE</span>, type =<span class="string">&quot;transit&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">####例四</span></span><br><span class="line"><span class="comment">### 计算2020年1月15日澳大利亚墨尔本(东经 -144.963171, 南纬-37.814247) 的日出日落时刻</span></span><br><span class="line"><span class="comment">### 墨尔本为位于东10区，澳大利亚夏时制开始于上一年10月的第一个星期天， 下一年4月第一个星期天止。1月15日，正处于夏令时， 因此时区取-11</span></span><br><span class="line"><span class="comment">### 日出, 由于澳大利亚日出时， 世界时仍然处在2020年1月14日， 因此这里day取14</span></span><br><span class="line">sunRTScalc(year =<span class="number">2020</span>, month =<span class="number">1</span>, day =<span class="number">14</span>, longitude =-<span class="number">144.963171</span>,  </span><br><span class="line">          latitude =-<span class="number">37.814247</span>, zone =-<span class="number">11</span>, bGregorianCalendar =<span class="literal">TRUE</span>, type =<span class="string">&quot;rise&quot;</span>)</span><br><span class="line"><span class="comment">### 日落</span></span><br><span class="line">sunRTScalc(year =<span class="number">2020</span>, month =<span class="number">1</span>, day =<span class="number">15</span>, longitude =-<span class="number">144.963171</span>,  </span><br><span class="line">          latitude =-<span class="number">37.814247</span>, zone =-<span class="number">11</span>, bGregorianCalendar =<span class="literal">TRUE</span>, type =<span class="string">&quot;set&quot;</span>)</span><br><span class="line"><span class="comment">### 中天</span></span><br><span class="line">sunRTScalc(year =<span class="number">2020</span>, month =<span class="number">1</span>, day =<span class="number">15</span>, longitude =-<span class="number">144.963171</span>,  </span><br><span class="line">          latitude =-<span class="number">37.814247</span>, zone =-<span class="number">11</span>, bGregorianCalendar =<span class="literal">TRUE</span>, type =<span class="string">&quot;transit&quot;</span>)</span><br></pre></td></tr></table></figure>
+sunRTScalc &lt;-function(year, month, day, longitude, latitude,  zone,
+                      bGregorianCalendar =TRUE,
+                      type =c(&quot;rise&quot;, &quot;transit&quot;, &quot;set&quot;))&#123;
+   type &lt;- match.arg(type)
+   JD = CAADate_DateToJD(year, month, day, bGregorianCalendar);
+   SunDetails1 = CAAElliptical_Calculate_Sun(JD -1)
+   Alpha1 = SunDetails1$ApparentGeocentricRA;
+   Delta1 = SunDetails1$ApparentGeocentricDeclination;
+   SunDetails2 = CAAElliptical_Calculate_Sun(JD)
+   Alpha2 = SunDetails2$ApparentGeocentricRA;
+   Delta2 = SunDetails2$ApparentGeocentricDeclination;
+   SunDetails3 = CAAElliptical_Calculate_Sun(JD +1)
+   Alpha3 = SunDetails3$ApparentGeocentricRA;
+   Delta3 = SunDetails3$ApparentGeocentricDeclination;
+   RiseTransitSetTime =CAARiseTransitSet_Calculate(JD,
+   Alpha1, Delta1, Alpha2, Delta2, Alpha3,Delta3,
+   longitude, latitude, -0.8333);
+   if(type ==&quot;rise&quot;)&#123;
+       rtsJD =(JD +(RiseTransitSetTime$details.Rise/24.00));
+   &#125;
+   if(type ==&quot;set&quot;)&#123;
+       rtsJD =(JD +(RiseTransitSetTime$details.Set/24.00));
+   &#125;
+   if(type ==&quot;transit&quot;)&#123;
+       rtsJD =(JD +(RiseTransitSetTime$details.Transit/24.00));
+   &#125;
+   lclJD = rtsJD -(zone/24.00);
+   return(Julian2Date(lclJD))
+&#125;
+</code></pre>
+<pre><code class="R">### 例一
+### 计算美国波士顿 (西经 74.73057,  北纬 39.275787) 2009年8月9日的日出日落时刻
+sunRTScalc(year =2009, month =8, day =9, longitude =74.73057,  
+          latitude =39.275787, zone =4, bGregorianCalendar=TRUE, type =&quot;rise&quot;)
+### 因为波士顿的日落已经发生在格林尼治子午圈的下一天 (波士顿当地时间(西四区)2009年8月9日20h01m39m，对应世界时2009年8月10日00h01m39m)， 所里这里在日期上需要加1.
+
+sunRTScalc(year =2009, month =8, day =10, longitude =74.73057,  
+          latitude =39.275787, zone =4, bGregorianCalendar=TRUE, type =&quot;set&quot;)
+
+
+### 例二
+### 计算北京天安门 (东经 -116.391325,  北纬 39.907356) 2014年1月5日的日出日落时刻
+### 日出 因为北京的日出时刻发生在北京时间4h45m43.7s，对应的世界时为1月4日23h36m13.8s， 因此， 在日期上需要减去一天
+sunRTScalc(year =2014, month =1, day =4, longitude =-116.391325,  
+          latitude =39.907356, zone =-8, bGregorianCalendar =TRUE, type =&quot;rise&quot;)
+### 日落
+sunRTScalc(year =2014, month =1, day =5, longitude =-116.391325,  
+          latitude =39.907356, zone =-8, bGregorianCalendar =TRUE, type =&quot;set&quot;)
+### 中天
+sunRTScalc(year =2014, month =1, day =5, longitude =-116.391325,  
+          latitude =39.907356, zone =-8, bGregorianCalendar =TRUE, type =&quot;transit&quot;)
+
+### 例三
+### 计算2014年6月20日北京天安门 (东经 -116.391325,  北纬 39.907356) 的日出日落时刻
+### 日出 因为北京的日出时刻发生在北京时间4h45m43.7s，对应的世界时为6月19日22h45m43.7s， 因此， 在日期上需要减去一天
+sunRTScalc(year =2014, month =6, day =19, longitude =-116.391325,  
+          latitude =39.907356, zone =-8, bGregorianCalendar =TRUE, type =&quot;rise&quot;)
+### 日落
+sunRTScalc(year =2014, month =6, day =20, longitude =-116.391325,  
+          latitude =39.907356, zone =-8, bGregorianCalendar =TRUE, type =&quot;set&quot;)
+### 中天
+sunRTScalc(year =2014, month =6, day =20, longitude =-116.391325,  
+          latitude =39.907356, zone =-8, bGregorianCalendar =TRUE, type =&quot;transit&quot;)
+
+####例四
+### 计算2020年1月15日澳大利亚墨尔本(东经 -144.963171, 南纬-37.814247) 的日出日落时刻
+### 墨尔本为位于东10区，澳大利亚夏时制开始于上一年10月的第一个星期天， 下一年4月第一个星期天止。1月15日，正处于夏令时， 因此时区取-11
+### 日出, 由于澳大利亚日出时， 世界时仍然处在2020年1月14日， 因此这里day取14
+sunRTScalc(year =2020, month =1, day =14, longitude =-144.963171,  
+          latitude =-37.814247, zone =-11, bGregorianCalendar =TRUE, type =&quot;rise&quot;)
+### 日落
+sunRTScalc(year =2020, month =1, day =15, longitude =-144.963171,  
+          latitude =-37.814247, zone =-11, bGregorianCalendar =TRUE, type =&quot;set&quot;)
+### 中天
+sunRTScalc(year =2020, month =1, day =15, longitude =-144.963171,  
+          latitude =-37.814247, zone =-11, bGregorianCalendar =TRUE, type =&quot;transit&quot;)
+</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/01/05/2014-01-05-sunrise/" data-id="ckmq2gwrv005bq8842lb09cqk" data-title="用skycalc计算日出日落时刻" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/01/05/2014-01-05-sunrise/" data-id="ckmq42ail00581k8442vofb7t" data-title="用skycalc计算日出日落时刻" class="article-share-link">Share</a>
       
       
       
@@ -462,7 +683,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/01/03/2014-1-3-skycalc/" data-id="ckmq2gwrz005jq88457g770y7" data-title="AAplus天文算法C++库在R中的实现：skycalc程序包" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/01/03/2014-1-3-skycalc/" data-id="ckmq42ain005g1k84880799r2" data-title="AAplus天文算法C++库在R中的实现：skycalc程序包" class="article-share-link">Share</a>
       
       
       
@@ -499,11 +720,44 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>在R中绘制三维图常用persp， 但是persp函数并未提供颜色渲染的相应参数。这里提供了一种方法，在persp中， 按照取值不同， 添加相应的颜色。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### 给出x，y以及f取值序列， 要绘制的是f的函数面</span></span><br><span class="line">x &lt;-seq(-<span class="number">10</span>, <span class="number">10</span>, <span class="built_in">length</span>=<span class="number">30</span>)</span><br><span class="line">y &lt;- x</span><br><span class="line">f &lt;-<span class="keyword">function</span>(x, y)&#123; r &lt;-<span class="built_in">sqrt</span>(x^<span class="number">2</span>+y^<span class="number">2</span>); <span class="number">10</span>*<span class="built_in">sin</span>(r)/r &#125;</span><br><span class="line">z &lt;-outer(x, y, f)</span><br><span class="line">z[<span class="built_in">is.na</span>(z)]&lt;-<span class="number">1</span></span><br><span class="line">op &lt;-par(bg =<span class="string">&quot;white&quot;</span>, mar=<span class="built_in">c</span>(<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>))</span><br><span class="line"><span class="comment">### 生成颜色序列</span></span><br><span class="line">col.table1 &lt;- topo.colors(<span class="number">400</span>)</span><br><span class="line">col.table2 &lt;- heat.colors(<span class="number">400</span>)</span><br><span class="line">col.table3 &lt;- terrain.colors(<span class="number">400</span>)</span><br><span class="line">col.table4 &lt;- cm.colors(<span class="number">400</span>)</span><br><span class="line"><span class="comment">### 计算行列</span></span><br><span class="line">ncz &lt;-ncol(z)</span><br><span class="line">nrz &lt;-nrow(z)</span><br><span class="line"><span class="comment">### zfacet是用来做cut的， 如果想获得与矩阵相同的grid数目， 需要在行列的开始和结束，都减去1</span></span><br><span class="line"><span class="comment">### 这里的zfacet是 breaks</span></span><br><span class="line">zfacet &lt;- z[-<span class="number">1</span>, -<span class="number">1</span>]+z[-<span class="number">1</span>, -ncz]+z[-nrz, -<span class="number">1</span>]+ z[-nrz, -ncz]</span><br><span class="line"><span class="comment">### 进行cut， 生成400种颜色, 生成每个方格，所属的颜色等级</span></span><br><span class="line">col.ind &lt;- <span class="built_in">as.numeric</span>(cut(zfacet, <span class="number">400</span>))</span><br><span class="line"><span class="comment">###col.table1[col.ind] 本句是将col.table1颜色序列， 按照zfacet的值进行排列， 以保证对应的方格， 出现对应等级的颜色。 因为z矩阵的保存方式实际上是一个vector。 col.ind能够才能够和grid的颜色匹配。</span></span><br><span class="line">par(mfrow =<span class="built_in">c</span>(<span class="number">2</span>,<span class="number">2</span>), mar ＝ <span class="built_in">c</span>(<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>))</span><br><span class="line"><span class="comment">### 四种颜色的三维图</span></span><br><span class="line">persp(x, y, z, theta =<span class="number">30</span>, phi =<span class="number">30</span>, expand =<span class="number">0.5</span>, col= col.table1[col.ind], main =<span class="string">&quot;topo.colors&quot;</span>)</span><br><span class="line">persp(x, y, z, theta =<span class="number">30</span>, phi =<span class="number">30</span>, expand =<span class="number">0.5</span>, col= col.table2[col.ind], main =<span class="string">&quot;heat.colors&quot;</span>)</span><br><span class="line">persp(x, y, z, theta =<span class="number">30</span>, phi =<span class="number">30</span>, expand =<span class="number">0.5</span>, col= col.table3[col.ind], main =<span class="string">&quot;terrain.colors&quot;</span>)</span><br><span class="line">persp(x, y, z, theta =<span class="number">30</span>, phi =<span class="number">30</span>, expand =<span class="number">0.5</span>, col= col.table4[col.ind], main =<span class="string">&quot;cm.colors&quot;</span>)</span><br><span class="line">注： lattice程序包的wireframe函数提供了颜色的渲染方法。</span><br><span class="line">wireframe(volcano, drape =<span class="literal">TRUE</span>, aspect =<span class="built_in">c</span>(<span class="number">61</span>/<span class="number">87</span>, <span class="number">0.4</span>))</span><br><span class="line">wireframe(volcano, shade =<span class="literal">TRUE</span>, aspect =<span class="built_in">c</span>(<span class="number">61</span>/<span class="number">87</span>, <span class="number">0.4</span>))</span><br><span class="line">wireframe(z, shade =<span class="literal">TRUE</span>, aspect =<span class="built_in">c</span>(<span class="number">61</span>/<span class="number">87</span>, <span class="number">0.4</span>))</span><br><span class="line">wireframe(z, drape =<span class="literal">TRUE</span>, aspect =<span class="built_in">c</span>(<span class="number">61</span>/<span class="number">87</span>, <span class="number">0.4</span>))</span><br></pre></td></tr></table></figure>
+<pre><code class="R">### 给出x，y以及f取值序列， 要绘制的是f的函数面
+x &lt;-seq(-10, 10, length=30)
+y &lt;- x
+f &lt;-function(x, y)&#123; r &lt;-sqrt(x^2+y^2); 10*sin(r)/r &#125;
+z &lt;-outer(x, y, f)
+z[is.na(z)]&lt;-1
+op &lt;-par(bg =&quot;white&quot;, mar=c(1,1,1,1))
+### 生成颜色序列
+col.table1 &lt;- topo.colors(400)
+col.table2 &lt;- heat.colors(400)
+col.table3 &lt;- terrain.colors(400)
+col.table4 &lt;- cm.colors(400)
+### 计算行列
+ncz &lt;-ncol(z)
+nrz &lt;-nrow(z)
+### zfacet是用来做cut的， 如果想获得与矩阵相同的grid数目， 需要在行列的开始和结束，都减去1
+### 这里的zfacet是 breaks
+zfacet &lt;- z[-1, -1]+z[-1, -ncz]+z[-nrz, -1]+ z[-nrz, -ncz]
+### 进行cut， 生成400种颜色, 生成每个方格，所属的颜色等级
+col.ind &lt;- as.numeric(cut(zfacet, 400))
+###col.table1[col.ind] 本句是将col.table1颜色序列， 按照zfacet的值进行排列， 以保证对应的方格， 出现对应等级的颜色。 因为z矩阵的保存方式实际上是一个vector。 col.ind能够才能够和grid的颜色匹配。
+par(mfrow =c(2,2), mar ＝ c(1, 1, 1, 1))
+### 四种颜色的三维图
+persp(x, y, z, theta =30, phi =30, expand =0.5, col= col.table1[col.ind], main =&quot;topo.colors&quot;)
+persp(x, y, z, theta =30, phi =30, expand =0.5, col= col.table2[col.ind], main =&quot;heat.colors&quot;)
+persp(x, y, z, theta =30, phi =30, expand =0.5, col= col.table3[col.ind], main =&quot;terrain.colors&quot;)
+persp(x, y, z, theta =30, phi =30, expand =0.5, col= col.table4[col.ind], main =&quot;cm.colors&quot;)
+注： lattice程序包的wireframe函数提供了颜色的渲染方法。
+wireframe(volcano, drape =TRUE, aspect =c(61/87, 0.4))
+wireframe(volcano, shade =TRUE, aspect =c(61/87, 0.4))
+wireframe(z, shade =TRUE, aspect =c(61/87, 0.4))
+wireframe(z, drape =TRUE, aspect =c(61/87, 0.4))
+</code></pre>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2013/12/30/2013-12-30-colorplot/" data-id="ckmq2gwrq004yq884c2yphw64" data-title="三维图中的颜色渲染" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2013/12/30/2013-12-30-colorplot/" data-id="ckmq42aid004t1k8427rm4mlw" data-title="三维图中的颜色渲染" class="article-share-link">Share</a>
       
       
       
@@ -578,102 +832,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2013/10/27/2013-10-27-dunedin/" data-id="ckmq2gwrl004oq884eqy4a08e" data-title="新西兰Dunedin的杜鹃花海" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2013/10/27/2013-10-27-dunedin/" data-id="ckmq42aic004o1k842ug90qjd" data-title="新西兰Dunedin的杜鹃花海" class="article-share-link">Share</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" rel="tag">行摄匆匆</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-2013-10-27-rcpp2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2013/10/27/2013-10-27-rcpp2/" class="article-date">
-  <time class="dt-published" datetime="2013-10-27T04:39:54.000Z" itemprop="datePublished">2013-10-27</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2013/10/27/2013-10-27-rcpp2/">Rcpp简明指南: R调用C++</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>新版本参见 <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=space&uid=255662&do=blog&id=835970">http://blog.sciencenet.cn/home.php?mod=space&amp;uid=255662&amp;do=blog&amp;id=835970</a> </p>
-<p>注： 本文需要读者了解：</p>
-<ol>
-<li>R函数的基本知识</li>
-<li>编写R程序包</li>
-<li>C++的基础知识， 包括 类， 以及namespace等。</li>
-</ol>
-<p>为什么要用R调用C++函数？ 原因可能有以下几点：</p>
-<ol>
-<li><p>R开发虽然很快， 涉及到一些循环的时候， 执行效率却常常相当于C++的1/100，甚至更慢</p>
-</li>
-<li><p>C++中有一些已经开发好的库， 人们不希望再重写一遍R的代码。 而是最好通过编译之后直接调用。</p>
-</li>
-</ol>
-<p>Rcpp程序包为用R调用C++代码提供了方便。</p>
-<p>用户直接在R的源代码src文件夹下加入cpp和h文件， rtools即可对C++文件进行编译。 但是为了从R的console能够直接调用cpp写的函数， 还必须对cpp的函数进行修改。</p>
-<p>修改需要遵循以下原则：</p>
-<ol>
-<li>所有从R输入到cpp的对象， 都是SEXP</li>
-<li>从cpp返回到R的对象也必须是SEXP</li>
-<li>C++中， 返回值如为数值， 可以用wrap()帮忙， 直接返回为SEXP的对象， 实现R的调用</li>
-</ol>
-<p>换句话说， 只有加了SEXP这样一个标签，C++函数在 R和C++中才都能识别。 Rcpp提供了SEXP处理的响应的类， 使得两者之间的数据传输变得容易。 </p>
-<p>以下是用R调用C++的一个简单例子：</p>
-<p>如果在windows中要使用Rcpp， 则需要</p>
-<ol>
-<li><p>安装Rcpp程序包，install.packages(“Rcpp”)</p>
-</li>
-<li><p>安装Rtools， 并配制好启动路径。电脑&gt;属性&gt;高级系统设置&gt;高级&gt;环境变量&gt;系统变量&gt;路径</p>
-</li>
-<li><p>在R console 中运行 library(Rcpp) ， 之后调用 Rcpp.package.skeleton函数，</p>
-</li>
-</ol>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Rcpp.package.skeleton( <span class="string">&quot;test&quot;</span> )</span><br></pre></td></tr></table></figure>
-
-<p>在生成的R包 skeleton中， 可以找到rcpp_hello_world.cpp文件， 可以尝试添加几个函数， 修改成如下样式 （注意以下代码为C++文件,扩展名为cpp):</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">////////////////////// C++文件开始//////////////////</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;rcpp_hello_world.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Rcpp.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> Rcpp;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="comment">// 注意 #include &lt;Rcpp.h&gt; 是调用Rcpp的必要条件</span></span><br><span class="line"></span><br><span class="line"><span class="function">RcppExport SEXP <span class="title">intVec1a</span><span class="params">(SEXP vec)</span> </span>&#123;</span><br><span class="line">   <span class="function">Rcpp::NumericVector <span class="title">vec2</span><span class="params">(vec)</span></span>;</span><br><span class="line">   <span class="keyword">int</span> prod = <span class="number">1</span>;</span><br><span class="line">   <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;vec2.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">       prod *= vec2[i];</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">return</span> (<span class="built_in">wrap</span>(prod));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// RcppExport 是为了在载入R包后， 在Namespace内内能够找到这个C++的函数</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//第一个SEXP声明返回值的类型</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//第二个SEXP， 声明vec变量为SEXP的类型，也就是说， 它可以是从R直接传入</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Rcpp::NumericVector vec2(vec); 意思 是将 vec转换为 vec2， 从SEXP转换为 NumericVector， NumericVector是Rcpp下的一个类， 在C++的函数中可以识别和调用。 后面的代码就和普通的C++没有什么分别了。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//return (wrap(prod)); 由于我们希望在R中直接可以得到该函数的运行结果， 因此， 返回值也需要转换为SEXP类型。 wrap函数提供了一种便捷的方式。 简单的类型， 如int， double等， 只需要直接调用wrap即可。 </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function">RcppExport SEXP <span class="title">Eccentricity</span><span class="params">(SEXP JD)</span></span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line"> <span class="keyword">double</span> JD3  = Rcpp::as&lt;<span class="keyword">double</span>&gt;(JD);</span><br><span class="line"> <span class="keyword">double</span> T = (JD3 - <span class="number">2451545.0</span>) / <span class="number">36525.0</span>;</span><br><span class="line"> <span class="keyword">double</span> Tsquared = T*T;</span><br><span class="line"> <span class="keyword">return</span> (<span class="built_in">wrap</span>(<span class="number">1</span> - <span class="number">0.002516</span>*T - <span class="number">0.0000074</span>*Tsquared));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Rcpp::as&lt;double&gt;(JD); 表示调用Rcpp内的方法， 将类型为SEXP的JD， 转换为double类型， 并赋值給double JD3</span></span><br><span class="line"></span><br><span class="line"><span class="function">RcppExport SEXP <span class="title">expfun</span><span class="params">(SEXP x)</span></span>&#123;</span><br><span class="line">    <span class="keyword">double</span> x2 = Rcpp::as&lt;<span class="keyword">double</span>&gt;(x);</span><br><span class="line">    <span class="keyword">double</span> ans=<span class="number">1.0</span>, term=<span class="number">1.0</span>, eps=<span class="number">1e-16</span>;</span><br><span class="line">    <span class="keyword">int</span> n=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (<span class="built_in">fabs</span>(term)&gt;eps)&#123;</span><br><span class="line">       n++;</span><br><span class="line">       term = term * x2 / n;</span><br><span class="line">       ans = ans + term;</span><br><span class="line">    &#125;</span><br><span class="line">      <span class="keyword">return</span>(<span class="built_in">wrap</span>(ans));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//  C++文件结束//</span></span><br></pre></td></tr></table></figure>
-
-<p>对R程序包test的骨架进行修改后， 即可开始安装，</p>
-<p>在windows下， 在 开始， cmd， 输入 Rcmd INSTALL test, 安装test程序包</p>
-<p>之后转入 R console， library(test)</p>
-<p>即可加载响应的动态链接库dll文件。 只是此时调用dll中的文件， 还稍微有些不方便。 此时调用dll中函数的方法如下</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.Call(<span class="string">&#x27;Eccentricity&#x27;</span>, JD= <span class="number">2314543</span>)</span><br><span class="line">.Call(<span class="string">&#x27;intVec1a&#x27;</span>, vec= <span class="built_in">c</span>(<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>))</span><br><span class="line">.Call(<span class="string">&#x27;expfun&#x27;</span>, x=<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
-
-<p>不过每次使用.Call函数， 仍然让人觉得不太满意。为了需要写一个R的wrapper function例如</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">expfunR &lt;- <span class="keyword">function</span>(x)&#123;</span><br><span class="line">   <span class="built_in">return</span>( .Call(<span class="string">&#x27;expfun&#x27;</span>, x= x))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">EccentricityR &lt;- <span class="keyword">function</span>(JD)&#123;</span><br><span class="line">   <span class="built_in">return</span>( .Call(<span class="string">&#x27;Eccentricity&#x27;</span>, JD= JD))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">intVecR &lt;- <span class="keyword">function</span>(x)&#123;</span><br><span class="line">   <span class="built_in">return</span>(.Call(<span class="string">&#x27;intVec1a&#x27;</span>, vec= x))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>调用方式同R函数，</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">expfunR(<span class="number">2</span>)</span><br><span class="line">EccentricityR(<span class="number">2314543</span>)</span><br><span class="line">intVecR(<span class="built_in">c</span>(<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>))</span><br></pre></td></tr></table></figure>
-
-<p>这时候就和一般的R函数没有区别了。 </p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2013/10/27/2013-10-27-rcpp2/" data-id="ckmq2gwrn004tq884511sd16v" data-title="Rcpp简明指南: R调用C++" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/R%E7%BC%96%E7%A8%8B/" rel="tag">R编程</a></li></ul>
 
     </footer>
   </div>
@@ -733,6 +896,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -746,10 +913,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

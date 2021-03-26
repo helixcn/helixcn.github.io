@@ -114,25 +114,79 @@
 <p>Rmarkdown的基本结构</p>
 <p>Rmarkdown需要以用YAML表头开始。YAML是一种计算机标记语言， 用来提供文档的基本信息。YAML需要缩进来体现各部分内容之间的逻辑关系。一般来说， Rmarkdown的YAML信息包括最基本的三项， 其中冒号前为关键字， 冒号后为参数， 以指明该文档的作者， 时间， 许可证， 通过什么软件编译，输出方式等。</p>
 <p>例如：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">title:</span> <span class="string">&quot;Untitled&quot;</span></span><br><span class="line"><span class="attr">author:</span> <span class="string">&quot;Anonymous&quot;</span></span><br><span class="line"><span class="attr">output:</span> <span class="string">html_document</span></span><br></pre></td></tr></table></figure>
-
+<pre><code class="YAML">title: &quot;Untitled&quot;
+author: &quot;Anonymous&quot;
+output: html_document
+</code></pre>
 <p>正文内容与markdown的语法无异， markdown的正文中可以插入不同等级的标题，图片，表格，超链接，Latex的数学公式等等。Rstudio给出了参考卡片 （<a target="_blank" rel="noopener" href="https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-chinese.pdf%EF%BC%89">https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-chinese.pdf）</a></p>
 <p>如果要编译中文文档，特别是生成pdf文档， 则需要更改YAML说明的output部分。设定<br><code>- \usepackage&#123;ctex&#125;</code> 以及 <code>pdf_document: latex_engine: xelatex</code></p>
 <p>以下文档， 已经在Windows10 下已经编译成功：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##### R Markdown文档开始 ###########</span></span><br><span class="line"></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">&quot;用R绘制 Color Checker&quot;</span></span><br><span class="line"><span class="attr">author:</span> <span class="string">&quot;张金龙&quot;</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2016-09-21</span></span><br><span class="line"><span class="attr">header-includes:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">\usepackage&#123;ctex&#125;</span></span><br><span class="line"><span class="attr">output:</span></span><br><span class="line">  <span class="attr">pdf_document:</span></span><br><span class="line">  <span class="attr">latex_engine:</span> <span class="string">xelatex</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+<pre><code class="YAML">##### R Markdown文档开始 ###########
 
+---
+title: &quot;用R绘制 Color Checker&quot;
+author: &quot;张金龙&quot;
+date: 2016-09-21
+header-includes:
+  - \usepackage&#123;ctex&#125;
+output:
+  pdf_document:
+  latex_engine: xelatex
+---
+</code></pre>
 <p>比色卡主要用于摄影时校正白平衡等， 在摄影，美术， 科学研究中有很广泛的应用。下面介绍用R如何绘制比色卡。</p>
 <p>首先Color Checker 所需的RGB颜色，来源于 <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/ColorChecker">http://en.wikipedia.org/wiki/ColorChecker</a></p>
 <p>ColorChecker Colorimetric Data, archived from the original on 2012-04-17, retrieved 2012-04-17</p>
 <p>以下是R代码:</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 比色卡RGB颜色</span></span><br><span class="line"></span><br><span class="line">sRGB &lt;- <span class="built_in">c</span>( <span class="string">&quot;#735244&quot;</span>, <span class="string">&quot;#c29682&quot;</span>, <span class="string">&quot;#627a9d&quot;</span>, <span class="string">&quot;#576c43&quot;</span>, <span class="string">&quot;#8580b1&quot;</span>, <span class="string">&quot;#67bdaa&quot;</span>,</span><br><span class="line">           <span class="string">&quot;#d67e2c&quot;</span>, <span class="string">&quot;#505ba6&quot;</span>, <span class="string">&quot;#c15a63&quot;</span>, <span class="string">&quot;#5e3c6c&quot;</span>, <span class="string">&quot;#9dbc40&quot;</span>, <span class="string">&quot;#e0a32e&quot;</span>,</span><br><span class="line">           <span class="string">&quot;#383d96&quot;</span>, <span class="string">&quot;#469449&quot;</span>, <span class="string">&quot;#af363c&quot;</span>, <span class="string">&quot;#e7c71f&quot;</span>, <span class="string">&quot;#bb5695&quot;</span>, <span class="string">&quot;#0885a1&quot;</span>,</span><br><span class="line">           <span class="string">&quot;#f3f3f2&quot;</span>, <span class="string">&quot;#c8c8c8&quot;</span>, <span class="string">&quot;#a0a0a0&quot;</span>, <span class="string">&quot;#7a7a79&quot;</span>, <span class="string">&quot;#555555&quot;</span>, <span class="string">&quot;#343434&quot;</span>)</span><br><span class="line"></span><br><span class="line">x =<span class="number">1</span>:<span class="number">24</span></span><br><span class="line">y =<span class="number">1</span>:<span class="number">24</span></span><br><span class="line"><span class="built_in">dim</span>(x) &lt;- <span class="built_in">c</span>(<span class="number">4</span>, <span class="number">6</span>)</span><br><span class="line"><span class="built_in">dim</span>(y) &lt;- <span class="built_in">c</span>(<span class="number">4</span>, <span class="number">6</span>)</span><br><span class="line"></span><br><span class="line">x1 = <span class="number">2</span></span><br><span class="line">y1 = -<span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="number">6</span>)&#123;</span><br><span class="line">  <span class="keyword">for</span>(j <span class="keyword">in</span> <span class="number">1</span>:<span class="number">4</span>)&#123;</span><br><span class="line">    x[j, i]&lt;- x1 + i*(<span class="number">13.5</span>+<span class="number">2</span>)</span><br><span class="line">    y[j, i]&lt;- y1 - j*(<span class="number">13.5</span>+<span class="number">2</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">x2 &lt;- x -<span class="number">13.5</span></span><br><span class="line">y2 &lt;- y -<span class="number">13.5</span></span><br><span class="line"></span><br><span class="line">par(bg =<span class="string">&#x27;black&#x27;</span>, mar =<span class="built_in">c</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">.8</span>,<span class="number">0</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">#### 绘制背景</span></span><br><span class="line">plot(<span class="number">1</span>, xlim =<span class="built_in">c</span>(<span class="number">5</span>, <span class="number">94</span>), ylim =<span class="built_in">c</span>(-<span class="number">77</span>, -<span class="number">18</span>), pch =<span class="string">&quot;&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#### 绘制每种颜色的小方块</span></span><br><span class="line"></span><br><span class="line">k =<span class="number">1</span></span><br><span class="line"><span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="number">4</span>)&#123;</span><br><span class="line">  <span class="keyword">for</span>(j <span class="keyword">in</span> <span class="number">1</span>:<span class="number">6</span>)&#123;</span><br><span class="line">    rect(x[i,j],y[i,j],x2[i,j],y2[i,j], col= sRGB[k])</span><br><span class="line">    k = k +<span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">mtext(<span class="string">&quot;Colour Checker in RGB&quot;</span>,side =<span class="number">3</span>, line=<span class="number">.01</span>, col=<span class="string">&quot;white&quot;</span>, cex =<span class="number">0.6</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">##### R Markdown文档结束 ###########</span></span><br></pre></td></tr></table></figure>
+<pre><code class="R">## 比色卡RGB颜色
 
+sRGB &lt;- c( &quot;#735244&quot;, &quot;#c29682&quot;, &quot;#627a9d&quot;, &quot;#576c43&quot;, &quot;#8580b1&quot;, &quot;#67bdaa&quot;,
+           &quot;#d67e2c&quot;, &quot;#505ba6&quot;, &quot;#c15a63&quot;, &quot;#5e3c6c&quot;, &quot;#9dbc40&quot;, &quot;#e0a32e&quot;,
+           &quot;#383d96&quot;, &quot;#469449&quot;, &quot;#af363c&quot;, &quot;#e7c71f&quot;, &quot;#bb5695&quot;, &quot;#0885a1&quot;,
+           &quot;#f3f3f2&quot;, &quot;#c8c8c8&quot;, &quot;#a0a0a0&quot;, &quot;#7a7a79&quot;, &quot;#555555&quot;, &quot;#343434&quot;)
+
+x =1:24
+y =1:24
+dim(x) &lt;- c(4, 6)
+dim(y) &lt;- c(4, 6)
+
+x1 = 2
+y1 = -2
+
+for(i in 1:6)&#123;
+  for(j in 1:4)&#123;
+    x[j, i]&lt;- x1 + i*(13.5+2)
+    y[j, i]&lt;- y1 - j*(13.5+2)
+  &#125;
+&#125;
+
+x2 &lt;- x -13.5
+y2 &lt;- y -13.5
+
+par(bg =&#39;black&#39;, mar =c(0,0,.8,0))
+
+#### 绘制背景
+plot(1, xlim =c(5, 94), ylim =c(-77, -18), pch =&quot;&quot;)
+
+#### 绘制每种颜色的小方块
+
+k =1
+for(i in 1:4)&#123;
+  for(j in 1:6)&#123;
+    rect(x[i,j],y[i,j],x2[i,j],y2[i,j], col= sRGB[k])
+    k = k +1
+  &#125;
+&#125;
+mtext(&quot;Colour Checker in RGB&quot;,side =3, line=.01, col=&quot;white&quot;, cex =0.6)
+
+##### R Markdown文档结束 ###########
+</code></pre>
 <p>将以上内容保存为.Rmd文件，并用Rstudio打开， 点击标题栏的Knit 即可编译为PDF。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2016/09/21/2016-9-21-rmd/" data-id="ckmq2gwte008rq8843j320r4c" data-title="Rmarkdown与R的动态统计报告 (2019-02-19)" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2016/09/21/2016-9-21-rmd/" data-id="ckmq42ajk008d1k84emyn01w0" data-title="Rmarkdown与R的动态统计报告 (2019-02-19)" class="article-share-link">Share</a>
       
       
       
@@ -208,6 +262,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -221,10 +279,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

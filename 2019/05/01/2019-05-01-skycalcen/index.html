@@ -106,46 +106,338 @@
 <li>In astronomy, conventionally, the longitude in the eastern hemisphere is negative (&lt;0), and in the western hemisphere positive (&gt;0).</li>
 <li>Time zone and daylight saving time also need to be considered during computation so the time could be converted into local time.</li>
 </ol>
-<h2 id="R-code"><a href="#R-code" class="headerlink" title="R code"></a>R code</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">library(skycalc)</span><br><span class="line"><span class="comment">## Loading required package: Rcpp</span></span><br><span class="line"><span class="comment">### Convert the julian day into year, month, day, YYYY-MM-DD</span></span><br><span class="line"></span><br><span class="line">Julian2Date &lt;- <span class="keyword">function</span>(jd)&#123;</span><br><span class="line">  int2 &lt;- <span class="keyword">function</span>(v)&#123; <span class="built_in">return</span>(<span class="built_in">floor</span>(v))&#125;</span><br><span class="line">  </span><br><span class="line">  r =<span class="built_in">list</span>()</span><br><span class="line">  D = int2(jd+<span class="number">0.5</span>)  <span class="built_in">F</span>= jd+<span class="number">0.5</span>-D </span><br><span class="line">  <span class="keyword">if</span>(D &gt;=<span class="number">2299161</span>)&#123;</span><br><span class="line">       <span class="built_in">c</span>= int2((D-<span class="number">1867216.25</span>)/<span class="number">36524.25</span>)</span><br><span class="line">       D= D +<span class="number">1</span>+<span class="built_in">c</span>- int2(<span class="built_in">c</span>/<span class="number">4</span>)</span><br><span class="line">   &#125;</span><br><span class="line">  D  = D +<span class="number">1524</span></span><br><span class="line">  r$Y = int2((D -<span class="number">122.1</span>)/<span class="number">365.25</span>)<span class="comment"># Year</span></span><br><span class="line">  D  = D - int2(<span class="number">365.25</span>*r$Y)  </span><br><span class="line">  r$M = int2(D/<span class="number">30.601</span>)  <span class="comment">#Month</span></span><br><span class="line">  D  = D - int2(<span class="number">30.601</span>*r$M)</span><br><span class="line">  r$D = D  <span class="comment">#Day</span></span><br><span class="line">  <span class="keyword">if</span>(r$M&gt;<span class="number">13</span>)&#123;</span><br><span class="line">      r$M = r$M -<span class="number">13</span></span><br><span class="line">      r$Y = r$Y -<span class="number">4715</span></span><br><span class="line">   &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      r$M = r$M - <span class="number">1</span></span><br><span class="line">      r$Y = r$Y -<span class="number">4716</span></span><br><span class="line">   &#125;  <span class="built_in">F</span> = <span class="built_in">F</span> *<span class="number">24</span></span><br><span class="line">  r$h=int2(<span class="built_in">F</span>) <span class="comment"># Hour</span></span><br><span class="line">  <span class="built_in">F</span> = <span class="built_in">F</span> - r$h  <span class="built_in">F</span> = <span class="built_in">F</span> *<span class="number">60</span></span><br><span class="line">  r$m=int2(<span class="built_in">F</span>) <span class="comment"># Minute</span></span><br><span class="line">  <span class="built_in">F</span> = <span class="built_in">F</span> -r$m  <span class="built_in">F</span> = <span class="built_in">F</span> *<span class="number">60</span></span><br><span class="line">  r$s=<span class="built_in">F</span>       <span class="comment"># Second</span></span><br><span class="line">  <span class="built_in">return</span>(r) </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># A wrapper function for CAARiseTransitSet_Calculate()</span></span><br><span class="line">sunRTScalc &lt;-<span class="keyword">function</span>(year, month, day, longitude, latitude,  zone,</span><br><span class="line">                      bGregorianCalendar =<span class="literal">TRUE</span>,</span><br><span class="line">                      type =<span class="built_in">c</span>(<span class="string">&quot;rise&quot;</span>, <span class="string">&quot;transit&quot;</span>, <span class="string">&quot;set&quot;</span>))&#123;</span><br><span class="line">   type &lt;- match.arg(type)</span><br><span class="line">   JD = CAADate_DateToJD(year, month, day, bGregorianCalendar)</span><br><span class="line">   </span><br><span class="line">   SunDetails1 = CAAElliptical_Calculate_Sun(JD -<span class="number">1</span>)</span><br><span class="line">   Alpha1 = SunDetails1$ApparentGeocentricRA</span><br><span class="line">   Delta1 = SunDetails1$ApparentGeocentricDeclination;</span><br><span class="line">   SunDetails2 = CAAElliptical_Calculate_Sun(JD)</span><br><span class="line">   Alpha2 = SunDetails2$ApparentGeocentricRA</span><br><span class="line">   Delta2 = SunDetails2$ApparentGeocentricDeclination;</span><br><span class="line">   SunDetails3 = CAAElliptical_Calculate_Sun(JD +<span class="number">1</span>)</span><br><span class="line">   Alpha3 = SunDetails3$ApparentGeocentricRA</span><br><span class="line">   Delta3 = SunDetails3$ApparentGeocentricDeclination</span><br><span class="line">   RiseTransitSetTime =CAARiseTransitSet_Calculate(JD,</span><br><span class="line">   Alpha1, Delta1, Alpha2, Delta2, Alpha3,Delta3,</span><br><span class="line">   longitude, latitude, -<span class="number">0.8333</span>)   </span><br><span class="line">   <span class="keyword">if</span>(type ==<span class="string">&quot;rise&quot;</span>)&#123;</span><br><span class="line">       rtsJD =(JD +(RiseTransitSetTime$details.Rise/<span class="number">24.00</span>))</span><br><span class="line">   &#125;   <span class="keyword">if</span>(type ==<span class="string">&quot;set&quot;</span>)&#123;</span><br><span class="line">       rtsJD =(JD +(RiseTransitSetTime$details.Set/<span class="number">24.00</span>))</span><br><span class="line">   &#125;   <span class="keyword">if</span>(type ==<span class="string">&quot;transit&quot;</span>)&#123;</span><br><span class="line">       rtsJD =(JD +(RiseTransitSetTime$details.Transit/<span class="number">24.00</span>))</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   lclJD = rtsJD -(zone/<span class="number">24.00</span>)   </span><br><span class="line">   <span class="built_in">return</span>(Julian2Date(lclJD))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="R-code"><a href="#R-code" class="headerlink" title="R code"></a>R code</h2><pre><code class="R">library(skycalc)
+## Loading required package: Rcpp
+### Convert the julian day into year, month, day, YYYY-MM-DD
 
+Julian2Date &lt;- function(jd)&#123;
+  int2 &lt;- function(v)&#123; return(floor(v))&#125;
+  
+  r =list()
+  D = int2(jd+0.5)  F= jd+0.5-D 
+  if(D &gt;=2299161)&#123;
+       c= int2((D-1867216.25)/36524.25)
+       D= D +1+c- int2(c/4)
+   &#125;
+  D  = D +1524
+  r$Y = int2((D -122.1)/365.25)# Year
+  D  = D - int2(365.25*r$Y)  
+  r$M = int2(D/30.601)  #Month
+  D  = D - int2(30.601*r$M)
+  r$D = D  #Day
+  if(r$M&gt;13)&#123;
+      r$M = r$M -13
+      r$Y = r$Y -4715
+   &#125;else&#123;
+      r$M = r$M - 1
+      r$Y = r$Y -4716
+   &#125;  F = F *24
+  r$h=int2(F) # Hour
+  F = F - r$h  F = F *60
+  r$m=int2(F) # Minute
+  F = F -r$m  F = F *60
+  r$s=F       # Second
+  return(r) 
+&#125;
+# A wrapper function for CAARiseTransitSet_Calculate()
+sunRTScalc &lt;-function(year, month, day, longitude, latitude,  zone,
+                      bGregorianCalendar =TRUE,
+                      type =c(&quot;rise&quot;, &quot;transit&quot;, &quot;set&quot;))&#123;
+   type &lt;- match.arg(type)
+   JD = CAADate_DateToJD(year, month, day, bGregorianCalendar)
+   
+   SunDetails1 = CAAElliptical_Calculate_Sun(JD -1)
+   Alpha1 = SunDetails1$ApparentGeocentricRA
+   Delta1 = SunDetails1$ApparentGeocentricDeclination;
+   SunDetails2 = CAAElliptical_Calculate_Sun(JD)
+   Alpha2 = SunDetails2$ApparentGeocentricRA
+   Delta2 = SunDetails2$ApparentGeocentricDeclination;
+   SunDetails3 = CAAElliptical_Calculate_Sun(JD +1)
+   Alpha3 = SunDetails3$ApparentGeocentricRA
+   Delta3 = SunDetails3$ApparentGeocentricDeclination
+   RiseTransitSetTime =CAARiseTransitSet_Calculate(JD,
+   Alpha1, Delta1, Alpha2, Delta2, Alpha3,Delta3,
+   longitude, latitude, -0.8333)   
+   if(type ==&quot;rise&quot;)&#123;
+       rtsJD =(JD +(RiseTransitSetTime$details.Rise/24.00))
+   &#125;   if(type ==&quot;set&quot;)&#123;
+       rtsJD =(JD +(RiseTransitSetTime$details.Set/24.00))
+   &#125;   if(type ==&quot;transit&quot;)&#123;
+       rtsJD =(JD +(RiseTransitSetTime$details.Transit/24.00))
+   &#125;
+   
+   lclJD = rtsJD -(zone/24.00)   
+   return(Julian2Date(lclJD))
+&#125;
+</code></pre>
 <h2 id="Example-1"><a href="#Example-1" class="headerlink" title="Example 1"></a>Example 1</h2><p>Compute the time for sunrise, sunset for Boston (Longitude:74.73057W, Latitude: 39.275787N), USA on 2009-08-09</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">sunRTScalc(year =<span class="number">2009</span>, month =<span class="number">8</span>, day =<span class="number">9</span>, </span><br><span class="line">           longitude =<span class="number">74.73057</span>,  latitude =<span class="number">39.275787</span>, </span><br><span class="line">           zone =<span class="number">4</span>, bGregorianCalendar=<span class="literal">TRUE</span>, type =<span class="string">&quot;rise&quot;</span>)</span><br><span class="line"><span class="comment">## $Y</span></span><br><span class="line"><span class="comment">## [1] 2009</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $M</span></span><br><span class="line"><span class="comment">## [1] 8</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $D</span></span><br><span class="line"><span class="comment">## [1] 9</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $h</span></span><br><span class="line"><span class="comment">## [1] 6</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $m</span></span><br><span class="line"><span class="comment">## [1] 6</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $s</span></span><br><span class="line"><span class="comment">## [1] 27.4320968985558</span></span><br></pre></td></tr></table></figure>
-
+<pre><code class="R">sunRTScalc(year =2009, month =8, day =9, 
+           longitude =74.73057,  latitude =39.275787, 
+           zone =4, bGregorianCalendar=TRUE, type =&quot;rise&quot;)
+## $Y
+## [1] 2009
+## 
+## $M
+## [1] 8
+## 
+## $D
+## [1] 9
+## 
+## $h
+## [1] 6
+## 
+## $m
+## [1] 6
+## 
+## $s
+## [1] 27.4320968985558
+</code></pre>
 <p>Explanation: As sunset at Boston happens at (local time: 2009-8-9 20h01m39m (UT:2009-8-10: 00h01m39m), of course, you do not know the precise time before calling sunRTScalc, but as soon as you get the result, you need to realise this), therefore you need to call the function as `sunRTScalc(year =2009, month =8, day =10,…)```, because the inputs (year, month, day) are actually converted from Julian Day.</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">sunRTScalc(year =<span class="number">2009</span>, month =<span class="number">8</span>, day =<span class="number">10</span>, </span><br><span class="line">           longitude =<span class="number">74.73057</span>,  latitude =<span class="number">39.275787</span>, </span><br><span class="line">           zone = <span class="number">4</span>, bGregorianCalendar = <span class="literal">TRUE</span>, type =<span class="string">&quot;set&quot;</span>)</span><br><span class="line"><span class="comment">## $Y</span></span><br><span class="line"><span class="comment">## [1] 2009</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $M</span></span><br><span class="line"><span class="comment">## [1] 8</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $D</span></span><br><span class="line"><span class="comment">## [1] 9</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $h</span></span><br><span class="line"><span class="comment">## [1] 20</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $m</span></span><br><span class="line"><span class="comment">## [1] 1</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $s</span></span><br><span class="line"><span class="comment">## [1] 40.2297654747963</span></span><br></pre></td></tr></table></figure>
-
+<pre><code class="R">sunRTScalc(year =2009, month =8, day =10, 
+           longitude =74.73057,  latitude =39.275787, 
+           zone = 4, bGregorianCalendar = TRUE, type =&quot;set&quot;)
+## $Y
+## [1] 2009
+## 
+## $M
+## [1] 8
+## 
+## $D
+## [1] 9
+## 
+## $h
+## [1] 20
+## 
+## $m
+## [1] 1
+## 
+## $s
+## [1] 40.2297654747963
+</code></pre>
 <h2 id="Example-2"><a href="#Example-2" class="headerlink" title="Example 2"></a>Example 2</h2><p>Calculate the time of sunrise and sunset at the Tian’anmen Square in Beijing (Longitude: 116.391325E, Latitude: 39.907356N) on 2014-01-05.</p>
 <p>Explanation: As the sun rises at 7h36m15.2s on 2014-01-05 (local time), the UT is actually 2014-01-04 23h36m15.2s. We, therefore, will use 2014-01-04 as inputs. Note the Time zone of Beijing is 8 hours ahead of UT.</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">sunRTScalc(year =<span class="number">2014</span>, month =<span class="number">1</span>, day =<span class="number">4</span>, </span><br><span class="line">           longitude =-<span class="number">116.391325</span>,  latitude =<span class="number">39.907356</span>, </span><br><span class="line">           zone =-<span class="number">8</span>, bGregorianCalendar =<span class="literal">TRUE</span>, type =<span class="string">&quot;rise&quot;</span>)</span><br><span class="line"><span class="comment">## $Y</span></span><br><span class="line"><span class="comment">## [1] 2014</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $M</span></span><br><span class="line"><span class="comment">## [1] 1</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $D</span></span><br><span class="line"><span class="comment">## [1] 5</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $h</span></span><br><span class="line"><span class="comment">## [1] 7</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $m</span></span><br><span class="line"><span class="comment">## [1] 36</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $s</span></span><br><span class="line"><span class="comment">## [1] 15.2419799566269</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="Sunset"><a href="#Sunset" class="headerlink" title="Sunset"></a>Sunset</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">sunRTScalc(year =<span class="number">2014</span>, month =<span class="number">1</span>, day =<span class="number">5</span>, </span><br><span class="line">           longitude =-<span class="number">116.391325</span>, latitude =<span class="number">39.907356</span>, </span><br><span class="line">           zone =-<span class="number">8</span>, bGregorianCalendar =<span class="literal">TRUE</span>, type =<span class="string">&quot;set&quot;</span>)</span><br><span class="line"><span class="comment">## $Y</span></span><br><span class="line"><span class="comment">## [1] 2014</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $M</span></span><br><span class="line"><span class="comment">## [1] 1</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $D</span></span><br><span class="line"><span class="comment">## [1] 5</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $h</span></span><br><span class="line"><span class="comment">## [1] 17</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $m</span></span><br><span class="line"><span class="comment">## [1] 3</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $s</span></span><br><span class="line"><span class="comment">## [1] 16.8268677592278</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="Transit"><a href="#Transit" class="headerlink" title="Transit"></a>Transit</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">sunRTScalc(year =<span class="number">2014</span>, month =<span class="number">1</span>, day =<span class="number">5</span>, </span><br><span class="line">           longitude =-<span class="number">116.391325</span>,  latitude =<span class="number">39.907356</span>, </span><br><span class="line">           zone =-<span class="number">8</span>, bGregorianCalendar =<span class="literal">TRUE</span>, type =<span class="string">&quot;transit&quot;</span>)</span><br><span class="line"><span class="comment">## $Y</span></span><br><span class="line"><span class="comment">## [1] 2014</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $M</span></span><br><span class="line"><span class="comment">## [1] 1</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $D</span></span><br><span class="line"><span class="comment">## [1] 5</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $h</span></span><br><span class="line"><span class="comment">## [1] 12</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $m</span></span><br><span class="line"><span class="comment">## [1] 19</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $s</span></span><br><span class="line"><span class="comment">## [1] 40.6033730506897</span></span><br></pre></td></tr></table></figure>
-
+<pre><code class="R">sunRTScalc(year =2014, month =1, day =4, 
+           longitude =-116.391325,  latitude =39.907356, 
+           zone =-8, bGregorianCalendar =TRUE, type =&quot;rise&quot;)
+## $Y
+## [1] 2014
+## 
+## $M
+## [1] 1
+## 
+## $D
+## [1] 5
+## 
+## $h
+## [1] 7
+## 
+## $m
+## [1] 36
+## 
+## $s
+## [1] 15.2419799566269
+</code></pre>
+<h3 id="Sunset"><a href="#Sunset" class="headerlink" title="Sunset"></a>Sunset</h3><pre><code class="R">sunRTScalc(year =2014, month =1, day =5, 
+           longitude =-116.391325, latitude =39.907356, 
+           zone =-8, bGregorianCalendar =TRUE, type =&quot;set&quot;)
+## $Y
+## [1] 2014
+## 
+## $M
+## [1] 1
+## 
+## $D
+## [1] 5
+## 
+## $h
+## [1] 17
+## 
+## $m
+## [1] 3
+## 
+## $s
+## [1] 16.8268677592278
+</code></pre>
+<h3 id="Transit"><a href="#Transit" class="headerlink" title="Transit"></a>Transit</h3><pre><code class="R">sunRTScalc(year =2014, month =1, day =5, 
+           longitude =-116.391325,  latitude =39.907356, 
+           zone =-8, bGregorianCalendar =TRUE, type =&quot;transit&quot;)
+## $Y
+## [1] 2014
+## 
+## $M
+## [1] 1
+## 
+## $D
+## [1] 5
+## 
+## $h
+## [1] 12
+## 
+## $m
+## [1] 19
+## 
+## $s
+## [1] 40.6033730506897
+</code></pre>
 <h2 id="Example-3"><a href="#Example-3" class="headerlink" title="Example 3"></a>Example 3</h2><p>Calculate the time of sunset, sunrise for Tian’anmen Square, Beijing (+8hrs) (Longitude: 116.391325E, Latitude: 39.907356N) on 2014-06-20</p>
 <h3 id="Sunrise"><a href="#Sunrise" class="headerlink" title="Sunrise"></a>Sunrise</h3><p>Explanation: As the time of sunrise at the site is (Local time 2014-06-20, 4h45m45.14s, UT 2014-06-19 22h45m45.14s), we should use 2014-06-19.</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">sunRTScalc(year =<span class="number">2014</span>, month =<span class="number">6</span>, day =<span class="number">19</span>, </span><br><span class="line">           longitude =-<span class="number">116.391325</span>, latitude =<span class="number">39.907356</span>, </span><br><span class="line">           zone =-<span class="number">8</span>, bGregorianCalendar =<span class="literal">TRUE</span>, type =<span class="string">&quot;rise&quot;</span>)</span><br><span class="line"><span class="comment">## $Y</span></span><br><span class="line"><span class="comment">## [1] 2014</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $M</span></span><br><span class="line"><span class="comment">## [1] 6</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $D</span></span><br><span class="line"><span class="comment">## [1] 20</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $h</span></span><br><span class="line"><span class="comment">## [1] 4</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $m</span></span><br><span class="line"><span class="comment">## [1] 45</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $s</span></span><br><span class="line"><span class="comment">## [1] 45.1418057084084</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="Sunset-1"><a href="#Sunset-1" class="headerlink" title="Sunset"></a>Sunset</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">sunRTScalc(year =<span class="number">2014</span>, month =<span class="number">6</span>, day =<span class="number">20</span>, </span><br><span class="line">           longitude =-<span class="number">116.391325</span>, latitude =<span class="number">39.907356</span>, </span><br><span class="line">           zone =-<span class="number">8</span>, bGregorianCalendar =<span class="literal">TRUE</span>, type =<span class="string">&quot;set&quot;</span>)</span><br><span class="line"><span class="comment">## $Y</span></span><br><span class="line"><span class="comment">## [1] 2014</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $M</span></span><br><span class="line"><span class="comment">## [1] 6</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $D</span></span><br><span class="line"><span class="comment">## [1] 20</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $h</span></span><br><span class="line"><span class="comment">## [1] 19</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $m</span></span><br><span class="line"><span class="comment">## [1] 46</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $s</span></span><br><span class="line"><span class="comment">## [1] 5.37074446678162</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="Transit-1"><a href="#Transit-1" class="headerlink" title="Transit"></a>Transit</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">sunRTScalc(year =<span class="number">2014</span>, month =<span class="number">6</span>, day =<span class="number">20</span>, </span><br><span class="line">           longitude =-<span class="number">116.391325</span>, latitude =<span class="number">39.907356</span>, </span><br><span class="line">           zone =-<span class="number">8</span>, bGregorianCalendar =<span class="literal">TRUE</span>, type =<span class="string">&quot;transit&quot;</span>)</span><br><span class="line"><span class="comment">## $Y</span></span><br><span class="line"><span class="comment">## [1] 2014</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $M</span></span><br><span class="line"><span class="comment">## [1] 6</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $D</span></span><br><span class="line"><span class="comment">## [1] 20</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $h</span></span><br><span class="line"><span class="comment">## [1] 12</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $m</span></span><br><span class="line"><span class="comment">## [1] 15</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $s</span></span><br><span class="line"><span class="comment">## [1] 54.5454159379005</span></span><br></pre></td></tr></table></figure>
-
+<pre><code class="R">sunRTScalc(year =2014, month =6, day =19, 
+           longitude =-116.391325, latitude =39.907356, 
+           zone =-8, bGregorianCalendar =TRUE, type =&quot;rise&quot;)
+## $Y
+## [1] 2014
+## 
+## $M
+## [1] 6
+## 
+## $D
+## [1] 20
+## 
+## $h
+## [1] 4
+## 
+## $m
+## [1] 45
+## 
+## $s
+## [1] 45.1418057084084
+</code></pre>
+<h3 id="Sunset-1"><a href="#Sunset-1" class="headerlink" title="Sunset"></a>Sunset</h3><pre><code class="R">sunRTScalc(year =2014, month =6, day =20, 
+           longitude =-116.391325, latitude =39.907356, 
+           zone =-8, bGregorianCalendar =TRUE, type =&quot;set&quot;)
+## $Y
+## [1] 2014
+## 
+## $M
+## [1] 6
+## 
+## $D
+## [1] 20
+## 
+## $h
+## [1] 19
+## 
+## $m
+## [1] 46
+## 
+## $s
+## [1] 5.37074446678162
+</code></pre>
+<h3 id="Transit-1"><a href="#Transit-1" class="headerlink" title="Transit"></a>Transit</h3><pre><code class="R">sunRTScalc(year =2014, month =6, day =20, 
+           longitude =-116.391325, latitude =39.907356, 
+           zone =-8, bGregorianCalendar =TRUE, type =&quot;transit&quot;)
+## $Y
+## [1] 2014
+## 
+## $M
+## [1] 6
+## 
+## $D
+## [1] 20
+## 
+## $h
+## [1] 12
+## 
+## $m
+## [1] 15
+## 
+## $s
+## [1] 54.5454159379005
+</code></pre>
 <h2 id="Example-4"><a href="#Example-4" class="headerlink" title="Example 4"></a>Example 4</h2><p>Compute the time of sunrise, sunset for Melbourn, Australia (Longitude: -144.963171E, Latitude: -37.814247S) on 2020-1-15.</p>
 <p>Explanation: The Sunlight saving date starts from the first Sunday of October the year before (herein, 2019), and ends at the first Sunday in April (2020). On January 15th, Australia is in Sunlight saving time, therefore during computation, the time zone is 11 hours ahead of UT. When the sun rises on 2020-14-15 in Melbourn (local time), UT is still on 2020-1-14, we, therefore, need to use <code>sunRTScalc(year =2020, month =1, day =14,...)</code></p>
-<h3 id="Sunrise-1"><a href="#Sunrise-1" class="headerlink" title="Sunrise"></a>Sunrise</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">sunRTScalc(year =<span class="number">2020</span>, month =<span class="number">1</span>, day =<span class="number">14</span>, </span><br><span class="line">           longitude =-<span class="number">144.963171</span>, latitude =-<span class="number">37.814247</span>, </span><br><span class="line">           zone =-<span class="number">11</span>, bGregorianCalendar =<span class="literal">TRUE</span>, type =<span class="string">&quot;rise&quot;</span>)</span><br><span class="line"><span class="comment">## $Y</span></span><br><span class="line"><span class="comment">## [1] 2020</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $M</span></span><br><span class="line"><span class="comment">## [1] 1</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $D</span></span><br><span class="line"><span class="comment">## [1] 15</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $h</span></span><br><span class="line"><span class="comment">## [1] 6</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $m</span></span><br><span class="line"><span class="comment">## [1] 13</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $s</span></span><br><span class="line"><span class="comment">## [1] 55.4257643222809</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="Sunset-2"><a href="#Sunset-2" class="headerlink" title="Sunset"></a>Sunset</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">sunRTScalc(year =<span class="number">2020</span>, month =<span class="number">1</span>, day =<span class="number">15</span>, </span><br><span class="line">           longitude =-<span class="number">144.963171</span>, latitude =-<span class="number">37.814247</span>, </span><br><span class="line">           zone =-<span class="number">11</span>, bGregorianCalendar =<span class="literal">TRUE</span>, type =<span class="string">&quot;set&quot;</span>)</span><br><span class="line"><span class="comment">## $Y</span></span><br><span class="line"><span class="comment">## [1] 2020</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $M</span></span><br><span class="line"><span class="comment">## [1] 1</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $D</span></span><br><span class="line"><span class="comment">## [1] 15</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $h</span></span><br><span class="line"><span class="comment">## [1] 20</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $m</span></span><br><span class="line"><span class="comment">## [1] 44</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $s</span></span><br><span class="line"><span class="comment">## [1] 6.54912650585175</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="Transit-2"><a href="#Transit-2" class="headerlink" title="Transit"></a>Transit</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">sunRTScalc(year =<span class="number">2020</span>, month =<span class="number">1</span>, day =<span class="number">15</span>, </span><br><span class="line">           longitude =-<span class="number">144.963171</span>, latitude =-<span class="number">37.814247</span>, </span><br><span class="line">           zone =-<span class="number">11</span>, bGregorianCalendar =<span class="literal">TRUE</span>, type =<span class="string">&quot;transit&quot;</span>)</span><br><span class="line"><span class="comment">## $Y</span></span><br><span class="line"><span class="comment">## [1] 2020</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $M</span></span><br><span class="line"><span class="comment">## [1] 1</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $D</span></span><br><span class="line"><span class="comment">## [1] 15</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $h</span></span><br><span class="line"><span class="comment">## [1] 13</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $m</span></span><br><span class="line"><span class="comment">## [1] 29</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $s</span></span><br><span class="line"><span class="comment">## [1] 13.399246931076</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="Session-Information"><a href="#Session-Information" class="headerlink" title="Session Information"></a>Session Information</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">sessionInfo()</span><br><span class="line"><span class="comment">## R version 3.5.3 (2019-03-11)</span></span><br><span class="line"><span class="comment">## Platform: x86_64-apple-darwin15.6.0 (64-bit)</span></span><br><span class="line"><span class="comment">## Running under: macOS Mojave 10.14.4</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## Matrix products: default</span></span><br><span class="line"><span class="comment">## BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib</span></span><br><span class="line"><span class="comment">## LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## locale:</span></span><br><span class="line"><span class="comment">## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/C/en_US.UTF-8</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## attached base packages:</span></span><br><span class="line"><span class="comment">## [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## other attached packages:</span></span><br><span class="line"><span class="comment">## [1] skycalc_1.62 Rcpp_1.0.1  </span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## loaded via a namespace (and not attached):</span></span><br><span class="line"><span class="comment">##  [1] compiler_3.5.3  magrittr_1.5    tools_3.5.3     htmltools_0.3.6</span></span><br><span class="line"><span class="comment">##  [5] yaml_2.2.0      stringi_1.4.3   rmarkdown_1.12  knitr_1.22     </span></span><br><span class="line"><span class="comment">##  [9] stringr_1.4.0   xfun_0.6        digest_0.6.18   evaluate_0.13</span></span><br></pre></td></tr></table></figure>
-
+<h3 id="Sunrise-1"><a href="#Sunrise-1" class="headerlink" title="Sunrise"></a>Sunrise</h3><pre><code class="R">sunRTScalc(year =2020, month =1, day =14, 
+           longitude =-144.963171, latitude =-37.814247, 
+           zone =-11, bGregorianCalendar =TRUE, type =&quot;rise&quot;)
+## $Y
+## [1] 2020
+## 
+## $M
+## [1] 1
+## 
+## $D
+## [1] 15
+## 
+## $h
+## [1] 6
+## 
+## $m
+## [1] 13
+## 
+## $s
+## [1] 55.4257643222809
+</code></pre>
+<h3 id="Sunset-2"><a href="#Sunset-2" class="headerlink" title="Sunset"></a>Sunset</h3><pre><code class="R">sunRTScalc(year =2020, month =1, day =15, 
+           longitude =-144.963171, latitude =-37.814247, 
+           zone =-11, bGregorianCalendar =TRUE, type =&quot;set&quot;)
+## $Y
+## [1] 2020
+## 
+## $M
+## [1] 1
+## 
+## $D
+## [1] 15
+## 
+## $h
+## [1] 20
+## 
+## $m
+## [1] 44
+## 
+## $s
+## [1] 6.54912650585175
+</code></pre>
+<h3 id="Transit-2"><a href="#Transit-2" class="headerlink" title="Transit"></a>Transit</h3><pre><code class="R">sunRTScalc(year =2020, month =1, day =15, 
+           longitude =-144.963171, latitude =-37.814247, 
+           zone =-11, bGregorianCalendar =TRUE, type =&quot;transit&quot;)
+## $Y
+## [1] 2020
+## 
+## $M
+## [1] 1
+## 
+## $D
+## [1] 15
+## 
+## $h
+## [1] 13
+## 
+## $m
+## [1] 29
+## 
+## $s
+## [1] 13.399246931076
+</code></pre>
+<h2 id="Session-Information"><a href="#Session-Information" class="headerlink" title="Session Information"></a>Session Information</h2><pre><code class="R">sessionInfo()
+## R version 3.5.3 (2019-03-11)
+## Platform: x86_64-apple-darwin15.6.0 (64-bit)
+## Running under: macOS Mojave 10.14.4
+## 
+## Matrix products: default
+## BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/C/en_US.UTF-8
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+## [1] skycalc_1.62 Rcpp_1.0.1  
+## 
+## loaded via a namespace (and not attached):
+##  [1] compiler_3.5.3  magrittr_1.5    tools_3.5.3     htmltools_0.3.6
+##  [5] yaml_2.2.0      stringi_1.4.3   rmarkdown_1.12  knitr_1.22     
+##  [9] stringr_1.4.0   xfun_0.6        digest_0.6.18   evaluate_0.13
+</code></pre>
 <h2 id="Further-reading"><a href="#Further-reading" class="headerlink" title="Further reading"></a>Further reading</h2><p>Please note that skycalc is just a wrapper package for the AA+ library. The following examples are mainly derived from the documents of the AA+ CPP library written by PJ Naughter. For more information, please refer to <a target="_blank" rel="noopener" href="http://www.naughter.com/aa.html">http://www.naughter.com/aa.html</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2019/05/01/2019-05-01-skycalcen/" data-id="ckmq2gwuw00cpq8848r0qd5pc" data-title="Computing the time of sunrise, sunset and transit (skycalc)" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2019/05/01/2019-05-01-skycalcen/" data-id="ckmq42aky00cb1k84cfzof06o" data-title="Computing the time of sunrise, sunset and transit (skycalc)" class="article-share-link">Share</a>
       
       
       
@@ -221,6 +513,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -234,10 +530,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

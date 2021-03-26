@@ -129,12 +129,28 @@
 </ol>
 <p>herblabel (<a target="_blank" rel="noopener" href="https://github.com/helixcn/herblabel">https://github.com/helixcn/herblabel</a>  ) R 程序包提供了一个简单的生物学名处理的函数</p>
 <p>parse_taxa()， 经过测试，在以上提到的各种情况， 均工作正常。 由于 种下等级 f. 也常用于人名， 故本程序未加入处理f.的部分。 </p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">library(herblabel)</span><br><span class="line"><span class="comment">###  Species</span></span><br><span class="line">parse_taxa(<span class="string">&quot;Acer&quot;</span>)</span><br><span class="line">parse_taxa(<span class="string">&quot;Acer caudatifoliumHayata&quot;</span>)</span><br><span class="line">parse_taxa(<span class="string">&quot;Acer caudatifolium&quot;</span>)</span><br><span class="line">parse_taxa(<span class="string">&quot;Acer sp.&quot;</span>)</span><br><span class="line"><span class="comment">### variaty</span></span><br><span class="line">parse_taxa(<span class="string">&quot;Acer caudatum Wall. var.multiserratum (Maxim.) Rehd.&quot;</span>)</span><br><span class="line">parse_taxa(<span class="string">&quot;Acer caudatum var.multiserratum (Maxim.) Rehd.&quot;</span>)</span><br><span class="line">parse_taxa(<span class="string">&quot;Acer caudatum Wall. var.multiserratum&quot;</span>)</span><br><span class="line">parse_taxa(<span class="string">&quot;Acer caudatum var. multiserratum&quot;</span>)</span><br><span class="line"><span class="comment">### subspecies</span></span><br><span class="line">parse_taxa(<span class="string">&quot;Acer caesium Wall. exBrandis subsp. giraldii (Pax) E. Murr.&quot;</span>)</span><br><span class="line">parse_taxa(<span class="string">&quot;Acer caesium subsp.giraldii (Pax) E. Murr.&quot;</span>)</span><br><span class="line">parse_taxa(<span class="string">&quot;Acer caesium Wall. exBrandis subsp. giraldii&quot;</span>)</span><br><span class="line">parse_taxa(<span class="string">&quot;Acer caesium subsp.giraldii&quot;</span>)</span><br></pre></td></tr></table></figure>
+<pre><code class="R">library(herblabel)
+###  Species
+parse_taxa(&quot;Acer&quot;)
+parse_taxa(&quot;Acer caudatifoliumHayata&quot;)
+parse_taxa(&quot;Acer caudatifolium&quot;)
+parse_taxa(&quot;Acer sp.&quot;)
+### variaty
+parse_taxa(&quot;Acer caudatum Wall. var.multiserratum (Maxim.) Rehd.&quot;)
+parse_taxa(&quot;Acer caudatum var.multiserratum (Maxim.) Rehd.&quot;)
+parse_taxa(&quot;Acer caudatum Wall. var.multiserratum&quot;)
+parse_taxa(&quot;Acer caudatum var. multiserratum&quot;)
+### subspecies
+parse_taxa(&quot;Acer caesium Wall. exBrandis subsp. giraldii (Pax) E. Murr.&quot;)
+parse_taxa(&quot;Acer caesium subsp.giraldii (Pax) E. Murr.&quot;)
+parse_taxa(&quot;Acer caesium Wall. exBrandis subsp. giraldii&quot;)
+parse_taxa(&quot;Acer caesium subsp.giraldii&quot;)
+</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2015/09/24/2015-9-24-parsetaxa/" data-id="ckmq2gwsr007mq8849jgscs98" data-title="一个简单的Taxon Parser：将输入的字符串按照属种作者分开" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2015/09/24/2015-9-24-parsetaxa/" data-id="ckmq42ajb007l1k847iq0b415" data-title="一个简单的Taxon Parser：将输入的字符串按照属种作者分开" class="article-share-link">Share</a>
       
       
       
@@ -210,6 +226,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -223,10 +243,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

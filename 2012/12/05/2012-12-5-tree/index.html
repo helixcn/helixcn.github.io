@@ -101,12 +101,16 @@
         <p>首先， 要保证获得的进化树是有根树， 设定好外类群，并且，分支出现的次序经过排序reorder，这可以在Figtree软件中， 对newick格式的进化树进行操作， export as currently displayed 即可。</p>
 <p>其次， 用R软件ape程序包的 cophyloplot函数， 可以实现， 将两棵进化树面对面绘制， 并将名称相同的分类单元用线段联系起来， 此时， 如果两个进化树结构有差别， 就一目了然了。</p>
 <p>举例：</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">library(ape)</span><br><span class="line">labs1 &lt;- paste(<span class="string">&quot;t&quot;</span>, <span class="number">1</span>:<span class="number">10</span>, sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">labs2 &lt;- paste(<span class="string">&quot;t&quot;</span>, <span class="number">1</span>:<span class="number">10</span>, sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">cophyloplot(x = rtree(<span class="number">20</span>), y = rtree(<span class="number">10</span>), space = <span class="number">100</span>, length.line = <span class="number">0.1</span>, gap = <span class="number">10</span>,assoc = as.matrix(data.frame(labs1, labs2)))</span><br></pre></td></tr></table></figure>
+<pre><code class="R">library(ape)
+labs1 &lt;- paste(&quot;t&quot;, 1:10, sep = &quot;&quot;)
+labs2 &lt;- paste(&quot;t&quot;, 1:10, sep = &quot;&quot;)
+cophyloplot(x = rtree(20), y = rtree(10), space = 100, length.line = 0.1, gap = 10,assoc = as.matrix(data.frame(labs1, labs2)))
+</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2012/12/05/2012-12-5-tree/" data-id="ckmq2gwr5003fq884ew0w0f3e" data-title="两棵进化树一致性的校对" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2012/12/05/2012-12-5-tree/" data-id="ckmq42ai0003n1k84byw5c56m" data-title="两棵进化树一致性的校对" class="article-share-link">Share</a>
       
       
       
@@ -182,6 +186,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -195,10 +203,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

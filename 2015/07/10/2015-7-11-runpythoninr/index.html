@@ -6,12 +6,12 @@
   
   <title>R中调用Python代码: 以运行PyEphem天文计算程序包为例 | Jinlong Zhang&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="操作系统Linux Mint安装 python 2.7.6 dev 版本pyephem 所需要的 Numpy,Scipy 已经安装rPython程序包所依赖的RJSONIO程序包也已经通过install.packages(“RJSONIO”) 安装到R中。 举例： 12345library(rPython)python.exec(&quot;from ephem import *&quot;)py">
+  <meta name="description" content="操作系统Linux Mint安装 python 2.7.6 dev 版本pyephem 所需要的 Numpy,Scipy 已经安装rPython程序包所依赖的RJSONIO程序包也已经通过install.packages(“RJSONIO”) 安装到R中。 举例： library(rPython) python.exec(&quot;from ephem import *&quot;) pytho">
 <meta property="og:type" content="article">
 <meta property="og:title" content="R中调用Python代码: 以运行PyEphem天文计算程序包为例">
 <meta property="og:url" content="https://helixcn.github.io/2015/07/10/2015-7-11-runpythoninr/index.html">
 <meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
-<meta property="og:description" content="操作系统Linux Mint安装 python 2.7.6 dev 版本pyephem 所需要的 Numpy,Scipy 已经安装rPython程序包所依赖的RJSONIO程序包也已经通过install.packages(“RJSONIO”) 安装到R中。 举例： 12345library(rPython)python.exec(&quot;from ephem import *&quot;)py">
+<meta property="og:description" content="操作系统Linux Mint安装 python 2.7.6 dev 版本pyephem 所需要的 Numpy,Scipy 已经安装rPython程序包所依赖的RJSONIO程序包也已经通过install.packages(“RJSONIO”) 安装到R中。 举例： library(rPython) python.exec(&quot;from ephem import *&quot;) pytho">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2015-07-10T08:11:54.000Z">
 <meta property="article:modified_time" content="2021-03-26T05:34:24.567Z">
@@ -100,11 +100,17 @@
       
         <p>操作系统Linux Mint<br>安装 python 2.7.6 dev 版本<br>pyephem 所需要的 Numpy,Scipy 已经安装<br>rPython程序包所依赖的RJSONIO程序包也已经通过install.packages(“RJSONIO”) 安装到R中。</p>
 <p>举例：</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">library(rPython)</span><br><span class="line">python.exec(<span class="string">&quot;from ephem import *&quot;</span>)</span><br><span class="line">python.exec(<span class="string">&quot;j = ephem.Jupiter()&quot;</span>)</span><br><span class="line">python.exec(<span class="string">&quot;j.compute(&#x27;1986/2/8&#x27;)&quot;</span>)</span><br><span class="line">python.exec(<span class="string">&quot;print(&#x27;%s %s&#x27; % (j.ra, j.dec))&quot;</span>)</span><br></pre></td></tr></table></figure>
+<pre><code class="R">library(rPython)
+python.exec(&quot;from ephem import *&quot;)
+python.exec(&quot;j = ephem.Jupiter()&quot;)
+python.exec(&quot;j.compute(&#39;1986/2/8&#39;)&quot;)
+python.exec(&quot;print(&#39;%s %s&#39; % (j.ra, j.dec))&quot;)
+</code></pre>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2015/07/10/2015-7-11-runpythoninr/" data-id="ckmq2gwst007rq8842oo27wp6" data-title="R中调用Python代码: 以运行PyEphem天文计算程序包为例" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2015/07/10/2015-7-11-runpythoninr/" data-id="ckmq42aja007j1k847sw79a4x" data-title="R中调用Python代码: 以运行PyEphem天文计算程序包为例" class="article-share-link">Share</a>
       
       
       
@@ -180,6 +186,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -193,10 +203,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

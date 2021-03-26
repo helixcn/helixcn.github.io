@@ -6,12 +6,12 @@
   
   <title>R绘图一则 （2017年1月9日修订） | Jinlong Zhang&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="2017年1月9日修订 这里给出R常见绘图用到的参数。供生成出版质量的TIFF图。 调整R绘图的字体，一页多图， 分辨率600dpi， tiff， 压缩方式lzw 123456789101112131415161718192021222324252627282930313233343536tiff(filename &#x3D; &quot;test.tif&quot;,    width &#x3D; 3600,">
+  <meta name="description" content="2017年1月9日修订 这里给出R常见绘图用到的参数。供生成出版质量的TIFF图。 调整R绘图的字体，一页多图， 分辨率600dpi， tiff， 压缩方式lzw tiff(filename &#x3D; &quot;test.tif&quot;,     width &#x3D; 3600, height &#x3D; 3600, units &#x3D; &quot;px&quot;, pointsize &#x3D; 8,     comp">
 <meta property="og:type" content="article">
 <meta property="og:title" content="R绘图一则 （2017年1月9日修订）">
 <meta property="og:url" content="https://helixcn.github.io/2012/10/10/2012-10-11-rpars/index.html">
 <meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
-<meta property="og:description" content="2017年1月9日修订 这里给出R常见绘图用到的参数。供生成出版质量的TIFF图。 调整R绘图的字体，一页多图， 分辨率600dpi， tiff， 压缩方式lzw 123456789101112131415161718192021222324252627282930313233343536tiff(filename &#x3D; &quot;test.tif&quot;,    width &#x3D; 3600,">
+<meta property="og:description" content="2017年1月9日修订 这里给出R常见绘图用到的参数。供生成出版质量的TIFF图。 调整R绘图的字体，一页多图， 分辨率600dpi， tiff， 压缩方式lzw tiff(filename &#x3D; &quot;test.tif&quot;,     width &#x3D; 3600, height &#x3D; 3600, units &#x3D; &quot;px&quot;, pointsize &#x3D; 8,     comp">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2012-10-10T09:33:54.000Z">
 <meta property="article:modified_time" content="2021-03-26T05:34:24.524Z">
@@ -101,11 +101,48 @@
         <p>2017年1月9日修订</p>
 <p>这里给出R常见绘图用到的参数。供生成出版质量的TIFF图。</p>
 <p>调整R绘图的字体，一页多图， 分辨率600dpi， tiff， 压缩方式lzw</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">tiff(filename = <span class="string">&quot;test.tif&quot;</span>,</span><br><span class="line">    width = <span class="number">3600</span>, height = <span class="number">3600</span>, units = <span class="string">&quot;px&quot;</span>, pointsize = <span class="number">8</span>,</span><br><span class="line">    compression = <span class="string">&quot;lzw&quot;</span>, res = <span class="number">600</span>) <span class="comment">## 打开绘图器</span></span><br><span class="line">par(mfrow = <span class="built_in">c</span>(<span class="number">2</span>,<span class="number">2</span>), font.lab = <span class="number">6</span>, font.main = <span class="number">6</span>,font.axis = <span class="number">6</span>, font = <span class="number">6</span>) <span class="comment">## 分割成2行2列，共四个图</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## 图1</span></span><br><span class="line"><span class="comment">## 标题部分斜体</span></span><br><span class="line">hist(rnorm(<span class="number">200</span>), main = <span class="built_in">expression</span>(paste(<span class="string">&quot;Testing &quot;</span>, italic(Hist1))), col = <span class="string">&quot;gray&quot;</span>)</span><br><span class="line"><span class="comment"># 添加边框</span></span><br><span class="line">box()</span><br><span class="line"><span class="comment">## 图中添加图例</span></span><br><span class="line">legend.label &lt;- <span class="built_in">c</span>(<span class="string">&quot;Type I&quot;</span>, <span class="string">&quot;Type II&quot;</span>, <span class="string">&quot;Type III&quot;</span>)</span><br><span class="line">legend(<span class="number">1.5</span>, <span class="number">30</span>, legend = legend.label, pch = <span class="built_in">c</span>(<span class="number">19</span>, <span class="number">20</span>, <span class="number">21</span>), col = <span class="built_in">c</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line">legend(-<span class="number">3.0</span>, <span class="number">30</span>, legend = legend.label, lty = <span class="built_in">c</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>), col = <span class="built_in">c</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">## 图2</span></span><br><span class="line"><span class="comment">## 标题中显示度等特殊字符，标题中显示希腊字母</span></span><br><span class="line">hist(rnorm(<span class="number">200</span>), main = <span class="built_in">expression</span>(paste(plain(<span class="built_in">sin</span>) * phi, <span class="string">&quot;  and &quot;</span>, plain(<span class="built_in">cos</span>) * phi)), xlab = <span class="built_in">expression</span>(paste(<span class="string">&quot;Latitude &quot;</span>, degree)), col = <span class="string">&quot;gray&quot;</span>)</span><br><span class="line"><span class="comment">## 图中添加公式</span></span><br><span class="line">text(-<span class="number">2</span>, <span class="number">30</span>, <span class="built_in">expression</span>(bar(x) == <span class="built_in">sum</span>(frac(x[i], n), i==<span class="number">1</span>, n)), cex = <span class="number">1.2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 图3</span></span><br><span class="line">x &lt;- rnorm(<span class="number">100</span>)</span><br><span class="line">m=mean(x)</span><br><span class="line">sd=sd(x)</span><br><span class="line">hist(x)</span><br><span class="line">x00 &lt;- seq(-<span class="number">10</span>, <span class="number">10</span>, <span class="number">0.01</span>)</span><br><span class="line">lines(x00, m*dnorm(x00,m,sd), lty=<span class="number">1</span>, col=<span class="string">&quot;red&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 图4</span></span><br><span class="line">y = <span class="number">1</span>:<span class="number">50</span> + (<span class="number">5</span>*rnorm(<span class="number">50</span>) + <span class="number">20</span>)</span><br><span class="line">x = <span class="number">1</span>:<span class="number">50</span></span><br><span class="line">plot(y ~ x, main = <span class="string">&quot;Scatter plot&quot;</span>, col = <span class="string">&quot;gray&quot;</span>)</span><br><span class="line">abline(lm(y ~ x), col = <span class="number">2</span>)</span><br><span class="line">dev.off() <span class="comment">## 关闭绘图器</span></span><br><span class="line">getwd()   <span class="comment">## 查看图保存的位置</span></span><br></pre></td></tr></table></figure>
+<pre><code class="R">tiff(filename = &quot;test.tif&quot;,
+    width = 3600, height = 3600, units = &quot;px&quot;, pointsize = 8,
+    compression = &quot;lzw&quot;, res = 600) ## 打开绘图器
+par(mfrow = c(2,2), font.lab = 6, font.main = 6,font.axis = 6, font = 6) ## 分割成2行2列，共四个图
+
+## 图1
+## 标题部分斜体
+hist(rnorm(200), main = expression(paste(&quot;Testing &quot;, italic(Hist1))), col = &quot;gray&quot;)
+# 添加边框
+box()
+## 图中添加图例
+legend.label &lt;- c(&quot;Type I&quot;, &quot;Type II&quot;, &quot;Type III&quot;)
+legend(1.5, 30, legend = legend.label, pch = c(19, 20, 21), col = c(1, 2, 3))
+legend(-3.0, 30, legend = legend.label, lty = c(1, 2, 3), col = c(1, 2, 3))
+
+## 图2
+## 标题中显示度等特殊字符，标题中显示希腊字母
+hist(rnorm(200), main = expression(paste(plain(sin) * phi, &quot;  and &quot;, plain(cos) * phi)), xlab = expression(paste(&quot;Latitude &quot;, degree)), col = &quot;gray&quot;)
+## 图中添加公式
+text(-2, 30, expression(bar(x) == sum(frac(x[i], n), i==1, n)), cex = 1.2)
+
+## 图3
+x &lt;- rnorm(100)
+m=mean(x)
+sd=sd(x)
+hist(x)
+x00 &lt;- seq(-10, 10, 0.01)
+lines(x00, m*dnorm(x00,m,sd), lty=1, col=&quot;red&quot;)
+
+## 图4
+y = 1:50 + (5*rnorm(50) + 20)
+x = 1:50
+plot(y ~ x, main = &quot;Scatter plot&quot;, col = &quot;gray&quot;)
+abline(lm(y ~ x), col = 2)
+dev.off() ## 关闭绘图器
+getwd()   ## 查看图保存的位置
+</code></pre>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2012/10/10/2012-10-11-rpars/" data-id="ckmq2gwr6003iq884f91fdg4s" data-title="R绘图一则 （2017年1月9日修订）" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2012/10/10/2012-10-11-rpars/" data-id="ckmq42ahy003i1k84682zhhag" data-title="R绘图一则 （2017年1月9日修订）" class="article-share-link">Share</a>
       
       
       
@@ -181,6 +218,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -194,10 +235,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

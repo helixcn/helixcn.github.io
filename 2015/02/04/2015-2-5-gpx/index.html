@@ -108,11 +108,71 @@
 <li><p>在R中， 用以下函数， 读取kml文件的坐标， 并拟合航迹的开始时间以及最后的时间。</p>
 </li>
 </ol>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">library(maptools)  <span class="comment">###导入需要maptools程序包</span></span><br><span class="line">kml2timetag &lt;- <span class="keyword">function</span>(kmlfile = <span class="string">&quot;ttt.kml&quot;</span>,</span><br><span class="line">                start.time = <span class="string">&quot;2015-02-04 21:39:36&quot;</span>,</span><br><span class="line">                 end.time =  <span class="string">&quot;2015-02-05 23:40:50&quot;</span>,</span><br><span class="line">                 csv.file = <span class="literal">NULL</span>)</span><br><span class="line"><span class="comment">#### kml2timetag 函数读取kml文件中的经纬度坐标</span></span><br><span class="line"><span class="comment">#### kml2timetag 函数， 用来读取kml文件， 拟定航迹上每个点的时间</span></span><br><span class="line"><span class="comment">#### 该函数假设每个点对应的时间均匀流逝。</span></span><br><span class="line"><span class="comment">#### 返回值为 data.frame, 共四列</span></span><br><span class="line"><span class="comment">#### (1) &quot;longitude&quot; (2) &quot;latitude&quot; (3) &quot;altitude&quot; (4)&quot;time&quot;</span></span><br><span class="line"><span class="comment">#### 并可以保存为csv文件， 在必要的情况下， 在excel中进行编辑。</span></span><br><span class="line">&#123;</span><br><span class="line"> require(<span class="string">&quot;maptools&quot;</span>)</span><br><span class="line"> Sys.setlocale(<span class="string">&quot;LC_TIME&quot;</span>, <span class="string">&quot;English&quot;</span>)</span><br><span class="line"> dat &lt;- getKMLcoordinates(kmlfile = kmlfile, ignoreAltitude=<span class="literal">FALSE</span>)</span><br><span class="line"> start.time &lt;- as.POSIXlt(start.time)</span><br><span class="line"> end.time &lt;- as.POSIXlt(end.time)</span><br><span class="line"> time.zone = <span class="number">8</span></span><br><span class="line"> points.time &lt;-  seq(start.time, end.time, length.out = nrow(dat[[<span class="number">1</span>]]))</span><br><span class="line"> points.time2 &lt;- format(points.time, <span class="string">&quot;%Y-%m-%dT%H:%M:%SZ&quot;</span>)</span><br><span class="line"> dat &lt;- cbind(dat[[<span class="number">1</span>]], points.time2)</span><br><span class="line"> colnames(dat) &lt;- <span class="built_in">c</span>(<span class="string">&quot;longitude&quot;</span>, <span class="string">&quot;latitude&quot;</span>, <span class="string">&quot;altitude&quot;</span>, <span class="string">&quot;time&quot;</span>)</span><br><span class="line"> <span class="keyword">if</span>(!<span class="built_in">is.null</span>(csv.file))&#123;</span><br><span class="line">     write.csv(dat, csv.file)</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="built_in">return</span>(as.data.frame(dat))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">tagkml2gpx &lt;- <span class="keyword">function</span>(dat, output = <span class="string">&quot;res.gpx&quot;</span>)&#123;</span><br><span class="line"> <span class="comment">#### tagkml2gpx 用来转换data.frame到</span></span><br><span class="line"> <span class="comment">#### dat，为data.frame， 共四列， 列名必须为</span></span><br><span class="line"> <span class="comment">#### (1) &quot;longitude&quot; (2) &quot;latitude&quot; (3) &quot;altitude&quot; (4)&quot;time&quot;</span></span><br><span class="line"> <span class="comment">#### 即函数kml2timetag的返回值， 作为本函数的输入值</span></span><br><span class="line"> <span class="comment">#### 输出值为gpx函数。</span></span><br><span class="line"> res &lt;- <span class="built_in">c</span>(                  </span><br><span class="line"> <span class="string">&quot;&lt;?xml version=&quot;</span>1.0<span class="string">&quot; encoding=&quot;</span>UTF-<span class="number">8</span><span class="string">&quot; standalone=&quot;</span>no<span class="string">&quot; ?&gt;&quot;</span>,</span><br><span class="line"> <span class="string">&quot;&lt;gpx&gt;&quot;</span>,</span><br><span class="line"> <span class="string">&quot;  &lt;trk&gt;&quot;</span>,</span><br><span class="line"> <span class="string">&quot;    &lt;name&gt;Track written by tagkml2gpx&lt;/name&gt;&quot;</span>,</span><br><span class="line"> <span class="string">&quot;    &lt;trkseg&gt;&quot;</span>)</span><br><span class="line"> <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:nrow(dat))&#123;</span><br><span class="line">    res &lt;- <span class="built_in">c</span>(res,</span><br><span class="line">       paste(<span class="string">&quot;     &lt;trkpt lat=&quot;</span><span class="string">&quot;,dat$latitude[i], &quot;</span>\<span class="string">&quot; lon=\&quot;&quot;</span>,</span><br><span class="line">         dat$longitude[i], <span class="string">&quot;\&quot;&gt;&quot;</span>, collapse = <span class="string">&quot;&quot;</span>, sep = <span class="string">&quot;&quot;</span>),</span><br><span class="line">       paste(<span class="string">&quot;     &lt;ele&gt;&quot;</span>, dat$altitude[i], <span class="string">&quot;&lt;/ele&gt;&quot;</span>, sep = <span class="string">&quot;&quot;</span>),</span><br><span class="line">       paste(<span class="string">&quot;     &lt;time&gt;&quot;</span>, dat$time[i], <span class="string">&quot;&lt;/time&gt;&quot;</span>, sep = <span class="string">&quot;&quot;</span>),</span><br><span class="line">      <span class="string">&quot;     &lt;/trkpt&gt;&quot;</span>)</span><br><span class="line"> &#125;</span><br><span class="line"> res &lt;- <span class="built_in">c</span>(res,</span><br><span class="line"> <span class="string">&quot;    &lt;/trkseg&gt;&quot;</span>,</span><br><span class="line"> <span class="string">&quot;  &lt;/trk&gt;&quot;</span>,</span><br><span class="line"> <span class="string">&quot;&lt;/gpx&gt;&quot;</span>)</span><br><span class="line"> writeLines(res, output)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dat2 &lt;- kml2timetag(kmlfile = <span class="string">&quot;ttt.kml&quot;</span>,</span><br><span class="line">               start.time = <span class="string">&quot;2015-02-04 21:39:36&quot;</span>,</span><br><span class="line">               end.time =  <span class="string">&quot;2015-02-05 23:40:50&quot;</span>)</span><br><span class="line">tagkml2gpx(dat2, output = <span class="string">&quot;res.gpx&quot;</span>)</span><br></pre></td></tr></table></figure>
+<pre><code class="R">library(maptools)  ###导入需要maptools程序包
+kml2timetag &lt;- function(kmlfile = &quot;ttt.kml&quot;,
+                start.time = &quot;2015-02-04 21:39:36&quot;,
+                 end.time =  &quot;2015-02-05 23:40:50&quot;,
+                 csv.file = NULL)
+#### kml2timetag 函数读取kml文件中的经纬度坐标
+#### kml2timetag 函数， 用来读取kml文件， 拟定航迹上每个点的时间
+#### 该函数假设每个点对应的时间均匀流逝。
+#### 返回值为 data.frame, 共四列
+#### (1) &quot;longitude&quot; (2) &quot;latitude&quot; (3) &quot;altitude&quot; (4)&quot;time&quot;
+#### 并可以保存为csv文件， 在必要的情况下， 在excel中进行编辑。
+&#123;
+ require(&quot;maptools&quot;)
+ Sys.setlocale(&quot;LC_TIME&quot;, &quot;English&quot;)
+ dat &lt;- getKMLcoordinates(kmlfile = kmlfile, ignoreAltitude=FALSE)
+ start.time &lt;- as.POSIXlt(start.time)
+ end.time &lt;- as.POSIXlt(end.time)
+ time.zone = 8
+ points.time &lt;-  seq(start.time, end.time, length.out = nrow(dat[[1]]))
+ points.time2 &lt;- format(points.time, &quot;%Y-%m-%dT%H:%M:%SZ&quot;)
+ dat &lt;- cbind(dat[[1]], points.time2)
+ colnames(dat) &lt;- c(&quot;longitude&quot;, &quot;latitude&quot;, &quot;altitude&quot;, &quot;time&quot;)
+ if(!is.null(csv.file))&#123;
+     write.csv(dat, csv.file)
+ &#125;
+ return(as.data.frame(dat))
+&#125;
+
+tagkml2gpx &lt;- function(dat, output = &quot;res.gpx&quot;)&#123;
+ #### tagkml2gpx 用来转换data.frame到
+ #### dat，为data.frame， 共四列， 列名必须为
+ #### (1) &quot;longitude&quot; (2) &quot;latitude&quot; (3) &quot;altitude&quot; (4)&quot;time&quot;
+ #### 即函数kml2timetag的返回值， 作为本函数的输入值
+ #### 输出值为gpx函数。
+ res &lt;- c(                  
+ &quot;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot; ?&gt;&quot;,
+ &quot;&lt;gpx&gt;&quot;,
+ &quot;  &lt;trk&gt;&quot;,
+ &quot;    &lt;name&gt;Track written by tagkml2gpx&lt;/name&gt;&quot;,
+ &quot;    &lt;trkseg&gt;&quot;)
+ for(i in 1:nrow(dat))&#123;
+    res &lt;- c(res,
+       paste(&quot;     &lt;trkpt lat=&quot;&quot;,dat$latitude[i], &quot;\&quot; lon=\&quot;&quot;,
+         dat$longitude[i], &quot;\&quot;&gt;&quot;, collapse = &quot;&quot;, sep = &quot;&quot;),
+       paste(&quot;     &lt;ele&gt;&quot;, dat$altitude[i], &quot;&lt;/ele&gt;&quot;, sep = &quot;&quot;),
+       paste(&quot;     &lt;time&gt;&quot;, dat$time[i], &quot;&lt;/time&gt;&quot;, sep = &quot;&quot;),
+      &quot;     &lt;/trkpt&gt;&quot;)
+ &#125;
+ res &lt;- c(res,
+ &quot;    &lt;/trkseg&gt;&quot;,
+ &quot;  &lt;/trk&gt;&quot;,
+ &quot;&lt;/gpx&gt;&quot;)
+ writeLines(res, output)
+&#125;
+
+dat2 &lt;- kml2timetag(kmlfile = &quot;ttt.kml&quot;,
+               start.time = &quot;2015-02-04 21:39:36&quot;,
+               end.time =  &quot;2015-02-05 23:40:50&quot;)
+tagkml2gpx(dat2, output = &quot;res.gpx&quot;)
+</code></pre>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2015/02/04/2015-2-5-gpx/" data-id="ckmq2gwsm0079q88475yub24s" data-title="为kml文件添加时间并转存为gpx航迹" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2015/02/04/2015-2-5-gpx/" data-id="ckmq42aj400711k846b8ucdcy" data-title="为kml文件添加时间并转存为gpx航迹" class="article-share-link">Share</a>
       
       
       
@@ -188,6 +248,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -201,10 +265,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

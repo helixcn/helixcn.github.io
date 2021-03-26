@@ -114,26 +114,93 @@
 <p>长期以来，R编写图形界面都不是很方便，Shiny在这方面进行了很大努力。Shiny在R中定义了网页中多种对象，因而可用其制作与R互动的网页。在Shiny生成的网页中，用户可提交数据，调整参数，控制生成的图形，如地图、箱线图等，也可以控制要显示的结果，如表格，模型拟合结果等。</p>
 <p>想要在本地运行和调试用Shiny编写的用户界面，就要先安装Shiny及其依赖的程序包。Shiny应用程序可以部署在服务器端， 用户只要访问相应的网址，就可直接对网页中的对象进行操作。安装在服务器上的Shiny Server会收集信息并控制网页如何响应。</p>
 <p>例1. 安装 Shiny程序包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(&quot;shiny&quot;)</span><br></pre></td></tr></table></figure>
-
+<pre><code>install.packages(&quot;shiny&quot;)
+</code></pre>
 <h1 id="2-Shiny-App的基本结构"><a href="#2-Shiny-App的基本结构" class="headerlink" title="2. Shiny App的基本结构"></a>2. Shiny App的基本结构</h1><p>一个文件夹，加上包含Shiny命令的app.R文件，再加上用到的数据文件和R脚本等， 就称为ShinyApp。</p>
 <p>Shiny App总是由三部分组成： 1. 文件夹 2. app.R的脚本 3. 其他数据和R脚本等</p>
 <p>文件夹的名字就是shinyApp的名称，因此最好不要有英文或数字以外的字符。</p>
 <h2 id="2-1-运行Shiny-App"><a href="#2-1-运行Shiny-App" class="headerlink" title="2.1 运行Shiny App"></a>2.1 运行Shiny App</h2><p>shinyApp需要在导入Shiny程序包之后运行。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">## 在本地运行shiny app</span><br><span class="line">setwd(&quot;&#x2F;Users&#x2F;jinlong&#x2F;Desktop&#x2F;&quot;)</span><br><span class="line">library(shiny)</span><br><span class="line">runApp(&quot;learn_shiny&quot;)</span><br></pre></td></tr></table></figure>
-
+<pre><code>## 在本地运行shiny app
+setwd(&quot;/Users/jinlong/Desktop/&quot;)
+library(shiny)
+runApp(&quot;learn_shiny&quot;)
+</code></pre>
 <h2 id="2-2-app-R文件"><a href="#2-2-app-R文件" class="headerlink" title="2.2 app.R文件"></a>2.2 app.R文件</h2><p>app.R 文件必须包含三部分： 1. ui 设定图形界面 2. server函数 3. 调用shinyApp的命令 <code>shinyApp(ui, server)</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># 一个最简单的app.R脚本</span><br><span class="line">library(shiny)# Define UI ----</span><br><span class="line">ui &lt;- fluidPage(</span><br><span class="line"></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"># Define server logic ----</span><br><span class="line">server &lt;- function(input, output) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># Run the app ----</span><br><span class="line"></span><br><span class="line">shinyApp(ui &#x3D; ui, server &#x3D; server)</span><br></pre></td></tr></table></figure>
+<pre><code># 一个最简单的app.R脚本
+library(shiny)# Define UI ----
+ui &lt;- fluidPage(
 
+)
+
+# Define server logic ----
+server &lt;- function(input, output) &#123;
+
+&#125;
+
+# Run the app ----
+
+shinyApp(ui = ui, server = server)
+</code></pre>
 <h3 id="2-2-1-ui用户界面"><a href="#2-2-1-ui用户界面" class="headerlink" title="2.2.1 ui用户界面"></a>2.2.1 ui用户界面</h3><p>其中ui定义网页中对象的展示方式，包括文字的字体，字号，颜色，排列方式，以及各种组件的默认参数，可以选择的参数等。</p>
 <h3 id="2-2-2-server函数"><a href="#2-2-2-server函数" class="headerlink" title="2.2.2 server函数"></a>2.2.2 server函数</h3><p>server函数读取组件中收集到的数据，计算后，再传递给UI。</p>
 <h3 id="2-2-3-shinyApp"><a href="#2-2-3-shinyApp" class="headerlink" title="2.2.3 shinyApp"></a>2.2.3 shinyApp</h3><p><code>shinyApp(ui, server)</code> 分别调用ui和server函数，生成网页。</p>
 <p>shiny程序包中内置了十几个例子， 通过以下方式运行：</p>
-<h2 id="2-3-运行shiny程序包中的例子"><a href="#2-3-运行shiny程序包中的例子" class="headerlink" title="2.3 运行shiny程序包中的例子"></a>2.3 运行shiny程序包中的例子</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">library(shiny)</span><br><span class="line">runExample(&quot;01_hello&quot;)</span><br></pre></td></tr></table></figure>
-
+<h2 id="2-3-运行shiny程序包中的例子"><a href="#2-3-运行shiny程序包中的例子" class="headerlink" title="2.3 运行shiny程序包中的例子"></a>2.3 运行shiny程序包中的例子</h2><pre><code>library(shiny)
+runExample(&quot;01_hello&quot;)
+</code></pre>
 <p>用户还可以查看其它Shiny模版， 参见<a target="_blank" rel="noopener" href="https://rstudio.github.io/shinythemes/">https://rstudio.github.io/shinythemes/</a></p>
-<h1 id="3-信息的输入与输出"><a href="#3-信息的输入与输出" class="headerlink" title="3. 信息的输入与输出"></a>3. 信息的输入与输出</h1><h2 id="例1"><a href="#例1" class="headerlink" title="例1"></a>例1</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"># Define UI for app that draws a histogram ----</span><br><span class="line"># ui为user interface的缩写，ui是基本组件之一。此处定义ui，用于生成频度直方图</span><br><span class="line">ui &lt;- fluidPage(  </span><br><span class="line"># App title ----</span><br><span class="line">  # 添加标题</span><br><span class="line">  titlePanel(&quot;Hello Shiny!&quot;),  </span><br><span class="line">  # Sidebar layout with input and output definitions ----</span><br><span class="line">  # 添加侧面的导航栏， 同时定义输入input和输出的显示模式</span><br><span class="line">  sidebarLayout(    </span><br><span class="line">  # Sidebar panel for inputs ----</span><br><span class="line">    # 输入数据用的导航栏</span><br><span class="line">    sidebarPanel(      </span><br><span class="line">    # Input: Slider for the number of bins ----</span><br><span class="line">      # Input: 定义直方图的数量</span><br><span class="line">      sliderInput(inputId &#x3D; &quot;bins&quot;,</span><br><span class="line">                  label &#x3D; &quot;Number of bins:&quot;,</span><br><span class="line">                  min &#x3D; 1,</span><br><span class="line">                  max &#x3D; 50,</span><br><span class="line">                  value &#x3D; 30)</span><br><span class="line">    ),    </span><br><span class="line">    # Main panel for displaying outputs ----</span><br><span class="line">    # 网页的主要板块用于输出结果</span><br><span class="line">    mainPanel(      </span><br><span class="line">    # Output: Histogram ----</span><br><span class="line">      # 输出结果：频度直方图</span><br><span class="line">      plotOutput(outputId &#x3D; &quot;distPlot&quot;)</span><br><span class="line">    )</span><br><span class="line">  )</span><br><span class="line">)</span><br><span class="line"># 定义server函数，绘制频度直方图</span><br><span class="line">server &lt;- function(input, output) &#123;  </span><br><span class="line"># server函数同时包括input和output两个参数</span><br><span class="line">  # 输出结果要保存在output参数中</span><br><span class="line"></span><br><span class="line">  # output中，用来保存绘图结果</span><br><span class="line">  # 返回给putput中的对象，是经过 renderPlot转换过的R脚本</span><br><span class="line">  # renderPlot本身是一个函数， 内部却直接放花括号</span><br><span class="line">  # 花括号内的R脚本， 与普通R脚本无异</span><br><span class="line">  output$distPlot &lt;- renderPlot(&#123;</span><br><span class="line"></span><br><span class="line">    x    &lt;- faithful$waiting</span><br><span class="line">    bins &lt;- seq(min(x), max(x), length.out &#x3D; input$bins + 1)</span><br><span class="line"></span><br><span class="line">    hist(x, breaks &#x3D; bins, col &#x3D; &quot;#75AADB&quot;, border &#x3D; &quot;white&quot;,</span><br><span class="line">         xlab &#x3D; &quot;Waiting time to next eruption (in mins)&quot;,</span><br><span class="line">         main &#x3D; &quot;Histogram of waiting times&quot;)</span><br><span class="line"></span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"># 脚本必须以shinyApp(ui, server)结束。shinyApp(ui, server)</span><br></pre></td></tr></table></figure>
+<h1 id="3-信息的输入与输出"><a href="#3-信息的输入与输出" class="headerlink" title="3. 信息的输入与输出"></a>3. 信息的输入与输出</h1><h2 id="例1"><a href="#例1" class="headerlink" title="例1"></a>例1</h2><pre><code># Define UI for app that draws a histogram ----
+# ui为user interface的缩写，ui是基本组件之一。此处定义ui，用于生成频度直方图
+ui &lt;- fluidPage(  
+# App title ----
+  # 添加标题
+  titlePanel(&quot;Hello Shiny!&quot;),  
+  # Sidebar layout with input and output definitions ----
+  # 添加侧面的导航栏， 同时定义输入input和输出的显示模式
+  sidebarLayout(    
+  # Sidebar panel for inputs ----
+    # 输入数据用的导航栏
+    sidebarPanel(      
+    # Input: Slider for the number of bins ----
+      # Input: 定义直方图的数量
+      sliderInput(inputId = &quot;bins&quot;,
+                  label = &quot;Number of bins:&quot;,
+                  min = 1,
+                  max = 50,
+                  value = 30)
+    ),    
+    # Main panel for displaying outputs ----
+    # 网页的主要板块用于输出结果
+    mainPanel(      
+    # Output: Histogram ----
+      # 输出结果：频度直方图
+      plotOutput(outputId = &quot;distPlot&quot;)
+    )
+  )
+)
+# 定义server函数，绘制频度直方图
+server &lt;- function(input, output) &#123;  
+# server函数同时包括input和output两个参数
+  # 输出结果要保存在output参数中
 
+  # output中，用来保存绘图结果
+  # 返回给putput中的对象，是经过 renderPlot转换过的R脚本
+  # renderPlot本身是一个函数， 内部却直接放花括号
+  # 花括号内的R脚本， 与普通R脚本无异
+  output$distPlot &lt;- renderPlot(&#123;
+
+    x    &lt;- faithful$waiting
+    bins &lt;- seq(min(x), max(x), length.out = input$bins + 1)
+
+    hist(x, breaks = bins, col = &quot;#75AADB&quot;, border = &quot;white&quot;,
+         xlab = &quot;Waiting time to next eruption (in mins)&quot;,
+         main = &quot;Histogram of waiting times&quot;)
+
+    &#125;)
+
+&#125;
+# 脚本必须以shinyApp(ui, server)结束。shinyApp(ui, server)
+</code></pre>
 <h3 id="要点"><a href="#要点" class="headerlink" title="要点"></a>要点</h3><ul>
 <li>shiny application 包括 UI 和 Server以及<code>shinyApp(ui, server)</code>三部分。</li>
 <li>UI负责收集数据和展示数据。<code>fluidPage</code>中的参数，<code>titlePanel</code>, <code>sidebarLayout</code>, <code>mainPanel</code>用“,”分隔。</li>
@@ -154,8 +221,70 @@
 <li>从UI提取的数据，是input的参数的组件，用input$xxx提取</li>
 <li>shinyApp结尾， 必须用<code>shinyApp()`` 指明ui和server。格式为</code>shinyApp(ui = ui, server = server)`</li>
 </ul>
-<h2 id="例2"><a href="#例2" class="headerlink" title="例2"></a>例2</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">library(shiny)</span><br><span class="line"># Define UI for dataset viewer app ----</span><br><span class="line"># 定义图形界面，用于查看数据</span><br><span class="line">ui &lt;- fluidPage(  # App title ----</span><br><span class="line">  # 添加标题</span><br><span class="line">  titlePanel(&quot;Shiny Text&quot;),  </span><br><span class="line">  # Sidebar layout with a input and output definitions ----</span><br><span class="line">  # 添加导航栏，并定义input和output</span><br><span class="line">  sidebarLayout(    </span><br><span class="line">  # Sidebar panel for inputs ----</span><br><span class="line">    # 用于输入数据的导航栏</span><br><span class="line">    sidebarPanel(      </span><br><span class="line">    # Input: Selector for choosing dataset ----</span><br><span class="line">      # Input： 输入数据选择器</span><br><span class="line">      selectInput(inputId &#x3D; &quot;dataset&quot;,</span><br><span class="line">                  label &#x3D; &quot;Choose a dataset:&quot;,</span><br><span class="line">                  choices &#x3D; c(&quot;rock&quot;, &quot;pressure&quot;, &quot;cars&quot;)),      </span><br><span class="line">                  # Input: Numeric entry for number of obs to view ----</span><br><span class="line">      # Input：输入要查看的记录条数</span><br><span class="line">      numericInput(inputId &#x3D; &quot;obs&quot;,</span><br><span class="line">                   label &#x3D; &quot;Number of observations to view:&quot;,</span><br><span class="line">                   value &#x3D; 10)</span><br><span class="line">    ),    # Main panel for displaying outputs ----</span><br><span class="line">    # 主显示版</span><br><span class="line">    mainPanel(      </span><br><span class="line">    # Output: Verbatim text for data summary ----</span><br><span class="line">      # Output: 直接显示数据概要</span><br><span class="line">      verbatimTextOutput(&quot;summary&quot;),      </span><br><span class="line">      # Output: HTML table with requested number of observations ----</span><br><span class="line">      # Output: 显示指定行数的表格</span><br><span class="line">      tableOutput(&quot;view&quot;)</span><br><span class="line"></span><br><span class="line">    )</span><br><span class="line">  )</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"># Define server logic to summarize and view selected dataset ----</span><br><span class="line"># 定义server函数，用于汇总和查看所选择数据</span><br><span class="line">server &lt;- function(input, output) &#123;  </span><br><span class="line"># Return the requested dataset ----</span><br><span class="line">  # 返回所请求的数据</span><br><span class="line">  datasetInput &lt;- reactive(&#123;    </span><br><span class="line">  switch(input$dataset,           </span><br><span class="line">  &quot;rock&quot; &#x3D; rock,           </span><br><span class="line">  &quot;pressure&quot; &#x3D; pressure,           </span><br><span class="line">  &quot;cars&quot; &#x3D; cars)</span><br><span class="line">  &#125;)  </span><br><span class="line">  # Generate a summary of the dataset ----</span><br><span class="line">  # 创建数据汇总summary</span><br><span class="line">  output$summary &lt;- renderPrint(&#123;</span><br><span class="line">    dataset &lt;- datasetInput()</span><br><span class="line">    summary(dataset)</span><br><span class="line">  &#125;)  </span><br><span class="line">  # Show the first &quot;n&quot; observations ----</span><br><span class="line">  # 显示前n个观测值</span><br><span class="line">  output$view &lt;- renderTable(&#123;</span><br><span class="line">    head(datasetInput(), n &#x3D; input$obs)</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># Create Shiny app ----</span><br><span class="line"># 创建ShinyAppshinyApp(ui &#x3D; ui, server &#x3D; server)</span><br></pre></td></tr></table></figure>
+<h2 id="例2"><a href="#例2" class="headerlink" title="例2"></a>例2</h2><pre><code>library(shiny)
+# Define UI for dataset viewer app ----
+# 定义图形界面，用于查看数据
+ui &lt;- fluidPage(  # App title ----
+  # 添加标题
+  titlePanel(&quot;Shiny Text&quot;),  
+  # Sidebar layout with a input and output definitions ----
+  # 添加导航栏，并定义input和output
+  sidebarLayout(    
+  # Sidebar panel for inputs ----
+    # 用于输入数据的导航栏
+    sidebarPanel(      
+    # Input: Selector for choosing dataset ----
+      # Input： 输入数据选择器
+      selectInput(inputId = &quot;dataset&quot;,
+                  label = &quot;Choose a dataset:&quot;,
+                  choices = c(&quot;rock&quot;, &quot;pressure&quot;, &quot;cars&quot;)),      
+                  # Input: Numeric entry for number of obs to view ----
+      # Input：输入要查看的记录条数
+      numericInput(inputId = &quot;obs&quot;,
+                   label = &quot;Number of observations to view:&quot;,
+                   value = 10)
+    ),    # Main panel for displaying outputs ----
+    # 主显示版
+    mainPanel(      
+    # Output: Verbatim text for data summary ----
+      # Output: 直接显示数据概要
+      verbatimTextOutput(&quot;summary&quot;),      
+      # Output: HTML table with requested number of observations ----
+      # Output: 显示指定行数的表格
+      tableOutput(&quot;view&quot;)
 
+    )
+  )
+)
+
+# Define server logic to summarize and view selected dataset ----
+# 定义server函数，用于汇总和查看所选择数据
+server &lt;- function(input, output) &#123;  
+# Return the requested dataset ----
+  # 返回所请求的数据
+  datasetInput &lt;- reactive(&#123;    
+  switch(input$dataset,           
+  &quot;rock&quot; = rock,           
+  &quot;pressure&quot; = pressure,           
+  &quot;cars&quot; = cars)
+  &#125;)  
+  # Generate a summary of the dataset ----
+  # 创建数据汇总summary
+  output$summary &lt;- renderPrint(&#123;
+    dataset &lt;- datasetInput()
+    summary(dataset)
+  &#125;)  
+  # Show the first &quot;n&quot; observations ----
+  # 显示前n个观测值
+  output$view &lt;- renderTable(&#123;
+    head(datasetInput(), n = input$obs)
+  &#125;)
+
+&#125;
+
+# Create Shiny app ----
+# 创建ShinyAppshinyApp(ui = ui, server = server)
+</code></pre>
 <h3 id="要点-1"><a href="#要点-1" class="headerlink" title="要点"></a>要点</h3><ul>
 <li>每一个形为<code>*Input</code>的组件，如 <code>selectInput</code>，<code>numericInput</code> 都是R函数，可以在帮助文件查询到各参数的要求。</li>
 <li>在ui中，输入数据可以用<code>selectInput</code>组件建立，此时用inputId参数识别输入的数据。</li>
@@ -174,15 +303,141 @@
 <li>在<code>server</code>文件中， 输入的数值， 可以直接用<code>input$obs</code> 的方式提取。</li>
 <li>所有要输出的内容， 都是作为<code>output</code>的一部分， 用$指定并赋值。这是响应式编程的基本要求。</li>
 </ul>
-<h1 id="4-响应式编程与html标签"><a href="#4-响应式编程与html标签" class="headerlink" title="4. 响应式编程与html标签"></a>4. 响应式编程与html标签</h1><h2 id="例3"><a href="#例3" class="headerlink" title="例3"></a>例3</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"># Define UI for dataset viewer app ----</span><br><span class="line"># 定义ui, 该app用于查看数据</span><br><span class="line">ui &lt;- fluidPage(  </span><br><span class="line"># App title ----</span><br><span class="line">  # App标题</span><br><span class="line">  titlePanel(&quot;Reactivity&quot;),  </span><br><span class="line">  # Sidebar layout with input and output definitions ----</span><br><span class="line">  # 导航栏</span><br><span class="line">  sidebarLayout(    </span><br><span class="line">  # Sidebar panel for inputs ----</span><br><span class="line">    # 输入数据的导航栏</span><br><span class="line">    sidebarPanel(      </span><br><span class="line">    # Input: Text for providing a caption ----</span><br><span class="line">      # Note: Changes made to the caption in the textInput control</span><br><span class="line">      # are updated in the output area immediately as you type</span><br><span class="line"></span><br><span class="line">      # Input： 选择的标题会马上显示在右侧的结果显示区域中</span><br><span class="line"></span><br><span class="line">      textInput(inputId &#x3D; &quot;caption&quot;,</span><br><span class="line">                label &#x3D; &quot;Caption:&quot;,</span><br><span class="line">                value &#x3D; &quot;Data Summary&quot;),      </span><br><span class="line">                # Input: Selector for choosing dataset ----</span><br><span class="line">      # Input： 输入数据选择器</span><br><span class="line">      selectInput(inputId &#x3D; &quot;dataset&quot;,</span><br><span class="line">                  label &#x3D; &quot;Choose a dataset:&quot;,</span><br><span class="line">                  choices &#x3D; c(&quot;rock&quot;, &quot;pressure&quot;, &quot;cars&quot;)),      </span><br><span class="line">      # Input: Numeric entry for number of obs to view ----</span><br><span class="line">      # Input：设定要查看的记录条数</span><br><span class="line">      numericInput(inputId &#x3D; &quot;obs&quot;,</span><br><span class="line">                   label &#x3D; &quot;Number of observations to view:&quot;,</span><br><span class="line">                   value &#x3D; 10)</span><br><span class="line"></span><br><span class="line">    ),    # Main panel for displaying outputs ----</span><br><span class="line">    # 显示输出结果的主要面板</span><br><span class="line"></span><br><span class="line">    mainPanel(      </span><br><span class="line">    # Output: Formatted text for caption ----</span><br><span class="line">      # Output: 修改标题格式</span><br><span class="line">      h3(textOutput(&quot;caption&quot;, container &#x3D; span)),      </span><br><span class="line">      # Output: Verbatim text for data summary ----</span><br><span class="line">      # Output: 打印data summary</span><br><span class="line">      verbatimTextOutput(&quot;summary&quot;),      </span><br><span class="line">      # Output: HTML table with requested number of observations ----</span><br><span class="line">      # Output: 生成HTML表格，以显示指定数量的观测值</span><br><span class="line">      tableOutput(&quot;view&quot;)</span><br><span class="line"></span><br><span class="line">    )</span><br><span class="line">  )</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h1 id="4-响应式编程与html标签"><a href="#4-响应式编程与html标签" class="headerlink" title="4. 响应式编程与html标签"></a>4. 响应式编程与html标签</h1><h2 id="例3"><a href="#例3" class="headerlink" title="例3"></a>例3</h2><pre><code># Define UI for dataset viewer app ----
+# 定义ui, 该app用于查看数据
+ui &lt;- fluidPage(  
+# App title ----
+  # App标题
+  titlePanel(&quot;Reactivity&quot;),  
+  # Sidebar layout with input and output definitions ----
+  # 导航栏
+  sidebarLayout(    
+  # Sidebar panel for inputs ----
+    # 输入数据的导航栏
+    sidebarPanel(      
+    # Input: Text for providing a caption ----
+      # Note: Changes made to the caption in the textInput control
+      # are updated in the output area immediately as you type
 
+      # Input： 选择的标题会马上显示在右侧的结果显示区域中
+
+      textInput(inputId = &quot;caption&quot;,
+                label = &quot;Caption:&quot;,
+                value = &quot;Data Summary&quot;),      
+                # Input: Selector for choosing dataset ----
+      # Input： 输入数据选择器
+      selectInput(inputId = &quot;dataset&quot;,
+                  label = &quot;Choose a dataset:&quot;,
+                  choices = c(&quot;rock&quot;, &quot;pressure&quot;, &quot;cars&quot;)),      
+      # Input: Numeric entry for number of obs to view ----
+      # Input：设定要查看的记录条数
+      numericInput(inputId = &quot;obs&quot;,
+                   label = &quot;Number of observations to view:&quot;,
+                   value = 10)
+
+    ),    # Main panel for displaying outputs ----
+    # 显示输出结果的主要面板
+
+    mainPanel(      
+    # Output: Formatted text for caption ----
+      # Output: 修改标题格式
+      h3(textOutput(&quot;caption&quot;, container = span)),      
+      # Output: Verbatim text for data summary ----
+      # Output: 打印data summary
+      verbatimTextOutput(&quot;summary&quot;),      
+      # Output: HTML table with requested number of observations ----
+      # Output: 生成HTML表格，以显示指定数量的观测值
+      tableOutput(&quot;view&quot;)
+
+    )
+  )
+)
+</code></pre>
 <h3 id="要点-2"><a href="#要点-2" class="headerlink" title="要点"></a>要点</h3><ul>
 <li>shiny中，可以直接使用html5标签</li>
 <li>h3 为 第三级标题的html标签</li>
 <li><code>tableOutput</code> 直接生成表格</li>
 </ul>
-<h2 id="例4"><a href="#例4" class="headerlink" title="例4"></a>例4</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">library(shiny)</span><br><span class="line"></span><br><span class="line"># Define UI for dataset viewer app ----</span><br><span class="line">ui &lt;- fluidPage(  </span><br><span class="line"># App title ----</span><br><span class="line">  titlePanel(&quot;More Widgets&quot;),  </span><br><span class="line">  # Sidebar layout with input and output definitions ----</span><br><span class="line">  sidebarLayout(    </span><br><span class="line">  # Sidebar panel for inputs ----</span><br><span class="line">    # 导航栏</span><br><span class="line">    sidebarPanel(      </span><br><span class="line">      # Input: Select a dataset ----</span><br><span class="line">      # Input： 选择数据</span><br><span class="line">      selectInput(&quot;dataset&quot;, &quot;Choose a dataset:&quot;,</span><br><span class="line">                  choices &#x3D; c(&quot;rock&quot;, &quot;pressure&quot;, &quot;cars&quot;)),      </span><br><span class="line">      </span><br><span class="line">      # Input: Specify the number of observations to view ----</span><br><span class="line">      # Input: 查看多少条记录</span><br><span class="line">      numericInput(&quot;obs&quot;, &quot;Number of observations to view:&quot;, 10),      </span><br><span class="line">      # Include clarifying text ----</span><br><span class="line">      # 帮助</span><br><span class="line">      helpText(&quot;Note: while the data view will show only the specified&quot;,               </span><br><span class="line">      &quot;number of observations, the summary will still be based&quot;,               </span><br><span class="line">      &quot;on the full dataset.&quot;), </span><br><span class="line">           </span><br><span class="line">      # Input: actionButton() to defer the rendering of output ----</span><br><span class="line">      # until the user explicitly clicks the button (rather than</span><br><span class="line">      # doing it immediately when inputs change). This is useful if</span><br><span class="line">      # the computations required to render output are inordinately</span><br><span class="line">      # time-consuming.</span><br><span class="line">      # 当获得结果所需时间较长， 是否运行脚本需要由用户决定， 此时用本按钮。</span><br><span class="line">      </span><br><span class="line">      actionButton(&quot;update&quot;, &quot;Update View&quot;)</span><br><span class="line"></span><br><span class="line">    ),    </span><br><span class="line">    </span><br><span class="line">    # Main panel for displaying outputs ----</span><br><span class="line">    # 主面板</span><br><span class="line">    mainPanel(      </span><br><span class="line">      # Output: Header + summary of distribution ----</span><br><span class="line">      # 输出</span><br><span class="line">      h4(&quot;Summary&quot;),</span><br><span class="line">      verbatimTextOutput(&quot;summary&quot;),      </span><br><span class="line">      # Output: Header + table of distribution ----</span><br><span class="line">      # 输出</span><br><span class="line">      h4(&quot;Observations&quot;),</span><br><span class="line">      tableOutput(&quot;view&quot;)</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">  )</span><br><span class="line">)# Define server logic to summarize and view selected dataset ----</span><br><span class="line">server &lt;- function(input, output) &#123;  </span><br><span class="line"># Return the requested dataset ----</span><br><span class="line">  # Note that we use eventReactive() here, which depends on</span><br><span class="line">  # input$update (the action button), so that the output is only</span><br><span class="line">  # updated when the user clicks the button</span><br><span class="line">  datasetInput &lt;- eventReactive(input$update, &#123;    </span><br><span class="line">  switch(input$dataset,           </span><br><span class="line">  &quot;rock&quot; &#x3D; rock,           </span><br><span class="line">  &quot;pressure&quot; &#x3D; pressure,           </span><br><span class="line">  &quot;cars&quot; &#x3D; cars)</span><br><span class="line">  &#125;, ignoreNULL &#x3D; FALSE)  </span><br><span class="line">  </span><br><span class="line">  # Generate a summary of the dataset ----</span><br><span class="line">  output$summary &lt;- renderPrint(&#123;</span><br><span class="line">    dataset &lt;- datasetInput()</span><br><span class="line">    summary(dataset)</span><br><span class="line">  &#125;)  </span><br><span class="line">  </span><br><span class="line">  # Show the first &quot;n&quot; observations ----</span><br><span class="line">  # The use of isolate() is necessary because we don&#39;t want the table</span><br><span class="line">  # to update whenever input$obs changes (only when the user clicks</span><br><span class="line">  # the action button)</span><br><span class="line">  </span><br><span class="line">  output$view &lt;- renderTable(&#123;</span><br><span class="line">    head(datasetInput(), n &#x3D; isolate(input$obs))</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">&#125;# Create Shiny app ----shinyApp(ui, server)</span><br></pre></td></tr></table></figure>
+<h2 id="例4"><a href="#例4" class="headerlink" title="例4"></a>例4</h2><pre><code>library(shiny)
 
+# Define UI for dataset viewer app ----
+ui &lt;- fluidPage(  
+# App title ----
+  titlePanel(&quot;More Widgets&quot;),  
+  # Sidebar layout with input and output definitions ----
+  sidebarLayout(    
+  # Sidebar panel for inputs ----
+    # 导航栏
+    sidebarPanel(      
+      # Input: Select a dataset ----
+      # Input： 选择数据
+      selectInput(&quot;dataset&quot;, &quot;Choose a dataset:&quot;,
+                  choices = c(&quot;rock&quot;, &quot;pressure&quot;, &quot;cars&quot;)),      
+      
+      # Input: Specify the number of observations to view ----
+      # Input: 查看多少条记录
+      numericInput(&quot;obs&quot;, &quot;Number of observations to view:&quot;, 10),      
+      # Include clarifying text ----
+      # 帮助
+      helpText(&quot;Note: while the data view will show only the specified&quot;,               
+      &quot;number of observations, the summary will still be based&quot;,               
+      &quot;on the full dataset.&quot;), 
+           
+      # Input: actionButton() to defer the rendering of output ----
+      # until the user explicitly clicks the button (rather than
+      # doing it immediately when inputs change). This is useful if
+      # the computations required to render output are inordinately
+      # time-consuming.
+      # 当获得结果所需时间较长， 是否运行脚本需要由用户决定， 此时用本按钮。
+      
+      actionButton(&quot;update&quot;, &quot;Update View&quot;)
+
+    ),    
+    
+    # Main panel for displaying outputs ----
+    # 主面板
+    mainPanel(      
+      # Output: Header + summary of distribution ----
+      # 输出
+      h4(&quot;Summary&quot;),
+      verbatimTextOutput(&quot;summary&quot;),      
+      # Output: Header + table of distribution ----
+      # 输出
+      h4(&quot;Observations&quot;),
+      tableOutput(&quot;view&quot;)
+    )
+
+  )
+)# Define server logic to summarize and view selected dataset ----
+server &lt;- function(input, output) &#123;  
+# Return the requested dataset ----
+  # Note that we use eventReactive() here, which depends on
+  # input$update (the action button), so that the output is only
+  # updated when the user clicks the button
+  datasetInput &lt;- eventReactive(input$update, &#123;    
+  switch(input$dataset,           
+  &quot;rock&quot; = rock,           
+  &quot;pressure&quot; = pressure,           
+  &quot;cars&quot; = cars)
+  &#125;, ignoreNULL = FALSE)  
+  
+  # Generate a summary of the dataset ----
+  output$summary &lt;- renderPrint(&#123;
+    dataset &lt;- datasetInput()
+    summary(dataset)
+  &#125;)  
+  
+  # Show the first &quot;n&quot; observations ----
+  # The use of isolate() is necessary because we don&#39;t want the table
+  # to update whenever input$obs changes (only when the user clicks
+  # the action button)
+  
+  output$view &lt;- renderTable(&#123;
+    head(datasetInput(), n = isolate(input$obs))
+  &#125;)
+
+&#125;# Create Shiny app ----shinyApp(ui, server)
+</code></pre>
 <h3 id="要点-3"><a href="#要点-3" class="headerlink" title="要点"></a>要点</h3><ul>
 <li><code>helpText</code> 用来显示<code>SideBarPanel</code>中的帮助文本</li>
 <li><code>actionButton(&quot;update&quot;, &quot;Update View&quot;)</code> 是按钮， 前一个参数是动作， 后一个参数是按钮上的标签。</li>
@@ -442,7 +697,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/06/27/2018-6-27-shinny/" data-id="ckmq2gwvt00ehq884cj4e2knj" data-title="Shiny程序包学习要点" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/06/27/2018-6-27-shinny/" data-id="ckmq42alz00ee1k847442h4xl" data-title="Shiny程序包学习要点" class="article-share-link">Share</a>
       
       
       
@@ -518,6 +773,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -531,10 +790,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

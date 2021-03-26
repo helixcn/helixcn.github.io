@@ -128,19 +128,92 @@
 <p>图3. PIC的计算公式</p>
 <p>ape程序包提供了计算PIC的函数pic()，该函数使用的正是Felsenstein （1985）的算法。一般用户并不需要了解函数内部的机制，只需要提供进化树和性状向量即可。</p>
 <p>以下为ape程序包中pic函数的示例：</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">library(ape)</span><br><span class="line"><span class="comment">### The example in Phylip 3.5c (originally from Lynch 1991)</span></span><br><span class="line">cat(<span class="string">&quot;((((Homo:0.21,Pongo:0.21):0.28,&quot;</span>,   </span><br><span class="line"><span class="string">&quot;Macaca:0.49):0.13,Ateles:0.62):0.38,Galago:1.00);&quot;</span>,   </span><br><span class="line">file = <span class="string">&quot;ex.tre&quot;</span>, sep = <span class="string">&quot;\n&quot;</span>)</span><br><span class="line">tree.primates &lt;- read.tree(<span class="string">&quot;ex.tre&quot;</span>)</span><br><span class="line">X &lt;- <span class="built_in">c</span>(<span class="number">4.09434</span>, <span class="number">3.61092</span>, <span class="number">2.37024</span>, <span class="number">2.02815</span>, -<span class="number">1.46968</span>)</span><br><span class="line">Y &lt;- <span class="built_in">c</span>(<span class="number">4.74493</span>, <span class="number">3.33220</span>, <span class="number">3.36730</span>, <span class="number">2.89037</span>, <span class="number">2.30259</span>)</span><br><span class="line"><span class="built_in">names</span>(X) &lt;- <span class="built_in">names</span>(Y) &lt;- <span class="built_in">c</span>(<span class="string">&quot;Homo&quot;</span>, <span class="string">&quot;Pongo&quot;</span>, <span class="string">&quot;Macaca&quot;</span>, <span class="string">&quot;Ateles&quot;</span>, <span class="string">&quot;Galago&quot;</span>)</span><br><span class="line">pic.X &lt;- pic(X, tree.primates)</span><br><span class="line">pic.Y &lt;- pic(Y, tree.primates)</span><br><span class="line">cor.test(X, Y)</span><br><span class="line"><span class="comment">####  Pearson&#x27;s product-moment correlation</span></span><br><span class="line"><span class="comment">#### data:  X and Y</span></span><br><span class="line"><span class="comment">## t = 2.5736, df = 3, p-value = 0.08224</span></span><br><span class="line"><span class="comment">## alternative hypothesis: true correlation is not equal to 0</span></span><br><span class="line"><span class="comment">## 95 percent confidence interval:</span></span><br><span class="line"><span class="comment">##  -0.1964310  0.9884173</span></span><br><span class="line"><span class="comment">## sample estimates:</span></span><br><span class="line"><span class="comment">##       cor</span></span><br><span class="line"><span class="comment">## 0.8296107</span></span><br><span class="line">cor.test(pic.X, pic.Y)</span><br><span class="line"><span class="comment">####  Pearson&#x27;s product-moment correlation</span></span><br><span class="line"><span class="comment">#### data:  pic.X and pic.Y</span></span><br><span class="line"><span class="comment">## t = -0.85623, df = 2, p-value = 0.4821</span></span><br><span class="line"><span class="comment">## alternative hypothesis: true correlation is not equal to 0</span></span><br><span class="line"><span class="comment">## 95 percent confidence interval:</span></span><br><span class="line"><span class="comment">##  -0.9874751  0.8823934</span></span><br><span class="line"><span class="comment">## sample estimates:</span></span><br><span class="line"><span class="comment">##        cor</span></span><br><span class="line"><span class="comment">## -0.5179156</span></span><br><span class="line">lm(pic.Y ~ pic.X - <span class="number">1</span>) <span class="comment"># both regressions</span></span><br><span class="line"><span class="comment">#### Call:</span></span><br><span class="line"><span class="comment">## lm(formula = pic.Y ~ pic.X - 1)</span></span><br><span class="line"><span class="comment">#### Coefficients:</span></span><br><span class="line"><span class="comment">##  pic.X</span></span><br><span class="line"><span class="comment">## 0.4319</span></span><br><span class="line">lm(pic.X ~ pic.Y - <span class="number">1</span>) </span><br><span class="line"><span class="comment"># through the origin</span></span><br><span class="line"><span class="comment">#### Call:</span></span><br><span class="line"><span class="comment">## lm(formula = pic.X ~ pic.Y - 1)</span></span><br><span class="line"><span class="comment">#### Coefficients:</span></span><br><span class="line"><span class="comment">## pic.Y</span></span><br><span class="line"><span class="comment">## 0.998</span></span><br></pre></td></tr></table></figure>
-
-
-
-
-
+<pre><code class="R">library(ape)
+### The example in Phylip 3.5c (originally from Lynch 1991)
+cat(&quot;((((Homo:0.21,Pongo:0.21):0.28,&quot;,   
+&quot;Macaca:0.49):0.13,Ateles:0.62):0.38,Galago:1.00);&quot;,   
+file = &quot;ex.tre&quot;, sep = &quot;\n&quot;)
+tree.primates &lt;- read.tree(&quot;ex.tre&quot;)
+X &lt;- c(4.09434, 3.61092, 2.37024, 2.02815, -1.46968)
+Y &lt;- c(4.74493, 3.33220, 3.36730, 2.89037, 2.30259)
+names(X) &lt;- names(Y) &lt;- c(&quot;Homo&quot;, &quot;Pongo&quot;, &quot;Macaca&quot;, &quot;Ateles&quot;, &quot;Galago&quot;)
+pic.X &lt;- pic(X, tree.primates)
+pic.Y &lt;- pic(Y, tree.primates)
+cor.test(X, Y)
+####  Pearson&#39;s product-moment correlation
+#### data:  X and Y
+## t = 2.5736, df = 3, p-value = 0.08224
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  -0.1964310  0.9884173
+## sample estimates:
+##       cor
+## 0.8296107
+cor.test(pic.X, pic.Y)
+####  Pearson&#39;s product-moment correlation
+#### data:  pic.X and pic.Y
+## t = -0.85623, df = 2, p-value = 0.4821
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  -0.9874751  0.8823934
+## sample estimates:
+##        cor
+## -0.5179156
+lm(pic.Y ~ pic.X - 1) # both regressions
+#### Call:
+## lm(formula = pic.Y ~ pic.X - 1)
+#### Coefficients:
+##  pic.X
+## 0.4319
+lm(pic.X ~ pic.Y - 1) 
+# through the origin
+#### Call:
+## lm(formula = pic.X ~ pic.Y - 1)
+#### Coefficients:
+## pic.Y
+## 0.998
+</code></pre>
 <p>从以上结果可以看出，将性状直接进行相关分析以及用性状的PIC进行相关分析，所得结果是有差异的：去除了系统发育关系之后，性状X和性状Y之间的相关性降低了。去除系统发育关系之前 （Pearson’s <em>r</em> = 0.8296, <em>t</em> = 2.5736, <em>df</em> = 3, <em>p</em>-value = 0.08224），去除系统发育关系之后（Pearson’s <em>r</em> = -0.5179156, <em>t</em> = -0.85623, <em>df</em> = 2, <em>p</em>-value = 0.4821 ）。</p>
 <p>这里比较难以理解的是，计算出来的PIC总是比真实性状数据少一个，但是不同性状的PIC都是比真实数据少一个，用不同性状的PIC向量建立线性模型，所得结果，就是我们要计算的性状之间的相关性。</p>
 <p>ape的pic函数要求不同种性状出现的顺序与在进化树中出现的顺序完全相同。为此，picante程序包提供了match.phylo.data()函数，只要用户为性状数据（无论是data.frame还是vector）提供了对应的物种名（如果是多个性状，格式应该为dataframe，其行名应该是物种名），该函数就能将性状数据按照进化树中出现的顺序排好，非常方便。</p>
 <p>以下代码展示的就是怎样通过植物物种名（拉丁名）获得进化树，再计算植株高度的PIC，源数据来自S. Kembel博士的培训资料。</p>
 <p>Felsenstein在1985年的论文中说，他提出的算法可计算多分枝结构的PIC，但是ape的pic函数不能处理含有多分枝结构的进化树，所以下面的代码调用了multi2di()函数，将进化树转换为二叉树。转换的方法是为每一个多分支节点随机添加一个很小的枝长，由于枝长很小，对结果的影响很小，几乎可以忽略不计。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;...&quot;</span>)</span><br><span class="line">library(plantlist)</span><br><span class="line"><span class="comment">## This is plantlist 0.6.1.</span></span><br><span class="line"><span class="comment"># devtools::install_github(&quot;helixcn/plantlist&quot;)</span></span><br><span class="line">library(V.PhyloMaker)</span><br><span class="line"><span class="comment"># devtools::install_github(&quot;jinyizju/V.PhyloMaker&quot;)</span></span><br><span class="line">library(picante)</span><br><span class="line">library(ape)</span><br><span class="line">dat &lt;- read.csv(<span class="string">&quot;trait_herb_114.csv&quot;</span>, header = <span class="literal">TRUE</span>)</span><br><span class="line">head(dat)</span><br><span class="line"><span class="comment">##                 species height</span></span><br><span class="line"><span class="comment">## 1     Stipa_albasiensis   48.5</span></span><br><span class="line"><span class="comment">## 2 Heteropappus_altaicus   15.6</span></span><br><span class="line"><span class="comment">## 3  Roegneria_alashanica   43.7</span></span><br><span class="line"><span class="comment">## 4 Saussurea_alaschanica   21.5</span></span><br><span class="line"><span class="comment">## 5 Astragalus_alaschanus   18.0</span></span><br><span class="line"><span class="comment">## 6      Panzerina_lanata   12.5</span></span><br><span class="line">height &lt;- dat$height</span><br><span class="line"><span class="built_in">names</span>(height) &lt;- dat$species</span><br><span class="line"></span><br><span class="line"><span class="comment"># Build a phylogeny using phylo.maker</span></span><br><span class="line">species &lt;- gsub(<span class="string">&quot;_&quot;</span>, <span class="string">&quot; &quot;</span>, <span class="built_in">as.character</span>(dat$species))</span><br><span class="line">tab2 &lt;- subset(TPL(gsub(<span class="string">&quot;_&quot;</span>, <span class="string">&quot; &quot;</span>, species)),              </span><br><span class="line">select = <span class="built_in">c</span>(<span class="string">&quot;YOUR_SEARCH&quot;</span>, <span class="string">&quot;POSSIBLE_GENUS&quot;</span>, <span class="string">&quot;FAMILY&quot;</span>))</span><br><span class="line">colnames(tab2) &lt;- <span class="built_in">c</span>(<span class="string">&quot;species&quot;</span>, <span class="string">&quot;genus&quot;</span>, <span class="string">&quot;family&quot;</span>)</span><br><span class="line">result1 &lt;- phylo.maker(tab2, scenarios = <span class="built_in">c</span>(<span class="string">&quot;S1&quot;</span>))</span><br><span class="line"><span class="comment">## [1] &quot;Taxonomic classification not consistent between sp.list and tree.&quot;##           genus family_in_sp.list family_in_tree## 77 Hemerocallis  Xanthorrhoeaceae  Asphodelaceae</span></span><br><span class="line"><span class="comment"># write.tree(result1[[1]], &quot;tree1.newick&quot;) </span></span><br><span class="line"><span class="comment"># If you want to examine the tree</span></span><br><span class="line">tree &lt;- multi2di(result1[[<span class="number">1</span>]])</span><br><span class="line"><span class="comment"># plot(tree)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># &quot;If x has names, its values are matched to the tip labels of phy, otherwise its values are taken to be in the same order than the tip labels of phy.&quot;</span></span><br><span class="line">data_matched &lt;- match.phylo.data(phy = tree, data = height )</span><br><span class="line"><span class="comment"># Phylogenetic Independent Contrastheight_pic &lt;- pic(data_matched$data, data_matched$phy)</span></span><br></pre></td></tr></table></figure>
+<pre><code class="R">setwd(&quot;...&quot;)
+library(plantlist)
+## This is plantlist 0.6.1.
+# devtools::install_github(&quot;helixcn/plantlist&quot;)
+library(V.PhyloMaker)
+# devtools::install_github(&quot;jinyizju/V.PhyloMaker&quot;)
+library(picante)
+library(ape)
+dat &lt;- read.csv(&quot;trait_herb_114.csv&quot;, header = TRUE)
+head(dat)
+##                 species height
+## 1     Stipa_albasiensis   48.5
+## 2 Heteropappus_altaicus   15.6
+## 3  Roegneria_alashanica   43.7
+## 4 Saussurea_alaschanica   21.5
+## 5 Astragalus_alaschanus   18.0
+## 6      Panzerina_lanata   12.5
+height &lt;- dat$height
+names(height) &lt;- dat$species
 
+# Build a phylogeny using phylo.maker
+species &lt;- gsub(&quot;_&quot;, &quot; &quot;, as.character(dat$species))
+tab2 &lt;- subset(TPL(gsub(&quot;_&quot;, &quot; &quot;, species)),              
+select = c(&quot;YOUR_SEARCH&quot;, &quot;POSSIBLE_GENUS&quot;, &quot;FAMILY&quot;))
+colnames(tab2) &lt;- c(&quot;species&quot;, &quot;genus&quot;, &quot;family&quot;)
+result1 &lt;- phylo.maker(tab2, scenarios = c(&quot;S1&quot;))
+## [1] &quot;Taxonomic classification not consistent between sp.list and tree.&quot;##           genus family_in_sp.list family_in_tree## 77 Hemerocallis  Xanthorrhoeaceae  Asphodelaceae
+# write.tree(result1[[1]], &quot;tree1.newick&quot;) 
+# If you want to examine the tree
+tree &lt;- multi2di(result1[[1]])
+# plot(tree)
+
+# &quot;If x has names, its values are matched to the tip labels of phy, otherwise its values are taken to be in the same order than the tip labels of phy.&quot;
+data_matched &lt;- match.phylo.data(phy = tree, data = height )
+# Phylogenetic Independent Contrastheight_pic &lt;- pic(data_matched$data, data_matched$phy)
+</code></pre>
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
 <li>Felsenstein, J. (1985) Phylogenies and the comparative method. American Naturalist, 125, 1–15.</li>
 <li>Jin, Y., &amp; Qian, H. (2019). V. PhyloMaker: an R package that can generate very large phylogenies for vascular plants. Ecography, 42(8), 1353-1359.</li>
@@ -153,7 +226,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2020/02/19/2020-02-20/" data-id="ckmq2gwv500dfq8845ryqh9wd" data-title="什么是系统发育独立差（Phylogenetic Independent Contrast）？" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2020/02/19/2020-02-20/" data-id="ckmq42al800d31k849l2ydkz7" data-title="什么是系统发育独立差（Phylogenetic Independent Contrast）？" class="article-share-link">Share</a>
       
       
       
@@ -229,6 +302,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -242,10 +319,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

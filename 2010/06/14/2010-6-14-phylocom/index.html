@@ -103,20 +103,82 @@
 <p>通过植物名录建立进化树， 目前也有两个程序包可以选择， 一个是浙江大学金毅老师编写的 S.PhyloMaker R 脚本 (<a target="_blank" rel="noopener" href="https://github.com/jinyizju/S.PhyloMaker">https://github.com/jinyizju/S.PhyloMaker</a>), 另一个是 Scott Chamberlain 编写的 brranching R 程序包 (<a target="_blank" rel="noopener" href="https://github.com/ropensci/brranching)%E3%80%82">https://github.com/ropensci/brranching)。</a> S.PhyloMaker 的数据是基于Zanne 2014进化树生成的，可建立包含几万个分类单元的进化树，但速度较慢。 brranching 主要是基于Phylomatic的，可以直接输入植物名录获得进化树，速度较快，但是在分类单元数量上有一定限制。以上两个程序包的用法，用户可自行参考指南，本文只介绍通过Phylomatic建立进化树。</p>
 <p>Phylocom是用来进行群落系统发育分析的软件。该软件可以为Phylomatic软件得到的无枝长进化树，用BLADJ方法拟合出枝长（这是因为Phylomatic软件建立的进化树， 有科属种的标签，而另外一个提供的ages文件， 有科属种的分化时间），不过BLADJ算法在2014年以后已经很少使用。此外，Phylocom还可以：计算系统发育多样性（PD），系统发育结构(community structure)，群落的系统发育距离(community phylogenetic distance)，分析群落的性状进化(AOT)等。下面就介绍如何使用Phylomatic和Phylocom进行相应的分析。</p>
 <p>假设有如下植物名录要建立进化树：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Castanopsis eyrei</span><br><span class="line">Castanopsis carlesii</span><br><span class="line">Castanopsis fargesii</span><br><span class="line">Castanopsis tibetana</span><br><span class="line">Cyclobalanopsis gracilis</span><br><span class="line">Cyclobalanopsis glauca</span><br><span class="line">Lithocarpus glaber</span><br><span class="line">Myrica rubra</span><br><span class="line">Elaeocarpus decipiens</span><br><span class="line">Syzygium buxifolium</span><br><span class="line">Daphniphyllum oldhamii</span><br><span class="line">Loropetalum chinense</span><br><span class="line">Rhododendron latoucheae</span><br><span class="line">Rhododendron ovatum</span><br><span class="line">Vaccinium carlesii</span><br><span class="line">Schima superba</span><br><span class="line">Adinandra millettii</span><br><span class="line">Eurya muricata</span><br><span class="line">Camellia fraterna</span><br><span class="line">Ternstroemia gymnanthera</span><br><span class="line">Machilus thunbergii</span><br><span class="line">Neolitsea aurata var. chekiangensis</span><br><span class="line">Chimonanthus salicifolius</span><br></pre></td></tr></table></figure>
-
+<pre><code>Castanopsis eyrei
+Castanopsis carlesii
+Castanopsis fargesii
+Castanopsis tibetana
+Cyclobalanopsis gracilis
+Cyclobalanopsis glauca
+Lithocarpus glaber
+Myrica rubra
+Elaeocarpus decipiens
+Syzygium buxifolium
+Daphniphyllum oldhamii
+Loropetalum chinense
+Rhododendron latoucheae
+Rhododendron ovatum
+Vaccinium carlesii
+Schima superba
+Adinandra millettii
+Eurya muricata
+Camellia fraterna
+Ternstroemia gymnanthera
+Machilus thunbergii
+Neolitsea aurata var. chekiangensis
+Chimonanthus salicifolius
+</code></pre>
 <p>一般流程如下</p>
 <h1 id="1-准备-科-属-种名录"><a href="#1-准备-科-属-种名录" class="headerlink" title="1. 准备 科/属/种名录"></a>1. 准备 科/属/种名录</h1><p>请注意: 《中国植物志》 以及Flora of China等植物志, 由于成书较早，所以采用的分类系统都不是APG。而APG分类系统是目前为止能够较为客观体现科水平系统发育关系的分类系统（最新版本APG IV），因而是推荐采用的。不过目前能获得的准确科属列表为APGIII的版本，与APG IV差别不大。为了批量查询植物所在APG的科名，可使用本人编写的R程序包 plantlist (<a target="_blank" rel="noopener" href="https://github.com/helixcn/plantlist)%E3%80%82%E8%AF%A5%E7%A8%8B%E5%BA%8F%E5%8C%85%E7%9A%84%E7%AE%80%E8%A6%81%E4%BB%8B%E7%BB%8D%E5%8F%82%E8%A7%81">https://github.com/helixcn/plantlist)。该程序包的简要介绍参见</a> <a target="_blank" rel="noopener" href="http://bbs.sciencenet.cn/blog-255662-846673.html">http://blog.sciencenet.cn/blog-255662-846673.html</a> 。</p>
 <p>注意： 由于plantlist给出的是APGIII的科属列表，如果用户要使用APG IV，请自行修订。</p>
-<h2 id="1-1-plantlist程序包的安装"><a href="#1-1-plantlist程序包的安装" class="headerlink" title="1.1 plantlist程序包的安装"></a>1.1 plantlist程序包的安装</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">library(devtools)</span><br><span class="line">install_github(<span class="string">&quot;helixcn/plantlist&quot;</span>)</span><br></pre></td></tr></table></figure>
-
+<h2 id="1-1-plantlist程序包的安装"><a href="#1-1-plantlist程序包的安装" class="headerlink" title="1.1 plantlist程序包的安装"></a>1.1 plantlist程序包的安装</h2><pre><code class="R">library(devtools)
+install_github(&quot;helixcn/plantlist&quot;)
+</code></pre>
 <h2 id="1-2-生成科属种列表"><a href="#1-2-生成科属种列表" class="headerlink" title="1.2 生成科属种列表"></a>1.2 生成科属种列表</h2><p>R 命令为</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">sp &lt;- <span class="built_in">c</span>( <span class="string">&quot;Castanopsis eyrei&quot;</span>,<span class="string">&quot;Castanopsis carlesii&quot;</span>,</span><br><span class="line"><span class="string">&quot;Castanopsis fargesii&quot;</span>,<span class="string">&quot;Castanopsis tibetana&quot;</span>,</span><br><span class="line"><span class="string">&quot;Cyclobalanopsis gracilis&quot;</span>,<span class="string">&quot;Cyclobalanopsis glauca&quot;</span>,</span><br><span class="line"><span class="string">&quot;Lithocarpus glaber&quot;</span>,<span class="string">&quot;Myrica rubra&quot;</span>,</span><br><span class="line"><span class="string">&quot;Elaeocarpus decipiens&quot;</span>,<span class="string">&quot;Syzygium buxifolium&quot;</span>,</span><br><span class="line"><span class="string">&quot;Daphniphyllum oldhamii&quot;</span>,<span class="string">&quot;Loropetalum chinense&quot;</span>,</span><br><span class="line"><span class="string">&quot;Rhododendron latoucheae&quot;</span>,<span class="string">&quot;Rhododendron ovatum&quot;</span>,</span><br><span class="line"><span class="string">&quot;Vaccinium carlesii&quot;</span>,<span class="string">&quot;Schima superba&quot;</span>,</span><br><span class="line"><span class="string">&quot;Adinandra millettii&quot;</span>,<span class="string">&quot;Eurya muricata&quot;</span>,</span><br><span class="line"><span class="string">&quot;Camellia fraterna&quot;</span>,<span class="string">&quot;Ternstroemia gymnanthera&quot;</span>,</span><br><span class="line"><span class="string">&quot;Machilus thunbergii&quot;</span>,<span class="string">&quot;Neolitsea aurata var. chekiangensis&quot;</span>,</span><br><span class="line"><span class="string">&quot;Chimonanthus salicifolius&quot;</span>)</span><br><span class="line"></span><br><span class="line">library(plantlist)</span><br><span class="line">sp2 &lt;- TPL(sp)</span><br><span class="line">res &lt;- taxa.table(sp2)</span><br><span class="line">writeLines(res, <span class="string">&quot;taxa.table.txt&quot;</span>)</span><br><span class="line">getwd()</span><br></pre></td></tr></table></figure>
+<pre><code class="R">sp &lt;- c( &quot;Castanopsis eyrei&quot;,&quot;Castanopsis carlesii&quot;,
+&quot;Castanopsis fargesii&quot;,&quot;Castanopsis tibetana&quot;,
+&quot;Cyclobalanopsis gracilis&quot;,&quot;Cyclobalanopsis glauca&quot;,
+&quot;Lithocarpus glaber&quot;,&quot;Myrica rubra&quot;,
+&quot;Elaeocarpus decipiens&quot;,&quot;Syzygium buxifolium&quot;,
+&quot;Daphniphyllum oldhamii&quot;,&quot;Loropetalum chinense&quot;,
+&quot;Rhododendron latoucheae&quot;,&quot;Rhododendron ovatum&quot;,
+&quot;Vaccinium carlesii&quot;,&quot;Schima superba&quot;,
+&quot;Adinandra millettii&quot;,&quot;Eurya muricata&quot;,
+&quot;Camellia fraterna&quot;,&quot;Ternstroemia gymnanthera&quot;,
+&quot;Machilus thunbergii&quot;,&quot;Neolitsea aurata var. chekiangensis&quot;,
+&quot;Chimonanthus salicifolius&quot;)
 
+library(plantlist)
+sp2 &lt;- TPL(sp)
+res &lt;- taxa.table(sp2)
+writeLines(res, &quot;taxa.table.txt&quot;)
+getwd()
+</code></pre>
 <p>运行以上R代码，科属种列表就保存在taxa.table.txt 文件中，保存的路径在R中有所显示。</p>
 <p>所生成文件taxa.table.txt用Notepad++ (<a target="_blank" rel="noopener" href="https://notepad-plus-plus.org/download/">https://notepad-plus-plus.org/download/</a> ) 记事本打开， 内容如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Fagaceae&#x2F;Castanopsis&#x2F;Castanopsis_eyrei</span><br><span class="line">Fagaceae&#x2F;Castanopsis&#x2F;Castanopsis_carlesii</span><br><span class="line">Fagaceae&#x2F;Castanopsis&#x2F;Castanopsis_fargesii</span><br><span class="line">Fagaceae&#x2F;Castanopsis&#x2F;Castanopsis_tibetana</span><br><span class="line">Fagaceae&#x2F;Cyclobalanopsis&#x2F;Cyclobalanopsis_gracilis</span><br><span class="line">Fagaceae&#x2F;Cyclobalanopsis&#x2F;Cyclobalanopsis_glauca</span><br><span class="line">Fagaceae&#x2F;Lithocarpus&#x2F;Lithocarpus_glaber</span><br><span class="line">Myricaceae&#x2F;Myrica&#x2F;Myrica_rubra</span><br><span class="line">Elaeocarpaceae&#x2F;Elaeocarpus&#x2F;Elaeocarpus_decipiens</span><br><span class="line">Myrtaceae&#x2F;Syzygium&#x2F;Syzygium_buxifolium</span><br><span class="line">Daphniphyllaceae&#x2F;Daphniphyllum&#x2F;Daphniphyllum_oldhamii</span><br><span class="line">Hamamelidaceae&#x2F;Loropetalum&#x2F;Loropetalum_chinense</span><br><span class="line">Ericaceae&#x2F;Rhododendron&#x2F;Rhododendron_latoucheae</span><br><span class="line">Ericaceae&#x2F;Rhododendron&#x2F;Rhododendron_ovatum</span><br><span class="line">Ericaceae&#x2F;Vaccinium&#x2F;Vaccinium_carlesii</span><br><span class="line">Theaceae&#x2F;Schima&#x2F;Schima_superba</span><br><span class="line">Theaceae&#x2F;Camellia&#x2F;Camellia_fraterna</span><br><span class="line">Pentaphylacaceae&#x2F;Adinandra&#x2F;Adinandra_millettii</span><br><span class="line">Pentaphylacaceae&#x2F;Eurya&#x2F;Eurya_muricata</span><br><span class="line">Pentaphylacaceae&#x2F;Ternstroemia&#x2F;Ternstroemia_gymnanthera</span><br><span class="line">Lauraceae&#x2F;Machilus&#x2F;Machilus_thunbergii</span><br><span class="line">Lauraceae&#x2F;Neolitsea&#x2F;Neolitsea_aurata_var._chekiangensis</span><br><span class="line">Calycanthaceae&#x2F;Chimonanthus&#x2F;Chimonanthus_salicifolius</span><br></pre></td></tr></table></figure>
-
+<pre><code>Fagaceae/Castanopsis/Castanopsis_eyrei
+Fagaceae/Castanopsis/Castanopsis_carlesii
+Fagaceae/Castanopsis/Castanopsis_fargesii
+Fagaceae/Castanopsis/Castanopsis_tibetana
+Fagaceae/Cyclobalanopsis/Cyclobalanopsis_gracilis
+Fagaceae/Cyclobalanopsis/Cyclobalanopsis_glauca
+Fagaceae/Lithocarpus/Lithocarpus_glaber
+Myricaceae/Myrica/Myrica_rubra
+Elaeocarpaceae/Elaeocarpus/Elaeocarpus_decipiens
+Myrtaceae/Syzygium/Syzygium_buxifolium
+Daphniphyllaceae/Daphniphyllum/Daphniphyllum_oldhamii
+Hamamelidaceae/Loropetalum/Loropetalum_chinense
+Ericaceae/Rhododendron/Rhododendron_latoucheae
+Ericaceae/Rhododendron/Rhododendron_ovatum
+Ericaceae/Vaccinium/Vaccinium_carlesii
+Theaceae/Schima/Schima_superba
+Theaceae/Camellia/Camellia_fraterna
+Pentaphylacaceae/Adinandra/Adinandra_millettii
+Pentaphylacaceae/Eurya/Eurya_muricata
+Pentaphylacaceae/Ternstroemia/Ternstroemia_gymnanthera
+Lauraceae/Machilus/Machilus_thunbergii
+Lauraceae/Neolitsea/Neolitsea_aurata_var._chekiangensis
+Calycanthaceae/Chimonanthus/Chimonanthus_salicifolius
+</code></pre>
 <p>注： 查询植物科名，也可以用 taxize程序包（<a target="_blank" rel="noopener" href="https://ropensci.org/tutorials/taxize_tutorial/%EF%BC%89">https://ropensci.org/tutorials/taxize_tutorial/）</a></p>
 <h1 id="2-Phylomatic建树"><a href="#2-Phylomatic建树" class="headerlink" title="2 Phylomatic建树"></a>2 Phylomatic建树</h1><p>在Zanne 2014进化树发表之前，用Phylomatic建立进化树一般只是按照APGIII的骨架，生成无枝长的newick进化树。然后再在Phylocom软件中，用BLADJ模块，将Wikstroem等人推断的各类群分化时间拟合到无枝长的进化树上。Wikstroem的分化时间由于发表年代久远， 被子植物各类群的分化时间有一些变动，通过Phylocom BLADJ的方法校正分化时间已经显得过时。从2015年开始, Phylomatic网站整合了 Zanne 2014的进化树骨架, 可以直接基于该进化树直接获得有枝长的进化树。</p>
 <p>方法如下:</p>
@@ -129,8 +191,22 @@
 </ol>
 <p>将网页中的输出结果拷贝到文本文件中， 并另存为 phylo文件， 请注意，如果后续用Phylocom进行分析，则该phylo文件不能有任何扩展名。该进化树为Newick格式， 不含Singletons，因此可以用R的ape读取并进行数据处理，或者Figtree软件绘图。</p>
 <p>获得的进化树如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">((Chimonanthus_salicifolius:108.8,(Neolitsea_aurata_var._chekiangensis:88.1284,</span><br><span class="line">Machilus_thunbergii:88.1284)Lauraceae:20.672)Laurales:71.8279,</span><br><span class="line">(((((((Cyclobalanopsis_gracilis:20.205,Cyclobalanopsis_glauca:20.205)</span><br><span class="line">Cyclobalanopsis:20.205,(Lithocarpus_glaber:3.30372,</span><br><span class="line">(Castanopsis_eyrei:0.94544,(Castanopsis_carlesii:0.320126,</span><br><span class="line">(Castanopsis_tibetana:0.28527,Castanopsis_fargesii:0.28527):0.034856):</span><br><span class="line">0.625313):2.35828):37.1063)Fagaceae:21.8954,Myrica_rubra:62.3054):</span><br><span class="line">50.9532,Elaeocarpus_decipiens:113.259)Fabidae:4.27613,Syzygium_buxifolium:</span><br><span class="line">117.535)Rosidae:0.138911,(Daphniphyllum_oldhamii:107.877,Loropetalum_chinense:</span><br><span class="line">107.877):9.79685)Superrosidae:1.49186,((Rhododendron_latoucheae:62.0517,</span><br><span class="line">Vaccinium_carlesii:62.0517,Rhododendron_ovatum:62.0517)Ericaceae:20.7165,</span><br><span class="line">((Ternstroemia_gymnanthera:43.8733,(Adinandra_millettii:33.7061,</span><br><span class="line">Eurya_muricata:33.7061):10.1672):27.9519,(Schima_superba:57.076,</span><br><span class="line">Camellia_fraterna:57.076):14.7492):10.943):36.3974)</span><br><span class="line">Gunneridae:61.4628):259.665;</span><br></pre></td></tr></table></figure>
-
+<pre><code>((Chimonanthus_salicifolius:108.8,(Neolitsea_aurata_var._chekiangensis:88.1284,
+Machilus_thunbergii:88.1284)Lauraceae:20.672)Laurales:71.8279,
+(((((((Cyclobalanopsis_gracilis:20.205,Cyclobalanopsis_glauca:20.205)
+Cyclobalanopsis:20.205,(Lithocarpus_glaber:3.30372,
+(Castanopsis_eyrei:0.94544,(Castanopsis_carlesii:0.320126,
+(Castanopsis_tibetana:0.28527,Castanopsis_fargesii:0.28527):0.034856):
+0.625313):2.35828):37.1063)Fagaceae:21.8954,Myrica_rubra:62.3054):
+50.9532,Elaeocarpus_decipiens:113.259)Fabidae:4.27613,Syzygium_buxifolium:
+117.535)Rosidae:0.138911,(Daphniphyllum_oldhamii:107.877,Loropetalum_chinense:
+107.877):9.79685)Superrosidae:1.49186,((Rhododendron_latoucheae:62.0517,
+Vaccinium_carlesii:62.0517,Rhododendron_ovatum:62.0517)Ericaceae:20.7165,
+((Ternstroemia_gymnanthera:43.8733,(Adinandra_millettii:33.7061,
+Eurya_muricata:33.7061):10.1672):27.9519,(Schima_superba:57.076,
+Camellia_fraterna:57.076):14.7492):10.943):36.3974)
+Gunneridae:61.4628):259.665;
+</code></pre>
 <p>注：用brranching R程序包可以直接输入物种名，获得进化树。</p>
 <h1 id="3-用Phylocom计算PD-NRI-和NTI-（以Example文件为例）"><a href="#3-用Phylocom计算PD-NRI-和NTI-（以Example文件为例）" class="headerlink" title="3. 用Phylocom计算PD, NRI 和NTI （以Example文件为例）"></a>3. 用Phylocom计算PD, NRI 和NTI （以Example文件为例）</h1><p>注意：这部分计算使用的是Example文件，与上文的植物名录已经没有关系。</p>
 <h2 id="3-1-下载phylocom软件"><a href="#3-1-下载phylocom软件" class="headerlink" title="3.1 下载phylocom软件"></a>3.1 下载phylocom软件</h2><p>打开 <a target="_blank" rel="noopener" href="https://github.com/phylocom/phylocom/releases">https://github.com/phylocom/phylocom/releases</a> 下载zip文件，解压缩, 可见以下几个文件夹：</p>
@@ -145,8 +221,22 @@
 </ol>
 <h2 id="3-2-创建工作路径"><a href="#3-2-创建工作路径" class="headerlink" title="3.2 创建工作路径"></a>3.2 创建工作路径</h2><p>Phylocom必须在纯ASCII码的路径下运行，运行路径不能有中文。在C盘根目录下，创建一个名为phylocom的文件夹。将w32中的phylocom.exe文件，拷贝到文件夹 C:/phylocom下。 将example_data文件夹中的phylo和sample文件，拷贝到该文件夹C:/phylocom中。</p>
 <h2 id="3-3-利用phylocom软件计算PD、NRI、NTI等指数"><a href="#3-3-利用phylocom软件计算PD、NRI、NTI等指数" class="headerlink" title="3.3 利用phylocom软件计算PD、NRI、NTI等指数"></a>3.3 利用phylocom软件计算PD、NRI、NTI等指数</h2><p>sample文件第一列是样方的名称，第二列是个体数，第三列是物种名。物种名一定要与phylo文件中的物种名完全对应（包括大小写）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">clump1    1    sp1</span><br><span class="line">clump1    1    sp2</span><br><span class="line">clump1    1    sp3</span><br><span class="line">clump1    1    sp4</span><br><span class="line">clump1    1    sp5</span><br><span class="line">clump1    1    sp6</span><br><span class="line">clump1    1    sp7</span><br><span class="line">clump1    1    sp8</span><br><span class="line">clump2a    1    sp1</span><br><span class="line">clump2a    1    sp2</span><br><span class="line">.... (中间省略)</span><br><span class="line">random    2    sp15</span><br><span class="line">random    3    sp17</span><br><span class="line">random    1    sp22</span><br><span class="line">random    2    sp24</span><br></pre></td></tr></table></figure>
-
+<pre><code>clump1    1    sp1
+clump1    1    sp2
+clump1    1    sp3
+clump1    1    sp4
+clump1    1    sp5
+clump1    1    sp6
+clump1    1    sp7
+clump1    1    sp8
+clump2a    1    sp1
+clump2a    1    sp2
+.... (中间省略)
+random    2    sp15
+random    3    sp17
+random    1    sp22
+random    2    sp24
+</code></pre>
 <p>将phylo和sample文件夹拷贝到 C:\phylocom 之后，</p>
 <p>点击 开始&gt; cmd &gt; 输入 <code>cd C:\phylocom&gt;</code></p>
 <p>输入 <code>phylocom comstruct &gt; comstruct.output</code> 计算群落的系统发育结构的NRI和NTI指数</p>
@@ -164,7 +254,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2010/06/14/2010-6-14-phylocom/" data-id="ckmq2gwqh001lq884fu5hg4v0" data-title="用Phylomatic和PhyloCom进行群落系统进化分析(20180820)" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2010/06/14/2010-6-14-phylocom/" data-id="ckmq42ahc001j1k841iis7kbl" data-title="用Phylomatic和PhyloCom进行群落系统进化分析(20180820)" class="article-share-link">Share</a>
       
       
       
@@ -240,6 +330,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -253,10 +347,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

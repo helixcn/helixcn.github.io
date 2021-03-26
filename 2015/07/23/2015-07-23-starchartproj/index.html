@@ -109,14 +109,53 @@
 <li>R =1： 为比例半径， 一般取值为1</li>
 </ul>
 <p>函数定义如下：</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">stereo_proj &lt;-<span class="keyword">function</span>(lambda,phi, lambda0 =<span class="number">0</span>, phi0 =<span class="number">0</span>, R =<span class="number">1</span>)&#123;</span><br><span class="line">   lambda &lt;- lambda/(<span class="number">180</span>/<span class="built_in">pi</span>)</span><br><span class="line">   phi    &lt;- phi/(<span class="number">180</span>/<span class="built_in">pi</span>)</span><br><span class="line">   lambda0 &lt;- lambda0/(<span class="number">180</span>/<span class="built_in">pi</span>)</span><br><span class="line">   phi0   &lt;- phi0/(<span class="number">180</span>/<span class="built_in">pi</span>)</span><br><span class="line">   k =<span class="number">2</span>*R/(<span class="number">1</span>+<span class="built_in">sin</span>(phi0)*<span class="built_in">sin</span>(phi)+<span class="built_in">cos</span>(phi0)*<span class="built_in">cos</span>(phi)*<span class="built_in">cos</span>(lambda - lambda0))</span><br><span class="line">   x = k*<span class="built_in">cos</span>(phi)*<span class="built_in">sin</span>(lambda - lambda0)</span><br><span class="line">   y = k*(<span class="built_in">cos</span>(phi0)*<span class="built_in">sin</span>(phi)-<span class="built_in">sin</span>(phi0)*<span class="built_in">cos</span>(phi)*<span class="built_in">cos</span>(lambda - lambda0))   </span><br><span class="line">   <span class="built_in">return</span>(<span class="built_in">list</span>(x = x, y = y))</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="comment">### 公式参见 ### Source</span></span><br><span class="line"><span class="comment">###  </span></span><br><span class="line"><span class="comment">### 下面用地图投影变换举例</span></span><br><span class="line"></span><br><span class="line"> library(maps)</span><br><span class="line"> <span class="comment">###</span></span><br><span class="line"> aaa &lt;- map()  </span><br><span class="line"> <span class="comment">### 获取大比例尺世界地图中的座标</span></span><br></pre></td></tr></table></figure>
+<pre><code class="R">stereo_proj &lt;-function(lambda,phi, lambda0 =0, phi0 =0, R =1)&#123;
+   lambda &lt;- lambda/(180/pi)
+   phi    &lt;- phi/(180/pi)
+   lambda0 &lt;- lambda0/(180/pi)
+   phi0   &lt;- phi0/(180/pi)
+   k =2*R/(1+sin(phi0)*sin(phi)+cos(phi0)*cos(phi)*cos(lambda - lambda0))
+   x = k*cos(phi)*sin(lambda - lambda0)
+   y = k*(cos(phi0)*sin(phi)-sin(phi0)*cos(phi)*cos(lambda - lambda0))   
+   return(list(x = x, y = y))
+&#125; 
 
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">plot(stereo_proj(lambda = aaa$x, phi = aaa$y), </span><br><span class="line">      type =<span class="string">&quot;l&quot;</span>, xlim =<span class="built_in">c</span>(-<span class="number">6</span>,<span class="number">6</span>), ylim =<span class="built_in">c</span>(-<span class="number">6</span>,<span class="number">6</span>)) </span><br><span class="line"></span><br><span class="line"><span class="comment">### 添加经度线</span></span><br><span class="line"><span class="comment">####Adding longitudinal Lines</span></span><br><span class="line">long =<span class="built_in">c</span>(-<span class="number">180</span>, -<span class="number">150</span>, -<span class="number">120</span>, -<span class="number">90</span>, -<span class="number">60</span>, -<span class="number">30</span>, <span class="number">0</span>, <span class="number">30</span>, <span class="number">60</span>, <span class="number">90</span>, <span class="number">120</span>, <span class="number">150</span>)</span><br><span class="line">lat  =-<span class="number">90</span>:<span class="number">90</span></span><br><span class="line"><span class="keyword">for</span>(i <span class="keyword">in</span> long)&#123;</span><br><span class="line">   temp &lt;- stereo_proj(lambda = i, phi = lat)</span><br><span class="line">   points(temp$x, temp$y, type =<span class="string">&quot;l&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">### 添加纬度线</span></span><br><span class="line"><span class="comment">### Adding latitudinal lines### </span></span><br><span class="line">plot(<span class="number">0</span>, xlim =<span class="built_in">c</span>(-<span class="number">2</span>, <span class="number">2</span>), ylim = <span class="built_in">c</span>(-<span class="number">2</span>, <span class="number">2</span>), pch = <span class="string">&quot;&quot;</span>)</span><br><span class="line">lat =<span class="built_in">c</span>(-<span class="number">90</span>, -<span class="number">60</span>, -<span class="number">30</span>, <span class="number">0</span>, <span class="number">30</span>, <span class="number">60</span>, <span class="number">90</span>)</span><br><span class="line">long  =-<span class="number">150</span>:<span class="number">150</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(i <span class="keyword">in</span> lat)&#123;</span><br><span class="line">   temp &lt;- stereo_proj(lambda = long,phi = i)</span><br><span class="line">   points(temp$x, temp$y, type =<span class="string">&quot;l&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+### 公式参见 ### Source
+###  
+### 下面用地图投影变换举例
+
+ library(maps)
+ ###
+ aaa &lt;- map()  
+ ### 获取大比例尺世界地图中的座标
+</code></pre>
+<pre><code class="R">plot(stereo_proj(lambda = aaa$x, phi = aaa$y), 
+      type =&quot;l&quot;, xlim =c(-6,6), ylim =c(-6,6)) 
+
+### 添加经度线
+####Adding longitudinal Lines
+long =c(-180, -150, -120, -90, -60, -30, 0, 30, 60, 90, 120, 150)
+lat  =-90:90
+for(i in long)&#123;
+   temp &lt;- stereo_proj(lambda = i, phi = lat)
+   points(temp$x, temp$y, type =&quot;l&quot;)
+&#125;
+### 添加纬度线
+### Adding latitudinal lines### 
+plot(0, xlim =c(-2, 2), ylim = c(-2, 2), pch = &quot;&quot;)
+lat =c(-90, -60, -30, 0, 30, 60, 90)
+long  =-150:150
+
+for(i in lat)&#123;
+   temp &lt;- stereo_proj(lambda = long,phi = i)
+   points(temp$x, temp$y, type =&quot;l&quot;)
+&#125;
+</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2015/07/23/2015-07-23-starchartproj/" data-id="ckmq2gwsa006oq8841qvu9clu" data-title="星图中的球极平面投影" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2015/07/23/2015-07-23-starchartproj/" data-id="ckmq42aiz006l1k84bhb27v0n" data-title="星图中的球极平面投影" class="article-share-link">Share</a>
       
       
       
@@ -192,6 +231,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -205,10 +248,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

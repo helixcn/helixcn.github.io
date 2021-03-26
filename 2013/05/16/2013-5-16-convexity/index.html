@@ -6,12 +6,12 @@
   
   <title>样地数据从海拔计算坡度、坡向和凹凸度 | Jinlong Zhang&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="以下函数， 用来计算森林监测样地每个小样方的坡度和坡向以及凹凸度。 这里用到的是Arcgis中的计算方法。各函数都假设，原点位于西南方向， x向东增加， y向北增加。 函数都已经经过演算， 结果与示例结果相同。 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515">
+  <meta name="description" content="以下函数， 用来计算森林监测样地每个小样方的坡度和坡向以及凹凸度。 这里用到的是Arcgis中的计算方法。各函数都假设，原点位于西南方向， x向东增加， y向北增加。 函数都已经经过演算， 结果与示例结果相同。 ## Calculating theslopes for each grid in a forest dynamic plot ## Provide thematrix of altitu">
 <meta property="og:type" content="article">
 <meta property="og:title" content="样地数据从海拔计算坡度、坡向和凹凸度">
 <meta property="og:url" content="https://helixcn.github.io/2013/05/16/2013-5-16-convexity/index.html">
 <meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
-<meta property="og:description" content="以下函数， 用来计算森林监测样地每个小样方的坡度和坡向以及凹凸度。 这里用到的是Arcgis中的计算方法。各函数都假设，原点位于西南方向， x向东增加， y向北增加。 函数都已经经过演算， 结果与示例结果相同。 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515">
+<meta property="og:description" content="以下函数， 用来计算森林监测样地每个小样方的坡度和坡向以及凹凸度。 这里用到的是Arcgis中的计算方法。各函数都假设，原点位于西南方向， x向东增加， y向北增加。 函数都已经经过演算， 结果与示例结果相同。 ## Calculating theslopes for each grid in a forest dynamic plot ## Provide thematrix of altitu">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2013-05-16T02:00:54.000Z">
 <meta property="article:modified_time" content="2021-03-26T05:34:24.545Z">
@@ -99,11 +99,136 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>以下函数， 用来计算森林监测样地每个小样方的坡度和坡向以及凹凸度。 这里用到的是Arcgis中的计算方法。<br>各函数都假设，原点位于西南方向， x向东增加， y向北增加。 函数都已经经过演算， 结果与示例结果相同。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## Calculating theslopes for each grid in a forest dynamic plot</span></span><br><span class="line"><span class="comment">## Provide thematrix of altitudes</span></span><br><span class="line"><span class="comment">## Provide thecell_size, the altitudes and cell_size must be in the same unit.</span></span><br><span class="line"><span class="comment">## Algorithms couldbe found at ##</span></span><br><span class="line"><span class="comment">##http://webhelp.esri.com/arcgiSDEsktop/9.3/body.cfm?tocVisable=1&amp;ID=-1&amp;TopicName=How%20Slope%20works</span></span><br><span class="line"><span class="comment">## Value: a matrixrepresenting the degrees of each grid.</span></span><br><span class="line">get_slope &lt;-<span class="keyword">function</span>(z.mat,cell_size =<span class="number">5</span>)&#123;</span><br><span class="line">​    <span class="comment">###Extent the z.mat matrix using the value from the border, so that the slope forthe out most cells could be calculated.</span></span><br><span class="line">​    z.mat.colbind &lt;-cbind(z.mat[,<span class="number">1</span>], z.mat,z.mat[,ncol(z.mat)])</span><br><span class="line">​    z.mat.rbind &lt;-rbind(<span class="built_in">c</span>(z.mat[<span class="number">1</span>,<span class="number">1</span>], z.mat[<span class="number">1</span>,], z.mat[<span class="number">1</span>,ncol(z.mat)]),z.mat.colbind,</span><br><span class="line">​                         <span class="built_in">c</span>(z.mat[nrow(z.mat),<span class="number">1</span>], z.mat[nrow(z.mat),], z.mat[nrow(z.mat), ncol(z.mat)]))</span><br><span class="line">​    z.mat.ext &lt;- z.mat.rbind</span><br><span class="line">​    nrz &lt;-nrow(z.mat.ext)</span><br><span class="line">​    ncz &lt;-ncol(z.mat.ext)</span><br><span class="line">​    slope.mat &lt;-<span class="built_in">rep</span>(<span class="literal">NA</span>, nrz*ncz)</span><br><span class="line">​    <span class="built_in">dim</span>(slope.mat)&lt;-<span class="built_in">c</span>(nrz, ncz)  <span class="comment">##Create a Null matrix used in loop</span></span><br><span class="line">​    <span class="keyword">for</span>(m in2:(nrz-<span class="number">1</span>))&#123;</span><br><span class="line">​       <span class="keyword">for</span>(n in2:(ncz-<span class="number">1</span>))&#123;</span><br><span class="line">​           a = z.mat.ext[m-<span class="number">1</span>,n-<span class="number">1</span>]</span><br><span class="line">​           b = z.mat.ext[m-<span class="number">1</span>,n]</span><br><span class="line">​           <span class="built_in">c</span>=z.mat.ext[m-<span class="number">1</span>,n+<span class="number">1</span>]</span><br><span class="line">​           d = z.mat.ext[m,n-<span class="number">1</span>]</span><br><span class="line">​           e = z.mat.ext[m,n]</span><br><span class="line">​           f = z.mat.ext[m,n+<span class="number">1</span>]</span><br><span class="line">​           g = z.mat.ext[m+<span class="number">1</span>,n-<span class="number">1</span>]</span><br><span class="line">​           h = z.mat.ext[m+<span class="number">1</span>,n]</span><br><span class="line">​           i = z.mat.ext[m+<span class="number">1</span>,n+<span class="number">1</span>]</span><br><span class="line">​           </span><br><span class="line">​           dz_dx =((<span class="built_in">c</span>+<span class="number">2</span>*f + i)-(a +<span class="number">2</span>*d + g))/(<span class="number">8</span>*cell_size)</span><br><span class="line">​           dz_dy =((g +<span class="number">2</span>*h + i)-(a +<span class="number">2</span>*b +<span class="built_in">c</span>))/(<span class="number">8</span>*cell_size)</span><br><span class="line">​           slope.mat[m,n]&lt;-<span class="built_in">atan</span>(<span class="built_in">sqrt</span>( dz_dx^<span class="number">2</span>+ dz_dy^<span class="number">2</span>))*(<span class="number">180</span>/<span class="built_in">pi</span>)  </span><br><span class="line">​       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">​    <span class="built_in">return</span>(slope.mat[<span class="built_in">c</span>(-<span class="number">1</span>, -nrow(slope.mat)),<span class="built_in">c</span>(-<span class="number">1</span>, -ncol(slope.mat))])</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">####</span></span><br><span class="line"><span class="comment">#### test.dat2 &lt;-c(50, 30, 8, 45, 30, 10, 50, 30, 10)</span></span><br><span class="line"><span class="comment">#### test.dat.slope2&lt;- matrix(test.dat2, nrow = 3, byrow = FALSE)</span></span><br><span class="line"><span class="comment">#### test.dat.slope2</span></span><br><span class="line"><span class="comment">####get_slope(test.dat.slope2, cell_size = 5)</span></span><br><span class="line"><span class="comment">###################################################################</span></span><br><span class="line"><span class="comment">## Calculating theaspect of each cell within a forest dynamic plot</span></span><br><span class="line"><span class="comment">## Adopted from ESRIhttp://webhelp.esri.com/arcgisdesktop/9.3/body.cfm?tocVisable=1&amp;ID=-1&amp;TopicName=how%20aspect%20works</span></span><br><span class="line"><span class="comment">## the z.mat is anumerical matrix representing the altitude for each cell</span></span><br><span class="line"><span class="comment">## the output is anumerical matrix representing the degree of aspect. Starting from the north,</span></span><br><span class="line"><span class="comment">## This functionassums that The direction of the column, from greater to smaller columns pointsto the north.</span></span><br><span class="line">get_aspect &lt;-<span class="keyword">function</span>(z.mat)&#123;</span><br><span class="line">​    z.mat.colbind &lt;-cbind(z.mat[,<span class="number">1</span>], z.mat,z.mat[,ncol(z.mat)])</span><br><span class="line">​    z.mat.rbind &lt;-rbind(<span class="built_in">c</span>(z.mat[<span class="number">1</span>,<span class="number">1</span>], z.mat[<span class="number">1</span>,], z.mat[<span class="number">1</span>,ncol(z.mat)]),z.mat.colbind,</span><br><span class="line">​                         <span class="built_in">c</span>(z.mat[nrow(z.mat),<span class="number">1</span>], z.mat[nrow(z.mat),], z.mat[nrow(z.mat), ncol(z.mat)]))</span><br><span class="line">​    z.mat.ext &lt;- z.mat.rbind</span><br><span class="line">​    nrz &lt;-nrow(z.mat.ext)</span><br><span class="line">​    ncz &lt;-ncol(z.mat.ext)</span><br><span class="line">​    aspect.mat &lt;-<span class="built_in">rep</span>(<span class="literal">NA</span>, nrz*ncz)</span><br><span class="line">​    <span class="built_in">dim</span>(aspect.mat)&lt;-<span class="built_in">c</span>(nrz, ncz)</span><br><span class="line">​    <span class="keyword">for</span>(m in2:(nrz-<span class="number">1</span>))&#123;</span><br><span class="line">​       <span class="keyword">for</span>(n in2:(ncz-<span class="number">1</span>))&#123;</span><br><span class="line">​           a = z.mat.ext[m-<span class="number">1</span>,n-<span class="number">1</span>]</span><br><span class="line">​           b = z.mat.ext[m-<span class="number">1</span>,n]</span><br><span class="line">​           <span class="built_in">c</span>=z.mat.ext[m-<span class="number">1</span>,n+<span class="number">1</span>]</span><br><span class="line">​           d = z.mat.ext[m,n-<span class="number">1</span>]</span><br><span class="line">​           e = z.mat.ext[m,n]</span><br><span class="line">​           f = z.mat.ext[m,n+<span class="number">1</span>]</span><br><span class="line">​           g = z.mat.ext[m+<span class="number">1</span>,n-<span class="number">1</span>]</span><br><span class="line">​           h = z.mat.ext[m+<span class="number">1</span>,n]</span><br><span class="line">​           i = z.mat.ext[m+<span class="number">1</span>,n+<span class="number">1</span>]</span><br><span class="line">​           dz_dx =((<span class="built_in">c</span>+<span class="number">2</span>*f + i)-(a +<span class="number">2</span>*d + g))/<span class="number">8</span></span><br><span class="line">​           dz_dy =((g +<span class="number">2</span>*h + i)-(a +<span class="number">2</span>*b +<span class="built_in">c</span>))/<span class="number">8</span></span><br><span class="line">​           aspect.mat[m, n]=(<span class="number">180</span>/<span class="built_in">pi</span>)* atan2(dz_dy, -dz_dx)</span><br><span class="line">​       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">​       format.aspect &lt;-<span class="keyword">function</span>(aspect)&#123;</span><br><span class="line">​          cell = aspect</span><br><span class="line">​          <span class="keyword">for</span>(i in1:<span class="built_in">length</span>(aspect))&#123;</span><br><span class="line">​          <span class="keyword">if</span>(aspect[i]&lt;<span class="number">0</span>)&#123;        </span><br><span class="line">​             cell[i]=<span class="number">90.0</span>- aspect[i]        </span><br><span class="line">​             &#125;        </span><br><span class="line">​          elseif(aspect[i]&gt;<span class="number">90.0</span>)&#123;        </span><br><span class="line">​             cell[i]=<span class="number">360.0</span>- aspect[i]+<span class="number">90.0</span>        </span><br><span class="line">​             &#125;        </span><br><span class="line">​          <span class="keyword">else</span>&#123;        </span><br><span class="line">​             cell[i]=<span class="number">90.0</span>- aspect[i]        </span><br><span class="line">​             &#125;        </span><br><span class="line">​          &#125;</span><br><span class="line">​          <span class="built_in">return</span>(cell)        </span><br><span class="line">​       &#125;</span><br><span class="line">   aspect.mat &lt;- aspect.mat[<span class="built_in">c</span>(-<span class="number">1</span>, -nrow(aspect.mat)),<span class="built_in">c</span>(-<span class="number">1</span>, -ncol(aspect.mat))]</span><br><span class="line">   <span class="built_in">return</span>(format.aspect(aspect.mat))</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">############################################################################</span></span><br><span class="line"><span class="comment">#### test.dat.aspect&lt;- c(101, 101, 101, 92, 92, 91, 85, 85, 84)</span></span><br><span class="line"><span class="comment">####dim(test.dat.aspect) &lt;- c(3, 3)</span></span><br><span class="line"><span class="comment">####image(test.dat.aspect)</span></span><br><span class="line"><span class="comment">#### test.dat.aspect</span></span><br><span class="line"><span class="comment">####get_aspect(test.dat.aspect)</span></span><br><span class="line"><span class="comment">########################Calculating  Convexity###################</span></span><br><span class="line">get_convexity &lt;-<span class="keyword">function</span>(z.mat)&#123;</span><br><span class="line">​    z.mat.colbind &lt;-cbind(<span class="built_in">rep</span>(<span class="literal">NA</span>, nrow(z.mat)), z.mat, <span class="built_in">rep</span>(<span class="literal">NA</span>, nrow(z.mat)))</span><br><span class="line">​    z.mat.rbind &lt;-rbind(<span class="built_in">rep</span>(<span class="literal">NA</span>, ncol(z.mat)+<span class="number">2</span>), z.mat.colbind, <span class="built_in">rep</span>(<span class="literal">NA</span>, ncol(z.mat)+<span class="number">2</span>))</span><br><span class="line">​    z.mat.ext &lt;- z.mat.rbind</span><br><span class="line">​    nrz &lt;-nrow(z.mat.ext)</span><br><span class="line">​    ncz &lt;-ncol(z.mat.ext)</span><br><span class="line">​    convexity.mat &lt;-<span class="built_in">rep</span>(<span class="literal">NA</span>, nrz*ncz)</span><br><span class="line">​    <span class="built_in">dim</span>(convexity.mat)&lt;-<span class="built_in">c</span>(nrz, ncz)</span><br><span class="line">​    <span class="keyword">for</span>(m in2:(nrz-<span class="number">1</span>))&#123;</span><br><span class="line">​       <span class="keyword">for</span>(n in2:(ncz-<span class="number">1</span>))&#123;</span><br><span class="line">​           a = z.mat.ext[m-<span class="number">1</span>,n-<span class="number">1</span>]</span><br><span class="line">​           b = z.mat.ext[m-<span class="number">1</span>,n]</span><br><span class="line">​           <span class="built_in">c</span>=z.mat.ext[m-<span class="number">1</span>,n+<span class="number">1</span>]</span><br><span class="line">​           d = z.mat.ext[m,n-<span class="number">1</span>]</span><br><span class="line">​           e = z.mat.ext[m,n]</span><br><span class="line">​           f = z.mat.ext[m,n+<span class="number">1</span>]</span><br><span class="line">​           g = z.mat.ext[m+<span class="number">1</span>,n-<span class="number">1</span>]</span><br><span class="line">​           h = z.mat.ext[m+<span class="number">1</span>,n]</span><br><span class="line">​           i = z.mat.ext[m+<span class="number">1</span>,n+<span class="number">1</span>]</span><br><span class="line">​           <span class="comment">#### Ifna.....</span></span><br><span class="line">​           all.neighbour &lt;-<span class="built_in">c</span>(a, b, <span class="built_in">c</span>, d, f, g, h, i)</span><br><span class="line">​           mean.neighbour &lt;-mean(na.omit(all.neighbour))</span><br><span class="line">​           convexity.mat[m,n]&lt;-(e - mean.neighbour)</span><br><span class="line">​       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   convexity.mat &lt;- convexity.mat[<span class="built_in">c</span>(-<span class="number">1</span>, -nrow(convexity.mat)),<span class="built_in">c</span>(-<span class="number">1</span>, -ncol(convexity.mat))]</span><br><span class="line">   <span class="built_in">return</span>(convexity.mat)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code class="R">## Calculating theslopes for each grid in a forest dynamic plot
+## Provide thematrix of altitudes
+## Provide thecell_size, the altitudes and cell_size must be in the same unit.
+## Algorithms couldbe found at ##
+##http://webhelp.esri.com/arcgiSDEsktop/9.3/body.cfm?tocVisable=1&amp;ID=-1&amp;TopicName=How%20Slope%20works
+## Value: a matrixrepresenting the degrees of each grid.
+get_slope &lt;-function(z.mat,cell_size =5)&#123;
+​    ###Extent the z.mat matrix using the value from the border, so that the slope forthe out most cells could be calculated.
+​    z.mat.colbind &lt;-cbind(z.mat[,1], z.mat,z.mat[,ncol(z.mat)])
+​    z.mat.rbind &lt;-rbind(c(z.mat[1,1], z.mat[1,], z.mat[1,ncol(z.mat)]),z.mat.colbind,
+​                         c(z.mat[nrow(z.mat),1], z.mat[nrow(z.mat),], z.mat[nrow(z.mat), ncol(z.mat)]))
+​    z.mat.ext &lt;- z.mat.rbind
+​    nrz &lt;-nrow(z.mat.ext)
+​    ncz &lt;-ncol(z.mat.ext)
+​    slope.mat &lt;-rep(NA, nrz*ncz)
+​    dim(slope.mat)&lt;-c(nrz, ncz)  ##Create a Null matrix used in loop
+​    for(m in2:(nrz-1))&#123;
+​       for(n in2:(ncz-1))&#123;
+​           a = z.mat.ext[m-1,n-1]
+​           b = z.mat.ext[m-1,n]
+​           c=z.mat.ext[m-1,n+1]
+​           d = z.mat.ext[m,n-1]
+​           e = z.mat.ext[m,n]
+​           f = z.mat.ext[m,n+1]
+​           g = z.mat.ext[m+1,n-1]
+​           h = z.mat.ext[m+1,n]
+​           i = z.mat.ext[m+1,n+1]
+​           
+​           dz_dx =((c+2*f + i)-(a +2*d + g))/(8*cell_size)
+​           dz_dy =((g +2*h + i)-(a +2*b +c))/(8*cell_size)
+​           slope.mat[m,n]&lt;-atan(sqrt( dz_dx^2+ dz_dy^2))*(180/pi)  
+​       &#125;
+   &#125;
+​    return(slope.mat[c(-1, -nrow(slope.mat)),c(-1, -ncol(slope.mat))])
+&#125;
+####
+#### test.dat2 &lt;-c(50, 30, 8, 45, 30, 10, 50, 30, 10)
+#### test.dat.slope2&lt;- matrix(test.dat2, nrow = 3, byrow = FALSE)
+#### test.dat.slope2
+####get_slope(test.dat.slope2, cell_size = 5)
+###################################################################
+## Calculating theaspect of each cell within a forest dynamic plot
+## Adopted from ESRIhttp://webhelp.esri.com/arcgisdesktop/9.3/body.cfm?tocVisable=1&amp;ID=-1&amp;TopicName=how%20aspect%20works
+## the z.mat is anumerical matrix representing the altitude for each cell
+## the output is anumerical matrix representing the degree of aspect. Starting from the north,
+## This functionassums that The direction of the column, from greater to smaller columns pointsto the north.
+get_aspect &lt;-function(z.mat)&#123;
+​    z.mat.colbind &lt;-cbind(z.mat[,1], z.mat,z.mat[,ncol(z.mat)])
+​    z.mat.rbind &lt;-rbind(c(z.mat[1,1], z.mat[1,], z.mat[1,ncol(z.mat)]),z.mat.colbind,
+​                         c(z.mat[nrow(z.mat),1], z.mat[nrow(z.mat),], z.mat[nrow(z.mat), ncol(z.mat)]))
+​    z.mat.ext &lt;- z.mat.rbind
+​    nrz &lt;-nrow(z.mat.ext)
+​    ncz &lt;-ncol(z.mat.ext)
+​    aspect.mat &lt;-rep(NA, nrz*ncz)
+​    dim(aspect.mat)&lt;-c(nrz, ncz)
+​    for(m in2:(nrz-1))&#123;
+​       for(n in2:(ncz-1))&#123;
+​           a = z.mat.ext[m-1,n-1]
+​           b = z.mat.ext[m-1,n]
+​           c=z.mat.ext[m-1,n+1]
+​           d = z.mat.ext[m,n-1]
+​           e = z.mat.ext[m,n]
+​           f = z.mat.ext[m,n+1]
+​           g = z.mat.ext[m+1,n-1]
+​           h = z.mat.ext[m+1,n]
+​           i = z.mat.ext[m+1,n+1]
+​           dz_dx =((c+2*f + i)-(a +2*d + g))/8
+​           dz_dy =((g +2*h + i)-(a +2*b +c))/8
+​           aspect.mat[m, n]=(180/pi)* atan2(dz_dy, -dz_dx)
+​       &#125;
+   &#125;
+​       format.aspect &lt;-function(aspect)&#123;
+​          cell = aspect
+​          for(i in1:length(aspect))&#123;
+​          if(aspect[i]&lt;0)&#123;        
+​             cell[i]=90.0- aspect[i]        
+​             &#125;        
+​          elseif(aspect[i]&gt;90.0)&#123;        
+​             cell[i]=360.0- aspect[i]+90.0        
+​             &#125;        
+​          else&#123;        
+​             cell[i]=90.0- aspect[i]        
+​             &#125;        
+​          &#125;
+​          return(cell)        
+​       &#125;
+   aspect.mat &lt;- aspect.mat[c(-1, -nrow(aspect.mat)),c(-1, -ncol(aspect.mat))]
+   return(format.aspect(aspect.mat))
+&#125;
+############################################################################
+#### test.dat.aspect&lt;- c(101, 101, 101, 92, 92, 91, 85, 85, 84)
+####dim(test.dat.aspect) &lt;- c(3, 3)
+####image(test.dat.aspect)
+#### test.dat.aspect
+####get_aspect(test.dat.aspect)
+########################Calculating  Convexity###################
+get_convexity &lt;-function(z.mat)&#123;
+​    z.mat.colbind &lt;-cbind(rep(NA, nrow(z.mat)), z.mat, rep(NA, nrow(z.mat)))
+​    z.mat.rbind &lt;-rbind(rep(NA, ncol(z.mat)+2), z.mat.colbind, rep(NA, ncol(z.mat)+2))
+​    z.mat.ext &lt;- z.mat.rbind
+​    nrz &lt;-nrow(z.mat.ext)
+​    ncz &lt;-ncol(z.mat.ext)
+​    convexity.mat &lt;-rep(NA, nrz*ncz)
+​    dim(convexity.mat)&lt;-c(nrz, ncz)
+​    for(m in2:(nrz-1))&#123;
+​       for(n in2:(ncz-1))&#123;
+​           a = z.mat.ext[m-1,n-1]
+​           b = z.mat.ext[m-1,n]
+​           c=z.mat.ext[m-1,n+1]
+​           d = z.mat.ext[m,n-1]
+​           e = z.mat.ext[m,n]
+​           f = z.mat.ext[m,n+1]
+​           g = z.mat.ext[m+1,n-1]
+​           h = z.mat.ext[m+1,n]
+​           i = z.mat.ext[m+1,n+1]
+​           #### Ifna.....
+​           all.neighbour &lt;-c(a, b, c, d, f, g, h, i)
+​           mean.neighbour &lt;-mean(na.omit(all.neighbour))
+​           convexity.mat[m,n]&lt;-(e - mean.neighbour)
+​       &#125;
+   &#125;
+   convexity.mat &lt;- convexity.mat[c(-1, -nrow(convexity.mat)),c(-1, -ncol(convexity.mat))]
+   return(convexity.mat)
+&#125;
+</code></pre>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2013/05/16/2013-5-16-convexity/" data-id="ckmq2gwrs0053q884cpst755p" data-title="样地数据从海拔计算坡度、坡向和凹凸度" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2013/05/16/2013-5-16-convexity/" data-id="ckmq42aik00541k843nzk4d7p" data-title="样地数据从海拔计算坡度、坡向和凹凸度" class="article-share-link">Share</a>
       
       
       
@@ -179,6 +304,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -192,10 +321,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

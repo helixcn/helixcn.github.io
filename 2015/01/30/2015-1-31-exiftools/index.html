@@ -114,9 +114,15 @@
 <p>该文件为csv文件的模板， 用于之后从每张照片的exif文件中导出经纬度。</p>
 <ol start="5">
 <li><p>创建一个纯文本文件， 命名为 run_exiftool_geotaging.bat，内容为：</p>
-<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">exiftool -geotag=track20150131.gpx ./</span><br><span class="line"><span class="built_in">pause</span></span><br></pre></td></tr></table></figure></li>
+<pre><code class="bat">exiftool -geotag=track20150131.gpx ./
+pause
+</code></pre>
+</li>
 <li><p>创建一个纯文本文件， 命名为 run_exiftool_creat_csv.bat，内容为</p>
-<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">exiftool -p csv.mft ./&gt;test.csv</span><br><span class="line"><span class="built_in">pause</span></span><br></pre></td></tr></table></figure></li>
+<pre><code class="bat">exiftool -p csv.mft ./&gt;test.csv
+pause
+</code></pre>
+</li>
 <li><p>双击run_exiftool_geotaging.bat文件， exiftool从航迹提取信息， 并为该文件夹下对应时间的照片添加经纬度和海拔。</p>
 </li>
 <li><p>双击 run_exiftool_creat_csv.bat 文件， exiftool读取每张照片的经纬度和海拔， 并保存到相应.csv文件中。</p>
@@ -129,7 +135,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2015/01/30/2015-1-31-exiftools/" data-id="ckmq2gwsc006sq8840dkgd3v6" data-title="用exiftool为照片添加经纬度并生成照片经纬度列表" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2015/01/30/2015-1-31-exiftools/" data-id="ckmq42aj1006p1k84g1ogh6um" data-title="用exiftool为照片添加经纬度并生成照片经纬度列表" class="article-share-link">Share</a>
       
       
       
@@ -205,6 +211,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -218,10 +228,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

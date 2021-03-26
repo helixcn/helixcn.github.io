@@ -114,14 +114,17 @@
 </ol>
 <p>在SPSS，SigmaPlot, R,SPlus，Origin等软件中，绘制箱线图非常方便。</p>
 <p>下面是R中的一个箱线图举例, 在R软件中输入如下命令：</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">x &lt;- <span class="built_in">c</span>(<span class="number">25</span>, <span class="number">45</span>, <span class="number">50</span>, <span class="number">54</span>, <span class="number">55</span>, <span class="number">61</span>, <span class="number">64</span>, <span class="number">68</span>, <span class="number">72</span>, <span class="number">75</span>, </span><br><span class="line">       <span class="number">75</span>,<span class="number">78</span>, <span class="number">79</span>, <span class="number">81</span>, <span class="number">83</span>, <span class="number">84</span>, <span class="number">84</span>, <span class="number">84</span>, <span class="number">85</span>, <span class="number">86</span>, <span class="number">86</span>, </span><br><span class="line">       <span class="number">86</span>, <span class="number">87</span>, <span class="number">89</span>, <span class="number">89</span>, <span class="number">89</span>, <span class="number">90</span>, <span class="number">91</span>, <span class="number">91</span>, <span class="number">92</span>, <span class="number">100</span>)</span><br><span class="line">boxplot(x)</span><br></pre></td></tr></table></figure>
-
+<pre><code class="R">x &lt;- c(25, 45, 50, 54, 55, 61, 64, 68, 72, 75, 
+       75,78, 79, 81, 83, 84, 84, 84, 85, 86, 86, 
+       86, 87, 89, 89, 89, 90, 91, 91, 92, 100)
+boxplot(x)
+</code></pre>
 <p>对x向量绘制箱线图。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2009/06/24/2009-6-24-boxplot/" data-id="ckmq2gwpj0000q884ee7b1sgm" data-title="什么是箱线图" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2009/06/24/2009-6-24-boxplot/" data-id="ckmq42agq00051k84gc24figt" data-title="什么是箱线图" class="article-share-link">Share</a>
       
       
       
@@ -197,6 +200,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -210,10 +217,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

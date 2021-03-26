@@ -6,12 +6,12 @@
   
   <title>用tmap程序包绘制带指北针、图例和经纬网的采样点地图 | Jinlong Zhang&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950setwd(&quot;C:&#x2F;Users&#x2F;jlzhang&#x2F;Desktop&#x2F;sample_map&quot;)#### 导入所需要的程序包library(rgdal)library(tmap)library(tmapto">
+  <meta name="description" content="setwd(&quot;C:&#x2F;Users&#x2F;jlzhang&#x2F;Desktop&#x2F;sample_map&quot;) #### 导入所需要的程序包 library(rgdal) library(tmap) library(tmaptools) library(sp) rm(list &#x3D; ls()) ## 读取地图 country &lt;- readOGR(&quot;bou1_4l.shp&quot;)">
 <meta property="og:type" content="article">
 <meta property="og:title" content="用tmap程序包绘制带指北针、图例和经纬网的采样点地图">
 <meta property="og:url" content="https://helixcn.github.io/2018/11/05/2018-11-06-tmap/index.html">
 <meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
-<meta property="og:description" content="1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950setwd(&quot;C:&#x2F;Users&#x2F;jlzhang&#x2F;Desktop&#x2F;sample_map&quot;)#### 导入所需要的程序包library(rgdal)library(tmap)library(tmapto">
+<meta property="og:description" content="setwd(&quot;C:&#x2F;Users&#x2F;jlzhang&#x2F;Desktop&#x2F;sample_map&quot;) #### 导入所需要的程序包 library(rgdal) library(tmap) library(tmaptools) library(sp) rm(list &#x3D; ls()) ## 读取地图 country &lt;- readOGR(&quot;bou1_4l.shp&quot;)">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2018-11-05T09:30:54.000Z">
 <meta property="article:modified_time" content="2021-03-26T05:34:24.609Z">
@@ -98,13 +98,62 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;C:/Users/jlzhang/Desktop/sample_map&quot;</span>)</span><br><span class="line"><span class="comment">#### 导入所需要的程序包</span></span><br><span class="line">library(rgdal)</span><br><span class="line">library(tmap)</span><br><span class="line">library(tmaptools)</span><br><span class="line">library(sp)</span><br><span class="line">rm(<span class="built_in">list</span> = ls())</span><br><span class="line"><span class="comment">## 读取地图</span></span><br><span class="line">country &lt;- readOGR(<span class="string">&quot;bou1_4l.shp&quot;</span>)</span><br><span class="line">province &lt;- readOGR(<span class="string">&quot;province_polygon.shp&quot;</span>)</span><br><span class="line">world &lt;- readOGR(<span class="string">&quot;ne_50m_admin_0_countries.shp&quot;</span>)</span><br><span class="line"><span class="comment"># Source: https://www.naturalearthdata.com/downloads/50m-cultural-vectors/ </span></span><br><span class="line">world &lt;- set_projection(world, <span class="string">&quot;longlat&quot;</span>)    </span><br><span class="line">country &lt;- set_projection(country, <span class="string">&quot;longlat&quot;</span>)    </span><br><span class="line">province &lt;- set_projection(province, <span class="string">&quot;longlat&quot;</span>)    </span><br><span class="line">province &lt;- set_projection(province, <span class="string">&quot;longlat&quot;</span>)    </span><br><span class="line">data(World)</span><br><span class="line"><span class="comment"># 城市</span></span><br><span class="line">city &lt;- read.csv(<span class="string">&quot;simplemaps-worldcities-basic.csv&quot;</span>, header = <span class="literal">TRUE</span>)</span><br><span class="line">city &lt;- city[sample(<span class="number">1</span>:nrow(city), <span class="number">400</span>),] <span class="comment"># 随机筛选400个</span></span><br><span class="line">coordinates(city) &lt;- ~lng+lat </span><br><span class="line">proj4string(city) &lt;- CRS(<span class="string">&quot;+proj=longlat +datum=WGS84&quot;</span>)</span><br><span class="line"></span><br><span class="line">World$name[World$name == <span class="string">&quot;Taiwan&quot;</span>] &lt;- <span class="literal">NA</span></span><br><span class="line"><span class="comment"># 转换为spatial dataframe</span></span><br><span class="line"><span class="comment"># 绘图</span></span><br><span class="line">tm_shape(world, </span><br><span class="line">         xlim = <span class="built_in">c</span>(<span class="number">60</span>, <span class="number">140</span>), </span><br><span class="line">         ylim = <span class="built_in">c</span>(<span class="number">0</span>, <span class="number">60</span>)) + </span><br><span class="line">  tm_borders(<span class="string">&quot;grey40&quot;</span>, lwd = <span class="number">1.5</span>) + </span><br><span class="line">  tm_grid()+ </span><br><span class="line">tm_shape(province) +</span><br><span class="line">  tm_fill(col = <span class="string">&quot;lightgrey&quot;</span>) + </span><br><span class="line">  tm_borders(<span class="string">&quot;grey60&quot;</span>, lwd = <span class="number">0.8</span>) + </span><br><span class="line">tm_shape(country) + </span><br><span class="line">  tm_lines(col=<span class="string">&quot;grey40&quot;</span>, lwd = <span class="number">1.5</span>) + </span><br><span class="line">tm_scale_bar(position=<span class="built_in">c</span>(<span class="number">0.05</span>,<span class="number">0.0</span>)) + </span><br><span class="line">tm_compass(type = <span class="string">&quot;4star&quot;</span>, </span><br><span class="line">           position=<span class="built_in">c</span>(<span class="string">&quot;left&quot;</span>, <span class="string">&quot;top&quot;</span>)) +     </span><br><span class="line">tm_layout(inner.margins=<span class="built_in">c</span>(<span class="number">0.12</span>,<span class="number">0.03</span>,<span class="number">0.08</span>,<span class="number">0.03</span>), </span><br><span class="line">          legend.stack = <span class="string">&quot;horizontal&quot;</span>) + </span><br><span class="line">tm_shape(city) +</span><br><span class="line">    tm_bubbles(<span class="string">&quot;pop&quot;</span>, </span><br><span class="line">               col = <span class="string">&quot;red&quot;</span>, </span><br><span class="line">               scale=<span class="number">.5</span>,</span><br><span class="line">               border.col = <span class="string">&quot;red&quot;</span>) + </span><br><span class="line">    tm_text(<span class="string">&quot;city&quot;</span>, size=<span class="number">0.5</span>) + </span><br><span class="line">tm_legend(legend.position = <span class="built_in">c</span>(<span class="number">0.05</span>, <span class="number">0.08</span>)) + </span><br><span class="line">tm_shape(World) +</span><br><span class="line">    tm_text(<span class="string">&quot;name&quot;</span>, size=<span class="number">1.0</span>)</span><br></pre></td></tr></table></figure>
+        <pre><code class="R">setwd(&quot;C:/Users/jlzhang/Desktop/sample_map&quot;)
+#### 导入所需要的程序包
+library(rgdal)
+library(tmap)
+library(tmaptools)
+library(sp)
+rm(list = ls())
+## 读取地图
+country &lt;- readOGR(&quot;bou1_4l.shp&quot;)
+province &lt;- readOGR(&quot;province_polygon.shp&quot;)
+world &lt;- readOGR(&quot;ne_50m_admin_0_countries.shp&quot;)
+# Source: https://www.naturalearthdata.com/downloads/50m-cultural-vectors/ 
+world &lt;- set_projection(world, &quot;longlat&quot;)    
+country &lt;- set_projection(country, &quot;longlat&quot;)    
+province &lt;- set_projection(province, &quot;longlat&quot;)    
+province &lt;- set_projection(province, &quot;longlat&quot;)    
+data(World)
+# 城市
+city &lt;- read.csv(&quot;simplemaps-worldcities-basic.csv&quot;, header = TRUE)
+city &lt;- city[sample(1:nrow(city), 400),] # 随机筛选400个
+coordinates(city) &lt;- ~lng+lat 
+proj4string(city) &lt;- CRS(&quot;+proj=longlat +datum=WGS84&quot;)
 
+World$name[World$name == &quot;Taiwan&quot;] &lt;- NA
+# 转换为spatial dataframe
+# 绘图
+tm_shape(world, 
+         xlim = c(60, 140), 
+         ylim = c(0, 60)) + 
+  tm_borders(&quot;grey40&quot;, lwd = 1.5) + 
+  tm_grid()+ 
+tm_shape(province) +
+  tm_fill(col = &quot;lightgrey&quot;) + 
+  tm_borders(&quot;grey60&quot;, lwd = 0.8) + 
+tm_shape(country) + 
+  tm_lines(col=&quot;grey40&quot;, lwd = 1.5) + 
+tm_scale_bar(position=c(0.05,0.0)) + 
+tm_compass(type = &quot;4star&quot;, 
+           position=c(&quot;left&quot;, &quot;top&quot;)) +     
+tm_layout(inner.margins=c(0.12,0.03,0.08,0.03), 
+          legend.stack = &quot;horizontal&quot;) + 
+tm_shape(city) +
+    tm_bubbles(&quot;pop&quot;, 
+               col = &quot;red&quot;, 
+               scale=.5,
+               border.col = &quot;red&quot;) + 
+    tm_text(&quot;city&quot;, size=0.5) + 
+tm_legend(legend.position = c(0.05, 0.08)) + 
+tm_shape(World) +
+    tm_text(&quot;name&quot;, size=1.0)
+</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/11/05/2018-11-06-tmap/" data-id="ckmq2gwu100axq884gtxvdxuf" data-title="用tmap程序包绘制带指北针、图例和经纬网的采样点地图" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/11/05/2018-11-06-tmap/" data-id="ckmq42ak900ap1k842f1rd5ut" data-title="用tmap程序包绘制带指北针、图例和经纬网的采样点地图" class="article-share-link">Share</a>
       
       
       
@@ -180,6 +229,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -193,10 +246,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

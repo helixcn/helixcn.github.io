@@ -136,8 +136,15 @@
 <p>例如 S.W. Kembel, P.D. Cowan, M.R. Helmus, W.K. Cornwell, H. Morlon, D.D. Ackerly, S.P. Blomberg, and C.O. Webb. 2010. Picante: R tools for integrating phylogenies and ecology. Bioinformatics 26:1463-1464.</p>
 <p>选中该部分文字，在设定格式的菜单栏中，选定Biblography，将该部分作为参考文献。当然， 也可以引用用BibTeX，方法是，先在计算机上创建一个BibTeX纯文本文档， 注意以utf8格式编码，然后在正文中引用即可。很多软件或网站，如Mendeley,R,及google scholar都提供BibTeX格式的文献导出。而参考文献的引用，点击Insert&gt;Citation即可。如果使用的是BibTeX，直接输入Insert&gt;List/TOC&gt;BibTeX Biblography,选择扩展名为.bib的文件即可。</p>
 <p>.bib文件内的格式为</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@Article&#123;, </span><br><span class="line">title &#x3D; &#123;Picante: &#123;R&#125; tools for integrating phylogenies and ecology&#125;, </span><br><span class="line">author &#x3D; &#123;S.W. Kembel and P.D. Cowan and M.R. Helmus and W.K. Cornwell and H. Morlon and D.D. Ackerly and S.P. Blomberg and C.O. Webb&#125;, </span><br><span class="line">journal &#x3D; &#123;Bioinformatics&#125;, </span><br><span class="line">volume &#x3D; &#123;26&#125;, </span><br><span class="line">pages &#x3D; &#123;1463--1464&#125;, </span><br><span class="line">year &#x3D; &#123;2010&#125;, </span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-
+<pre><code>@Article&#123;, 
+title = &#123;Picante: &#123;R&#125; tools for integrating phylogenies and ecology&#125;, 
+author = &#123;S.W. Kembel and P.D. Cowan and M.R. Helmus and W.K. Cornwell and H. Morlon and D.D. Ackerly and S.P. Blomberg and C.O. Webb&#125;, 
+journal = &#123;Bioinformatics&#125;, 
+volume = &#123;26&#125;, 
+pages = &#123;1463--1464&#125;, 
+year = &#123;2010&#125;, 
+&#125; 
+</code></pre>
 <p>假设，撰写论文中有一句话，“NRI[equation 1]表示群落内物种系统发育关系的远近， 通过picante程序包可以计算SES.MPD等价于NRI[equation 1]” 需要引用公式以及计算NRI用到的软件picante</p>
 <p>则先创建一个标签， 方法为 Insert&gt;Label, 随后输入Insert cross reference ，在出现的对话框中选择引用该标签即可。</p>
 <h2 id="3-3-插入图片"><a href="#3-3-插入图片" class="headerlink" title="3.3 插入图片"></a>3.3 插入图片</h2><p>通常情况下，文章中出现图片会更吸引人。点击Insert&gt;Graphics即可输入图片。推荐使用pdf格式的图片。 因为pdf格式的图片在整个文档编译成pdf后， 仍然是矢量的， 不会有分辨率的损失。jpg，png等格式也都是可以的。</p>
@@ -146,7 +153,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2012/08/22/2012-8-22-lyxcn/" data-id="ckmq2gwrk004mq884156vginx" data-title="LyX生成中文pdf文档" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2012/08/22/2012-8-22-lyxcn/" data-id="ckmq42ai8004h1k840li3h310" data-title="LyX生成中文pdf文档" class="article-share-link">Share</a>
       
       
       
@@ -222,6 +229,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -235,10 +246,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

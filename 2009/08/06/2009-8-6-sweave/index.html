@@ -99,14 +99,51 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>Sweave是R中的一个函数，用来生成统计报告的。如果你希望将R的代码和LaTeX的代码整合到一个文件中，可以用Sweave函数生成.tex文件，利用安装好的LaTeX编译TeX文件就能生成包含相应计算结果的pdf文件。<br>Sweave处理的是.Snw文件，其格式几乎与.TeX文<br>件相同，不同的是，其中的R代码包含在&lt;&lt;&gt;&gt;= 和 @ 之间，其中&lt;&lt;&gt;&gt;内部可以放置Sweave处理时的参数。<br>下面是一个简单的.Rnw文件的内容：</p>
-<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">documentclass[a4paper]&#123;article&#125;</span><br><span class="line">title&#123;How to use Sweave? &#125;</span><br><span class="line">author&#123;Jinlong Zhang&#125;</span><br><span class="line">begin&#123;document&#125;</span><br><span class="line">maketitle</span><br><span class="line">In this example we use hclust() in R to perform a cluster analysis into a LaTeX&#123;&#125; document:</span><br><span class="line">&lt;&lt;&gt;&gt;=</span><br><span class="line">x&lt;-c(1,2,6,8,11) </span><br><span class="line">dim(x)&lt;-c(5,1) </span><br><span class="line">d&lt;-dist(x) </span><br><span class="line">d</span><br><span class="line">hc&lt;-hclust(d, &quot;single&quot;) </span><br><span class="line">dend&lt;-as.dendrogram(hc) </span><br><span class="line">@</span><br><span class="line">the dendrograms are also included:</span><br><span class="line">begin&#123;center&#125;</span><br><span class="line">&lt;&lt;fig=TRUE,echo=FALSE&gt;&gt;=</span><br><span class="line">par(mfrow = c(2, 2),mar = c(4,3,1,2)) </span><br><span class="line">plot(dend) </span><br><span class="line">plot(dend, nodePar=list(pch = c(1,NA), cex=0.8, lab.cex=0.8), type = &quot;t&quot;, center=TRUE) </span><br><span class="line">plot(dend, edgePar=list(col = 1:2, lty = 2:3), dLeaf=1, edge.root = TRUE) </span><br><span class="line">plot(dend, nodePar=list(pch = 2:1, cex=.4*2:1, col=2:3), horiz=TRUE) </span><br><span class="line">@</span><br><span class="line">end&#123;center&#125;</span><br><span class="line">end&#123;document&#125;</span><br></pre></td></tr></table></figure>
-
+<pre><code class="latex">documentclass[a4paper]&#123;article&#125;
+title&#123;How to use Sweave? &#125;
+author&#123;Jinlong Zhang&#125;
+begin&#123;document&#125;
+maketitle
+In this example we use hclust() in R to perform a cluster analysis into a LaTeX&#123;&#125; document:
+&lt;&lt;&gt;&gt;=
+x&lt;-c(1,2,6,8,11) 
+dim(x)&lt;-c(5,1) 
+d&lt;-dist(x) 
+d
+hc&lt;-hclust(d, &quot;single&quot;) 
+dend&lt;-as.dendrogram(hc) 
+@
+the dendrograms are also included:
+begin&#123;center&#125;
+&lt;&lt;fig=TRUE,echo=FALSE&gt;&gt;=
+par(mfrow = c(2, 2),mar = c(4,3,1,2)) 
+plot(dend) 
+plot(dend, nodePar=list(pch = c(1,NA), cex=0.8, lab.cex=0.8), type = &quot;t&quot;, center=TRUE) 
+plot(dend, edgePar=list(col = 1:2, lty = 2:3), dLeaf=1, edge.root = TRUE) 
+plot(dend, nodePar=list(pch = 2:1, cex=.4*2:1, col=2:3), horiz=TRUE) 
+@
+end&#123;center&#125;
+end&#123;document&#125;
+</code></pre>
 <p> 将以上代码粘贴到记事本中，另存为test.Rnw文件，放置到R的工作目录，运行Sweave(“test.Rnw”)即可生成.TeX文件和相应的图形文件。eps图形文件等将在变异TeX文档时引用图形时用到。</p>
 <p>可以看到，其中包含了两块R代码：<br>第一部分为 </p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;&lt;&gt;&gt;=</span><br><span class="line">x&lt;-<span class="built_in">c</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">6</span>,<span class="number">8</span>,<span class="number">11</span>) </span><br><span class="line"><span class="built_in">dim</span>(x)&lt;-<span class="built_in">c</span>(<span class="number">5</span>,<span class="number">1</span>) </span><br><span class="line">d&lt;-dist(x) </span><br><span class="line">hc&lt;-hclust(d, <span class="string">&quot;single&quot;</span>) </span><br><span class="line">dend&lt;-as.dendrogram(hc) </span><br><span class="line">@</span><br></pre></td></tr></table></figure>
+<pre><code class="R">&lt;&lt;&gt;&gt;=
+x&lt;-c(1,2,6,8,11) 
+dim(x)&lt;-c(5,1) 
+d&lt;-dist(x) 
+hc&lt;-hclust(d, &quot;single&quot;) 
+dend&lt;-as.dendrogram(hc) 
+@
+</code></pre>
 <p>第二部分为</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;&lt;fig=<span class="literal">TRUE</span>,echo=<span class="literal">FALSE</span>&gt;&gt;=</span><br><span class="line">par(mfrow = <span class="built_in">c</span>(<span class="number">2</span>, <span class="number">2</span>),mar = <span class="built_in">c</span>(<span class="number">4</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">2</span>)) </span><br><span class="line">plot(dend) </span><br><span class="line">plot(dend, nodePar=<span class="built_in">list</span>(pch = <span class="built_in">c</span>(<span class="number">1</span>,<span class="literal">NA</span>), cex=<span class="number">0.8</span>, lab.cex=<span class="number">0.8</span>), type = <span class="string">&quot;t&quot;</span>, center=<span class="literal">TRUE</span>) </span><br><span class="line">plot(dend, edgePar=<span class="built_in">list</span>(col = <span class="number">1</span>:<span class="number">2</span>, lty = <span class="number">2</span>:<span class="number">3</span>), dLeaf=<span class="number">1</span>, edge.root = <span class="literal">TRUE</span>) </span><br><span class="line">plot(dend, nodePar=<span class="built_in">list</span>(pch = <span class="number">2</span>:<span class="number">1</span>, cex=<span class="number">.4</span>*<span class="number">2</span>:<span class="number">1</span>, col=<span class="number">2</span>:<span class="number">3</span>), horiz=<span class="literal">TRUE</span>) </span><br><span class="line">@</span><br></pre></td></tr></table></figure>
-
+<pre><code class="R">&lt;&lt;fig=TRUE,echo=FALSE&gt;&gt;=
+par(mfrow = c(2, 2),mar = c(4,3,1,2)) 
+plot(dend) 
+plot(dend, nodePar=list(pch = c(1,NA), cex=0.8, lab.cex=0.8), type = &quot;t&quot;, center=TRUE) 
+plot(dend, edgePar=list(col = 1:2, lty = 2:3), dLeaf=1, edge.root = TRUE) 
+plot(dend, nodePar=list(pch = 2:1, cex=.4*2:1, col=2:3), horiz=TRUE) 
+@
+</code></pre>
 <p>如果想要生成相应的pdf，只需用LaTeX变异相应的TeX文件即可。</p>
 <p>注意：编译的时候，LaTeX会可能会提示找不到Sweave.sty文件，该文件可在C:Program FilesRR-2.9.0sharetexmf目录下找到，拷贝到TeX文件所在的目录下即可。</p>
 <p>提供几个进一步学习的链接：<br>Sweave函数的作者Friedrich Leisch的主页：<br><a target="_blank" rel="noopener" href="http://www.stat.uni-muenchen.de/~leisch/Sweave/">http://www.stat.uni-muenchen.de/~leisch/Sweave/</a><br><a target="_blank" rel="noopener" href="http://www.stat.umn.edu/~charlie/Sweave">www.stat.umn.edu/~charlie/Sweave</a><br><a target="_blank" rel="noopener" href="http://stat.epfl.ch/webdav/site/stat/shared/Regression/EPFL-Sweave-powerdot.pdf">http://stat.epfl.ch/webdav/site/stat/shared/Regression/EPFL-Sweave-powerdot.pdf</a><br><a target="_blank" rel="noopener" href="http://biosun1.harvard.edu/courses/individual/bio271/lectures/L7/Sweave-manual-20021007.pdf">http://biosun1.harvard.edu/courses/individual/bio271/lectures/L7/Sweave-manual-20021007.pdf</a></p>
@@ -114,7 +151,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2009/08/06/2009-8-6-sweave/" data-id="ckmq2gwq0000hq884djbahl6g" data-title="统计结果的保存：Sweave in R" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2009/08/06/2009-8-6-sweave/" data-id="ckmq42agw000e1k843ahb00fs" data-title="统计结果的保存：Sweave in R" class="article-share-link">Share</a>
       
       
       
@@ -190,6 +227,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -203,10 +244,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

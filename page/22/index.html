@@ -73,6 +73,59 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2010-12-30-rintro2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2010/12/30/2010-12-30-rintro2/" class="article-date">
+  <time class="dt-published" datetime="2010-12-29T21:58:54.000Z" itemprop="datePublished">2010-12-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2010/12/30/2010-12-30-rintro2/">R语言初步——数据处理、绘图与编程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>R语言初步——数据处理、绘图与编程</p>
+<p>本文介绍的是一套幻灯片，共包括120张，较为详细的介绍了R语言，以及简单统计分析的实现，包括方差分析、回归，以及绘图、编写函数的方法。</p>
+<p>内容如下：</p>
+<ul>
+<li>一、R简介 </li>
+<li>二、函数与对象 </li>
+<li>三、脚本编程 </li>
+<li>四、R绘图 </li>
+<li>五、编写函数 </li>
+<li>六、数据保存<br>以下是幻灯片的内容，希望对感兴趣的读者能有促进作用。</li>
+</ul>
+<p>幻灯片下载:</p>
+<p><a target="_blank" rel="noopener" href="http://bbs.sciencenet.cn/home.php?mod=attachment&id=3271">R语言初步 统计绘图与编程.ppt</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2010/12/30/2010-12-30-rintro2/" data-id="ckmq42aha001e1k84h1wd1btl" data-title="R语言初步——数据处理、绘图与编程" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/R%E7%BC%96%E7%A8%8B/" rel="tag">R编程</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-2010-12-3-dpi600" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2010/12/03/2010-12-3-dpi600/" class="article-date">
@@ -96,12 +149,15 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>用tiff命令可以生成指定分辨率的tiff格式的图片,tiff一般很大, 所以一般都进行压缩, 常用如 lzw压缩.</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tiff(file = <span class="string">&quot;C:/test1.tiff&quot;</span>, res = <span class="number">600</span>, width = <span class="number">4800</span>, height = <span class="number">4800</span>, compression = <span class="string">&quot;lzw&quot;</span>)</span><br><span class="line">plot(<span class="number">1</span>:<span class="number">22</span>, pch = <span class="number">1</span>:<span class="number">22</span>, cex = <span class="number">1</span>:<span class="number">3</span>, col = <span class="number">1</span>:<span class="number">5</span>)</span><br><span class="line">dev.off()</span><br></pre></td></tr></table></figure>
+<pre><code class="R">tiff(file = &quot;C:/test1.tiff&quot;, res = 600, width = 4800, height = 4800, compression = &quot;lzw&quot;)
+plot(1:22, pch = 1:22, cex = 1:3, col = 1:5)
+dev.off()
+</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2010/12/03/2010-12-3-dpi600/" data-id="ckmq2gwqc0016q884dge6dorh" data-title="用R高清绘图:分辨率600DPI" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2010/12/03/2010-12-3-dpi600/" data-id="ckmq42ah9001b1k8436ur6d7z" data-title="用R高清绘图:分辨率600DPI" class="article-share-link">Share</a>
       
       
       
@@ -147,7 +203,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2010/11/27/2010-11-27-phylomatic/" data-id="ckmq2gwqc0018q884h4jnh8tk" data-title="Phylomatic生成进化树及物种功能性状聚类" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2010/11/27/2010-11-27-phylomatic/" data-id="ckmq42ah800161k84346s4qcs" data-title="Phylomatic生成进化树及物种功能性状聚类" class="article-share-link">Share</a>
       
       
       
@@ -246,7 +302,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2010/11/17/2010-11-17-profhe/" data-id="ckmq2gwv900dtq8844ft12slb" data-title="[转载]何芳良教授谈生态学论文的写作与发表" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2010/11/17/2010-11-17-profhe/" data-id="ckmq42alm00ds1k84271b9lhf" data-title="[转载]何芳良教授谈生态学论文的写作与发表" class="article-share-link">Share</a>
       
       
       
@@ -291,8 +347,88 @@
 <li>V，   日落时食甚</li>
 <li>VI，  日落时初亏<br>还有一条线段表示日食南界。在这个区域内部，可以见到日偏食的完整过程。区域之外则不可见。由于月亮自西向东运行，其速度远远超过太阳的向东运行的速度。因此，日食总是从西侧开始，在东侧结束。<br>公元前2000年到公元3000年每一次日食kmz文件， 可以在 <a target="_blank" rel="noopener" href="http://xjubier.free.fr/en/site_pages/SolarEclipsesGoogleEarth.html">http://xjubier.free.fr/en/site_pages/SolarEclipsesGoogleEarth.html</a> 下载。kmz文件可以被google earth读取。<br>为了生成清晰度更高的日食界限图，笔者编写了相应的R函数，以绘制日食界限图。该函数基于maptools、mapproj、mapdata。使用前请先下载这三个程序包。<br>由于绘制地图必须采用一定的投影方式，这里默认的投影方式为斜轴等面积投影。当然，高手可以通过阅读R的帮助信息，改变相应的地图投影方式，线段的颜色等，以达到满意的效果。<br>图2 - 6<br>plotkml绘制的日食界限图</li>
 </ul>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line">plotkml &lt;- </span><br><span class="line"><span class="keyword">function</span>(file, projection = <span class="string">&quot;azequalarea&quot;</span> , parameter = <span class="literal">NULL</span>, grid = <span class="literal">TRUE</span>, info = <span class="literal">TRUE</span>,... )&#123;</span><br><span class="line">	 require(maptools)</span><br><span class="line">     require(mapproj)</span><br><span class="line">     require(mapdata)</span><br><span class="line">    <span class="comment">#match.arg(projection)</span></span><br><span class="line">    zz &lt;- getKMLcoordinates(file, ignoreAltitude = <span class="literal">TRUE</span>)</span><br><span class="line">	x11(<span class="number">11</span>,<span class="number">9</span>)</span><br><span class="line">    m &lt;- map(<span class="string">&#x27;world&#x27;</span>,proj= projection, parameter = parameter, orient=<span class="built_in">c</span>(zz[[<span class="number">1</span>]][<span class="number">2</span>], zz[[<span class="number">1</span>]][<span class="number">1</span>], <span class="number">0</span>), ...)</span><br><span class="line">    </span><br><span class="line">	<span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(zz))&#123;                              <span class="comment">## Add lines to graph</span></span><br><span class="line">	    <span class="keyword">if</span>(is.data.frame(zz[[i]]))&#123;</span><br><span class="line">		    <span class="keyword">if</span>(ncol(zz[[i]]) &gt; <span class="number">3</span>)&#123;</span><br><span class="line">		        i = i + <span class="number">1</span></span><br><span class="line">            &#125;		                                     <span class="comment">## Avoid  ncol &gt; 3</span></span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">if</span>(<span class="built_in">is.list</span>(zz[[i]]))&#123;</span><br><span class="line">		    i = i + <span class="number">1</span>			                         <span class="comment">## Avoid  list &gt; 3</span></span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">        <span class="keyword">if</span>(is.vector(zz[[i]]))&#123;</span><br><span class="line">            points(mapproject(<span class="built_in">list</span>(y = zz[[i]][<span class="number">2</span>], x= zz[[i]][<span class="number">1</span>])), pch = <span class="string">&quot;*&quot;</span>, cex = <span class="number">2</span>, col = <span class="number">2</span>)</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">if</span>(<span class="built_in">is.matrix</span>(zz[[i]]))&#123;</span><br><span class="line">            lines(mapproject(<span class="built_in">list</span>(y = zz[[i]][,<span class="number">2</span>], x= zz[[i]][,<span class="number">1</span>])), col = <span class="string">&quot;blue&quot;</span>, ...)</span><br><span class="line">        &#125; </span><br><span class="line">		<span class="comment">## print(i) used in debugging</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">	<span class="keyword">if</span>(grid)&#123;   <span class="comment">## Add map grid</span></span><br><span class="line">        map.grid(m, lty = <span class="number">1</span>, col = <span class="string">&quot;grey&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">	file1 &lt;- readLines(file)</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span>(title)&#123; <span class="comment">## Add title</span></span><br><span class="line">	    <span class="comment">#file &lt;- &quot;c:/ASE_1800_04_24__4cdcf4f5330fb.kml&quot;</span></span><br><span class="line">        daterecord &lt;- file1[grepl(<span class="string">&quot;when&quot;</span>, file1)]</span><br><span class="line">        date &lt;- substring(gsub(<span class="string">&quot; &quot;</span>, <span class="string">&quot;&quot;</span>, daterecord), <span class="number">7</span>, <span class="number">16</span>)</span><br><span class="line">        type &lt;- file1[grepl(<span class="string">&quot;Type:&quot;</span>, file1)]</span><br><span class="line">        stype &lt;- gsub(<span class="string">&quot; &quot;</span>, <span class="string">&quot;&quot;</span>, type)</span><br><span class="line">        typesolar &lt;- substring(stype, <span class="number">12</span>, regexpr(<span class="string">&quot;&lt;br&quot;</span>, stype) - <span class="number">1</span>)</span><br><span class="line">        title(paste(typesolar, <span class="string">&quot;solar eclipse on&quot;</span>, date))</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(info)&#123;  <span class="comment">## Add details for this eclipse</span></span><br><span class="line">	    <span class="comment">##UT</span></span><br><span class="line">		<span class="comment">## detail information</span></span><br><span class="line">		bg &lt;- which(grepl(<span class="string">&quot;&lt;li&gt;Magnitude:&quot;</span>, file1))</span><br><span class="line">		info &lt;- file1[bg:(bg+<span class="number">4</span>)]</span><br><span class="line">		infosub &lt;- gsub(<span class="string">&quot;&lt;/li&gt;&quot;</span>, <span class="string">&quot;&quot;</span>, gsub(<span class="string">&quot;&amp;nbsp;&quot;</span>,<span class="string">&quot;&quot;</span>,gsub(<span class="string">&quot;&lt;li&gt;&quot;</span>, <span class="string">&quot;&quot;</span>,gsub(<span class="string">&quot; &quot;</span>, <span class="string">&quot;&quot;</span>, info))))</span><br><span class="line">        text(-<span class="number">1.3</span>, seq(<span class="number">1.4</span>, <span class="number">1.1</span>, by = -<span class="number">0.1</span>),infosub[<span class="number">1</span>:<span class="number">4</span>])</span><br><span class="line">		</span><br><span class="line">		<span class="comment">## Partial Eclipse Begins</span></span><br><span class="line">		bg &lt;- <span class="built_in">min</span>(which(grepl(<span class="string">&quot;&lt;name&gt;P1&quot;</span>, file1)))</span><br><span class="line">        sub &lt;- file1[bg:(bg+<span class="number">100</span>)]</span><br><span class="line">        ind &lt;- <span class="built_in">min</span>(which(regexpr(<span class="string">&quot;&lt;longitude&gt;&quot;</span>,sub)&gt;<span class="number">0</span>))</span><br><span class="line">		info &lt;- sub[<span class="built_in">c</span>(ind, ind +<span class="number">1</span>)]</span><br><span class="line">		info1 &lt;- gsub(<span class="string">&quot;de&quot;</span>, <span class="string">&quot;de:&quot;</span>,gsub(<span class="string">&quot;/longitude&quot;</span>,<span class="string">&quot;&quot;</span>,gsub(<span class="string">&quot;/latitude&quot;</span>, <span class="string">&quot;&quot;</span>, gsub(<span class="string">&quot;[&lt;-&gt;]&quot;</span>, <span class="string">&quot;&quot;</span>, gsub(<span class="string">&quot; &quot;</span>, <span class="string">&quot;&quot;</span>,info)))))</span><br><span class="line">		information &lt;- <span class="built_in">c</span>(<span class="string">&quot;Partial Eclipse begins:&quot;</span>, info1)</span><br><span class="line">		text(-<span class="number">1.3</span>,seq(-<span class="number">1.1</span>, -<span class="number">1.3</span>, by = -<span class="number">0.1</span>),information)</span><br><span class="line">		</span><br><span class="line">		<span class="comment">## Partial Eclipse Ends</span></span><br><span class="line">		bg &lt;- <span class="built_in">min</span>(which(grepl(<span class="string">&quot;last external&quot;</span>, file1)))</span><br><span class="line">        sub &lt;- file1[bg:(bg+<span class="number">100</span>)]</span><br><span class="line">        ind &lt;- <span class="built_in">min</span>(which(regexpr(<span class="string">&quot;&lt;longitude&gt;&quot;</span>,sub)&gt;<span class="number">0</span>))</span><br><span class="line">		info &lt;- sub[<span class="built_in">c</span>(ind, ind +<span class="number">1</span>)]</span><br><span class="line">		info1 &lt;- gsub(<span class="string">&quot;de&quot;</span>, <span class="string">&quot;de:&quot;</span>,gsub(<span class="string">&quot;/longitude&quot;</span>,<span class="string">&quot;&quot;</span>,gsub(<span class="string">&quot;/latitude&quot;</span>, <span class="string">&quot;&quot;</span>, gsub(<span class="string">&quot;[&lt;-&gt;]&quot;</span>, <span class="string">&quot;&quot;</span>, gsub(<span class="string">&quot; &quot;</span>, <span class="string">&quot;&quot;</span>,info)))))</span><br><span class="line">		information &lt;- <span class="built_in">c</span>(<span class="string">&quot;Partial Eclipse ends:&quot;</span>, info1)</span><br><span class="line">		text(<span class="number">1.3</span>,seq(-<span class="number">1.1</span>, -<span class="number">1.3</span>, by = -<span class="number">0.1</span>),information)</span><br><span class="line">		</span><br><span class="line">		<span class="comment">## Greatest Eclipse Point</span></span><br><span class="line">		bg &lt;- <span class="built_in">min</span>(which(grepl(<span class="string">&quot;Greatest Eclipse Point&quot;</span>, file1)))</span><br><span class="line">        sub &lt;- file1[bg:(bg+<span class="number">100</span>)]</span><br><span class="line">        ind &lt;- <span class="built_in">min</span>(which(regexpr(<span class="string">&quot;&lt;longitude&gt;&quot;</span>,sub)&gt;<span class="number">0</span>))</span><br><span class="line">		info &lt;- sub[<span class="built_in">c</span>(ind, ind +<span class="number">1</span>)]</span><br><span class="line">		info1 &lt;- gsub(<span class="string">&quot;de&quot;</span>, <span class="string">&quot;de:&quot;</span>,gsub(<span class="string">&quot;/longitude&quot;</span>,<span class="string">&quot;&quot;</span>,gsub(<span class="string">&quot;/latitude&quot;</span>, <span class="string">&quot;&quot;</span>, gsub(<span class="string">&quot;[&lt;-&gt;]&quot;</span>, <span class="string">&quot;&quot;</span>, gsub(<span class="string">&quot; &quot;</span>, <span class="string">&quot;&quot;</span>,info)))))</span><br><span class="line">		information &lt;- <span class="built_in">c</span>(<span class="string">&quot;Greatest Eclipse:&quot;</span>, info1)</span><br><span class="line">		text(<span class="number">1.3</span>,seq(<span class="number">1.3</span>, <span class="number">1.1</span>, by = -<span class="number">0.1</span>),information)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<pre><code class="R">plotkml &lt;- 
+function(file, projection = &quot;azequalarea&quot; , parameter = NULL, grid = TRUE, info = TRUE,... )&#123;
+     require(maptools)
+     require(mapproj)
+     require(mapdata)
+    #match.arg(projection)
+    zz &lt;- getKMLcoordinates(file, ignoreAltitude = TRUE)
+    x11(11,9)
+    m &lt;- map(&#39;world&#39;,proj= projection, parameter = parameter, orient=c(zz[[1]][2], zz[[1]][1], 0), ...)
+    
+    for(i in 1:length(zz))&#123;                              ## Add lines to graph
+        if(is.data.frame(zz[[i]]))&#123;
+            if(ncol(zz[[i]]) &gt; 3)&#123;
+                i = i + 1
+            &#125;                                             ## Avoid  ncol &gt; 3
+        &#125;
+        
+        if(is.list(zz[[i]]))&#123;
+            i = i + 1                                     ## Avoid  list &gt; 3
+        &#125;
+        
+        if(is.vector(zz[[i]]))&#123;
+            points(mapproject(list(y = zz[[i]][2], x= zz[[i]][1])), pch = &quot;*&quot;, cex = 2, col = 2)
+        &#125;
+        
+        if(is.matrix(zz[[i]]))&#123;
+            lines(mapproject(list(y = zz[[i]][,2], x= zz[[i]][,1])), col = &quot;blue&quot;, ...)
+        &#125; 
+        ## print(i) used in debugging
+    &#125;
+    
+    if(grid)&#123;   ## Add map grid
+        map.grid(m, lty = 1, col = &quot;grey&quot;)
+    &#125;
+    file1 &lt;- readLines(file)
+    
+    if(title)&#123; ## Add title
+        #file &lt;- &quot;c:/ASE_1800_04_24__4cdcf4f5330fb.kml&quot;
+        daterecord &lt;- file1[grepl(&quot;when&quot;, file1)]
+        date &lt;- substring(gsub(&quot; &quot;, &quot;&quot;, daterecord), 7, 16)
+        type &lt;- file1[grepl(&quot;Type:&quot;, file1)]
+        stype &lt;- gsub(&quot; &quot;, &quot;&quot;, type)
+        typesolar &lt;- substring(stype, 12, regexpr(&quot;&lt;br&quot;, stype) - 1)
+        title(paste(typesolar, &quot;solar eclipse on&quot;, date))
+    &#125;
+    if(info)&#123;  ## Add details for this eclipse
+        ##UT
+        ## detail information
+        bg &lt;- which(grepl(&quot;&lt;li&gt;Magnitude:&quot;, file1))
+        info &lt;- file1[bg:(bg+4)]
+        infosub &lt;- gsub(&quot;&lt;/li&gt;&quot;, &quot;&quot;, gsub(&quot;&amp;nbsp;&quot;,&quot;&quot;,gsub(&quot;&lt;li&gt;&quot;, &quot;&quot;,gsub(&quot; &quot;, &quot;&quot;, info))))
+        text(-1.3, seq(1.4, 1.1, by = -0.1),infosub[1:4])
+        
+        ## Partial Eclipse Begins
+        bg &lt;- min(which(grepl(&quot;&lt;name&gt;P1&quot;, file1)))
+        sub &lt;- file1[bg:(bg+100)]
+        ind &lt;- min(which(regexpr(&quot;&lt;longitude&gt;&quot;,sub)&gt;0))
+        info &lt;- sub[c(ind, ind +1)]
+        info1 &lt;- gsub(&quot;de&quot;, &quot;de:&quot;,gsub(&quot;/longitude&quot;,&quot;&quot;,gsub(&quot;/latitude&quot;, &quot;&quot;, gsub(&quot;[&lt;-&gt;]&quot;, &quot;&quot;, gsub(&quot; &quot;, &quot;&quot;,info)))))
+        information &lt;- c(&quot;Partial Eclipse begins:&quot;, info1)
+        text(-1.3,seq(-1.1, -1.3, by = -0.1),information)
+        
+        ## Partial Eclipse Ends
+        bg &lt;- min(which(grepl(&quot;last external&quot;, file1)))
+        sub &lt;- file1[bg:(bg+100)]
+        ind &lt;- min(which(regexpr(&quot;&lt;longitude&gt;&quot;,sub)&gt;0))
+        info &lt;- sub[c(ind, ind +1)]
+        info1 &lt;- gsub(&quot;de&quot;, &quot;de:&quot;,gsub(&quot;/longitude&quot;,&quot;&quot;,gsub(&quot;/latitude&quot;, &quot;&quot;, gsub(&quot;[&lt;-&gt;]&quot;, &quot;&quot;, gsub(&quot; &quot;, &quot;&quot;,info)))))
+        information &lt;- c(&quot;Partial Eclipse ends:&quot;, info1)
+        text(1.3,seq(-1.1, -1.3, by = -0.1),information)
+        
+        ## Greatest Eclipse Point
+        bg &lt;- min(which(grepl(&quot;Greatest Eclipse Point&quot;, file1)))
+        sub &lt;- file1[bg:(bg+100)]
+        ind &lt;- min(which(regexpr(&quot;&lt;longitude&gt;&quot;,sub)&gt;0))
+        info &lt;- sub[c(ind, ind +1)]
+        info1 &lt;- gsub(&quot;de&quot;, &quot;de:&quot;,gsub(&quot;/longitude&quot;,&quot;&quot;,gsub(&quot;/latitude&quot;, &quot;&quot;, gsub(&quot;[&lt;-&gt;]&quot;, &quot;&quot;, gsub(&quot; &quot;, &quot;&quot;,info)))))
+        information &lt;- c(&quot;Greatest Eclipse:&quot;, info1)
+        text(1.3,seq(1.3, 1.1, by = -0.1),information)
+    &#125;
+&#125;
+</code></pre>
 <p><img src="http://blog.sciencenet.cn/upload/blog/images/2010/11/20101116173940441.jpg" alt="img"><br>图2 2009年7月22日日全食路线图</p>
 <p><img src="http://blog.sciencenet.cn/upload/blog/images/2010/11/20101116173955956.jpg" alt="img"><br>图3 2020年6月21日日环食</p>
 <p><img src="http://blog.sciencenet.cn/upload/blog/images/2010/11/20101116174011378.jpg" alt="img"><br>图4 2021年6月10日日环食</p>
@@ -306,7 +442,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2010/11/16/2010-11-16-boundaryeclipse/" data-id="ckmq2gwq5000uq884hmp27auu" data-title="如何绘制日食界限图？" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2010/11/16/2010-11-16-boundaryeclipse/" data-id="ckmq42ah700141k848sk70r7w" data-title="如何绘制日食界限图？" class="article-share-link">Share</a>
       
       
       
@@ -665,7 +801,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2010/11/13/2011-11-13-solarecolipse/" data-id="ckmq2gwva00dvq884535s3on3" data-title="如何计算日食的时间和类型（附R源代码）？" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2010/11/13/2011-11-13-solarecolipse/" data-id="ckmq42aln00du1k844t2qckdc" data-title="如何计算日食的时间和类型（附R源代码）？" class="article-share-link">Share</a>
       
       
       
@@ -724,7 +860,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2010/11/08/2010-11-8-phylotools/" data-id="ckmq2gwqb0013q884anz60fzo" data-title="phylotools:处理DNA条码（DNA-Barcoding）序列的程序包" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2010/11/08/2010-11-8-phylotools/" data-id="ckmq42ah900191k844olq6xlj" data-title="phylotools:处理DNA条码（DNA-Barcoding）序列的程序包" class="article-share-link">Share</a>
       
       
       
@@ -777,13 +913,113 @@
 <p>在中国科学院紫金山天文台编纂的《中国天文年历》上，有相应年份逐日的儒略日表，可供参考。</p>
 <p>还是回到原来的问题，如何计算公历中两个日期相差的天数？办法之一，就是将二者都转换成儒略日，计算其差值。实际上，天文学家也是依靠儒略日来计算天体动态的。</p>
 <p>下面是已知日期计算儒略日和已知儒略日计算日期的方法。用R语言写成。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### 已知日期计算儒略日</span></span><br><span class="line"><span class="comment">### y 年 m 月 d日</span></span><br><span class="line"></span><br><span class="line">date2jd &lt;- <span class="keyword">function</span>(y,m,d)&#123;</span><br><span class="line">   n=<span class="number">0</span></span><br><span class="line">   G=<span class="number">0</span></span><br><span class="line">   <span class="keyword">if</span>(y*<span class="number">372</span>+m*<span class="number">31</span>+<span class="built_in">floor</span>(d)&gt;=<span class="number">588829</span>)&#123;</span><br><span class="line">   G=<span class="number">1</span></span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">if</span>(m&lt;=<span class="number">2</span>) &#123;</span><br><span class="line">   m = m +<span class="number">12</span></span><br><span class="line">   y = y -<span class="number">1</span></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span>(G) &#123;</span><br><span class="line">   n=<span class="built_in">floor</span>(y/<span class="number">100</span>)</span><br><span class="line">   n=<span class="number">2</span>-n+<span class="built_in">floor</span>(n/<span class="number">4</span>)</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   res &lt;- <span class="built_in">floor</span>(<span class="number">365.25</span>*(y+<span class="number">4716</span>)) + <span class="built_in">floor</span>(<span class="number">30.6001</span>*(m+<span class="number">1</span>)) + d + n - <span class="number">1524.5</span></span><br><span class="line">   <span class="built_in">return</span>(res)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">### 已知儒略日，计算日期的公式</span></span><br><span class="line"><span class="comment">###</span></span><br><span class="line"></span><br><span class="line">jd2date &lt;- <span class="keyword">function</span>(jd)&#123;</span><br><span class="line">    <span class="comment">### 转换日期格式</span></span><br><span class="line">    <span class="comment">### 已知儒略日，用jd2date求得到日期，变为年，月，日</span></span><br><span class="line">    jdate2vect &lt;- <span class="keyword">function</span>(xxx)&#123;</span><br><span class="line">        year = xxx[[<span class="number">1</span>]]</span><br><span class="line">        month = xxx[[<span class="number">2</span>]]</span><br><span class="line">        day &lt;- xxx[[<span class="number">3</span>]]</span><br><span class="line">        frac &lt;- xxx[[<span class="number">6</span>]]/(<span class="number">60</span>*<span class="number">60</span>*<span class="number">24</span>)+xxx[[<span class="number">5</span>]]/(<span class="number">60</span>*<span class="number">24</span>)+xxx[[<span class="number">4</span>]]/<span class="number">24</span></span><br><span class="line">        day.dec &lt;- day + frac</span><br><span class="line">        res &lt;- <span class="built_in">c</span>(year, month, day.dec)</span><br><span class="line">        <span class="built_in">names</span>(res) &lt;- <span class="built_in">c</span>(<span class="string">&quot;Year&quot;</span>,<span class="string">&quot;Month&quot;</span>,<span class="string">&quot;Day&quot;</span>)</span><br><span class="line">        <span class="built_in">return</span>(res)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">   D = <span class="built_in">floor</span>(jd+<span class="number">0.5</span>)</span><br><span class="line">   <span class="built_in">F</span>= jd+<span class="number">0.5</span>-D</span><br><span class="line">   <span class="keyword">if</span>(D&gt;=<span class="number">2299161</span>) &#123;</span><br><span class="line">      <span class="built_in">c</span> = <span class="built_in">floor</span>((D-<span class="number">1867216.25</span>)/<span class="number">36524.25</span>)</span><br><span class="line">      D = D + <span class="number">1</span>+<span class="built_in">c</span>-<span class="built_in">floor</span>(<span class="built_in">c</span>/<span class="number">4</span>);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   D = D + <span class="number">1524</span>;              </span><br><span class="line">   r.Y = <span class="built_in">floor</span>((D-<span class="number">122.1</span>)/<span class="number">365.25</span>);</span><br><span class="line">   D = D - <span class="built_in">floor</span>(<span class="number">365.25</span>*r.Y);  </span><br><span class="line">   r.M = <span class="built_in">floor</span>(D/<span class="number">30.601</span>);</span><br><span class="line">   D = D- <span class="built_in">floor</span>(<span class="number">30.601</span>*r.M);  </span><br><span class="line">   r.D = D;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span>(r.M&gt;<span class="number">13</span>)&#123;</span><br><span class="line">      r.M=r.M - <span class="number">13</span></span><br><span class="line">      r.Y=r.Y  - <span class="number">4715</span>;</span><br><span class="line">   &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      r.M =r.M - <span class="number">1</span></span><br><span class="line">      r.Y = r.Y- <span class="number">4716</span></span><br><span class="line">   &#125;</span><br><span class="line">   <span class="built_in">F</span>= <span class="built_in">F</span>*<span class="number">24</span>;</span><br><span class="line">   r.h=<span class="built_in">floor</span>(<span class="built_in">F</span>);</span><br><span class="line">   <span class="built_in">F</span>= <span class="built_in">F</span> -r.h;</span><br><span class="line">   <span class="built_in">F</span> = <span class="built_in">F</span> * <span class="number">60</span>;</span><br><span class="line">   r.m=<span class="built_in">floor</span>(<span class="built_in">F</span>);</span><br><span class="line">   <span class="built_in">F</span>= <span class="built_in">F</span> - r.m;</span><br><span class="line">   <span class="built_in">F</span> = <span class="built_in">F</span> * <span class="number">60</span>;</span><br><span class="line">   r.s=<span class="built_in">F</span>;</span><br><span class="line">   res &lt;- <span class="built_in">list</span>(r.Y, r.M, r.D, r.h, r.m, <span class="built_in">round</span>(r.s,<span class="number">2</span>))</span><br><span class="line">   <span class="built_in">names</span>(res) &lt;- <span class="built_in">c</span>(<span class="string">&quot;Year&quot;</span>,<span class="string">&quot;Month&quot;</span>,<span class="string">&quot;Day&quot;</span>,<span class="string">&quot;Hour&quot;</span>,<span class="string">&quot;Minute&quot;</span>,<span class="string">&quot;Second&quot;</span>)</span><br><span class="line">   <span class="built_in">return</span>(jdate2vect(res));</span><br><span class="line"></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ## date2jd 举例</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># ## 求2010年9月21日与1980年1月1日相差的天数</span></span><br><span class="line">date2jd(<span class="number">2010</span>,<span class="number">9</span>,<span class="number">21</span>) - date2jd(<span class="number">1980</span>,<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line"><span class="comment"># 结果：11221天</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># ## 求2035年9月2日北京日全食距离现在的天数</span></span><br><span class="line">date2jd(<span class="number">2035</span>,<span class="number">9</span>,<span class="number">2</span>) - date2jd(<span class="number">2010</span>,<span class="number">9</span>,<span class="number">21</span>)</span><br><span class="line"><span class="comment"># 结果：9112天</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># ## 求美国独立距离现在的天数</span></span><br><span class="line">date2jd(<span class="number">2010</span>,<span class="number">9</span>,<span class="number">21</span>) - date2jd(<span class="number">1776</span>,<span class="number">7</span>,<span class="number">4</span>)</span><br><span class="line"><span class="comment"># 结果：85545天</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ## 求公元前841年1月1日（西周共和元年）距离现在的天数</span></span><br><span class="line">date2jd(<span class="number">2010</span>,<span class="number">9</span>,<span class="number">21</span>) - date2jd(-<span class="number">841</span>,<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line"><span class="comment"># 结果：1041578 天</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ## 儒略日转年月日举例</span></span><br><span class="line"><span class="comment"># #已知儒略日为2455230.5，求其对应的公历日期。</span></span><br><span class="line">jd2date(<span class="number">2455230.5</span>)</span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># 结果：</span></span><br><span class="line"><span class="comment">#  Year Month   Day</span></span><br><span class="line"><span class="comment">#  2010     2     3</span></span><br><span class="line"><span class="comment">#  是2010年2月3日。</span></span><br></pre></td></tr></table></figure>
+<pre><code class="R">### 已知日期计算儒略日
+### y 年 m 月 d日
+
+date2jd &lt;- function(y,m,d)&#123;
+   n=0
+   G=0
+   if(y*372+m*31+floor(d)&gt;=588829)&#123;
+   G=1
+   &#125;
+   if(m&lt;=2) &#123;
+   m = m +12
+   y = y -1
+   &#125;
+
+   if(G) &#123;
+   n=floor(y/100)
+   n=2-n+floor(n/4)
+   &#125;
+
+   res &lt;- floor(365.25*(y+4716)) + floor(30.6001*(m+1)) + d + n - 1524.5
+   return(res)
+&#125;
+
+### 已知儒略日，计算日期的公式
+###
+
+jd2date &lt;- function(jd)&#123;
+    ### 转换日期格式
+    ### 已知儒略日，用jd2date求得到日期，变为年，月，日
+    jdate2vect &lt;- function(xxx)&#123;
+        year = xxx[[1]]
+        month = xxx[[2]]
+        day &lt;- xxx[[3]]
+        frac &lt;- xxx[[6]]/(60*60*24)+xxx[[5]]/(60*24)+xxx[[4]]/24
+        day.dec &lt;- day + frac
+        res &lt;- c(year, month, day.dec)
+        names(res) &lt;- c(&quot;Year&quot;,&quot;Month&quot;,&quot;Day&quot;)
+        return(res)
+    &#125;
+
+   D = floor(jd+0.5)
+   F= jd+0.5-D
+   if(D&gt;=2299161) &#123;
+      c = floor((D-1867216.25)/36524.25)
+      D = D + 1+c-floor(c/4);
+   &#125;
+
+   D = D + 1524;              
+   r.Y = floor((D-122.1)/365.25);
+   D = D - floor(365.25*r.Y);  
+   r.M = floor(D/30.601);
+   D = D- floor(30.601*r.M);  
+   r.D = D;
+
+   if(r.M&gt;13)&#123;
+      r.M=r.M - 13
+      r.Y=r.Y  - 4715;
+   &#125;else&#123;
+      r.M =r.M - 1
+      r.Y = r.Y- 4716
+   &#125;
+   F= F*24;
+   r.h=floor(F);
+   F= F -r.h;
+   F = F * 60;
+   r.m=floor(F);
+   F= F - r.m;
+   F = F * 60;
+   r.s=F;
+   res &lt;- list(r.Y, r.M, r.D, r.h, r.m, round(r.s,2))
+   names(res) &lt;- c(&quot;Year&quot;,&quot;Month&quot;,&quot;Day&quot;,&quot;Hour&quot;,&quot;Minute&quot;,&quot;Second&quot;)
+   return(jdate2vect(res));
+
+  &#125;
+</code></pre>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><pre><code class="R"># ## date2jd 举例
+# 
+# ## 求2010年9月21日与1980年1月1日相差的天数
+date2jd(2010,9,21) - date2jd(1980,1,1)
+# 结果：11221天
+# 
+# ## 求2035年9月2日北京日全食距离现在的天数
+date2jd(2035,9,2) - date2jd(2010,9,21)
+# 结果：9112天
+# 
+# ## 求美国独立距离现在的天数
+date2jd(2010,9,21) - date2jd(1776,7,4)
+# 结果：85545天
+
+# ## 求公元前841年1月1日（西周共和元年）距离现在的天数
+date2jd(2010,9,21) - date2jd(-841,1,1)
+# 结果：1041578 天
+
+# ## 儒略日转年月日举例
+# #已知儒略日为2455230.5，求其对应的公历日期。
+jd2date(2455230.5)
+# 
+# 结果：
+#  Year Month   Day
+#  2010     2     3
+#  是2010年2月3日。
+</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2010/09/21/2010-9-21-daydiff/" data-id="ckmq2gwqi001qq884fvsu9fte" data-title="如何计算两日期相差的天数？" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2010/09/21/2010-9-21-daydiff/" data-id="ckmq42ahf001v1k8456xtbex7" data-title="如何计算两日期相差的天数？" class="article-share-link">Share</a>
       
       
       
@@ -831,7 +1067,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2010/09/18/2010-9-18-npp/" data-id="ckmq2gwqg001iq884gyov7wdw" data-title="NotePad++:记事本的替代程序" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2010/09/18/2010-9-18-npp/" data-id="ckmq42ahf001t1k845pd6fmat" data-title="NotePad++:记事本的替代程序" class="article-share-link">Share</a>
       
       
       
@@ -891,69 +1127,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2010/09/09/2010-9-9-apparentmotion/" data-id="ckmq2gwqn0022q8846k3327tl" data-title="R语言：行星运行轨迹的绘制" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A9%E6%96%87/" rel="tag">天文</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-2010-9-6-skyatlas" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2010/09/05/2010-9-6-skyatlas/" class="article-date">
-  <time class="dt-published" datetime="2010-09-05T08:05:54.000Z" itemprop="datePublished">2010-09-05</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2010/09/05/2010-9-6-skyatlas/">skyatlas:用R绘制星图和行星的周年视运动</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>在一些天文期刊上经常看到赤道坐标星图，不但给出了某一个时刻太阳、月亮的位置，还给出了大行星在一年中相对于星空背景的运行轨迹。今天我们就用R软件绘制这样的星图。</p>
-<p>当然，为了绘制星图，我们需要知道恒星的位置和亮度。这就需要引入天文坐标系。天文学上天体的位置有多种坐标系统，包括赤道坐标系，黄道坐标系和地平坐标系等。</p>
-<p>首先介绍一下今天用到的赤道坐标系。</p>
-<p>赤道坐标系是以春分点作为起点，春分点和秋分点是赤道和黄道两个大圈相交的点。由于地球的自转，我们看到太阳相对于恒星背景从西向东运行，太阳所经过的路线就称为黄道。不难想象，春分点过后，太阳相对于星空背景一天天逐渐向北移动（当然也同时向东移动，差不多每天移动1度多一点儿）。我们就说春分点为升交点。太阳到达夏至点的时候，是最北的，之后逐渐向南，到秋分点又与赤道相交。因此秋分点又称为降交点。太阳继续向南，此时太阳位于天赤道以南。到达冬至点之后又逐渐向北。如此周而复始。</p>
-<p>我们定义赤道坐标系的原点就是升交点，向左度量，一圈用24h表示。其经度就称为“赤经”，其纬度就称为“赤纬”，用度表示， 北半球为正，南半球为负。这就是我们将要看到的图形中的星图。天文学上的星图左东右西，与地图正好相反。</p>
-<p>其次，我们需要了解一下恒星的位置和亮度。<br>这里我们选取了耶鲁亮星星表。这个星表包含了肉眼可见的9110颗较亮恒星的位置亮度等信息。按照肉眼可见的亮度分成不同的星等，星的亮度是用照相测量法测量的。</p>
-<p>第三，我们需要知道行星在任何一个时刻的位置。即，我们输入时刻，就有程序可以计算出该天体的位置等信息。这是球面天文学和天体力学的内容了。我们这里使用R的moonsun程序包计算某一时刻天体的位置和亮度。 我们需要输入的时间为儒略日（Julian day）。儒略日是什么？儒略日是指从公元前4713年1月1日中午12时开始，开始距离现在的天数。我们输入的日期都必须先转换成儒略日，再用儒略日作为时间点计算。儒略日计算两个时间点之间相隔的天数非常方便，因此在天文学上得到了广泛的应用。</p>
-<p>第四，我们需要了解一下行星运行的基本知识。<br>水星，金星位于地球内侧，更靠近太阳，称为内行星。火星，木星，土星，天王星，海王星位于地球外侧，称为外行星。<br>八大行星的轨道与黄道相差不大，而且均自西向东运行。靠近太阳最近的水星运行速度最快。从地球上看，行星相对于星空背景有时候向东，有时候向西。向东称为顺行，各行星大部分时间在顺行中，向西称为逆行，在顺行和逆行的转换过程中，有较短的时间，行星相对星空背景处于相对静止的状态，称为留。</p>
-<p>这里给出了skyatlasR程序能够绘制行星周年视运动的轨迹，当然，由于没有考虑到星体之间的摄动等更精确的天体力学因素，行星的位置计算不太高，精度在几角分之内，但是仍然能够满足大部分天文科普的需求。更精确的历表就得参考NASA,也就是美国国家航空航天局喷气推进实验室的HORIZON历书系统了。用户可以在线查询一些信息。</p>
-<p>下面简要介绍一下 skyatlas 程序的用法</p>
-<p>使用方法</p>
-<p>当然，首先要下载我们编好的程序了。 下载 <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/upload/blog/file/2010/9/20109603912834771.rar.rar">skyatlas.rar</a></p>
-<p>1 下载R软件 <a target="_blank" rel="noopener" href="http://ftp.ctex.org/mirrors/CRAN/bin/windows/base/R-2.11.1-win32.exe">http://ftp.ctex.org/mirrors/CRAN/bin/windows/base/R-2.11.1-win32.exe</a> 下载<br>2 将 “plot.r”, “resstar.csv”, “moonsun_0.1.1.zip” 拷贝到 C:下,”moonsun_0.1.1.zip” 为R程序包，安装时不需要解压缩。<br>3 安装moonsun.zip程序包，双击R的图标，路径为 开始&gt;所有程序&gt; R, 2.11.1, 然后再菜单中选择，菜单“程序包”，“从本地zip安装程序包”，选择 moonsun_0.1.1.zip 即可。<br>4 从R的菜单 “文件” “source R code”. 打开 “C:/plot.r”,或者输入命令source(“C:/plot.r”)即可。</p>
-<p>运行实例<br>R图形的组件都是一步一步添加上去的，故绘制一个图形步骤较多，这里举出了绘制水星1980年和2011年的例子，可供有兴趣的读者参考。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">######################################</span></span><br><span class="line"><span class="comment">######################################</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### 例一 绘制1980年水星的周年视运动  </span></span><br><span class="line"><span class="comment">##  该结果与《中国大百科全书 天文学卷》参见 485页 进行比较，水星的运行曲线结果是一致的。</span></span><br><span class="line">x11(<span class="number">14</span>, <span class="number">5</span>)</span><br><span class="line"><span class="comment">##绘制底图</span></span><br><span class="line">background(type = <span class="string">&quot;n&quot;</span>, xlim =<span class="built_in">c</span>(<span class="number">0</span>, <span class="number">24</span>), ylim = <span class="built_in">c</span>(-<span class="number">40</span>, <span class="number">40</span>), xlab = <span class="string">&quot;赤经&quot;</span>, ylab = <span class="string">&quot;赤纬&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">##添加黄道</span></span><br><span class="line">add.ecliptic()</span><br><span class="line"></span><br><span class="line"><span class="comment">##添加4等以上的恒星</span></span><br><span class="line">add.stars(resstar, mag = <span class="number">4</span>, pch = <span class="number">19</span>, time = <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 添加水星的运行轨迹</span></span><br><span class="line">tracks(mercury(jd(year = <span class="number">1980</span>,month = <span class="number">1</span>,day = <span class="number">1</span>,<span class="built_in">length</span> = <span class="number">365</span>)))</span><br><span class="line"><span class="comment">## 添加亮星的名称</span></span><br><span class="line">add.bright.lab ()</span><br><span class="line"></span><br><span class="line"><span class="comment">###生成每隔30天的点数据，</span></span><br><span class="line">position &lt;- mercury(jd(year = <span class="number">1980</span>,month = <span class="number">1</span>, day = <span class="number">1</span>,<span class="built_in">length</span> = <span class="number">12</span>, by = <span class="number">30</span>))</span><br><span class="line">addlab(position)</span><br><span class="line">title(<span class="string">&quot;1980年水星的周年视运动&quot;</span>)</span><br></pre></td></tr></table></figure>
-<p>结果如下</p>
-<p><img src="http://blog.sciencenet.cn/upload/blog/images/2010/9/20109601735522.JPG" alt="img"></p>
-<h1 id="例二"><a href="#例二" class="headerlink" title="例二"></a>例二</h1><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### 2011水星的周年视运动</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### 第一步 打开一个绘图窗口</span></span><br><span class="line">x11(<span class="number">14</span>, <span class="number">5</span>)</span><br><span class="line"><span class="comment">##  第二步 绘制底图</span></span><br><span class="line">background(type = <span class="string">&quot;n&quot;</span>, xlim =<span class="built_in">c</span>(<span class="number">0</span>, <span class="number">24</span>), ylim = <span class="built_in">c</span>(-<span class="number">40</span>, <span class="number">40</span>), xlab = <span class="string">&quot;赤经&quot;</span>, ylab = <span class="string">&quot;赤纬&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">##添加黄道</span></span><br><span class="line">add.ecliptic()</span><br><span class="line"></span><br><span class="line"><span class="comment">##第四步 添加4等以上的恒星</span></span><br><span class="line">add.stars(resstar, mag = <span class="number">4</span>, pch = <span class="number">19</span>, time = <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 第五步 添加水星的运行轨迹</span></span><br><span class="line">tracks(mercury(jd(year = <span class="number">2010</span>,month = <span class="number">1</span>,day = <span class="number">1</span>,<span class="built_in">length</span> = <span class="number">365</span>)))</span><br><span class="line"></span><br><span class="line"><span class="comment">## 第六步 添加亮星的名称</span></span><br><span class="line">add.bright.lab()</span><br><span class="line"></span><br><span class="line"><span class="comment">###第七步 添加生成每隔30天的点数据，并标在图上</span></span><br><span class="line">position &lt;- mercury(jd(year = <span class="number">2010</span>,month = <span class="number">1</span>, day = <span class="number">1</span>,<span class="built_in">length</span> = <span class="number">12</span>, by = <span class="number">30</span>))</span><br><span class="line">addlab(position)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 第八步 添加标题</span></span><br><span class="line">title(<span class="string">&quot;2011年水星的周年视运动&quot;</span>)</span><br></pre></td></tr></table></figure>
-<p> <img src="http://blog.sciencenet.cn/upload/blog/images/2010/9/20109601748756.JPG" alt="img"></p>
-<h1 id="例三-当前时刻日月及大行星的位置图"><a href="#例三-当前时刻日月及大行星的位置图" class="headerlink" title="例三 当前时刻日月及大行星的位置图"></a>例三 当前时刻日月及大行星的位置图</h1><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### 打开一个绘图窗口</span></span><br><span class="line">x11(<span class="number">14</span>, <span class="number">5</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 绘制赤道背景坐标</span></span><br><span class="line">background(type = <span class="string">&quot;n&quot;</span>, xlim =<span class="built_in">c</span>(<span class="number">0</span>, <span class="number">24</span>), ylim = <span class="built_in">c</span>(-<span class="number">40</span>, <span class="number">40</span>), xlab = <span class="string">&quot;赤经&quot;</span>, ylab = <span class="string">&quot;赤纬&quot;</span>, bg = <span class="string">&quot;darkblue&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">##添加黄道</span></span><br><span class="line">add.ecliptic()</span><br><span class="line"></span><br><span class="line"><span class="comment">## 添加4等以上的恒星</span></span><br><span class="line">add.stars(resstar, mag = <span class="number">4</span>, pch = <span class="number">19</span>, time = <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 添加亮星的名称</span></span><br><span class="line">add.bright.lab()</span><br><span class="line"></span><br><span class="line"><span class="comment">#### 添加大行星</span></span><br><span class="line">add.planet(col = <span class="string">&quot;black&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 添加标题</span></span><br><span class="line">title(paste(<span class="string">&quot;&quot;</span>, <span class="string">&quot;日月及大行星的位置(&quot;</span>,<span class="built_in">as.character</span>(Sys.Date()),<span class="string">&quot;)&quot;</span> ))</span><br></pre></td></tr></table></figure>
-
-<p> <img src="http://blog.sciencenet.cn/upload/blog/images/2010/9/20109601719225.JPG" alt="img"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2010/09/05/2010-9-6-skyatlas/" data-id="ckmq2gwqm001zq884fjvjds40" data-title="skyatlas:用R绘制星图和行星的周年视运动" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2010/09/09/2010-9-9-apparentmotion/" data-id="ckmq42ahh00201k845ztqb3wm" data-title="R语言：行星运行轨迹的绘制" class="article-share-link">Share</a>
       
       
       
@@ -1017,6 +1191,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -1030,10 +1208,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

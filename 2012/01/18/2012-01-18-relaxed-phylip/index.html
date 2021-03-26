@@ -102,11 +102,17 @@
 <p>不过，通常情况下，如果序列名超过10字符，ClustalX和MUSCLE等软件给出的phylip文件会将名称截取到十个字符，也就是遵循传统的PHYLIP格式。</p>
 <p>为了将比对好的FASTA文件直接转换为 relaxed phylip格式的文件, 这里提供了R的源代码。供有兴趣的同仁参考。</p>
 <p>请参考最新版本的 phylotools 程序包</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">library(devtools)</span><br><span class="line">install_github(<span class="string">&quot;helixcn/phylotools&quot;</span>)</span><br><span class="line">library(phylotools)</span><br><span class="line">dat &lt;- read.fasta(<span class="string">&quot;aligned_fasta.fasta&quot;</span>)</span><br><span class="line">dat2phylip(dat, outfile = <span class="string">&quot;out.phy&quot;</span>)</span><br></pre></td></tr></table></figure>
+<pre><code class="R">library(devtools)
+install_github(&quot;helixcn/phylotools&quot;)
+library(phylotools)
+dat &lt;- read.fasta(&quot;aligned_fasta.fasta&quot;)
+dat2phylip(dat, outfile = &quot;out.phy&quot;)
+</code></pre>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2012/01/18/2012-01-18-relaxed-phylip/" data-id="ckmq2gwr4003dq8848jbz411o" data-title="将比对好的fasta序列转换成relaxed phylip格式" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2012/01/18/2012-01-18-relaxed-phylip/" data-id="ckmq42ahw003d1k84d4jh8kxo" data-title="将比对好的fasta序列转换成relaxed phylip格式" class="article-share-link">Share</a>
       
       
       
@@ -182,6 +188,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -195,10 +205,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

@@ -106,12 +106,174 @@
 <p>进入嘉道理农场工作以来， 我的工作包括采集标本。 从采集记录快速生成采集标签的需求又一次摆在我面前。 但是陈彬博士提供的excel程序各部分都是中文， 但是我需要输入英文， 标签的格式也要进行相应的调整。 基于他提供的VBA程序， 我对VBA的源代码进行了修改， 调整了输出标签的格式，以及字体， 每一行的大小， 以及插入分隔符的位置等。 </p>
 <p>实现的功能<br>输入 在sheet1中按照要求相应的采集信息， 执行本命令， 例如用按钮关联，在sheet2中就可以生成固定的标签。 </p>
 <p>以下是Excel VBA中的源代码。 供感兴趣的读者参考， 并欢迎提出宝贵意见。</p>
-<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">&#x27;&#x27;#########################################################################</span></span><br><span class="line"><span class="comment">&#x27;&#x27;########## This macro was developed Dr. JinlongZhang  base on ##########</span></span><br><span class="line"><span class="comment">&#x27;&#x27;################# a  VBA macro by Dr.  Bin Chen #########################</span></span><br><span class="line"><span class="comment">&#x27;&#x27;################# Email : jinlongzhang01@gmail.com ####################</span></span><br><span class="line"><span class="comment">&#x27;&#x27;#########################  30/01/2013 ###################################</span></span><br><span class="line"><span class="comment">&#x27;&#x27;#########################################################################</span></span><br><span class="line"><span class="keyword">Dim</span> a, b, c, d,e, f, g <span class="keyword">As</span> <span class="type">Integer</span>  <span class="comment">&#x27;Definition of the variables</span></span><br><span class="line"><span class="comment">&#x27;Maximum Number of labels can be created</span></span><br><span class="line"><span class="comment">&#x27;b</span></span><br><span class="line">Sheet2.Columns.Clear</span><br><span class="line">Sheet2.ResetAllPageBreaks</span><br><span class="line">Sheet2.DisplayPageBreaks = <span class="literal">False</span></span><br><span class="line">c = <span class="number">1</span>                               <span class="comment">&#x27;</span></span><br><span class="line">d = <span class="number">0</span></span><br><span class="line"><span class="keyword">For</span> a = <span class="number">2</span> <span class="keyword">To</span> <span class="number">50000</span></span><br><span class="line">   <span class="keyword">If</span> Sheet1.Cells(a, <span class="number">1</span>) = <span class="string">&quot;&quot;</span> <span class="keyword">Then</span></span><br><span class="line">      MsgBox <span class="string">&quot;Please find the labels in Sheet 2&quot;</span></span><br><span class="line">       <span class="keyword">Exit</span> <span class="keyword">For</span></span><br><span class="line">   <span class="keyword">Else</span></span><br><span class="line">       g =Sheet1.Cells(a, <span class="number">16</span>)   <span class="comment">&#x27; Numberof copies for one collection number</span></span><br><span class="line">       <span class="keyword">For</span> b = <span class="number">1</span> <span class="keyword">To</span> g</span><br><span class="line">            <span class="keyword">If</span> d &gt; <span class="number">1</span> <span class="built_in">And</span> (d <span class="built_in">Mod</span> <span class="number">8</span> = <span class="number">0</span> <span class="built_in">Or</span> d <span class="built_in">Mod</span> <span class="number">8</span> = <span class="number">1</span>) <span class="keyword">Then</span> <span class="comment">&#x27;A justing the margins, and number of labels per page.</span></span><br><span class="line">              f = <span class="number">13</span></span><br><span class="line">            <span class="keyword">Else</span></span><br><span class="line">              f = <span class="number">14</span></span><br><span class="line">            <span class="keyword">End</span> <span class="keyword">If</span></span><br><span class="line">        <span class="keyword">If</span> d &gt; <span class="number">1</span> <span class="built_in">And</span> (d <span class="built_in">Mod</span> <span class="number">2</span> = <span class="number">0</span>) <span class="keyword">Then</span></span><br><span class="line">           c = c + f</span><br><span class="line">       <span class="keyword">End</span> <span class="keyword">If</span></span><br><span class="line">           e = (d + <span class="number">1</span>) <span class="built_in">Mod</span> <span class="number">2</span></span><br><span class="line"><span class="keyword">If</span> e = <span class="number">1</span> <span class="keyword">Then</span></span><br><span class="line">  Sheet2.Cells(c, <span class="number">1</span>) = TextBox1.<span class="keyword">Text</span></span><br><span class="line">  Sheet2.Cells(c + <span class="number">1</span>, <span class="number">1</span>) = TextBox2.<span class="keyword">Text</span></span><br><span class="line">  Sheet2.Cells(c + <span class="number">2</span>, <span class="number">1</span>) = Sheet1.Cells(a, <span class="number">4</span>) <span class="comment">&#x27;&quot;Species: &quot;</span></span><br><span class="line">  Sheet2.Cells(c + <span class="number">3</span>, <span class="number">1</span>) = Sheet1.Cells(a, <span class="number">5</span>) <span class="comment">&#x27; &quot;Infraspecies: &quot;</span></span><br><span class="line">  Sheet2.Cells(c + <span class="number">4</span>, <span class="number">1</span>) = <span class="string">&quot;Family: &quot;</span> +Sheet1.Cells(a, <span class="number">8</span>)</span><br><span class="line">  Sheet2.Cells(c + <span class="number">5</span>, <span class="number">1</span>) = <span class="string">&quot;Local Name: &quot;</span> +Sheet1.Cells(a, <span class="number">6</span>)</span><br><span class="line">  Sheet2.Cells(c + <span class="number">6</span>, <span class="number">1</span>) = <span class="string">&quot;Field Note: &quot;</span> +Sheet1.Cells(a, <span class="number">9</span>)</span><br><span class="line">  Sheet2.Cells(c + <span class="number">7</span>, <span class="number">1</span>) = <span class="string">&quot;Locality: &quot;</span> +Sheet1.Cells(a, <span class="number">17</span>)</span><br><span class="line">  Sheet2.Cells(c + <span class="number">8</span>, <span class="number">1</span>) = <span class="string">&quot;Lon/Lat/Alt: &quot;</span> +Sheet1.Cells(a, <span class="number">18</span>) + <span class="string">&quot;/&quot;</span> +Sheet1.Cells(a, <span class="number">19</span>) + <span class="string">&quot;/&quot;</span> +Sheet1.Cells(a, <span class="number">20</span>) + <span class="string">&quot;m&quot;</span></span><br><span class="line">  Sheet2.Cells(c + <span class="number">9</span>, <span class="number">1</span>) = <span class="string">&quot;Col. &amp; Num: &quot;</span> + Sheet1.Cells(a, <span class="number">2</span>) + <span class="string">&quot; &quot;</span> +Sheet1.Cells(a, <span class="number">1</span>)</span><br><span class="line">  Sheet2.Cells(c + <span class="number">10</span>, <span class="number">1</span>) = <span class="string">&quot;Date Col.: &quot;</span> +Sheet1.Cells(a, <span class="number">3</span>)</span><br><span class="line">  Sheet2.Cells(c + <span class="number">11</span>, <span class="number">1</span>) = <span class="string">&quot;Det. &amp; Date: &quot;</span> + Sheet1.Cells(a, <span class="number">24</span>) + <span class="string">&quot;/&quot;</span> +Sheet1.Cells(a, <span class="number">25</span>)</span><br><span class="line">  Sheet2.Cells(c + <span class="number">12</span>, <span class="number">1</span>) = <span class="string">&quot;Note: &quot;</span> +Sheet1.Cells(a, <span class="number">13</span>)</span><br><span class="line">   <span class="keyword">With</span> Sheet2  <span class="comment">&#x27;applicaton    &#x27; Adjusting the display of the text</span></span><br><span class="line">       <span class="comment">&#x27;Set height for rows</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">1</span>), .Cells(c+ <span class="number">12</span>, <span class="number">1</span>)).RowHeight = <span class="number">12</span></span><br><span class="line">       <span class="comment">&#x27;Set width for columns</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">1</span>), .Cells(c+ <span class="number">12</span>, <span class="number">1</span>)).ColumnWidth = <span class="number">42</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">1</span>), .Cells(c+ <span class="number">12</span>, <span class="number">1</span>)).Font.Name = <span class="string">&quot;Arial&quot;</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">1</span>), .Cells(c+ <span class="number">12</span>, <span class="number">1</span>)).Font.Size = <span class="number">11</span>       <span class="comment">&#x27;Size</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">1</span>), .Cells(c+ <span class="number">12</span>, <span class="number">1</span>)).HorizontalAlignment = xlGeneral</span><br><span class="line">       .Range(.Cells(c,<span class="number">1</span>), .Cells(c+ <span class="number">12</span>, <span class="number">1</span>)).VerticalAlignment = xlCenter</span><br><span class="line">       .Range(.Cells(c,<span class="number">1</span>), .Cells(c+ <span class="number">12</span>, <span class="number">1</span>)).WrapText = <span class="literal">False</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">1</span>), .Cells(c+ <span class="number">12</span>, <span class="number">1</span>)).Orientation = <span class="number">0</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">1</span>), .Cells(c+ <span class="number">12</span>, <span class="number">1</span>)).AddIndent = <span class="literal">False</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">1</span>), .Cells(c+ <span class="number">12</span>, <span class="number">1</span>)).IndentLevel = <span class="number">0</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">1</span>), .Cells(c+ <span class="number">12</span>, <span class="number">1</span>)).ShrinkToFit = <span class="literal">True</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">1</span>), .Cells(c+ <span class="number">12</span>, <span class="number">1</span>)).ReadingOrder = xlContext</span><br><span class="line">       .Range(.Cells(c,<span class="number">1</span>), .Cells(c+ <span class="number">12</span>, <span class="number">1</span>)).MergeCells = <span class="literal">False</span></span><br><span class="line">   <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line">   <span class="keyword">With</span> Sheet2.Cells(c, <span class="number">1</span>)  <span class="comment">&#x27;Adjusting the Title, right</span></span><br><span class="line">       .Font.Name= <span class="string">&quot;Arial&quot;</span> <span class="comment">&#x27;Font</span></span><br><span class="line">       .Font.Size= <span class="number">12</span>     <span class="comment">&#x27;Size</span></span><br><span class="line">       .Font.Bold= <span class="literal">True</span>   <span class="comment">&#x27;Alignment</span></span><br><span class="line">       .HorizontalAlignment= xlCenter</span><br><span class="line">       .VerticalAlignment= xlCenter</span><br><span class="line">       .WrapText= <span class="literal">False</span></span><br><span class="line">       .Orientation= <span class="number">0</span></span><br><span class="line">       .AddIndent= <span class="literal">False</span></span><br><span class="line">       .IndentLevel= <span class="number">0</span></span><br><span class="line">       .ShrinkToFit= <span class="literal">True</span></span><br><span class="line">       .ReadingOrder= xlContext</span><br><span class="line">       .MergeCells= <span class="literal">False</span></span><br><span class="line">   <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line">   <span class="keyword">With</span> Sheet2.Cells(c + <span class="number">1</span>, <span class="number">1</span>)   <span class="comment">&#x27; Formatthe subtitle</span></span><br><span class="line">       .HorizontalAlignment= xlCenter</span><br><span class="line">       .VerticalAlignment= xlCenter</span><br><span class="line">       .Font.Name= <span class="string">&quot;Times New Roman&quot;</span> <span class="comment">&#x27;Font</span></span><br><span class="line">       .Font.Size= <span class="number">12</span>     <span class="comment">&#x27;Size</span></span><br><span class="line">   <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line"><span class="keyword">ElseIf</span> e = <span class="number">0</span> <span class="keyword">Then</span></span><br><span class="line">  Sheet2.Cells(c, <span class="number">2</span>) = TextBox1.<span class="keyword">Text</span>          <span class="comment">&#x27;Title</span></span><br><span class="line">  Sheet2.Cells(c + <span class="number">1</span>, <span class="number">2</span>) = TextBox2.<span class="keyword">Text</span>      <span class="comment">&#x27;Subtitle</span></span><br><span class="line">  Sheet2.Cells(c + <span class="number">2</span>, <span class="number">2</span>) = Sheet1.Cells(a, <span class="number">4</span>) <span class="comment">&#x27;&quot;Species: &quot;</span></span><br><span class="line">  Sheet2.Cells(c + <span class="number">3</span>, <span class="number">2</span>) = Sheet1.Cells(a, <span class="number">5</span>) <span class="comment">&#x27; &quot;Infraspecies: &quot;</span></span><br><span class="line">  Sheet2.Cells(c + <span class="number">4</span>, <span class="number">2</span>) = <span class="string">&quot;Family: &quot;</span> +Sheet1.Cells(a, <span class="number">8</span>)</span><br><span class="line">  Sheet2.Cells(c + <span class="number">5</span>, <span class="number">2</span>) = <span class="string">&quot;Local Name: &quot;</span> +Sheet1.Cells(a, <span class="number">6</span>)</span><br><span class="line">  Sheet2.Cells(c + <span class="number">6</span>, <span class="number">2</span>) = <span class="string">&quot;Field Note: &quot;</span> +Sheet1.Cells(a, <span class="number">9</span>)</span><br><span class="line">  Sheet2.Cells(c + <span class="number">7</span>, <span class="number">2</span>) = <span class="string">&quot;Locality: &quot;</span> +Sheet1.Cells(a, <span class="number">17</span>)</span><br><span class="line">  Sheet2.Cells(c + <span class="number">8</span>, <span class="number">2</span>) = <span class="string">&quot;Lon/Lat/Alt: &quot;</span> +Sheet1.Cells(a, <span class="number">18</span>) + <span class="string">&quot;/&quot;</span> +Sheet1.Cells(a, <span class="number">19</span>) + <span class="string">&quot;/&quot;</span> +Sheet1.Cells(a, <span class="number">20</span>) + <span class="string">&quot;m&quot;</span></span><br><span class="line">  Sheet2.Cells(c + <span class="number">9</span>, <span class="number">2</span>) = <span class="string">&quot;Col. &amp; Num: &quot;</span> + Sheet1.Cells(a, <span class="number">2</span>) + <span class="string">&quot; &quot;</span> +Sheet1.Cells(a, <span class="number">1</span>)</span><br><span class="line">  Sheet2.Cells(c + <span class="number">10</span>, <span class="number">2</span>) = <span class="string">&quot;Date Col.: &quot;</span> +Sheet1.Cells(a, <span class="number">3</span>)</span><br><span class="line">  Sheet2.Cells(c + <span class="number">11</span>, <span class="number">2</span>) = <span class="string">&quot;Det. &amp; Date: &quot;</span> + Sheet1.Cells(a, <span class="number">24</span>) + <span class="string">&quot;/&quot;</span> +Sheet1.Cells(a, <span class="number">25</span>)</span><br><span class="line">  Sheet2.Cells(c + <span class="number">12</span>, <span class="number">2</span>) = <span class="string">&quot;Note: &quot;</span> +Sheet1.Cells(a, <span class="number">13</span>)</span><br><span class="line">   <span class="keyword">With</span> Sheet2  <span class="comment">&#x27;applicaton</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">2</span>), .Cells(c+ <span class="number">12</span>, <span class="number">2</span>)).RowHeight = <span class="number">12</span>         <span class="comment">&#x27;Setheight for rows</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">2</span>), .Cells(c+ <span class="number">12</span>, <span class="number">2</span>)).ColumnWidth = <span class="number">42</span>       <span class="comment">&#x27;Setwidth for columns</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">2</span>), .Cells(c+ <span class="number">12</span>, <span class="number">2</span>)).Font.Name = <span class="string">&quot;Arial&quot;</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">2</span>), .Cells(c+ <span class="number">12</span>, <span class="number">2</span>)).Font.Size = <span class="number">11</span>          <span class="comment">&#x27;Size</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">2</span>), .Cells(c+ <span class="number">12</span>, <span class="number">2</span>)).HorizontalAlignment = xlGeneral</span><br><span class="line">       .Range(.Cells(c,<span class="number">2</span>), .Cells(c+ <span class="number">12</span>, <span class="number">2</span>)).VerticalAlignment = xlCenter</span><br><span class="line">       .Range(.Cells(c,<span class="number">2</span>), .Cells(c+ <span class="number">12</span>, <span class="number">2</span>)).WrapText = <span class="literal">False</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">2</span>), .Cells(c+ <span class="number">12</span>, <span class="number">2</span>)).Orientation = <span class="number">0</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">2</span>), .Cells(c+ <span class="number">12</span>, <span class="number">2</span>)).AddIndent = <span class="literal">False</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">2</span>), .Cells(c+ <span class="number">12</span>, <span class="number">2</span>)).IndentLevel = <span class="number">0</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">2</span>), .Cells(c+ <span class="number">12</span>, <span class="number">2</span>)).ShrinkToFit = <span class="literal">True</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">2</span>), .Cells(c+ <span class="number">12</span>, <span class="number">2</span>)).ReadingOrder = xlContext</span><br><span class="line">       .Range(.Cells(c,<span class="number">2</span>), .Cells(c+ <span class="number">12</span>, <span class="number">2</span>)).MergeCells = <span class="literal">False</span></span><br><span class="line">   <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line">   <span class="keyword">With</span> Sheet2.Cells(c, <span class="number">2</span>)  <span class="comment">&#x27;Adjusting the label, right</span></span><br><span class="line">       .Font.Name= <span class="string">&quot;Arial&quot;</span> <span class="comment">&#x27;Font</span></span><br><span class="line">       .Font.Size= <span class="number">12</span>     <span class="comment">&#x27;Size</span></span><br><span class="line">       .Font.Bold= <span class="literal">True</span>   <span class="comment">&#x27;Alignment</span></span><br><span class="line">       .HorizontalAlignment= xlCenter</span><br><span class="line">       .VerticalAlignment= xlCenter</span><br><span class="line">       .WrapText= <span class="literal">False</span></span><br><span class="line">       .Orientation= <span class="number">0</span></span><br><span class="line">       .AddIndent= <span class="literal">False</span></span><br><span class="line">       .IndentLevel= <span class="number">0</span></span><br><span class="line">       .ShrinkToFit= <span class="literal">True</span></span><br><span class="line">       .ReadingOrder= xlContext</span><br><span class="line">       .MergeCells= <span class="literal">False</span></span><br><span class="line">   <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line">   <span class="keyword">With</span> Sheet2.Cells(c + <span class="number">1</span>, <span class="number">2</span>)            <span class="comment">&#x27;Formatthe subtitle</span></span><br><span class="line">       .HorizontalAlignment= xlCenter</span><br><span class="line">       .VerticalAlignment= xlCenter</span><br><span class="line">       .Font.Name= <span class="string">&quot;Times New Roman&quot;</span>   <span class="comment">&#x27;Font</span></span><br><span class="line">       .Font.Size= <span class="number">12</span>                  <span class="comment">&#x27;Size</span></span><br><span class="line">   <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line">  <span class="keyword">End</span> <span class="keyword">If</span></span><br><span class="line"> d =d + <span class="number">1</span></span><br><span class="line"> <span class="keyword">Next</span> b</span><br><span class="line">   <span class="keyword">If</span> f = <span class="number">13</span> <span class="built_in">And</span> c &gt; <span class="number">1</span> <span class="keyword">Then</span></span><br><span class="line">                      Sheet2.HPageBreaks.AddBefore:=Sheet2.Cells(c, <span class="number">1</span>)</span><br><span class="line">   <span class="keyword">End</span> <span class="keyword">If</span></span><br><span class="line"> <span class="keyword">End</span> <span class="keyword">If</span></span><br><span class="line"><span class="keyword">Next</span> a</span><br><span class="line">   <span class="keyword">With</span> Sheet2.PageSetup</span><br><span class="line">       .LeftMargin= Application.InchesToPoints(<span class="number">0.5</span>)</span><br><span class="line">       .RightMargin= Application.InchesToPoints(<span class="number">0.5</span>)</span><br><span class="line">       .TopMargin= Application.InchesToPoints(<span class="number">0.5</span>)</span><br><span class="line">       .BottomMargin= Application.InchesToPoints(<span class="number">0.5</span>)</span><br><span class="line">       .HeaderMargin= Application.InchesToPoints(<span class="number">0.5</span>)</span><br><span class="line">       .FooterMargin= Application.InchesToPoints(<span class="number">0.5</span>)</span><br><span class="line">       .PrintHeadings = <span class="literal">False</span></span><br><span class="line">       .PrintGridlines= <span class="literal">False</span></span><br><span class="line">       .PrintNotes= <span class="literal">False</span></span><br><span class="line">       .CenterHorizontally= <span class="literal">False</span></span><br><span class="line">       .CenterVertically= <span class="literal">False</span></span><br><span class="line">       .Orientation= xlPortrait</span><br><span class="line">       .Draft= <span class="literal">False</span></span><br><span class="line">       .PaperSize= xlPaperA4                  <span class="comment">&#x27; xlPaperA4:A4</span></span><br><span class="line">       .FirstPageNumber= xlAutomatic</span><br><span class="line">       .<span class="keyword">Order</span>= xlDownThenOver</span><br><span class="line">       .BlackAndWhite= <span class="literal">False</span></span><br><span class="line">       .Zoom= <span class="number">100</span></span><br><span class="line">       .FitToPagesWide= <span class="number">1</span></span><br><span class="line">       .FitToPagesTall= <span class="number">1</span></span><br><span class="line">       .PrintErrors= xlPrintErrorsDisplayed</span><br><span class="line">       <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line">Sheet2.PrintPreview</span><br></pre></td></tr></table></figure>
+<pre><code class="vb"> &#39;&#39;#########################################################################
+&#39;&#39;########## This macro was developed Dr. JinlongZhang  base on ##########
+&#39;&#39;################# a  VBA macro by Dr.  Bin Chen #########################
+&#39;&#39;################# Email : jinlongzhang01@gmail.com ####################
+&#39;&#39;#########################  30/01/2013 ###################################
+&#39;&#39;#########################################################################
+Dim a, b, c, d,e, f, g As Integer  &#39;Definition of the variables
+&#39;Maximum Number of labels can be created
+&#39;b
+Sheet2.Columns.Clear
+Sheet2.ResetAllPageBreaks
+Sheet2.DisplayPageBreaks = False
+c = 1                               &#39;
+d = 0
+For a = 2 To 50000
+   If Sheet1.Cells(a, 1) = &quot;&quot; Then
+      MsgBox &quot;Please find the labels in Sheet 2&quot;
+       Exit For
+   Else
+       g =Sheet1.Cells(a, 16)   &#39; Numberof copies for one collection number
+       For b = 1 To g
+            If d &gt; 1 And (d Mod 8 = 0 Or d Mod 8 = 1) Then &#39;A justing the margins, and number of labels per page.
+              f = 13
+            Else
+              f = 14
+            End If
+        If d &gt; 1 And (d Mod 2 = 0) Then
+           c = c + f
+       End If
+           e = (d + 1) Mod 2
+If e = 1 Then
+  Sheet2.Cells(c, 1) = TextBox1.Text
+  Sheet2.Cells(c + 1, 1) = TextBox2.Text
+  Sheet2.Cells(c + 2, 1) = Sheet1.Cells(a, 4) &#39;&quot;Species: &quot;
+  Sheet2.Cells(c + 3, 1) = Sheet1.Cells(a, 5) &#39; &quot;Infraspecies: &quot;
+  Sheet2.Cells(c + 4, 1) = &quot;Family: &quot; +Sheet1.Cells(a, 8)
+  Sheet2.Cells(c + 5, 1) = &quot;Local Name: &quot; +Sheet1.Cells(a, 6)
+  Sheet2.Cells(c + 6, 1) = &quot;Field Note: &quot; +Sheet1.Cells(a, 9)
+  Sheet2.Cells(c + 7, 1) = &quot;Locality: &quot; +Sheet1.Cells(a, 17)
+  Sheet2.Cells(c + 8, 1) = &quot;Lon/Lat/Alt: &quot; +Sheet1.Cells(a, 18) + &quot;/&quot; +Sheet1.Cells(a, 19) + &quot;/&quot; +Sheet1.Cells(a, 20) + &quot;m&quot;
+  Sheet2.Cells(c + 9, 1) = &quot;Col. &amp; Num: &quot; + Sheet1.Cells(a, 2) + &quot; &quot; +Sheet1.Cells(a, 1)
+  Sheet2.Cells(c + 10, 1) = &quot;Date Col.: &quot; +Sheet1.Cells(a, 3)
+  Sheet2.Cells(c + 11, 1) = &quot;Det. &amp; Date: &quot; + Sheet1.Cells(a, 24) + &quot;/&quot; +Sheet1.Cells(a, 25)
+  Sheet2.Cells(c + 12, 1) = &quot;Note: &quot; +Sheet1.Cells(a, 13)
+   With Sheet2  &#39;applicaton    &#39; Adjusting the display of the text
+       &#39;Set height for rows
+       .Range(.Cells(c,1), .Cells(c+ 12, 1)).RowHeight = 12
+       &#39;Set width for columns
+       .Range(.Cells(c,1), .Cells(c+ 12, 1)).ColumnWidth = 42
+       .Range(.Cells(c,1), .Cells(c+ 12, 1)).Font.Name = &quot;Arial&quot;
+       .Range(.Cells(c,1), .Cells(c+ 12, 1)).Font.Size = 11       &#39;Size
+       .Range(.Cells(c,1), .Cells(c+ 12, 1)).HorizontalAlignment = xlGeneral
+       .Range(.Cells(c,1), .Cells(c+ 12, 1)).VerticalAlignment = xlCenter
+       .Range(.Cells(c,1), .Cells(c+ 12, 1)).WrapText = False
+       .Range(.Cells(c,1), .Cells(c+ 12, 1)).Orientation = 0
+       .Range(.Cells(c,1), .Cells(c+ 12, 1)).AddIndent = False
+       .Range(.Cells(c,1), .Cells(c+ 12, 1)).IndentLevel = 0
+       .Range(.Cells(c,1), .Cells(c+ 12, 1)).ShrinkToFit = True
+       .Range(.Cells(c,1), .Cells(c+ 12, 1)).ReadingOrder = xlContext
+       .Range(.Cells(c,1), .Cells(c+ 12, 1)).MergeCells = False
+   End With
+   With Sheet2.Cells(c, 1)  &#39;Adjusting the Title, right
+       .Font.Name= &quot;Arial&quot; &#39;Font
+       .Font.Size= 12     &#39;Size
+       .Font.Bold= True   &#39;Alignment
+       .HorizontalAlignment= xlCenter
+       .VerticalAlignment= xlCenter
+       .WrapText= False
+       .Orientation= 0
+       .AddIndent= False
+       .IndentLevel= 0
+       .ShrinkToFit= True
+       .ReadingOrder= xlContext
+       .MergeCells= False
+   End With
+   With Sheet2.Cells(c + 1, 1)   &#39; Formatthe subtitle
+       .HorizontalAlignment= xlCenter
+       .VerticalAlignment= xlCenter
+       .Font.Name= &quot;Times New Roman&quot; &#39;Font
+       .Font.Size= 12     &#39;Size
+   End With
+ElseIf e = 0 Then
+  Sheet2.Cells(c, 2) = TextBox1.Text          &#39;Title
+  Sheet2.Cells(c + 1, 2) = TextBox2.Text      &#39;Subtitle
+  Sheet2.Cells(c + 2, 2) = Sheet1.Cells(a, 4) &#39;&quot;Species: &quot;
+  Sheet2.Cells(c + 3, 2) = Sheet1.Cells(a, 5) &#39; &quot;Infraspecies: &quot;
+  Sheet2.Cells(c + 4, 2) = &quot;Family: &quot; +Sheet1.Cells(a, 8)
+  Sheet2.Cells(c + 5, 2) = &quot;Local Name: &quot; +Sheet1.Cells(a, 6)
+  Sheet2.Cells(c + 6, 2) = &quot;Field Note: &quot; +Sheet1.Cells(a, 9)
+  Sheet2.Cells(c + 7, 2) = &quot;Locality: &quot; +Sheet1.Cells(a, 17)
+  Sheet2.Cells(c + 8, 2) = &quot;Lon/Lat/Alt: &quot; +Sheet1.Cells(a, 18) + &quot;/&quot; +Sheet1.Cells(a, 19) + &quot;/&quot; +Sheet1.Cells(a, 20) + &quot;m&quot;
+  Sheet2.Cells(c + 9, 2) = &quot;Col. &amp; Num: &quot; + Sheet1.Cells(a, 2) + &quot; &quot; +Sheet1.Cells(a, 1)
+  Sheet2.Cells(c + 10, 2) = &quot;Date Col.: &quot; +Sheet1.Cells(a, 3)
+  Sheet2.Cells(c + 11, 2) = &quot;Det. &amp; Date: &quot; + Sheet1.Cells(a, 24) + &quot;/&quot; +Sheet1.Cells(a, 25)
+  Sheet2.Cells(c + 12, 2) = &quot;Note: &quot; +Sheet1.Cells(a, 13)
+   With Sheet2  &#39;applicaton
+       .Range(.Cells(c,2), .Cells(c+ 12, 2)).RowHeight = 12         &#39;Setheight for rows
+       .Range(.Cells(c,2), .Cells(c+ 12, 2)).ColumnWidth = 42       &#39;Setwidth for columns
+       .Range(.Cells(c,2), .Cells(c+ 12, 2)).Font.Name = &quot;Arial&quot;
+       .Range(.Cells(c,2), .Cells(c+ 12, 2)).Font.Size = 11          &#39;Size
+       .Range(.Cells(c,2), .Cells(c+ 12, 2)).HorizontalAlignment = xlGeneral
+       .Range(.Cells(c,2), .Cells(c+ 12, 2)).VerticalAlignment = xlCenter
+       .Range(.Cells(c,2), .Cells(c+ 12, 2)).WrapText = False
+       .Range(.Cells(c,2), .Cells(c+ 12, 2)).Orientation = 0
+       .Range(.Cells(c,2), .Cells(c+ 12, 2)).AddIndent = False
+       .Range(.Cells(c,2), .Cells(c+ 12, 2)).IndentLevel = 0
+       .Range(.Cells(c,2), .Cells(c+ 12, 2)).ShrinkToFit = True
+       .Range(.Cells(c,2), .Cells(c+ 12, 2)).ReadingOrder = xlContext
+       .Range(.Cells(c,2), .Cells(c+ 12, 2)).MergeCells = False
+   End With
+   With Sheet2.Cells(c, 2)  &#39;Adjusting the label, right
+       .Font.Name= &quot;Arial&quot; &#39;Font
+       .Font.Size= 12     &#39;Size
+       .Font.Bold= True   &#39;Alignment
+       .HorizontalAlignment= xlCenter
+       .VerticalAlignment= xlCenter
+       .WrapText= False
+       .Orientation= 0
+       .AddIndent= False
+       .IndentLevel= 0
+       .ShrinkToFit= True
+       .ReadingOrder= xlContext
+       .MergeCells= False
+   End With
+   With Sheet2.Cells(c + 1, 2)            &#39;Formatthe subtitle
+       .HorizontalAlignment= xlCenter
+       .VerticalAlignment= xlCenter
+       .Font.Name= &quot;Times New Roman&quot;   &#39;Font
+       .Font.Size= 12                  &#39;Size
+   End With
+  End If
+ d =d + 1
+ Next b
+   If f = 13 And c &gt; 1 Then
+                      Sheet2.HPageBreaks.AddBefore:=Sheet2.Cells(c, 1)
+   End If
+ End If
+Next a
+   With Sheet2.PageSetup
+       .LeftMargin= Application.InchesToPoints(0.5)
+       .RightMargin= Application.InchesToPoints(0.5)
+       .TopMargin= Application.InchesToPoints(0.5)
+       .BottomMargin= Application.InchesToPoints(0.5)
+       .HeaderMargin= Application.InchesToPoints(0.5)
+       .FooterMargin= Application.InchesToPoints(0.5)
+       .PrintHeadings = False
+       .PrintGridlines= False
+       .PrintNotes= False
+       .CenterHorizontally= False
+       .CenterVertically= False
+       .Orientation= xlPortrait
+       .Draft= False
+       .PaperSize= xlPaperA4                  &#39; xlPaperA4:A4
+       .FirstPageNumber= xlAutomatic
+       .Order= xlDownThenOver
+       .BlackAndWhite= False
+       .Zoom= 100
+       .FitToPagesWide= 1
+       .FitToPagesTall= 1
+       .PrintErrors= xlPrintErrorsDisplayed
+       End With
+Sheet2.PrintPreview
+</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2013/01/31/2013-1-31-label/" data-id="ckmq2gwrm004qq88459iy4pjx" data-title="从植物采集记录生成标本记录标签" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2013/01/31/2013-1-31-label/" data-id="ckmq42aib004m1k842f9paurx" data-title="从植物采集记录生成标本记录标签" class="article-share-link">Share</a>
       
       
       
@@ -187,6 +349,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -200,10 +366,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

@@ -105,15 +105,170 @@
 <p>Bliss的这篇论文主要以杂拟谷盗**(<strong>Tribolium confusum</strong>)**为例，系统介绍拟合存活比例曲线的方法。杂拟谷盗是一种粮食害虫。当时生物学家将481只杂拟谷盗分成8组，每一组分别在暴露在不同浓度的二硫化碳5小时，之后记录每个组有多少只甲虫死了。由于甲虫对二硫化碳的反应只有两种可能，要么存活，要么死亡，所以这个数据集是典型的二项分布数据。</p>
 <p>在这篇论文中，Bliss提出了一种连接函数，也就是事件发生与否，用转换以后的正态分布累计曲线去估算，称为Probit。实际上，二项分布线性模型的连接函数有三种，分别为logit, probit以及cloglog。 logit、probit以及cloglog都是统计变换，目的是将二项分布数据转换为一种形式，以便能用线性模型估计直接估计模型的参数。其中最常见的为logit，使用logit连接函数的二项分布回归称为逻辑斯蒂回归。logit是事件发生与是否发生的比例 （odds）的对数值，形为log**(<strong>y</strong>/(<strong>1</strong>-<strong>y</strong>))<strong>，称为log odds。cloglog是complementary log log的缩写，是将响应变量进行两次log变换， 公式为log</strong>(-<strong>log</strong>(<strong>1</strong>-<strong>y</strong>))**。 cloglog常用来拟合数据出现大量极端数值的数据， 例如，大样地的幼苗的负密度制约研究中，部分胸径等级的树苗只有很少一部分死亡，用cloglog能较准确捕捉到与树苗死亡相关性较强的环境因子， 如同种密度制约、光环境等。</p>
 <p>下面用R代码演示如何进行二项分布回归，分别用logit, probit以及cloglog三种连接函数。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">library(broom)</span><br><span class="line"><span class="comment">####表格形式的数据</span></span><br><span class="line"><span class="comment">####tabular form</span></span><br><span class="line"><span class="comment">####数据来源www.stat.ualberta.ca/~kcarrier/STAT562/comp_log_log</span></span><br><span class="line"><span class="comment">####beetle</span></span><br><span class="line"><span class="comment">####   LOGDOSE     NUMBER_OF_BEETLES  NUMBER_KILLED  COMP_LOG_LOGPROBITLOGIT</span></span><br><span class="line"><span class="comment">####1   1.691                59             6          5.7   3.4 35.0</span></span><br><span class="line"><span class="comment">####2   1.724                60            13         11.3  10.7  9.8</span></span><br><span class="line"><span class="comment">####3   1.755                62           18         20.9   23.422.4</span></span><br><span class="line"><span class="comment">####4   1.784                56            28         30.3  33.8 33.9</span></span><br><span class="line"><span class="comment">####5   1.811                63            52         47.7  49.6 50.0</span></span><br><span class="line"><span class="comment">####6   1.837                59            53         54.2  53.4 53.3</span></span><br><span class="line"><span class="comment">####7   1.861                62            61         61.1  59.7 59.2</span></span><br><span class="line"><span class="comment">####8   1.884                60            60         59.9  59.2 58.8</span></span><br><span class="line"><span class="comment">####&gt;</span></span><br><span class="line"><span class="comment">####二硫化碳的浓度</span></span><br><span class="line">LOGDOSE          &lt;-<span class="built_in">c</span>(<span class="number">1.691</span>, <span class="number">1.724</span>, <span class="number">1.755</span>, <span class="number">1.784</span>, <span class="number">1.811</span>, <span class="number">1.837</span>, <span class="number">1.861</span>, <span class="number">1.884</span> )</span><br><span class="line"><span class="comment">####各小组杂拟谷盗的头数</span></span><br><span class="line">NUMBER_OF_BEETLES&lt;-<span class="built_in">c</span>(<span class="number">59</span>,    <span class="number">60</span>,    <span class="number">62</span>,    <span class="number">56</span>,    <span class="number">63</span>,    <span class="number">59</span>,    <span class="number">62</span>,    <span class="number">60</span>    )    </span><br><span class="line"><span class="comment">####杂拟谷盗经过二硫化碳熏蒸5小时后，死亡的个体数</span></span><br><span class="line">NUMBER_KILLED    &lt;-<span class="built_in">c</span>(<span class="number">6</span>,     <span class="number">13</span>,    <span class="number">18</span>,    <span class="number">28</span>,    <span class="number">52</span>,    <span class="number">53</span>,    <span class="number">61</span>,    <span class="number">60</span>    )</span><br><span class="line"><span class="comment">####合并成一个数据框</span></span><br><span class="line">beetle&lt;-data.frame(NUMBER_OF_BEETLES,NUMBER_KILLED, LOGDOSE)</span><br><span class="line"><span class="comment">####第一种方法，数据表格式</span></span><br><span class="line"><span class="comment">####调用glm函数，注意连接函数的选择</span></span><br><span class="line">mod_logit  &lt;-glm(cbind(NUMBER_KILLED, NUMBER_OF_BEETLES -NUMBER_KILLED)~LOGDOSE,data=beetle,  family=binomial(link=<span class="string">&quot;logit&quot;</span>) )</span><br><span class="line">mod_probit &lt;-glm(cbind(NUMBER_KILLED, NUMBER_OF_BEETLES -NUMBER_KILLED)~LOGDOSE,data=beetle,  family=binomial(link=<span class="string">&quot;probit&quot;</span>))</span><br><span class="line">mod_cloglog&lt;-glm(cbind(NUMBER_KILLED, NUMBER_OF_BEETLES -NUMBER_KILLED)~LOGDOSE,data=beetle,  family=binomial(link=<span class="string">&quot;cloglog&quot;</span>))</span><br><span class="line"><span class="comment">####Showing significance of the variables</span></span><br><span class="line">tidy(mod_logit )</span><br><span class="line"></span><br><span class="line">\<span class="comment">##         term  estimate std.error statistic      p.value</span></span><br><span class="line">\<span class="comment">##1 (Intercept) -60.74013  5.181870 -11.72166 9.871561e-32</span></span><br><span class="line">\<span class="comment">##2     LOGDOSE  34.28593  2.913213  11.76911 5.631446e-32</span></span><br><span class="line"></span><br><span class="line">tidy(mod_probit)</span><br><span class="line"></span><br><span class="line">\<span class="comment">##         term  estimate std.error statistic      p.value</span></span><br><span class="line">\<span class="comment">##1 (Intercept) -34.95614  2.648984 -13.19605 9.245343e-40</span></span><br><span class="line">\<span class="comment">##2     LOGDOSE  19.74103  1.488046  13.26640 3.625628e-40</span></span><br><span class="line"></span><br><span class="line">tidy(mod_cloglog)</span><br><span class="line"></span><br><span class="line">\<span class="comment">##         term  estimate std.error statistic      p.value</span></span><br><span class="line">\<span class="comment">##1 (Intercept) -39.52224  3.235649 -12.21463 2.596958e-34</span></span><br><span class="line">\<span class="comment">##2     LOGDOSE  22.01474  1.796996  12.25085 1.662370e-34</span></span><br><span class="line"></span><br><span class="line">\<span class="comment">####Showing AIC et al.</span></span><br><span class="line">glance(mod_logit )</span><br><span class="line"></span><br><span class="line">\<span class="comment">##  null.deviance df.null    logLik      AIC     BIC deviancedf.residual</span></span><br><span class="line">\<span class="comment">##1      284.2024       7 -18.65681 41.31361 41.4725 11.11558          6</span></span><br><span class="line"></span><br><span class="line">glance(mod_probit)</span><br><span class="line"></span><br><span class="line">\<span class="comment">##  null.deviance df.null   logLik      AIC      BIC deviancedf.residual</span></span><br><span class="line">\<span class="comment">##1      284.2024       7 -18.0925 40.18499 40.34388 9.986957          6</span></span><br><span class="line"></span><br><span class="line">glance(mod_cloglog)</span><br><span class="line"></span><br><span class="line">\<span class="comment">##  null.deviance df.null    logLik      AIC      BIC deviancedf.residual</span></span><br><span class="line">\<span class="comment">##1      284.2024       7 -14.85619 33.71237 33.87126 3.514334          6</span></span><br><span class="line"></span><br><span class="line">\<span class="comment">####绘图Visualisingthe results</span></span><br><span class="line">mortality_rate&lt;-beetle$NUMBER_KILLED/beetle$NUMBER_OF_BEETLES</span><br><span class="line">dose&lt;-beetle$LOGDOSE</span><br><span class="line">plot(mortality_rate~dose,xlab=<span class="string">&quot;Dose of Carbon Disulfide&quot;</span>,ylab=<span class="string">&quot;MortalityRate of Beetles&quot;</span>,main=<span class="string">&quot;BinomialRegression&quot;</span>)</span><br><span class="line">LOGDOSE_new=seq(<span class="built_in">min</span>(dose),<span class="built_in">max</span>(dose),length.out=<span class="number">200</span>)</span><br><span class="line">mod_logit_line   &lt;-predict(mod_logit,newdata=data.frame(LOGDOSE=LOGDOSE_new), type=<span class="string">&quot;response&quot;</span>)</span><br><span class="line">lines(mod_logit_line~LOGDOSE_new,col=<span class="string">&quot;blue&quot;</span>)</span><br><span class="line">mod_probit_line  &lt;-predict(mod_probit,newdata=data.frame(LOGDOSE=LOGDOSE_new), type=<span class="string">&quot;response&quot;</span>)</span><br><span class="line">lines(mod_probit_line~LOGDOSE_new,col=<span class="string">&quot;red&quot;</span>)</span><br><span class="line">mod_cloglog_line &lt;-predict(mod_cloglog,newdata=data.frame(LOGDOSE=LOGDOSE_new), type=<span class="string">&quot;response&quot;</span>)</span><br><span class="line">lines(mod_cloglog_line~LOGDOSE_new,col=<span class="string">&quot;green&quot;</span>)</span><br><span class="line">legend(<span class="string">&quot;bottomright&quot;</span>,title=<span class="string">&quot;Linkfunctions&quot;</span>,legend=<span class="built_in">c</span>(<span class="string">&quot;logit&quot;</span>,<span class="string">&quot;probit&quot;</span>,<span class="string">&quot;cloglog&quot;</span>),lty=<span class="built_in">c</span>(<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>),col=<span class="built_in">c</span>(<span class="string">&quot;blue&quot;</span>,<span class="string">&quot;red&quot;</span>,<span class="string">&quot;green&quot;</span>))</span><br></pre></td></tr></table></figure>
+<pre><code class="R">library(broom)
+####表格形式的数据
+####tabular form
+####数据来源www.stat.ualberta.ca/~kcarrier/STAT562/comp_log_log
+####beetle
+####   LOGDOSE     NUMBER_OF_BEETLES  NUMBER_KILLED  COMP_LOG_LOGPROBITLOGIT
+####1   1.691                59             6          5.7   3.4 35.0
+####2   1.724                60            13         11.3  10.7  9.8
+####3   1.755                62           18         20.9   23.422.4
+####4   1.784                56            28         30.3  33.8 33.9
+####5   1.811                63            52         47.7  49.6 50.0
+####6   1.837                59            53         54.2  53.4 53.3
+####7   1.861                62            61         61.1  59.7 59.2
+####8   1.884                60            60         59.9  59.2 58.8
+####&gt;
+####二硫化碳的浓度
+LOGDOSE          &lt;-c(1.691, 1.724, 1.755, 1.784, 1.811, 1.837, 1.861, 1.884 )
+####各小组杂拟谷盗的头数
+NUMBER_OF_BEETLES&lt;-c(59,    60,    62,    56,    63,    59,    62,    60    )    
+####杂拟谷盗经过二硫化碳熏蒸5小时后，死亡的个体数
+NUMBER_KILLED    &lt;-c(6,     13,    18,    28,    52,    53,    61,    60    )
+####合并成一个数据框
+beetle&lt;-data.frame(NUMBER_OF_BEETLES,NUMBER_KILLED, LOGDOSE)
+####第一种方法，数据表格式
+####调用glm函数，注意连接函数的选择
+mod_logit  &lt;-glm(cbind(NUMBER_KILLED, NUMBER_OF_BEETLES -NUMBER_KILLED)~LOGDOSE,data=beetle,  family=binomial(link=&quot;logit&quot;) )
+mod_probit &lt;-glm(cbind(NUMBER_KILLED, NUMBER_OF_BEETLES -NUMBER_KILLED)~LOGDOSE,data=beetle,  family=binomial(link=&quot;probit&quot;))
+mod_cloglog&lt;-glm(cbind(NUMBER_KILLED, NUMBER_OF_BEETLES -NUMBER_KILLED)~LOGDOSE,data=beetle,  family=binomial(link=&quot;cloglog&quot;))
+####Showing significance of the variables
+tidy(mod_logit )
 
+\##         term  estimate std.error statistic      p.value
+\##1 (Intercept) -60.74013  5.181870 -11.72166 9.871561e-32
+\##2     LOGDOSE  34.28593  2.913213  11.76911 5.631446e-32
 
+tidy(mod_probit)
+
+\##         term  estimate std.error statistic      p.value
+\##1 (Intercept) -34.95614  2.648984 -13.19605 9.245343e-40
+\##2     LOGDOSE  19.74103  1.488046  13.26640 3.625628e-40
+
+tidy(mod_cloglog)
+
+\##         term  estimate std.error statistic      p.value
+\##1 (Intercept) -39.52224  3.235649 -12.21463 2.596958e-34
+\##2     LOGDOSE  22.01474  1.796996  12.25085 1.662370e-34
+
+\####Showing AIC et al.
+glance(mod_logit )
+
+\##  null.deviance df.null    logLik      AIC     BIC deviancedf.residual
+\##1      284.2024       7 -18.65681 41.31361 41.4725 11.11558          6
+
+glance(mod_probit)
+
+\##  null.deviance df.null   logLik      AIC      BIC deviancedf.residual
+\##1      284.2024       7 -18.0925 40.18499 40.34388 9.986957          6
+
+glance(mod_cloglog)
+
+\##  null.deviance df.null    logLik      AIC      BIC deviancedf.residual
+\##1      284.2024       7 -14.85619 33.71237 33.87126 3.514334          6
+
+\####绘图Visualisingthe results
+mortality_rate&lt;-beetle$NUMBER_KILLED/beetle$NUMBER_OF_BEETLES
+dose&lt;-beetle$LOGDOSE
+plot(mortality_rate~dose,xlab=&quot;Dose of Carbon Disulfide&quot;,ylab=&quot;MortalityRate of Beetles&quot;,main=&quot;BinomialRegression&quot;)
+LOGDOSE_new=seq(min(dose),max(dose),length.out=200)
+mod_logit_line   &lt;-predict(mod_logit,newdata=data.frame(LOGDOSE=LOGDOSE_new), type=&quot;response&quot;)
+lines(mod_logit_line~LOGDOSE_new,col=&quot;blue&quot;)
+mod_probit_line  &lt;-predict(mod_probit,newdata=data.frame(LOGDOSE=LOGDOSE_new), type=&quot;response&quot;)
+lines(mod_probit_line~LOGDOSE_new,col=&quot;red&quot;)
+mod_cloglog_line &lt;-predict(mod_cloglog,newdata=data.frame(LOGDOSE=LOGDOSE_new), type=&quot;response&quot;)
+lines(mod_cloglog_line~LOGDOSE_new,col=&quot;green&quot;)
+legend(&quot;bottomright&quot;,title=&quot;Linkfunctions&quot;,legend=c(&quot;logit&quot;,&quot;probit&quot;,&quot;cloglog&quot;),lty=c(1,1,1),col=c(&quot;blue&quot;,&quot;red&quot;,&quot;green&quot;))
+</code></pre>
 <p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201710/19/235751xnqz1qtzcz2annqp.jpeg"><img src="http://image.sciencenet.cn/home/201710/19/235751xnqz1qtzcz2annqp.jpeg" alt="img"></a></p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line">\<span class="comment">#####第二种方法，每个个体生存状态的长数据格式。glm是可以接受这种格式的。</span></span><br><span class="line">\<span class="comment">#####按照个体来计</span></span><br><span class="line">dose_surived&lt;-</span><br><span class="line"><span class="built_in">c</span>(<span class="built_in">rep</span>(<span class="number">1.691</span>,<span class="number">59</span>-<span class="number">6</span>),         </span><br><span class="line"><span class="built_in">rep</span>(<span class="number">1.724</span>,<span class="number">60</span>-<span class="number">13</span>),         </span><br><span class="line"><span class="built_in">rep</span>(<span class="number">1.755</span>,<span class="number">62</span>-<span class="number">18</span>),         </span><br><span class="line"><span class="built_in">rep</span>(<span class="number">1.784</span>,<span class="number">56</span>-<span class="number">28</span>),         </span><br><span class="line"><span class="built_in">rep</span>(<span class="number">1.811</span>,<span class="number">63</span>-<span class="number">52</span>),         </span><br><span class="line"><span class="built_in">rep</span>(<span class="number">1.837</span>,<span class="number">59</span>-<span class="number">53</span>),         </span><br><span class="line"><span class="built_in">rep</span>(<span class="number">1.861</span>,<span class="number">62</span>-<span class="number">61</span>),         </span><br><span class="line"><span class="built_in">rep</span>(<span class="number">1.884</span>,<span class="number">60</span>-<span class="number">60</span>))</span><br><span class="line">dose_dead&lt;-<span class="built_in">c</span>(</span><br><span class="line"><span class="built_in">rep</span>(<span class="number">1.691</span>, <span class="number">6</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="number">1.724</span>,<span class="number">13</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="number">1.755</span>,<span class="number">18</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="number">1.784</span>,<span class="number">28</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="number">1.811</span>,<span class="number">52</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="number">1.837</span>,<span class="number">53</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="number">1.861</span>,<span class="number">61</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="number">1.884</span>,<span class="number">60</span>))</span><br><span class="line">status_survived&lt;-<span class="built_in">c</span>(</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;alive&quot;</span>,<span class="number">59</span>-<span class="number">6</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;alive&quot;</span>,<span class="number">60</span>-<span class="number">13</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;alive&quot;</span>,<span class="number">62</span>-<span class="number">18</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;alive&quot;</span>,<span class="number">56</span>-<span class="number">28</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;alive&quot;</span>,<span class="number">63</span>-<span class="number">52</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;alive&quot;</span>,<span class="number">59</span>-<span class="number">53</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;alive&quot;</span>,<span class="number">62</span>-<span class="number">61</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;alive&quot;</span>,<span class="number">60</span>-<span class="number">60</span>))</span><br><span class="line">status_dead&lt;-<span class="built_in">c</span>(</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;dead&quot;</span>, <span class="number">6</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;dead&quot;</span>,<span class="number">13</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;dead&quot;</span>,<span class="number">18</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;dead&quot;</span>,<span class="number">28</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;dead&quot;</span>,<span class="number">52</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;dead&quot;</span>,<span class="number">53</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;dead&quot;</span>,<span class="number">61</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;dead&quot;</span>,<span class="number">60</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">dose_long&lt;-<span class="built_in">c</span>(dose_dead,dose_surived)</span><br><span class="line">status   &lt;-as.factor(<span class="built_in">c</span>(status_dead,status_survived))</span><br><span class="line"></span><br><span class="line">incidence_mod_logit  &lt;-glm(status~dose_long,family=binomial(link=<span class="string">&quot;logit&quot;</span>))</span><br><span class="line">incidence_mod_probit &lt;-glm(status~dose_long,family=binomial(link=<span class="string">&quot;probit&quot;</span>))</span><br><span class="line">incidence_mod_cloglog&lt;-glm(status~dose_long,family=binomial(link=<span class="string">&quot;cloglog&quot;</span>))</span><br><span class="line"></span><br><span class="line">\<span class="comment">####Showing significance of the variables</span></span><br><span class="line">tidy(incidence_mod_logit )</span><br><span class="line"></span><br><span class="line">\<span class="comment">##         term  estimate std.error statistic      p.value</span></span><br><span class="line">\<span class="comment">##1 (Intercept) -60.74013  5.181834 -11.72174 9.861985e-32</span></span><br><span class="line">\<span class="comment">##2   dose_long  34.28593  2.913192  11.76920 5.625873e-32</span></span><br><span class="line"></span><br><span class="line">tidy(incidence_mod_probit)</span><br><span class="line"></span><br><span class="line">\<span class="comment">##         term  estimate std.error statistic      p.value</span></span><br><span class="line">\<span class="comment">##1 (Intercept) -34.95613  2.649010 -13.19592 9.261453e-40</span></span><br><span class="line">\<span class="comment">##2   dose_long  19.74102  1.488061  13.26627 3.631968e-40</span></span><br><span class="line"></span><br><span class="line">tidy(incidence_mod_cloglog)</span><br><span class="line"></span><br><span class="line">\<span class="comment">##         term  estimate std.error statistic      p.value</span></span><br><span class="line">\<span class="comment">##1 (Intercept) -39.52224  3.235632 -12.21469 2.594819e-34</span></span><br><span class="line">\<span class="comment">##2   dose_long  22.01474  1.796986  12.25092 1.660982e-34</span></span><br><span class="line"></span><br><span class="line">\<span class="comment">####Showing AIC et al.</span></span><br><span class="line">glance(incidence_mod_logit )</span><br><span class="line"></span><br><span class="line">\<span class="comment">##  null.deviance df.null    logLik      AIC      BIC deviancedf.residual</span></span><br><span class="line">\<span class="comment">##1       645.441     480 -186.1771 376.3542 384.7059 372.3542        479</span></span><br><span class="line"></span><br><span class="line">glance(incidence_mod_probit)</span><br><span class="line"></span><br><span class="line">\<span class="comment">##  null.deviance df.null    logLik      AIC      BIC deviancedf.residual</span></span><br><span class="line">\<span class="comment">##1       645.441     480 -185.6128 375.2255 383.5773 371.2255        479</span></span><br><span class="line"></span><br><span class="line">glance(incidence_mod_cloglog)</span><br><span class="line"></span><br><span class="line">\<span class="comment">##  null.deviance df.null    logLik      AIC      BIC deviancedf.residual</span></span><br><span class="line">\<span class="comment">##1       645.441     480 -182.3765 368.7529 377.1046 364.7529        479</span></span><br></pre></td></tr></table></figure>
+<pre><code class="R">\#####第二种方法，每个个体生存状态的长数据格式。glm是可以接受这种格式的。
+\#####按照个体来计
+dose_surived&lt;-
+c(rep(1.691,59-6),         
+rep(1.724,60-13),         
+rep(1.755,62-18),         
+rep(1.784,56-28),         
+rep(1.811,63-52),         
+rep(1.837,59-53),         
+rep(1.861,62-61),         
+rep(1.884,60-60))
+dose_dead&lt;-c(
+rep(1.691, 6),
+rep(1.724,13),
+rep(1.755,18),
+rep(1.784,28),
+rep(1.811,52),
+rep(1.837,53),
+rep(1.861,61),
+rep(1.884,60))
+status_survived&lt;-c(
+rep(&quot;alive&quot;,59-6),
+rep(&quot;alive&quot;,60-13),
+rep(&quot;alive&quot;,62-18),
+rep(&quot;alive&quot;,56-28),
+rep(&quot;alive&quot;,63-52),
+rep(&quot;alive&quot;,59-53),
+rep(&quot;alive&quot;,62-61),
+rep(&quot;alive&quot;,60-60))
+status_dead&lt;-c(
+rep(&quot;dead&quot;, 6),
+rep(&quot;dead&quot;,13),
+rep(&quot;dead&quot;,18),
+rep(&quot;dead&quot;,28),
+rep(&quot;dead&quot;,52),
+rep(&quot;dead&quot;,53),
+rep(&quot;dead&quot;,61),
+rep(&quot;dead&quot;,60)
+)
+
+dose_long&lt;-c(dose_dead,dose_surived)
+status   &lt;-as.factor(c(status_dead,status_survived))
+
+incidence_mod_logit  &lt;-glm(status~dose_long,family=binomial(link=&quot;logit&quot;))
+incidence_mod_probit &lt;-glm(status~dose_long,family=binomial(link=&quot;probit&quot;))
+incidence_mod_cloglog&lt;-glm(status~dose_long,family=binomial(link=&quot;cloglog&quot;))
+
+\####Showing significance of the variables
+tidy(incidence_mod_logit )
+
+\##         term  estimate std.error statistic      p.value
+\##1 (Intercept) -60.74013  5.181834 -11.72174 9.861985e-32
+\##2   dose_long  34.28593  2.913192  11.76920 5.625873e-32
+
+tidy(incidence_mod_probit)
+
+\##         term  estimate std.error statistic      p.value
+\##1 (Intercept) -34.95613  2.649010 -13.19592 9.261453e-40
+\##2   dose_long  19.74102  1.488061  13.26627 3.631968e-40
+
+tidy(incidence_mod_cloglog)
+
+\##         term  estimate std.error statistic      p.value
+\##1 (Intercept) -39.52224  3.235632 -12.21469 2.594819e-34
+\##2   dose_long  22.01474  1.796986  12.25092 1.660982e-34
+
+\####Showing AIC et al.
+glance(incidence_mod_logit )
+
+\##  null.deviance df.null    logLik      AIC      BIC deviancedf.residual
+\##1       645.441     480 -186.1771 376.3542 384.7059 372.3542        479
+
+glance(incidence_mod_probit)
+
+\##  null.deviance df.null    logLik      AIC      BIC deviancedf.residual
+\##1       645.441     480 -185.6128 375.2255 383.5773 371.2255        479
+
+glance(incidence_mod_cloglog)
+
+\##  null.deviance df.null    logLik      AIC      BIC deviancedf.residual
+\##1       645.441     480 -182.3765 368.7529 377.1046 364.7529        479
+</code></pre>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2017/10/19/2017-10-19-glm/" data-id="ckmq2gwtg008zq8847e922aa5" data-title="广义线性模型中的逻辑斯蒂回归" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2017/10/19/2017-10-19-glm/" data-id="ckmq42ajm008k1k84cry3hnfj" data-title="广义线性模型中的逻辑斯蒂回归" class="article-share-link">Share</a>
       
       
       
@@ -189,6 +344,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -202,10 +361,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

@@ -73,6 +73,136 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2010-9-6-skyatlas" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2010/09/05/2010-9-6-skyatlas/" class="article-date">
+  <time class="dt-published" datetime="2010-09-05T08:05:54.000Z" itemprop="datePublished">2010-09-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2010/09/05/2010-9-6-skyatlas/">skyatlas:用R绘制星图和行星的周年视运动</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>在一些天文期刊上经常看到赤道坐标星图，不但给出了某一个时刻太阳、月亮的位置，还给出了大行星在一年中相对于星空背景的运行轨迹。今天我们就用R软件绘制这样的星图。</p>
+<p>当然，为了绘制星图，我们需要知道恒星的位置和亮度。这就需要引入天文坐标系。天文学上天体的位置有多种坐标系统，包括赤道坐标系，黄道坐标系和地平坐标系等。</p>
+<p>首先介绍一下今天用到的赤道坐标系。</p>
+<p>赤道坐标系是以春分点作为起点，春分点和秋分点是赤道和黄道两个大圈相交的点。由于地球的自转，我们看到太阳相对于恒星背景从西向东运行，太阳所经过的路线就称为黄道。不难想象，春分点过后，太阳相对于星空背景一天天逐渐向北移动（当然也同时向东移动，差不多每天移动1度多一点儿）。我们就说春分点为升交点。太阳到达夏至点的时候，是最北的，之后逐渐向南，到秋分点又与赤道相交。因此秋分点又称为降交点。太阳继续向南，此时太阳位于天赤道以南。到达冬至点之后又逐渐向北。如此周而复始。</p>
+<p>我们定义赤道坐标系的原点就是升交点，向左度量，一圈用24h表示。其经度就称为“赤经”，其纬度就称为“赤纬”，用度表示， 北半球为正，南半球为负。这就是我们将要看到的图形中的星图。天文学上的星图左东右西，与地图正好相反。</p>
+<p>其次，我们需要了解一下恒星的位置和亮度。<br>这里我们选取了耶鲁亮星星表。这个星表包含了肉眼可见的9110颗较亮恒星的位置亮度等信息。按照肉眼可见的亮度分成不同的星等，星的亮度是用照相测量法测量的。</p>
+<p>第三，我们需要知道行星在任何一个时刻的位置。即，我们输入时刻，就有程序可以计算出该天体的位置等信息。这是球面天文学和天体力学的内容了。我们这里使用R的moonsun程序包计算某一时刻天体的位置和亮度。 我们需要输入的时间为儒略日（Julian day）。儒略日是什么？儒略日是指从公元前4713年1月1日中午12时开始，开始距离现在的天数。我们输入的日期都必须先转换成儒略日，再用儒略日作为时间点计算。儒略日计算两个时间点之间相隔的天数非常方便，因此在天文学上得到了广泛的应用。</p>
+<p>第四，我们需要了解一下行星运行的基本知识。<br>水星，金星位于地球内侧，更靠近太阳，称为内行星。火星，木星，土星，天王星，海王星位于地球外侧，称为外行星。<br>八大行星的轨道与黄道相差不大，而且均自西向东运行。靠近太阳最近的水星运行速度最快。从地球上看，行星相对于星空背景有时候向东，有时候向西。向东称为顺行，各行星大部分时间在顺行中，向西称为逆行，在顺行和逆行的转换过程中，有较短的时间，行星相对星空背景处于相对静止的状态，称为留。</p>
+<p>这里给出了skyatlasR程序能够绘制行星周年视运动的轨迹，当然，由于没有考虑到星体之间的摄动等更精确的天体力学因素，行星的位置计算不太高，精度在几角分之内，但是仍然能够满足大部分天文科普的需求。更精确的历表就得参考NASA,也就是美国国家航空航天局喷气推进实验室的HORIZON历书系统了。用户可以在线查询一些信息。</p>
+<p>下面简要介绍一下 skyatlas 程序的用法</p>
+<p>使用方法</p>
+<p>当然，首先要下载我们编好的程序了。 下载 <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/upload/blog/file/2010/9/20109603912834771.rar.rar">skyatlas.rar</a></p>
+<p>1 下载R软件 <a target="_blank" rel="noopener" href="http://ftp.ctex.org/mirrors/CRAN/bin/windows/base/R-2.11.1-win32.exe">http://ftp.ctex.org/mirrors/CRAN/bin/windows/base/R-2.11.1-win32.exe</a> 下载<br>2 将 “plot.r”, “resstar.csv”, “moonsun_0.1.1.zip” 拷贝到 C:下,”moonsun_0.1.1.zip” 为R程序包，安装时不需要解压缩。<br>3 安装moonsun.zip程序包，双击R的图标，路径为 开始&gt;所有程序&gt; R, 2.11.1, 然后再菜单中选择，菜单“程序包”，“从本地zip安装程序包”，选择 moonsun_0.1.1.zip 即可。<br>4 从R的菜单 “文件” “source R code”. 打开 “C:/plot.r”,或者输入命令source(“C:/plot.r”)即可。</p>
+<p>运行实例<br>R图形的组件都是一步一步添加上去的，故绘制一个图形步骤较多，这里举出了绘制水星1980年和2011年的例子，可供有兴趣的读者参考。</p>
+<pre><code class="R">######################################
+######################################
+
+### 例一 绘制1980年水星的周年视运动  
+##  该结果与《中国大百科全书 天文学卷》参见 485页 进行比较，水星的运行曲线结果是一致的。
+x11(14, 5)
+##绘制底图
+background(type = &quot;n&quot;, xlim =c(0, 24), ylim = c(-40, 40), xlab = &quot;赤经&quot;, ylab = &quot;赤纬&quot;)
+
+##添加黄道
+add.ecliptic()
+
+##添加4等以上的恒星
+add.stars(resstar, mag = 4, pch = 19, time = 1)
+
+## 添加水星的运行轨迹
+tracks(mercury(jd(year = 1980,month = 1,day = 1,length = 365)))
+## 添加亮星的名称
+add.bright.lab ()
+
+###生成每隔30天的点数据，
+position &lt;- mercury(jd(year = 1980,month = 1, day = 1,length = 12, by = 30))
+addlab(position)
+title(&quot;1980年水星的周年视运动&quot;)
+</code></pre>
+<p>结果如下</p>
+<p><img src="http://blog.sciencenet.cn/upload/blog/images/2010/9/20109601735522.JPG" alt="img"></p>
+<h1 id="例二"><a href="#例二" class="headerlink" title="例二"></a>例二</h1><pre><code class="R">### 2011水星的周年视运动
+
+### 第一步 打开一个绘图窗口
+x11(14, 5)
+##  第二步 绘制底图
+background(type = &quot;n&quot;, xlim =c(0, 24), ylim = c(-40, 40), xlab = &quot;赤经&quot;, ylab = &quot;赤纬&quot;)
+
+##添加黄道
+add.ecliptic()
+
+##第四步 添加4等以上的恒星
+add.stars(resstar, mag = 4, pch = 19, time = 1)
+
+## 第五步 添加水星的运行轨迹
+tracks(mercury(jd(year = 2010,month = 1,day = 1,length = 365)))
+
+## 第六步 添加亮星的名称
+add.bright.lab()
+
+###第七步 添加生成每隔30天的点数据，并标在图上
+position &lt;- mercury(jd(year = 2010,month = 1, day = 1,length = 12, by = 30))
+addlab(position)
+
+### 第八步 添加标题
+title(&quot;2011年水星的周年视运动&quot;)
+</code></pre>
+<p> <img src="http://blog.sciencenet.cn/upload/blog/images/2010/9/20109601748756.JPG" alt="img"></p>
+<h1 id="例三-当前时刻日月及大行星的位置图"><a href="#例三-当前时刻日月及大行星的位置图" class="headerlink" title="例三 当前时刻日月及大行星的位置图"></a>例三 当前时刻日月及大行星的位置图</h1><pre><code class="R">### 打开一个绘图窗口
+x11(14, 5)
+
+## 绘制赤道背景坐标
+background(type = &quot;n&quot;, xlim =c(0, 24), ylim = c(-40, 40), xlab = &quot;赤经&quot;, ylab = &quot;赤纬&quot;, bg = &quot;darkblue&quot;)
+
+##添加黄道
+add.ecliptic()
+
+## 添加4等以上的恒星
+add.stars(resstar, mag = 4, pch = 19, time = 1)
+
+## 添加亮星的名称
+add.bright.lab()
+
+#### 添加大行星
+add.planet(col = &quot;black&quot;)
+
+## 添加标题
+title(paste(&quot;&quot;, &quot;日月及大行星的位置(&quot;,as.character(Sys.Date()),&quot;)&quot; ))
+</code></pre>
+<p> <img src="http://blog.sciencenet.cn/upload/blog/images/2010/9/20109601719225.JPG" alt="img"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2010/09/05/2010-9-6-skyatlas/" data-id="ckmq42ahg001x1k844twbhym0" data-title="skyatlas:用R绘制星图和行星的周年视运动" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A9%E6%96%87/" rel="tag">天文</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-2010-8-9-niche" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2010/08/08/2010-8-9-niche/" class="article-date">
@@ -107,7 +237,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2010/08/08/2010-8-9-niche/" data-id="ckmq2gwqk001vq884d10v4unn" data-title="计算生态位宽度与生态位重叠的R程序" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2010/08/08/2010-8-9-niche/" data-id="ckmq42ahe001q1k847xuya2st" data-title="计算生态位宽度与生态位重叠的R程序" class="article-share-link">Share</a>
       
       
       
@@ -169,7 +299,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2010/08/03/2010-8-3-lagrange/" data-id="ckmq2gwqi001nq8840bck5t1w" data-title="怎样运行Lagrange软件" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2010/08/03/2010-8-3-lagrange/" data-id="ckmq42ahd001o1k848rsm3a0s" data-title="怎样运行Lagrange软件" class="article-share-link">Share</a>
       
       
       
@@ -212,16 +342,18 @@
 <p>下载到本地后，双击R-2.11.1-win32.exe开始安装，各选项默认即可。安装完成后双击</p>
 <p>开始&gt;所有程序&gt;R&gt;R 2.11.1</p>
 <p>输入命令:</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">&quot;seqRFLP&quot;</span>)</span><br></pre></td></tr></table></figure>
+<pre><code class="R">install.packages(&quot;seqRFLP&quot;)
+</code></pre>
 <p>R将提示选择CRAN,选择距离较近的CRAN镜像，将软件包自动下载和安装好。</p>
 <p>导入seqRFLP程序包：</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">library(seqRFLP)</span><br></pre></td></tr></table></figure>
+<pre><code class="R">library(seqRFLP)
+</code></pre>
 <h1 id="3-查询seqRFLP的帮助"><a href="#3-查询seqRFLP的帮助" class="headerlink" title="3.查询seqRFLP的帮助"></a>3.查询seqRFLP的帮助</h1><p>seqRFLP 的每个函数都有详细的帮助文件，要查询帮助可输入:</p>
 <p><code>?seqRFLP</code> 查看详尽的帮助手册:用户也可以在CRAN上下载pdf版本的帮助手册。</p>
 <p>seqRFLP符合GPL-2协议，用户可以免费使用并拷贝该软件，也可以更改其源代码。</p>
 <p>运行seqRFLP实例:</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">example(seqRFLP)</span><br></pre></td></tr></table></figure>
-
+<pre><code class="R">example(seqRFLP)
+</code></pre>
 <h1 id="致-谢"><a href="#致-谢" class="headerlink" title="致 谢"></a>致 谢</h1><p>感谢马克平研究员、梁宇博士的指导，感谢博士研究生孙秀峰及龙恩熙对软件的测试，感谢软件包的编写有过帮助的研究组各同学和老师。</p>
 <h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>Saiki RK, Scharf S, Faloona F, Mullis KB, Erlich HA, Arnheim N (1985). Enzymatic amplification of beta-globin genomic sequences and restriction site analysis for diagnosis of sickle cell anemia. Science 230 (4723):1350-4</p>
 <p>Roberts, R.J., Vincze, T., Posfai, J., Macelis, D. (2010) REBASE–a database for DNA restriction and modification: enzymes, genes and genomes. Nucl. Acids Res. 38: D234-D236. <a target="_blank" rel="noopener" href="http://rebase.neb.com/">http://rebase.neb.com</a></p>
@@ -229,7 +361,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2010/07/03/2010-7-3-seqRFLP/" data-id="ckmq2gwqf001gq884gfzqdsmc" data-title="从DNA序列预测RFLP—seqRFLP软件包简介" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2010/07/03/2010-7-3-seqRFLP/" data-id="ckmq42ahc001l1k847qkn0w7y" data-title="从DNA序列预测RFLP—seqRFLP软件包简介" class="article-share-link">Share</a>
       
       
       
@@ -270,20 +402,82 @@
 <p>通过植物名录建立进化树， 目前也有两个程序包可以选择， 一个是浙江大学金毅老师编写的 S.PhyloMaker R 脚本 (<a target="_blank" rel="noopener" href="https://github.com/jinyizju/S.PhyloMaker">https://github.com/jinyizju/S.PhyloMaker</a>), 另一个是 Scott Chamberlain 编写的 brranching R 程序包 (<a target="_blank" rel="noopener" href="https://github.com/ropensci/brranching)%E3%80%82">https://github.com/ropensci/brranching)。</a> S.PhyloMaker 的数据是基于Zanne 2014进化树生成的，可建立包含几万个分类单元的进化树，但速度较慢。 brranching 主要是基于Phylomatic的，可以直接输入植物名录获得进化树，速度较快，但是在分类单元数量上有一定限制。以上两个程序包的用法，用户可自行参考指南，本文只介绍通过Phylomatic建立进化树。</p>
 <p>Phylocom是用来进行群落系统发育分析的软件。该软件可以为Phylomatic软件得到的无枝长进化树，用BLADJ方法拟合出枝长（这是因为Phylomatic软件建立的进化树， 有科属种的标签，而另外一个提供的ages文件， 有科属种的分化时间），不过BLADJ算法在2014年以后已经很少使用。此外，Phylocom还可以：计算系统发育多样性（PD），系统发育结构(community structure)，群落的系统发育距离(community phylogenetic distance)，分析群落的性状进化(AOT)等。下面就介绍如何使用Phylomatic和Phylocom进行相应的分析。</p>
 <p>假设有如下植物名录要建立进化树：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Castanopsis eyrei</span><br><span class="line">Castanopsis carlesii</span><br><span class="line">Castanopsis fargesii</span><br><span class="line">Castanopsis tibetana</span><br><span class="line">Cyclobalanopsis gracilis</span><br><span class="line">Cyclobalanopsis glauca</span><br><span class="line">Lithocarpus glaber</span><br><span class="line">Myrica rubra</span><br><span class="line">Elaeocarpus decipiens</span><br><span class="line">Syzygium buxifolium</span><br><span class="line">Daphniphyllum oldhamii</span><br><span class="line">Loropetalum chinense</span><br><span class="line">Rhododendron latoucheae</span><br><span class="line">Rhododendron ovatum</span><br><span class="line">Vaccinium carlesii</span><br><span class="line">Schima superba</span><br><span class="line">Adinandra millettii</span><br><span class="line">Eurya muricata</span><br><span class="line">Camellia fraterna</span><br><span class="line">Ternstroemia gymnanthera</span><br><span class="line">Machilus thunbergii</span><br><span class="line">Neolitsea aurata var. chekiangensis</span><br><span class="line">Chimonanthus salicifolius</span><br></pre></td></tr></table></figure>
-
+<pre><code>Castanopsis eyrei
+Castanopsis carlesii
+Castanopsis fargesii
+Castanopsis tibetana
+Cyclobalanopsis gracilis
+Cyclobalanopsis glauca
+Lithocarpus glaber
+Myrica rubra
+Elaeocarpus decipiens
+Syzygium buxifolium
+Daphniphyllum oldhamii
+Loropetalum chinense
+Rhododendron latoucheae
+Rhododendron ovatum
+Vaccinium carlesii
+Schima superba
+Adinandra millettii
+Eurya muricata
+Camellia fraterna
+Ternstroemia gymnanthera
+Machilus thunbergii
+Neolitsea aurata var. chekiangensis
+Chimonanthus salicifolius
+</code></pre>
 <p>一般流程如下</p>
 <h1 id="1-准备-科-属-种名录"><a href="#1-准备-科-属-种名录" class="headerlink" title="1. 准备 科/属/种名录"></a>1. 准备 科/属/种名录</h1><p>请注意: 《中国植物志》 以及Flora of China等植物志, 由于成书较早，所以采用的分类系统都不是APG。而APG分类系统是目前为止能够较为客观体现科水平系统发育关系的分类系统（最新版本APG IV），因而是推荐采用的。不过目前能获得的准确科属列表为APGIII的版本，与APG IV差别不大。为了批量查询植物所在APG的科名，可使用本人编写的R程序包 plantlist (<a target="_blank" rel="noopener" href="https://github.com/helixcn/plantlist)%E3%80%82%E8%AF%A5%E7%A8%8B%E5%BA%8F%E5%8C%85%E7%9A%84%E7%AE%80%E8%A6%81%E4%BB%8B%E7%BB%8D%E5%8F%82%E8%A7%81">https://github.com/helixcn/plantlist)。该程序包的简要介绍参见</a> <a target="_blank" rel="noopener" href="http://bbs.sciencenet.cn/blog-255662-846673.html">http://blog.sciencenet.cn/blog-255662-846673.html</a> 。</p>
 <p>注意： 由于plantlist给出的是APGIII的科属列表，如果用户要使用APG IV，请自行修订。</p>
-<h2 id="1-1-plantlist程序包的安装"><a href="#1-1-plantlist程序包的安装" class="headerlink" title="1.1 plantlist程序包的安装"></a>1.1 plantlist程序包的安装</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">library(devtools)</span><br><span class="line">install_github(<span class="string">&quot;helixcn/plantlist&quot;</span>)</span><br></pre></td></tr></table></figure>
-
+<h2 id="1-1-plantlist程序包的安装"><a href="#1-1-plantlist程序包的安装" class="headerlink" title="1.1 plantlist程序包的安装"></a>1.1 plantlist程序包的安装</h2><pre><code class="R">library(devtools)
+install_github(&quot;helixcn/plantlist&quot;)
+</code></pre>
 <h2 id="1-2-生成科属种列表"><a href="#1-2-生成科属种列表" class="headerlink" title="1.2 生成科属种列表"></a>1.2 生成科属种列表</h2><p>R 命令为</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">sp &lt;- <span class="built_in">c</span>( <span class="string">&quot;Castanopsis eyrei&quot;</span>,<span class="string">&quot;Castanopsis carlesii&quot;</span>,</span><br><span class="line"><span class="string">&quot;Castanopsis fargesii&quot;</span>,<span class="string">&quot;Castanopsis tibetana&quot;</span>,</span><br><span class="line"><span class="string">&quot;Cyclobalanopsis gracilis&quot;</span>,<span class="string">&quot;Cyclobalanopsis glauca&quot;</span>,</span><br><span class="line"><span class="string">&quot;Lithocarpus glaber&quot;</span>,<span class="string">&quot;Myrica rubra&quot;</span>,</span><br><span class="line"><span class="string">&quot;Elaeocarpus decipiens&quot;</span>,<span class="string">&quot;Syzygium buxifolium&quot;</span>,</span><br><span class="line"><span class="string">&quot;Daphniphyllum oldhamii&quot;</span>,<span class="string">&quot;Loropetalum chinense&quot;</span>,</span><br><span class="line"><span class="string">&quot;Rhododendron latoucheae&quot;</span>,<span class="string">&quot;Rhododendron ovatum&quot;</span>,</span><br><span class="line"><span class="string">&quot;Vaccinium carlesii&quot;</span>,<span class="string">&quot;Schima superba&quot;</span>,</span><br><span class="line"><span class="string">&quot;Adinandra millettii&quot;</span>,<span class="string">&quot;Eurya muricata&quot;</span>,</span><br><span class="line"><span class="string">&quot;Camellia fraterna&quot;</span>,<span class="string">&quot;Ternstroemia gymnanthera&quot;</span>,</span><br><span class="line"><span class="string">&quot;Machilus thunbergii&quot;</span>,<span class="string">&quot;Neolitsea aurata var. chekiangensis&quot;</span>,</span><br><span class="line"><span class="string">&quot;Chimonanthus salicifolius&quot;</span>)</span><br><span class="line"></span><br><span class="line">library(plantlist)</span><br><span class="line">sp2 &lt;- TPL(sp)</span><br><span class="line">res &lt;- taxa.table(sp2)</span><br><span class="line">writeLines(res, <span class="string">&quot;taxa.table.txt&quot;</span>)</span><br><span class="line">getwd()</span><br></pre></td></tr></table></figure>
+<pre><code class="R">sp &lt;- c( &quot;Castanopsis eyrei&quot;,&quot;Castanopsis carlesii&quot;,
+&quot;Castanopsis fargesii&quot;,&quot;Castanopsis tibetana&quot;,
+&quot;Cyclobalanopsis gracilis&quot;,&quot;Cyclobalanopsis glauca&quot;,
+&quot;Lithocarpus glaber&quot;,&quot;Myrica rubra&quot;,
+&quot;Elaeocarpus decipiens&quot;,&quot;Syzygium buxifolium&quot;,
+&quot;Daphniphyllum oldhamii&quot;,&quot;Loropetalum chinense&quot;,
+&quot;Rhododendron latoucheae&quot;,&quot;Rhododendron ovatum&quot;,
+&quot;Vaccinium carlesii&quot;,&quot;Schima superba&quot;,
+&quot;Adinandra millettii&quot;,&quot;Eurya muricata&quot;,
+&quot;Camellia fraterna&quot;,&quot;Ternstroemia gymnanthera&quot;,
+&quot;Machilus thunbergii&quot;,&quot;Neolitsea aurata var. chekiangensis&quot;,
+&quot;Chimonanthus salicifolius&quot;)
 
+library(plantlist)
+sp2 &lt;- TPL(sp)
+res &lt;- taxa.table(sp2)
+writeLines(res, &quot;taxa.table.txt&quot;)
+getwd()
+</code></pre>
 <p>运行以上R代码，科属种列表就保存在taxa.table.txt 文件中，保存的路径在R中有所显示。</p>
 <p>所生成文件taxa.table.txt用Notepad++ (<a target="_blank" rel="noopener" href="https://notepad-plus-plus.org/download/">https://notepad-plus-plus.org/download/</a> ) 记事本打开， 内容如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Fagaceae&#x2F;Castanopsis&#x2F;Castanopsis_eyrei</span><br><span class="line">Fagaceae&#x2F;Castanopsis&#x2F;Castanopsis_carlesii</span><br><span class="line">Fagaceae&#x2F;Castanopsis&#x2F;Castanopsis_fargesii</span><br><span class="line">Fagaceae&#x2F;Castanopsis&#x2F;Castanopsis_tibetana</span><br><span class="line">Fagaceae&#x2F;Cyclobalanopsis&#x2F;Cyclobalanopsis_gracilis</span><br><span class="line">Fagaceae&#x2F;Cyclobalanopsis&#x2F;Cyclobalanopsis_glauca</span><br><span class="line">Fagaceae&#x2F;Lithocarpus&#x2F;Lithocarpus_glaber</span><br><span class="line">Myricaceae&#x2F;Myrica&#x2F;Myrica_rubra</span><br><span class="line">Elaeocarpaceae&#x2F;Elaeocarpus&#x2F;Elaeocarpus_decipiens</span><br><span class="line">Myrtaceae&#x2F;Syzygium&#x2F;Syzygium_buxifolium</span><br><span class="line">Daphniphyllaceae&#x2F;Daphniphyllum&#x2F;Daphniphyllum_oldhamii</span><br><span class="line">Hamamelidaceae&#x2F;Loropetalum&#x2F;Loropetalum_chinense</span><br><span class="line">Ericaceae&#x2F;Rhododendron&#x2F;Rhododendron_latoucheae</span><br><span class="line">Ericaceae&#x2F;Rhododendron&#x2F;Rhododendron_ovatum</span><br><span class="line">Ericaceae&#x2F;Vaccinium&#x2F;Vaccinium_carlesii</span><br><span class="line">Theaceae&#x2F;Schima&#x2F;Schima_superba</span><br><span class="line">Theaceae&#x2F;Camellia&#x2F;Camellia_fraterna</span><br><span class="line">Pentaphylacaceae&#x2F;Adinandra&#x2F;Adinandra_millettii</span><br><span class="line">Pentaphylacaceae&#x2F;Eurya&#x2F;Eurya_muricata</span><br><span class="line">Pentaphylacaceae&#x2F;Ternstroemia&#x2F;Ternstroemia_gymnanthera</span><br><span class="line">Lauraceae&#x2F;Machilus&#x2F;Machilus_thunbergii</span><br><span class="line">Lauraceae&#x2F;Neolitsea&#x2F;Neolitsea_aurata_var._chekiangensis</span><br><span class="line">Calycanthaceae&#x2F;Chimonanthus&#x2F;Chimonanthus_salicifolius</span><br></pre></td></tr></table></figure>
-
+<pre><code>Fagaceae/Castanopsis/Castanopsis_eyrei
+Fagaceae/Castanopsis/Castanopsis_carlesii
+Fagaceae/Castanopsis/Castanopsis_fargesii
+Fagaceae/Castanopsis/Castanopsis_tibetana
+Fagaceae/Cyclobalanopsis/Cyclobalanopsis_gracilis
+Fagaceae/Cyclobalanopsis/Cyclobalanopsis_glauca
+Fagaceae/Lithocarpus/Lithocarpus_glaber
+Myricaceae/Myrica/Myrica_rubra
+Elaeocarpaceae/Elaeocarpus/Elaeocarpus_decipiens
+Myrtaceae/Syzygium/Syzygium_buxifolium
+Daphniphyllaceae/Daphniphyllum/Daphniphyllum_oldhamii
+Hamamelidaceae/Loropetalum/Loropetalum_chinense
+Ericaceae/Rhododendron/Rhododendron_latoucheae
+Ericaceae/Rhododendron/Rhododendron_ovatum
+Ericaceae/Vaccinium/Vaccinium_carlesii
+Theaceae/Schima/Schima_superba
+Theaceae/Camellia/Camellia_fraterna
+Pentaphylacaceae/Adinandra/Adinandra_millettii
+Pentaphylacaceae/Eurya/Eurya_muricata
+Pentaphylacaceae/Ternstroemia/Ternstroemia_gymnanthera
+Lauraceae/Machilus/Machilus_thunbergii
+Lauraceae/Neolitsea/Neolitsea_aurata_var._chekiangensis
+Calycanthaceae/Chimonanthus/Chimonanthus_salicifolius
+</code></pre>
 <p>注： 查询植物科名，也可以用 taxize程序包（<a target="_blank" rel="noopener" href="https://ropensci.org/tutorials/taxize_tutorial/%EF%BC%89">https://ropensci.org/tutorials/taxize_tutorial/）</a></p>
 <h1 id="2-Phylomatic建树"><a href="#2-Phylomatic建树" class="headerlink" title="2 Phylomatic建树"></a>2 Phylomatic建树</h1><p>在Zanne 2014进化树发表之前，用Phylomatic建立进化树一般只是按照APGIII的骨架，生成无枝长的newick进化树。然后再在Phylocom软件中，用BLADJ模块，将Wikstroem等人推断的各类群分化时间拟合到无枝长的进化树上。Wikstroem的分化时间由于发表年代久远， 被子植物各类群的分化时间有一些变动，通过Phylocom BLADJ的方法校正分化时间已经显得过时。从2015年开始, Phylomatic网站整合了 Zanne 2014的进化树骨架, 可以直接基于该进化树直接获得有枝长的进化树。</p>
 <p>方法如下:</p>
@@ -296,8 +490,22 @@
 </ol>
 <p>将网页中的输出结果拷贝到文本文件中， 并另存为 phylo文件， 请注意，如果后续用Phylocom进行分析，则该phylo文件不能有任何扩展名。该进化树为Newick格式， 不含Singletons，因此可以用R的ape读取并进行数据处理，或者Figtree软件绘图。</p>
 <p>获得的进化树如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">((Chimonanthus_salicifolius:108.8,(Neolitsea_aurata_var._chekiangensis:88.1284,</span><br><span class="line">Machilus_thunbergii:88.1284)Lauraceae:20.672)Laurales:71.8279,</span><br><span class="line">(((((((Cyclobalanopsis_gracilis:20.205,Cyclobalanopsis_glauca:20.205)</span><br><span class="line">Cyclobalanopsis:20.205,(Lithocarpus_glaber:3.30372,</span><br><span class="line">(Castanopsis_eyrei:0.94544,(Castanopsis_carlesii:0.320126,</span><br><span class="line">(Castanopsis_tibetana:0.28527,Castanopsis_fargesii:0.28527):0.034856):</span><br><span class="line">0.625313):2.35828):37.1063)Fagaceae:21.8954,Myrica_rubra:62.3054):</span><br><span class="line">50.9532,Elaeocarpus_decipiens:113.259)Fabidae:4.27613,Syzygium_buxifolium:</span><br><span class="line">117.535)Rosidae:0.138911,(Daphniphyllum_oldhamii:107.877,Loropetalum_chinense:</span><br><span class="line">107.877):9.79685)Superrosidae:1.49186,((Rhododendron_latoucheae:62.0517,</span><br><span class="line">Vaccinium_carlesii:62.0517,Rhododendron_ovatum:62.0517)Ericaceae:20.7165,</span><br><span class="line">((Ternstroemia_gymnanthera:43.8733,(Adinandra_millettii:33.7061,</span><br><span class="line">Eurya_muricata:33.7061):10.1672):27.9519,(Schima_superba:57.076,</span><br><span class="line">Camellia_fraterna:57.076):14.7492):10.943):36.3974)</span><br><span class="line">Gunneridae:61.4628):259.665;</span><br></pre></td></tr></table></figure>
-
+<pre><code>((Chimonanthus_salicifolius:108.8,(Neolitsea_aurata_var._chekiangensis:88.1284,
+Machilus_thunbergii:88.1284)Lauraceae:20.672)Laurales:71.8279,
+(((((((Cyclobalanopsis_gracilis:20.205,Cyclobalanopsis_glauca:20.205)
+Cyclobalanopsis:20.205,(Lithocarpus_glaber:3.30372,
+(Castanopsis_eyrei:0.94544,(Castanopsis_carlesii:0.320126,
+(Castanopsis_tibetana:0.28527,Castanopsis_fargesii:0.28527):0.034856):
+0.625313):2.35828):37.1063)Fagaceae:21.8954,Myrica_rubra:62.3054):
+50.9532,Elaeocarpus_decipiens:113.259)Fabidae:4.27613,Syzygium_buxifolium:
+117.535)Rosidae:0.138911,(Daphniphyllum_oldhamii:107.877,Loropetalum_chinense:
+107.877):9.79685)Superrosidae:1.49186,((Rhododendron_latoucheae:62.0517,
+Vaccinium_carlesii:62.0517,Rhododendron_ovatum:62.0517)Ericaceae:20.7165,
+((Ternstroemia_gymnanthera:43.8733,(Adinandra_millettii:33.7061,
+Eurya_muricata:33.7061):10.1672):27.9519,(Schima_superba:57.076,
+Camellia_fraterna:57.076):14.7492):10.943):36.3974)
+Gunneridae:61.4628):259.665;
+</code></pre>
 <p>注：用brranching R程序包可以直接输入物种名，获得进化树。</p>
 <h1 id="3-用Phylocom计算PD-NRI-和NTI-（以Example文件为例）"><a href="#3-用Phylocom计算PD-NRI-和NTI-（以Example文件为例）" class="headerlink" title="3. 用Phylocom计算PD, NRI 和NTI （以Example文件为例）"></a>3. 用Phylocom计算PD, NRI 和NTI （以Example文件为例）</h1><p>注意：这部分计算使用的是Example文件，与上文的植物名录已经没有关系。</p>
 <h2 id="3-1-下载phylocom软件"><a href="#3-1-下载phylocom软件" class="headerlink" title="3.1 下载phylocom软件"></a>3.1 下载phylocom软件</h2><p>打开 <a target="_blank" rel="noopener" href="https://github.com/phylocom/phylocom/releases">https://github.com/phylocom/phylocom/releases</a> 下载zip文件，解压缩, 可见以下几个文件夹：</p>
@@ -312,8 +520,22 @@
 </ol>
 <h2 id="3-2-创建工作路径"><a href="#3-2-创建工作路径" class="headerlink" title="3.2 创建工作路径"></a>3.2 创建工作路径</h2><p>Phylocom必须在纯ASCII码的路径下运行，运行路径不能有中文。在C盘根目录下，创建一个名为phylocom的文件夹。将w32中的phylocom.exe文件，拷贝到文件夹 C:/phylocom下。 将example_data文件夹中的phylo和sample文件，拷贝到该文件夹C:/phylocom中。</p>
 <h2 id="3-3-利用phylocom软件计算PD、NRI、NTI等指数"><a href="#3-3-利用phylocom软件计算PD、NRI、NTI等指数" class="headerlink" title="3.3 利用phylocom软件计算PD、NRI、NTI等指数"></a>3.3 利用phylocom软件计算PD、NRI、NTI等指数</h2><p>sample文件第一列是样方的名称，第二列是个体数，第三列是物种名。物种名一定要与phylo文件中的物种名完全对应（包括大小写）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">clump1    1    sp1</span><br><span class="line">clump1    1    sp2</span><br><span class="line">clump1    1    sp3</span><br><span class="line">clump1    1    sp4</span><br><span class="line">clump1    1    sp5</span><br><span class="line">clump1    1    sp6</span><br><span class="line">clump1    1    sp7</span><br><span class="line">clump1    1    sp8</span><br><span class="line">clump2a    1    sp1</span><br><span class="line">clump2a    1    sp2</span><br><span class="line">.... (中间省略)</span><br><span class="line">random    2    sp15</span><br><span class="line">random    3    sp17</span><br><span class="line">random    1    sp22</span><br><span class="line">random    2    sp24</span><br></pre></td></tr></table></figure>
-
+<pre><code>clump1    1    sp1
+clump1    1    sp2
+clump1    1    sp3
+clump1    1    sp4
+clump1    1    sp5
+clump1    1    sp6
+clump1    1    sp7
+clump1    1    sp8
+clump2a    1    sp1
+clump2a    1    sp2
+.... (中间省略)
+random    2    sp15
+random    3    sp17
+random    1    sp22
+random    2    sp24
+</code></pre>
 <p>将phylo和sample文件夹拷贝到 C:\phylocom 之后，</p>
 <p>点击 开始&gt; cmd &gt; 输入 <code>cd C:\phylocom&gt;</code></p>
 <p>输入 <code>phylocom comstruct &gt; comstruct.output</code> 计算群落的系统发育结构的NRI和NTI指数</p>
@@ -331,7 +553,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2010/06/14/2010-6-14-phylocom/" data-id="ckmq2gwqh001lq884fu5hg4v0" data-title="用Phylomatic和PhyloCom进行群落系统进化分析(20180820)" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2010/06/14/2010-6-14-phylocom/" data-id="ckmq42ahc001j1k841iis7kbl" data-title="用Phylomatic和PhyloCom进行群落系统进化分析(20180820)" class="article-share-link">Share</a>
       
       
       
@@ -386,7 +608,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2010/05/18/2010-05-18-spaa/" data-id="ckmq2gwq80011q88466hxgtps" data-title="计算种间关联度(种间连接)的spaa程序包" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2010/05/18/2010-05-18-spaa/" data-id="ckmq42ah500121k840li4c0gd" data-title="计算种间关联度(种间连接)的spaa程序包" class="article-share-link">Share</a>
       
       
       
@@ -425,26 +647,53 @@
         <p>群落按照物种相似形组成进行聚类分析，可以用树状图较好的表现物种的组成关系。受到很多植被学家的重视。这里以R软件实现聚类分析为例。</p>
 <p>如果按照物种组成的相似性做聚类分析，那么可以用Jaccard指数（经过转换的）。Jaccard指数只考虑物种在两个样方间是否重复出现，盖度在分析的过程中并不起什么作用。但是如果对乔木和灌木进行分析，就可以考虑个体的数量，计算样方物种组成的相似性的时候用Bray-Curtis指数。Jaccard指数和Bray-Curtis指数在众多生态学相关的程序包中都是可以计算的。下面说一下在R软件中，结合vegan程序包，对草本样方的物种组成进行聚类分析。 </p>
 <p>下面是在R中的具体操作过程：</p>
-<h2 id="第一步-矩阵的整理，建议先整理一下各样地的名录，成如下格式，再用R整理成物种矩阵。"><a href="#第一步-矩阵的整理，建议先整理一下各样地的名录，成如下格式，再用R整理成物种矩阵。" class="headerlink" title="第一步  矩阵的整理，建议先整理一下各样地的名录，成如下格式，再用R整理成物种矩阵。"></a>第一步  矩阵的整理，建议先整理一下各样地的名录，成如下格式，再用R整理成物种矩阵。</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">plotname species</span><br><span class="line">plot1 sp1</span><br><span class="line">plot1 sp2</span><br><span class="line">plot1 sp3</span><br><span class="line">plot1 sp4</span><br><span class="line">plot1 sp5</span><br><span class="line">plot2 sp1</span><br><span class="line">plot2 sp3</span><br><span class="line">plot3 sp4</span><br><span class="line">plot3 sp2</span><br><span class="line">plot3 sp6</span><br><span class="line">plot3 sp7</span><br><span class="line">.....</span><br></pre></td></tr></table></figure>
+<h2 id="第一步-矩阵的整理，建议先整理一下各样地的名录，成如下格式，再用R整理成物种矩阵。"><a href="#第一步-矩阵的整理，建议先整理一下各样地的名录，成如下格式，再用R整理成物种矩阵。" class="headerlink" title="第一步  矩阵的整理，建议先整理一下各样地的名录，成如下格式，再用R整理成物种矩阵。"></a>第一步  矩阵的整理，建议先整理一下各样地的名录，成如下格式，再用R整理成物种矩阵。</h2><pre><code>plotname species
+plot1 sp1
+plot1 sp2
+plot1 sp3
+plot1 sp4
+plot1 sp5
+plot2 sp1
+plot2 sp3
+plot3 sp4
+plot3 sp2
+plot3 sp6
+plot3 sp7
+.....
+</code></pre>
 <p>在Excel中，另存为csv格式，如存名称为 herbplots.csv。</p>
-<h2 id="第二步-读取文件"><a href="#第二步-读取文件" class="headerlink" title="第二步 读取文件"></a>第二步 读取文件</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">herb.data&lt;- read.csv(<span class="string">&quot;D:/herb/herbplots.csv&quot;</span>, header=<span class="built_in">T</span>)</span><br></pre></td></tr></table></figure>
-<h2 id="第三步-转换为-矩阵"><a href="#第三步-转换为-矩阵" class="headerlink" title="第三步 转换为 矩阵"></a>第三步 转换为 矩阵</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pre.matrix &lt;- table(herb.data)</span><br></pre></td></tr></table></figure>
+<h2 id="第二步-读取文件"><a href="#第二步-读取文件" class="headerlink" title="第二步 读取文件"></a>第二步 读取文件</h2><pre><code class="R">herb.data&lt;- read.csv(&quot;D:/herb/herbplots.csv&quot;, header=T)
+</code></pre>
+<h2 id="第三步-转换为-矩阵"><a href="#第三步-转换为-矩阵" class="headerlink" title="第三步 转换为 矩阵"></a>第三步 转换为 矩阵</h2><pre><code class="R">pre.matrix &lt;- table(herb.data)
+</code></pre>
 <p>此时生成的矩阵，形式如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">plotname sp1 sp2 sp3 sp4 sp5 sp6 sp7</span><br><span class="line">plot1 1 1 1 1 1 0 0</span><br><span class="line">plot2 1 0 1 0 0 0 0</span><br><span class="line">plot3 0 1 0 1 0 1 1</span><br></pre></td></tr></table></figure>
-<h2 id="第四步-计算各样方的Jaccard距离"><a href="#第四步-计算各样方的Jaccard距离" class="headerlink" title="第四步 计算各样方的Jaccard距离"></a>第四步 计算各样方的Jaccard距离</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plot.dist &lt;- vegdist(pre.matrix, method=<span class="string">&quot;jaccard&quot;</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>plotname sp1 sp2 sp3 sp4 sp5 sp6 sp7
+plot1 1 1 1 1 1 0 0
+plot2 1 0 1 0 0 0 0
+plot3 0 1 0 1 0 1 1
+</code></pre>
+<h2 id="第四步-计算各样方的Jaccard距离"><a href="#第四步-计算各样方的Jaccard距离" class="headerlink" title="第四步 计算各样方的Jaccard距离"></a>第四步 计算各样方的Jaccard距离</h2><pre><code class="R">plot.dist &lt;- vegdist(pre.matrix, method=&quot;jaccard&quot;)
+</code></pre>
 <p>距离矩阵为一个半矩阵，形式如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">plot1 plot2</span><br><span class="line">plot2 0.6000000</span><br><span class="line">plot3 0.7142857 1.0000000</span><br></pre></td></tr></table></figure>
-
-<h2 id="第五步-使用UPGMA方法或者Ward法，对群落进行聚类"><a href="#第五步-使用UPGMA方法或者Ward法，对群落进行聚类" class="headerlink" title="第五步 使用UPGMA方法或者Ward法，对群落进行聚类"></a>第五步 使用UPGMA方法或者Ward法，对群落进行聚类</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plot.hc &lt;- hclust(plot.dist , <span class="string">&quot;ave&quot;</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>plot1 plot2
+plot2 0.6000000
+plot3 0.7142857 1.0000000
+</code></pre>
+<h2 id="第五步-使用UPGMA方法或者Ward法，对群落进行聚类"><a href="#第五步-使用UPGMA方法或者Ward法，对群落进行聚类" class="headerlink" title="第五步 使用UPGMA方法或者Ward法，对群落进行聚类"></a>第五步 使用UPGMA方法或者Ward法，对群落进行聚类</h2><pre><code class="R">plot.hc &lt;- hclust(plot.dist , &quot;ave&quot;)
+</code></pre>
 <p>绘图</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">plot(plot.hc)</span><br><span class="line">plot(plot.hc, hang=-<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<pre><code class="R">plot(plot.hc)
+plot(plot.hc, hang=-1)
+</code></pre>
 <p>转换为dendrogram之后绘图</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dendro.plot&lt;-as.dendrogram(plot.hc)</span><br><span class="line">plot(dendro.plot, horiz=<span class="built_in">T</span>)</span><br></pre></td></tr></table></figure>
+<pre><code class="R">dendro.plot&lt;-as.dendrogram(plot.hc)
+plot(dendro.plot, horiz=T)
+</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2010/04/08/2010-4-8-clustering/" data-id="ckmq2gwqe001dq8842gjbdwln" data-title="R软件中如何进行群落聚类分析？" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2010/04/08/2010-4-8-clustering/" data-id="ckmq42ahb001g1k846w5n1ic2" data-title="R软件中如何进行群落聚类分析？" class="article-share-link">Share</a>
       
       
       
@@ -482,33 +731,59 @@
       
         <p>生物多样性指数的计算在R中计算十分简单，这里介绍一下用vegan包计算生物多样性指数的方法。</p>
 <p>首先要将R软件和用到的程序包安装好。在数据处理和格式转换过程中，需要用到openxlsx、reshape2和vegan包。如果没有安装这几个程序包，就在R console中输入以下命令安装。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">&#x27;reshape2&#x27;</span>)</span><br><span class="line">install.packages(<span class="string">&#x27;openxlsx&#x27;</span>)</span><br><span class="line">install.packages(<span class="string">&#x27;vegan&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
+<pre><code class="R">install.packages(&#39;reshape2&#39;)
+install.packages(&#39;openxlsx&#39;)
+install.packages(&#39;vegan&#39;)
+</code></pre>
 <h1 id="第一步-在Excel中输入数据"><a href="#第一步-在Excel中输入数据" class="headerlink" title="第一步 在Excel中输入数据"></a>第一步 在Excel中输入数据</h1><p>建议将数据整理成样方、物种、个体数格式，这也是样方调查时最常见的一种格式，将数据输入到Excel中。注意:Excel文件列的名字要与下面的格式完全一致，因为R对大小写敏感，所以大小写也要一致。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">plotname species abundance</span><br><span class="line">plot1     sp1         3</span><br><span class="line">plot1     sp2         6</span><br><span class="line">plot1     sp3         1</span><br><span class="line">plot1     sp4         2</span><br><span class="line">plot1     sp5         1</span><br><span class="line">plot2     sp1         8</span><br><span class="line">plot2     sp3        30</span><br><span class="line">plot3     sp4         2</span><br><span class="line">plot3     sp2         1</span><br><span class="line">plot3     sp6         1</span><br><span class="line">plot3     sp7         3</span><br><span class="line">.....</span><br></pre></td></tr></table></figure>
-
+<pre><code>plotname species abundance
+plot1     sp1         3
+plot1     sp2         6
+plot1     sp3         1
+plot1     sp4         2
+plot1     sp5         1
+plot2     sp1         8
+plot2     sp3        30
+plot3     sp4         2
+plot3     sp2         1
+plot3     sp6         1
+plot3     sp7         3
+.....
+</code></pre>
 <p>保存为 herbplots.xlsx，假设保存在“D:/herb/”。</p>
-<h1 id="第二步-读取Excel文件"><a href="#第二步-读取Excel文件" class="headerlink" title="第二步 读取Excel文件"></a>第二步 读取Excel文件</h1><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">library(openxlsx)</span><br><span class="line">library(reshape2)</span><br><span class="line">library(vegan)</span><br><span class="line">herb.data &lt;- read.xlsx(<span class="string">&quot;D:/herb/herbplots.xlsx&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<h1 id="第三步-转换为样方-物种矩阵"><a href="#第三步-转换为样方-物种矩阵" class="headerlink" title="第三步 转换为样方-物种矩阵"></a>第三步 转换为样方-物种矩阵</h1><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">library(reshape2)</span><br><span class="line">herb.mat &lt;- acast(herb.data, </span><br><span class="line">             formula = plotname ~ species , </span><br><span class="line">             value.var = <span class="string">&quot;abundance&quot;</span>, </span><br><span class="line">             fill = <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
-
+<h1 id="第二步-读取Excel文件"><a href="#第二步-读取Excel文件" class="headerlink" title="第二步 读取Excel文件"></a>第二步 读取Excel文件</h1><pre><code class="R">library(openxlsx)
+library(reshape2)
+library(vegan)
+herb.data &lt;- read.xlsx(&quot;D:/herb/herbplots.xlsx&quot;)
+</code></pre>
+<h1 id="第三步-转换为样方-物种矩阵"><a href="#第三步-转换为样方-物种矩阵" class="headerlink" title="第三步 转换为样方-物种矩阵"></a>第三步 转换为样方-物种矩阵</h1><pre><code class="R">library(reshape2)
+herb.mat &lt;- acast(herb.data, 
+             formula = plotname ~ species , 
+             value.var = &quot;abundance&quot;, 
+             fill = 0)
+</code></pre>
 <p>此时生成的矩阵，格式如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">       sp1 sp2 sp3 sp4 sp5 sp6 sp7</span><br><span class="line">plot1   3   6   1   2   1   0   0</span><br><span class="line">plot2   8   0  30   0   0   0   0</span><br><span class="line">plot3   0   1   0   2   0   1   3</span><br></pre></td></tr></table></figure>
-
-<h1 id="第四步-计算生物多样性指数"><a href="#第四步-计算生物多样性指数" class="headerlink" title="第四步 计算生物多样性指数"></a>第四步 计算生物多样性指数</h1><h2 id="Shannon-Wiener指数"><a href="#Shannon-Wiener指数" class="headerlink" title="Shannon-Wiener指数"></a>Shannon-Wiener指数</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Shannon.Wiener &lt;- diversity(herb.mat, index = <span class="string">&quot;shannon&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<h2 id="Simpson指数"><a href="#Simpson指数" class="headerlink" title="Simpson指数"></a>Simpson指数</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Simpson &lt;- diversity(herb.mat, index = <span class="string">&quot;simpson&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<h2 id="Inverse-Simpson指数"><a href="#Inverse-Simpson指数" class="headerlink" title="Inverse Simpson指数"></a>Inverse Simpson指数</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Inverse.Simpson &lt;- diversity(herb.mat, index = <span class="string">&quot;inv&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<h2 id="物种累计数"><a href="#物种累计数" class="headerlink" title="物种累计数"></a>物种累计数</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">S &lt;- specnumber(herb.mat)</span><br><span class="line">plot(S)</span><br></pre></td></tr></table></figure>
-
-<h2 id="Pielou均匀度指数"><a href="#Pielou均匀度指数" class="headerlink" title="#Pielou均匀度指数"></a>#Pielou均匀度指数</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">J &lt;- Shannon.Wiener/<span class="built_in">log</span>(S)</span><br></pre></td></tr></table></figure>
+<pre><code>       sp1 sp2 sp3 sp4 sp5 sp6 sp7
+plot1   3   6   1   2   1   0   0
+plot2   8   0  30   0   0   0   0
+plot3   0   1   0   2   0   1   3
+</code></pre>
+<h1 id="第四步-计算生物多样性指数"><a href="#第四步-计算生物多样性指数" class="headerlink" title="第四步 计算生物多样性指数"></a>第四步 计算生物多样性指数</h1><h2 id="Shannon-Wiener指数"><a href="#Shannon-Wiener指数" class="headerlink" title="Shannon-Wiener指数"></a>Shannon-Wiener指数</h2><pre><code class="R">Shannon.Wiener &lt;- diversity(herb.mat, index = &quot;shannon&quot;)
+</code></pre>
+<h2 id="Simpson指数"><a href="#Simpson指数" class="headerlink" title="Simpson指数"></a>Simpson指数</h2><pre><code class="R">Simpson &lt;- diversity(herb.mat, index = &quot;simpson&quot;)
+</code></pre>
+<h2 id="Inverse-Simpson指数"><a href="#Inverse-Simpson指数" class="headerlink" title="Inverse Simpson指数"></a>Inverse Simpson指数</h2><pre><code class="R">Inverse.Simpson &lt;- diversity(herb.mat, index = &quot;inv&quot;)
+</code></pre>
+<h2 id="物种累计数"><a href="#物种累计数" class="headerlink" title="物种累计数"></a>物种累计数</h2><pre><code class="R">S &lt;- specnumber(herb.mat)
+plot(S)
+</code></pre>
+<h2 id="Pielou均匀度指数"><a href="#Pielou均匀度指数" class="headerlink" title="#Pielou均匀度指数"></a>#Pielou均匀度指数</h2><pre><code class="R">J &lt;- Shannon.Wiener/log(S)
+</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2010/04/08/2010-04-8-biodiversity/" data-id="ckmq2gwq7000zq8846hqv4ca7" data-title="R软件计算生物多样性指数" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2010/04/08/2010-04-8-biodiversity/" data-id="ckmq42ah400101k84f7rr8tqk" data-title="R软件计算生物多样性指数" class="article-share-link">Share</a>
       
       
       
@@ -551,7 +826,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2010/03/27/2010-03-27-hamma/" data-id="ckmq2gwq3000pq884gdwc3gpj" data-title="早春的金缕梅" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2010/03/27/2010-03-27-hamma/" data-id="ckmq42ah3000x1k842p6k1f9e" data-title="早春的金缕梅" class="article-share-link">Share</a>
       
       
       
@@ -609,63 +884,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2010/03/27/2010-03-27-biomod/" data-id="ckmq2gwq5000tq88427i3hd75" data-title="物种分布随气候的变化:BIOMOD使用指南" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2010/03/27/2010-03-27-biomod/" data-id="ckmq42ah2000v1k84hk9sfrwg" data-title="物种分布随气候的变化:BIOMOD使用指南" class="article-share-link">Share</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-2010-03-26-slide2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2010/03/26/2010-03-26-slide2/" class="article-date">
-  <time class="dt-published" datetime="2010-03-25T23:34:54.000Z" itemprop="datePublished">2010-03-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2010/03/26/2010-03-26-slide2/">报告:《从序列到分化时间——进化树与分子钟》</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>这是2010年1月，本人在研究组所做的报告之一，内容为依据DNA序列构建进化树的原理与方法，并依据进化树进行分子钟估算。</p>
-<p>包括：</p>
-<ol>
-<li>在GenBank上下载DNA序列</li>
-<li>在ClustalX中进行DNA序列比对，及其注意事项</li>
-<li>DNA 碱基替换模型及其筛选，ModelTest软件的原理</li>
-<li>进化树的构建的原理<br>介绍了距离法，极大似然法，最大简约法和贝叶斯法的原理，及其实现软件PAUP*, PHYLIP, MrBayes</li>
-<li>进化树分枝节点的可信度评估，即Bootstrap方法的原理和实现</li>
-<li>分子钟假设检验及NPRS平滑方法在r8s软件中的实现。</li>
-</ol>
-<p>共有幻灯片101张。<br>现整理出来，供对进化分析有兴趣的老师和同学参考。<br>如果有任何问题或建议，欢迎随时与本人联系，</p>
-<p>下载 报告幻灯片  <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/upload/blog/file/2010/3/2010326155233671302.pdf">从DNA序列到分化时间——进化树与分子钟</a> .pdf  (1.0M)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2010/03/26/2010-03-26-slide2/" data-id="ckmq2gwq6000xq884az0n35yj" data-title="报告:《从序列到分化时间——进化树与分子钟》" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8A%A5%E5%91%8A/" rel="tag">报告</a></li></ul>
 
     </footer>
   </div>
@@ -725,6 +948,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -738,10 +965,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

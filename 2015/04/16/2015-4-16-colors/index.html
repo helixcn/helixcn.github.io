@@ -6,12 +6,12 @@
   
   <title>山寨版 Color Checker | Jinlong Zhang&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="1234567891011121314151617181920212223242526272829303132333435363738394041424344454647#### 颜色colours&lt;-c(&quot;#735244&quot;, &quot;#c29682&quot;, &quot;#627a9d&quot;, &quot;#576c43&quot;, &quot;#858">
+  <meta name="description" content="#### 颜色 colours&lt;-c(&quot;#735244&quot;, &quot;#c29682&quot;, &quot;#627a9d&quot;, &quot;#576c43&quot;, &quot;#8580b1&quot;, &quot;#67bdaa&quot;, &quot;#d67e2c&quot;, &quot;#505ba6&quot;,  &quot;#c1">
 <meta property="og:type" content="article">
 <meta property="og:title" content="山寨版 Color Checker">
 <meta property="og:url" content="https://helixcn.github.io/2015/04/16/2015-4-16-colors/index.html">
 <meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
-<meta property="og:description" content="1234567891011121314151617181920212223242526272829303132333435363738394041424344454647#### 颜色colours&lt;-c(&quot;#735244&quot;, &quot;#c29682&quot;, &quot;#627a9d&quot;, &quot;#576c43&quot;, &quot;#858">
+<meta property="og:description" content="#### 颜色 colours&lt;-c(&quot;#735244&quot;, &quot;#c29682&quot;, &quot;#627a9d&quot;, &quot;#576c43&quot;, &quot;#8580b1&quot;, &quot;#67bdaa&quot;, &quot;#d67e2c&quot;, &quot;#505ba6&quot;,  &quot;#c1">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2015-04-16T01:46:54.000Z">
 <meta property="article:modified_time" content="2021-03-26T05:34:24.564Z">
@@ -98,12 +98,59 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#### 颜色</span></span><br><span class="line">colours&lt;-<span class="built_in">c</span>(<span class="string">&quot;#735244&quot;</span>, <span class="string">&quot;#c29682&quot;</span>, <span class="string">&quot;#627a9d&quot;</span>, <span class="string">&quot;#576c43&quot;</span>, <span class="string">&quot;#8580b1&quot;</span>, <span class="string">&quot;#67bdaa&quot;</span>, <span class="string">&quot;#d67e2c&quot;</span>, <span class="string">&quot;#505ba6&quot;</span>,</span><br><span class="line"> <span class="string">&quot;#c15a63&quot;</span>, <span class="string">&quot;#5e3c6c&quot;</span>, <span class="string">&quot;#9dbc40&quot;</span>, <span class="string">&quot;#e0a32e&quot;</span>, <span class="string">&quot;#383d96&quot;</span>, <span class="string">&quot;#469449&quot;</span>, <span class="string">&quot;#af363c&quot;</span>, <span class="string">&quot;#e7c71f&quot;</span>,</span><br><span class="line"> <span class="string">&quot;#bb5695&quot;</span>, <span class="string">&quot;#0885a1&quot;</span>, <span class="string">&quot;#f3f3f2&quot;</span>, <span class="string">&quot;#c8c8c8&quot;</span>, <span class="string">&quot;#a0a0a0&quot;</span>, <span class="string">&quot;#7a7a79&quot;</span>, <span class="string">&quot;#555555&quot;</span>, <span class="string">&quot;#343434&quot;</span>)</span><br><span class="line"><span class="comment">#### xy矩阵</span></span><br><span class="line">x =<span class="number">1</span>:<span class="number">24</span></span><br><span class="line">y =<span class="number">1</span>:<span class="number">24</span></span><br><span class="line"><span class="built_in">dim</span>(x)&lt;-<span class="built_in">c</span>(<span class="number">4</span>, <span class="number">6</span>)</span><br><span class="line"><span class="built_in">dim</span>(y)&lt;-<span class="built_in">c</span>(<span class="number">4</span>, <span class="number">6</span>)</span><br><span class="line">x1 =<span class="number">2</span></span><br><span class="line">y1 =-<span class="number">2</span></span><br><span class="line"><span class="keyword">for</span>(i in1:<span class="number">6</span>)&#123;</span><br><span class="line">  <span class="keyword">for</span>(j in1:<span class="number">4</span>)&#123;</span><br><span class="line">      x[j, i]&lt;-x1 +i*(<span class="number">13.5</span>+<span class="number">2</span>)</span><br><span class="line">      y[j, i]&lt;-y1 -j*(<span class="number">13.5</span>+<span class="number">2</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">#### 定义颜色块出现的位置</span></span><br><span class="line">x2 &lt;-x -<span class="number">13.5</span></span><br><span class="line">y2 &lt;-y -<span class="number">13.5</span></span><br><span class="line"><span class="comment">### pdf(file =&quot;color.checkerNaNyk.pdf&quot;, width =4, height = 3,colormodel=&quot;cmyk&quot;)</span></span><br><span class="line"><span class="comment">#pdf(file = &quot;color.checker.rgb.pdf&quot;, width =4.2,height = 3)</span></span><br><span class="line">par(bg =<span class="string">&#x27;black&#x27;</span>, mar =<span class="built_in">c</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">.8</span>,<span class="number">0</span>))</span><br><span class="line">plot(<span class="number">1</span>, xlim=<span class="built_in">c</span>(<span class="number">5</span>, <span class="number">94</span>), ylim =<span class="built_in">c</span>(-<span class="number">77</span>, -<span class="number">18</span>),pch =<span class="string">&quot;&quot;</span>)</span><br><span class="line">cols &lt;-colours</span><br><span class="line">k =<span class="number">1</span></span><br><span class="line"><span class="keyword">for</span>(i in1:<span class="number">4</span>)&#123;</span><br><span class="line">  <span class="keyword">for</span>(j in1:<span class="number">6</span>)&#123;</span><br><span class="line">      rect(x[i,j],y[i,j],x2[i,j],y2[i,j],col= cols[k])</span><br><span class="line">      k =k +<span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">mtext(<span class="string">&quot;Colour Checker in RGB&quot;</span>,side =<span class="number">3</span>, line=<span class="number">.01</span>, col=<span class="string">&quot;white&quot;</span>,cex =<span class="number">0.6</span>)</span><br><span class="line"><span class="comment">#dev.off()</span></span><br><span class="line"><span class="comment">#pdf(file =&quot;color.checker.CMYK.pdf&quot;, width =4.2, height =3,colormodel=&quot;cmyk&quot;)</span></span><br><span class="line">par(bg =<span class="string">&#x27;black&#x27;</span>, mar =<span class="built_in">c</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">.8</span>,<span class="number">0</span>))</span><br><span class="line">plot(<span class="number">1</span>, xlim=<span class="built_in">c</span>(<span class="number">5</span>, <span class="number">94</span>), ylim =<span class="built_in">c</span>(-<span class="number">77</span>, -<span class="number">18</span>),pch =<span class="string">&quot;&quot;</span>)</span><br><span class="line">cols &lt;-colours</span><br><span class="line">k =<span class="number">1</span></span><br><span class="line"><span class="keyword">for</span>(i in1:<span class="number">4</span>)&#123;</span><br><span class="line">  <span class="keyword">for</span>(j in1:<span class="number">6</span>)&#123;</span><br><span class="line">      rect(x[i,j],y[i,j],x2[i,j],y2[i,j],col= cols[k])</span><br><span class="line">      k =k +<span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">mtext(<span class="string">&quot;Colour Checker in CMYK&quot;</span>,side =<span class="number">3</span>, line=<span class="number">.01</span>, col=<span class="string">&quot;white&quot;</span>,cex =<span class="number">0.6</span>)</span><br><span class="line"><span class="comment">#dev.off()</span></span><br></pre></td></tr></table></figure>
+        <pre><code class="R">#### 颜色
+colours&lt;-c(&quot;#735244&quot;, &quot;#c29682&quot;, &quot;#627a9d&quot;, &quot;#576c43&quot;, &quot;#8580b1&quot;, &quot;#67bdaa&quot;, &quot;#d67e2c&quot;, &quot;#505ba6&quot;,
+ &quot;#c15a63&quot;, &quot;#5e3c6c&quot;, &quot;#9dbc40&quot;, &quot;#e0a32e&quot;, &quot;#383d96&quot;, &quot;#469449&quot;, &quot;#af363c&quot;, &quot;#e7c71f&quot;,
+ &quot;#bb5695&quot;, &quot;#0885a1&quot;, &quot;#f3f3f2&quot;, &quot;#c8c8c8&quot;, &quot;#a0a0a0&quot;, &quot;#7a7a79&quot;, &quot;#555555&quot;, &quot;#343434&quot;)
+#### xy矩阵
+x =1:24
+y =1:24
+dim(x)&lt;-c(4, 6)
+dim(y)&lt;-c(4, 6)
+x1 =2
+y1 =-2
+for(i in1:6)&#123;
+  for(j in1:4)&#123;
+      x[j, i]&lt;-x1 +i*(13.5+2)
+      y[j, i]&lt;-y1 -j*(13.5+2)
+  &#125;
+&#125;
+#### 定义颜色块出现的位置
+x2 &lt;-x -13.5
+y2 &lt;-y -13.5
+### pdf(file =&quot;color.checkerNaNyk.pdf&quot;, width =4, height = 3,colormodel=&quot;cmyk&quot;)
+#pdf(file = &quot;color.checker.rgb.pdf&quot;, width =4.2,height = 3)
+par(bg =&#39;black&#39;, mar =c(0,0,.8,0))
+plot(1, xlim=c(5, 94), ylim =c(-77, -18),pch =&quot;&quot;)
+cols &lt;-colours
+k =1
+for(i in1:4)&#123;
+  for(j in1:6)&#123;
+      rect(x[i,j],y[i,j],x2[i,j],y2[i,j],col= cols[k])
+      k =k +1
+  &#125;
+&#125;
+mtext(&quot;Colour Checker in RGB&quot;,side =3, line=.01, col=&quot;white&quot;,cex =0.6)
+#dev.off()
+#pdf(file =&quot;color.checker.CMYK.pdf&quot;, width =4.2, height =3,colormodel=&quot;cmyk&quot;)
+par(bg =&#39;black&#39;, mar =c(0,0,.8,0))
+plot(1, xlim=c(5, 94), ylim =c(-77, -18),pch =&quot;&quot;)
+cols &lt;-colours
+k =1
+for(i in1:4)&#123;
+  for(j in1:6)&#123;
+      rect(x[i,j],y[i,j],x2[i,j],y2[i,j],col= cols[k])
+      k =k +1
+  &#125;
+&#125;
+mtext(&quot;Colour Checker in CMYK&quot;,side =3, line=.01, col=&quot;white&quot;,cex =0.6)
+#dev.off()
+</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2015/04/16/2015-4-16-colors/" data-id="ckmq2gwsn007cq8841x050ufd" data-title="山寨版 Color Checker" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2015/04/16/2015-4-16-colors/" data-id="ckmq42aj600761k84goyv37o1" data-title="山寨版 Color Checker" class="article-share-link">Share</a>
       
       
       
@@ -179,6 +226,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -192,10 +243,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

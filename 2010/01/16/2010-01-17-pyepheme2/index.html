@@ -103,36 +103,175 @@
 <p>下载Anaconda Python <a target="_blank" rel="noopener" href="https://anaconda.org/%E3%80%82">https://anaconda.org/。</a></p>
 <h2 id="1-2-安装pyephem"><a href="#1-2-安装pyephem" class="headerlink" title="1.2 安装pyephem"></a>1.2 安装pyephem</h2><p>通过开始&gt;CMD，通过pip安装 pyephem</p>
 <p>输入如下命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install ephem</span><br></pre></td></tr></table></figure>
-
+<pre><code>pip install ephem
+</code></pre>
 <h2 id="1-3-运行Jupyter-Notebook"><a href="#1-3-运行Jupyter-Notebook" class="headerlink" title="1.3 运行Jupyter Notebook"></a>1.3 运行Jupyter Notebook</h2><p>在开始CMD中，输入 <code>jupyter notebook</code>， 在自动打开的浏览器（即 <code>http://localhost:8888/tree</code>）页面的右上角点击 New, 新建一个Jupyter记事本。</p>
 <p>点击加号图标， 新建一个代码区域， 将以下各Python代码块拷贝到代码区，点击左侧的运行符号即可。</p>
 <p>运行完成后，点击 File&gt;save as&gt;选择.ipynb，保存为Jupyter Notebook。关于运行 Jupyter Notebook， 请参考 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/33105153">知乎上的专栏</a>。</p>
-<h1 id="2-代码举例"><a href="#2-代码举例" class="headerlink" title="2 代码举例"></a>2 代码举例</h1><h2 id="2-1-计算2010年1月16日天王星的位置和亮度"><a href="#2-1-计算2010年1月16日天王星的位置和亮度" class="headerlink" title="2.1 计算2010年1月16日天王星的位置和亮度"></a>2.1 计算2010年1月16日天王星的位置和亮度</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ephem </span><br><span class="line">u = ephem.Uranus() </span><br><span class="line"><span class="comment"># 天王星</span></span><br><span class="line">u.compute(<span class="string">&#x27;2010/1/16&#x27;</span>) </span><br><span class="line"><span class="built_in">print</span> (u.ra, u.dec, u.mag) </span><br><span class="line"><span class="comment"># 赤经、赤纬、亮度</span></span><br><span class="line"><span class="built_in">print</span> (ephem.constellation(u)) </span><br><span class="line"><span class="comment"># 所在星座</span></span><br><span class="line"><span class="comment"># print (u.rise_time)</span></span><br><span class="line"><span class="number">23</span>:<span class="number">37</span>:<span class="number">29.43</span> -<span class="number">3</span>:<span class="number">14</span>:<span class="number">13.6</span> <span class="number">5.9</span></span><br><span class="line">(<span class="string">&#x27;Psc&#x27;</span>, <span class="string">&#x27;Pisces&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<h1 id="2-代码举例"><a href="#2-代码举例" class="headerlink" title="2 代码举例"></a>2 代码举例</h1><h2 id="2-1-计算2010年1月16日天王星的位置和亮度"><a href="#2-1-计算2010年1月16日天王星的位置和亮度" class="headerlink" title="2.1 计算2010年1月16日天王星的位置和亮度"></a>2.1 计算2010年1月16日天王星的位置和亮度</h2><pre><code class="python">import ephem 
+u = ephem.Uranus() 
+# 天王星
+u.compute(&#39;2010/1/16&#39;) 
+print (u.ra, u.dec, u.mag) 
+# 赤经、赤纬、亮度
+print (ephem.constellation(u)) 
+# 所在星座
+# print (u.rise_time)
+23:37:29.43 -3:14:13.6 5.9
+(&#39;Psc&#39;, &#39;Pisces&#39;)
+</code></pre>
+<h2 id="2-2-计算2010年1月16日木星的位置和亮度"><a href="#2-2-计算2010年1月16日木星的位置和亮度" class="headerlink" title="2.2 计算2010年1月16日木星的位置和亮度"></a>2.2 计算2010年1月16日木星的位置和亮度</h2><pre><code class="python">import ephem
+j = ephem.Jupiter(&#39;2010/1/16&#39;) 
+# 木星
+n = ephem.Neptune(&#39;2010/1/16&#39;) 
+# 海王星
+print (&quot;Jupiter&quot;) 
+print (&quot;RA:&quot;, j.ra, &quot;, \nDEC&quot;, j.dec, &quot;, \nMAG:&quot;, j.mag)
+print (&quot;Neptune&quot;)print (&quot;RA:&quot;, n.ra, &quot;, \nDEC:&quot;, n.dec, &quot;, \nMAG:&quot;, n.mag)
+print (&quot;Separation between Jupiter and Neptune:&quot;, ephem.separation(j, n)) 
+# 木星和海王星的角距
+Jupiter
+RA: 22:07:54.83 , 
+DEC -12:30:01.9 , 
+MAG: -1.91
+Neptune
+RA: 21:49:56.21 , 
+DEC: -13:33:46.0 , 
+MAG: 7.97
+Separation between Jupiter and Neptune 4:30:19.5
+</code></pre>
+<h2 id="2-3-计算火星在近日点和远日点速度的差异"><a href="#2-3-计算火星在近日点和远日点速度的差异" class="headerlink" title="2.3 计算火星在近日点和远日点速度的差异"></a>2.3 计算火星在近日点和远日点速度的差异</h2><pre><code class="python">import ephem
 
-<h2 id="2-2-计算2010年1月16日木星的位置和亮度"><a href="#2-2-计算2010年1月16日木星的位置和亮度" class="headerlink" title="2.2 计算2010年1月16日木星的位置和亮度"></a>2.2 计算2010年1月16日木星的位置和亮度</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ephem</span><br><span class="line">j = ephem.Jupiter(<span class="string">&#x27;2010/1/16&#x27;</span>) </span><br><span class="line"><span class="comment"># 木星</span></span><br><span class="line">n = ephem.Neptune(<span class="string">&#x27;2010/1/16&#x27;</span>) </span><br><span class="line"><span class="comment"># 海王星</span></span><br><span class="line"><span class="built_in">print</span> (<span class="string">&quot;Jupiter&quot;</span>) </span><br><span class="line"><span class="built_in">print</span> (<span class="string">&quot;RA:&quot;</span>, j.ra, <span class="string">&quot;, \nDEC&quot;</span>, j.dec, <span class="string">&quot;, \nMAG:&quot;</span>, j.mag)</span><br><span class="line"><span class="built_in">print</span> (<span class="string">&quot;Neptune&quot;</span>)<span class="built_in">print</span> (<span class="string">&quot;RA:&quot;</span>, n.ra, <span class="string">&quot;, \nDEC:&quot;</span>, n.dec, <span class="string">&quot;, \nMAG:&quot;</span>, n.mag)</span><br><span class="line"><span class="built_in">print</span> (<span class="string">&quot;Separation between Jupiter and Neptune:&quot;</span>, ephem.separation(j, n)) </span><br><span class="line"><span class="comment"># 木星和海王星的角距</span></span><br><span class="line">Jupiter</span><br><span class="line">RA: <span class="number">22</span>:07:<span class="number">54.83</span> , </span><br><span class="line">DEC -<span class="number">12</span>:<span class="number">30</span>:<span class="number">01.9</span> , </span><br><span class="line">MAG: -<span class="number">1.91</span></span><br><span class="line">Neptune</span><br><span class="line">RA: <span class="number">21</span>:<span class="number">49</span>:<span class="number">56.21</span> , </span><br><span class="line">DEC: -<span class="number">13</span>:<span class="number">33</span>:<span class="number">46.0</span> , </span><br><span class="line">MAG: <span class="number">7.97</span></span><br><span class="line">Separation between Jupiter <span class="keyword">and</span> Neptune <span class="number">4</span>:<span class="number">30</span>:<span class="number">19.5</span></span><br></pre></td></tr></table></figure>
+def hpos(body): return body.hlong, body.hlat
 
-<h2 id="2-3-计算火星在近日点和远日点速度的差异"><a href="#2-3-计算火星在近日点和远日点速度的差异" class="headerlink" title="2.3 计算火星在近日点和远日点速度的差异"></a>2.3 计算火星在近日点和远日点速度的差异</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ephem</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hpos</span>(<span class="params">body</span>):</span> <span class="keyword">return</span> body.hlong, body.hlat</span><br><span class="line"></span><br><span class="line">ma0 = ephem.Mars(<span class="string">&#x27;1976/05/21&#x27;</span>)    </span><br><span class="line"><span class="comment"># 火星在远日点ma1 = ephem.Mars(&#x27;1976/05/22&#x27;)</span></span><br><span class="line"><span class="built_in">print</span> (ephem.separation(hpos(ma0), hpos(ma1)))</span><br><span class="line">mp0 = ephem.Mars(<span class="string">&#x27;1975/06/13&#x27;</span>)    </span><br><span class="line"><span class="comment"># 火星在远日点mp1 = ephem.Mars(&#x27;1975/06/14&#x27;)</span></span><br><span class="line"><span class="built_in">print</span> (ephem.separation(hpos(mp0), hpos(mp1)))</span><br><span class="line"><span class="number">0</span>:<span class="number">26</span>:<span class="number">11.4</span></span><br><span class="line"><span class="number">0</span>:<span class="number">38</span>:<span class="number">05.2</span></span><br></pre></td></tr></table></figure>
+ma0 = ephem.Mars(&#39;1976/05/21&#39;)    
+# 火星在远日点ma1 = ephem.Mars(&#39;1976/05/22&#39;)
+print (ephem.separation(hpos(ma0), hpos(ma1)))
+mp0 = ephem.Mars(&#39;1975/06/13&#39;)    
+# 火星在远日点mp1 = ephem.Mars(&#39;1975/06/14&#39;)
+print (ephem.separation(hpos(mp0), hpos(mp1)))
+0:26:11.4
+0:38:05.2
+</code></pre>
+<h2 id="2-4-地方时"><a href="#2-4-地方时" class="headerlink" title="2.4 地方时"></a>2.4 地方时</h2><pre><code class="python">import ephem
+d = ephem.Date(&#39;1984/12/21 15:00&#39;)
+ephem.localtime(d) 
+# 地方时print (ephem.localtime(d).ctime())
+Fri Dec 21 23:00:00 1984
+</code></pre>
+<h2 id="2-5-时间转换"><a href="#2-5-时间转换" class="headerlink" title="2.5 时间转换"></a>2.5 时间转换</h2><pre><code class="python">##
+import ephem
+d = ephem.Date(&#39;1950/2/28&#39;) 
+print (d + 1) 
+# 儒略日
+print (ephem.Date(d + 1)) # 年月日时分秒
+18321.5
+1950/3/1 00:00:00
+</code></pre>
+<h2 id="2-6-日期转换"><a href="#2-6-日期转换" class="headerlink" title="2.6 日期转换"></a>2.6 日期转换</h2><pre><code class="python">import ephem
+### 赋值类型
+### 注意时间以 1899/12/31 12:00:00 作为起点
+d = ephem.Date(34530.34375) # 
+d = ephem.Date(&#39;1994/7/16.84375&#39;)
+d = ephem.Date(&#39;1994/7/16 20:15&#39;)
+d = ephem.Date((1994, 7, 16.84375))
+d = ephem.Date((1994, 7, 16, 20, 15, 0))
+print (&#39;as a float: %f\nas a string: &quot;%s&quot;&#39; % (d, d))
+print (d.triple()) 
+# 只显示年月日， 但是日为小数格式
+print (d.tuple()) 
+# 显示为 tuple
+as a float: 34530.343750
+as a string: &quot;1994/7/16 20:15:00&quot;
+(1994, 7, 16.84375)
+(1994, 7, 16, 20, 15, 0.0)
+</code></pre>
+<h2 id="2-7-计算某时刻太阳和月亮的高度和方位"><a href="#2-7-计算某时刻太阳和月亮的高度和方位" class="headerlink" title="2.7 计算某时刻太阳和月亮的高度和方位"></a>2.7 计算某时刻太阳和月亮的高度和方位</h2><pre><code class="python">import ephem
+gatech = ephem.Observer()print(gatech) 
+# 查看观测者位置信息# 2010/1/15 16:20:56 日环食
+gatech.long, gatech.lat = &#39;126&#39;, &#39;40&#39; 
+# 观测者位置重新赋值gatech.date = &#39;2010/1/15 16:20:56&#39;  
+# 观测者时间重新赋值
+sun, moon = ephem.Sun(), ephem.Moon() 
+sun.compute(gatech)
+moon.compute(gatech)
+print (sun.alt, sun.az)
+print (moon.alt, moon.az)
+print (ephem.separation((sun.az, sun.alt), (moon.az, moon.alt)))
+print (sun.size, moon.size, sun.size - moon.size)
+-69:36:06.8 24:22:55.8
+-69:24:12.6 12:32:15.7
+4:08:44.6
+1950.9619140625 1743.300048828125 207.661865234375
+</code></pre>
+<h2 id="2-8-计算每隔五分钟太阳的方位角和高度"><a href="#2-8-计算每隔五分钟太阳的方位角和高度" class="headerlink" title="2.8 计算每隔五分钟太阳的方位角和高度"></a>2.8 计算每隔五分钟太阳的方位角和高度</h2><pre><code class="python">import ephem
+gatech.date = &#39;1984/5/31 00:00&#39;   
+# 20:00 EDTsun.compute(gatech)
+for i in range(8):
+    old_az, old_alt = sun.az, sun.alt
+    gatech.date += ephem.minute * 5.
+    sun.compute(gatech)
+    sep = ephem.separation((old_az, old_alt), (sun.az, sun.alt)) 
+# 地平坐标角距
+print(gatech.date, sun.alt, sep)
+print(gatech.next_setting(sun))
+print(gatech.next_setting(sun))
+print(sun.alt, sun.az)
+1984/5/31 00:40:00 49:09:10.0 1:09:32.8
+1984/5/31 10:58:06
+1984/5/31 10:58:06
+-0:15:46.3 300:05:46.5
+</code></pre>
+<h2 id="2-9-通过轨道根数计算小行星和彗星的位置和亮度"><a href="#2-9-通过轨道根数计算小行星和彗星的位置和亮度" class="headerlink" title="2.9 通过轨道根数计算小行星和彗星的位置和亮度"></a>2.9 通过轨道根数计算小行星和彗星的位置和亮度</h2><pre><code class="python">## ephem database format格式 小行星或彗星的轨道根数
+yh = ephem.readdb(&quot;C/2002 Y1 (Juels-Holvorcem),e,103.7816,&quot;
+&quot;166.2194,128.8232,242.5695,0.0002609,0.99705756,0.0000,&quot;
+&quot;04/13.2508/2003,2000,g  6.5,4.0&quot;)
 
-<h2 id="2-4-地方时"><a href="#2-4-地方时" class="headerlink" title="2.4 地方时"></a>2.4 地方时</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ephem</span><br><span class="line">d = ephem.Date(<span class="string">&#x27;1984/12/21 15:00&#x27;</span>)</span><br><span class="line">ephem.localtime(d) </span><br><span class="line"><span class="comment"># 地方时print (ephem.localtime(d).ctime())</span></span><br><span class="line">Fri Dec <span class="number">21</span> <span class="number">23</span>:<span class="number">00</span>:<span class="number">00</span> <span class="number">1984</span></span><br></pre></td></tr></table></figure>
+yh.compute(&#39;2003/4/11&#39;)
+print (yh.name)
+print (yh.ra, yh.dec)
+print (ephem.constellation(yh), yh.mag)
+print (yh)
+C/2002 Y1 (Juels-Holvorcem)
+0:22:44.58 26:49:48.1
+(&#39;And&#39;, &#39;Andromeda&#39;) 5.96
+&lt;ephem.EllipticalBody &#39;C/2002 Y1 (Juels-Holvorcem)&#39; at 0x1043dc5b0&gt;
+</code></pre>
+<h2 id="2-10-通过人造卫星的轨道根数-计算卫星出没时刻"><a href="#2-10-通过人造卫星的轨道根数-计算卫星出没时刻" class="headerlink" title="2.10 通过人造卫星的轨道根数 计算卫星出没时刻"></a>2.10 通过人造卫星的轨道根数 计算卫星出没时刻</h2><pre><code class="python">## 轨道根数为TLE格式
+iss = ephem.readtle(&quot;ISS (ZARYA)&quot;,&quot;1 25544U 98067A   03097.78853147  .00021906  00000-0  28403-3 0  8652&quot;,
+&quot;2 25544  51.6361  13.7980 0004256  35.6671  59.2566 15.58778559250029&quot;)
+gatech.date = &#39;2003/3/23&#39;iss.compute(gatech)
+print (iss.rise_time, iss.transit_time, iss.set_time)
+gatech.date = &#39;2003/3/23 8:00&#39;iss.compute(gatech)
+print (iss.rise_time, iss.transit_time, iss.set_time)
+2003/3/23 10:48:45 2003/3/23 10:53:09 2003/3/23 10:57:34
+2003/3/23 10:48:45 2003/3/23 10:53:09 2003/3/23 10:57:34
+</code></pre>
+<h2 id="2-11-计算在不同历元下，恒星的坐标"><a href="#2-11-计算在不同历元下，恒星的坐标" class="headerlink" title="2.11 计算在不同历元下，恒星的坐标"></a>2.11 计算在不同历元下，恒星的坐标</h2><pre><code class="python">polaris = ephem.readdb(&quot;Polaris,f|M|F7,2:31:48.704,89:15:50.72,2.02,2000&quot;)
+polaris.compute() 
+print (polaris.dec)
+# 默认情况下使用的是电脑的时间
+print (ephem.degrees(ephem.degrees(&#39;90&#39;) - polaris.a_dec))
+polaris.compute(epoch=&#39;2100&#39;)
+print (polaris.dec)
 
-<h2 id="2-5-时间转换"><a href="#2-5-时间转换" class="headerlink" title="2.5 时间转换"></a>2.5 时间转换</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##</span></span><br><span class="line"><span class="keyword">import</span> ephem</span><br><span class="line">d = ephem.Date(<span class="string">&#x27;1950/2/28&#x27;</span>) </span><br><span class="line"><span class="built_in">print</span> (d + <span class="number">1</span>) </span><br><span class="line"><span class="comment"># 儒略日</span></span><br><span class="line"><span class="built_in">print</span> (ephem.Date(d + <span class="number">1</span>)) <span class="comment"># 年月日时分秒</span></span><br><span class="line"><span class="number">18321.5</span></span><br><span class="line"><span class="number">1950</span>/<span class="number">3</span>/<span class="number">1</span> <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span></span><br></pre></td></tr></table></figure>
+thuban = ephem.readdb(&quot;Thuban,f|V|A0,14:4:23.3,64:22:33,3.65,2000&quot;)
+thuban.compute()print (thuban.dec)thuban.compute(epoch=&#39;-2800&#39;)
+print (thuban.dec)
+polaris.compute(epoch=&#39;-2800&#39;)
+print (polaris.dec)
+89:20:08.2
+0:44:09.3
+89:20:08.2
+64:17:38.4
+64:17:38.4
+89:20:08.2
+</code></pre>
 
-<h2 id="2-6-日期转换"><a href="#2-6-日期转换" class="headerlink" title="2.6 日期转换"></a>2.6 日期转换</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ephem</span><br><span class="line"><span class="comment">### 赋值类型</span></span><br><span class="line"><span class="comment">### 注意时间以 1899/12/31 12:00:00 作为起点</span></span><br><span class="line">d = ephem.Date(<span class="number">34530.34375</span>) <span class="comment"># </span></span><br><span class="line">d = ephem.Date(<span class="string">&#x27;1994/7/16.84375&#x27;</span>)</span><br><span class="line">d = ephem.Date(<span class="string">&#x27;1994/7/16 20:15&#x27;</span>)</span><br><span class="line">d = ephem.Date((<span class="number">1994</span>, <span class="number">7</span>, <span class="number">16.84375</span>))</span><br><span class="line">d = ephem.Date((<span class="number">1994</span>, <span class="number">7</span>, <span class="number">16</span>, <span class="number">20</span>, <span class="number">15</span>, <span class="number">0</span>))</span><br><span class="line"><span class="built_in">print</span> (<span class="string">&#x27;as a float: %f\nas a string: &quot;%s&quot;&#x27;</span> % (d, d))</span><br><span class="line"><span class="built_in">print</span> (d.triple()) </span><br><span class="line"><span class="comment"># 只显示年月日， 但是日为小数格式</span></span><br><span class="line"><span class="built_in">print</span> (d.<span class="built_in">tuple</span>()) </span><br><span class="line"><span class="comment"># 显示为 tuple</span></span><br><span class="line"><span class="keyword">as</span> a <span class="built_in">float</span>: <span class="number">34530.343750</span></span><br><span class="line"><span class="keyword">as</span> a string: <span class="string">&quot;1994/7/16 20:15:00&quot;</span></span><br><span class="line">(<span class="number">1994</span>, <span class="number">7</span>, <span class="number">16.84375</span>)</span><br><span class="line">(<span class="number">1994</span>, <span class="number">7</span>, <span class="number">16</span>, <span class="number">20</span>, <span class="number">15</span>, <span class="number">0.0</span>)</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-7-计算某时刻太阳和月亮的高度和方位"><a href="#2-7-计算某时刻太阳和月亮的高度和方位" class="headerlink" title="2.7 计算某时刻太阳和月亮的高度和方位"></a>2.7 计算某时刻太阳和月亮的高度和方位</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ephem</span><br><span class="line">gatech = ephem.Observer()<span class="built_in">print</span>(gatech) </span><br><span class="line"><span class="comment"># 查看观测者位置信息# 2010/1/15 16:20:56 日环食</span></span><br><span class="line">gatech.long, gatech.lat = <span class="string">&#x27;126&#x27;</span>, <span class="string">&#x27;40&#x27;</span> </span><br><span class="line"><span class="comment"># 观测者位置重新赋值gatech.date = &#x27;2010/1/15 16:20:56&#x27;  </span></span><br><span class="line"><span class="comment"># 观测者时间重新赋值</span></span><br><span class="line">sun, moon = ephem.Sun(), ephem.Moon() </span><br><span class="line">sun.compute(gatech)</span><br><span class="line">moon.compute(gatech)</span><br><span class="line"><span class="built_in">print</span> (sun.alt, sun.az)</span><br><span class="line"><span class="built_in">print</span> (moon.alt, moon.az)</span><br><span class="line"><span class="built_in">print</span> (ephem.separation((sun.az, sun.alt), (moon.az, moon.alt)))</span><br><span class="line"><span class="built_in">print</span> (sun.size, moon.size, sun.size - moon.size)</span><br><span class="line">-<span class="number">69</span>:<span class="number">36</span>:<span class="number">06.8</span> <span class="number">24</span>:<span class="number">22</span>:<span class="number">55.8</span></span><br><span class="line">-<span class="number">69</span>:<span class="number">24</span>:<span class="number">12.6</span> <span class="number">12</span>:<span class="number">32</span>:<span class="number">15.7</span></span><br><span class="line"><span class="number">4</span>:08:<span class="number">44.6</span></span><br><span class="line"><span class="number">1950.9619140625</span> <span class="number">1743.300048828125</span> <span class="number">207.661865234375</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="2-8-计算每隔五分钟太阳的方位角和高度"><a href="#2-8-计算每隔五分钟太阳的方位角和高度" class="headerlink" title="2.8 计算每隔五分钟太阳的方位角和高度"></a>2.8 计算每隔五分钟太阳的方位角和高度</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ephem</span><br><span class="line">gatech.date = <span class="string">&#x27;1984/5/31 00:00&#x27;</span>   </span><br><span class="line"><span class="comment"># 20:00 EDTsun.compute(gatech)</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">8</span>):</span><br><span class="line">    old_az, old_alt = sun.az, sun.alt</span><br><span class="line">    gatech.date += ephem.minute * <span class="number">5.</span></span><br><span class="line">    sun.compute(gatech)</span><br><span class="line">    sep = ephem.separation((old_az, old_alt), (sun.az, sun.alt)) </span><br><span class="line"><span class="comment"># 地平坐标角距</span></span><br><span class="line"><span class="built_in">print</span>(gatech.date, sun.alt, sep)</span><br><span class="line"><span class="built_in">print</span>(gatech.next_setting(sun))</span><br><span class="line"><span class="built_in">print</span>(gatech.next_setting(sun))</span><br><span class="line"><span class="built_in">print</span>(sun.alt, sun.az)</span><br><span class="line"><span class="number">1984</span>/<span class="number">5</span>/<span class="number">31</span> <span class="number">00</span>:<span class="number">40</span>:<span class="number">00</span> <span class="number">49</span>:09:<span class="number">10.0</span> <span class="number">1</span>:09:<span class="number">32.8</span></span><br><span class="line"><span class="number">1984</span>/<span class="number">5</span>/<span class="number">31</span> <span class="number">10</span>:<span class="number">58</span>:06</span><br><span class="line"><span class="number">1984</span>/<span class="number">5</span>/<span class="number">31</span> <span class="number">10</span>:<span class="number">58</span>:06</span><br><span class="line">-<span class="number">0</span>:<span class="number">15</span>:<span class="number">46.3</span> <span class="number">300</span>:05:<span class="number">46.5</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="2-9-通过轨道根数计算小行星和彗星的位置和亮度"><a href="#2-9-通过轨道根数计算小行星和彗星的位置和亮度" class="headerlink" title="2.9 通过轨道根数计算小行星和彗星的位置和亮度"></a>2.9 通过轨道根数计算小行星和彗星的位置和亮度</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## ephem database format格式 小行星或彗星的轨道根数</span></span><br><span class="line">yh = ephem.readdb(<span class="string">&quot;C/2002 Y1 (Juels-Holvorcem),e,103.7816,&quot;</span></span><br><span class="line"><span class="string">&quot;166.2194,128.8232,242.5695,0.0002609,0.99705756,0.0000,&quot;</span></span><br><span class="line"><span class="string">&quot;04/13.2508/2003,2000,g  6.5,4.0&quot;</span>)</span><br><span class="line"></span><br><span class="line">yh.compute(<span class="string">&#x27;2003/4/11&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span> (yh.name)</span><br><span class="line"><span class="built_in">print</span> (yh.ra, yh.dec)</span><br><span class="line"><span class="built_in">print</span> (ephem.constellation(yh), yh.mag)</span><br><span class="line"><span class="built_in">print</span> (yh)</span><br><span class="line">C/<span class="number">2002</span> Y1 (Juels-Holvorcem)</span><br><span class="line"><span class="number">0</span>:<span class="number">22</span>:<span class="number">44.58</span> <span class="number">26</span>:<span class="number">49</span>:<span class="number">48.1</span></span><br><span class="line">(<span class="string">&#x27;And&#x27;</span>, <span class="string">&#x27;Andromeda&#x27;</span>) <span class="number">5.96</span></span><br><span class="line">&lt;ephem.EllipticalBody <span class="string">&#x27;C/2002 Y1 (Juels-Holvorcem)&#x27;</span> at <span class="number">0x1043dc5b0</span>&gt;</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-10-通过人造卫星的轨道根数-计算卫星出没时刻"><a href="#2-10-通过人造卫星的轨道根数-计算卫星出没时刻" class="headerlink" title="2.10 通过人造卫星的轨道根数 计算卫星出没时刻"></a>2.10 通过人造卫星的轨道根数 计算卫星出没时刻</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 轨道根数为TLE格式</span></span><br><span class="line">iss = ephem.readtle(<span class="string">&quot;ISS (ZARYA)&quot;</span>,<span class="string">&quot;1 25544U 98067A   03097.78853147  .00021906  00000-0  28403-3 0  8652&quot;</span>,</span><br><span class="line"><span class="string">&quot;2 25544  51.6361  13.7980 0004256  35.6671  59.2566 15.58778559250029&quot;</span>)</span><br><span class="line">gatech.date = <span class="string">&#x27;2003/3/23&#x27;</span>iss.compute(gatech)</span><br><span class="line"><span class="built_in">print</span> (iss.rise_time, iss.transit_time, iss.set_time)</span><br><span class="line">gatech.date = <span class="string">&#x27;2003/3/23 8:00&#x27;</span>iss.compute(gatech)</span><br><span class="line"><span class="built_in">print</span> (iss.rise_time, iss.transit_time, iss.set_time)</span><br><span class="line"><span class="number">2003</span>/<span class="number">3</span>/<span class="number">23</span> <span class="number">10</span>:<span class="number">48</span>:<span class="number">45</span> <span class="number">2003</span>/<span class="number">3</span>/<span class="number">23</span> <span class="number">10</span>:<span class="number">53</span>:09 <span class="number">2003</span>/<span class="number">3</span>/<span class="number">23</span> <span class="number">10</span>:<span class="number">57</span>:<span class="number">34</span></span><br><span class="line"><span class="number">2003</span>/<span class="number">3</span>/<span class="number">23</span> <span class="number">10</span>:<span class="number">48</span>:<span class="number">45</span> <span class="number">2003</span>/<span class="number">3</span>/<span class="number">23</span> <span class="number">10</span>:<span class="number">53</span>:09 <span class="number">2003</span>/<span class="number">3</span>/<span class="number">23</span> <span class="number">10</span>:<span class="number">57</span>:<span class="number">34</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="2-11-计算在不同历元下，恒星的坐标"><a href="#2-11-计算在不同历元下，恒星的坐标" class="headerlink" title="2.11 计算在不同历元下，恒星的坐标"></a>2.11 计算在不同历元下，恒星的坐标</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">polaris = ephem.readdb(<span class="string">&quot;Polaris,f|M|F7,2:31:48.704,89:15:50.72,2.02,2000&quot;</span>)</span><br><span class="line">polaris.compute() </span><br><span class="line"><span class="built_in">print</span> (polaris.dec)</span><br><span class="line"><span class="comment"># 默认情况下使用的是电脑的时间</span></span><br><span class="line"><span class="built_in">print</span> (ephem.degrees(ephem.degrees(<span class="string">&#x27;90&#x27;</span>) - polaris.a_dec))</span><br><span class="line">polaris.compute(epoch=<span class="string">&#x27;2100&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span> (polaris.dec)</span><br><span class="line"></span><br><span class="line">thuban = ephem.readdb(<span class="string">&quot;Thuban,f|V|A0,14:4:23.3,64:22:33,3.65,2000&quot;</span>)</span><br><span class="line">thuban.compute()<span class="built_in">print</span> (thuban.dec)thuban.compute(epoch=<span class="string">&#x27;-2800&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span> (thuban.dec)</span><br><span class="line">polaris.compute(epoch=<span class="string">&#x27;-2800&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span> (polaris.dec)</span><br><span class="line"><span class="number">89</span>:<span class="number">20</span>:<span class="number">08.2</span></span><br><span class="line"><span class="number">0</span>:<span class="number">44</span>:<span class="number">09.3</span></span><br><span class="line"><span class="number">89</span>:<span class="number">20</span>:<span class="number">08.2</span></span><br><span class="line"><span class="number">64</span>:<span class="number">17</span>:<span class="number">38.4</span></span><br><span class="line"><span class="number">64</span>:<span class="number">17</span>:<span class="number">38.4</span></span><br><span class="line"><span class="number">89</span>:<span class="number">20</span>:<span class="number">08.2</span></span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2010/01/16/2010-01-17-pyepheme2/" data-id="ckmq2gwpx000dq88421wy69yz" data-title="天文计算PyEphem指南" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2010/01/16/2010-01-17-pyepheme2/" data-id="ckmq42agx000i1k840ghtdv5t" data-title="天文计算PyEphem指南" class="article-share-link">Share</a>
       
       
       
@@ -208,6 +347,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -221,10 +364,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

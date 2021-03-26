@@ -108,30 +108,72 @@
 <h3 id="2-下载DataTables库"><a href="#2-下载DataTables库" class="headerlink" title="2. 下载DataTables库"></a>2. 下载DataTables库</h3><p>解压缩到IUCN文件夹下。 以版本DataTables-1.10.15为例， 所有内容解压缩到<code>C:Users/jlzhang/Desktop/IUCN/DataTables-1.10.15</code></p>
 <h3 id="3-创建index-html文件"><a href="#3-创建index-html文件" class="headerlink" title="3. 创建index.html文件"></a>3. 创建index.html文件</h3><p>创建一个叫做index.html的纯文本文件。</p>
 <p>代码的编码改为UTF-8。拷贝如下内容</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span><span class="tag">&lt;<span class="name">meta</span>  <span class="attr">http-equiv</span>=<span class="string">&quot;Content-Type&quot;</span><span class="attr">content</span>=<span class="string">&quot;text/html; charset=UTF-8&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"> <span class="tag">&lt;<span class="name">link</span>  <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span><span class="attr">type</span>=<span class="string">&quot;text/css&quot;</span><span class="attr">href</span>=<span class="string">&quot;./DataTables-1.10.15/media/css/jquery.dataTables.css&quot;</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">head</span>&gt;</span><span class="tag">&lt;<span class="name">body</span>&gt;</span><span class="tag">&lt;<span class="name">table</span>  <span class="attr">id</span>=<span class="string">&quot;example&quot;</span><span class="attr">class</span>=<span class="string">&quot;display&quot;</span><span class="attr">width</span>=<span class="string">&quot;100%&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">script</span>  <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span><span class="attr">charset</span>=<span class="string">&quot;utf8&quot;</span><span class="attr">src</span>=<span class="string">&quot;./DataTables-1.10.15/media/js/jquery.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>  </span><br><span class="line"> <span class="tag">&lt;<span class="name">script</span>  <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span><span class="attr">charset</span>=<span class="string">&quot;utf8&quot;</span><span class="attr">src</span>=<span class="string">&quot;./DataTables-1.10.15/media/js/jquery.dataTables.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">script</span>  <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span><span class="attr">charset</span>=<span class="string">&quot;utf8&quot;</span><span class="attr">src</span>=<span class="string">&quot;./dat.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"> <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript"> $(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">   $(<span class="string">&#x27;#example&#x27;</span>).DataTable(&#123;       <span class="attr">data</span>:dataSet,       <span class="attr">columns</span>:[</span></span><br><span class="line"><span class="javascript">           &#123; <span class="attr">title</span>:   <span class="string">&quot;科&quot;</span>     &#125;,<span class="comment">//barcode</span></span></span><br><span class="line"><span class="javascript">           &#123; <span class="attr">title</span>:   <span class="string">&quot;中文科名&quot;</span>  &#125;,<span class="comment">//locationof the storage</span></span></span><br><span class="line"><span class="javascript">           &#123; <span class="attr">title</span>:   <span class="string">&quot;学名&quot;</span>&#125;,</span></span><br><span class="line"><span class="javascript">           &#123; <span class="attr">title</span>:   <span class="string">&quot;中文名&quot;</span>   &#125;,</span></span><br><span class="line"><span class="javascript">           &#123; <span class="attr">title</span>:   <span class="string">&quot;濒危等级&quot;</span>     &#125;,</span></span><br><span class="line"><span class="javascript">           &#123; <span class="attr">title</span>:   <span class="string">&quot;是否特有&quot;</span>   &#125;</span></span><br><span class="line"><span class="javascript">           ],<span class="comment">//Link to the photo</span></span></span><br><span class="line">     &#125;);  </span><br><span class="line">    &#125;);      </span><br><span class="line"> <span class="tag">&lt;/<span class="name">script</span>&gt;</span><span class="tag">&lt;/<span class="name">body</span>&gt;</span><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="html">&lt;html&gt;&lt;meta  http-equiv=&quot;Content-Type&quot;content=&quot;text/html; charset=UTF-8&quot;&gt;&lt;head&gt;
 
+ &lt;link  rel=&quot;stylesheet&quot;type=&quot;text/css&quot;href=&quot;./DataTables-1.10.15/media/css/jquery.dataTables.css&quot;&gt;
+ &lt;/head&gt;&lt;body&gt;&lt;table  id=&quot;example&quot;class=&quot;display&quot;width=&quot;100%&quot;&gt;&lt;/table&gt;
+ &lt;script  type=&quot;text/javascript&quot;charset=&quot;utf8&quot;src=&quot;./DataTables-1.10.15/media/js/jquery.js&quot;&gt;&lt;/script&gt;  
+ &lt;script  type=&quot;text/javascript&quot;charset=&quot;utf8&quot;src=&quot;./DataTables-1.10.15/media/js/jquery.dataTables.js&quot;&gt;&lt;/script&gt;
+ &lt;script  type=&quot;text/javascript&quot;charset=&quot;utf8&quot;src=&quot;./dat.js&quot;&gt;&lt;/script&gt;
+
+ &lt;script&gt;
+ $(document).ready(function()&#123;
+   $(&#39;#example&#39;).DataTable(&#123;       data:dataSet,       columns:[
+           &#123; title:   &quot;科&quot;     &#125;,//barcode
+           &#123; title:   &quot;中文科名&quot;  &#125;,//locationof the storage
+           &#123; title:   &quot;学名&quot;&#125;,
+           &#123; title:   &quot;中文名&quot;   &#125;,
+           &#123; title:   &quot;濒危等级&quot;     &#125;,
+           &#123; title:   &quot;是否特有&quot;   &#125;
+           ],//Link to the photo
+     &#125;);  
+    &#125;);      
+ &lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
+</code></pre>
 <p>其中：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link  rel=<span class="string">&quot;stylesheet&quot;</span>type=<span class="string">&quot;text/css&quot;</span>href=<span class="string">&quot;./DataTables-1.10.15/media/css/jquery.dataTables.css&quot;</span>&gt;</span><br></pre></td></tr></table></figure>
-
+<pre><code class="js">&lt;link  rel=&quot;stylesheet&quot;type=&quot;text/css&quot;href=&quot;./DataTables-1.10.15/media/css/jquery.dataTables.css&quot;&gt;
+</code></pre>
 <p>是引用dataTables所带的css样式表， 以调整网页的外观。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script  type=<span class="string">&quot;text/javascript&quot;</span>charset=<span class="string">&quot;utf8&quot;</span>src=<span class="string">&quot;./DataTables-1.10.15/media/js/jquery.js&quot;</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
+<pre><code class="js">&lt;script  type=&quot;text/javascript&quot;charset=&quot;utf8&quot;src=&quot;./DataTables-1.10.15/media/js/jquery.js&quot;&gt;&lt;/script&gt;
+</code></pre>
 <p>是读取 JQuery函数库。因为dataTable是依赖于JQuery库的， 所以必须要先载入。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script  type=<span class="string">&quot;text/javascript&quot;</span>charset=<span class="string">&quot;utf8&quot;</span>src=<span class="string">&quot;./DataTables-1.10.15/media/js/jquery.dataTables.js&quot;</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
+<pre><code class="js">&lt;script  type=&quot;text/javascript&quot;charset=&quot;utf8&quot;src=&quot;./DataTables-1.10.15/media/js/jquery.dataTables.js&quot;&gt;&lt;/script&gt;
+</code></pre>
 <p>是读取 jquery.dataTables.js 里面的函数。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script  type=<span class="string">&quot;text/javascript&quot;</span>charset=<span class="string">&quot;utf8&quot;</span>src=<span class="string">&quot;./dat.js&quot;</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
+<pre><code class="js">&lt;script  type=&quot;text/javascript&quot;charset=&quot;utf8&quot;src=&quot;./dat.js&quot;&gt;&lt;/script&gt;
+</code></pre>
 <p>是读取 dat.js中的数据。该数据以Json格式保存。</p>
 <h3 id="4-将数据导入-dat-js文件"><a href="#4-将数据导入-dat-js文件" class="headerlink" title="4. 将数据导入 dat.js文件"></a>4. 将数据导入 dat.js文件</h3><p>IUCN_CN.xlsx 中保存的是IUCN红色名录数据。用以下R代码将Excel中的数据保存为Json数据。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#### Rscript for generatingjson data</span></span><br><span class="line">setwd(<span class="string">&quot;C:/Users/jlzhang/Desktop/IUCN&quot;</span>)</span><br><span class="line">library(openxlsx)</span><br><span class="line">library(jsonlite)</span><br><span class="line">dat &lt;- read.xlsx(<span class="string">&quot;IUCN_CN.xlsx&quot;</span>)<span class="comment">#### </span></span><br><span class="line">colnames(dat)</span><br><span class="line">rrrr &lt;- toJSON(dat, dataframe=<span class="string">&quot;values&quot;</span>)</span><br><span class="line">writeLines(<span class="built_in">c</span>(<span class="string">&quot;vardataSet = &quot;</span>, rrrr, <span class="string">&quot;;&quot;</span>),<span class="string">&quot;dat.js&quot;</span>,useBytes =<span class="literal">TRUE</span>)</span><br><span class="line"><span class="comment">###useBytes 保证存储的数据是UTF-8格式</span></span><br></pre></td></tr></table></figure>
-
+<pre><code class="R">#### Rscript for generatingjson data
+setwd(&quot;C:/Users/jlzhang/Desktop/IUCN&quot;)
+library(openxlsx)
+library(jsonlite)
+dat &lt;- read.xlsx(&quot;IUCN_CN.xlsx&quot;)#### 
+colnames(dat)
+rrrr &lt;- toJSON(dat, dataframe=&quot;values&quot;)
+writeLines(c(&quot;vardataSet = &quot;, rrrr, &quot;;&quot;),&quot;dat.js&quot;,useBytes =TRUE)
+###useBytes 保证存储的数据是UTF-8格式
+</code></pre>
 <p>IUCN_CN.xlsx 数据表对应的各列名称为:</p>
 <p>科, 中文科名, 学名, 中文种名,濒危等级, 是否中国特有</p>
 <p>因此， 在html文件的Javascript脚本中创建表格对象时， 要设定DataTable对象要展示的各列。</p>
 <p>对应的Javascript代码如下：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line"> $(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">   $(<span class="string">&#x27;#example&#x27;</span>).DataTable(&#123;       </span><br><span class="line">   data:dataSet,       </span><br><span class="line">   columns:[</span><br><span class="line">           &#123; <span class="attr">title</span>:   <span class="string">&quot;科&quot;</span>     &#125;,<span class="comment">//barcode</span></span><br><span class="line">           &#123; <span class="attr">title</span>:   <span class="string">&quot;中文科名&quot;</span>  &#125;,<span class="comment">//locationof the storage</span></span><br><span class="line">           &#123; <span class="attr">title</span>:   <span class="string">&quot;学名&quot;</span>&#125;,</span><br><span class="line">           &#123; <span class="attr">title</span>:   <span class="string">&quot;中文名&quot;</span>   &#125;,</span><br><span class="line">           &#123; <span class="attr">title</span>:   <span class="string">&quot;濒危等级&quot;</span>     &#125;,</span><br><span class="line">           &#123; <span class="attr">title</span>:   <span class="string">&quot;是否特有&quot;</span>   &#125;</span><br><span class="line">           ],<span class="comment">//Link to the photo</span></span><br><span class="line">     &#125;);  </span><br><span class="line">    &#125;);      </span><br><span class="line"> &lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
+<pre><code class="js">&lt;script&gt;
+ $(document).ready(function()&#123;
+   $(&#39;#example&#39;).DataTable(&#123;       
+   data:dataSet,       
+   columns:[
+           &#123; title:   &quot;科&quot;     &#125;,//barcode
+           &#123; title:   &quot;中文科名&quot;  &#125;,//locationof the storage
+           &#123; title:   &quot;学名&quot;&#125;,
+           &#123; title:   &quot;中文名&quot;   &#125;,
+           &#123; title:   &quot;濒危等级&quot;     &#125;,
+           &#123; title:   &quot;是否特有&quot;   &#125;
+           ],//Link to the photo
+     &#125;);  
+    &#125;);      
+ &lt;/script&gt;
+</code></pre>
 <h3 id="5-浏览-index-html-文件"><a href="#5-浏览-index-html-文件" class="headerlink" title="5. 浏览 index.html 文件"></a>5. 浏览 index.html 文件</h3><p>保存index.html 文件。 用Firefox或者Chrome打开， 即可浏览。DataTable将导入dat.js数据，并以表格的形式展示出来，并提供表格的查找， 排序等功能。如果已经标本已经数字化， 则可以在R中，生成文件的链接。</p>
 <p>本文所述 源代码和数据下载  </p>
 <p><a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=attachment&id=98213">IUCN.zip</a></p>
@@ -144,7 +186,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2017/05/15/2017-05-15-search/" data-id="ckmq2gwtf008tq8841dg1apcs" data-title="基于DataTables Javascript库建立本地版物种信息快速查询网页" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2017/05/15/2017-05-15-search/" data-id="ckmq42ajl008f1k847besakiv" data-title="基于DataTables Javascript库建立本地版物种信息快速查询网页" class="article-share-link">Share</a>
       
       
       
@@ -220,6 +262,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -233,10 +279,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

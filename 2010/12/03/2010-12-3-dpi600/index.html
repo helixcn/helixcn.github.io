@@ -6,12 +6,12 @@
   
   <title>用R高清绘图:分辨率600DPI | Jinlong Zhang&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="用tiff命令可以生成指定分辨率的tiff格式的图片,tiff一般很大, 所以一般都进行压缩, 常用如 lzw压缩. 123tiff(file &#x3D; &quot;C:&#x2F;test1.tiff&quot;, res &#x3D; 600, width &#x3D; 4800, height &#x3D; 4800, compression &#x3D; &quot;lzw&quot;)plot(1:22, pch &#x3D; 1:22, cex &#x3D;">
+  <meta name="description" content="用tiff命令可以生成指定分辨率的tiff格式的图片,tiff一般很大, 所以一般都进行压缩, 常用如 lzw压缩. tiff(file &#x3D; &quot;C:&#x2F;test1.tiff&quot;, res &#x3D; 600, width &#x3D; 4800, height &#x3D; 4800, compression &#x3D; &quot;lzw&quot;) plot(1:22, pch &#x3D; 1:22, cex &#x3D; 1:">
 <meta property="og:type" content="article">
 <meta property="og:title" content="用R高清绘图:分辨率600DPI">
 <meta property="og:url" content="https://helixcn.github.io/2010/12/03/2010-12-3-dpi600/index.html">
 <meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
-<meta property="og:description" content="用tiff命令可以生成指定分辨率的tiff格式的图片,tiff一般很大, 所以一般都进行压缩, 常用如 lzw压缩. 123tiff(file &#x3D; &quot;C:&#x2F;test1.tiff&quot;, res &#x3D; 600, width &#x3D; 4800, height &#x3D; 4800, compression &#x3D; &quot;lzw&quot;)plot(1:22, pch &#x3D; 1:22, cex &#x3D;">
+<meta property="og:description" content="用tiff命令可以生成指定分辨率的tiff格式的图片,tiff一般很大, 所以一般都进行压缩, 常用如 lzw压缩. tiff(file &#x3D; &quot;C:&#x2F;test1.tiff&quot;, res &#x3D; 600, width &#x3D; 4800, height &#x3D; 4800, compression &#x3D; &quot;lzw&quot;) plot(1:22, pch &#x3D; 1:22, cex &#x3D; 1:">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2010-12-02T20:28:54.000Z">
 <meta property="article:modified_time" content="2021-03-26T05:34:24.494Z">
@@ -99,12 +99,15 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>用tiff命令可以生成指定分辨率的tiff格式的图片,tiff一般很大, 所以一般都进行压缩, 常用如 lzw压缩.</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tiff(file = <span class="string">&quot;C:/test1.tiff&quot;</span>, res = <span class="number">600</span>, width = <span class="number">4800</span>, height = <span class="number">4800</span>, compression = <span class="string">&quot;lzw&quot;</span>)</span><br><span class="line">plot(<span class="number">1</span>:<span class="number">22</span>, pch = <span class="number">1</span>:<span class="number">22</span>, cex = <span class="number">1</span>:<span class="number">3</span>, col = <span class="number">1</span>:<span class="number">5</span>)</span><br><span class="line">dev.off()</span><br></pre></td></tr></table></figure>
+<pre><code class="R">tiff(file = &quot;C:/test1.tiff&quot;, res = 600, width = 4800, height = 4800, compression = &quot;lzw&quot;)
+plot(1:22, pch = 1:22, cex = 1:3, col = 1:5)
+dev.off()
+</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2010/12/03/2010-12-3-dpi600/" data-id="ckmq2gwqc0016q884dge6dorh" data-title="用R高清绘图:分辨率600DPI" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2010/12/03/2010-12-3-dpi600/" data-id="ckmq42ah9001b1k8436ur6d7z" data-title="用R高清绘图:分辨率600DPI" class="article-share-link">Share</a>
       
       
       
@@ -180,6 +183,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -193,10 +200,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

@@ -111,11 +111,50 @@
 <li>利用bbmle程序包的 mle2函数， 用数值优化算法(Optimization)求似然函数的最大值，从而给出所求参数的估计值。</li>
 <li>基于最大对数似然值 Maximum Log Likelihood求该模型的AIC值（Akaike Information Criterion）</li>
 </ol>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">library(bbmle)  <span class="comment">### 导入bbmle程序包</span></span><br><span class="line">set.seed(<span class="number">12345</span>) <span class="comment">### 设定随机数种子</span></span><br><span class="line">x = <span class="number">1</span>:<span class="number">60</span>        <span class="comment">### 生成x数据， 共60个值</span></span><br><span class="line">y = x*<span class="number">5</span> + <span class="number">20</span> + rnorm(<span class="number">60</span>, <span class="number">0</span>, <span class="number">20</span>) <span class="comment">## 生成y数据， 这里假设已知 beta1 = 5， beta0 = 20， mu = 0, sd = 20</span></span><br><span class="line">plot(y ~ x, main = <span class="string">&quot;Fitting of a Linear Model &quot;</span>) <span class="comment">## 观察数据</span></span><br><span class="line">linmod &lt;- lm(y ~ x) <span class="comment">## 建立线性模型</span></span><br><span class="line">lines(x, fitted(linmod) , lty = <span class="number">1</span>, col = <span class="string">&quot;red&quot;</span>, lwd = <span class="number">2</span>)  <span class="comment">## 添加线段</span></span><br><span class="line">segments(x0 = x, y0 = y, x1 = x, y1 = fitted(linmod))  <span class="comment">## 添加残差线</span></span><br><span class="line">summary(linmod)  <span class="comment">## 查看模型的拟合参数</span></span><br><span class="line">(AIC1 &lt;- AIC(linmod))  <span class="comment">## Akaike Information Criterion</span></span><br><span class="line">(logLik1 &lt;- logLik(linmod)) <span class="comment">## Loglikelihood</span></span><br><span class="line"></span><br><span class="line"><span class="comment">##################################################</span></span><br><span class="line"><span class="comment">### Log Likelihood Function</span></span><br><span class="line"><span class="comment">### 函数的一般形式</span></span><br><span class="line"><span class="comment">### y = beta1*x + beta0 + error</span></span><br><span class="line"><span class="comment">### 而error一项， 服从正态分布</span></span><br><span class="line"><span class="comment">### 所以 error = y - beta1*x - beta0</span></span><br><span class="line"><span class="comment">### 所以Loglikelihood函数可以写成如下形式：</span></span><br><span class="line">LL &lt;- <span class="keyword">function</span>(beta0, beta1, mu, sigma)&#123;</span><br><span class="line">   R = y - x*beta1 - beta0  </span><br><span class="line">   -<span class="built_in">sum</span>(dnorm(R, mu, sigma, <span class="built_in">log</span> = <span class="literal">TRUE</span>))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">### mle2函数， 可以用来估计似然函数去极值时，各参数的取值， 调用方式如下：</span></span><br><span class="line">res &lt;- mle2(LL, start = <span class="built_in">list</span>(beta0 = <span class="number">1</span>, beta1 = <span class="number">2</span>, mu = <span class="number">1</span>, sigma = <span class="number">1</span>), fixed = <span class="built_in">list</span>(mu = <span class="number">0</span>))</span><br><span class="line">summary(res)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 因为mle2的结果是S4类型， 所以这里用@提取</span></span><br><span class="line"><span class="comment">### 基于参数估计，计算y2的取值</span></span><br><span class="line">y2 = x*(res@coef[<span class="number">2</span>]) + res@coef[<span class="number">1</span>]</span><br><span class="line"><span class="comment">### 添加极大似然估计值</span></span><br><span class="line">points(y2 ~ x, col= <span class="string">&quot;blue&quot;</span>, type = <span class="string">&quot;b&quot;</span>, pch = <span class="number">19</span>)</span><br><span class="line"><span class="comment">### 用mle2得出来的Maximum Log Likelihood</span></span><br><span class="line">(logLik2 &lt;- logLik(res))</span><br><span class="line"><span class="comment">### 计算AIC, 的公式为 AIC = -2*logLik + 2*p, 其中logLike为 Maximum Log Likelihood， p为参数的个数。</span></span><br><span class="line"><span class="comment">### 因为在参数估计中， mu为一个常数0，我们只估计了sigma， 所以估计的参数是3个</span></span><br><span class="line">(AIC2 = -<span class="number">2</span>*logLik(res) + <span class="number">2</span>*<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<pre><code class="R">library(bbmle)  ### 导入bbmle程序包
+set.seed(12345) ### 设定随机数种子
+x = 1:60        ### 生成x数据， 共60个值
+y = x*5 + 20 + rnorm(60, 0, 20) ## 生成y数据， 这里假设已知 beta1 = 5， beta0 = 20， mu = 0, sd = 20
+plot(y ~ x, main = &quot;Fitting of a Linear Model &quot;) ## 观察数据
+linmod &lt;- lm(y ~ x) ## 建立线性模型
+lines(x, fitted(linmod) , lty = 1, col = &quot;red&quot;, lwd = 2)  ## 添加线段
+segments(x0 = x, y0 = y, x1 = x, y1 = fitted(linmod))  ## 添加残差线
+summary(linmod)  ## 查看模型的拟合参数
+(AIC1 &lt;- AIC(linmod))  ## Akaike Information Criterion
+(logLik1 &lt;- logLik(linmod)) ## Loglikelihood
+
+##################################################
+### Log Likelihood Function
+### 函数的一般形式
+### y = beta1*x + beta0 + error
+### 而error一项， 服从正态分布
+### 所以 error = y - beta1*x - beta0
+### 所以Loglikelihood函数可以写成如下形式：
+LL &lt;- function(beta0, beta1, mu, sigma)&#123;
+   R = y - x*beta1 - beta0  
+   -sum(dnorm(R, mu, sigma, log = TRUE))
+&#125;
+
+### mle2函数， 可以用来估计似然函数去极值时，各参数的取值， 调用方式如下：
+res &lt;- mle2(LL, start = list(beta0 = 1, beta1 = 2, mu = 1, sigma = 1), fixed = list(mu = 0))
+summary(res)
+
+### 因为mle2的结果是S4类型， 所以这里用@提取
+### 基于参数估计，计算y2的取值
+y2 = x*(res@coef[2]) + res@coef[1]
+### 添加极大似然估计值
+points(y2 ~ x, col= &quot;blue&quot;, type = &quot;b&quot;, pch = 19)
+### 用mle2得出来的Maximum Log Likelihood
+(logLik2 &lt;- logLik(res))
+### 计算AIC, 的公式为 AIC = -2*logLik + 2*p, 其中logLike为 Maximum Log Likelihood， p为参数的个数。
+### 因为在参数估计中， mu为一个常数0，我们只估计了sigma， 所以估计的参数是3个
+(AIC2 = -2*logLik(res) + 2*3)
+</code></pre>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/11/07/2014-11-8-mlinlm/" data-id="ckmq2gws3005xq884attx3jlm" data-title="线性模型参数的极大似然估计" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/11/07/2014-11-8-mlinlm/" data-id="ckmq42air005u1k849u6s9ukt" data-title="线性模型参数的极大似然估计" class="article-share-link">Share</a>
       
       
       
@@ -191,6 +230,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -204,10 +247,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

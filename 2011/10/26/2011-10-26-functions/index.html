@@ -125,21 +125,91 @@
 <p>R运算过程中，应该尽量减少循环的使用，特别是嵌套循环。R提供了 apply，replicate等一系列函数，来代替循环，应该尽量应用这些函数， 提高效率。 如果在R中实在太慢，那么核心部分只能依靠C或者Fortran 等语言编写，然后再用R调用这些编译好的模块，达到更高的效率。</p>
 <p>运算过程中，需要大量用到if等条件作为判别的标准。if和while都是需要数据TRUE/FALSE这样的逻辑类型变量，这就意味着，if内部，往往是对条件的判别，例如 is.na, is.matrix, is.numeric等等，或者对大小的比较，如，if(x &gt; 0)， if(x == 1)， if(length(x)== 3)等等。if后面，如果是1行，则花括号可以省略，否则就必须要将所有的语句都放在花括号中。这和循环是一致的。</p>
 <p>例子1</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## if与条件判断</span></span><br><span class="line"></span><br><span class="line">fun.test &lt;- <span class="keyword">function</span>(a, b, method = <span class="string">&quot;add&quot;</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span>(method == <span class="string">&quot;add&quot;</span>) &#123; <span class="comment">## 如果if或者for/while；</span></span><br><span class="line">        res &lt;- a + b       <span class="comment">## 等后面的语句只有一行，则无需使用花括号。</span></span><br><span class="line">     &#125;</span><br><span class="line">    <span class="keyword">if</span>(method == <span class="string">&quot;subtract&quot;</span>)&#123;</span><br><span class="line">        res &lt;- a - b</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span>(res)           <span class="comment">## 返回值</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="R">## if与条件判断
 
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### 检验结果</span></span><br><span class="line">fun.test(a = <span class="number">10</span>, b = <span class="number">8</span>, method = <span class="string">&quot;add&quot;</span>)</span><br><span class="line">fun.test(a = <span class="number">10</span>, b = <span class="number">8</span>, method = <span class="string">&quot;substract&quot;</span>)</span><br></pre></td></tr></table></figure>
+fun.test &lt;- function(a, b, method = &quot;add&quot;)&#123;
+    if(method == &quot;add&quot;) &#123; ## 如果if或者for/while；
+        res &lt;- a + b       ## 等后面的语句只有一行，则无需使用花括号。
+     &#125;
+    if(method == &quot;subtract&quot;)&#123;
+        res &lt;- a - b
+    &#125;
+    return(res)           ## 返回值
+
+&#125;
+</code></pre>
+<pre><code class="R">### 检验结果
+fun.test(a = 10, b = 8, method = &quot;add&quot;)
+fun.test(a = 10, b = 8, method = &quot;substract&quot;)
+</code></pre>
 <p>for循环有些时候是必须要用到的，for循环内部，往往需要用下标，访问数据内的一定元素，例如向量内的元素，这时候用方括号表示。一维的数据组合，或者数组，常常称为向量。二维的数据组合，往往称为矩阵，或者数据框。具体的访问方式主要是方括号内部有没有逗号的区别。for循环或者while循环有时候让人觉得比较困惑，可能需要专门的时间进行讲解。</p>
 <p>例2</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### for循环与算法</span></span><br><span class="line"></span><br><span class="line">test.sum &lt;- <span class="keyword">function</span>(x)</span><br><span class="line">&#123;</span><br><span class="line">    res &lt;- 0               <span class="comment">###  设置初始值，在第一次循环的时候使用</span></span><br><span class="line">    <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(x))&#123;</span><br><span class="line">        res &lt;- res + x[i] <span class="comment">## 这部分是算法的核心，</span></span><br><span class="line"><span class="comment">##总是总右面开始计算，结果存到左边的对象</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span>(res)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="R">### for循环与算法
 
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### 检验函数</span></span><br><span class="line">a &lt;- <span class="built_in">c</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">6</span>,<span class="number">1</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">8</span>)</span><br><span class="line">test.sum(a)</span><br><span class="line"><span class="built_in">sum</span>(a)</span><br></pre></td></tr></table></figure>
+test.sum &lt;- function(x)
+&#123;
+    res &lt;- 0               ###  设置初始值，在第一次循环的时候使用
+    for(i in 1:length(x))&#123;
+        res &lt;- res + x[i] ## 这部分是算法的核心，
+##总是总右面开始计算，结果存到左边的对象
+    &#125;
+    return(res)
+&#125;
+</code></pre>
+<pre><code class="R">### 检验函数
+a &lt;- c(1,2,1,6,1,8,9,8)
+test.sum(a)
+sum(a)
+</code></pre>
 <p>无论是什么样的函数，算法才是最关键的。往往需要巧妙得设计算法，让函数快捷高效。</p>
 <p>（3）. 返回值。</p>
 <p>返回值就是函数给出的结果。打个比方，编写一个函数，就像自己攒一个机器，例如现在攒好 一台豆浆机，该豆浆机要求输入大豆，输入的大豆就是参数， 返回的结果，就是豆浆。如果该豆浆机需要不停地输入大豆， 而不能产出豆浆，这样的机器就一定会被扔掉。函数也是一样的， 需要给出返回值。 R中默认的情况是将最后一句作为返回值。但是为了函数的可读性起见，应该尽量指名返回值。返回值用return()函数给出。 函数在内部处理过程中，一旦遇到return()，就会终止运行， 将return()内的数据作为函数处理的结果给出。</p>
 <p>下面举例说明R函数的编写方法。</p>
 <p>例3 计算标准差</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">sd2 &lt;- <span class="keyword">function</span>(x)</span><br><span class="line">&#123;</span><br><span class="line">   <span class="comment"># 异常处理，当输入的数据不是数值类型时报错   </span></span><br><span class="line">   <span class="keyword">if</span>(!<span class="built_in">is.numeric</span>(x))&#123;</span><br><span class="line">      stop(<span class="string">&quot;the input data must be numeric!n&quot;</span>) </span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment"># 异常处理，当仅输入一个数据的时候，告知不能计算标准差</span></span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span>(<span class="built_in">length</span>(x) == <span class="number">1</span>)&#123;</span><br><span class="line">      stop(<span class="string">&quot;can not compute sd for one number,</span></span><br><span class="line"><span class="string">           a numeric vector required.n&quot;</span>)</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="comment">## 初始化一个临时向量，保存循环的结果，</span></span><br><span class="line">   <span class="comment">## 求每个值与平均值的平方  </span></span><br><span class="line">   x2 &lt;- <span class="built_in">c</span>()</span><br><span class="line">   <span class="comment">## 求该向量的平均值 </span></span><br><span class="line">   meanx &lt;- mean(x)</span><br><span class="line"></span><br><span class="line">   <span class="comment">## 循环 </span></span><br><span class="line">   <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(x))&#123;   </span><br><span class="line">       xn &lt;- x[i] - meanx  </span><br><span class="line">       x2[i] &lt;- xn^<span class="number">2</span></span><br><span class="line">   &#125;</span><br><span class="line">      <span class="comment">## 求总平方和</span></span><br><span class="line">   sum2 &lt;- <span class="built_in">sum</span>(x2)</span><br><span class="line">   <span class="comment"># 计算标准差</span></span><br><span class="line">   sd &lt;- <span class="built_in">sqrt</span>(sum2/(<span class="built_in">length</span>(x)-<span class="number">1</span>))</span><br><span class="line">   <span class="comment"># 返回值</span></span><br><span class="line">   <span class="built_in">return</span>(sd)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">## 程序的检验</span></span><br><span class="line"><span class="comment">## 正常的情况</span></span><br><span class="line">sd2(<span class="built_in">c</span>(<span class="number">2</span>,<span class="number">6</span>,<span class="number">4</span>,<span class="number">9</span>,<span class="number">12</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">## 一个数值的情况</span></span><br><span class="line">sd2(<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 输入数据不为数值类型时</span></span><br><span class="line">sd2(<span class="built_in">c</span>(<span class="string">&quot;1&quot;</span>, <span class="string">&quot;2&quot;</span>))</span><br></pre></td></tr></table></figure>
+<pre><code class="R">sd2 &lt;- function(x)
+&#123;
+   # 异常处理，当输入的数据不是数值类型时报错   
+   if(!is.numeric(x))&#123;
+      stop(&quot;the input data must be numeric!n&quot;) 
+   &#125;
 
+   # 异常处理，当仅输入一个数据的时候，告知不能计算标准差
+
+   if(length(x) == 1)&#123;
+      stop(&quot;can not compute sd for one number,
+           a numeric vector required.n&quot;)
+   &#125;
+   ## 初始化一个临时向量，保存循环的结果，
+   ## 求每个值与平均值的平方  
+   x2 &lt;- c()
+   ## 求该向量的平均值 
+   meanx &lt;- mean(x)
+
+   ## 循环 
+   for(i in 1:length(x))&#123;   
+       xn &lt;- x[i] - meanx  
+       x2[i] &lt;- xn^2
+   &#125;
+      ## 求总平方和
+   sum2 &lt;- sum(x2)
+   # 计算标准差
+   sd &lt;- sqrt(sum2/(length(x)-1))
+   # 返回值
+   return(sd)
+&#125;
+
+ 
+
+## 程序的检验
+## 正常的情况
+sd2(c(2,6,4,9,12))
+
+## 一个数值的情况
+sd2(3)
+
+## 输入数据不为数值类型时
+sd2(c(&quot;1&quot;, &quot;2&quot;))
+</code></pre>
 <p>这样，一个完整的函数就编写完成了。当然，实际情况下，函数往往更为复杂，可能要上百行。但是好的编程人员往往将复杂的函数编写成小的函数。以便于程序的修改和维护，即使其中出现错误，也很好修改。</p>
 <p>再有就是编写R函数时一定要注意缩进，编辑器用Notepad++, TinnR, Rstudio等，同时用等距字体（如Consolas, Courier new等）和语法高亮显示。这样便于快速寻找到其中的错误。</p>
 <p>感谢 黄继红博士，杜彦君博士，毛岭峰博士，饶米德，冯刚对本文提出的意见和建议。</p>
@@ -149,7 +219,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2011/10/26/2011-10-26-functions/" data-id="ckmq2gwqr002eq884cx8m0sx6" data-title="如何编写R函数" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2011/10/26/2011-10-26-functions/" data-id="ckmq42ahm002h1k84ehx670lr" data-title="如何编写R函数" class="article-share-link">Share</a>
       
       
       
@@ -225,6 +295,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -238,10 +312,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

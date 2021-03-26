@@ -6,12 +6,12 @@
   
   <title>Python举例： 输入三角形边长，判断所生成三角形和面积 | Jinlong Zhang&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="12345678910111213141516171819202122import matha,b,c &#x3D; input(&quot;Input the length of sides separated by comma:&quot;)if a + b &gt; c and a + c &gt; b and b + c &gt; a:   p &#x3D; (a + b + c)&#x2F;2.0   temp &#x3D;">
+  <meta name="description" content="import math a,b,c &#x3D; input(&quot;Input the length of sides separated by comma:&quot;) if a + b &gt; c and a + c &gt; b and b + c &gt; a:    p &#x3D; (a + b + c)&#x2F;2.0    temp &#x3D; p * (p - a) * (p - b) * (p - c)">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python举例： 输入三角形边长，判断所生成三角形和面积">
 <meta property="og:url" content="https://helixcn.github.io/2015/01/04/2015-1-4-python-program/index.html">
 <meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
-<meta property="og:description" content="12345678910111213141516171819202122import matha,b,c &#x3D; input(&quot;Input the length of sides separated by comma:&quot;)if a + b &gt; c and a + c &gt; b and b + c &gt; a:   p &#x3D; (a + b + c)&#x2F;2.0   temp &#x3D;">
+<meta property="og:description" content="import math a,b,c &#x3D; input(&quot;Input the length of sides separated by comma:&quot;) if a + b &gt; c and a + c &gt; b and b + c &gt; a:    p &#x3D; (a + b + c)&#x2F;2.0    temp &#x3D; p * (p - a) * (p - b) * (p - c)">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2015-01-03T21:05:54.000Z">
 <meta property="article:modified_time" content="2021-03-26T05:34:24.559Z">
@@ -98,11 +98,34 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line">a,b,c = <span class="built_in">input</span>(<span class="string">&quot;Input the length of sides separated by comma:&quot;</span>)</span><br><span class="line"><span class="keyword">if</span> a + b &gt; c <span class="keyword">and</span> a + c &gt; b <span class="keyword">and</span> b + c &gt; a:</span><br><span class="line">   p = (a + b + c)/<span class="number">2.0</span></span><br><span class="line">   temp = p * (p - a) * (p - b) * (p - c)</span><br><span class="line">   area = math.sqrt(temp)</span><br><span class="line">   <span class="keyword">if</span> a == b <span class="keyword">or</span> b == a <span class="keyword">or</span> c == a: </span><br><span class="line">       <span class="keyword">if</span> a == b == c:</span><br><span class="line">           res = <span class="string">&quot;equilateral triangle&quot;</span></span><br><span class="line">       <span class="keyword">elif</span> math.fabs(a**<span class="number">2</span> + b**<span class="number">2</span> - c**<span class="number">2</span>) &lt; <span class="number">1e-6</span> <span class="keyword">or</span> math.fabs(b**<span class="number">2</span> + c**<span class="number">2</span> - a**<span class="number">2</span>) &lt; <span class="number">1e-6</span> <span class="keyword">or</span> math.fabs(c**<span class="number">2</span> + a**<span class="number">2</span> - b**<span class="number">2</span>) &lt; <span class="number">1e-6</span>:</span><br><span class="line">           res = <span class="string">&quot;isosceles triangle&quot;</span></span><br><span class="line">       <span class="keyword">elif</span> math.fabs(a**<span class="number">2</span> + b **<span class="number">2</span> - c**<span class="number">2</span>) &lt; <span class="number">1e-6</span> <span class="keyword">or</span> (b**<span class="number">2</span> + c **<span class="number">2</span> - a**<span class="number">2</span>) &lt; <span class="number">1e-6</span>  <span class="keyword">or</span> (c**<span class="number">2</span> + a **<span class="number">2</span> - b**<span class="number">2</span>) &lt; <span class="number">1e-6</span>:</span><br><span class="line">           res = <span class="string">&quot;rightangled triangle&quot;</span></span><br><span class="line">   <span class="keyword">else</span>: </span><br><span class="line">       res = <span class="string">&quot;Common triangle&quot;</span></span><br><span class="line"><span class="keyword">else</span>: </span><br><span class="line">   res = <span class="string">&quot;Not triangle&quot;</span></span><br><span class="line"><span class="keyword">if</span> res != <span class="string">&quot;Not triangle&quot;</span>:</span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;Area for this triangle is&quot;</span>, area)</span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;It is a&quot;</span>, res)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;Not a triangle&quot;</span>)</span><br></pre></td></tr></table></figure>
+        <pre><code class="python">import math
+a,b,c = input(&quot;Input the length of sides separated by comma:&quot;)
+if a + b &gt; c and a + c &gt; b and b + c &gt; a:
+   p = (a + b + c)/2.0
+   temp = p * (p - a) * (p - b) * (p - c)
+   area = math.sqrt(temp)
+   if a == b or b == a or c == a: 
+       if a == b == c:
+           res = &quot;equilateral triangle&quot;
+       elif math.fabs(a**2 + b**2 - c**2) &lt; 1e-6 or math.fabs(b**2 + c**2 - a**2) &lt; 1e-6 or math.fabs(c**2 + a**2 - b**2) &lt; 1e-6:
+           res = &quot;isosceles triangle&quot;
+       elif math.fabs(a**2 + b **2 - c**2) &lt; 1e-6 or (b**2 + c **2 - a**2) &lt; 1e-6  or (c**2 + a **2 - b**2) &lt; 1e-6:
+           res = &quot;rightangled triangle&quot;
+   else: 
+       res = &quot;Common triangle&quot;
+else: 
+   res = &quot;Not triangle&quot;
+if res != &quot;Not triangle&quot;:
+   print(&quot;Area for this triangle is&quot;, area)
+   print(&quot;It is a&quot;, res)
+else:
+   print(&quot;Not a triangle&quot;)
+</code></pre>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2015/01/04/2015-1-4-python-program/" data-id="ckmq2gwsg006vq8849n5a6wg5" data-title="Python举例： 输入三角形边长，判断所生成三角形和面积" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2015/01/04/2015-1-4-python-program/" data-id="ckmq42aj9007g1k840v45dm22" data-title="Python举例： 输入三角形边长，判断所生成三角形和面积" class="article-share-link">Share</a>
       
       
       
@@ -178,6 +201,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -191,10 +218,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

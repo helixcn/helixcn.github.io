@@ -6,12 +6,12 @@
   
   <title>R软件制作甘特图 | Jinlong Zhang&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="注意的问题 日期月份不足两位数的，要用0补齐，否则不能正常处理 目前日期不知道怎样转换为中文，默认情况下时间轴为week，可以用下述方法转换为月-日  12345678910111213141516171819202122232425library(DiagrammeR)library(htmltools)figure2 &lt;- mermaid(&amp;#x27;gantt    title 201">
+  <meta name="description" content="注意的问题 日期月份不足两位数的，要用0补齐，否则不能正常处理 目前日期不知道怎样转换为中文，默认情况下时间轴为week，可以用下述方法转换为月-日  library(DiagrammeR) library(htmltools)  figure2 &lt;- mermaid(&#39;gantt     title 2019年本科毕业实习研究计划     section   开题">
 <meta property="og:type" content="article">
 <meta property="og:title" content="R软件制作甘特图">
 <meta property="og:url" content="https://helixcn.github.io/2019/01/17/2019-01-17-gantt/index.html">
 <meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
-<meta property="og:description" content="注意的问题 日期月份不足两位数的，要用0补齐，否则不能正常处理 目前日期不知道怎样转换为中文，默认情况下时间轴为week，可以用下述方法转换为月-日  12345678910111213141516171819202122232425library(DiagrammeR)library(htmltools)figure2 &lt;- mermaid(&amp;#x27;gantt    title 201">
+<meta property="og:description" content="注意的问题 日期月份不足两位数的，要用0补齐，否则不能正常处理 目前日期不知道怎样转换为中文，默认情况下时间轴为week，可以用下述方法转换为月-日  library(DiagrammeR) library(htmltools)  figure2 &lt;- mermaid(&#39;gantt     title 2019年本科毕业实习研究计划     section   开题">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2019-01-16T22:57:54.000Z">
 <meta property="article:modified_time" content="2021-03-26T05:34:24.623Z">
@@ -102,15 +102,48 @@
 <li>日期月份不足两位数的，要用0补齐，否则不能正常处理</li>
 <li>目前日期不知道怎样转换为中文，默认情况下时间轴为week，可以用下述方法转换为月-日</li>
 </ol>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">library(DiagrammeR)</span><br><span class="line">library(htmltools)</span><br><span class="line"></span><br><span class="line">figure2 &lt;- mermaid(<span class="string">&#x27;gantt</span></span><br><span class="line"><span class="string">    title 2019年本科毕业实习研究计划</span></span><br><span class="line"><span class="string">    section   开题</span></span><br><span class="line"><span class="string">        搜集资料                          :done, 2018-12-28, 2019-01-10</span></span><br><span class="line"><span class="string">        准备开题报告                      :active, 2019-01-14, 2019-01-30</span></span><br><span class="line"><span class="string">        开题报告                          :crit, 2019-02-05, 2019-02-15</span></span><br><span class="line"><span class="string">    section   中期考核</span></span><br><span class="line"><span class="string">        准备中期报告                      :2019-02-16, 2019-03-13 </span></span><br><span class="line"><span class="string">        中期考核                          :2019-03-14, 2019-03-15   </span></span><br><span class="line"><span class="string">    section   数据和分析</span></span><br><span class="line"><span class="string">        采集数据                          :crit, 2019-03-15, 2019-04-01 </span></span><br><span class="line"><span class="string">        数据分析与制作图表                :2019-04-02, 2019-04-15 </span></span><br><span class="line"><span class="string">    section   论文撰写</span></span><br><span class="line"><span class="string">        论文初稿                          :2019-04-15, 2019-05-20</span></span><br><span class="line"><span class="string">        论文定稿                          :crit, 2019-05-21, 2019-06-01 </span></span><br><span class="line"><span class="string">    section   外审</span></span><br><span class="line"><span class="string">        论文外审，准备答辩                :crit, 2019-05-21, 2019-06-14 </span></span><br><span class="line"><span class="string">    section   答辩</span></span><br><span class="line"><span class="string">        答辩                              :crit, 2019-06-15, 2019-06-20 </span></span><br><span class="line"><span class="string">&#x27;</span>)</span><br><span class="line"></span><br><span class="line">figure2</span><br></pre></td></tr></table></figure>
+<pre><code class="R">library(DiagrammeR)
+library(htmltools)
 
+figure2 &lt;- mermaid(&#39;gantt
+    title 2019年本科毕业实习研究计划
+    section   开题
+        搜集资料                          :done, 2018-12-28, 2019-01-10
+        准备开题报告                      :active, 2019-01-14, 2019-01-30
+        开题报告                          :crit, 2019-02-05, 2019-02-15
+    section   中期考核
+        准备中期报告                      :2019-02-16, 2019-03-13 
+        中期考核                          :2019-03-14, 2019-03-15   
+    section   数据和分析
+        采集数据                          :crit, 2019-03-15, 2019-04-01 
+        数据分析与制作图表                :2019-04-02, 2019-04-15 
+    section   论文撰写
+        论文初稿                          :2019-04-15, 2019-05-20
+        论文定稿                          :crit, 2019-05-21, 2019-06-01 
+    section   外审
+        论文外审，准备答辩                :crit, 2019-05-21, 2019-06-14 
+    section   答辩
+        答辩                              :crit, 2019-06-15, 2019-06-20 
+&#39;)
 
+figure2
+</code></pre>
+<pre><code>figure2$x$config = list(ganttConfig = list(
+  axisFormatter = list(list(
+    &quot;%b-%d&quot; # date format to return; see d3 time formatting
+    ,
+    htmlwidgets::JS(
+      &#39;function(d)&#123; return d.getDay() == 1 &#125;&#39; # filter for Mondays or day of week = 1
+    )
+  ))
+))
+figure2
+</code></pre>
 
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">figure2$x$config &#x3D; list(ganttConfig &#x3D; list(</span><br><span class="line">  axisFormatter &#x3D; list(list(</span><br><span class="line">    &quot;%b-%d&quot; # date format to return; see d3 time formatting</span><br><span class="line">    ,</span><br><span class="line">    htmlwidgets::JS(</span><br><span class="line">      &#39;function(d)&#123; return d.getDay() &#x3D;&#x3D; 1 &#125;&#39; # filter for Mondays or day of week &#x3D; 1</span><br><span class="line">    )</span><br><span class="line">  ))</span><br><span class="line">))</span><br><span class="line">figure2</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2019/01/17/2019-01-17-gantt/" data-id="ckmq2gwuo00c6q884fbrbdl7t" data-title="R软件制作甘特图" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2019/01/17/2019-01-17-gantt/" data-id="ckmq42akp00bs1k84c9gwf8eh" data-title="R软件制作甘特图" class="article-share-link">Share</a>
       
       
       
@@ -186,6 +219,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -199,10 +236,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

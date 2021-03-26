@@ -73,6 +73,55 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2012-12-10-acknowledgements" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/12/10/2012-12-10-acknowledgements/" class="article-date">
+  <time class="dt-published" datetime="2012-12-09T23:56:54.000Z" itemprop="datePublished">2012-12-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/12/10/2012-12-10-acknowledgements/">博士论文致谢</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>时光荏苒，三年不经意间就过去了。这三年中有无数憧憬和企盼，也有数不清的酸甜苦辣。百味之中，才足见这三年的厚重。</p>
+<p>首先，要感谢恩师马克平研究员，能够在马老师的指导下从事研究工作，是我的荣幸。马老师渊博的学识，谦逊的品格，严谨的治学态度，深厚的文史修养，都是我一生的学习榜样。</p>
+<p>感谢中国科学院生态环境中心陈圣宾博士提供部分保护区名录数据，以及在数据库整理中的繁重工作，并提出建设性的意见和建议。感谢中国科学院华南植物园葛学军研究员为DNA条形码实验的顺利进行给予诸多的便利。华南植物园裴男才博士、颜海飞博士，浙江古田山自然保护区陈声文工程师，中国科学院植物研究所冯刚、浙江师范大学饶米德参与了古田山DNA条形码样品的采集工作。特别是裴男才博士完成了多半部分DNA样品的采集整理DNA提取等，并提供了构建进化树的详细指导，才能使实验及后续分析得以顺利完成。</p>
+<p>感谢米湘成副研究员、美国密歇根州大大学的Nathan Swenson博士对论文的部分内容提出修改意见。感谢黄继红博士、阳文静女士、李宗善博士、刘勇波博士、陈国科博士参与部分章节的讨论，并提出修改意见。感谢北京林业大学博士生范娟对论文提出的宝贵建议。</p>
+<p>感谢杨永老师、梁宇老师、陈铁梅老师、杜晓军老师、裴克全老师、张守仁老师、赖江山老师、付增娟老师，以及厦门大学李振基教授，中南大学生命学院王丽副教授，湖南商学院李陈华教授，植物所研究生处赵剑锋老师、吴海燕老师和张文娟老师给予的帮助。树木年轮组的张齐兵研究员、邱红岩老师、刘彩云老师，在很多方面给予我亲切的关怀和热情的帮助，在此表示衷心的感谢。朱丽博士、陈彬博士、金冬梅博士、邵长亮博士、丁琼博士、孙秀峰博士、于胜祥博士、黄菊莹博士、余华博士、王建秀博士、毛建丰博士、祝燕博士、吕立新、杜彦君、张潮，以及戴文燕、张传岭、毛岭峰、刘晓娟、刘冰、冯刚、宋凯、韩娟娟、张朝、张灿娟、曼兴兴、程佳佳、郭翠燕，以及华中农业大学武欣同学都给予我很多帮助，在此一并表示感谢。</p>
+<p>最后感谢我的父母、妹妹张玉翠和姑父、姑母对我的理解和关爱。</p>
+<p>张金龙</p>
+<p>于北京香山中国科学院植物研究所地主大院</p>
+<p>2011年6月19日</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2012/12/10/2012-12-10-acknowledgements/" data-id="ckmq42ahz003l1k847jvt07f5" data-title="博士论文致谢" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-2012-12-5-tree" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2012/12/05/2012-12-5-tree/" class="article-date">
@@ -98,12 +147,16 @@
         <p>首先， 要保证获得的进化树是有根树， 设定好外类群，并且，分支出现的次序经过排序reorder，这可以在Figtree软件中， 对newick格式的进化树进行操作， export as currently displayed 即可。</p>
 <p>其次， 用R软件ape程序包的 cophyloplot函数， 可以实现， 将两棵进化树面对面绘制， 并将名称相同的分类单元用线段联系起来， 此时， 如果两个进化树结构有差别， 就一目了然了。</p>
 <p>举例：</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">library(ape)</span><br><span class="line">labs1 &lt;- paste(<span class="string">&quot;t&quot;</span>, <span class="number">1</span>:<span class="number">10</span>, sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">labs2 &lt;- paste(<span class="string">&quot;t&quot;</span>, <span class="number">1</span>:<span class="number">10</span>, sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">cophyloplot(x = rtree(<span class="number">20</span>), y = rtree(<span class="number">10</span>), space = <span class="number">100</span>, length.line = <span class="number">0.1</span>, gap = <span class="number">10</span>,assoc = as.matrix(data.frame(labs1, labs2)))</span><br></pre></td></tr></table></figure>
+<pre><code class="R">library(ape)
+labs1 &lt;- paste(&quot;t&quot;, 1:10, sep = &quot;&quot;)
+labs2 &lt;- paste(&quot;t&quot;, 1:10, sep = &quot;&quot;)
+cophyloplot(x = rtree(20), y = rtree(10), space = 100, length.line = 0.1, gap = 10,assoc = as.matrix(data.frame(labs1, labs2)))
+</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2012/12/05/2012-12-5-tree/" data-id="ckmq2gwr5003fq884ew0w0f3e" data-title="两棵进化树一致性的校对" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2012/12/05/2012-12-5-tree/" data-id="ckmq42ai0003n1k84byw5c56m" data-title="两棵进化树一致性的校对" class="article-share-link">Share</a>
       
       
       
@@ -142,11 +195,48 @@
         <p>2017年1月9日修订</p>
 <p>这里给出R常见绘图用到的参数。供生成出版质量的TIFF图。</p>
 <p>调整R绘图的字体，一页多图， 分辨率600dpi， tiff， 压缩方式lzw</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">tiff(filename = <span class="string">&quot;test.tif&quot;</span>,</span><br><span class="line">    width = <span class="number">3600</span>, height = <span class="number">3600</span>, units = <span class="string">&quot;px&quot;</span>, pointsize = <span class="number">8</span>,</span><br><span class="line">    compression = <span class="string">&quot;lzw&quot;</span>, res = <span class="number">600</span>) <span class="comment">## 打开绘图器</span></span><br><span class="line">par(mfrow = <span class="built_in">c</span>(<span class="number">2</span>,<span class="number">2</span>), font.lab = <span class="number">6</span>, font.main = <span class="number">6</span>,font.axis = <span class="number">6</span>, font = <span class="number">6</span>) <span class="comment">## 分割成2行2列，共四个图</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## 图1</span></span><br><span class="line"><span class="comment">## 标题部分斜体</span></span><br><span class="line">hist(rnorm(<span class="number">200</span>), main = <span class="built_in">expression</span>(paste(<span class="string">&quot;Testing &quot;</span>, italic(Hist1))), col = <span class="string">&quot;gray&quot;</span>)</span><br><span class="line"><span class="comment"># 添加边框</span></span><br><span class="line">box()</span><br><span class="line"><span class="comment">## 图中添加图例</span></span><br><span class="line">legend.label &lt;- <span class="built_in">c</span>(<span class="string">&quot;Type I&quot;</span>, <span class="string">&quot;Type II&quot;</span>, <span class="string">&quot;Type III&quot;</span>)</span><br><span class="line">legend(<span class="number">1.5</span>, <span class="number">30</span>, legend = legend.label, pch = <span class="built_in">c</span>(<span class="number">19</span>, <span class="number">20</span>, <span class="number">21</span>), col = <span class="built_in">c</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line">legend(-<span class="number">3.0</span>, <span class="number">30</span>, legend = legend.label, lty = <span class="built_in">c</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>), col = <span class="built_in">c</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">## 图2</span></span><br><span class="line"><span class="comment">## 标题中显示度等特殊字符，标题中显示希腊字母</span></span><br><span class="line">hist(rnorm(<span class="number">200</span>), main = <span class="built_in">expression</span>(paste(plain(<span class="built_in">sin</span>) * phi, <span class="string">&quot;  and &quot;</span>, plain(<span class="built_in">cos</span>) * phi)), xlab = <span class="built_in">expression</span>(paste(<span class="string">&quot;Latitude &quot;</span>, degree)), col = <span class="string">&quot;gray&quot;</span>)</span><br><span class="line"><span class="comment">## 图中添加公式</span></span><br><span class="line">text(-<span class="number">2</span>, <span class="number">30</span>, <span class="built_in">expression</span>(bar(x) == <span class="built_in">sum</span>(frac(x[i], n), i==<span class="number">1</span>, n)), cex = <span class="number">1.2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 图3</span></span><br><span class="line">x &lt;- rnorm(<span class="number">100</span>)</span><br><span class="line">m=mean(x)</span><br><span class="line">sd=sd(x)</span><br><span class="line">hist(x)</span><br><span class="line">x00 &lt;- seq(-<span class="number">10</span>, <span class="number">10</span>, <span class="number">0.01</span>)</span><br><span class="line">lines(x00, m*dnorm(x00,m,sd), lty=<span class="number">1</span>, col=<span class="string">&quot;red&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 图4</span></span><br><span class="line">y = <span class="number">1</span>:<span class="number">50</span> + (<span class="number">5</span>*rnorm(<span class="number">50</span>) + <span class="number">20</span>)</span><br><span class="line">x = <span class="number">1</span>:<span class="number">50</span></span><br><span class="line">plot(y ~ x, main = <span class="string">&quot;Scatter plot&quot;</span>, col = <span class="string">&quot;gray&quot;</span>)</span><br><span class="line">abline(lm(y ~ x), col = <span class="number">2</span>)</span><br><span class="line">dev.off() <span class="comment">## 关闭绘图器</span></span><br><span class="line">getwd()   <span class="comment">## 查看图保存的位置</span></span><br></pre></td></tr></table></figure>
+<pre><code class="R">tiff(filename = &quot;test.tif&quot;,
+    width = 3600, height = 3600, units = &quot;px&quot;, pointsize = 8,
+    compression = &quot;lzw&quot;, res = 600) ## 打开绘图器
+par(mfrow = c(2,2), font.lab = 6, font.main = 6,font.axis = 6, font = 6) ## 分割成2行2列，共四个图
+
+## 图1
+## 标题部分斜体
+hist(rnorm(200), main = expression(paste(&quot;Testing &quot;, italic(Hist1))), col = &quot;gray&quot;)
+# 添加边框
+box()
+## 图中添加图例
+legend.label &lt;- c(&quot;Type I&quot;, &quot;Type II&quot;, &quot;Type III&quot;)
+legend(1.5, 30, legend = legend.label, pch = c(19, 20, 21), col = c(1, 2, 3))
+legend(-3.0, 30, legend = legend.label, lty = c(1, 2, 3), col = c(1, 2, 3))
+
+## 图2
+## 标题中显示度等特殊字符，标题中显示希腊字母
+hist(rnorm(200), main = expression(paste(plain(sin) * phi, &quot;  and &quot;, plain(cos) * phi)), xlab = expression(paste(&quot;Latitude &quot;, degree)), col = &quot;gray&quot;)
+## 图中添加公式
+text(-2, 30, expression(bar(x) == sum(frac(x[i], n), i==1, n)), cex = 1.2)
+
+## 图3
+x &lt;- rnorm(100)
+m=mean(x)
+sd=sd(x)
+hist(x)
+x00 &lt;- seq(-10, 10, 0.01)
+lines(x00, m*dnorm(x00,m,sd), lty=1, col=&quot;red&quot;)
+
+## 图4
+y = 1:50 + (5*rnorm(50) + 20)
+x = 1:50
+plot(y ~ x, main = &quot;Scatter plot&quot;, col = &quot;gray&quot;)
+abline(lm(y ~ x), col = 2)
+dev.off() ## 关闭绘图器
+getwd()   ## 查看图保存的位置
+</code></pre>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2012/10/10/2012-10-11-rpars/" data-id="ckmq2gwr6003iq884f91fdg4s" data-title="R绘图一则 （2017年1月9日修订）" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2012/10/10/2012-10-11-rpars/" data-id="ckmq42ahy003i1k84682zhhag" data-title="R绘图一则 （2017年1月9日修订）" class="article-share-link">Share</a>
       
       
       
@@ -217,8 +307,15 @@
 <p>例如 S.W. Kembel, P.D. Cowan, M.R. Helmus, W.K. Cornwell, H. Morlon, D.D. Ackerly, S.P. Blomberg, and C.O. Webb. 2010. Picante: R tools for integrating phylogenies and ecology. Bioinformatics 26:1463-1464.</p>
 <p>选中该部分文字，在设定格式的菜单栏中，选定Biblography，将该部分作为参考文献。当然， 也可以引用用BibTeX，方法是，先在计算机上创建一个BibTeX纯文本文档， 注意以utf8格式编码，然后在正文中引用即可。很多软件或网站，如Mendeley,R,及google scholar都提供BibTeX格式的文献导出。而参考文献的引用，点击Insert&gt;Citation即可。如果使用的是BibTeX，直接输入Insert&gt;List/TOC&gt;BibTeX Biblography,选择扩展名为.bib的文件即可。</p>
 <p>.bib文件内的格式为</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@Article&#123;, </span><br><span class="line">title &#x3D; &#123;Picante: &#123;R&#125; tools for integrating phylogenies and ecology&#125;, </span><br><span class="line">author &#x3D; &#123;S.W. Kembel and P.D. Cowan and M.R. Helmus and W.K. Cornwell and H. Morlon and D.D. Ackerly and S.P. Blomberg and C.O. Webb&#125;, </span><br><span class="line">journal &#x3D; &#123;Bioinformatics&#125;, </span><br><span class="line">volume &#x3D; &#123;26&#125;, </span><br><span class="line">pages &#x3D; &#123;1463--1464&#125;, </span><br><span class="line">year &#x3D; &#123;2010&#125;, </span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-
+<pre><code>@Article&#123;, 
+title = &#123;Picante: &#123;R&#125; tools for integrating phylogenies and ecology&#125;, 
+author = &#123;S.W. Kembel and P.D. Cowan and M.R. Helmus and W.K. Cornwell and H. Morlon and D.D. Ackerly and S.P. Blomberg and C.O. Webb&#125;, 
+journal = &#123;Bioinformatics&#125;, 
+volume = &#123;26&#125;, 
+pages = &#123;1463--1464&#125;, 
+year = &#123;2010&#125;, 
+&#125; 
+</code></pre>
 <p>假设，撰写论文中有一句话，“NRI[equation 1]表示群落内物种系统发育关系的远近， 通过picante程序包可以计算SES.MPD等价于NRI[equation 1]” 需要引用公式以及计算NRI用到的软件picante</p>
 <p>则先创建一个标签， 方法为 Insert&gt;Label, 随后输入Insert cross reference ，在出现的对话框中选择引用该标签即可。</p>
 <h2 id="3-3-插入图片"><a href="#3-3-插入图片" class="headerlink" title="3.3 插入图片"></a>3.3 插入图片</h2><p>通常情况下，文章中出现图片会更吸引人。点击Insert&gt;Graphics即可输入图片。推荐使用pdf格式的图片。 因为pdf格式的图片在整个文档编译成pdf后， 仍然是矢量的， 不会有分辨率的损失。jpg，png等格式也都是可以的。</p>
@@ -227,7 +324,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2012/08/22/2012-8-22-lyxcn/" data-id="ckmq2gwrk004mq884156vginx" data-title="LyX生成中文pdf文档" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2012/08/22/2012-8-22-lyxcn/" data-id="ckmq42ai8004h1k840li3h310" data-title="LyX生成中文pdf文档" class="article-share-link">Share</a>
       
       
       
@@ -334,7 +431,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2012/08/20/2012-8-20-deltat/" data-id="ckmq2gwrg004cq884djn0f8oo" data-title="世界时与力学时之差：Delta T的计算" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2012/08/20/2012-8-20-deltat/" data-id="ckmq42ai8004f1k84cuia2dme" data-title="世界时与力学时之差：Delta T的计算" class="article-share-link">Share</a>
       
       
       
@@ -502,7 +599,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2012/07/28/2012-7-29-sweden/" data-id="ckmq2gwrf0049q8845ak64xgo" data-title="瑞典：美丽的西博滕" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2012/07/28/2012-7-29-sweden/" data-id="ckmq42ai600481k842rg07mqd" data-title="瑞典：美丽的西博滕" class="article-share-link">Share</a>
       
       
       
@@ -538,11 +635,116 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## Files required</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## phylocom.exe</span></span><br><span class="line"><span class="comment">## phylomatic.exe</span></span><br><span class="line"><span class="comment">## davies_dated.new </span></span><br><span class="line"><span class="comment">## species.table.csv Format shown below: </span></span><br><span class="line">Family	Genus	Species</span><br><span class="line">Actinidiaceae	Actinidia	<span class="number">1</span></span><br><span class="line">Actinidiaceae	Actinidia	<span class="number">2</span></span><br><span class="line">Apiaceae	Aegopodium	<span class="number">6</span></span><br><span class="line">... </span><br><span class="line"></span><br><span class="line"><span class="comment">## sample.csv</span></span><br><span class="line">01 <span class="number">1</span> sp1</span><br><span class="line">01 <span class="number">1</span> sp2</span><br><span class="line">01 <span class="number">1</span> sp6</span><br><span class="line">01 <span class="number">1</span> sp10</span><br><span class="line">01 <span class="number">1</span> sp12</span><br><span class="line">01 <span class="number">1</span> sp13</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">setwd(<span class="string">&quot;C:/Jinlong/phylobeta&quot;</span>)</span><br><span class="line">library(picante)</span><br><span class="line">library(simba)</span><br><span class="line">library(hydroTSM)</span><br><span class="line"></span><br><span class="line">taxatab &lt;- read.csv(<span class="string">&quot;species.table.csv&quot;</span>, header = <span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line">taxatab$SPECIES &lt;- paste(<span class="string">&quot;sp&quot;</span>, taxatab$SPECIES, sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">taxatab$GENUS &lt;- tolower(taxatab$GENUS)</span><br><span class="line">taxatab$DAVIES_Family &lt;- tolower(taxatab$DAVIES_Family)</span><br><span class="line">write.table(unique(taxatab), <span class="string">&quot;taxatable.txt&quot;</span>, row.names = <span class="literal">FALSE</span>, col.names = <span class="literal">FALSE</span>, <span class="built_in">quote</span> = <span class="literal">FALSE</span>, sep = <span class="string">&quot;/&quot;</span>)</span><br><span class="line"></span><br><span class="line">shell(<span class="string">&quot;phylomatic -f davies_dated.new -t taxatable.txt&gt;phylo.to.modify&quot;</span>)</span><br><span class="line"><span class="comment">## Delete the outer most edge</span></span><br><span class="line">dat &lt;- read.csv(<span class="string">&quot;sample.csv&quot;</span>, header = <span class="literal">TRUE</span>)</span><br><span class="line"><span class="keyword">if</span>(<span class="built_in">any</span>(nchar(dat$PLOT) == <span class="number">1</span>))&#123;</span><br><span class="line">   dat$PLOT[nchar(dat$PLOT) == <span class="number">1</span>]  &lt;- paste(<span class="string">&quot;0&quot;</span>, dat$PLOT[nchar(dat$PLOT) == <span class="number">1</span>], sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line">dat$PLOT &lt;- paste(dat$PLOT)</span><br><span class="line">dat$SPECIES &lt;- paste(<span class="string">&quot;sp&quot;</span>, dat$SPECIES, sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">dat$Abund &lt;- <span class="built_in">rep</span>(<span class="number">1</span>, nrow(dat))</span><br><span class="line">write.table(dat[,<span class="built_in">c</span>(<span class="number">1</span>, <span class="number">3</span>, <span class="number">2</span>)], <span class="string">&quot;sample&quot;</span>, <span class="built_in">quote</span> = <span class="literal">FALSE</span>, row.names = <span class="literal">FALSE</span>, col.names = <span class="literal">FALSE</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">## Calculating Diversity metrics using picante</span></span><br><span class="line">test.tree   &lt;- read.tree(<span class="string">&quot;phylo&quot;</span>)</span><br><span class="line">test.sample &lt;- sample2matrix(dat[,<span class="built_in">c</span>(<span class="number">1</span>, <span class="number">3</span>, <span class="number">2</span>)])</span><br><span class="line"></span><br><span class="line"><span class="comment">##  PhyloSor ## Not available from Phylocom</span></span><br><span class="line">test.phylosor &lt;- phylosor(samp =test.sample, tree =test.tree) </span><br><span class="line"></span><br><span class="line"><span class="comment">##  UniFrac  ## Not available from Phylocom</span></span><br><span class="line">test.unifrac &lt;- unifrac(comm =test.sample, tree = test.tree)</span><br><span class="line"></span><br><span class="line"><span class="comment">##  Dnn   COMDIST</span></span><br><span class="line">test.comdist &lt;- comdist(comm =test.sample, dis = cophenetictest.tree))</span><br><span class="line"></span><br><span class="line"><span class="comment">##  Dpw   comdistnt</span></span><br><span class="line">test.comdistnt &lt;- comdistnt(comm =test.sample, dis = cophenetictest.tree))</span><br><span class="line"></span><br><span class="line"><span class="comment">##  Rao D and Rao H</span></span><br><span class="line">test.rao &lt;- raoD(comm =test.sample,  phy =test.tree) </span><br><span class="line"></span><br><span class="line"><span class="comment">## raoD.Dkl  (&quot;US.species.raoD.Dkl.pairlist.ver2.csv &quot;) is rao&#x27;s D </span></span><br><span class="line">test.raoD &lt;- as.dist(test.rao$Dkl)</span><br><span class="line"></span><br><span class="line"><span class="comment"># and &quot;US.species.raoD.H.pairlist.ver2.csv&quot; is Rao&#x27;s H.</span></span><br><span class="line">test.raoH &lt;- as.dist(test.rao$H)</span><br><span class="line"></span><br><span class="line">test.phylosor.list   &lt;- liste(test.phylosor)</span><br><span class="line">test.unifrac.list    &lt;- liste(test.unifrac)</span><br><span class="line">test.comdist.list    &lt;- liste(test.comdist)</span><br><span class="line">test.comdistnt.list  &lt;- liste(test.comdistnt)</span><br><span class="line">test.rao.D.list      &lt;- liste(test.raoD )</span><br><span class="line">test.rao.H.list      &lt;- liste(test.raoH)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">result &lt;- data.frame(test.phylosor.list[,<span class="number">3</span>], test.unifrac.list[,<span class="number">3</span>], </span><br><span class="line">                    test.comdist.list[,<span class="number">3</span>], test.comdistnt.list[,<span class="number">3</span>], </span><br><span class="line">test.rao.D.list[,<span class="number">3</span>], test.rao.H.list[,<span class="number">3</span>])</span><br><span class="line"></span><br><span class="line">colnames(result) &lt;- <span class="built_in">c</span>(<span class="string">&quot;phylosor&quot;</span>, <span class="string">&quot;unifrac&quot;</span>, <span class="string">&quot;Dpw&quot;</span>, <span class="string">&quot;Dnn&quot;</span>, <span class="string">&quot;raoD&quot;</span>, <span class="string">&quot;raoH&quot;</span>)</span><br><span class="line"></span><br><span class="line">pdf(<span class="string">&quot;phylo.beta.pairs.pdf&quot;</span>, width = <span class="number">10</span>, height = <span class="number">10</span>)</span><br><span class="line">hydropairs(result)</span><br><span class="line">dev.off()</span><br><span class="line"></span><br><span class="line">result2 &lt;- data.frame(test.phylosor.list, test.unifrac.list[,<span class="number">3</span>], </span><br><span class="line">                    test.comdist.list[,<span class="number">3</span>], test.comdistnt.list[,<span class="number">3</span>], </span><br><span class="line">test.rao.D.list[,<span class="number">3</span>], test.rao.H.list[,<span class="number">3</span>])</span><br><span class="line">colnames(result2) &lt;- <span class="built_in">c</span>(<span class="string">&quot;PlotI&quot;</span>,<span class="string">&quot;PlotII&quot;</span>, <span class="string">&quot;phylosor&quot;</span>, <span class="string">&quot;unifrac&quot;</span>, <span class="string">&quot;comdist&quot;</span>, <span class="string">&quot;comdistnt&quot;</span>, <span class="string">&quot;raoD&quot;</span>, <span class="string">&quot;raoH&quot;</span>)</span><br><span class="line"></span><br><span class="line">write.csv(result2, <span class="string">&quot;phylobeta.result.csv&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">write.csv(test.phylosor.list   ,<span class="string">&quot;test.phylosor.list.csv&quot;</span> , row.names = <span class="literal">FALSE</span>)</span><br><span class="line">write.csv(test.unifrac.list    ,<span class="string">&quot;test.unifrac.list.csv&quot;</span>  , row.names = <span class="literal">FALSE</span>)</span><br><span class="line">write.csv(test.comdist.list    ,<span class="string">&quot;test.Dpw.list.csv&quot;</span>      , row.names = <span class="literal">FALSE</span>)</span><br><span class="line">write.csv(test.comdistnt.list  ,<span class="string">&quot;test.Dnn.list.csv&quot;</span>      , row.names = <span class="literal">FALSE</span>)</span><br><span class="line">write.csv(test.rao.D.list      ,<span class="string">&quot;test.rao.D.list.csv&quot;</span>    , row.names = <span class="literal">FALSE</span>)</span><br><span class="line">write.csv(test.rao.H.list      ,<span class="string">&quot;test.rao.H.list.csv&quot;</span>    , row.names = <span class="literal">FALSE</span>)</span><br></pre></td></tr></table></figure>
+        <pre><code class="R">## Files required
+
+## phylocom.exe
+## phylomatic.exe
+## davies_dated.new 
+## species.table.csv Format shown below: 
+Family    Genus    Species
+Actinidiaceae    Actinidia    1
+Actinidiaceae    Actinidia    2
+Apiaceae    Aegopodium    6
+... 
+
+## sample.csv
+01 1 sp1
+01 1 sp2
+01 1 sp6
+01 1 sp10
+01 1 sp12
+01 1 sp13
+...
+
+
+
+setwd(&quot;C:/Jinlong/phylobeta&quot;)
+library(picante)
+library(simba)
+library(hydroTSM)
+
+taxatab &lt;- read.csv(&quot;species.table.csv&quot;, header = TRUE)
+
+taxatab$SPECIES &lt;- paste(&quot;sp&quot;, taxatab$SPECIES, sep = &quot;&quot;)
+taxatab$GENUS &lt;- tolower(taxatab$GENUS)
+taxatab$DAVIES_Family &lt;- tolower(taxatab$DAVIES_Family)
+write.table(unique(taxatab), &quot;taxatable.txt&quot;, row.names = FALSE, col.names = FALSE, quote = FALSE, sep = &quot;/&quot;)
+
+shell(&quot;phylomatic -f davies_dated.new -t taxatable.txt&gt;phylo.to.modify&quot;)
+## Delete the outer most edge
+dat &lt;- read.csv(&quot;sample.csv&quot;, header = TRUE)
+if(any(nchar(dat$PLOT) == 1))&#123;
+   dat$PLOT[nchar(dat$PLOT) == 1]  &lt;- paste(&quot;0&quot;, dat$PLOT[nchar(dat$PLOT) == 1], sep = &quot;&quot;)
+&#125;
+dat$PLOT &lt;- paste(dat$PLOT)
+dat$SPECIES &lt;- paste(&quot;sp&quot;, dat$SPECIES, sep = &quot;&quot;)
+dat$Abund &lt;- rep(1, nrow(dat))
+write.table(dat[,c(1, 3, 2)], &quot;sample&quot;, quote = FALSE, row.names = FALSE, col.names = FALSE)
+
+
+## Calculating Diversity metrics using picante
+test.tree   &lt;- read.tree(&quot;phylo&quot;)
+test.sample &lt;- sample2matrix(dat[,c(1, 3, 2)])
+
+##  PhyloSor ## Not available from Phylocom
+test.phylosor &lt;- phylosor(samp =test.sample, tree =test.tree) 
+
+##  UniFrac  ## Not available from Phylocom
+test.unifrac &lt;- unifrac(comm =test.sample, tree = test.tree)
+
+##  Dnn   COMDIST
+test.comdist &lt;- comdist(comm =test.sample, dis = cophenetictest.tree))
+
+##  Dpw   comdistnt
+test.comdistnt &lt;- comdistnt(comm =test.sample, dis = cophenetictest.tree))
+
+##  Rao D and Rao H
+test.rao &lt;- raoD(comm =test.sample,  phy =test.tree) 
+
+## raoD.Dkl  (&quot;US.species.raoD.Dkl.pairlist.ver2.csv &quot;) is rao&#39;s D 
+test.raoD &lt;- as.dist(test.rao$Dkl)
+
+# and &quot;US.species.raoD.H.pairlist.ver2.csv&quot; is Rao&#39;s H.
+test.raoH &lt;- as.dist(test.rao$H)
+
+test.phylosor.list   &lt;- liste(test.phylosor)
+test.unifrac.list    &lt;- liste(test.unifrac)
+test.comdist.list    &lt;- liste(test.comdist)
+test.comdistnt.list  &lt;- liste(test.comdistnt)
+test.rao.D.list      &lt;- liste(test.raoD )
+test.rao.H.list      &lt;- liste(test.raoH)
+
+
+result &lt;- data.frame(test.phylosor.list[,3], test.unifrac.list[,3], 
+                    test.comdist.list[,3], test.comdistnt.list[,3], 
+test.rao.D.list[,3], test.rao.H.list[,3])
+
+colnames(result) &lt;- c(&quot;phylosor&quot;, &quot;unifrac&quot;, &quot;Dpw&quot;, &quot;Dnn&quot;, &quot;raoD&quot;, &quot;raoH&quot;)
+
+pdf(&quot;phylo.beta.pairs.pdf&quot;, width = 10, height = 10)
+hydropairs(result)
+dev.off()
+
+result2 &lt;- data.frame(test.phylosor.list, test.unifrac.list[,3], 
+                    test.comdist.list[,3], test.comdistnt.list[,3], 
+test.rao.D.list[,3], test.rao.H.list[,3])
+colnames(result2) &lt;- c(&quot;PlotI&quot;,&quot;PlotII&quot;, &quot;phylosor&quot;, &quot;unifrac&quot;, &quot;comdist&quot;, &quot;comdistnt&quot;, &quot;raoD&quot;, &quot;raoH&quot;)
+
+write.csv(result2, &quot;phylobeta.result.csv&quot;)
+
+
+write.csv(test.phylosor.list   ,&quot;test.phylosor.list.csv&quot; , row.names = FALSE)
+write.csv(test.unifrac.list    ,&quot;test.unifrac.list.csv&quot;  , row.names = FALSE)
+write.csv(test.comdist.list    ,&quot;test.Dpw.list.csv&quot;      , row.names = FALSE)
+write.csv(test.comdistnt.list  ,&quot;test.Dnn.list.csv&quot;      , row.names = FALSE)
+write.csv(test.rao.D.list      ,&quot;test.rao.D.list.csv&quot;    , row.names = FALSE)
+write.csv(test.rao.H.list      ,&quot;test.rao.H.list.csv&quot;    , row.names = FALSE)
+</code></pre>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2012/07/15/2012-7-15-phylobeta/" data-id="ckmq2gwre0047q88481x03bo3" data-title="How to compute phylobeta diversity indices?" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2012/07/15/2012-7-15-phylobeta/" data-id="ckmq42ai500461k8492xw47f9" data-title="How to compute phylobeta diversity indices?" class="article-share-link">Share</a>
       
       
       
@@ -589,7 +791,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2012/07/08/2012-7-8-editfigures/" data-id="ckmq2gwri004hq884hu6fg1ny" data-title="论文投稿用什么软件修改图片？" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2012/07/08/2012-7-8-editfigures/" data-id="ckmq42ai7004c1k84aa6h3smz" data-title="论文投稿用什么软件修改图片？" class="article-share-link">Share</a>
       
       
       
@@ -1098,7 +1300,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2012/07/05/2012-7-5-genera/" data-id="ckmq2gwrh004eq8844oii0ip8" data-title="[转载]被子植物大于500个种的属" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2012/07/05/2012-7-5-genera/" data-id="ckmq42ai6004a1k843qqnbtc1" data-title="[转载]被子植物大于500个种的属" class="article-share-link">Share</a>
       
       
       
@@ -1137,8 +1339,8 @@
         <p>人们经常用样本(sample)来估计总体(population)的参数， 假定一个概率密度函数，如正态分布，并给出所有可能的参数组合，那么每一种参数组合所生成当前样本的可能性分别有多大？将最可能产生当前样本的参数，作为总体参数的估计，这就是极大似然(Maximum Likelihood)思想的体现。</p>
 <p>在实际的计算中， 人们往往需要先假定某一概率密度， 如正态分布， </p>
 <p>$p.d.f. (y) = \frac{1} {\sqrt{2 \pi} \sigma} e^{-1/2 \frac{(y- \mu)^2} {\sigma^2}}$</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pdfi &lt;- 1/(<span class="built_in">sqrt</span>(<span class="number">2</span>*<span class="built_in">pi</span>)*sigma) * <span class="built_in">exp</span>(-<span class="number">1</span>/<span class="number">2</span> * (obs - mu)^<span class="number">2</span>/(sigma^<span class="number">2</span>))</span><br></pre></td></tr></table></figure>
-
+<pre><code class="R">pdfi &lt;- 1/(sqrt(2*pi)*sigma) * exp(-1/2 * (obs - mu)^2/(sigma^2))
+</code></pre>
 <p>其中, </p>
 <ul>
 <li><code>obs</code>为某一次观测值</li>
@@ -1172,63 +1374,95 @@
 <p>由此看来， 极大似然估计， 首先是按照假定的概率密度， 求得联合概率密度， 即似然函数，进一步写成对数似然函数， 再用数值优化的方法， 求得对数似然函数所对应的点(各参数)。即获得参数的极大然估计。</p>
 <p>下面提供一个实例：<br>问题：<br>假设一批树木中抽取若干个体，胸径分别为 150, 124, 100, 107, 170, 144, 113, 108, 92, 129, 123, 118，试求这批树木胸径的平均值和标准差。</p>
 <p>分析：<br>如果用这批样本数据直接计算平均值和方差， 可以得到总体平均值和标准差的估计。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">dat &lt;- <span class="built_in">c</span>(<span class="number">150</span>, <span class="number">124</span>, <span class="number">100</span>, <span class="number">107</span>, <span class="number">170</span>, <span class="number">144</span>, <span class="number">113</span>, <span class="number">108</span>, <span class="number">92</span>, <span class="number">129</span>, <span class="number">123</span>, <span class="number">118</span>)</span><br><span class="line"></span><br><span class="line">&gt; mean(dat)</span><br><span class="line">[<span class="number">1</span>] <span class="number">123.1667</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### 求样本平均值</span></span><br><span class="line">mean.sample &lt;- <span class="built_in">sum</span>(dat)/<span class="built_in">length</span>(dat)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 设置空向量</span></span><br><span class="line">var.sample &lt;- <span class="built_in">c</span>()</span><br><span class="line"><span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(dat))&#123;</span><br><span class="line">   var.sample[i] &lt;- (dat[i] - mean.sample)^<span class="number">2</span></span><br><span class="line">&#125;</span><br><span class="line">dd &lt;- <span class="built_in">sum</span>(var.sample)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 求样本标准差</span></span><br><span class="line"><span class="built_in">sqrt</span>(dd/(<span class="built_in">length</span>(dat)))</span><br><span class="line"></span><br><span class="line"><span class="comment">## 求总体标准差</span></span><br><span class="line"><span class="built_in">sqrt</span>(dd/(<span class="built_in">length</span>(dat) - <span class="number">1</span>))</span><br><span class="line">以上是普通的估计方法</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">下面用极大似然方法估计</span><br><span class="line"><span class="comment">###########################################################################</span></span><br><span class="line"><span class="comment">### 联合概率密度</span></span><br><span class="line"></span><br><span class="line">like = <span class="keyword">function</span>(data, mu, sigma) &#123;</span><br><span class="line"> like = <span class="number">1</span></span><br><span class="line"> <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(data))&#123;</span><br><span class="line">   <span class="comment"># like = like *( 1/(sqrt(2*pi)*sigma) * exp(-1/2 * (data[i] - mu)^2/(sigma^2)))</span></span><br><span class="line">like = like * dnorm(x = dat[i], mean = mu, sd = sigma)</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="built_in">return</span>(like)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">like(dat, <span class="number">120</span>, <span class="number">20</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 对数似然函数</span></span><br><span class="line">loglike = <span class="keyword">function</span>(data, mu, sigma) &#123;</span><br><span class="line"> loglike = <span class="number">0</span></span><br><span class="line">   <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(data))&#123;</span><br><span class="line">     loglike = loglike + <span class="built_in">log</span>(dnorm(x = dat[i], mean = mu, sd = sigma))</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="built_in">return</span>(loglike)</span><br><span class="line">&#125;</span><br><span class="line">loglike(dat, <span class="number">122</span>, <span class="number">20</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 扩展参数组合</span></span><br><span class="line">params = expand.grid(mu = seq(<span class="number">50</span>, <span class="number">200</span>, <span class="number">1</span>),</span><br><span class="line">                    sigma = seq(<span class="number">10</span>, <span class="number">40</span>, <span class="number">1</span>))</span><br><span class="line">LogLik.surf = with(params, loglike(dat, mu, sigma))</span><br><span class="line"></span><br><span class="line"><span class="built_in">dim</span>(LogLik.surf) &lt;- <span class="built_in">c</span>(<span class="built_in">length</span>(seq(<span class="number">50</span>, <span class="number">200</span>, <span class="number">1</span>)), <span class="built_in">length</span>(seq(<span class="number">10</span>, <span class="number">40</span>, <span class="number">1</span>))) </span><br><span class="line"></span><br><span class="line">library(lattice)</span><br><span class="line">contourplot(LogLik.surf ~ mu*sigma, data = params, cuts = <span class="number">20</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Zooming in</span></span><br><span class="line">params = expand.grid(mu = seq(<span class="number">120</span>, <span class="number">126</span>, <span class="number">0.01</span>), sigma = seq(<span class="number">18</span>, <span class="number">25</span>, <span class="number">0.1</span>))</span><br><span class="line">LogLik.surf.zoom = with(params, loglike(dat, mu, sigma))</span><br><span class="line"></span><br><span class="line"><span class="built_in">dim</span>(LogLik.surf.zoom) &lt;- <span class="built_in">c</span>(<span class="built_in">length</span>(seq(<span class="number">120</span>, <span class="number">126</span>, <span class="number">0.01</span>)), <span class="built_in">length</span>(seq(<span class="number">18</span>, <span class="number">25</span>, <span class="number">0.1</span>))) </span><br><span class="line"></span><br><span class="line">library(lattice)</span><br><span class="line">contourplot(LogLik.surf.zoom ~ mu*sigma, data = params, cuts = <span class="number">20</span>, region = <span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### nlm进行极大似然优化， 需要提供初始值</span></span><br><span class="line"><span class="comment">### 对数似然函数</span></span><br><span class="line">loglike000 = <span class="keyword">function</span>(p) &#123;</span><br><span class="line">   loglike = <span class="number">0</span></span><br><span class="line">   <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(dat))&#123;</span><br><span class="line">     loglike = loglike + <span class="built_in">log</span>(dnorm(x = dat[i], mean = p[<span class="number">1</span>], sd = p[<span class="number">2</span>]))</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="built_in">return</span>(-loglike)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">(MLEst &lt;- nlm(f = loglike000, p = <span class="built_in">c</span>(<span class="number">100</span>, <span class="number">10</span>)))</span><br></pre></td></tr></table></figure>
+<pre><code class="R">dat &lt;- c(150, 124, 100, 107, 170, 144, 113, 108, 92, 129, 123, 118)
+
+&gt; mean(dat)
+[1] 123.1667
+
+### 求样本平均值
+mean.sample &lt;- sum(dat)/length(dat)
+
+### 设置空向量
+var.sample &lt;- c()
+for(i in 1:length(dat))&#123;
+   var.sample[i] &lt;- (dat[i] - mean.sample)^2
+&#125;
+dd &lt;- sum(var.sample)
+
+## 求样本标准差
+sqrt(dd/(length(dat)))
+
+## 求总体标准差
+sqrt(dd/(length(dat) - 1))
+以上是普通的估计方法
 
 
+下面用极大似然方法估计
+###########################################################################
+### 联合概率密度
+
+like = function(data, mu, sigma) &#123;
+ like = 1
+ for(i in 1:length(data))&#123;
+   # like = like *( 1/(sqrt(2*pi)*sigma) * exp(-1/2 * (data[i] - mu)^2/(sigma^2)))
+like = like * dnorm(x = dat[i], mean = mu, sd = sigma)
+ &#125;
+ return(like)
+&#125;
+
+like(dat, 120, 20)
+
+### 对数似然函数
+loglike = function(data, mu, sigma) &#123;
+ loglike = 0
+   for(i in 1:length(data))&#123;
+     loglike = loglike + log(dnorm(x = dat[i], mean = mu, sd = sigma))
+   &#125;
+   return(loglike)
+&#125;
+loglike(dat, 122, 20)
+
+### 扩展参数组合
+params = expand.grid(mu = seq(50, 200, 1),
+                    sigma = seq(10, 40, 1))
+LogLik.surf = with(params, loglike(dat, mu, sigma))
+
+dim(LogLik.surf) &lt;- c(length(seq(50, 200, 1)), length(seq(10, 40, 1))) 
+
+library(lattice)
+contourplot(LogLik.surf ~ mu*sigma, data = params, cuts = 20)
+
+# Zooming in
+params = expand.grid(mu = seq(120, 126, 0.01), sigma = seq(18, 25, 0.1))
+LogLik.surf.zoom = with(params, loglike(dat, mu, sigma))
+
+dim(LogLik.surf.zoom) &lt;- c(length(seq(120, 126, 0.01)), length(seq(18, 25, 0.1))) 
+
+library(lattice)
+contourplot(LogLik.surf.zoom ~ mu*sigma, data = params, cuts = 20, region = TRUE)
+
+### nlm进行极大似然优化， 需要提供初始值
+### 对数似然函数
+loglike000 = function(p) &#123;
+   loglike = 0
+   for(i in 1:length(dat))&#123;
+     loglike = loglike + log(dnorm(x = dat[i], mean = p[1], sd = p[2]))
+   &#125;
+   return(-loglike)
+&#125;
+
+(MLEst &lt;- nlm(f = loglike000, p = c(100, 10)))
+</code></pre>
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="http://www.quantumforest.com/2011/10/maximum-likelihood/">http://www.quantumforest.com/2011/10/maximum-likelihood/</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2012/06/25/2012-6-25-rml/" data-id="ckmq2gwrd0044q884apjxb1r6" data-title="R中的极大似然估计" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2012/06/25/2012-6-25-rml/" data-id="ckmq42ai500441k8417al9u5m" data-title="R中的极大似然估计" class="article-share-link">Share</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BB%9F%E8%AE%A1/" rel="tag">统计</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-2012-6-23-pollen" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2012/06/22/2012-6-23-pollen/" class="article-date">
-  <time class="dt-published" datetime="2012-06-22T14:40:54.000Z" itemprop="datePublished">2012-06-22</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2012/06/22/2012-6-23-pollen/">花粉传播有关的几个公式</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>$d_{j,k}=\sqrt{(x_{j}-x_{k})^2 +(y_{j}-y_{k})^2}$</p>
-<p>$f(x, y; \delta, b)=\frac{ b\Gamma(3/b)}{2\pi\delta^2\Gamma(2/b)^3}e^{(\frac{\Gamma(3/b)d}{\Gamma(2/b)\delta})^2}$</p>
-<p>$\pi_{r, jk}=\frac{F_{r,k}f(d_{jk}; \delta, b))}{\sum_{l:fathers}F_{r,l}f(d_{jl};\delta,b)}$</p>
-<p>$L(g|\alpha_{COV}, \delta, b, s, m) = \prod_{o:offspring}[sT(g_{0}|g_{j_{0}}, g_{j_{0}}) + mT(g_{0}|g_{j_{0}}, BAF) +(1-s-m)\sum_{k:father}\pi_{j_{0}k}T(g_{0}|g_{j_{0}}, g_{k})]$</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2012/06/22/2012-6-23-pollen/" data-id="ckmq2gwrc0042q88425rgatfz" data-title="花粉传播有关的几个公式" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%94%9F%E6%80%81/" rel="tag">生态</a></li></ul>
 
     </footer>
   </div>
@@ -1288,6 +1522,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -1301,10 +1539,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

@@ -116,19 +116,87 @@
 <p>当然，首先要下载我们编好的程序了。 下载 <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/upload/blog/file/2010/9/20109603912834771.rar.rar">skyatlas.rar</a></p>
 <p>1 下载R软件 <a target="_blank" rel="noopener" href="http://ftp.ctex.org/mirrors/CRAN/bin/windows/base/R-2.11.1-win32.exe">http://ftp.ctex.org/mirrors/CRAN/bin/windows/base/R-2.11.1-win32.exe</a> 下载<br>2 将 “plot.r”, “resstar.csv”, “moonsun_0.1.1.zip” 拷贝到 C:下,”moonsun_0.1.1.zip” 为R程序包，安装时不需要解压缩。<br>3 安装moonsun.zip程序包，双击R的图标，路径为 开始&gt;所有程序&gt; R, 2.11.1, 然后再菜单中选择，菜单“程序包”，“从本地zip安装程序包”，选择 moonsun_0.1.1.zip 即可。<br>4 从R的菜单 “文件” “source R code”. 打开 “C:/plot.r”,或者输入命令source(“C:/plot.r”)即可。</p>
 <p>运行实例<br>R图形的组件都是一步一步添加上去的，故绘制一个图形步骤较多，这里举出了绘制水星1980年和2011年的例子，可供有兴趣的读者参考。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">######################################</span></span><br><span class="line"><span class="comment">######################################</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### 例一 绘制1980年水星的周年视运动  </span></span><br><span class="line"><span class="comment">##  该结果与《中国大百科全书 天文学卷》参见 485页 进行比较，水星的运行曲线结果是一致的。</span></span><br><span class="line">x11(<span class="number">14</span>, <span class="number">5</span>)</span><br><span class="line"><span class="comment">##绘制底图</span></span><br><span class="line">background(type = <span class="string">&quot;n&quot;</span>, xlim =<span class="built_in">c</span>(<span class="number">0</span>, <span class="number">24</span>), ylim = <span class="built_in">c</span>(-<span class="number">40</span>, <span class="number">40</span>), xlab = <span class="string">&quot;赤经&quot;</span>, ylab = <span class="string">&quot;赤纬&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">##添加黄道</span></span><br><span class="line">add.ecliptic()</span><br><span class="line"></span><br><span class="line"><span class="comment">##添加4等以上的恒星</span></span><br><span class="line">add.stars(resstar, mag = <span class="number">4</span>, pch = <span class="number">19</span>, time = <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 添加水星的运行轨迹</span></span><br><span class="line">tracks(mercury(jd(year = <span class="number">1980</span>,month = <span class="number">1</span>,day = <span class="number">1</span>,<span class="built_in">length</span> = <span class="number">365</span>)))</span><br><span class="line"><span class="comment">## 添加亮星的名称</span></span><br><span class="line">add.bright.lab ()</span><br><span class="line"></span><br><span class="line"><span class="comment">###生成每隔30天的点数据，</span></span><br><span class="line">position &lt;- mercury(jd(year = <span class="number">1980</span>,month = <span class="number">1</span>, day = <span class="number">1</span>,<span class="built_in">length</span> = <span class="number">12</span>, by = <span class="number">30</span>))</span><br><span class="line">addlab(position)</span><br><span class="line">title(<span class="string">&quot;1980年水星的周年视运动&quot;</span>)</span><br></pre></td></tr></table></figure>
+<pre><code class="R">######################################
+######################################
+
+### 例一 绘制1980年水星的周年视运动  
+##  该结果与《中国大百科全书 天文学卷》参见 485页 进行比较，水星的运行曲线结果是一致的。
+x11(14, 5)
+##绘制底图
+background(type = &quot;n&quot;, xlim =c(0, 24), ylim = c(-40, 40), xlab = &quot;赤经&quot;, ylab = &quot;赤纬&quot;)
+
+##添加黄道
+add.ecliptic()
+
+##添加4等以上的恒星
+add.stars(resstar, mag = 4, pch = 19, time = 1)
+
+## 添加水星的运行轨迹
+tracks(mercury(jd(year = 1980,month = 1,day = 1,length = 365)))
+## 添加亮星的名称
+add.bright.lab ()
+
+###生成每隔30天的点数据，
+position &lt;- mercury(jd(year = 1980,month = 1, day = 1,length = 12, by = 30))
+addlab(position)
+title(&quot;1980年水星的周年视运动&quot;)
+</code></pre>
 <p>结果如下</p>
 <p><img src="http://blog.sciencenet.cn/upload/blog/images/2010/9/20109601735522.JPG" alt="img"></p>
-<h1 id="例二"><a href="#例二" class="headerlink" title="例二"></a>例二</h1><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### 2011水星的周年视运动</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### 第一步 打开一个绘图窗口</span></span><br><span class="line">x11(<span class="number">14</span>, <span class="number">5</span>)</span><br><span class="line"><span class="comment">##  第二步 绘制底图</span></span><br><span class="line">background(type = <span class="string">&quot;n&quot;</span>, xlim =<span class="built_in">c</span>(<span class="number">0</span>, <span class="number">24</span>), ylim = <span class="built_in">c</span>(-<span class="number">40</span>, <span class="number">40</span>), xlab = <span class="string">&quot;赤经&quot;</span>, ylab = <span class="string">&quot;赤纬&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">##添加黄道</span></span><br><span class="line">add.ecliptic()</span><br><span class="line"></span><br><span class="line"><span class="comment">##第四步 添加4等以上的恒星</span></span><br><span class="line">add.stars(resstar, mag = <span class="number">4</span>, pch = <span class="number">19</span>, time = <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 第五步 添加水星的运行轨迹</span></span><br><span class="line">tracks(mercury(jd(year = <span class="number">2010</span>,month = <span class="number">1</span>,day = <span class="number">1</span>,<span class="built_in">length</span> = <span class="number">365</span>)))</span><br><span class="line"></span><br><span class="line"><span class="comment">## 第六步 添加亮星的名称</span></span><br><span class="line">add.bright.lab()</span><br><span class="line"></span><br><span class="line"><span class="comment">###第七步 添加生成每隔30天的点数据，并标在图上</span></span><br><span class="line">position &lt;- mercury(jd(year = <span class="number">2010</span>,month = <span class="number">1</span>, day = <span class="number">1</span>,<span class="built_in">length</span> = <span class="number">12</span>, by = <span class="number">30</span>))</span><br><span class="line">addlab(position)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 第八步 添加标题</span></span><br><span class="line">title(<span class="string">&quot;2011年水星的周年视运动&quot;</span>)</span><br></pre></td></tr></table></figure>
-<p> <img src="http://blog.sciencenet.cn/upload/blog/images/2010/9/20109601748756.JPG" alt="img"></p>
-<h1 id="例三-当前时刻日月及大行星的位置图"><a href="#例三-当前时刻日月及大行星的位置图" class="headerlink" title="例三 当前时刻日月及大行星的位置图"></a>例三 当前时刻日月及大行星的位置图</h1><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### 打开一个绘图窗口</span></span><br><span class="line">x11(<span class="number">14</span>, <span class="number">5</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 绘制赤道背景坐标</span></span><br><span class="line">background(type = <span class="string">&quot;n&quot;</span>, xlim =<span class="built_in">c</span>(<span class="number">0</span>, <span class="number">24</span>), ylim = <span class="built_in">c</span>(-<span class="number">40</span>, <span class="number">40</span>), xlab = <span class="string">&quot;赤经&quot;</span>, ylab = <span class="string">&quot;赤纬&quot;</span>, bg = <span class="string">&quot;darkblue&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">##添加黄道</span></span><br><span class="line">add.ecliptic()</span><br><span class="line"></span><br><span class="line"><span class="comment">## 添加4等以上的恒星</span></span><br><span class="line">add.stars(resstar, mag = <span class="number">4</span>, pch = <span class="number">19</span>, time = <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 添加亮星的名称</span></span><br><span class="line">add.bright.lab()</span><br><span class="line"></span><br><span class="line"><span class="comment">#### 添加大行星</span></span><br><span class="line">add.planet(col = <span class="string">&quot;black&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 添加标题</span></span><br><span class="line">title(paste(<span class="string">&quot;&quot;</span>, <span class="string">&quot;日月及大行星的位置(&quot;</span>,<span class="built_in">as.character</span>(Sys.Date()),<span class="string">&quot;)&quot;</span> ))</span><br></pre></td></tr></table></figure>
+<h1 id="例二"><a href="#例二" class="headerlink" title="例二"></a>例二</h1><pre><code class="R">### 2011水星的周年视运动
 
+### 第一步 打开一个绘图窗口
+x11(14, 5)
+##  第二步 绘制底图
+background(type = &quot;n&quot;, xlim =c(0, 24), ylim = c(-40, 40), xlab = &quot;赤经&quot;, ylab = &quot;赤纬&quot;)
+
+##添加黄道
+add.ecliptic()
+
+##第四步 添加4等以上的恒星
+add.stars(resstar, mag = 4, pch = 19, time = 1)
+
+## 第五步 添加水星的运行轨迹
+tracks(mercury(jd(year = 2010,month = 1,day = 1,length = 365)))
+
+## 第六步 添加亮星的名称
+add.bright.lab()
+
+###第七步 添加生成每隔30天的点数据，并标在图上
+position &lt;- mercury(jd(year = 2010,month = 1, day = 1,length = 12, by = 30))
+addlab(position)
+
+### 第八步 添加标题
+title(&quot;2011年水星的周年视运动&quot;)
+</code></pre>
+<p> <img src="http://blog.sciencenet.cn/upload/blog/images/2010/9/20109601748756.JPG" alt="img"></p>
+<h1 id="例三-当前时刻日月及大行星的位置图"><a href="#例三-当前时刻日月及大行星的位置图" class="headerlink" title="例三 当前时刻日月及大行星的位置图"></a>例三 当前时刻日月及大行星的位置图</h1><pre><code class="R">### 打开一个绘图窗口
+x11(14, 5)
+
+## 绘制赤道背景坐标
+background(type = &quot;n&quot;, xlim =c(0, 24), ylim = c(-40, 40), xlab = &quot;赤经&quot;, ylab = &quot;赤纬&quot;, bg = &quot;darkblue&quot;)
+
+##添加黄道
+add.ecliptic()
+
+## 添加4等以上的恒星
+add.stars(resstar, mag = 4, pch = 19, time = 1)
+
+## 添加亮星的名称
+add.bright.lab()
+
+#### 添加大行星
+add.planet(col = &quot;black&quot;)
+
+## 添加标题
+title(paste(&quot;&quot;, &quot;日月及大行星的位置(&quot;,as.character(Sys.Date()),&quot;)&quot; ))
+</code></pre>
 <p> <img src="http://blog.sciencenet.cn/upload/blog/images/2010/9/20109601719225.JPG" alt="img"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2010/09/05/2010-9-6-skyatlas/" data-id="ckmq2gwqm001zq884fjvjds40" data-title="skyatlas:用R绘制星图和行星的周年视运动" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2010/09/05/2010-9-6-skyatlas/" data-id="ckmq42ahg001x1k844twbhym0" data-title="skyatlas:用R绘制星图和行星的周年视运动" class="article-share-link">Share</a>
       
       
       
@@ -204,6 +272,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -217,10 +289,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

@@ -114,12 +114,95 @@
 <li>subplot5：该个体所在的小样方名称，按照蛇形顺序命名，从1-16；</li>
 <li>dbh：该个体的胸径，单位为cm</li>
 </ol>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#### 以下代码先生成模拟的调查数据</span></span><br><span class="line">library(stringr)</span><br><span class="line"><span class="comment">#### 生成模拟数据，假设整个样地有88325个个体</span></span><br><span class="line">nindividual &lt;-<span class="number">88325</span></span><br><span class="line"><span class="comment">#### 生成树牌号</span></span><br><span class="line">tag &lt;-paste(<span class="string">&quot;BTM&quot;</span>, str_pad(<span class="number">1</span>:nindividual, <span class="number">6</span>, pad =<span class="string">&quot;0&quot;</span>), sep =<span class="string">&quot;&quot;</span>)</span><br><span class="line"><span class="comment">#### 生成20m样地的名称</span></span><br><span class="line">plot20_x &lt;- str_pad(<span class="number">1</span>:<span class="number">20</span>, <span class="number">2</span>, pad =<span class="string">&quot;0&quot;</span>)</span><br><span class="line">plot20_y &lt;- str_pad(<span class="number">1</span>:<span class="number">25</span>, <span class="number">2</span>, pad =<span class="string">&quot;0&quot;</span>)</span><br><span class="line">names_temp &lt;- expand.grid(plot20_x, plot20_y)</span><br><span class="line">plot20_names &lt;-paste(names_temp[,<span class="number">1</span>],names_temp[,<span class="number">2</span>], sep =<span class="string">&quot;&quot;</span>)</span><br><span class="line">survey_plot20_names &lt;-sample(plot20_names,nindividual, replace=<span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#### 随机生成5m样地内，调查个体的坐标</span></span><br><span class="line">g5x &lt;-<span class="built_in">round</span>(runif(nindividual)*<span class="number">5</span>, <span class="number">2</span>)</span><br><span class="line">g5y &lt;-<span class="built_in">round</span>(runif(nindividual)*<span class="number">5</span>, <span class="number">2</span>)</span><br><span class="line"><span class="comment">#### 生成5m小样方的名称</span></span><br><span class="line">subplot5 &lt;-sample(<span class="number">1</span>:<span class="number">16</span>, nindividual, replace=<span class="literal">TRUE</span>)</span><br><span class="line"><span class="comment">#### 模拟生成每棵树的胸径dbh, 假设服从指数分布</span></span><br><span class="line">dbh &lt;-<span class="built_in">round</span>(rexp(nindividual,rate =<span class="number">2</span>)*<span class="number">50</span>+<span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line"><span class="comment">#### 所有生成的数据合并到一个dataframe中</span></span><br><span class="line">btmdat &lt;- data.frame(tag, survey_plot20_names, subplot5, g5x, g5y, dbh)</span><br><span class="line"><span class="comment">#### 做简单排序</span></span><br><span class="line">btmdat &lt;- btmdat[order(btmdat$survey_plot20_names, btmdat$subplot5),]</span><br><span class="line"></span><br><span class="line"><span class="comment">############## 以上生成模拟数据结束 ####################</span></span><br><span class="line"><span class="comment">#### 以下代码用于转换5m坐标到大样地尺度的平面直角坐标</span></span><br><span class="line"><span class="comment">#######################################################</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#### 生成定义5m样方在20m样方x位置的中间变量</span></span><br><span class="line">btmdat$location5x &lt;-<span class="built_in">rep</span>(<span class="literal">NA</span>, nrow(btmdat))</span><br><span class="line">btmdat$location5y &lt;-<span class="built_in">rep</span>(<span class="literal">NA</span>, nrow(btmdat))</span><br><span class="line"><span class="comment">#### 因为是蛇形调查顺序，所以5m的样方名要分别找出x轴和y轴的对应编号</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">1</span>]&lt;-<span class="number">1</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">2</span>]&lt;-<span class="number">2</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">3</span>]&lt;-<span class="number">3</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">4</span>]&lt;-<span class="number">4</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">5</span>]&lt;-<span class="number">4</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">6</span>]&lt;-<span class="number">3</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">7</span>]&lt;-<span class="number">2</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">8</span>]&lt;-<span class="number">1</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">9</span>]&lt;-<span class="number">1</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">10</span>]&lt;-<span class="number">2</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">11</span>]&lt;-<span class="number">3</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">12</span>]&lt;-<span class="number">4</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">13</span>]&lt;-<span class="number">4</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">14</span>]&lt;-<span class="number">3</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">15</span>]&lt;-<span class="number">2</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">16</span>]&lt;-<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#### 生成定义5m样方在20m样方y位置的中间变量</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">1</span>]&lt;-<span class="number">1</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">2</span>]&lt;-<span class="number">1</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">3</span>]&lt;-<span class="number">1</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">4</span>]&lt;-<span class="number">1</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">5</span>]&lt;-<span class="number">2</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">6</span>]&lt;-<span class="number">2</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">7</span>]&lt;-<span class="number">2</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">8</span>]&lt;-<span class="number">2</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">9</span>]&lt;-<span class="number">3</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">10</span>]&lt;-<span class="number">3</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">11</span>]&lt;-<span class="number">3</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">12</span>]&lt;-<span class="number">3</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">13</span>]&lt;-<span class="number">4</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">14</span>]&lt;-<span class="number">4</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">15</span>]&lt;-<span class="number">4</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">16</span>]&lt;-<span class="number">4</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#### 将20m样方的名称补充完整为4位</span></span><br><span class="line">btmdat$survey_plot20_names &lt;- <span class="built_in">as.character</span>(str_pad(btmdat$survey_plot20_names, <span class="number">4</span>, pad =<span class="string">&quot;0&quot;</span>))</span><br><span class="line"><span class="comment">#### 提取20m样方名的前两位，作为20m样方的x坐标</span></span><br><span class="line">x20 &lt;-substr(btmdat$survey_plot20_names,start=<span class="number">1</span>, stop=<span class="number">2</span>)</span><br><span class="line"><span class="comment">#### 提取20m样方名的后两位，作为20m样方的y坐标</span></span><br><span class="line">y20 &lt;-substr(btmdat$survey_plot20_names,start=<span class="number">3</span>, stop=<span class="number">4</span>)</span><br><span class="line"><span class="comment">#### 计算每个个体的以大样地原点为原点的坐标</span></span><br><span class="line"><span class="comment">#### 无论是x轴，还是y轴，注意这里要-1</span></span><br><span class="line">btmdat$gx &lt;- g5x +(btmdat$location5x -<span class="number">1</span>)*<span class="number">5</span>+(<span class="built_in">as.numeric</span>(x20)-<span class="number">1</span>)*<span class="number">20</span></span><br><span class="line">btmdat$gy &lt;- g5y +(btmdat$location5y -<span class="number">1</span>)*<span class="number">5</span>+(<span class="built_in">as.numeric</span>(y20)-<span class="number">1</span>)*<span class="number">20</span></span><br><span class="line"><span class="comment">#### 去掉不需要的中间变量</span></span><br><span class="line">final_btmdat &lt;-subset(btmdat, select =!colnames(btmdat)%in%<span class="built_in">c</span>(<span class="string">&quot;location5x&quot;</span>, <span class="string">&quot;location5y&quot;</span>))</span><br><span class="line">head(final_btmdat)</span><br><span class="line">summary(final_btmdat)</span><br></pre></td></tr></table></figure>
+<pre><code class="R">#### 以下代码先生成模拟的调查数据
+library(stringr)
+#### 生成模拟数据，假设整个样地有88325个个体
+nindividual &lt;-88325
+#### 生成树牌号
+tag &lt;-paste(&quot;BTM&quot;, str_pad(1:nindividual, 6, pad =&quot;0&quot;), sep =&quot;&quot;)
+#### 生成20m样地的名称
+plot20_x &lt;- str_pad(1:20, 2, pad =&quot;0&quot;)
+plot20_y &lt;- str_pad(1:25, 2, pad =&quot;0&quot;)
+names_temp &lt;- expand.grid(plot20_x, plot20_y)
+plot20_names &lt;-paste(names_temp[,1],names_temp[,2], sep =&quot;&quot;)
+survey_plot20_names &lt;-sample(plot20_names,nindividual, replace=TRUE)
+
+#### 随机生成5m样地内，调查个体的坐标
+g5x &lt;-round(runif(nindividual)*5, 2)
+g5y &lt;-round(runif(nindividual)*5, 2)
+#### 生成5m小样方的名称
+subplot5 &lt;-sample(1:16, nindividual, replace=TRUE)
+#### 模拟生成每棵树的胸径dbh, 假设服从指数分布
+dbh &lt;-round(rexp(nindividual,rate =2)*50+1, 1)
+#### 所有生成的数据合并到一个dataframe中
+btmdat &lt;- data.frame(tag, survey_plot20_names, subplot5, g5x, g5y, dbh)
+#### 做简单排序
+btmdat &lt;- btmdat[order(btmdat$survey_plot20_names, btmdat$subplot5),]
+
+############## 以上生成模拟数据结束 ####################
+#### 以下代码用于转换5m坐标到大样地尺度的平面直角坐标
+#######################################################
+
+
+#### 生成定义5m样方在20m样方x位置的中间变量
+btmdat$location5x &lt;-rep(NA, nrow(btmdat))
+btmdat$location5y &lt;-rep(NA, nrow(btmdat))
+#### 因为是蛇形调查顺序，所以5m的样方名要分别找出x轴和y轴的对应编号
+btmdat$location5x[btmdat$subplot5 ==1]&lt;-1
+btmdat$location5x[btmdat$subplot5 ==2]&lt;-2
+btmdat$location5x[btmdat$subplot5 ==3]&lt;-3
+btmdat$location5x[btmdat$subplot5 ==4]&lt;-4
+btmdat$location5x[btmdat$subplot5 ==5]&lt;-4
+btmdat$location5x[btmdat$subplot5 ==6]&lt;-3
+btmdat$location5x[btmdat$subplot5 ==7]&lt;-2
+btmdat$location5x[btmdat$subplot5 ==8]&lt;-1
+btmdat$location5x[btmdat$subplot5 ==9]&lt;-1
+btmdat$location5x[btmdat$subplot5 ==10]&lt;-2
+btmdat$location5x[btmdat$subplot5 ==11]&lt;-3
+btmdat$location5x[btmdat$subplot5 ==12]&lt;-4
+btmdat$location5x[btmdat$subplot5 ==13]&lt;-4
+btmdat$location5x[btmdat$subplot5 ==14]&lt;-3
+btmdat$location5x[btmdat$subplot5 ==15]&lt;-2
+btmdat$location5x[btmdat$subplot5 ==16]&lt;-1
+
+#### 生成定义5m样方在20m样方y位置的中间变量
+btmdat$location5y[btmdat$subplot5 ==1]&lt;-1
+btmdat$location5y[btmdat$subplot5 ==2]&lt;-1
+btmdat$location5y[btmdat$subplot5 ==3]&lt;-1
+btmdat$location5y[btmdat$subplot5 ==4]&lt;-1
+btmdat$location5y[btmdat$subplot5 ==5]&lt;-2
+btmdat$location5y[btmdat$subplot5 ==6]&lt;-2
+btmdat$location5y[btmdat$subplot5 ==7]&lt;-2
+btmdat$location5y[btmdat$subplot5 ==8]&lt;-2
+btmdat$location5y[btmdat$subplot5 ==9]&lt;-3
+btmdat$location5y[btmdat$subplot5 ==10]&lt;-3
+btmdat$location5y[btmdat$subplot5 ==11]&lt;-3
+btmdat$location5y[btmdat$subplot5 ==12]&lt;-3
+btmdat$location5y[btmdat$subplot5 ==13]&lt;-4
+btmdat$location5y[btmdat$subplot5 ==14]&lt;-4
+btmdat$location5y[btmdat$subplot5 ==15]&lt;-4
+btmdat$location5y[btmdat$subplot5 ==16]&lt;-4
+
+#### 将20m样方的名称补充完整为4位
+btmdat$survey_plot20_names &lt;- as.character(str_pad(btmdat$survey_plot20_names, 4, pad =&quot;0&quot;))
+#### 提取20m样方名的前两位，作为20m样方的x坐标
+x20 &lt;-substr(btmdat$survey_plot20_names,start=1, stop=2)
+#### 提取20m样方名的后两位，作为20m样方的y坐标
+y20 &lt;-substr(btmdat$survey_plot20_names,start=3, stop=4)
+#### 计算每个个体的以大样地原点为原点的坐标
+#### 无论是x轴，还是y轴，注意这里要-1
+btmdat$gx &lt;- g5x +(btmdat$location5x -1)*5+(as.numeric(x20)-1)*20
+btmdat$gy &lt;- g5y +(btmdat$location5y -1)*5+(as.numeric(y20)-1)*20
+#### 去掉不需要的中间变量
+final_btmdat &lt;-subset(btmdat, select =!colnames(btmdat)%in%c(&quot;location5x&quot;, &quot;location5y&quot;))
+head(final_btmdat)
+summary(final_btmdat)
+</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2017/10/18/2017-10-18-plotsinfdp/" data-id="ckmq2gwtf008vq8845ky3hwi6" data-title="大型森林样地样方的命名与坐标转换" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2017/10/18/2017-10-18-plotsinfdp/" data-id="ckmq42ajl008i1k84241b8a47" data-title="大型森林样地样方的命名与坐标转换" class="article-share-link">Share</a>
       
       
       
@@ -195,6 +278,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -208,10 +295,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

@@ -110,15 +110,54 @@
 <p><a target="_blank" rel="noopener" href="http://deic.uab.es/~iblanes/beamer_gallery/">http://deic.uab.es/~iblanes/beamer_gallery/</a></p>
 <p><a target="_blank" rel="noopener" href="https://hartwork.org/beamer-theme-matrix/">https://hartwork.org/beamer-theme-matrix/</a></p>
 <p><a target="_blank" rel="noopener" href="https://github.com/matze/mtheme">https://github.com/matze/mtheme</a></p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%%% TeX代码开始</span></span><br><span class="line"><span class="keyword">\documentclass</span>[UTF8]&#123;ctexbeamer&#125;</span><br><span class="line"><span class="keyword">\usetheme</span>&#123;Boadilla&#125;</span><br><span class="line"><span class="keyword">\usecolortheme</span>&#123;beaver&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;graphicx&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;color&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line"><span class="keyword">\title</span>&#123;R编程与进化分析&#125;</span><br><span class="line"><span class="keyword">\subtitle</span>&#123;内容与目标&#125;</span><br><span class="line"><span class="keyword">\author</span>&#123;<span class="keyword">\songti</span> 张金龙&#125;</span><br><span class="line"><span class="keyword">\institute</span>&#123;jinlongzhang01@gmail.com&#125;</span><br><span class="line"><span class="keyword">\date</span>&#123;<span class="keyword">\today</span>&#125;</span><br><span class="line"><span class="keyword">\frame</span>&#123;<span class="keyword">\titlepage</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\begin</span>&#123;frame&#125;</span><br><span class="line"><span class="keyword">\frametitle</span>&#123;目录&#125;</span><br><span class="line"><span class="keyword">\tableofcontents</span></span><br><span class="line"><span class="keyword">\end</span>&#123;frame&#125;</span><br><span class="line"><span class="keyword">\section</span>&#123;进化树之后要回答的问题&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">% 如果需要目录，请去掉这张幻灯片的%</span></span><br><span class="line"><span class="comment">%\begin&#123;frame&#125;</span></span><br><span class="line"><span class="comment">%\frametitle&#123;目录&#125;</span></span><br><span class="line"><span class="comment">%\tableofcontents[currentsection]</span></span><br><span class="line"><span class="comment">%\end&#123;frame&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">\begin</span>&#123;frame&#125;</span><br><span class="line"><span class="keyword">\frametitle</span>&#123;进化树能帮我们回答哪些问题 I？&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;itemize&#125;</span><br><span class="line"><span class="keyword">\item</span> 1. 分类单元之间的系统发育关系</span><br><span class="line"><span class="keyword">\item</span> 2. 物种的形成速率受什么影响？ 如： 类群的古老程度， 类群的丰富度， 类群所处的纬度， 类群的特殊生境</span><br><span class="line"><span class="keyword">\item</span> 3. 物种形成速率和灭绝速率在历史上发生过哪些变化？</span><br><span class="line"><span class="keyword">\item</span> 4. 物种的进化历史越独特， 越应该受到保护吗？</span><br><span class="line"><span class="keyword">\item</span> 5. 相近的物种有相似的性状吗？ 有相似的习性吗？</span><br><span class="line"><span class="keyword">\end</span>&#123;itemize&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;frame&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br><span class="line"><span class="comment">%%% TeX代码结束。</span></span><br></pre></td></tr></table></figure>
+<pre><code class="tex">%%% TeX代码开始
+\documentclass[UTF8]&#123;ctexbeamer&#125;
+\usetheme&#123;Boadilla&#125;
+\usecolortheme&#123;beaver&#125;
+\usepackage&#123;graphicx&#125;
+\usepackage&#123;color&#125;
 
+\begin&#123;document&#125;
+\title&#123;R编程与进化分析&#125;
+\subtitle&#123;内容与目标&#125;
+\author&#123;\songti 张金龙&#125;
+\institute&#123;jinlongzhang01@gmail.com&#125;
+\date&#123;\today&#125;
+\frame&#123;\titlepage&#125;
+
+\begin&#123;frame&#125;
+\frametitle&#123;目录&#125;
+\tableofcontents
+\end&#123;frame&#125;
+\section&#123;进化树之后要回答的问题&#125;
+
+% 如果需要目录，请去掉这张幻灯片的%
+%\begin&#123;frame&#125;
+%\frametitle&#123;目录&#125;
+%\tableofcontents[currentsection]
+%\end&#123;frame&#125;
+
+\begin&#123;frame&#125;
+\frametitle&#123;进化树能帮我们回答哪些问题 I？&#125;
+\begin&#123;itemize&#125;
+\item 1. 分类单元之间的系统发育关系
+\item 2. 物种的形成速率受什么影响？ 如： 类群的古老程度， 类群的丰富度， 类群所处的纬度， 类群的特殊生境
+\item 3. 物种形成速率和灭绝速率在历史上发生过哪些变化？
+\item 4. 物种的进化历史越独特， 越应该受到保护吗？
+\item 5. 相近的物种有相似的性状吗？ 有相似的习性吗？
+\end&#123;itemize&#125;
+\end&#123;frame&#125;
+
+\end&#123;document&#125;
+%%% TeX代码结束。
+</code></pre>
 <p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201801/18/235614sdudnvzdvuucurdc.png"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
 <p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201801/18/235520qfvbzcxxtt66cfvs.png"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/01/15/2018-1-15-beamer/" data-id="ckmq2gwtu00abq8848pucf9l6" data-title="一个中文Latex幻灯片模版" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/01/15/2018-1-15-beamer/" data-id="ckmq42ak0009z1k84dc0292yg" data-title="一个中文Latex幻灯片模版" class="article-share-link">Share</a>
       
       
       
@@ -194,6 +233,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -207,10 +250,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

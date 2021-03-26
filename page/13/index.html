@@ -73,6 +73,94 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2015-9-24-parsetaxa" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2015/09/24/2015-9-24-parsetaxa/" class="article-date">
+  <time class="dt-published" datetime="2015-09-23T20:44:00.000Z" itemprop="datePublished">2015-09-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2015/09/24/2015-9-24-parsetaxa/">一个简单的Taxon Parser：将输入的字符串按照属种作者分开</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>处理生物学名时经常需要将学名按照意义分成几个部分， 如</p>
+<ol>
+<li>GENUS                         属名</li>
+<li>SPECIES                       种加词</li>
+<li>AUTHOR_OF_SPECIES             作者</li>
+<li>INFRASPECIFIC_RANK            种下等级</li>
+<li>INFRASPECIFIC_EPITHET         种下等级加词</li>
+<li>AUTHOR_OF_INFRASPECIFIC_RANK  种下等级作者<br>例如， 太白深灰槭的学名是：<br><code>Acer caesium Wall. ex Brandis subsp. giraldii (Pax) E. Murr.</code></li>
+</ol>
+<p>按照各部分的含义分开，应该是：</p>
+<ul>
+<li>属名 GENUS:  “Acer”                    </li>
+<li>种加词 SPECIES:  “caesium”</li>
+<li>种作者 AUTHOR_OF_SPECIES:  “Wall. ex Brandis”          </li>
+<li>属下等级 INFRASPECIFIC_RANK:  “subsp.”</li>
+<li>属下等级加词 INFRASPECIFIC_EPITHET: “giraldii”  </li>
+<li>属下等级作者 AUTHOR_OF_INFRASPECIFIC_RANK:  “(Pax) E. Murr.”</li>
+</ul>
+<p>物种的学名的拼写有以下几种情况</p>
+<ol>
+<li>只给出属名</li>
+<li>只给出属名和sp.</li>
+<li>给出属名和种名， 但是未提供作者</li>
+<li>给出属名， 种加词和作者</li>
+<li>给出属名， 种加词， 作者， 种下等级（var.或subsp.,或f.）， 种下等级加词， 种下等级作者</li>
+<li>给出属名， 种加词， 种下等级（var.或subsp.,或f.）， 种下等级加词， 种下等级作者</li>
+<li>给出属名， 种加词， 种下等级（var.或subsp.,或f.）， 种下等级加词</li>
+<li>相应的程序必须考虑到以上各种情况， 并将其正确分开。</li>
+</ol>
+<p>herblabel (<a target="_blank" rel="noopener" href="https://github.com/helixcn/herblabel">https://github.com/helixcn/herblabel</a>  ) R 程序包提供了一个简单的生物学名处理的函数</p>
+<p>parse_taxa()， 经过测试，在以上提到的各种情况， 均工作正常。 由于 种下等级 f. 也常用于人名， 故本程序未加入处理f.的部分。 </p>
+<pre><code class="R">library(herblabel)
+###  Species
+parse_taxa(&quot;Acer&quot;)
+parse_taxa(&quot;Acer caudatifoliumHayata&quot;)
+parse_taxa(&quot;Acer caudatifolium&quot;)
+parse_taxa(&quot;Acer sp.&quot;)
+### variaty
+parse_taxa(&quot;Acer caudatum Wall. var.multiserratum (Maxim.) Rehd.&quot;)
+parse_taxa(&quot;Acer caudatum var.multiserratum (Maxim.) Rehd.&quot;)
+parse_taxa(&quot;Acer caudatum Wall. var.multiserratum&quot;)
+parse_taxa(&quot;Acer caudatum var. multiserratum&quot;)
+### subspecies
+parse_taxa(&quot;Acer caesium Wall. exBrandis subsp. giraldii (Pax) E. Murr.&quot;)
+parse_taxa(&quot;Acer caesium subsp.giraldii (Pax) E. Murr.&quot;)
+parse_taxa(&quot;Acer caesium Wall. exBrandis subsp. giraldii&quot;)
+parse_taxa(&quot;Acer caesium subsp.giraldii&quot;)
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2015/09/24/2015-9-24-parsetaxa/" data-id="ckmq42ajb007l1k847iq0b415" data-title="一个简单的Taxon Parser：将输入的字符串按照属种作者分开" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%90%8D/" rel="tag">植物学名</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-2015-07-23-starchartproj" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2015/07/23/2015-07-23-starchartproj/" class="article-date">
@@ -106,14 +194,53 @@
 <li>R =1： 为比例半径， 一般取值为1</li>
 </ul>
 <p>函数定义如下：</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">stereo_proj &lt;-<span class="keyword">function</span>(lambda,phi, lambda0 =<span class="number">0</span>, phi0 =<span class="number">0</span>, R =<span class="number">1</span>)&#123;</span><br><span class="line">   lambda &lt;- lambda/(<span class="number">180</span>/<span class="built_in">pi</span>)</span><br><span class="line">   phi    &lt;- phi/(<span class="number">180</span>/<span class="built_in">pi</span>)</span><br><span class="line">   lambda0 &lt;- lambda0/(<span class="number">180</span>/<span class="built_in">pi</span>)</span><br><span class="line">   phi0   &lt;- phi0/(<span class="number">180</span>/<span class="built_in">pi</span>)</span><br><span class="line">   k =<span class="number">2</span>*R/(<span class="number">1</span>+<span class="built_in">sin</span>(phi0)*<span class="built_in">sin</span>(phi)+<span class="built_in">cos</span>(phi0)*<span class="built_in">cos</span>(phi)*<span class="built_in">cos</span>(lambda - lambda0))</span><br><span class="line">   x = k*<span class="built_in">cos</span>(phi)*<span class="built_in">sin</span>(lambda - lambda0)</span><br><span class="line">   y = k*(<span class="built_in">cos</span>(phi0)*<span class="built_in">sin</span>(phi)-<span class="built_in">sin</span>(phi0)*<span class="built_in">cos</span>(phi)*<span class="built_in">cos</span>(lambda - lambda0))   </span><br><span class="line">   <span class="built_in">return</span>(<span class="built_in">list</span>(x = x, y = y))</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="comment">### 公式参见 ### Source</span></span><br><span class="line"><span class="comment">###  </span></span><br><span class="line"><span class="comment">### 下面用地图投影变换举例</span></span><br><span class="line"></span><br><span class="line"> library(maps)</span><br><span class="line"> <span class="comment">###</span></span><br><span class="line"> aaa &lt;- map()  </span><br><span class="line"> <span class="comment">### 获取大比例尺世界地图中的座标</span></span><br></pre></td></tr></table></figure>
+<pre><code class="R">stereo_proj &lt;-function(lambda,phi, lambda0 =0, phi0 =0, R =1)&#123;
+   lambda &lt;- lambda/(180/pi)
+   phi    &lt;- phi/(180/pi)
+   lambda0 &lt;- lambda0/(180/pi)
+   phi0   &lt;- phi0/(180/pi)
+   k =2*R/(1+sin(phi0)*sin(phi)+cos(phi0)*cos(phi)*cos(lambda - lambda0))
+   x = k*cos(phi)*sin(lambda - lambda0)
+   y = k*(cos(phi0)*sin(phi)-sin(phi0)*cos(phi)*cos(lambda - lambda0))   
+   return(list(x = x, y = y))
+&#125; 
 
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">plot(stereo_proj(lambda = aaa$x, phi = aaa$y), </span><br><span class="line">      type =<span class="string">&quot;l&quot;</span>, xlim =<span class="built_in">c</span>(-<span class="number">6</span>,<span class="number">6</span>), ylim =<span class="built_in">c</span>(-<span class="number">6</span>,<span class="number">6</span>)) </span><br><span class="line"></span><br><span class="line"><span class="comment">### 添加经度线</span></span><br><span class="line"><span class="comment">####Adding longitudinal Lines</span></span><br><span class="line">long =<span class="built_in">c</span>(-<span class="number">180</span>, -<span class="number">150</span>, -<span class="number">120</span>, -<span class="number">90</span>, -<span class="number">60</span>, -<span class="number">30</span>, <span class="number">0</span>, <span class="number">30</span>, <span class="number">60</span>, <span class="number">90</span>, <span class="number">120</span>, <span class="number">150</span>)</span><br><span class="line">lat  =-<span class="number">90</span>:<span class="number">90</span></span><br><span class="line"><span class="keyword">for</span>(i <span class="keyword">in</span> long)&#123;</span><br><span class="line">   temp &lt;- stereo_proj(lambda = i, phi = lat)</span><br><span class="line">   points(temp$x, temp$y, type =<span class="string">&quot;l&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">### 添加纬度线</span></span><br><span class="line"><span class="comment">### Adding latitudinal lines### </span></span><br><span class="line">plot(<span class="number">0</span>, xlim =<span class="built_in">c</span>(-<span class="number">2</span>, <span class="number">2</span>), ylim = <span class="built_in">c</span>(-<span class="number">2</span>, <span class="number">2</span>), pch = <span class="string">&quot;&quot;</span>)</span><br><span class="line">lat =<span class="built_in">c</span>(-<span class="number">90</span>, -<span class="number">60</span>, -<span class="number">30</span>, <span class="number">0</span>, <span class="number">30</span>, <span class="number">60</span>, <span class="number">90</span>)</span><br><span class="line">long  =-<span class="number">150</span>:<span class="number">150</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(i <span class="keyword">in</span> lat)&#123;</span><br><span class="line">   temp &lt;- stereo_proj(lambda = long,phi = i)</span><br><span class="line">   points(temp$x, temp$y, type =<span class="string">&quot;l&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+### 公式参见 ### Source
+###  
+### 下面用地图投影变换举例
+
+ library(maps)
+ ###
+ aaa &lt;- map()  
+ ### 获取大比例尺世界地图中的座标
+</code></pre>
+<pre><code class="R">plot(stereo_proj(lambda = aaa$x, phi = aaa$y), 
+      type =&quot;l&quot;, xlim =c(-6,6), ylim =c(-6,6)) 
+
+### 添加经度线
+####Adding longitudinal Lines
+long =c(-180, -150, -120, -90, -60, -30, 0, 30, 60, 90, 120, 150)
+lat  =-90:90
+for(i in long)&#123;
+   temp &lt;- stereo_proj(lambda = i, phi = lat)
+   points(temp$x, temp$y, type =&quot;l&quot;)
+&#125;
+### 添加纬度线
+### Adding latitudinal lines### 
+plot(0, xlim =c(-2, 2), ylim = c(-2, 2), pch = &quot;&quot;)
+lat =c(-90, -60, -30, 0, 30, 60, 90)
+long  =-150:150
+
+for(i in lat)&#123;
+   temp &lt;- stereo_proj(lambda = long,phi = i)
+   points(temp$x, temp$y, type =&quot;l&quot;)
+&#125;
+</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2015/07/23/2015-07-23-starchartproj/" data-id="ckmq2gwsa006oq8841qvu9clu" data-title="星图中的球极平面投影" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2015/07/23/2015-07-23-starchartproj/" data-id="ckmq42aiz006l1k84bhb27v0n" data-title="星图中的球极平面投影" class="article-share-link">Share</a>
       
       
       
@@ -151,11 +278,17 @@
       
         <p>操作系统Linux Mint<br>安装 python 2.7.6 dev 版本<br>pyephem 所需要的 Numpy,Scipy 已经安装<br>rPython程序包所依赖的RJSONIO程序包也已经通过install.packages(“RJSONIO”) 安装到R中。</p>
 <p>举例：</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">library(rPython)</span><br><span class="line">python.exec(<span class="string">&quot;from ephem import *&quot;</span>)</span><br><span class="line">python.exec(<span class="string">&quot;j = ephem.Jupiter()&quot;</span>)</span><br><span class="line">python.exec(<span class="string">&quot;j.compute(&#x27;1986/2/8&#x27;)&quot;</span>)</span><br><span class="line">python.exec(<span class="string">&quot;print(&#x27;%s %s&#x27; % (j.ra, j.dec))&quot;</span>)</span><br></pre></td></tr></table></figure>
+<pre><code class="R">library(rPython)
+python.exec(&quot;from ephem import *&quot;)
+python.exec(&quot;j = ephem.Jupiter()&quot;)
+python.exec(&quot;j.compute(&#39;1986/2/8&#39;)&quot;)
+python.exec(&quot;print(&#39;%s %s&#39; % (j.ra, j.dec))&quot;)
+</code></pre>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2015/07/10/2015-7-11-runpythoninr/" data-id="ckmq2gwst007rq8842oo27wp6" data-title="R中调用Python代码: 以运行PyEphem天文计算程序包为例" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2015/07/10/2015-7-11-runpythoninr/" data-id="ckmq42aja007j1k847sw79a4x" data-title="R中调用Python代码: 以运行PyEphem天文计算程序包为例" class="article-share-link">Share</a>
       
       
       
@@ -252,12 +385,12 @@
 <p> Physically fit for outdoor work andexperience in hiking in countryside.</p>
 <p>Further Information isavailable at:  <a target="_blank" rel="noopener" href="http://www.kfbg.org/eng/PIRO-flo.aspx">http://www.kfbg.org/eng/PIRO-flo.aspx</a></p>
 <p><strong>How to apply:</strong></p>
-<p>Please send a C.V. (withtwo references, interested position and expected salary) and a short essay (onrelevant experience and reasons for interest in the post) to the HumanResources Manager, Kadoorie Farm &amp; Botanic Garden Corporation, Lam KamRoad, Tai Po, New Territories, Hong Kong or email to <a href="mailto:&#x6b;&#x66;&#106;&#111;&#98;&#x73;&#x40;&#x6b;&#102;&#98;&#x67;&#46;&#111;&#114;&#x67;">&#x6b;&#x66;&#106;&#111;&#98;&#x73;&#x40;&#x6b;&#102;&#98;&#x67;&#46;&#111;&#114;&#x67;</a>.</p>
+<p>Please send a C.V. (withtwo references, interested position and expected salary) and a short essay (onrelevant experience and reasons for interest in the post) to the HumanResources Manager, Kadoorie Farm &amp; Botanic Garden Corporation, Lam KamRoad, Tai Po, New Territories, Hong Kong or email to <a href="mailto:&#x6b;&#x66;&#106;&#x6f;&#98;&#115;&#64;&#107;&#x66;&#x62;&#x67;&#46;&#x6f;&#x72;&#103;">&#x6b;&#x66;&#106;&#x6f;&#98;&#115;&#64;&#107;&#x66;&#x62;&#x67;&#46;&#x6f;&#x72;&#103;</a>.</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2015/05/26/2015-5-26-ad/" data-id="ckmq2gwsq007kq884al2ofxwr" data-title="嘉道理农场暨植物园诚聘“植物鉴定和记录主任（已招到）" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2015/05/26/2015-5-26-ad/" data-id="ckmq42aj8007e1k8446yp3wby" data-title="嘉道理农场暨植物园诚聘“植物鉴定和记录主任（已招到）" class="article-share-link">Share</a>
       
       
       
@@ -309,7 +442,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2015/05/23/2015-5-23-geany/" data-id="ckmq2gwsn007eq884ac7hcbvo" data-title="Linux 使用Geany编写并调试R脚本" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2015/05/23/2015-5-23-geany/" data-id="ckmq42aj8007c1k840qpy8rqj" data-title="Linux 使用Geany编写并调试R脚本" class="article-share-link">Share</a>
       
       
       
@@ -357,8 +490,9 @@
 <li>第一次使用本地版本的git时，需要设定用户名和联系方式</li>
 </ol>
 <p>打开 terminal,输入</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;Jinlong Zhang&quot;</span><br><span class="line">git config --global user.email &quot;jinlongzhang01@gmail.com&quot;</span><br></pre></td></tr></table></figure>
-
+<pre><code class="shell">git config --global user.name &quot;Jinlong Zhang&quot;
+git config --global user.email &quot;jinlongzhang01@gmail.com&quot;
+</code></pre>
 <ol start="3">
 <li>更改 credential helper缓存密码的时间</li>
 </ol>
@@ -366,9 +500,9 @@
 <ol start="4">
 <li>在本地/herblabel/文件夹中 创建本地的repository</li>
 </ol>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /home/jinlong/git_repositories/github_herblabel/</span><br><span class="line">git init  </span><br></pre></td></tr></table></figure>
-
-
+<pre><code class="shell">cd /home/jinlong/git_repositories/github_herblabel/
+git init  
+</code></pre>
 <ol start="5">
 <li>在/herblabel/文件夹下， 将herblabel 源代码记录到git库中。</li>
 </ol>
@@ -441,7 +575,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2015/05/17/2015-5-18-github/" data-id="ckmq2gwsp007gq884cqyid0ta" data-title="用git在github上托管代码" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2015/05/17/2015-5-18-github/" data-id="ckmq42aj600781k849gup5imi" data-title="用git在github上托管代码" class="article-share-link">Share</a>
       
       
       
@@ -492,20 +626,58 @@
 <li>Windows下，请安装Rtools，Rtools中包含gfortran编译器，安装时请将Rtools添加到启动 路径，参考 (<a target="_blank" rel="noopener" href="https://github.com/helixcn/programing_in_r_cn/blob/master/beamer/00_software_installation.pdf">https://github.com/helixcn/programing_in_r_cn/blob/master/beamer/00_software_installation.pdf</a> )</li>
 </ol>
 <h1 id="方法1，编译代码后加载和调用Fortran代码"><a href="#方法1，编译代码后加载和调用Fortran代码" class="headerlink" title="方法1，编译代码后加载和调用Fortran代码"></a>方法1，编译代码后加载和调用Fortran代码</h1><p>将Fortran代码编译为share library后，再用R的<code>.Fortran</code>函数调用。</p>
-<h2 id="编译和调用Fortran77代码"><a href="#编译和调用Fortran77代码" class="headerlink" title="编译和调用Fortran77代码"></a>编译和调用Fortran77代码</h2><h3 id="Fortran-77源代码"><a href="#Fortran-77源代码" class="headerlink" title="Fortran 77源代码"></a>Fortran 77源代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">C   Content of file factorial.f</span><br><span class="line">C   FINDING THE FACTORIAL IN FORTRAN 77</span><br><span class="line">        SUBROUTINE FACTO1(N,ANSWER)        </span><br><span class="line">        INTEGER N, ANSWER, I</span><br><span class="line">        ANSWER &#x3D; 1</span><br><span class="line">        DO 100 I &#x3D; 2,N</span><br><span class="line">            ANSWER &#x3D; ANSWER * I</span><br><span class="line"> 100     CONTINUE</span><br><span class="line">        END</span><br></pre></td></tr></table></figure>
-
-<h3 id="Mac和Linux下的R脚本"><a href="#Mac和Linux下的R脚本" class="headerlink" title="Mac和Linux下的R脚本"></a>Mac和Linux下的R脚本</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;/Users/jinlong/Desktop/fortran_example/fortran77/&quot;</span>)</span><br><span class="line">system(<span class="string">&quot;R CMD SHLIB factorial.f&quot;</span>)</span><br><span class="line">dyn.load(<span class="string">&quot;factorial.so&quot;</span>)</span><br><span class="line">.Fortran(<span class="string">&quot;facto1&quot;</span>,n=<span class="built_in">as.integer</span>(<span class="number">5</span>),answer=<span class="built_in">as.integer</span>(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
-
-<h3 id="Windows下的R脚本"><a href="#Windows下的R脚本" class="headerlink" title="Windows下的R脚本"></a>Windows下的R脚本</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;C:\Users\jlzhang\Desktop\fortran77&quot;</span>)</span><br><span class="line">system(<span class="string">&quot;Rcmd SHLIB factorial.f&quot;</span>)</span><br><span class="line">dyn.load(<span class="string">&quot;factorial.dll&quot;</span>)</span><br><span class="line">.Fortran(<span class="string">&quot;facto1&quot;</span>,n=<span class="built_in">as.integer</span>(<span class="number">5</span>),answer=<span class="built_in">as.integer</span>(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
-
-<h2 id="编译和调用Fortran90代码"><a href="#编译和调用Fortran90代码" class="headerlink" title="编译和调用Fortran90代码"></a>编译和调用Fortran90代码</h2><h3 id="Fortran90源代码"><a href="#Fortran90源代码" class="headerlink" title="Fortran90源代码"></a>Fortran90源代码</h3><figure class="highlight f90"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">! Content of file factorial.f90</span></span><br><span class="line"><span class="comment">! Finding the factorial in Fortran 90</span></span><br><span class="line"><span class="function"><span class="keyword">subroutine</span></span> facto2(n,answer)      </span><br><span class="line"><span class="keyword">implicit</span> <span class="keyword">none</span></span><br><span class="line">    <span class="keyword">integer</span> n, answer, i</span><br><span class="line">    answer = <span class="number">1</span></span><br><span class="line">    <span class="keyword">do</span> i = <span class="number">2</span>,n</span><br><span class="line">        answer = answer * i      </span><br><span class="line">    <span class="keyword">end</span> <span class="keyword">do</span></span><br><span class="line"><span class="keyword">end</span> <span class="function"><span class="keyword">subroutine</span></span> facto2</span><br></pre></td></tr></table></figure>
-
-<h3 id="Linux下的R代码"><a href="#Linux下的R代码" class="headerlink" title="Linux下的R代码"></a>Linux下的R代码</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;/Users/jinlong/Desktop/fortran_example/fortran90/&quot;</span>)</span><br><span class="line">system(<span class="string">&quot;R CMD SHLIB factorial.f90&quot;</span>)</span><br><span class="line">dyn.load(<span class="string">&quot;factorial.so&quot;</span>)</span><br><span class="line">.Fortran(<span class="string">&quot;facto2&quot;</span>,n=<span class="built_in">as.integer</span>(<span class="number">5</span>),answer=<span class="built_in">as.integer</span>(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
-
-<h3 id="Windows下的R代码"><a href="#Windows下的R代码" class="headerlink" title="Windows下的R代码"></a>Windows下的R代码</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;C:\Users\jlzhang\Desktop\fortran90&quot;</span>)</span><br><span class="line">system(<span class="string">&quot;Rcmd SHLIB factorial.f90&quot;</span>)</span><br><span class="line">dyn.load(<span class="string">&quot;factorial.dll&quot;</span>)</span><br><span class="line">.Fortran(<span class="string">&quot;facto2&quot;</span>, n=<span class="built_in">as.integer</span>(<span class="number">5</span>), answer=<span class="built_in">as.integer</span>(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
-
-<h1 id="方法2，使用inline程序包"><a href="#方法2，使用inline程序包" class="headerlink" title="方法2，使用inline程序包"></a>方法2，使用inline程序包</h1><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">library(inline)</span><br><span class="line">fcode &lt;- <span class="string">&quot;</span></span><br><span class="line"><span class="string">      integer::i</span></span><br><span class="line"><span class="string">      do i = 2, n(1)</span></span><br><span class="line"><span class="string">         res(1) = res(1) * i</span></span><br><span class="line"><span class="string">      end do</span></span><br><span class="line"><span class="string">&quot;</span></span><br><span class="line">fcodefun &lt;- cfunction(signature(n=<span class="string">&quot;integer&quot;</span>, res = <span class="string">&quot;integer&quot;</span>),</span><br><span class="line">                     fcode, convention=<span class="string">&quot;.Fortran&quot;</span>)</span><br><span class="line">fcodefun(n = <span class="built_in">as.integer</span>(<span class="number">5</span>), res = <span class="built_in">as.integer</span>(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
-
+<h2 id="编译和调用Fortran77代码"><a href="#编译和调用Fortran77代码" class="headerlink" title="编译和调用Fortran77代码"></a>编译和调用Fortran77代码</h2><h3 id="Fortran-77源代码"><a href="#Fortran-77源代码" class="headerlink" title="Fortran 77源代码"></a>Fortran 77源代码</h3><pre><code class="f77">C   Content of file factorial.f
+C   FINDING THE FACTORIAL IN FORTRAN 77
+        SUBROUTINE FACTO1(N,ANSWER)        
+        INTEGER N, ANSWER, I
+        ANSWER = 1
+        DO 100 I = 2,N
+            ANSWER = ANSWER * I
+ 100     CONTINUE
+        END
+</code></pre>
+<h3 id="Mac和Linux下的R脚本"><a href="#Mac和Linux下的R脚本" class="headerlink" title="Mac和Linux下的R脚本"></a>Mac和Linux下的R脚本</h3><pre><code class="R">setwd(&quot;/Users/jinlong/Desktop/fortran_example/fortran77/&quot;)
+system(&quot;R CMD SHLIB factorial.f&quot;)
+dyn.load(&quot;factorial.so&quot;)
+.Fortran(&quot;facto1&quot;,n=as.integer(5),answer=as.integer(1))
+</code></pre>
+<h3 id="Windows下的R脚本"><a href="#Windows下的R脚本" class="headerlink" title="Windows下的R脚本"></a>Windows下的R脚本</h3><pre><code class="R">setwd(&quot;C:\Users\jlzhang\Desktop\fortran77&quot;)
+system(&quot;Rcmd SHLIB factorial.f&quot;)
+dyn.load(&quot;factorial.dll&quot;)
+.Fortran(&quot;facto1&quot;,n=as.integer(5),answer=as.integer(1))
+</code></pre>
+<h2 id="编译和调用Fortran90代码"><a href="#编译和调用Fortran90代码" class="headerlink" title="编译和调用Fortran90代码"></a>编译和调用Fortran90代码</h2><h3 id="Fortran90源代码"><a href="#Fortran90源代码" class="headerlink" title="Fortran90源代码"></a>Fortran90源代码</h3><pre><code class="f90">  ! Content of file factorial.f90
+  ! Finding the factorial in Fortran 90
+  subroutine facto2(n,answer)      
+  implicit none
+      integer n, answer, i
+      answer = 1
+      do i = 2,n
+          answer = answer * i      
+      end do
+  end subroutine facto2
+</code></pre>
+<h3 id="Linux下的R代码"><a href="#Linux下的R代码" class="headerlink" title="Linux下的R代码"></a>Linux下的R代码</h3><pre><code class="R">setwd(&quot;/Users/jinlong/Desktop/fortran_example/fortran90/&quot;)
+system(&quot;R CMD SHLIB factorial.f90&quot;)
+dyn.load(&quot;factorial.so&quot;)
+.Fortran(&quot;facto2&quot;,n=as.integer(5),answer=as.integer(1))
+</code></pre>
+<h3 id="Windows下的R代码"><a href="#Windows下的R代码" class="headerlink" title="Windows下的R代码"></a>Windows下的R代码</h3><pre><code class="R">setwd(&quot;C:\Users\jlzhang\Desktop\fortran90&quot;)
+system(&quot;Rcmd SHLIB factorial.f90&quot;)
+dyn.load(&quot;factorial.dll&quot;)
+.Fortran(&quot;facto2&quot;, n=as.integer(5), answer=as.integer(1))
+</code></pre>
+<h1 id="方法2，使用inline程序包"><a href="#方法2，使用inline程序包" class="headerlink" title="方法2，使用inline程序包"></a>方法2，使用inline程序包</h1><pre><code class="R">library(inline)
+fcode &lt;- &quot;
+      integer::i
+      do i = 2, n(1)
+         res(1) = res(1) * i
+      end do
+&quot;
+fcodefun &lt;- cfunction(signature(n=&quot;integer&quot;, res = &quot;integer&quot;),
+                     fcode, convention=&quot;.Fortran&quot;)
+fcodefun(n = as.integer(5), res = as.integer(1))
+</code></pre>
 <p>若要将Fortran编写到程序包中， 则需要将fortran源代码放入src文件夹中， 用.Fortran()直接调用fortran中的subroutine。R程序包的源代码中是不允许有已经编译好的可执行程序的， 因为这会造成安全风险以及可移植性的问题。注意，.Fortran()中的参数数据类型，必须与fortran代码中的类型一致，一般用 as.integer, as.double， as.character等转换成fortran代码能识别的数据类型。</p>
 <p>labdsv程序包（<a target="_blank" rel="noopener" href="https://cran.r-project.org/web/packages/labdsv/index.html">https://cran.r-project.org/web/packages/labdsv/index.html</a> ）中包含了f77，可供参考。</p>
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
@@ -520,7 +692,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2015/05/02/2015-5-2-rfortran/" data-id="ckmq2gwsq007iq88412rfakeu" data-title="R中调用FORTRAN的两种方式" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2015/05/02/2015-5-2-rfortran/" data-id="ckmq42aj7007a1k84be3kfu79" data-title="R中调用FORTRAN的两种方式" class="article-share-link">Share</a>
       
       
       
@@ -556,12 +728,59 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#### 颜色</span></span><br><span class="line">colours&lt;-<span class="built_in">c</span>(<span class="string">&quot;#735244&quot;</span>, <span class="string">&quot;#c29682&quot;</span>, <span class="string">&quot;#627a9d&quot;</span>, <span class="string">&quot;#576c43&quot;</span>, <span class="string">&quot;#8580b1&quot;</span>, <span class="string">&quot;#67bdaa&quot;</span>, <span class="string">&quot;#d67e2c&quot;</span>, <span class="string">&quot;#505ba6&quot;</span>,</span><br><span class="line"> <span class="string">&quot;#c15a63&quot;</span>, <span class="string">&quot;#5e3c6c&quot;</span>, <span class="string">&quot;#9dbc40&quot;</span>, <span class="string">&quot;#e0a32e&quot;</span>, <span class="string">&quot;#383d96&quot;</span>, <span class="string">&quot;#469449&quot;</span>, <span class="string">&quot;#af363c&quot;</span>, <span class="string">&quot;#e7c71f&quot;</span>,</span><br><span class="line"> <span class="string">&quot;#bb5695&quot;</span>, <span class="string">&quot;#0885a1&quot;</span>, <span class="string">&quot;#f3f3f2&quot;</span>, <span class="string">&quot;#c8c8c8&quot;</span>, <span class="string">&quot;#a0a0a0&quot;</span>, <span class="string">&quot;#7a7a79&quot;</span>, <span class="string">&quot;#555555&quot;</span>, <span class="string">&quot;#343434&quot;</span>)</span><br><span class="line"><span class="comment">#### xy矩阵</span></span><br><span class="line">x =<span class="number">1</span>:<span class="number">24</span></span><br><span class="line">y =<span class="number">1</span>:<span class="number">24</span></span><br><span class="line"><span class="built_in">dim</span>(x)&lt;-<span class="built_in">c</span>(<span class="number">4</span>, <span class="number">6</span>)</span><br><span class="line"><span class="built_in">dim</span>(y)&lt;-<span class="built_in">c</span>(<span class="number">4</span>, <span class="number">6</span>)</span><br><span class="line">x1 =<span class="number">2</span></span><br><span class="line">y1 =-<span class="number">2</span></span><br><span class="line"><span class="keyword">for</span>(i in1:<span class="number">6</span>)&#123;</span><br><span class="line">  <span class="keyword">for</span>(j in1:<span class="number">4</span>)&#123;</span><br><span class="line">      x[j, i]&lt;-x1 +i*(<span class="number">13.5</span>+<span class="number">2</span>)</span><br><span class="line">      y[j, i]&lt;-y1 -j*(<span class="number">13.5</span>+<span class="number">2</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">#### 定义颜色块出现的位置</span></span><br><span class="line">x2 &lt;-x -<span class="number">13.5</span></span><br><span class="line">y2 &lt;-y -<span class="number">13.5</span></span><br><span class="line"><span class="comment">### pdf(file =&quot;color.checkerNaNyk.pdf&quot;, width =4, height = 3,colormodel=&quot;cmyk&quot;)</span></span><br><span class="line"><span class="comment">#pdf(file = &quot;color.checker.rgb.pdf&quot;, width =4.2,height = 3)</span></span><br><span class="line">par(bg =<span class="string">&#x27;black&#x27;</span>, mar =<span class="built_in">c</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">.8</span>,<span class="number">0</span>))</span><br><span class="line">plot(<span class="number">1</span>, xlim=<span class="built_in">c</span>(<span class="number">5</span>, <span class="number">94</span>), ylim =<span class="built_in">c</span>(-<span class="number">77</span>, -<span class="number">18</span>),pch =<span class="string">&quot;&quot;</span>)</span><br><span class="line">cols &lt;-colours</span><br><span class="line">k =<span class="number">1</span></span><br><span class="line"><span class="keyword">for</span>(i in1:<span class="number">4</span>)&#123;</span><br><span class="line">  <span class="keyword">for</span>(j in1:<span class="number">6</span>)&#123;</span><br><span class="line">      rect(x[i,j],y[i,j],x2[i,j],y2[i,j],col= cols[k])</span><br><span class="line">      k =k +<span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">mtext(<span class="string">&quot;Colour Checker in RGB&quot;</span>,side =<span class="number">3</span>, line=<span class="number">.01</span>, col=<span class="string">&quot;white&quot;</span>,cex =<span class="number">0.6</span>)</span><br><span class="line"><span class="comment">#dev.off()</span></span><br><span class="line"><span class="comment">#pdf(file =&quot;color.checker.CMYK.pdf&quot;, width =4.2, height =3,colormodel=&quot;cmyk&quot;)</span></span><br><span class="line">par(bg =<span class="string">&#x27;black&#x27;</span>, mar =<span class="built_in">c</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">.8</span>,<span class="number">0</span>))</span><br><span class="line">plot(<span class="number">1</span>, xlim=<span class="built_in">c</span>(<span class="number">5</span>, <span class="number">94</span>), ylim =<span class="built_in">c</span>(-<span class="number">77</span>, -<span class="number">18</span>),pch =<span class="string">&quot;&quot;</span>)</span><br><span class="line">cols &lt;-colours</span><br><span class="line">k =<span class="number">1</span></span><br><span class="line"><span class="keyword">for</span>(i in1:<span class="number">4</span>)&#123;</span><br><span class="line">  <span class="keyword">for</span>(j in1:<span class="number">6</span>)&#123;</span><br><span class="line">      rect(x[i,j],y[i,j],x2[i,j],y2[i,j],col= cols[k])</span><br><span class="line">      k =k +<span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">mtext(<span class="string">&quot;Colour Checker in CMYK&quot;</span>,side =<span class="number">3</span>, line=<span class="number">.01</span>, col=<span class="string">&quot;white&quot;</span>,cex =<span class="number">0.6</span>)</span><br><span class="line"><span class="comment">#dev.off()</span></span><br></pre></td></tr></table></figure>
+        <pre><code class="R">#### 颜色
+colours&lt;-c(&quot;#735244&quot;, &quot;#c29682&quot;, &quot;#627a9d&quot;, &quot;#576c43&quot;, &quot;#8580b1&quot;, &quot;#67bdaa&quot;, &quot;#d67e2c&quot;, &quot;#505ba6&quot;,
+ &quot;#c15a63&quot;, &quot;#5e3c6c&quot;, &quot;#9dbc40&quot;, &quot;#e0a32e&quot;, &quot;#383d96&quot;, &quot;#469449&quot;, &quot;#af363c&quot;, &quot;#e7c71f&quot;,
+ &quot;#bb5695&quot;, &quot;#0885a1&quot;, &quot;#f3f3f2&quot;, &quot;#c8c8c8&quot;, &quot;#a0a0a0&quot;, &quot;#7a7a79&quot;, &quot;#555555&quot;, &quot;#343434&quot;)
+#### xy矩阵
+x =1:24
+y =1:24
+dim(x)&lt;-c(4, 6)
+dim(y)&lt;-c(4, 6)
+x1 =2
+y1 =-2
+for(i in1:6)&#123;
+  for(j in1:4)&#123;
+      x[j, i]&lt;-x1 +i*(13.5+2)
+      y[j, i]&lt;-y1 -j*(13.5+2)
+  &#125;
+&#125;
+#### 定义颜色块出现的位置
+x2 &lt;-x -13.5
+y2 &lt;-y -13.5
+### pdf(file =&quot;color.checkerNaNyk.pdf&quot;, width =4, height = 3,colormodel=&quot;cmyk&quot;)
+#pdf(file = &quot;color.checker.rgb.pdf&quot;, width =4.2,height = 3)
+par(bg =&#39;black&#39;, mar =c(0,0,.8,0))
+plot(1, xlim=c(5, 94), ylim =c(-77, -18),pch =&quot;&quot;)
+cols &lt;-colours
+k =1
+for(i in1:4)&#123;
+  for(j in1:6)&#123;
+      rect(x[i,j],y[i,j],x2[i,j],y2[i,j],col= cols[k])
+      k =k +1
+  &#125;
+&#125;
+mtext(&quot;Colour Checker in RGB&quot;,side =3, line=.01, col=&quot;white&quot;,cex =0.6)
+#dev.off()
+#pdf(file =&quot;color.checker.CMYK.pdf&quot;, width =4.2, height =3,colormodel=&quot;cmyk&quot;)
+par(bg =&#39;black&#39;, mar =c(0,0,.8,0))
+plot(1, xlim=c(5, 94), ylim =c(-77, -18),pch =&quot;&quot;)
+cols &lt;-colours
+k =1
+for(i in1:4)&#123;
+  for(j in1:6)&#123;
+      rect(x[i,j],y[i,j],x2[i,j],y2[i,j],col= cols[k])
+      k =k +1
+  &#125;
+&#125;
+mtext(&quot;Colour Checker in CMYK&quot;,side =3, line=.01, col=&quot;white&quot;,cex =0.6)
+#dev.off()
+</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2015/04/16/2015-4-16-colors/" data-id="ckmq2gwsn007cq8841x050ufd" data-title="山寨版 Color Checker" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2015/04/16/2015-4-16-colors/" data-id="ckmq42aj600761k84goyv37o1" data-title="山寨版 Color Checker" class="article-share-link">Share</a>
       
       
       
@@ -614,16 +833,24 @@
 <p>我的电脑&gt;属性&gt;高级&gt;环境变量&gt;系统变量  PATH一项，点击“编辑”，检查是否具有以下路径。通常软件在安装时已经自动配置好了启动路径。</p>
 <h1 id="3-解压缩R源代码，-并放在路径无中文的文件夹下。"><a href="#3-解压缩R源代码，-并放在路径无中文的文件夹下。" class="headerlink" title="3. 解压缩R源代码， 并放在路径无中文的文件夹下。"></a>3. 解压缩R源代码， 并放在路径无中文的文件夹下。</h1><p>例如 建立一个文件夹 package， 将 picante_1.6-2.tar.gz 文件拷贝到 package文件夹下。 点击右键， 用7zip解压缩，直到 picante 文件夹这一层为止。</p>
 <h1 id="4-在-package文件夹下，-创建四个纯文本文件"><a href="#4-在-package文件夹下，-创建四个纯文本文件" class="headerlink" title="4. 在 package文件夹下， 创建四个纯文本文件"></a>4. 在 package文件夹下， 创建四个纯文本文件</h1><h2 id="（1）“install-Check-txt”"><a href="#（1）“install-Check-txt”" class="headerlink" title="（1）“install Check.txt”"></a>（1）“install Check.txt”</h2><p>用记事本打开， 输入如下内容（不包括引号）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Rcmd check picante</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+<pre><code>Rcmd check picante
+pause
+</code></pre>
 <p>保存</p>
 <h2 id="（2）“install-create-Linux-txt”"><a href="#（2）“install-create-Linux-txt”" class="headerlink" title="（2）“install create Linux.txt”"></a>（2）“install create Linux.txt”</h2><p>用记事本打开， 输入如下内容（不包括引号）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Rcmd build picante</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+<pre><code>Rcmd build picante
+pause
+</code></pre>
 <p>保存</p>
 <h2 id="（3）“install-create-Windows-Binary-txt”"><a href="#（3）“install-create-Windows-Binary-txt”" class="headerlink" title="（3）“install create Windows Binary.txt”"></a>（3）“install create Windows Binary.txt”</h2><p>用记事本打开， 输入如下内容（不包括引号）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Rcmd INSTALL --build picante</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+<pre><code>Rcmd INSTALL --build picante
+pause
+</code></pre>
 <p>保存</p>
 <h2 id="（4）“install-txt”"><a href="#（4）“install-txt”" class="headerlink" title="（4）“install.txt”"></a>（4）“install.txt”</h2><p>用记事本打开， 输入如下内容（不包括引号）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Rcmd INSTALL picante</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+<pre><code>Rcmd INSTALL picante
+pause
+</code></pre>
 <p>保存</p>
 <p><strong>将扩展名txt 更改为 .bat</strong></p>
 <h1 id="5-检查和安装"><a href="#5-检查和安装" class="headerlink" title="5. 检查和安装"></a>5. 检查和安装</h1><ul>
@@ -641,7 +868,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2015/04/01/2015-4-1-installrpack/" data-id="ckmq2gwsl0077q8842wm11yzb" data-title="Windows从源代码安装R程序包－以安装picante程序包为例" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2015/04/01/2015-4-1-installrpack/" data-id="ckmq42aj500741k84cw8mgjwh" data-title="Windows从源代码安装R程序包－以安装picante程序包为例" class="article-share-link">Share</a>
       
       
       
@@ -703,60 +930,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2015/03/21/2015-03-21-svn/" data-id="ckmq2gws8006hq884dogg5l7t" data-title="用tortoisesvn管理Rforge上的程序包" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2015/03/21/2015-03-21-svn/" data-id="ckmq42aiz006j1k84bxhyeg3z" data-title="用tortoisesvn管理Rforge上的程序包" class="article-share-link">Share</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" rel="tag">版本控制</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-2015-2-20-tiefeng" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2015/02/20/2015-2-20-tiefeng/" class="article-date">
-  <time class="dt-published" datetime="2015-02-19T22:05:54.000Z" itemprop="datePublished">2015-02-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2015/02/20/2015-2-20-tiefeng/">忆铁峰</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>铁峰姓朴，是西北农林科技大学水保所的青年教师，和我同岁， 之前在东北林业大学学习， 并在韩国江原道大学留学。铁峰做的是群落生态学中的密度制约，做得很出色。研究成果发表在国际主流刊物上，受到同行的关注。</p>
-<p>初识铁峰是在2009年， 那一年我和研究组米湘成老师去小兴安岭伊春的凉水样地和五营采集DNA材料。这两个样地是东北林业大学金光泽教授负责建立的， 铁峰就在金光泽教授的实验室帮忙。这是与铁峰第一次见面： 他个头很高，相当魁梧，很健谈。当地保护区的宋科长和铁峰也都很熟，因为他是朝鲜族， 给他起了个外号：“铁棒”，但是他也不生气。在实验样地， 我们一起在凉水样地采集样品， 铁峰帮我们找材料， 穿梭在红松、落叶松和冷杉之间。晚上回来， 一边压标本， 一起聊天， 他就介绍自己在韩国留学的经历。我问他， 作为朝鲜族， 在韩国留学， 是什么感觉？ 他说， 就是觉得自己还是中国人， 与朝鲜人还是很不同。</p>
-<p>之后， 我们一直通过QQ联系。2010年， 2011年， 铁峰和东北林业大学的几位研究生到中国科学院植物研究所培训，我请他们吃饭， 一起聊密度制约，聊群落生态研究。</p>
-<p>两年前， 铁峰到了陕西杨凌，成了西北农林科技大学的青年教师， 我们还经常通过QQ联络：聊聊学校， 聊未来的发展， 聊合作研究。</p>
-<p>今年过年回家，我直到初一晚上才找到时间给能联系到的好友们发新年祝福消息，我写到“铁峰兄， 新年快乐， 万事如意！”谁料今早收到他姨母的回复，“他以离开这个世界啦 你还不知道吗？ 我是他的姨。” 接着又收到铁峰妈妈的电话， 同我讲述了大约是十天前， 铁峰一个人去位于延安的实验样地， 不知什么原因， 栽倒在一个坑中， 发现时， 已经太晚了。我安慰了阿姨很久， 但是人已不在， 生者还需要坚强。</p>
-<p>这样一位年轻的朋友就这么走了， 我心情非常沉重。铁峰，希望你在天国好好的。天堂里再没有文章压力，没有项目评审，没有做不完的实验， 没有一个人出差…….</p>
-<p>铁峰的weibo<br><a target="_blank" rel="noopener" href="http://t.qq.com/Bonze_Tang">http://t.qq.com/Bonze_Tang</a></p>
-<p>铁峰</p>
-<p><a target="_blank" rel="noopener" href="http://www.escience.cn/people/piaotiefeng/index.html">http://www.escience.cn/people/piaotiefeng/index.html</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2015/02/20/2015-2-20-tiefeng/" data-id="ckmq2gwsk0072q884h7ax0x4c" data-title="忆铁峰" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BA%BA%E7%89%A9/" rel="tag">人物</a></li></ul>
 
     </footer>
   </div>
@@ -816,6 +994,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -829,10 +1011,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

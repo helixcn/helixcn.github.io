@@ -175,39 +175,83 @@
 <p>Rtools安装完成后可以通过以下方式检查是否安装成功:</p>
 <p>图5.在控制台中输入zip,如图所示，若未提示错误，则Rtools安装和配置成功</p>
 <h2 id="安装openxlsx程序包"><a href="#安装openxlsx程序包" class="headerlink" title="安装openxlsx程序包"></a>安装openxlsx程序包</h2><p>openxlsx程序包用来读取和保存带有植物名录的xlsx模板，在Rconsole中输入：</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">&quot;openxlsx&quot;</span>)</span><br></pre></td></tr></table></figure>
-
+<pre><code class="R">install.packages(&quot;openxlsx&quot;)
+</code></pre>
 <p>然后，在弹出的窗口选择距离较近的CRAN镜像，openxlsx程序包会自动下载并安装好。部分地区由于网络限制，不一定能打开r-project网站的云服务，以致报错。此时可以用以下命令从指定的CRAN镜像网站安装:</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">&quot;ctv&quot;</span>, repos = <span class="string">&quot;http://cran.R-project.org&quot;</span>)</span><br></pre></td></tr></table></figure>
-
+<pre><code class="R">install.packages(&quot;ctv&quot;, repos = &quot;http://cran.R-project.org&quot;)
+</code></pre>
 <p>其中 <a target="_blank" rel="noopener" href="http://cran.r-project.org/">http://cran.R-project.org</a> 可替换为任何CRAN镜像名。CRAN镜像列表见以下网址：<a target="_blank" rel="noopener" href="https://cran.r-project.org/mirrors.html">https://cran.r-project.org/mirrors.html</a></p>
 <p>图6.通过<code>install.packages</code>命令安装openxlsx程序包</p>
 <h2 id="安装plantlist程序包"><a href="#安装plantlist程序包" class="headerlink" title="安装plantlist程序包"></a>安装plantlist程序包</h2><p>由于plantlist程序包内置的数据约20M,不便提交到CRAN。稳定版本在R-Forge(<a target="_blank" rel="noopener" href="https://r-forge.r-project.org/R/?group_id=2052),%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC%E7%9A%84%E6%BA%90%E4%BB%A3%E7%A0%81%E4%BF%9D%E5%AD%98%E5%9C%A8github%E3%80%82">https://r-forge.r-project.org/R/?group_id=2052),最新版本的源代码保存在github。</a></p>
 <p>图7.Rforge网站上plantlist的页面</p>
 <h3 id="从R-Forge下载安装"><a href="#从R-Forge下载安装" class="headerlink" title="从R-Forge下载安装"></a>从R-Forge下载安装</h3><p>命令是:</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">&quot;plantlist&quot;</span>, repos=<span class="string">&quot;http://R-Forge.R-project.org&quot;</span>)</span><br></pre></td></tr></table></figure>
-
+<pre><code class="R">install.packages(&quot;plantlist&quot;, repos=&quot;http://R-Forge.R-project.org&quot;)
+</code></pre>
 <h3 id="从github下载和安装"><a href="#从github下载和安装" class="headerlink" title="从github下载和安装"></a>从github下载和安装</h3><p>plantlist的github网址是(<a target="_blank" rel="noopener" href="https://www.github.com/helixcn/plantlist)%E3%80%82%E5%8F%AF%E4%BD%BF%E7%94%A8%E5%A6%82%E4%B8%8B%E5%91%BD%E4%BB%A4%E5%AE%89%E8%A3%85%EF%BC%9A">https://www.github.com/helixcn/plantlist)。可使用如下命令安装：</a></p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">devtools::install_github(<span class="string">&quot;helixcn/plantlist&quot;</span>)</span><br></pre></td></tr></table></figure>
-
+<pre><code class="R">devtools::install_github(&quot;helixcn/plantlist&quot;)
+</code></pre>
 <p>若尚未安装devtools程序包,需要输入以下命令安装:</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">&quot;devtools&quot;</span>)</span><br></pre></td></tr></table></figure>
-
+<pre><code class="R">install.packages(&quot;devtools&quot;)
+</code></pre>
 <p>至此，plantlist及其依赖的程序包都安装好了。</p>
 <h1 id="plantlist各函数的用法"><a href="#plantlist各函数的用法" class="headerlink" title="plantlist各函数的用法"></a>plantlist各函数的用法</h1><p>在使用plantlist之前，必须用<code>library(plantlist)</code> 加载plantlist。查询每个函数的使用方法，请输入<code>?``函数名</code>，例如：<code>?TPL</code>即可查看TPL函数的帮助界面。</p>
 <h2 id="CTPL-用中文名查询科、属、分布、海拔、IUCN等级数据"><a href="#CTPL-用中文名查询科、属、分布、海拔、IUCN等级数据" class="headerlink" title="CTPL() 用中文名查询科、属、分布、海拔、IUCN等级数据"></a><code>CTPL()</code> 用中文名查询科、属、分布、海拔、IUCN等级数据</h2><p>调用方式和参数如下： <code>CTPL(taxa= NULL, print_as_list = TRUE)</code></p>
 <p>其中taxa是植物的中文名， <code>print_as_list</code> 只是打印方式的选项，如果为TRUE，则用列表的方式打印。</p>
 <p><strong>注意：用列表的方式打印，只是为了显示的方便，本函数返回值为****data.frame,</strong> <code>print_as_list</code><strong>参数并不会改变返回值的数据类型。</strong></p>
 <p>示例代码如下：</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">library(plantlist)</span><br><span class="line">CTPL(<span class="built_in">c</span>(<span class="string">&quot;杨梅&quot;</span>, <span class="string">&quot;多花泡花树&quot;</span>))</span><br><span class="line">CTPL(<span class="built_in">c</span>(<span class="string">&quot;网脉实蕨&quot;</span>, <span class="string">&quot;江南星蕨&quot;</span>))</span><br><span class="line"><span class="comment"># 将结果保存到Excel文件中</span></span><br><span class="line">library(openxlsx)</span><br><span class="line">rrr &lt;- CTPL(<span class="built_in">c</span>(<span class="string">&quot;侧金盏花&quot;</span>,               </span><br><span class="line">              <span class="string">&quot;多花泡花树&quot;</span>,               </span><br><span class="line">              <span class="string">&quot;网脉山龙眼&quot;</span>,               </span><br><span class="line">              <span class="string">&quot;绿樟&quot;</span>,               </span><br><span class="line">              <span class="string">&quot;网脉实蕨&quot;</span>))</span><br><span class="line">write.xlsx(rrr, <span class="string">&quot;results.xlsx&quot;</span>)<span class="comment"># 纯文本文件的读写</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Save to UTF-8</span></span><br><span class="line"></span><br><span class="line">writeLines(text = <span class="built_in">c</span>(<span class="string">&quot;桃儿七&quot;</span>, <span class="string">&quot;连香树&quot;</span>,<span class="string">&quot;水青树&quot;</span>,<span class="string">&quot;绿樟&quot;</span>,<span class="string">&quot;网脉实蕨&quot;</span>),     </span><br><span class="line">con = <span class="string">&quot;test_species.txt&quot;</span>,     </span><br><span class="line">useBytes = <span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line">sp &lt;- readLines(<span class="string">&quot;test_species.txt&quot;</span>, encoding = <span class="string">&quot;UTF-8&quot;</span>)</span><br><span class="line"></span><br><span class="line">CTPL(sp)</span><br></pre></td></tr></table></figure>
+<pre><code class="R">library(plantlist)
+CTPL(c(&quot;杨梅&quot;, &quot;多花泡花树&quot;))
+CTPL(c(&quot;网脉实蕨&quot;, &quot;江南星蕨&quot;))
+# 将结果保存到Excel文件中
+library(openxlsx)
+rrr &lt;- CTPL(c(&quot;侧金盏花&quot;,               
+              &quot;多花泡花树&quot;,               
+              &quot;网脉山龙眼&quot;,               
+              &quot;绿樟&quot;,               
+              &quot;网脉实蕨&quot;))
+write.xlsx(rrr, &quot;results.xlsx&quot;)# 纯文本文件的读写
 
+# Save to UTF-8
 
+writeLines(text = c(&quot;桃儿七&quot;, &quot;连香树&quot;,&quot;水青树&quot;,&quot;绿樟&quot;,&quot;网脉实蕨&quot;),     
+con = &quot;test_species.txt&quot;,     
+useBytes = TRUE)
+
+sp &lt;- readLines(&quot;test_species.txt&quot;, encoding = &quot;UTF-8&quot;)
+
+CTPL(sp)
+</code></pre>
 <p>图8.CTPL的查询结果</p>
 <h2 id="CTPL2-用中文名查询科、属、分布、海拔、IUCN等级数据"><a href="#CTPL2-用中文名查询科、属、分布、海拔、IUCN等级数据" class="headerlink" title="CTPL2() 用中文名查询科、属、分布、海拔、IUCN等级数据"></a><code>CTPL2()</code> 用中文名查询科、属、分布、海拔、IUCN等级数据</h2><p><code>CTPL2</code>可直接读取Excel文件第一列的数据，并以此和内置的<code>cnplants_dat</code>数据匹配，结果保存在自动生成的xlsx文件中。</p>
 <p>示例代码如下：</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Example of CTPL2</span></span><br><span class="line">library(plantlist)</span><br><span class="line">library(openxlsx)</span><br><span class="line"></span><br><span class="line">species &lt;- data.frame(plants = <span class="built_in">c</span>(<span class="string">&quot;侧金盏花&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;多花泡花树&quot;</span>,                                  </span><br><span class="line"><span class="string">&quot;网脉山龙眼&quot;</span>,                                  </span><br><span class="line"><span class="string">&quot;绿樟&quot;</span>,                                  </span><br><span class="line"><span class="string">&quot;网脉实蕨&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;无根藤&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;黄樟&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;香叶树&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;山鸡椒&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;潺槁木姜子&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;豺皮樟&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;浙江润楠&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;广东润楠&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;广寄生&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;两广梭罗&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;假苹婆&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;地桃花&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;白背黄花稔&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;通泉草&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;野牡丹&quot;</span>))</span><br><span class="line"></span><br><span class="line">write.xlsx(species, <span class="string">&quot;species_to_search.xlsx&quot;</span>)</span><br><span class="line">CTPL2(<span class="string">&quot;species_to_search.xlsx&quot;</span>)</span><br></pre></td></tr></table></figure>
+<pre><code class="R"># Example of CTPL2
+library(plantlist)
+library(openxlsx)
 
+species &lt;- data.frame(plants = c(&quot;侧金盏花&quot;,                                 
+&quot;多花泡花树&quot;,                                  
+&quot;网脉山龙眼&quot;,                                  
+&quot;绿樟&quot;,                                  
+&quot;网脉实蕨&quot;,                                 
+&quot;无根藤&quot;,                                 
+&quot;黄樟&quot;,                                 
+&quot;香叶树&quot;,                                 
+&quot;山鸡椒&quot;,                                 
+&quot;潺槁木姜子&quot;,                                 
+&quot;豺皮樟&quot;,                                 
+&quot;浙江润楠&quot;,                                 
+&quot;广东润楠&quot;,                                 
+&quot;广寄生&quot;,                                 
+&quot;两广梭罗&quot;,                                 
+&quot;假苹婆&quot;,                                 
+&quot;地桃花&quot;,                                 
+&quot;白背黄花稔&quot;,                                 
+&quot;通泉草&quot;,                                 
+&quot;野牡丹&quot;))
 
+write.xlsx(species, &quot;species_to_search.xlsx&quot;)
+CTPL2(&quot;species_to_search.xlsx&quot;)
+</code></pre>
 <p>图9.CTPL2的查询结果。</p>
 <h2 id="status-查询每个学名在ThePlant-List-1-1-的接受状态"><a href="#status-查询每个学名在ThePlant-List-1-1-的接受状态" class="headerlink" title="status() 查询每个学名在ThePlant List 1.1 的接受状态"></a><code>status()</code> 查询每个学名在ThePlant List 1.1 的接受状态</h2><p>函数的参数 <code>status(species=NA, exact =TRUE, spell_error_max =NULL)</code></p>
 <ul>
@@ -226,14 +270,78 @@
 </ul>
 <p><code>status</code>函数可以查询变种var.亚种subsp.以及变型f.是否接受等信息.</p>
 <p>示例代码：</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">library(plantlist)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 建立物种名单</span></span><br><span class="line">sp &lt;-<span class="built_in">c</span>(<span class="string">&quot;Elaeocarpus decipiens&quot;</span>,       </span><br><span class="line">       <span class="string">&quot;Syzygium buxifolium&quot;</span>,       </span><br><span class="line">       <span class="string">&quot;Daphniphyllum oldhamii&quot;</span>,       </span><br><span class="line">       <span class="string">&quot;Loropetalum chinense&quot;</span>,       </span><br><span class="line">       <span class="string">&quot;Rhododendron latoucheae&quot;</span>,       </span><br><span class="line">       <span class="string">&quot;Rhododendron ovatum&quot;</span>,       </span><br><span class="line">       <span class="string">&quot;Vaccinium carlesii&quot;</span>,       </span><br><span class="line">       <span class="string">&quot;Schima superba&quot;</span>)</span><br><span class="line">       </span><br><span class="line"><span class="comment">### 检查名单内每个种的接受情况以及接受名</span></span><br><span class="line">status(sp)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 检查一个种的接受情况</span></span><br><span class="line">status(<span class="string">&quot;Myrica rubra&quot;</span>)              <span class="comment">## 杨梅</span></span><br><span class="line">status(<span class="string">&quot;Adinandra millettii&quot;</span>)       <span class="comment">## 杨桐</span></span><br><span class="line">status(<span class="string">&quot;cyclobalanopsis neglecta &quot;</span>) <span class="comment">## 竹叶青冈</span></span><br><span class="line">status(<span class="string">&quot;Lirianthe henryi&quot;</span>)          <span class="comment">## 大叶木兰</span></span><br><span class="line"><span class="comment">#### 同时检查几个学名的状态</span></span><br><span class="line">status(<span class="built_in">c</span>(<span class="string">&quot;Myrica rubra&quot;</span>,          </span><br><span class="line">         <span class="string">&quot;Adinandra millettii&quot;</span>,         </span><br><span class="line">         <span class="string">&quot;Machilus thunbergii&quot;</span>,         </span><br><span class="line">         <span class="string">&quot;Ranunculus japonicus&quot;</span>,         </span><br><span class="line">         <span class="string">&quot;Cyclobalanopsis neglecta&quot;</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">### Check the statusof a scientific name (with or without authorship)</span></span><br><span class="line"><span class="comment">### 查询学名是否接受</span></span><br><span class="line">status(<span class="string">&quot;Hypoxis filifolia&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### Subspecies (withor without authorship)</span></span><br><span class="line"><span class="comment">### 查询亚种是否接受</span></span><br><span class="line">status(<span class="string">&quot;Hypoxis kilimanjarica subsp. kilimanjarica&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### Variaty (with orwithout authorship)</span></span><br><span class="line"><span class="comment">### 查询变种是否接受</span></span><br><span class="line">status(<span class="string">&quot;Hypoxis erecta var. aestivalis&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### Form (with orwithout authorship)</span></span><br><span class="line"><span class="comment">### 查询变型是否接受</span></span><br><span class="line">status(<span class="string">&quot;Hypoxis hirsuta f. villosissima&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 重要提示： 由于表示变型的 f. 有时也用于命名人中，</span></span><br><span class="line"><span class="comment">### 因此，用status函数在查询变型时， 请勿为种添加命名人，</span></span><br><span class="line"><span class="comment">### 但是变型的命名人可以提供或者不提供，具体为:</span></span><br><span class="line"><span class="string">&quot;Hypoxis hirsuta (L.)Coville f. vollosissima Fernald&quot;</span><span class="comment">#  （不能处理）</span></span><br><span class="line"><span class="string">&quot;Hypoxis hirsuta f. vollosissima Fernald&quot;</span><span class="comment">#（能处理）</span></span><br><span class="line"><span class="string">&quot;Hypoxis hirsuta f. vollosissima&quot;</span><span class="comment">#（能处理）</span></span><br></pre></td></tr></table></figure>
+<pre><code class="R">library(plantlist)
 
+## 建立物种名单
+sp &lt;-c(&quot;Elaeocarpus decipiens&quot;,       
+       &quot;Syzygium buxifolium&quot;,       
+       &quot;Daphniphyllum oldhamii&quot;,       
+       &quot;Loropetalum chinense&quot;,       
+       &quot;Rhododendron latoucheae&quot;,       
+       &quot;Rhododendron ovatum&quot;,       
+       &quot;Vaccinium carlesii&quot;,       
+       &quot;Schima superba&quot;)
+       
+### 检查名单内每个种的接受情况以及接受名
+status(sp)
+
+### 检查一个种的接受情况
+status(&quot;Myrica rubra&quot;)              ## 杨梅
+status(&quot;Adinandra millettii&quot;)       ## 杨桐
+status(&quot;cyclobalanopsis neglecta &quot;) ## 竹叶青冈
+status(&quot;Lirianthe henryi&quot;)          ## 大叶木兰
+#### 同时检查几个学名的状态
+status(c(&quot;Myrica rubra&quot;,          
+         &quot;Adinandra millettii&quot;,         
+         &quot;Machilus thunbergii&quot;,         
+         &quot;Ranunculus japonicus&quot;,         
+         &quot;Cyclobalanopsis neglecta&quot;))
+
+### Check the statusof a scientific name (with or without authorship)
+### 查询学名是否接受
+status(&quot;Hypoxis filifolia&quot;)
+
+### Subspecies (withor without authorship)
+### 查询亚种是否接受
+status(&quot;Hypoxis kilimanjarica subsp. kilimanjarica&quot;)
+
+### Variaty (with orwithout authorship)
+### 查询变种是否接受
+status(&quot;Hypoxis erecta var. aestivalis&quot;)
+
+### Form (with orwithout authorship)
+### 查询变型是否接受
+status(&quot;Hypoxis hirsuta f. villosissima&quot;)
+
+### 重要提示： 由于表示变型的 f. 有时也用于命名人中，
+### 因此，用status函数在查询变型时， 请勿为种添加命名人，
+### 但是变型的命名人可以提供或者不提供，具体为:
+&quot;Hypoxis hirsuta (L.)Coville f. vollosissima Fernald&quot;#  （不能处理）
+&quot;Hypoxis hirsuta f. vollosissima Fernald&quot;#（能处理）
+&quot;Hypoxis hirsuta f. vollosissima&quot;#（能处理）
+</code></pre>
 <h2 id="taxa-table-基于TPL查询结果制作科属种列表"><a href="#taxa-table-基于TPL查询结果制作科属种列表" class="headerlink" title="taxa.table() 基于TPL查询结果制作科属种列表"></a><code>taxa.table()</code> 基于TPL查询结果制作科属种列表</h2><p>查询结果多用于在Phylomatic软件中构建进化树。示例代码如下：</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sp &lt;- <span class="built_in">c</span>( <span class="string">&quot;Ranunculus japonicus&quot;</span>,</span><br><span class="line">         <span class="string">&quot;Anemone udensis&quot;</span>,         </span><br><span class="line">         <span class="string">&quot;Ranunculus repens&quot;</span>,         </span><br><span class="line">         <span class="string">&quot;Ranunculus chinensis&quot;</span>,         </span><br><span class="line">         <span class="string">&quot;Solanum nigrum&quot;</span>,         </span><br><span class="line">         <span class="string">&quot;Punica sp.&quot;</span> )</span><br><span class="line">res &lt;- TPL(sp)taxa.table(res)</span><br></pre></td></tr></table></figure>
-
+<pre><code class="R">sp &lt;- c( &quot;Ranunculus japonicus&quot;,
+         &quot;Anemone udensis&quot;,         
+         &quot;Ranunculus repens&quot;,         
+         &quot;Ranunculus chinensis&quot;,         
+         &quot;Solanum nigrum&quot;,         
+         &quot;Punica sp.&quot; )
+res &lt;- TPL(sp)taxa.table(res)
+</code></pre>
 <h2 id="TPL-根据拉丁名，查询目、科、属、以及科的编号"><a href="#TPL-根据拉丁名，查询目、科、属、以及科的编号" class="headerlink" title="TPL()根据拉丁名，查询目、科、属、以及科的编号"></a><code>TPL()</code>根据拉丁名，查询目、科、属、以及科的编号</h2><p>TPL函数输入的数据必须是字符串格式的向量。可以查询科、属、种的相应信息，但是并不会提示学名是否为接受名。查询学名是否有效，请用<code>status</code>函数。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">TPL(<span class="string">&quot;Carex&quot;</span>) <span class="comment"># </span></span><br><span class="line">查询薹草属</span><br><span class="line">TPL(<span class="string">&quot;Apple&quot;</span>) </span><br><span class="line"><span class="comment"># 查询苹果的英文名</span></span><br><span class="line">splist &lt;- <span class="built_in">c</span>(<span class="string">&quot;Ranunculus japonicus&quot;</span>,</span><br><span class="line">             <span class="string">&quot;Solanum nigrum&quot;</span>,</span><br><span class="line">             <span class="string">&quot;Punica sp.&quot;</span>,</span><br><span class="line">             <span class="string">&quot;Machilus&quot;</span>,</span><br><span class="line">             <span class="string">&quot;Today&quot;</span>,</span><br><span class="line">             <span class="string">&quot;####&quot;</span> ) <span class="comment">### 查询多个种</span></span><br><span class="line">res &lt;- TPL(splist)</span><br></pre></td></tr></table></figure>
-
+<pre><code class="R">TPL(&quot;Carex&quot;) # 
+查询薹草属
+TPL(&quot;Apple&quot;) 
+# 查询苹果的英文名
+splist &lt;- c(&quot;Ranunculus japonicus&quot;,
+             &quot;Solanum nigrum&quot;,
+             &quot;Punica sp.&quot;,
+             &quot;Machilus&quot;,
+             &quot;Today&quot;,
+             &quot;####&quot; ) ### 查询多个种
+res &lt;- TPL(splist)
+</code></pre>
 <h1 id="引用plantlist程序包"><a href="#引用plantlist程序包" class="headerlink" title="引用plantlist程序包"></a>引用plantlist程序包</h1><p>如果您使用了plantlist程序包，请通过以下方式引用：</p>
 <p>JinlongZhang (2018). plantlist: Looking Up the Status of Plant ScientificNames based on The Plant List Database. R package version0.5.3. <a target="_blank" rel="noopener" href="https://github.com/helixcn/plantlist/">https://github.com/helixcn/plantlist/</a></p>
 <h1 id="致谢"><a href="#致谢" class="headerlink" title="致谢"></a>致谢</h1><p>感谢高芳銮、李嵘、张健、朱慧玲、刘冰、胡晓丽、冯嘉恩、黄世芳、俞筱押、胡海花、李家湘、刘水银、鲍志贵、张美霞、葛斌杰、孔德良、刘振稳、龙文兴、金建军、夏尚文、李霞、陶旺兰、李秋萍、易逸瑜、张璋、骆争荣、彭舜磊、郭文永、贾蕙君等各位老师同学提出宝贵意见和建议。</p>
@@ -258,7 +366,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/11/27/2014-11-27-plantlist/" data-id="ckmq2gws2005vq8847wdya0ot" data-title="用R程序包plantlist查询和处理植物学名" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/11/27/2014-11-27-plantlist/" data-id="ckmq42air005s1k84e51l7ei1" data-title="用R程序包plantlist查询和处理植物学名" class="article-share-link">Share</a>
       
       
       
@@ -334,6 +442,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -347,10 +459,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>

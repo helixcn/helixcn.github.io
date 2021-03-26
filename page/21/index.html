@@ -73,6 +73,187 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2011-5-25-autocorrelation" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2011/05/24/2011-5-25-autocorrelation/" class="article-date">
+  <time class="dt-published" datetime="2011-05-24T10:57:54.000Z" itemprop="datePublished">2011-05-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2011/05/24/2011-5-25-autocorrelation/">R语言检验空间自相关Moran&#39;s I和运行SAR模型</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>空间位置越接近的点，相应的变量也可能越相近，这种现象称为空间自相关。空间自相关能够改变人们对某些事物原因的判断。举例来说，一个地点物种数高，临近的点物种数也相应得会高些，但这并不一定是由于两个地点的环境条件都十分优越，而纯粹是由于两个地点之间在空间上更为接近。点与点之间空间关系的依赖性使得各点之间数据并不是独立的。</p>
+<p>为此，需要从空间关系检验空间自相关是否存在。空间自相关的检验，用Moran’s I 表示。 Moran’s I 与Pearson相关系数的算法类似，不过其计算时相关程度考虑的是点与点本身。在R的ape程序包中，有关于Moran’s I的详细的说明。为了检验Moran’s I的显著性，空间统计学家运动Randomization的方法，获得Moran’s I的零分布，继而求的各距离段中的Moran’s I是否显著偏离于零分布。</p>
+<p>为了尽量去除空间自相关的影响，统计学家开发出了空间自回归模型，SAR（Spatial Auto Regressive Model）,该模型在R的spdep中能够较为方便的实现。当然，也还有众多的程序包，如宏生态学数据分析的SAM程序包等。</p>
+<p>以下是在spdep程序包中如何计算和检验Moran’s I的详细过程，以及调用SAR模型，进行相应的统计推断等，供感兴趣的老师同学参考。</p>
+<pre><code class="R">library(spdep)
+## Loading required package: sp
+## Loading required package: Matrix
+## Loading required package: spData
+library(maps)
+library(mapproj)
+library(spdep)
+library(RANN)
+library(mapdata)
+
+map(&quot;china&quot;, col = &quot;gray40&quot;, ylim = c(18,54), xlab =&quot;Longitude&quot;, ylab
+=&quot;Latitude&quot;, main =&quot;Sampling sites&quot;)
+
+map.axes()
+map.scale()## 为了检验nsp是否具有空间自相关
+lat &lt;-sort(runif(50, min=24, max=35), decreasing =TRUE)
+
+long &lt;-runif(50, min=95, max=120)
+
+nsp &lt;-sort(round(rnorm(50, 800, 200)))
+
+Pre &lt;-sort(rnorm(50, 1500, 300))
+
+Elev &lt;-sort(rnorm(50, 1000, 200), decreasing =TRUE)
+
+Time &lt;-factor(rep(c(1, 2, 3), c(12, 18, 20)))
+
+test0 &lt;- data.frame(long, lat, nsp, Pre,Elev, Time)
+
+points(long, lat, cex =exp(nsp/mean(nsp)), col = &quot;red&quot;)
+
+nsp &lt;- test0$nsp
+
+## 将test数据集转换成Spatial格式
+test &lt;- test0[,c(1,2)]
+sptest &lt;- SpatialPoints(test, proj4string = CRS(&quot;+proj=longlat +datum=WGS84&quot;))
+
+## 计算每个点最近的几个neighbour（这里k = 1,表示只计算一个的）
+nbk1 &lt;- knn2nb(knearneigh(sptest, k =5, longlat =TRUE))
+
+## 将nbk1转换成 spatial weight linkage object 对象
+snbk1 &lt;- make.sym.nb(nbk1)
+
+### n.comp.nb() finds the number of disjoint connected subgraphs
+### in the graphdepicted by nb.obj - a spatial neighbours list object.
+### 查看每个点不相接的相邻点数量
+n.comp.nb(snbk1)$nc
+## [1] 1
+### 查看各点链接情况
+plot(nb2listw(snbk1), cbind(test$long, test$lat), add =TRUE)
+</code></pre>
+<pre><code class="R">### Moran&#39;s Test检验该数据集是否存在显著的空间自相关
+### Moran&#39;s I testunder randomisation
+
+moran.test(nsp, nb2listw(snbk1))
+## 
+##  Moran I test under randomisation
+## 
+## data:  nsp  
+## weights: nb2listw(snbk1)    
+## 
+## Moran I statistic standard deviate = 8.8677, p-value &lt; 2.2e-16
+## alternative hypothesis: greater
+## sample estimates:
+## Moran I statistic       Expectation          Variance 
+##       0.671936139      -0.020408163       0.006095733
+### Moran&#39;s ICorrelograms
+
+### par(mfrow = c(1,3))
+
+nsp.Moron.I &lt;- sp.correlogram(snbk1, nsp, order=6, method=&quot;I&quot;, zero.policy =TRUE)
+
+plot(nsp.Moron.I)
+</code></pre>
+<pre><code class="R">### SAR model
+### Saddlepointapproximation for global Moran&#39;s I (Barndorff-Nielsen formula)
+lm.morantest.sad(lm(nsp~1),nb2listw(snbk1))
+## 
+##  Saddlepoint approximation for global Moran&#39;s I (Barndorff-Nielsen
+##  formula)
+## 
+## data:  
+## model:lm(formula = nsp ~ 1)
+## weights: nb2listw(snbk1)
+## 
+## Saddlepoint approximation = 6.7733, p-value = 6.292e-12
+## alternative hypothesis: greater
+## sample estimates:
+## Observed Moran I 
+##        0.6719361
+## sacsarlm
+COL.sacW.eig &lt;- sacsarlm(nsp ~ Pre + Elev +factor(Time), 
+                         data= test0, nb2listw(snbk1, style=&quot;W&quot;))
+
+summary(COL.sacW.eig,correlation=TRUE)
+## 
+## Call:sacsarlm(formula = nsp ~ Pre + Elev + factor(Time), data = test0, 
+##     listw = nb2listw(snbk1, style = &quot;W&quot;))
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -103.204  -18.260    2.159   19.739   52.779 
+## 
+## Type: sac 
+## Coefficients: (asymptotic standard errors) 
+##                Estimate Std. Error z value Pr(&gt;|z|)
+## (Intercept)   637.31705  298.77823  2.1331 0.032918
+## Pre             0.33743    0.10993  3.0697 0.002143
+## Elev           -0.43635    0.16205 -2.6927 0.007088
+## factor(Time)2 -23.80507   18.68448 -1.2741 0.202644
+## factor(Time)3  -8.52493   30.23387 -0.2820 0.777970
+## 
+## Rho: 0.16737
+## Asymptotic standard error: 0.06605
+##     z-value: 2.5339, p-value: 0.011279
+## Lambda: -0.12972
+## Asymptotic standard error: 0.26622
+##     z-value: -0.48726, p-value: 0.62607
+## 
+## LR test value: 5.9974, p-value: 0.049852
+## 
+## Log likelihood: -243.6922 for sac model
+## ML residual variance (sigma squared): 994.25, (sigma: 31.532)
+## Number of observations: 50 
+## Number of parameters estimated: 8 
+## AIC: 503.38, (AIC for lm: 505.38)
+## 
+##  Correlation of coefficients 
+##               sigma rho   lambda (Intercept) Pre   Elev  factor(Time)2
+## rho           -0.04                                                   
+## lambda         0.06 -0.29                                             
+## (Intercept)    0.00  0.04 -0.01                                       
+## Pre            0.01 -0.27  0.08  -0.94                                
+## Elev           0.00 -0.11  0.03  -0.99        0.92                    
+## factor(Time)2  0.01 -0.25  0.07   0.27       -0.37 -0.17              
+## factor(Time)3  0.01 -0.31  0.09   0.24       -0.36 -0.11  0.87
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2011/05/24/2011-5-25-autocorrelation/" data-id="ckmq42aht00361k847w7u0voz" data-title="R语言检验空间自相关Moran&#39;s I和运行SAR模型" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BB%9F%E8%AE%A1/" rel="tag">统计</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-2011-5-18-ltt-plot" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2011/05/18/2011-5-18-ltt-plot/" class="article-date">
@@ -99,118 +280,242 @@
 <p>Nick Matzke增补</p>
 <p>今天我们分析生物类群在时间上的多样性是如何变化的。我们将用到分类单元数-时间图（Lineages-through-time plot）,该图可以用来描述物种多样化的总体趋势。我们将真实的格局与零分布进行比较，从而推断其与期望的差别。同时，我们还将学习一下几种用来推断物种丰富度随时间变化的似然方法。当然，第一步是用R模拟生成进化树。<br>在R中进行进化树的模拟<br>在tree平衡的试验中，你已经做了一些这方面的分析。在R中进行进化树模拟有几种方法。我们下面就将看到几种。ape程序包提供了进化树模拟的两个函数，rtree和rcoal. 两个函数随机生成枝长相等的进化树，但是都不能满足我们的需求。</p>
 <p>geiger程序包中的birthdeath.tree 用处更大些。 这一函数从两个分类单元开始，基于随机生灭过程（birth death BD）进行进化树的模拟。用户给出生成率，同时给出灭亡率， 以及该过程经历的时间或者分类单元数，就可完成进化树的模拟。如果让这一函数经历相同的时间，则它会给出不同的分类单元数，如果让它给出相同的分类单元数，则经历的时间会不同。下面首先要载入 geiger程序包。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">library(geiger)</span><br><span class="line">tree1  &lt;- birthdeath.tree(<span class="number">0.3</span>,<span class="number">0</span>,<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
-
+<pre><code class="R">library(geiger)
+tree1  &lt;- birthdeath.tree(0.3,0,10)
+</code></pre>
 <p>以上命令将建立一个λ=0.3, μ=0 的（物种生成和绝灭速率），经过十个时间单位的进化树。理论上，这将产生 2<em>exp(0.3</em>10) 个分类单元，但是也可能多些或少些。我们看一下其结果:</p>
-<h2 id="图1代码"><a href="#图1代码" class="headerlink" title="图1代码"></a>图1代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">plot(tree1)</span><br><span class="line">axisPhylo()</span><br></pre></td></tr></table></figure>
+<h2 id="图1代码"><a href="#图1代码" class="headerlink" title="图1代码"></a>图1代码</h2><pre><code class="R">plot(tree1)
+axisPhylo()
+</code></pre>
 <p>图 1<br>看起来怪怪的，像一只螃蟹？ 等一下，问题可以解决：</p>
-<h2 id="图2代码"><a href="#图2代码" class="headerlink" title="图2代码"></a>图2代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tree1&lt;-reorder(tree1)</span><br><span class="line">plot(tree1)</span><br><span class="line">axisPhylo()</span><br></pre></td></tr></table></figure>
+<h2 id="图2代码"><a href="#图2代码" class="headerlink" title="图2代码"></a>图2代码</h2><pre><code class="R">tree1&lt;-reorder(tree1)
+plot(tree1)
+axisPhylo()
+</code></pre>
 <p>图 2<br>你到进化树是否包括大约40个分类单元？ 是否具有10个时间单位？我们来建立另外一棵进化树，这棵进化树的灭绝速率不为0. 仍然设定λ=0.35, and μ=0.05，r仍然等于 0.3</p>
-<h2 id="图3代码"><a href="#图3代码" class="headerlink" title="图3代码"></a>图3代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tree2 &lt;- reorder(birthdeath.tree(<span class="number">0.35</span>,<span class="number">0.05</span>,<span class="number">10</span>))</span><br><span class="line">plot(tree2)</span><br><span class="line">axisPhylo()</span><br></pre></td></tr></table></figure>
+<h2 id="图3代码"><a href="#图3代码" class="headerlink" title="图3代码"></a>图3代码</h2><pre><code class="R">tree2 &lt;- reorder(birthdeath.tree(0.35,0.05,10))
+plot(tree2)
+axisPhylo()
+</code></pre>
 <p>图3<br>请注意，该树既包括了现存的，也包括了已经灭绝的分类单元。上一个例子中，我们没有获得绝灭的分类单元，那是因为 μ 为 0。我们可以将已经灭绝的分类单元去除。</p>
-<h2 id="图4代码"><a href="#图4代码" class="headerlink" title="图4代码"></a>图4代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tree2.pruned&lt;-prune.extinct.taxa(tree2)</span><br><span class="line">plot(tree2.pruned)</span><br><span class="line">axisPhylo()</span><br></pre></td></tr></table></figure>
+<h2 id="图4代码"><a href="#图4代码" class="headerlink" title="图4代码"></a>图4代码</h2><pre><code class="R">tree2.pruned&lt;-prune.extinct.taxa(tree2)
+plot(tree2.pruned)
+axisPhylo()
+</code></pre>
 <p>图 4</p>
 <p>这就是上面的结果了。进化树中只包括了现存的分类单元。我们也可以生成一个分类单元数一定的进化树。</p>
-<h2 id="图5代码"><a href="#图5代码" class="headerlink" title="图5代码"></a>图5代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tree3 &lt;- reorder(birthdeath.tree(<span class="number">0.35</span>,<span class="number">0.05</span>,taxa.stop=<span class="number">40</span>))</span><br><span class="line">plot(tree3)</span><br><span class="line">axisPhylo()</span><br></pre></td></tr></table></figure>
+<h2 id="图5代码"><a href="#图5代码" class="headerlink" title="图5代码"></a>图5代码</h2><pre><code class="R">tree3 &lt;- reorder(birthdeath.tree(0.35,0.05,taxa.stop=40))
+plot(tree3)
+axisPhylo()
+</code></pre>
 <p>图 5<br>这就是想获得的40个分类单元。由于一些分支灭绝，可能获得的分类单元数多于40个，这一过程在生成40个分类单元的时候结束。这一过程需要的时间是随机分布的。可能你注意到了，最后一个时间段重复的很厉害。这是由于当前仅包括40个分类单元数引起的。这一模拟过程并不是完全可信的，因为之后你仍然能够获得40个分类单元。我们这里不考虑这一问题。</p>
 <p>现在，我们将会用到我编写的函数，rdbtree.n. 这一函数的参数有 λ,  μ, 时长,以及分类单元数，继而依据这些参数生成一棵随机进化树。与此同时，λ 和 μ随时间的变化可以发生变化。需要注意的是，该函数本函数将给出一系列分支长度，虽然你选择的速率可能产生你所设定的分类单元数可能不能用这些枝长来生成。因此，选择速率的时候，要尽量有所参考。从网站上下载 rbdtree.n3.R 文件，或者远程读取。<br>source(“<a target="_blank" rel="noopener" href="http://ib.berkeley.edu/courses/ib200b/labs/lab12/rbdtree.n3.R">http://ib.berkeley.edu/courses/ib200b/labs/lab12/rbdtree.n3.R</a>“)<br>之后，运行函数 rbdtree.n：</p>
-<h2 id="图6代码"><a href="#图6代码" class="headerlink" title="图6代码"></a>图6代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tree4&lt;-rbdtree.n(<span class="number">40</span>,<span class="number">10</span>,<span class="number">0.35</span>,<span class="number">0.05</span>)</span><br><span class="line">plot(tree4)</span><br><span class="line">axisPhylo()</span><br></pre></td></tr></table></figure>
+<h2 id="图6代码"><a href="#图6代码" class="headerlink" title="图6代码"></a>图6代码</h2><pre><code class="R">tree4&lt;-rbdtree.n(40,10,0.35,0.05)
+plot(tree4)
+axisPhylo()
+</code></pre>
 <p>图6<br>很棒！ 现在的结果大体上能够符合我们检验所需要的零分布了。这是由于从分类单元数以及时间上，都设定了，而且，这两个因素对于分类单元数-时间图，都是有很大影响的。需要注意的是，可能存在着其他的假设更为合适的情况。</p>
 <p>分类单元数-时间图</p>
 <p>现在，我们就来做一些分类单元数时间图。该图为一个clade拥有的子代物种数量随时间变化的图。该过程的期望是，如果μ=0 而 λ为常数，则物种数随着时间指数性的增加。偏离于该期望时，就是说明多样化是随时间而变化的。我们将调用ape程序包的一些函数来绘制这些图形。</p>
-<h2 id="图7代码"><a href="#图7代码" class="headerlink" title="图7代码"></a>图7代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ltt.plot(tree1)</span><br></pre></td></tr></table></figure>
+<h2 id="图7代码"><a href="#图7代码" class="headerlink" title="图7代码"></a>图7代码</h2><pre><code class="R">ltt.plot(tree1)
+</code></pre>
 <p>图 7<br>按照经验，y轴要经过对数转换。我们应用R 绘图函数的log = “y”来实现相应的功能，该参数将改变所选轴数值的显示方式，但是并不会改变数值本身。</p>
-<h2 id="图8代码"><a href="#图8代码" class="headerlink" title="图8代码"></a>图8代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ltt.plot(tree1,<span class="built_in">log</span>=<span class="string">&quot;y&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="图8代码"><a href="#图8代码" class="headerlink" title="图8代码"></a>图8代码</h2><pre><code class="R">ltt.plot(tree1,log=&quot;y&quot;)
+</code></pre>
 <p>图 8<br>对于对数转换的图形，期望值应该为一条直线，我们可以在图形上添加一条直线，用来比较其异同。</p>
-<h2 id="图9代码"><a href="#图9代码" class="headerlink" title="图9代码"></a>图9代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lines(<span class="built_in">c</span>(-<span class="number">10</span>,<span class="number">0</span>), <span class="built_in">c</span>(<span class="number">2</span>,<span class="number">40</span>), lty=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="图9代码"><a href="#图9代码" class="headerlink" title="图9代码"></a>图9代码</h2><pre><code class="R">lines(c(-10,0), c(2,40), lty=2)
+</code></pre>
 <p>图 9<br>结果看起来确实不错。你还可以继续添加物种数-时间曲线到现有的图形上</p>
-<h2 id="图10代码"><a href="#图10代码" class="headerlink" title="图10代码"></a>图10代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ltt.lines(tree2,col=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="图10代码"><a href="#图10代码" class="headerlink" title="图10代码"></a>图10代码</h2><pre><code class="R">ltt.lines(tree2,col=2)
+</code></pre>
 <p>图 10<br>不错，但是看起来有点儿奇怪，这是由于我们两棵进化树最后的分类单元数不同。我们也可以同时绘制多棵进化树的物种数-时间曲线。</p>
-<h2 id="图11代码"><a href="#图11代码" class="headerlink" title="图11代码"></a>图11代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mltt.plot(tree1,tree2,tree3,tree4)</span><br></pre></td></tr></table></figure>
+<h2 id="图11代码"><a href="#图11代码" class="headerlink" title="图11代码"></a>图11代码</h2><pre><code class="R">mltt.plot(tree1,tree2,tree3,tree4)
+</code></pre>
 <p>图 11<br>物种数-时间图的零分布<br>为了理解多样性系数会怎样影响物种数-时间图形的形状，我们需要了解这些图形在零假设的时候的形状。我们从一段给定时间的完全随机生灭过程的零假设开始。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">trees.yule &lt;- replicate(<span class="number">100</span>, birthdeath.tree(<span class="number">0.3</span>,<span class="number">0</span>,<span class="number">10</span>), simplify=<span class="literal">FALSE</span>)</span><br></pre></td></tr></table></figure>
+<pre><code class="R">trees.yule &lt;- replicate(100, birthdeath.tree(0.3,0,10), simplify=FALSE)
+</code></pre>
 <p>以上函数将birthdeath.tree函数重复100次，创建了一个列表。我们用现有数据建立物种数-时间图</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mltt.plot(trees.yule, legend&#x3D;FALSE)</span><br></pre></td></tr></table></figure>
+<pre><code>mltt.plot(trees.yule, legend=FALSE)
+</code></pre>
 <h2 id="图12代码"><a href="#图12代码" class="headerlink" title="图12代码"></a>图12代码</h2><p>图 12<br>问题来了，每棵进化树具有不同的分类单元数，你看到的大多数情况是，物种数比较多的图，其结尾分类单元数也比较多。如果你设定了物种数一定，那么将会有另外一个问题。让我们创建一些具有相同问题的进化树。</p>
-<h2 id="图13代码"><a href="#图13代码" class="headerlink" title="图13代码"></a>图13代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">trees.yule2&lt;-replicate(<span class="number">100</span>, rbdtree.n(<span class="number">40</span>,<span class="number">10</span>,<span class="number">0.3</span>,<span class="number">0</span>), simplify=<span class="literal">FALSE</span>)</span><br><span class="line">mltt.plot(trees.yule2, legend=<span class="literal">FALSE</span>, <span class="built_in">log</span>=<span class="string">&quot;y&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="图13代码"><a href="#图13代码" class="headerlink" title="图13代码"></a>图13代码</h2><pre><code class="R">trees.yule2&lt;-replicate(100, rbdtree.n(40,10,0.3,0), simplify=FALSE)
+mltt.plot(trees.yule2, legend=FALSE, log=&quot;y&quot;)
+</code></pre>
 <p>图 13<br>可以见到本图中的Yule进化树的分布，但是在与其他分布比较的时候会遇到困难，因为所有的线都是跳跃性的上升。因此，我编写了另一个函数，用来对任意参数值给出物种数-时间的零分布。</p>
-<h2 id="图14代码"><a href="#图14代码" class="headerlink" title="图14代码"></a>图14代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ltt.null(<span class="number">40</span>, <span class="number">10</span>, <span class="number">0.3</span>, <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="图14代码"><a href="#图14代码" class="headerlink" title="图14代码"></a>图14代码</h2><pre><code class="R">ltt.null(40, 10, 0.3, 0)
+</code></pre>
 <p>图 14<br>该函数的参数与yule2进化树的例子是一致的。颜色的深浅代表了不同的p值。查看我们已经生成的yule2进化树的分布可以添加到这一图形中。</p>
-<h2 id="图15代码"><a href="#图15代码" class="headerlink" title="图15代码"></a>图15代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x &lt;- lapply(trees.yule2,ltt.lines)</span><br></pre></td></tr></table></figure>
+<h2 id="图15代码"><a href="#图15代码" class="headerlink" title="图15代码"></a>图15代码</h2><pre><code class="R">x &lt;- lapply(trees.yule2,ltt.lines)
+</code></pre>
 <p>图 15<br>我们将结果赋值给x, 因此，该函数就不会像屏幕中打印出一些无用的信息了。可以看出，大部分线都落在我们分布的中间部分。一部分跑到了95%置信区间以外。甚至有一条落在了99%置信区间，就像我们进行100次随机模拟所期望的。<br>现在看一下更高的灭绝速率下，这一分布会如何变化？ 我们将μ提高到0.1, λ提高到0.4, 因此净出生率仍然不发生变化，N==2<em>exp(r</em>t)仍然保持不变。在此之前，我们需要为零分布创建另外一个图，之后，用新参数模拟生成100棵进化树，最后，添加到我们的图上。</p>
-<h2 id="图16代码"><a href="#图16代码" class="headerlink" title="图16代码"></a>图16代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ltt.null(<span class="number">40</span>,<span class="number">10</span>,<span class="number">0.3</span>,<span class="number">0</span>)</span><br><span class="line">trees.bd&lt;-replicate(<span class="number">100</span>,rbdtree.n(<span class="number">40</span>,<span class="number">10</span>,<span class="number">0.4</span>,<span class="number">0.1</span>),simplify=<span class="literal">FALSE</span>)</span><br><span class="line">x &lt;- lapply(trees.bd,ltt.lines)</span><br></pre></td></tr></table></figure>
+<h2 id="图16代码"><a href="#图16代码" class="headerlink" title="图16代码"></a>图16代码</h2><pre><code class="R">ltt.null(40,10,0.3,0)
+trees.bd&lt;-replicate(100,rbdtree.n(40,10,0.4,0.1),simplify=FALSE)
+x &lt;- lapply(trees.bd,ltt.lines)
+</code></pre>
 <p>图 16<br>可以看出，这些分布并不相同。首先，灭绝速率较高时，起始部分延伸所需的时间更长。其次，图形变得更为凹陷，其中大部分分类单元低于Yule分布，甚至有些超出了99%的分布。这就意味着，lttplot的曲线越凹陷，则其μ值，也就是灭绝速率就越高。此时，我们倾向于认为，古老的分类单元更容易灭绝。但是大部分的分类单元仍然处于95%的置信区间内，因此，这一检验的效力是十分薄弱的。</p>
 <p>进化树与零分布的比较</p>
 <p>我们看一下一些实际的进化树，看其是否符合我们的零分布。laser程序包中已经收录了几棵进化树，我们以此为例。第一棵进化树包含了澳大利亚69种Agamid蜥蜴，相应的数据发表在Evolution上Rabosky (2006) Evolution 60:1152-1164。</p>
-<h2 id="图17代码"><a href="#图17代码" class="headerlink" title="图17代码"></a>图17代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">data(agamids)</span><br><span class="line">agamid.tree&lt;-read.tree(text=agamids)</span><br><span class="line">plot(agamid.tree)</span><br></pre></td></tr></table></figure>
-
+<h2 id="图17代码"><a href="#图17代码" class="headerlink" title="图17代码"></a>图17代码</h2><pre><code class="R">data(agamids)
+agamid.tree&lt;-read.tree(text=agamids)
+plot(agamid.tree)
+</code></pre>
 <p>图 17<br>很好，看起来这棵进化树不错。我们把它和零分布做一下比较。我们从Yule过程开始，可以用极大似然法估计λ。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">yule.agam&lt;-yule(agamid.tree)</span><br><span class="line">\&gt; yule.agam</span><br><span class="line">$lambda</span><br><span class="line">[1] 6.807443</span><br><span class="line"></span><br><span class="line">$se</span><br><span class="line">[1] 0.8316616</span><br><span class="line"></span><br><span class="line">$loglik</span><br><span class="line">[1] 283.4636</span><br><span class="line"></span><br><span class="line">attr(,&quot;class&quot;)</span><br><span class="line">[1] &quot;yule&quot;</span><br></pre></td></tr></table></figure>
-<p>同时，估计进化树的时间长度。即根的深度。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">btimes.agam&lt;-sort(branching.times(agamid.tree),decreasing=<span class="literal">TRUE</span>)</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">\&gt; btimes.agam</span><br><span class="line">      70       71      131      132       72       73       74      133 </span><br><span class="line">0.323855 0.322855 0.313397 0.307173 0.294147 0.270881 0.238577 0.238520 </span><br><span class="line">     109      135       75      134       76       77       85      110 </span><br><span class="line">0.222756 0.219480 0.217127 0.216939 0.213018 0.213018 0.213018 0.209613 </span><br><span class="line">     112      113       86       93      116      117       94      111 </span><br><span class="line">0.207659 0.202293 0.194939 0.183979 0.178225 0.172959 0.167084 0.162999 </span><br><span class="line">      98      118      123      115      124      106      102      128 </span><br><span class="line">0.162093 0.160592 0.157785 0.157288 0.154405 0.149574 0.144083 0.141278 </span><br><span class="line">     125       95      114       87      136       99       91      119 </span><br><span class="line">0.141127 0.140194 0.136160 0.133171 0.131567 0.124221 0.120235 0.118270 </span><br><span class="line">     103      105      107       88      137       89      127       78 </span><br><span class="line">0.112825 0.105969 0.104019 0.102561 0.087830 0.086799 0.085487 0.082827 </span><br><span class="line">      92      126      120       97      104      129      121      100 </span><br><span class="line">0.082356 0.074543 0.074123 0.073526 0.071486 0.069944 0.067407 0.063750 </span><br><span class="line">     122       96      108      130      101       80       83       81 </span><br><span class="line">0.062395 0.060306 0.051672 0.050408 0.049427 0.042118 0.035946 0.020464 </span><br><span class="line">      79       90       82       84 </span><br><span class="line">0.009766 0.008402 0.003883 0.001482 </span><br><span class="line">\&gt;</span><br></pre></td></tr></table></figure>
-<p>我们在零模型中可以运用这些值。</p>
-<h2 id="图18代码"><a href="#图18代码" class="headerlink" title="图18代码"></a>图18代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ltt.null(<span class="number">69</span>,btimes.agam[<span class="number">1</span>],yule.agam$lambda,<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>yule.agam&lt;-yule(agamid.tree)
+\&gt; yule.agam
+$lambda
+[1] 6.807443
 
+$se
+[1] 0.8316616
+
+$loglik
+[1] 283.4636
+
+attr(,&quot;class&quot;)
+[1] &quot;yule&quot;
+</code></pre>
+<p>同时，估计进化树的时间长度。即根的深度。</p>
+<pre><code class="R">btimes.agam&lt;-sort(branching.times(agamid.tree),decreasing=TRUE)
+</code></pre>
+<pre><code>\&gt; btimes.agam
+      70       71      131      132       72       73       74      133 
+0.323855 0.322855 0.313397 0.307173 0.294147 0.270881 0.238577 0.238520 
+     109      135       75      134       76       77       85      110 
+0.222756 0.219480 0.217127 0.216939 0.213018 0.213018 0.213018 0.209613 
+     112      113       86       93      116      117       94      111 
+0.207659 0.202293 0.194939 0.183979 0.178225 0.172959 0.167084 0.162999 
+      98      118      123      115      124      106      102      128 
+0.162093 0.160592 0.157785 0.157288 0.154405 0.149574 0.144083 0.141278 
+     125       95      114       87      136       99       91      119 
+0.141127 0.140194 0.136160 0.133171 0.131567 0.124221 0.120235 0.118270 
+     103      105      107       88      137       89      127       78 
+0.112825 0.105969 0.104019 0.102561 0.087830 0.086799 0.085487 0.082827 
+      92      126      120       97      104      129      121      100 
+0.082356 0.074543 0.074123 0.073526 0.071486 0.069944 0.067407 0.063750 
+     122       96      108      130      101       80       83       81 
+0.062395 0.060306 0.051672 0.050408 0.049427 0.042118 0.035946 0.020464 
+      79       90       82       84 
+0.009766 0.008402 0.003883 0.001482 
+\&gt;
+</code></pre>
+<p>我们在零模型中可以运用这些值。</p>
+<h2 id="图18代码"><a href="#图18代码" class="headerlink" title="图18代码"></a>图18代码</h2><pre><code class="R">ltt.null(69,btimes.agam[1],yule.agam$lambda,0)
+</code></pre>
 <p>图 18<br>之后，我们可以添加上进化树的ltt.</p>
-<h2 id="图19代码"><a href="#图19代码" class="headerlink" title="图19代码"></a>图19代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ltt.lines(agamid.tree)</span><br></pre></td></tr></table></figure>
+<h2 id="图19代码"><a href="#图19代码" class="headerlink" title="图19代码"></a>图19代码</h2><pre><code class="R">ltt.lines(agamid.tree)
+</code></pre>
 <p>图 19</p>
 <p>该进化树的ltt线超出了99%的置信区间。在一开始符合的很好，但是在中间逐渐超越了我们的零模型的预期，最后有回到了预期的置信区间。这与我们的预期中的零分布有较大的不同；当μ逐渐升高，零分布将变得越来越凹陷，而不是当前这样。从图中大约可以看出，在0.22时间左右，存在一个物种分化异常高的时期，同时也包括约0.15时期（遗憾的是，我并不知道时间单位）。我们可以尝试拟合一个BD模型，以查看其与灭绝速率大于0的结果是否一致。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">birthdeath(agamid.tree)</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&gt; birthdeath(agamid.tree)</span><br><span class="line">Estimation of Speciation and Extinction Rates</span><br><span class="line">            with Birth-Death Models</span><br><span class="line">     Phylogenetic tree: agamid.tree </span><br><span class="line">        Number of tips: 69 </span><br><span class="line">              Deviance: -566.9276 </span><br><span class="line">        Log-likelihood: 283.4638 </span><br><span class="line">   Parameter estimates:</span><br><span class="line">      d &#x2F; b &#x3D; 0   StdErr &#x3D; 0 </span><br><span class="line">      b - d &#x3D; 6.807467   StdErr &#x3D; 0.5881344 </span><br><span class="line">   (b: speciation rate, d: extinction rate)</span><br><span class="line">   Profile likelihood 95% confidence intervals:</span><br><span class="line">      d &#x2F; b: [0, 0.1605283]</span><br><span class="line">      b - d: [5.30515, 8.569748]</span><br></pre></td></tr></table></figure>
-
+<pre><code class="R">birthdeath(agamid.tree)
+</code></pre>
+<pre><code>&gt; birthdeath(agamid.tree)
+Estimation of Speciation and Extinction Rates
+            with Birth-Death Models
+     Phylogenetic tree: agamid.tree 
+        Number of tips: 69 
+              Deviance: -566.9276 
+        Log-likelihood: 283.4638 
+   Parameter estimates:
+      d / b = 0   StdErr = 0 
+      b - d = 6.807467   StdErr = 0.5881344 
+   (b: speciation rate, d: extinction rate)
+   Profile likelihood 95% confidence intervals:
+      d / b: [0, 0.1605283]
+      b - d: [5.30515, 8.569748]
+</code></pre>
 <p>我们仍然得到灭绝速率为0，因此，不要保留那种想法。因为这种情况并不总是那么重要。在laser程序包中还有两个数据，并且只有物种分化时间，plethodon （highton and larson 1979 Syst. Zool. 28:579-599）以及 warblers （Lovette and Bermingham 1999 Proc. Roy. Soc. B. Lond. 266:1629-1636）。我们对这两套数据进行再分析。</p>
-<h2 id="图20代码"><a href="#图20代码" class="headerlink" title="图20代码"></a>图20代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">data(plethodon)</span><br><span class="line">yule.pleth &lt;- pureBirth(plethodon) <span class="comment">##This is like yule, but for vector of branching times</span></span><br><span class="line">ltt.null(<span class="built_in">length</span>(plethodon)+<span class="number">1</span>, <span class="built_in">max</span>(plethodon), yule.pleth$r1, <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
-
+<h2 id="图20代码"><a href="#图20代码" class="headerlink" title="图20代码"></a>图20代码</h2><pre><code class="R">data(plethodon)
+yule.pleth &lt;- pureBirth(plethodon) ##This is like yule, but for vector of branching times
+ltt.null(length(plethodon)+1, max(plethodon), yule.pleth$r1, 0)
+</code></pre>
 <p>图 20<br>由于只给出了物种数和分化时间，我们需要自己将信息添加到ltt图中。</p>
-<h2 id="图21代码"><a href="#图21代码" class="headerlink" title="图21代码"></a>图21代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ntaxa.pleth &lt;- 1:<span class="built_in">length</span>(plethodon) + <span class="number">1</span> <span class="comment">## Number of lineages corresponding to times</span></span><br><span class="line">segments(-plethodon, ntaxa.pleth, -plethodon, ntaxa.pleth-<span class="number">1</span>)</span><br><span class="line">segments(-plethodon, ntaxa.pleth, -<span class="built_in">c</span>(plethodon[-<span class="number">1</span>],<span class="number">0</span>), ntaxa.pleth)</span><br></pre></td></tr></table></figure>
-
+<h2 id="图21代码"><a href="#图21代码" class="headerlink" title="图21代码"></a>图21代码</h2><pre><code class="R">ntaxa.pleth &lt;- 1:length(plethodon) + 1 ## Number of lineages corresponding to times
+segments(-plethodon, ntaxa.pleth, -plethodon, ntaxa.pleth-1)
+segments(-plethodon, ntaxa.pleth, -c(plethodon[-1],0), ntaxa.pleth)
+</code></pre>
 <p>图 21<br>这一结果好于Agamid进化树的结果。从结果看来，在15到30个时间单位上，很长时间都没有发生物种分化，但是这并不出乎我们的意料。但是，有可能某一个类群在30个时间单位以前已经有很多分类单元了。我们下面就来对此进行检验。</p>
 <p>可以对分支时间数据拟合一个BD模型：</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bd.pleth &lt;- bd(plethodon)</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">\&gt; bd.pleth </span><br><span class="line">$LH</span><br><span class="line">[1] -45.28264</span><br><span class="line">$r1</span><br><span class="line">[1] 0.01098217</span><br><span class="line">$a</span><br><span class="line">[1] 0.8337962</span><br></pre></td></tr></table></figure>
-
+<pre><code class="R">bd.pleth &lt;- bd(plethodon)
+</code></pre>
+<pre><code>\&gt; bd.pleth 
+$LH
+[1] -45.28264
+$r1
+[1] 0.01098217
+$a
+[1] 0.8337962
+</code></pre>
 <p>aic [1] 94.56529 这一模型的拟合结果中，灭绝速率确实大于0，因此，我们设定如下的零分布。在此之前，我们必须先进行一个LRT(似然比检验)，来确保两者之间的差异是否显著。但是你已经知道了如何进行该检验，因此我们跳过这一步。该函数给出r和a=λ/μ,因此，我们需要首先计算λ和μ。 ## 图22代码 lam.pleth &lt;- bd.plethaic [1] 94.56529 这一模型的拟合结果中，灭绝速率确实大于0，因此，我们设定如下的零分布。在此之前，我们必须先进行一个LRT(似然比检验)，来确保两者之间的差异是否显著。但是你已经知道了如何进行该检验，因此我们跳过这一步。该函数给出r和a=λ/μ,因此，我们需要首先计算λ和μ。 </p>
-<h2 id="图22代码"><a href="#图22代码" class="headerlink" title="图22代码"></a>图22代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lam.pleth &lt;- bd.plethr1 / (<span class="number">1</span>-bd.pletha)mu.pleth&lt;−lam.pleth−bd.pletha)mu.pleth&lt;−lam.pleth−bd.plethr1</span><br><span class="line">ltt.null(<span class="built_in">length</span>(plethodon)+<span class="number">1</span> ,<span class="built_in">max</span>(plethodon), lam.pleth, mu.pleth)</span><br><span class="line">segments(-plethodon, ntaxa.pleth, -plethodon, ntaxa.pleth-<span class="number">1</span>)</span><br><span class="line">segments(-plethodon, ntaxa.pleth, -<span class="built_in">c</span>(plethodon[-<span class="number">1</span>],<span class="number">0</span>), ntaxa.pleth)</span><br></pre></td></tr></table></figure>
-
+<h2 id="图22代码"><a href="#图22代码" class="headerlink" title="图22代码"></a>图22代码</h2><pre><code class="R">lam.pleth &lt;- bd.plethr1 / (1-bd.pletha)mu.pleth&lt;−lam.pleth−bd.pletha)mu.pleth&lt;−lam.pleth−bd.plethr1
+ltt.null(length(plethodon)+1 ,max(plethodon), lam.pleth, mu.pleth)
+segments(-plethodon, ntaxa.pleth, -plethodon, ntaxa.pleth-1)
+segments(-plethodon, ntaxa.pleth, -c(plethodon[-1],0), ntaxa.pleth)
+</code></pre>
 <p>图 22<br>问题： 对warblers数据重复这一分析。你估计的lambda值是怎样的？该图与零分布有什么差异？（具体说明<br>对进化速率变化的进化树模拟</p>
 <p>分类单元数-时间图与零分布不同究竟意味着什么？一般的假设认为这是由于多样化速率随时间变化。你可以用我提供的函数生成随机进化树，对这种零分布进行模拟。需要提供一个向量，该向量包含了每个时间段结束的时间。也可以设定出生和灭绝速率随时间的变化的向量，每个向量给出相应时间段的出生和灭绝速率。例如：</p>
-<h2 id="图23代码"><a href="#图23代码" class="headerlink" title="图23代码"></a>图23代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tree5&lt;-rbdtree.n(<span class="number">40</span>, <span class="built_in">c</span>(<span class="number">3</span>,<span class="number">6</span>,<span class="number">10</span>), <span class="built_in">c</span>(<span class="number">0.1</span>,<span class="number">1</span>,<span class="number">0.05</span>), <span class="number">0</span>)</span><br><span class="line">plot(tree5)</span><br></pre></td></tr></table></figure>
-
+<h2 id="图23代码"><a href="#图23代码" class="headerlink" title="图23代码"></a>图23代码</h2><pre><code class="R">tree5&lt;-rbdtree.n(40, c(3,6,10), c(0.1,1,0.05), 0)
+plot(tree5)
+</code></pre>
 <p>图 23<br>以上程序将生成一个40个分类单元的进化树，在时间段 0 - 3， 灭绝速率为0， μ= 0， λ is 0.1； 而在3 - 6时间段为1， 在第三个时间段，也就是6之后到结束的时候，λ 为 0.05. 可以看到，大部分分支出现在进化树的中间部分。 另外：</p>
-<h2 id="图24代码"><a href="#图24代码" class="headerlink" title="图24代码"></a>图24代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tree6 &lt;- mrbdtree.n(<span class="number">10</span>, <span class="number">40</span>, <span class="built_in">c</span>(<span class="number">3</span>,<span class="number">6</span>,<span class="number">10</span>), <span class="built_in">c</span>(<span class="number">0.1</span>,<span class="number">1</span>,<span class="number">0.05</span>), <span class="built_in">c</span>(<span class="number">0.05</span>,<span class="number">0.05</span>,<span class="number">0</span>))</span><br><span class="line">mltt.plot(tree6)</span><br></pre></td></tr></table></figure>
-
+<h2 id="图24代码"><a href="#图24代码" class="headerlink" title="图24代码"></a>图24代码</h2><pre><code class="R">tree6 &lt;- mrbdtree.n(10, 40, c(3,6,10), c(0.1,1,0.05), c(0.05,0.05,0))
+mltt.plot(tree6)
+</code></pre>
 <p>图 24<br>将生成10棵进化树，其中的μ随时间变化。应该能很清楚的看到lttplot期望的分布格局。</p>
 <p>同时可以建立在某一个时刻具有一定物种数的进化树及类似的零分布，而不是对末端分类单元。 还记得plethodon图吗？</p>
-<h2 id="图25代码"><a href="#图25代码" class="headerlink" title="图25代码"></a>图25代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ltt.null(<span class="built_in">length</span>(plethodon)+<span class="number">1</span>, <span class="built_in">max</span>(plethodon), lam.pleth, mu.pleth)</span><br><span class="line">segments(-plethodon, ntaxa.pleth, -plethodon, ntaxa.pleth-<span class="number">1</span>)</span><br><span class="line">segments(-plethodon, ntaxa.pleth, -<span class="built_in">c</span>(plethodon[-<span class="number">1</span>],<span class="number">0</span>), ntaxa.pleth)</span><br></pre></td></tr></table></figure>
-
+<h2 id="图25代码"><a href="#图25代码" class="headerlink" title="图25代码"></a>图25代码</h2><pre><code class="R">ltt.null(length(plethodon)+1, max(plethodon), lam.pleth, mu.pleth)
+segments(-plethodon, ntaxa.pleth, -plethodon, ntaxa.pleth-1)
+segments(-plethodon, ntaxa.pleth, -c(plethodon[-1],0), ntaxa.pleth)
+</code></pre>
 <p>图 25<br>所有内容都在我们期望的范围内，但是有一段时间较为奇怪，该段时间没有新物种形成。我在怀疑，是否整条ltt图都超出了我们的零分布，虽然说每个时刻都处于我们的零分布的预期。让我们来看一下，当将20个时间单元设定到物种分布为11个分类单元时，零分布会变成什么样子。</p>
-<h2 id="图26代码"><a href="#图26代码" class="headerlink" title="图26代码"></a>图26代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ltt.null(<span class="built_in">c</span>(<span class="number">11</span>, <span class="built_in">length</span>(plethodon)+<span class="number">1</span>), <span class="built_in">c</span>(-<span class="number">20</span>,<span class="number">0</span>)+<span class="built_in">max</span>(plethodon), lam.pleth, mu.pleth)</span><br><span class="line">segments(-plethodon, ntaxa.pleth, -plethodon, ntaxa.pleth-<span class="number">1</span>)</span><br><span class="line">segments(-plethodon, ntaxa.pleth, -<span class="built_in">c</span>(plethodon[-<span class="number">1</span>],<span class="number">0</span>), ntaxa.pleth)</span><br></pre></td></tr></table></figure>
-
+<h2 id="图26代码"><a href="#图26代码" class="headerlink" title="图26代码"></a>图26代码</h2><pre><code class="R">ltt.null(c(11, length(plethodon)+1), c(-20,0)+max(plethodon), lam.pleth, mu.pleth)
+segments(-plethodon, ntaxa.pleth, -plethodon, ntaxa.pleth-1)
+segments(-plethodon, ntaxa.pleth, -c(plethodon[-1],0), ntaxa.pleth)
+</code></pre>
 <p>图 26<br>在我看来，这些也是可以的。事实上，除了靠右面的第二部分被强制设定为11个种之外，我没有看出这些零分布的显著差别。</p>
 <p>出生率的下降以及灭绝率的上升<br>好了，我们已经看到一些进化树的物种分化速率在初期似乎比后期要高。这一现象不能用常规的随机生灭过程解释。这一格局常常在大型进化树中遇到，通常被认为是适应辐射的标志。换句话说，这一格局可以解释为，演化早期拥有较高的物种分化速率， 而随着生态位被逐步填充， 物种分化速率降低。 但是， 也可以用灭绝速率升高来解释。</p>
 <p>我们看一下，我们的猜想是否正确。我们将会建立一对主观模型（arbitrary model）. 例如，我们将以60个种结束，并且将进化树分成两个时间段；我们将第一阶段设定为一个时间单位，后一个阶段设定为9个时间单位。同时，我们认为多样化速率r在第一阶段（r1）在第一阶段是第二阶段（r2）的10倍。相应的物种数可以通过公式计算，N=2*exp(r1t1)*exp(r2t2),那么我们将其中的已知数填入，解方程，得到r2=log(30)/19=0.179, and r1=1.79.<br>下面，我们看一下随着 μ的上升或 λ的下降，我们的零分布将会怎样变化？假如，我们设定μ1=0.05, λ1=1.84.之后，我们的第一个模型λ下降，令μ保持不变，而令λ2=.229，对于模型二，我们令λ保持不变，而μ2=1.661。我们将这两种模型同时和Yule分布进行比较。Yule分布的λ=log(30)/10=0.34</p>
-<h2 id="图27代码"><a href="#图27代码" class="headerlink" title="图27代码"></a>图27代码</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ltt.null(<span class="number">60</span>, <span class="number">10</span>, <span class="number">0.34</span>, <span class="number">0</span>)</span><br><span class="line">model.lambda &lt;- mrbdtree.n(<span class="number">10</span>, <span class="number">60</span>, <span class="built_in">c</span>(<span class="number">1</span>,<span class="number">10</span>), <span class="built_in">c</span>(<span class="number">1.84</span>,<span class="number">0.229</span>), <span class="number">0.05</span>)</span><br><span class="line">lapply(model.lambda, ltt.lines) -&gt; x</span><br></pre></td></tr></table></figure>
-
+<h2 id="图27代码"><a href="#图27代码" class="headerlink" title="图27代码"></a>图27代码</h2><pre><code class="R">ltt.null(60, 10, 0.34, 0)
+model.lambda &lt;- mrbdtree.n(10, 60, c(1,10), c(1.84,0.229), 0.05)
+lapply(model.lambda, ltt.lines) -&gt; x
+</code></pre>
 <p>图 27</p>
 <p>看起来非常不错，分类群在早期迅速增加，之后回到了预期的曲线中。或许两个时间段在长度上接近，我们会得到更为平滑的曲线。 我们现在看一下，如果灭绝速率升高，将会有什么发生：</p>
-<h2 id="图28代码"><a href="#图28代码" class="headerlink" title="图28代码"></a>图28代码</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ltt.null(<span class="number">60</span>, <span class="number">10</span>, <span class="number">0.34</span>, <span class="number">0</span>)</span><br><span class="line">model.mu &lt;- mrbdtree.n(<span class="number">10</span>, <span class="number">60</span>, <span class="built_in">c</span>(<span class="number">1</span>,<span class="number">10</span>), <span class="number">1.84</span>, <span class="built_in">c</span>(<span class="number">0.05</span>, <span class="number">1.661</span>))</span><br><span class="line">lapply(model.mu, ltt.lines) -&gt; x</span><br></pre></td></tr></table></figure>
-
+<h2 id="图28代码"><a href="#图28代码" class="headerlink" title="图28代码"></a>图28代码</h2><pre><code class="R">ltt.null(60, 10, 0.34, 0)
+model.mu &lt;- mrbdtree.n(10, 60, c(1,10), 1.84, c(0.05, 1.661))
+lapply(model.mu, ltt.lines) -&gt; x
+</code></pre>
 <p>图 28</p>
 <p>Huh, 完全失效了。这表明，我们之间看到的格局（例如Agamid进化树），物种数在早期的增加，实际上是由于物种分化速率降低造成的。 我们无法提高灭绝速率，同时又生成一个凹陷的ltt图，虽然可以通过另一些参数的组合完成这一功能。<br>对这种格局的另外一种解释就是取样问题。我们认为随机取样能够降低最近的物种分化时间，但是对早期的分化则影响很小。这是由于古老的分支类群往往很大，从而在随机抽样的时候很难去除。在处理隐性物种（cryptic species）或者更高等级的分类单元时，这种情况变得尤为严重。我们下面就做一个80个物种的模拟数据，并且随机提取出20个种。</p>
-<h2 id="图29代码"><a href="#图29代码" class="headerlink" title="图29代码"></a>图29代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ltt.null(<span class="number">60</span>, <span class="number">10</span>, <span class="number">0.34</span>, <span class="number">0</span>)</span><br><span class="line">make.samp &lt;- <span class="keyword">function</span> () prune.random.taxa(rbdtree.n(<span class="number">100</span>, <span class="number">10</span>, <span class="number">0.3912</span>, <span class="number">0</span>), <span class="number">40</span>)</span><br><span class="line">x &lt;- replicate(<span class="number">10</span>, ltt.lines(make.samp()))</span><br></pre></td></tr></table></figure>
-
+<h2 id="图29代码"><a href="#图29代码" class="headerlink" title="图29代码"></a>图29代码</h2><pre><code class="R">ltt.null(60, 10, 0.34, 0)
+make.samp &lt;- function () prune.random.taxa(rbdtree.n(100, 10, 0.3912, 0), 40)
+x &lt;- replicate(10, ltt.lines(make.samp()))
+</code></pre>
 <p>图 29<br>我们看到了，上面的函数几乎不起什么作用。</p>
 <p>用来探测分化速率变化的似然模型<br>laser程序包中有函数可以用来检验多样性速率的变化。第一个模型与Yule模型比较，其中的物种分化速率随时间是恒定的，而实际情况中，物种分化速率存在着发生者变化。（Rabosky 2006, Evolution 60:1152-1164）. 我们来检验一下模拟出的早期进化速率很高的那棵进化树。</p>
 <p>首先，我们用单一速率检验该模型。所有这些模型都对分化时间进行拟合，而不是整个进化树，因此，我们需要创建一个物种分支时间的向量。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">times.lambda &lt;- branching.times(model.lambda[[<span class="number">1</span>]])</span><br><span class="line">pureBirth(times.lambda)</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">\&gt; pureBirth(times.lambda)</span><br><span class="line">$LH</span><br><span class="line">      61 </span><br><span class="line">36.49077</span><br><span class="line"></span><br><span class="line">$aic</span><br><span class="line">       61 </span><br><span class="line">-70.98154</span><br><span class="line"></span><br><span class="line">$r1</span><br><span class="line">       61 </span><br><span class="line">0.2117251</span><br></pre></td></tr></table></figure>
+<pre><code class="R">times.lambda &lt;- branching.times(model.lambda[[1]])
+pureBirth(times.lambda)
+</code></pre>
+<pre><code>\&gt; pureBirth(times.lambda)
+$LH
+      61 
+36.49077
 
+$aic
+       61 
+-70.98154
+
+$r1
+       61 
+0.2117251
+</code></pre>
 <p>看起来非常合理。λ 比我们预想的要低一些，但这可能是由于曲线的凹凸度的后果。现在我们试验一下两个速率的模型。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yule2rate(times.lambda)</span><br><span class="line">yule2rate(times.lambda)</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">        LH      st1       r1        r2       aic</span><br><span class="line">6 45.92311 9.010908 1.882302 0.1887342 -85.84621</span><br></pre></td></tr></table></figure>
-
+<pre><code class="R">yule2rate(times.lambda)
+yule2rate(times.lambda)
+</code></pre>
+<pre><code>        LH      st1       r1        r2       aic
+6 45.92311 9.010908 1.882302 0.1887342 -85.84621
+</code></pre>
 <p>看一下这一模型的结果。LH是Log likehihood. stl是物种分户速率变化的转折点。但是这些结果与我们时间上所做的转折如何比较？r1 和 r2分别是每个时间段的物种分化速率。 AIC是Akaike’s information criterion, 这是一种比较似然率的另外一种方法；即使在模型为非巢式的时候，仍然很有效。 AIC定义为 2k-2log(likelihood)，需要选择AIC值最低的模型。那么按照这一标准，什么才是最好的模型？ 此外，也可以用似然比检验（Likelihood Ratio Test）来选择模型。</p>
 <p>如果选择了两速率模型作为最好的，那么可以继续用 yule3rate, yule4rate, 或yule5rate. 同样可以用fitdAICrc来比较不同模型，虽然我没有看出在比较这些模型时的优势。<br>问题2。 Warbler进化树的最优模型是什么？ 该模型的参数是什么？</p>
 <p>模拟物种分化速率连续变化的进化树</p>
@@ -219,23 +524,91 @@
 <p>$N=2λ0exp(-10k)/k-10μ)$</p>
 <p>因此 k = 0.23, λ0= 0.997</p>
 <p>如果我们将时间100等分，就将获得每个时刻的平均值 <br>λ0exp(-kt)[exp(-kΔt)-1]/kΔt=1.009exp(-0.23t)。 之后创建一个向量</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lambdas &lt;- 1.009*<span class="built_in">exp</span>(-<span class="number">0.23</span>*<span class="number">1</span>:<span class="number">100</span>/<span class="number">10</span>)</span><br><span class="line">lambdas</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">  [1] 0.9860578 0.9636373 0.9417266 0.9203141 0.8993884 0.8789386 0.8589537</span><br><span class="line">  [8] 0.8394232 0.8203368 0.8016844 0.7834561 0.7656422 0.7482334 0.7312205</span><br><span class="line"> [15] 0.7145943 0.6983462 0.6824676 0.6669500 0.6517852 0.6369652 0.6224822</span><br><span class="line"> [22] 0.6083285 0.5944966 0.5809792 0.5677692 0.5548596 0.5422434 0.5299142</span><br><span class="line"> [29] 0.5178652 0.5060903 0.4945830 0.4833374 0.4723475 0.4616075 0.4511117</span><br><span class="line"> [36] 0.4408546 0.4308306 0.4210346 0.4114613 0.4021057 0.3929628 0.3840278</span><br><span class="line"> [43] 0.3752960 0.3667627 0.3584234 0.3502738 0.3423094 0.3345261 0.3269198</span><br><span class="line"> [50] 0.3194865 0.3122222 0.3051230 0.2981853 0.2914053 0.2847794 0.2783043</span><br><span class="line"> [57] 0.2719763 0.2657923 0.2597488 0.2538428 0.2480710 0.2424305 0.2369182</span><br><span class="line"> [64] 0.2315313 0.2262668 0.2211221 0.2160943 0.2111809 0.2063792 0.2016866</span><br><span class="line"> [71] 0.1971008 0.1926192 0.1882395 0.1839594 0.1797766 0.1756889 0.1716942</span><br><span class="line"> [78] 0.1677903 0.1639752 0.1602468 0.1566032 0.1530424 0.1495626 0.1461619</span><br><span class="line"> [85] 0.1428386 0.1395908 0.1364168 0.1333150 0.1302838 0.1273215 0.1244265</span><br><span class="line"> [92] 0.1215973 0.1188325 0.1161306 0.1134900 0.1109096 0.1083877 0.1059233</span><br><span class="line"> [99] 0.1035148 0.1011612</span><br><span class="line"></span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+<pre><code class="R">lambdas &lt;- 1.009*exp(-0.23*1:100/10)
+lambdas
+</code></pre>
+<pre><code>  [1] 0.9860578 0.9636373 0.9417266 0.9203141 0.8993884 0.8789386 0.8589537
+  [8] 0.8394232 0.8203368 0.8016844 0.7834561 0.7656422 0.7482334 0.7312205
+ [15] 0.7145943 0.6983462 0.6824676 0.6669500 0.6517852 0.6369652 0.6224822
+ [22] 0.6083285 0.5944966 0.5809792 0.5677692 0.5548596 0.5422434 0.5299142
+ [29] 0.5178652 0.5060903 0.4945830 0.4833374 0.4723475 0.4616075 0.4511117
+ [36] 0.4408546 0.4308306 0.4210346 0.4114613 0.4021057 0.3929628 0.3840278
+ [43] 0.3752960 0.3667627 0.3584234 0.3502738 0.3423094 0.3345261 0.3269198
+ [50] 0.3194865 0.3122222 0.3051230 0.2981853 0.2914053 0.2847794 0.2783043
+ [57] 0.2719763 0.2657923 0.2597488 0.2538428 0.2480710 0.2424305 0.2369182
+ [64] 0.2315313 0.2262668 0.2211221 0.2160943 0.2111809 0.2063792 0.2016866
+ [71] 0.1971008 0.1926192 0.1882395 0.1839594 0.1797766 0.1756889 0.1716942
+ [78] 0.1677903 0.1639752 0.1602468 0.1566032 0.1530424 0.1495626 0.1461619
+ [85] 0.1428386 0.1395908 0.1364168 0.1333150 0.1302838 0.1273215 0.1244265
+ [92] 0.1215973 0.1188325 0.1161306 0.1134900 0.1109096 0.1083877 0.1059233
+ [99] 0.1035148 0.1011612
 
+&gt;
+</code></pre>
 <p>之后，可以建立一些进化树，并且绘制出来。</p>
-<h2 id="图30代码"><a href="#图30代码" class="headerlink" title="图30代码"></a>图30代码</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">trees.spvar &lt;- mrbdtree.n(<span class="number">10</span>, <span class="number">60</span>, <span class="number">1</span>:<span class="number">100</span>/<span class="number">10</span>, lambdas, <span class="number">0.05</span>)</span><br><span class="line">ltt.null(<span class="number">60</span>, <span class="number">10</span>, <span class="number">0.34</span>, <span class="number">0</span>)</span><br><span class="line">lapply(trees.spvar, ltt.lines) -&gt; x</span><br></pre></td></tr></table></figure>
-
+<h2 id="图30代码"><a href="#图30代码" class="headerlink" title="图30代码"></a>图30代码</h2><pre><code class="R">trees.spvar &lt;- mrbdtree.n(10, 60, 1:100/10, lambdas, 0.05)
+ltt.null(60, 10, 0.34, 0)
+lapply(trees.spvar, ltt.lines) -&gt; x
+</code></pre>
 <p>图 30<br>这与我们想要解释的真实进化树极为相似，在早期都具有较高的分化速率。我们也可以建立一个相反的模型，在每个区间μ不断升高，而r保持不变，但是λ为常数。这可以通过 λ2=λ0 - μ1以及 μ2(t)=λ0 - λ1(t)实现。 我们可以建立这些进化树，并且与SPVAR进化树进行比较。</p>
-<h2 id="图31代码"><a href="#图31代码" class="headerlink" title="图31代码"></a>图31代码</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mus &lt;- 0.997-lambdas</span><br><span class="line">trees.exvar &lt;- mrbdtree.n(<span class="number">10</span>, <span class="number">60</span>, <span class="number">1</span>:<span class="number">100</span>/<span class="number">10</span>, <span class="number">0.947</span>, mus)</span><br><span class="line">lapply(trees.exvar,ltt.lines,col=3)-&gt;x</span><br></pre></td></tr></table></figure>
-
+<h2 id="图31代码"><a href="#图31代码" class="headerlink" title="图31代码"></a>图31代码</h2><pre><code class="R">mus &lt;- 0.997-lambdas
+trees.exvar &lt;- mrbdtree.n(10, 60, 1:100/10, 0.947, mus)
+lapply(trees.exvar,ltt.lines,col=3)-&gt;x
+</code></pre>
 <p>图 31<br>问题3 EXVAR模拟的进化树总体上应该是什么形状？ 它们看起来是否与我们说的早期物种分化速率较高的进化树相似？ 这些现象说明什么过程能够生成这些进化树?</p>
 <p>用似然率连续变化模型的拟合<br>如果你注意到，上面提到的论文的作者，就是laser程序包的作者（现在是Huelsenbeck实验室的博士后， 很快就要成为Michigan大学的老师）， 那么在这个程序包中发现几个用来拟合物种分化速率连续变化的模型的函数就不奇怪了。该程序包中包含了拟合SPVAR, EXVAR和BOTHVAR的函数， 也就是我在前一段中提到的。同时，也有随着物种丰富度的升高，物种分化速率下降的模型。 我们仅简要介绍其中的内容，如果你有兴趣，可以查看其选项。<br>我们用SPVAR模型来拟合SPVAR模拟生成的进化树，同时看一下它是如何工作的。首先检验一下其物种分化速率为常量的零假设。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">times.spvar &lt;- branching.times(trees.spvar[[<span class="number">1</span>]])</span><br><span class="line">bd(times.spvar)</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">$LH</span><br><span class="line">     61 </span><br><span class="line">35.7508</span><br><span class="line">$r1</span><br><span class="line">      61 </span><br><span class="line">0.209041</span><br><span class="line">$a</span><br><span class="line">[1] 0</span><br><span class="line">$aic</span><br><span class="line">       61 </span><br><span class="line">-67.50159</span><br><span class="line"></span><br><span class="line">之后，检查SPVAR模型</span><br><span class="line">fitSPVAR(times.spvar)</span><br><span class="line">\&gt; fitSPVAR(times.spvar)</span><br><span class="line">$model</span><br><span class="line">[1] &quot;SPVAR&quot;</span><br><span class="line"></span><br><span class="line">$LH</span><br><span class="line">[1] 47.27787</span><br><span class="line"></span><br><span class="line">$aic</span><br><span class="line">[1] -88.55573</span><br><span class="line"></span><br><span class="line">$lam0</span><br><span class="line">[1] 1.081366</span><br><span class="line"></span><br><span class="line">$k</span><br><span class="line">[1] 0.2593436</span><br><span class="line"></span><br><span class="line">$mu0</span><br><span class="line">[1] 0.001</span><br></pre></td></tr></table></figure>
-<p>你是如何估计模型参数的？ 你青睐那种模型？ 我们这里暂不涉及EXVAR和BOTHVAR，但是你应该了解到了如何使用它们。我们简要查看一下密度依赖多样化模型。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DDX(times.spvar)</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">\&gt; DDX(times.spvar)</span><br><span class="line">$LH</span><br><span class="line">[1] 45.96522</span><br><span class="line"></span><br><span class="line">$aic</span><br><span class="line">[1] -87.93044</span><br><span class="line"></span><br><span class="line">$r1</span><br><span class="line">[1] 2.532487</span><br><span class="line"></span><br><span class="line">$xparam</span><br><span class="line">[1] 0.7286594</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code class="R">times.spvar &lt;- branching.times(trees.spvar[[1]])
+bd(times.spvar)
+</code></pre>
+<pre><code>$LH
+     61 
+35.7508
+$r1
+      61 
+0.209041
+$a
+[1] 0
+$aic
+       61 
+-67.50159
 
+之后，检查SPVAR模型
+fitSPVAR(times.spvar)
+\&gt; fitSPVAR(times.spvar)
+$model
+[1] &quot;SPVAR&quot;
+
+$LH
+[1] 47.27787
+
+$aic
+[1] -88.55573
+
+$lam0
+[1] 1.081366
+
+$k
+[1] 0.2593436
+
+$mu0
+[1] 0.001
+</code></pre>
+<p>你是如何估计模型参数的？ 你青睐那种模型？ 我们这里暂不涉及EXVAR和BOTHVAR，但是你应该了解到了如何使用它们。我们简要查看一下密度依赖多样化模型。</p>
+<pre><code class="R">DDX(times.spvar)
+</code></pre>
+<pre><code>\&gt; DDX(times.spvar)
+$LH
+[1] 45.96522
+
+$aic
+[1] -87.93044
+
+$r1
+[1] 2.532487
+
+$xparam
+[1] 0.7286594
+</code></pre>
 <p>该模型拟合的效果好吗？ 如果想要理解这一模型的意思，则必须查看laser程序包的帮助文件。不仅如此，如果想要了解R任何函数的使用方法，都需要查看帮助文件。 我只介绍了其中很少一部分函数的用法，你可以参考更多的选项及功能。</p>
 <h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><ul>
 <li><p>Rabosky, D. L. (2006). “Likelihood methods for detecting temporal shifts in diversification rates.” Evolution 60(6): 1152-1164.<br><a target="_blank" rel="noopener" href="http://dx.doi.org/10.1111/j.0014-3820.2006.tb01194.x">http://dx.doi.org/10.1111/j.0014-3820.2006.tb01194.x</a><br>Link: <a target="_blank" rel="noopener" href="http://onlinelibrary.wiley.com/doi/10.1111/j.0014-3820.2006.tb01194.x/abstract">http://onlinelibrary.wiley.com/doi/10.1111/j.0014-3820.2006.tb01194.x/abstract</a></p>
@@ -251,7 +624,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2011/05/18/2011-5-18-ltt-plot/" data-id="ckmq2gwvb00dxq8844q94enjt" data-title="ltt.plot从进化树推断物种分化的历史：分类单元数与时间的关系" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2011/05/18/2011-5-18-ltt-plot/" data-id="ckmq42aln00dw1k84gnci1ck3" data-title="ltt.plot从进化树推断物种分化的历史：分类单元数与时间的关系" class="article-share-link">Share</a>
       
       
       
@@ -293,7 +666,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2011/04/16/2011-04-16-spring2/" data-id="ckmq2gwqj001sq8848igf426q" data-title="银杏的春天" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2011/04/16/2011-04-16-spring2/" data-id="ckmq42ahj00271k848dbd92j0" data-title="银杏的春天" class="article-share-link">Share</a>
       
       
       
@@ -381,7 +754,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2011/04/02/2011-4-2-midspring/" data-id="ckmq2gwqy002yq88431qq73fa" data-title="春之印象：仲春" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2011/04/02/2011-4-2-midspring/" data-id="ckmq42ahs00311k843tei2lwt" data-title="春之印象：仲春" class="article-share-link">Share</a>
       
       
       
@@ -455,8 +828,21 @@
 <li>“r”为运行后的结果存储的文件<br>另有多种参数。 </li>
 </ul>
 <p>对数量性状进行聚类分析，采用UPGMA方法的批处理代码如下： </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&quot; Standardize the variables </span><br><span class="line">*stand o&#x3D;data.nts r&#x3D;sdata.nts </span><br><span class="line">&quot; Compute a distance matrix </span><br><span class="line">*simint o&#x3D;sdata.nts r&#x3D;dist.nts c&#x3D;dist </span><br><span class="line">&quot; Do a single-link cluster analysis of the distance matrix </span><br><span class="line">*sahn o&#x3D;dist.nts r&#x3D;tree.nts </span><br><span class="line">&quot; Compute cophenetic values </span><br><span class="line">*coph o&#x3D;tree.nts r&#x3D;coph.nts </span><br><span class="line">&quot; Compute the cophenetic correlation </span><br><span class="line">*mxcomp x&#x3D;coph.nts y&#x3D;dist.nts </span><br><span class="line">&quot; Display phenogram </span><br><span class="line">*tree o&#x3D;tree.nts </span><br><span class="line">&quot; Display distance matrix </span><br><span class="line">*output o&#x3D;dist.nts </span><br></pre></td></tr></table></figure>
-
+<pre><code>&quot; Standardize the variables 
+*stand o=data.nts r=sdata.nts 
+&quot; Compute a distance matrix 
+*simint o=sdata.nts r=dist.nts c=dist 
+&quot; Do a single-link cluster analysis of the distance matrix 
+*sahn o=dist.nts r=tree.nts 
+&quot; Compute cophenetic values 
+*coph o=tree.nts r=coph.nts 
+&quot; Compute the cophenetic correlation 
+*mxcomp x=coph.nts y=dist.nts 
+&quot; Display phenogram 
+*tree o=tree.nts 
+&quot; Display distance matrix 
+*output o=dist.nts 
+</code></pre>
 <p>将以上脚本复制到记事本中，将扩展名改为.ntb文件，就可执行批处理命令了。</p>
 <p>下载相应的文档和软件</p>
 <ul>
@@ -469,11 +855,30 @@
 <p>聚类树状图 举例</p>
 <h1 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h1><p>NTsys进行主成分分析的脚本</p>
 <p>主成份分析的散点图<br><strong>ntsys</strong>目前可以绘制三维的散点图 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&quot; Standardize variables (rows) </span><br><span class="line">*stand o&#x3D;data.nts r&#x3D;sdata.nts </span><br><span class="line">&quot; Compute correlations among variables (rows) </span><br><span class="line">*simint o&#x3D;sdata.nts c&#x3D;corr r&#x3D;corr.nts d&#x3D;row </span><br><span class="line">&quot; Output the correlation matrix </span><br><span class="line">*output o&#x3D;corr.nts </span><br><span class="line">&quot; Extract first 3 PCA axes from correlation matrix </span><br><span class="line">*eigen o&#x3D;corr.nts n&#x3D;3 r&#x3D;vect.nts val&#x3D;val.nts </span><br><span class="line">&quot; Output principal component axes </span><br><span class="line">*output o&#x3D;vect.nts </span><br><span class="line">&quot; Project objects onto PCA axes </span><br><span class="line">*proj o&#x3D;sdata.nts d&#x3D;col f&#x3D;vect.nts r&#x3D;proj.nts </span><br><span class="line">&quot; Output projections </span><br><span class="line">*output o&#x3D;proj.nts </span><br><span class="line">&quot; Display 3D plot of projection of objects </span><br><span class="line">*mod3d o&#x3D;proj.nts </span><br><span class="line">&quot; Display 3D plot of variables defining the PCA axes </span><br><span class="line">*mod3d o&#x3D;vect.nts d&#x3D;col</span><br></pre></td></tr></table></figure>
+<pre><code>&quot; Standardize variables (rows) 
+*stand o=data.nts r=sdata.nts 
+&quot; Compute correlations among variables (rows) 
+*simint o=sdata.nts c=corr r=corr.nts d=row 
+&quot; Output the correlation matrix 
+*output o=corr.nts 
+&quot; Extract first 3 PCA axes from correlation matrix 
+*eigen o=corr.nts n=3 r=vect.nts val=val.nts 
+&quot; Output principal component axes 
+*output o=vect.nts 
+&quot; Project objects onto PCA axes 
+*proj o=sdata.nts d=col f=vect.nts r=proj.nts 
+&quot; Output projections 
+*output o=proj.nts 
+&quot; Display 3D plot of projection of objects 
+*mod3d o=proj.nts 
+&quot; Display 3D plot of variables defining the PCA axes 
+*mod3d o=vect.nts d=col
+</code></pre>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2011/04/01/2011-4-2-ntsys/" data-id="ckmq2gwqz0031q8842rnp0rdo" data-title="NTsys实现聚类分析及树状图的绘制" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2011/04/01/2011-4-2-ntsys/" data-id="ckmq42aht00331k84h99t1gb9" data-title="NTsys实现聚类分析及树状图的绘制" class="article-share-link">Share</a>
       
       
       
@@ -591,7 +996,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2011/03/26/2011-3-26-dizhen/" data-id="ckmq2gwvv00enq8843zg052ur" data-title="[转载]中国历史上的80次大地震" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2011/03/26/2011-3-26-dizhen/" data-id="ckmq42am700el1k843ozcgpm9" data-title="[转载]中国历史上的80次大地震" class="article-share-link">Share</a>
       
       
       
@@ -660,7 +1065,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2011/03/25/2011-3-25-earlyspring/" data-id="ckmq2gwqx002wq884ffx67e5e" data-title="春之印象:早春" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2011/03/25/2011-3-25-earlyspring/" data-id="ckmq42ahr002y1k84garm2em2" data-title="春之印象:早春" class="article-share-link">Share</a>
       
       
       
@@ -740,12 +1145,23 @@
 <p>在多元回归树分析中，平方和的计算是在欧几里得空间中进行的。如果数据需要保留自身的特性，则需要进行相应的转换。</p>
 <h1 id="4-多元回归树实例：mvpart程序包"><a href="#4-多元回归树实例：mvpart程序包" class="headerlink" title="4 多元回归树实例：mvpart程序包"></a>4 多元回归树实例：mvpart程序包</h1><p>mvpart程序包最初是Terry M Therneau和Beth Atkinson编写的， Glenn De’ath对其进行了扩展，并负责该程序包的更新和维护。其计算用到的主要函数为<code>rpart()</code>。该函数需要输入的响应变量为matrix,解释变量为<code>data.frame()</code>. 两者的关系采用R的标准公示格式（可参考?lm）.</p>
 <p>示例来自mvpart程序包的帮助：</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">library(mvpart)</span><br><span class="line"></span><br><span class="line">data(spider)</span><br><span class="line">mvpart(data.matrix(spider[,<span class="number">1</span>:<span class="number">12</span>])~herbs+reft+moss+sand+twigs+</span><br><span class="line">water,spider) <span class="comment"># defaults</span></span><br><span class="line">mvpart(data.matrix(spider[,<span class="number">1</span>:<span class="number">12</span>])~herbs+reft+moss+sand+twigs+</span><br><span class="line">water,spider,xv=<span class="string">&quot;p&quot;</span>) <span class="comment"># pick the tree size</span></span><br><span class="line">\<span class="comment"># pick cv size and do PCA</span></span><br><span class="line">fit &lt;- mvpart(data.matrix(spider[,<span class="number">1</span>:<span class="number">12</span>])~herbs+reft+moss+sand+</span><br><span class="line">twigs+water,spider,xv=<span class="string">&quot;1se&quot;</span>,pca=<span class="literal">TRUE</span>)</span><br><span class="line">rpart.pca(fit,interact=<span class="literal">TRUE</span>,wgt.ave=<span class="literal">TRUE</span>) <span class="comment"># interactive PCA plot of saved multivariate tree</span></span><br></pre></td></tr></table></figure>
+<pre><code class="R">library(mvpart)
+
+data(spider)
+mvpart(data.matrix(spider[,1:12])~herbs+reft+moss+sand+twigs+
+water,spider) # defaults
+mvpart(data.matrix(spider[,1:12])~herbs+reft+moss+sand+twigs+
+water,spider,xv=&quot;p&quot;) # pick the tree size
+\# pick cv size and do PCA
+fit &lt;- mvpart(data.matrix(spider[,1:12])~herbs+reft+moss+sand+
+twigs+water,spider,xv=&quot;1se&quot;,pca=TRUE)
+rpart.pca(fit,interact=TRUE,wgt.ave=TRUE) # interactive PCA plot of saved multivariate tree
+</code></pre>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2011/02/27/2011-2-27-mrt/" data-id="ckmq2gwqv002oq884hcxq74q9" data-title="什么是多元回归树？" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2011/02/27/2011-2-27-mrt/" data-id="ckmq42ahq002w1k84crilgu88" data-title="什么是多元回归树？" class="article-share-link">Share</a>
       
       
       
@@ -786,7 +1202,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2011/02/14/2011-02-11-snow/" data-id="ckmq2gwqm001xq884byiq5feb" data-title="北京的春雪" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2011/02/14/2011-02-11-snow/" data-id="ckmq42ahi00221k84bx8p9gn3" data-title="北京的春雪" class="article-share-link">Share</a>
       
       
       
@@ -834,64 +1250,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2011/02/13/2011-02-14-wineclipse/" data-id="ckmq2gwqp0027q8849soc8liv" data-title="用WinEclipse 绘制日食的路线图" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2011/02/13/2011-02-14-wineclipse/" data-id="ckmq42ahj00251k8448fc2iq2" data-title="用WinEclipse 绘制日食的路线图" class="article-share-link">Share</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A9%E6%96%87/" rel="tag">天文</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-2010-12-30-rintro2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2010/12/30/2010-12-30-rintro2/" class="article-date">
-  <time class="dt-published" datetime="2010-12-29T21:58:54.000Z" itemprop="datePublished">2010-12-30</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2010/12/30/2010-12-30-rintro2/">R语言初步——数据处理、绘图与编程</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>R语言初步——数据处理、绘图与编程</p>
-<p>本文介绍的是一套幻灯片，共包括120张，较为详细的介绍了R语言，以及简单统计分析的实现，包括方差分析、回归，以及绘图、编写函数的方法。</p>
-<p>内容如下：</p>
-<ul>
-<li>一、R简介 </li>
-<li>二、函数与对象 </li>
-<li>三、脚本编程 </li>
-<li>四、R绘图 </li>
-<li>五、编写函数 </li>
-<li>六、数据保存<br>以下是幻灯片的内容，希望对感兴趣的读者能有促进作用。</li>
-</ul>
-<p>幻灯片下载:</p>
-<p><a target="_blank" rel="noopener" href="http://bbs.sciencenet.cn/home.php?mod=attachment&id=3271">R语言初步 统计绘图与编程.ppt</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2010/12/30/2010-12-30-rintro2/" data-id="ckmq2gwqd001bq884cr40a572" data-title="R语言初步——数据处理、绘图与编程" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/R%E7%BC%96%E7%A8%8B/" rel="tag">R编程</a></li></ul>
 
     </footer>
   </div>
@@ -951,6 +1314,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
           </li>
         
@@ -964,10 +1331,6 @@
         
           <li>
             <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
           </li>
         
       </ul>
