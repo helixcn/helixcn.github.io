@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>天文爱好者Brandon Rhodes和他的程序包PyEphem, Skyfield | Jinlong Zhang&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="昨天在Youtube听了Brandon Rhodes的讲座 ，Skyfield and 15 Years of Bad APIs(https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v&#x3D;FVEEndIwOSA )，颇有感触。 Brandon Rhodes是Dropbox公司的高级架构师， 精通Python，同时也是一位天文爱好者( http:&#x2F;&#x2F;rhodesmill.org&#x2F;brando">
+<meta property="og:type" content="article">
+<meta property="og:title" content="天文爱好者Brandon Rhodes和他的程序包PyEphem, Skyfield">
+<meta property="og:url" content="https://helixcn.github.io/2018/09/14/2018-09-14-rhodes/index.html">
+<meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
+<meta property="og:description" content="昨天在Youtube听了Brandon Rhodes的讲座 ，Skyfield and 15 Years of Bad APIs(https:&#x2F;&#x2F;www.youtube.com&#x2F;watch?v&#x3D;FVEEndIwOSA )，颇有感触。 Brandon Rhodes是Dropbox公司的高级架构师， 精通Python，同时也是一位天文爱好者( http:&#x2F;&#x2F;rhodesmill.org&#x2F;brando">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-09-13T17:09:54.000Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:24.602Z">
+<meta property="article:author" content="Jinlong Zhang">
+<meta property="article:tag" content="人物">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Jinlong Zhang's blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jinlong Zhang&#39;s blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://helixcn.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-2018-09-14-rhodes" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/09/14/2018-09-14-rhodes/" class="article-date">
+  <time class="dt-published" datetime="2018-09-13T17:09:54.000Z" itemprop="datePublished">2018-09-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      天文爱好者Brandon Rhodes和他的程序包PyEphem, Skyfield
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p> 昨天在Youtube听了Brandon Rhodes的讲座 ，Skyfield and 15 Years of Bad APIs(<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=FVEEndIwOSA">https://www.youtube.com/watch?v=FVEEndIwOSA</a> )，颇有感触。</p>
+<p>Brandon Rhodes是Dropbox公司的高级架构师， 精通Python，同时也是一位天文爱好者( <a target="_blank" rel="noopener" href="http://rhodesmill.org/brandon/">http://rhodesmill.org/brandon/</a> )。他在2000年左右编写了一个Python程序包PyEphem并且维护至今，这个程序包现在还在使用。PyEphem主要用于计算天体的位置与星历表，例如某地日出日落时刻，天体升降和中天时刻，给定轨道根数计算小行星、彗星和人造卫星在某一时刻、某一历元下的位置以及各种天文坐标系之间的转换等。</p>
+<p>PyEphem程序包的名称来源于Ephem软件(<a target="_blank" rel="noopener" href="http://www.clearskyinstitute.com/xephem/">http://www.clearskyinstitute.com/xephem/</a>)。Ephem是用C语言写的， Ephem是Ephemeris，即历书的缩写。Ephem软件的作者Elwood C. Downey是位天文学家，在上世纪九十年代编写了Ephem软件并公布了源代码。经过Elwood允许，Brandon Rhodes将Ephem中用于天文计算的引擎libastro提出来， 利用Python胶水语言的特性，编写了一个Python外壳，用于历算。他将这些Python脚本打包发布，就是我们见到的PyEphem。</p>
+<p>PyEphem程序包的星历表基于VSOP87行星运动理论（<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/VSOP_(planets)#VSOP87%EF%BC%89">https://en.wikipedia.org/wiki/VSOP_(planets)#VSOP87）</a>, 精度已经非常高。在VSO87星历表中，在历元2000.0前后各4000年，水星、金星、地月质心和火星的精度在1角秒以内；木星、土星前后在历元2000.0各2000年，精度在1角秒内；天王星和海王星，前后各6000年，精度在1角秒以内。这样的精度对于绝大多数天文观测、望远镜控制以及中长期的日月食计算都绰绰有余了。但完美主义世家出身的Brandon Rhodes对PyEphem的表现并不满意。</p>
+<p>一方面，由于PyEphem的运算核心是用C编写的，而C是一种编译语言，在不同的平台上编译时难免出现各种问题。而且Ephem本身编写的时间比较早，那时候C 语言有些特性现在某些版本的编译器可能已经不支持了，如Windows下用MinGW就不能正常编译PyEphem，而用Visual Studio就可以。虽然大部分人绝大多数时间都用不到Visual Studio，但为了从源代码编译PyEphem，Windows用户不得不安装几个G的Visual Studio。Brandon想了各种办法编译主要平台的二进制版本供用户下载使用，但是某些操作系统不能编译的情况仍然困扰着他。求助他的人太多，光PyEphem程序包相关的问题，他就收到2000多封邮件。</p>
+<p>另一方面，随着Python语言的进一步发展，人们逐渐转移到Python3。而从Python3上调用代码的写法和方式的标准来看 （应用程序界面，Application programming interface, API）， PyEphem的函数参数以及调用方法等有时让人十分费解。与此同时还有各种各样的潜在问题，一不留神， Python对象就可能因调用某种方法（Method）而发生了变化，以致而得到意想不到的结果，因此这些是要避免的。</p>
+<p>为此，Brandon非常想用纯Python重新写一遍PyEphem，不过重新编写一个功能与PyEphem完全一样的程序包，本身就非常无聊，所以他一直没有动力。直到有一天，有位网友问他关于PyEphem结果精度的问题，咨询他怎样将计算结果与瑞士星历表比较，于是他进一步检索到了美国国家航空航天局喷气推进实验室(NASA JPL)的星历表源数据。他获得这些星历表后大喜过望 ，立即着手编写新工具。</p>
+<p>JPL是干什么的？了解航空航天的朋友知道，JPL是负责为美国的太空探索计算星历表的，也就是说NASA所发射航天器的轨道，要经过JPL设计并计算，因此，JPL对星历表准确性的要求极高。JPL将一系列高精度星历表公开了，用户可以免费下载和使用(<a target="_blank" rel="noopener" href="https://pypi.org/project/jplephem/">https://pypi.org/project/jplephem/</a>), 其中，著名的 DE405星历表覆盖公元 1600年 到2200年的大行星运动数据。既然星历表的元数据已经公布了，就很容易通过说明文档，计算出星历表规定范围内行星的位置。而通过JPL的DE系列星历表计算大行星位置，直接写一个小程序包是最好不过了。于是Brandon编写了jplephem程序包。他说，与其用很长时间埋头写大项目的代码，一年的之中什么都拿不出来，不如将项目分割成小项目，写一段时间代码就先拿出来，以小项目的形式管理，这样才不至于让自己过于焦虑。</p>
+<p>在使用JPL的星历表之后，Brandon不断编写PyEphem类似的功能，这次是用符合现代编码规范，且易于理解的python代码，于是就有了Skyfield程序包 (<a target="_blank" rel="noopener" href="http://rhodesmill.org/skyfield/">http://rhodesmill.org/skyfield/</a>)。</p>
+<p>Brandon非常看重skyfield。在Skyfield的主页上，他甚至直接说， skyfield对于天文计算来说是“优雅”的。而skyfield程序包，也确实是用优雅的方式进行各种星历表计算和转换，值得天文爱好者们了解和学习。有了它，在个人电脑上实现更高精度的天文计算成为可能。</p>
+<p>PyEphem和skyfield受到天文爱好者的欢迎，在业余甚至专业天文学界都有很大的影响，这为Brandon Rhodes赢得了盛誉。他在演讲中提到，有一天，他收到一封求助邮件，发信人向他咨询，能不能帮忙解决美国海军天文台的NOVAS程序在Python中运行的问题，而发邮件的人居然是NASA某实验室的主管。这让他大为惊讶，不过这个忙最后还是帮了。现在在Pipy上novas的Python包 （<a target="_blank" rel="noopener" href="https://pypi.org/project/novas/%EF%BC%89">https://pypi.org/project/novas/）</a>, 也是Brandon帮忙整理的。</p>
+<p>这里再补充两句，美国海军天文台（United States Naval Observatory）成立于1830年，是天体测量学最为权威的机构之一，负责守时和授时，发布高精度的天文数据。香港天文台从1984年开始编写的《香港天文年历》（<a target="_blank" rel="noopener" href="https://www.hko.gov.hk/gts/astron2018/almanac2018_index_uc.htm%EF%BC%89%EF%BC%8C%E9%83%A8%E5%88%86%E5%86%85%E5%AE%B9%E5%B0%B1%E6%98%AF%E6%A0%B9%E6%8D%AE%E7%BE%8E%E5%9B%BD%E6%B5%B7%E5%86%9B%E5%A4%A9%E6%96%87%E5%8F%B0%E7%9A%84%E6%95%B0%E6%8D%AE%E8%80%8C%E8%AE%A1%E7%AE%97%E5%BE%97%E5%87%BA%E7%9A%84%E3%80%82NASA%E7%9A%84%E5%AE%9E%E9%AA%8C%E5%AE%A4%E4%B8%BB%E7%AE%A1%E8%AF%B7Brandon%E5%B8%AE%E5%BF%99%E8%A7%A3%E5%86%B3novas%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%8C%E8%B6%B3%E4%BB%A5%E8%AF%81%E6%98%8E%E4%BB%96%E7%9A%84%E5%BD%B1%E5%93%8D%E5%8F%97%E5%88%B0%E5%AE%98%E6%96%B9%E7%9A%84%E9%87%8D%E8%A7%86%E3%80%82">https://www.hko.gov.hk/gts/astron2018/almanac2018_index_uc.htm），部分内容就是根据美国海军天文台的数据而计算得出的。NASA的实验室主管请Brandon帮忙解决novas的问题，足以证明他的影响受到官方的重视。</a></p>
+<p>不过，大家不要忘了，其实Brandon的正式职业是高级架构师，天文历算只是他的爱好，他只是一位天文爱好者而已。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/09/14/2018-09-14-rhodes/" data-id="ckmq2gwtt00aaq884h9bbcign" data-title="天文爱好者Brandon Rhodes和他的程序包PyEphem, Skyfield" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BA%BA%E7%89%A9/" rel="tag">人物</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/10/02/2018-10-02/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          为什么要开通“ecoinformatics”公众号？
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/22/2018-08-22-youth/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">为什么不要把引进的青年教师称为“论文写手”？</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/R%E7%BC%96%E7%A8%8B/" rel="tag">R编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%BA%E7%89%A9/" rel="tag">人物</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%99%E4%BD%9C/" rel="tag">写作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" rel="tag">可视化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E4%B9%A6/" rel="tag">图书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" rel="tag">图像处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9C%B0%E7%90%86/" rel="tag">地理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A3%B0%E6%98%8E/" rel="tag">声明</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A9%E6%96%87/" rel="tag">天文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%AF%9D%E5%BD%95/" rel="tag">对话录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%83%E5%BE%97/" rel="tag">心得</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E5%91%8A/" rel="tag">报告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E7%89%88/" rel="tag">排版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%85%E4%B9%A1/" rel="tag">故乡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" rel="tag">标本馆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%88%86%E7%B1%BB/" rel="tag">植物分类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%90%8D/" rel="tag">植物学名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%82%E8%81%8C/" rel="tag">求职</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" rel="tag">版本控制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%80%81/" rel="tag">生态</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%80%81%E8%B5%84%E8%AE%AF/" rel="tag">生态资讯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%94%E7%A9%B6%E8%B5%84%E8%AE%AF/" rel="tag">研究资讯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B3%BB%E7%BB%9F%E5%8F%91%E8%82%B2/" rel="tag">系统发育</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%9F%E8%AE%A1/" rel="tag">统计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" rel="tag">行摄匆匆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%81%E9%97%BB%E5%BD%95/" rel="tag">见闻录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%97%E6%AD%8C/" rel="tag">诗歌</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E5%8C%96/" rel="tag">进化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E6%83%B3/" rel="tag">随想</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A9%B3%E8%AE%BA/" rel="tag">驳论</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/R%E7%BC%96%E7%A8%8B/" style="font-size: 18.75px;">R编程</a> <a href="/tags/%E4%BA%BA%E7%89%A9/" style="font-size: 11.88px;">人物</a> <a href="/tags/%E5%86%99%E4%BD%9C/" style="font-size: 13.13px;">写作</a> <a href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" style="font-size: 12.5px;">可视化</a> <a href="/tags/%E5%9B%BE%E4%B9%A6/" style="font-size: 10px;">图书</a> <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" style="font-size: 11.88px;">图像处理</a> <a href="/tags/%E5%9C%B0%E7%90%86/" style="font-size: 17.5px;">地理</a> <a href="/tags/%E5%A3%B0%E6%98%8E/" style="font-size: 10.63px;">声明</a> <a href="/tags/%E5%A4%A9%E6%96%87/" style="font-size: 16.25px;">天文</a> <a href="/tags/%E5%AF%B9%E8%AF%9D%E5%BD%95/" style="font-size: 10px;">对话录</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 10px;">心得</a> <a href="/tags/%E6%8A%A5%E5%91%8A/" style="font-size: 12.5px;">报告</a> <a href="/tags/%E6%8E%92%E7%89%88/" style="font-size: 13.75px;">排版</a> <a href="/tags/%E6%95%85%E4%B9%A1/" style="font-size: 10.63px;">故乡</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10.63px;">数据库</a> <a href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" style="font-size: 14.38px;">标本馆</a> <a href="/tags/%E6%A4%8D%E7%89%A9%E5%88%86%E7%B1%BB/" style="font-size: 10px;">植物分类</a> <a href="/tags/%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%90%8D/" style="font-size: 10px;">植物学名</a> <a href="/tags/%E6%B1%82%E8%81%8C/" style="font-size: 10px;">求职</a> <a href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" style="font-size: 11.25px;">版本控制</a> <a href="/tags/%E7%94%9F%E6%80%81/" style="font-size: 16.88px;">生态</a> <a href="/tags/%E7%94%9F%E6%80%81%E8%B5%84%E8%AE%AF/" style="font-size: 10px;">生态资讯</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E8%B5%84%E8%AE%AF/" style="font-size: 10px;">研究资讯</a> <a href="/tags/%E7%B3%BB%E7%BB%9F%E5%8F%91%E8%82%B2/" style="font-size: 10px;">系统发育</a> <a href="/tags/%E7%BB%9F%E8%AE%A1/" style="font-size: 18.13px;">统计</a> <a href="/tags/%E7%BC%96%E7%A8%8B/" style="font-size: 10.63px;">编程</a> <a href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" style="font-size: 15px;">行摄匆匆</a> <a href="/tags/%E8%A7%81%E9%97%BB%E5%BD%95/" style="font-size: 10px;">见闻录</a> <a href="/tags/%E8%AF%97%E6%AD%8C/" style="font-size: 15.63px;">诗歌</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 19.38px;">软件</a> <a href="/tags/%E8%BF%9B%E5%8C%96/" style="font-size: 10.63px;">进化</a> <a href="/tags/%E9%9A%8F%E6%83%B3/" style="font-size: 11.25px;">随想</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 20px;">随笔</a> <a href="/tags/%E9%A9%B3%E8%AE%BA/" style="font-size: 10px;">驳论</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">January 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">December 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">October 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05/">May 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">May 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">December 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">August 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">March 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">April 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/01/">January 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/08/">August 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/07/">July 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/06/">June 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">May 2009</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/18/2021-03-18/">为什么《xxxx在XX研究中取得进展》这类文章很少有人转发？</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/2021-02-16/">如何恢复森林？– 从嘉道理农场的森林恢复样地说起</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 Jinlong Zhang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

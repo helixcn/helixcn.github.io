@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>用PartitionFinder2 筛选系统发育分析分隔模型 | Jinlong Zhang&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="PartitionFinder2是用来在建立进化树时筛选最优进化模型以及分区（分隔）方案的软件，是用Python2语言编写的。 核苷酸序列在不同位点有不同的突变速率。核苷酸序列又分为编码基因和非编码基因。编码基因中，密码子第一、二位往往较为稳定，第三位往往变异速率较高。非编码基因因为受到的选择压力一般较小，所以往往可保留更多突变。不同基因以及不同位点的突变速率不同，可能对所推断进化树的稳定性有很大">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用PartitionFinder2 筛选系统发育分析分隔模型">
+<meta property="og:url" content="https://helixcn.github.io/2017/08/05/2017-8-5-partitionfinder/index.html">
+<meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
+<meta property="og:description" content="PartitionFinder2是用来在建立进化树时筛选最优进化模型以及分区（分隔）方案的软件，是用Python2语言编写的。 核苷酸序列在不同位点有不同的突变速率。核苷酸序列又分为编码基因和非编码基因。编码基因中，密码子第一、二位往往较为稳定，第三位往往变异速率较高。非编码基因因为受到的选择压力一般较小，所以往往可保留更多突变。不同基因以及不同位点的突变速率不同，可能对所推断进化树的稳定性有很大">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-08-04T19:14:54.000Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:24.593Z">
+<meta property="article:author" content="Jinlong Zhang">
+<meta property="article:tag" content="软件">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Jinlong Zhang's blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jinlong Zhang&#39;s blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://helixcn.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-2017-8-5-partitionfinder" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2017/08/05/2017-8-5-partitionfinder/" class="article-date">
+  <time class="dt-published" datetime="2017-08-04T19:14:54.000Z" itemprop="datePublished">2017-08-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      用PartitionFinder2 筛选系统发育分析分隔模型
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>PartitionFinder2是用来在建立进化树时筛选最优进化模型以及分区（分隔）方案的软件，是用Python2语言编写的。</p>
+<p>核苷酸序列在不同位点有不同的突变速率。核苷酸序列又分为编码基因和非编码基因。编码基因中，密码子第一、二位往往较为稳定，第三位往往变异速率较高。非编码基因因为受到的选择压力一般较小，所以往往可保留更多突变。不同基因以及不同位点的突变速率不同，可能对所推断进化树的稳定性有很大影响。所以在多基因建立进化树过程中，设置分隔模型就显得很重要。</p>
+<p>但是分隔模型怎样设置才算合理呢？在PartitionFinder软件开发出来之前，研究人员一般通过将不同基因分开，例如gene1、gene2、gene3，再将每个基因的不同位点分开如gene1_1、gene1_2、gene1_3作为分隔模型，以提高进化树的稳健性。</p>
+<p>RAxML、MrBayes、BEAST等常用系统发育软件都支持分隔模型，但并不能用于确定最优化的分隔模型设定方案。在建树过程中，如果设置的分隔模型过多，则拟合的参数会过多，造成结果不准确；如果设置的分隔模型过少，或者不设置分隔模型、设置的不合理，也会造成进化树不准确。很多学者已经意识到这个问题，但是一直苦于没有很好的应对方法。</p>
+<p>赤池信息量AIC整合了模型的似然值（Likelihood）以及所要估计的参数数量。模型选择的简约理论认为，AIC或者BIC最小的模型是最优的模型。如果似然值已经足够高，进一步增加模型的参数已经不能再显著提高似然值的情况下，可以认为已经找到了最优模型。但是，对于分隔模型的筛选来说，碱基替换模型与分区方式的组合数量非常多，如果要对每一种分区方案对应的碱基模型筛选出最优组合，在很多情况下几乎是不可能的。这是因为：首先，从碱基比对矩阵计算Likelihood是十分耗费时间的。其次，分隔模型的各种组合的数量呈几何级数增长，如果通过几个基因建树，则可能的分隔模型的数量已经超出了大部分计算机的计算能力。此时就需要引入分隔模型的启发式搜索（Heuristic Search）。</p>
+<p>PartitionFinder的作者从原理上解决了以上的问题，并通过Python语言实现了相应的算法（Lanfear et al., 2012）。作者证明，PartitionFinder所得的分隔模型比之前的简单处理更加合理。不仅如此，PartitionFinder在获得最优化分隔方案后，同时会给出每个分隔模块所对应的最优进化模型。因此，Modeltest、jModeltest以及ProtTest等软件都已经被PartitionFinder所超越。事实上，2012年Lanfear介绍PartitionFinder的论文发表后，在google scholar上已经被引用了3223次（截至2019年1月19日）。</p>
+<p>本文简述PartitionFinder的安装和使用，供同行参考。</p>
+<h1 id="1-下载和安装"><a href="#1-下载和安装" class="headerlink" title="1. 下载和安装"></a>1. 下载和安装</h1><h2 id="1-1-下载"><a href="#1-1-下载" class="headerlink" title="1.1 下载"></a>1.1 下载</h2><p>PartitionFinder的下载网址<a target="_blank" rel="noopener" href="http://www.robertlanfear.com/partitionfinder/%EF%BC%8C%E4%B8%8B%E8%BD%BD%E5%90%8E%E7%94%A8WinRAR%E6%88%96%E8%80%857zip%E8%A7%A3%E5%8E%8B%E7%BC%A9%E3%80%82">http://www.robertlanfear.com/partitionfinder/，下载后用WinRAR或者7zip解压缩。</a></p>
+<p>图1 PartitionFinder的结构</p>
+<p>其中:</p>
+<ul>
+<li> <code>docs</code>为说明文档</li>
+<li> <code>Examples</code> 文件夹下为示例文件，包含DNA序列、形态以及氨基酸序列三个例子</li>
+<li> <code>partfinder</code> 文件夹下为实现算法的 python脚本</li>
+<li> <code>Programs</code> 文件夹下为PHYML可执行文件，用来计算likelihood</li>
+<li> <code>Submodules</code> 文件夹下包含了raxml文件夹，但是该文件夹为空。作者并未交代这个文件夹的内容。</li>
+<li> <code>tests</code> 文件夹下为开发时的测试文件</li>
+<li> <code>PartitionFinder.py</code> 为筛选DNA序列最优分隔模型的Python脚本</li>
+<li> <code>PartitionFinderMorphology.py</code> 为筛选形态数据最优分隔模型的Python脚本</li>
+<li> <code>PartitionFinderProtein.py</code> 为筛选氨基酸序列最优分隔模型的Python脚本</li>
+</ul>
+<p>运行PartitionFinder时，要根据数据类型分别调用三个Python脚本，不能混淆。</p>
+<h2 id="1-2-安装Anaconda"><a href="#1-2-安装Anaconda" class="headerlink" title="1.2. 安装Anaconda"></a>1.2. 安装Anaconda</h2><p>PartitionFinder是用Python2开发的，依赖于numpy、pandas、pytables、pyparsing、scipy、sklearn 等若干程序包。在Windows下，安装这些程序包往往较为麻烦。作者Lanfear推荐已经预装了这些程序包的Anaconda Python。</p>
+<p>Anaconda Python的下载地址为：</p>
+<p><a target="_blank" rel="noopener" href="https://www.anaconda.com/distribution/">https://www.anaconda.com/distribution/</a></p>
+<p>PartitionFinder只能在Python2.7上运行，不能使用Python3。因此，这里只能下载Anaconda Python2.7。</p>
+<p>双击开始安装。</p>
+<p>选择将以下路径添加到系统路径:</p>
+<p><code>C:\ProgramData\Anaconda2;C:\ProgramData\Anaconda2\Scripts; C:\ProgramData\Anaconda2\Library\bin;</code> 以便程序能从命令行CMD运行。</p>
+<p>图2 下载Anaconda Python2.7</p>
+<h1 id="2-所需文件"><a href="#2-所需文件" class="headerlink" title="2. 所需文件"></a>2. 所需文件</h1><p>运行PartitionFinder，用户需要提供：</p>
+<ol>
+<li> phylip文件：包含所要读取的序列</li>
+<li> partition_finder.cfg文件：包含模型筛选时设定的参数</li>
+</ol>
+<h2 id="2-1-PHYLIP文件"><a href="#2-1-PHYLIP文件" class="headerlink" title="2.1 PHYLIP文件"></a>2.1 PHYLIP文件</h2><p>phylip文件可以通过MUSCLE、CLUSTAL、MAFFT等比对序列的软件生成。如果是多基因序列，一般对每个基因分别比对，手工调整之后，再通过Geneious或phylotools（<a target="_blank" rel="noopener" href="https://github.com/helixcn/phylotools%EF%BC%89%E7%AD%89%E8%BD%AF%E4%BB%B6%E7%94%9F%E6%88%90supermatrix%EF%BC%8C%E4%BB%A5phylip%E6%A0%BC%E5%BC%8F%E5%AF%BC%E5%87%BA%E5%8D%B3%E5%8F%AF">https://github.com/helixcn/phylotools</a><a target="_blank" rel="noopener" href="https://github.com/helixcn/phylotools%EF%BC%89%E7%AD%89%E8%BD%AF%E4%BB%B6%E7%94%9F%E6%88%90supermatrix%EF%BC%8C%E4%BB%A5phylip%E6%A0%BC%E5%BC%8F%E5%AF%BC%E5%87%BA%E5%8D%B3%E5%8F%AF">）等软件生成supermatrix，以phylip格式导出即可</a>。</p>
+<p>PHYLIP格式的详细定义，参考</p>
+<p><a target="_blank" rel="noopener" href="http://www.atgc-montpellier.fr/phyml/usersguide.php?type=phylip">http://www.atgc-montpellier.fr/phyml/usersguide.php?type=phylip</a>。</p>
+<p>PartitionFinder可以接受relaxed phylip，文件中的物种名最长可以达100个字符。</p>
+<p>图3 Phylip文件</p>
+<h2 id="2-2-partition-finder-cfg-文件"><a href="#2-2-partition-finder-cfg-文件" class="headerlink" title="2.2 partition_finder.cfg 文件"></a>2.2 partition_finder.cfg 文件</h2><p>PartitionFinder可以处理三种类型的数据，分别为：</p>
+<ol>
+<li> 编码区DNA序列</li>
+<li> 氨基酸序列或非编码区DNA序列</li>
+<li> 形态数据</li>
+</ol>
+<p>根据数据类型的差别，partition_finder.cfg文件会各有不同。</p>
+<ol>
+<li> 编码区DNA序列的配置文件要提供每个片段的</li>
+<li></li>
+<li> 起始和终止位置;</li>
+<li> 编码位置（1、2、3）</li>
+<li> 氨基酸序列和非编码区DNA序列，只需提供每个基因片段的起始和终止位置。</li>
+<li>形态数据，无需直接指定模块，在计算时采用k-means聚类等算法以划分成不同的组别。</li>
+</ol>
+<p>图4 partition_finder.cfg文件的内容</p>
+<h1 id="3-运行"><a href="#3-运行" class="headerlink" title="3. 运行"></a>3. 运行</h1><p>对于DNA序列：</p>
+<ol>
+<li><p> 在partitionFinder文件夹下创建一个新文件夹，命名为test20190219</p>
+</li>
+<li><p> 将examples/nucleotide文件夹下的test.phy文件以及partition_finder.cfg配置文件拷贝到test20190219文件夹下</p>
+</li>
+<li><p> 在CMD中，将工作目录转换到partitionFinder下</p>
+</li>
+<li><p> 调用PartitionFinder.py，格式如下：</p>
+</li>
+</ol>
+<p><code>python PartitionFinder.py test20190219</code></p>
+<ol start="5">
+<li><p> 生成的结果会自己保存在test20190219文件夹下，并生成若干新文件（如log.txt）以及文件夹analysis。</p>
+</li>
+<li><p> 模型筛选的结果就保存在analysis/best_scheme.txt文件中。</p>
+</li>
+</ol>
+<p>图5 运行partitionFinder</p>
+<p>图6 partitionFinder的运行结果</p>
+<h1 id="4-cfg配置文件"><a href="#4-cfg配置文件" class="headerlink" title="4. cfg配置文件"></a>4. cfg配置文件</h1><p>数据类型不同的PHYLIP文件，需要在partition_finder.cfg文件中设置不同的参数。</p>
+<h2 id="4-1-cfg文件的参数"><a href="#4-1-cfg文件的参数" class="headerlink" title="4.1 cfg文件的参数"></a>4.1 cfg文件的参数</h2><h3 id="4-1-1-alignment"><a href="#4-1-1-alignment" class="headerlink" title="4.1.1 alignment"></a>4.1.1 alignment</h3><p>指出phylip的文件名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alignment &#x3D; test.phy;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-1-2-branchlengths"><a href="#4-1-2-branchlengths" class="headerlink" title="4.1.2 branchlengths"></a>4.1.2 branchlengths</h3><p>在优化进化树枝长用于Likelihood计算时，是否各枝长一起优化。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">branchlengths &#x3D; linked;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-1-3-models"><a href="#4-1-3-models" class="headerlink" title="4.1.3 models"></a>4.1.3 models</h3><p>models指定模型筛选的范围</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">models &#x3D; all;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-1-4-model-selection"><a href="#4-1-4-model-selection" class="headerlink" title="4.1.4 model_selection"></a>4.1.4 model_selection</h3><p>model_selection模型筛选的标准，一般用aicc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model_selection &#x3D; aicc;</span><br></pre></td></tr></table></figure>
+
+<p>4.1.5 data_blocks</p>
+<p>datablocks 设定数据分区，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[data_blocks]</span><br><span class="line">Gene1_pos1 &#x3D; 1-789\3;</span><br><span class="line">Gene1_pos2 &#x3D; 2-789\3;</span><br><span class="line">Gene1_pos3 &#x3D; 3-789\3;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-1-6-search"><a href="#4-1-6-search" class="headerlink" title="4.1.6 search"></a>4.1.6 search</h3><p>模型筛选的算法 <code>search = greedy;</code></p>
+<h2 id="4-2-部分参数详解"><a href="#4-2-部分参数详解" class="headerlink" title="4.2 部分参数详解"></a>4.2 部分参数详解</h2><h3 id="4-2-1-branchlengths"><a href="#4-2-1-branchlengths" class="headerlink" title="4.2.1 branchlengths"></a>4.2.1 branchlengths</h3><p>枝长是否相互关联，即是否对每个分隔模式独立估计进化树的枝长（目前只有BEAST、MrBayes、RAxML支持独立估算枝长）</p>
+<h4 id="4-2-2-不同数据类型模型筛选的范围"><a href="#4-2-2-不同数据类型模型筛选的范围" class="headerlink" title="4.2.2 不同数据类型模型筛选的范围"></a>4.2.2 不同数据类型模型筛选的范围</h4><p>默认情况下<code>models=all</code>；如果用户需要使用更多模型，可设定<code>models=allx</code>，但应尽量避免，这是因为对少数几个模型进行优化要耗费很多时间。</p>
+<ol>
+<li> 对于<strong>离散性状</strong>，例如01性状（BINARY）以及无序质量性状，模型为(MULTISTATE)BINARY+G、BINARY+G+A、MULTISTATE+G、MULTISTATE+G+A，相关详情可参考RAxML的说明书。注意：性状数据模型不能计算AIC。</li>
+<li> 对于<strong>DNA****序列</strong>，<code>models=all</code>将比较内置的56种模型。即由14种基本模型为基础：JC、K80、TrNef、K81、TVMef、TIMef、SYM、F81、HKY、TrN、K81uf、TVM、TIM、GTR，同时参考是否用Gamma或者I来表征不同位点进化速率的差异。注意：在分析DNA数据时，如果添加了 <code>--raxml</code>选项，则只计算GTR、GTR+G、GTR+I+G三种模型的AIC的值。</li>
+<li> 对于<strong>氨基酸序列</strong>，默认情况下（使用PHYML计算），要比较的基本模型为：LG、WAG、MTREV、DAYHOFF、DCMUT、JTT、VT、BLOSUM62、CPREV、RTREV、MTMAM、MTART、HIVB、HIVW，每种又分成8种情况：LG、LG+F、LG+G、LG+G+F、LG+I、LG+I+F、LG+I+G、LG+I+G+F ，其中F为是否使用经验氨基酸频率。如果开启了RAxML选项，则会比较LG、WAG、MTREV、DAYHOFF、DCMUT、JTT、VT、BLOSUM62、CPREV、RTREV、MTMAM、MTART、HIVB、HIVW、MTZOA、PMB、JTTDCMUT、FLU、STMTREV、DUMMY、DUMMY2等21种模型，每个模型考虑6种情况。</li>
+</ol>
+<p>所筛选模型范围，如果改为<code>models = allx</code>，将进一步扩大：</p>
+<ol>
+<li> 对于DNA序列，使用PHYML时，会比较84种模型；使用RAxML时，会比较6种模型；</li>
+<li> 对于氨基酸序列，使用PHYML不能获得结果，所以只能使用RAxML，比较的模型数量为195个。此时，所有的碱基频率或者氨基酸频率都是用极大似然估计获得的。</li>
+</ol>
+<h4 id="若从指定的模型中筛选："><a href="#若从指定的模型中筛选：" class="headerlink" title="若从指定的模型中筛选："></a>若从指定的模型中筛选：</h4><ol>
+<li> 如果后续用mrbayes或者beast做分析，则需要设定models为 <code>models = mrbayes;</code>或 <code>models = beast;</code>，以便只从这两个软件中有的模型中筛选。</li>
+<li> 用户也可设定PartitionFinder只考虑有Gamma或Gamma+I的相关的模型</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">models &#x3D; gamma;</span><br><span class="line">models &#x3D; gammai;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li> 或直接指定DNA模型的筛选范围:</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">models &#x3D; JC, JC+G, HKY, HKY+G, GTR, GTR+G;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li> 指定氨基酸模型的筛选范围</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">models &#x3D; LG, LG+G, LG+G+F, WAG, WAG+G, WAG+G+F;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li> 指定模型选择的标准，作者推荐使用corrected AIC, 即AICc</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># model_selection: AIC | AICc | BIC</span><br><span class="line">model_selection &#x3D; aic;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-3-设定分区"><a href="#4-2-3-设定分区" class="headerlink" title="4.2.3 设定分区"></a>4.2.3 设定分区</h3><p>分区模块需要用<code>[data_blocks]</code>标记。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[data_blocks]</span><br><span class="line">Gene1_codon1 &#x3D; 1-1000\3; </span><br><span class="line">Gene1_codon2 &#x3D; 2-1000\3;</span><br><span class="line">Gene1_codon3 &#x3D; 3-1000\3;</span><br><span class="line">intron &#x3D; 1001-2000;</span><br></pre></td></tr></table></figure>
+
+<p><code>[data_blocks]</code> 后紧跟基因以及位点的名称。如上面代码所示： 数据包括Gene1以及intron两部分。对于编码基因Gene1，由于密码子的1、2、3位的进化速率可能不同，因此可将1-1000位点的1、2、3碱基分开，分别作为单独的分区。</p>
+<p>上述命令中：</p>
+<p><code>Gene1_codon1 = 1-1000\3;</code> 表示：在第1-1000位点，从第1个碱基开始，步长为3的所有碱基</p>
+<p><code>Gene1_codon2 = 2-1000\3;</code> 表示：在第2-1000位点，从第2个碱基开始，步长为3的所有碱基</p>
+<p><code>Gene1_codon3 = 3-1000\3;</code> 表示：在第3-1000位点，从第3个碱基开始，步长为3的所有碱基</p>
+<p><code>intron = 1001-2000;</code> 表示：从第1001-2000位点。由于是内含子，没有编码功能，所以不用将1、2、3位碱基分开。</p>
+<p>如果是为MrBayes筛选分区模型，可在每行前增加charset关键词。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">charset Gene1_codon1 &#x3D; 1-1000\3;</span><br><span class="line">charset Gene1_codon2 &#x3D; 2-1000\3;</span><br><span class="line">charset Gene1_codon3 &#x3D; 3-1000\3;</span><br><span class="line">charset intron &#x3D; 1001-2000;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-4-搜寻策略"><a href="#4-2-4-搜寻策略" class="headerlink" title="4.2.4 搜寻策略"></a>4.2.4 搜寻策略</h3><p>根据数据量以及要筛选的分区组合的数目，PartitionFinder的搜索策略，要通过修改<code>search</code>参数做相应调整。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">search: all | greedy | rcluster | rclusterf | hcluster | kmeans | user</span><br></pre></td></tr></table></figure>
+
+<p>其中:</p>
+<ul>
+<li> <code>search = all</code> 一般用于12个分区以下；</li>
+<li> <code>search = greedy</code> 10-100个分区；</li>
+<li> <code>search = rcluster</code> 100个以上的分区；</li>
+<li> <code>search = rclusterf</code> 只适用于RAxML选项开启时，尤其适用于有若干分析需要数据很大，同时ML需要优化很长时间时，可减少等待的时间；</li>
+<li> <code>search = hcluster</code> 在研究中不推荐使用，仅为了开发而保留；</li>
+<li> <code>search = user</code> 如果用户要对上述定义的分区组合，按照指定的方式筛选， 则可在<code>search = user</code>命令之后，指定搜索的策略。同一对括号中的基因表示将作为一个整体进行分析（参见英文版说明书第21页）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">together&#x3D; (Gene1_codon1, Gene1_codon2, Gene1_codon3, intron); </span><br><span class="line">intron_123  &#x3D; (Gene1_codon1, Gene1_codon2, Gene1_codon3) (intron); </span><br><span class="line">intron_12_3 &#x3D; (Gene1_codon1, Gene1_codon2) (Gene1_codon3) (intron); </span><br><span class="line">separate&#x3D; (Gene1_codon1) (Gene1_codon2) (Gene1_codon3) (intron);</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-5-搜寻策略调整举例"><a href="#4-2-5-搜寻策略调整举例" class="headerlink" title="4.2.5 搜寻策略调整举例"></a>4.2.5 搜寻策略调整举例</h3><h4 id="4-2-5-1-少于12个分区"><a href="#4-2-5-1-少于12个分区" class="headerlink" title="4.2.5.1 少于12个分区"></a>4.2.5.1 少于12个分区</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">branchlengths &#x3D; linked;</span><br><span class="line">models &#x3D; all;</span><br><span class="line">model_selection &#x3D; aicc;</span><br><span class="line">search &#x3D; all;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-2-5-2-对10-100个分区进行筛选"><a href="#4-2-5-2-对10-100个分区进行筛选" class="headerlink" title="4.2.5.2 对10-100个分区进行筛选"></a>4.2.5.2 对10-100个分区进行筛选</h4><p>超过100个等位基因的序列，需要用贪婪算法，基本步骤如下：</p>
+<ol>
+<li> 设定每个基因的起始位点以及结束位点，编码位置（1，2，3）等</li>
+<li> 设定.cfg文件</li>
+<li> 用raxml计算Likelihood</li>
+</ol>
+<p>对于DNA为：</p>
+<p><code>python PartitionFinder.py InputFoldername --raxml</code></p>
+<p>对于氨基酸为：</p>
+<p><code>python PartitionFinderProtein.py InputFoldername --raxml</code></p>
+<h4 id="4-2-5-3-超大数据（1000个）的分区筛选"><a href="#4-2-5-3-超大数据（1000个）的分区筛选" class="headerlink" title="4.2.5.3 超大数据（1000个）的分区筛选"></a>4.2.5.3 超大数据（1000个）的分区筛选</h4><p>超大型数据的位点（1000个以上），贪婪算法仍然太慢，此时推荐使用其他算法，以筛选最优分隔模型设置方案（Lanfear et al 2014），基本步骤如下:</p>
+<ol>
+<li> 设定每个基因的起始位点以及结束位点，编码位置（1、2、3）等</li>
+<li> 更改.cfg文件，设定 <code>search = rcluster</code></li>
+<li> 在cmd中运行PartitionFinder:</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python PartitionFinder.py InputFoldername --raxml</span><br></pre></td></tr></table></figure>
+
+<p>如仍然过慢，则更改recluster-max 参数:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python PartitionFinder.py InputFoldername --raxml --rcluster-max 100</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-6-用户自定义进化树"><a href="#4-2-6-用户自定义进化树" class="headerlink" title="4.2.6 用户自定义进化树"></a>4.2.6 用户自定义进化树</h3><p>在模拟研究中，可能会假设已知进化树的结构，探讨能否筛选到最优分区模型。此时可指定一棵进化树，在后续的分析中，该进化树的拓扑结构将被保留，但是枝长会根据GTR+I+GAMMA模型重新估计。指定进化树的命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ALIGNMENT FILE # </span><br><span class="line">alignment &#x3D; test.phy; </span><br><span class="line">user_tree_topology &#x3D; tree.phy</span><br></pre></td></tr></table></figure>
+
+<h1 id="5-输出结果"><a href="#5-输出结果" class="headerlink" title="5.输出结果"></a>5.输出结果</h1><p>生成的结果位于同一文件夹下的analysis文件夹中，该文件夹包含以下文件：</p>
+<ol>
+<li> <code>best_schemes.txt</code>纯文本文件，包括所筛选到的最优化分隔模型划分方案以及每个区块对应的最优模型以及RAxML和Nexus的分隔模型。</li>
+<li> <code>subsets</code>文件夹:每个分区所对应的AICc值以及相应的筛选过程</li>
+<li> <code>schemes</code>文件夹:所分析的分隔模型划分方案，详细的分析过程</li>
+</ol>
+<h1 id="6-命令行选项"><a href="#6-命令行选项" class="headerlink" title="6.命令行选项"></a>6.命令行选项</h1><p>在运行PartitionFinder时，可在命令行设定一些参数，具体如下：</p>
+<ul>
+<li> <code>--all-states</code> 仅用于k-means选项开启的情况，用于限定状态的数量</li>
+<li> <code>--force-restart</code> 删除之前的分析，完全重新开始</li>
+<li> <code>--min-subset-size</code> 设定子集的大小。只用于k-means算法（这个选项在说明书中交代得不是很清楚）</li>
+<li> <code>--no-ml-tree</code> 设定此选项后，PartitionFinder将从Neighbour Joining（PHYML）或者Parsimony树（RAxML）开始。</li>
+<li> <code>--processors N, -p N</code> 多线程计算，使用多个CPU内核。默认情况下，PartitionFinder会使用多个核，如果要控制所用到的核数，则应做相应设定。</li>
+<li> <code>--quick, -q</code> 让PartitionFinder停止写一些记录文件，如果处理的数据特别大，有可能会提升速度，常用于使用贪婪算法的情况下。</li>
+<li> <code>--raxml</code> 使用RAxML帮忙寻找最优分隔模型。</li>
+<li> <code>--rcluster-max N</code> 设定cluster的数量，默认值N为1000或者分区数乘以10中的较大者，一般已经可以保证搜寻到正确的分隔模型。</li>
+<li> <code>--rcluster-percent N</code> 设定要搜寻的所有可能的分区组成的百分数，默认为10%。该参数配合<code>--rcluster-max N</code>，可减少重复计算。</li>
+<li> <code>--save-phylofiles</code> 保存数据分析过程中生成的进化树，主要用来纠错。</li>
+<li> <code>--weights &quot;W_rate , W_base , W_model , W_alpha&quot;</code> 只用于<code>--raxml</code>或<code>hcluster or rcluster</code>选项开启时，分别表示几个参数的权重（参考说明书第26页）:</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1. the overall rate for a subset</span><br><span class="line">2. the base&#x2F;amino acid frequencies</span><br><span class="line">3. the model parameters</span><br><span class="line">4. the alpha parameter (which describes  gamma distributed rates across sites)</span><br></pre></td></tr></table></figure>
+
+<h1 id="进一步阅读"><a href="#进一步阅读" class="headerlink" title="进一步阅读"></a>进一步阅读</h1><ul>
+<li> Lanfear, R., Calcott, B., Ho, S. Y., &amp; Guindon, S. (2012). PartitionFinder: combined selection of partitioning schemes and substitution models for phylogenetic analyses. Molecular biology and evolution, 29(6), 1695-1701.</li>
+</ul>
+<h1 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h1><h2 id="DNA序列碱基替换模型的三大要素"><a href="#DNA序列碱基替换模型的三大要素" class="headerlink" title="DNA序列碱基替换模型的三大要素"></a>DNA序列碱基替换模型的三大要素</h2><h3 id="1-碱基频率的估算"><a href="#1-碱基频率的估算" class="headerlink" title="1. 碱基频率的估算"></a>1. 碱基频率的估算</h3><p>模型需要提供ATCG频率的估计方法，目前有四种方法:</p>
+<ol>
+<li> equal 直接假定ATCG的频率相同</li>
+<li> model 是从其他数据读取不同氨基酸的频率（仅用于氨基酸序列）</li>
+<li> empirical 是直接从数据计算ATCG的频率</li>
+<li> ML是用极大似然法估计ATCG的频率</li>
+</ol>
+<p>注意：在模型后添加<code>+X</code>，即可开启ML方法估计ATCG频率，例如<code>F81+X</code>，不过一般用户都是用empirical的方法估计频率，而且结果与ML的结果相差无几。</p>
+<h3 id="2-碱基替换速率矩阵"><a href="#2-碱基替换速率矩阵" class="headerlink" title="2. 碱基替换速率矩阵"></a>2. 碱基替换速率矩阵</h3><p>用来表征碱基之间的转换速率（Relative rates of substitution），其中GTR模型最为复杂，需要估计所有6个参数。</p>
+<h3 id="3-不同位点进化速率的差异"><a href="#3-不同位点进化速率的差异" class="headerlink" title="3. 不同位点进化速率的差异"></a>3. 不同位点进化速率的差异</h3><p>分成以下几种情形：</p>
+<ol>
+<li> 各位点速率恒定；</li>
+<li> 部分位点进化树进化树速率恒定不变 （I用来表示进化速率恒定位点的比例）：GTR + I；</li>
+<li> 假设各位点的进化速率符合Gamma分布（因为Gamma分布要估计的参数少，同时曲线有足够的变化，能够较好地拟合多数情况，所以用Gamma分布）：GTR + GAMMA；</li>
+<li> 同时考虑各位点的进化树速率的差异以及恒定位点的比例：GTR + GAMMA + I。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2017/08/05/2017-8-5-partitionfinder/" data-id="ckmq2gwvk00e9q884fujd1mwq" data-title="用PartitionFinder2 筛选系统发育分析分隔模型" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/08/24/2017-8-24-resize-image/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          ImageMagick批量调整多个文件夹下照片的尺寸
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/06/25/2017-6-25-hugo/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">用HUGO生成静态网站</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/R%E7%BC%96%E7%A8%8B/" rel="tag">R编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%BA%E7%89%A9/" rel="tag">人物</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%99%E4%BD%9C/" rel="tag">写作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" rel="tag">可视化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E4%B9%A6/" rel="tag">图书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" rel="tag">图像处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9C%B0%E7%90%86/" rel="tag">地理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A3%B0%E6%98%8E/" rel="tag">声明</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A9%E6%96%87/" rel="tag">天文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%AF%9D%E5%BD%95/" rel="tag">对话录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%83%E5%BE%97/" rel="tag">心得</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E5%91%8A/" rel="tag">报告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E7%89%88/" rel="tag">排版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%85%E4%B9%A1/" rel="tag">故乡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" rel="tag">标本馆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%88%86%E7%B1%BB/" rel="tag">植物分类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%90%8D/" rel="tag">植物学名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%82%E8%81%8C/" rel="tag">求职</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" rel="tag">版本控制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%80%81/" rel="tag">生态</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%80%81%E8%B5%84%E8%AE%AF/" rel="tag">生态资讯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%94%E7%A9%B6%E8%B5%84%E8%AE%AF/" rel="tag">研究资讯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B3%BB%E7%BB%9F%E5%8F%91%E8%82%B2/" rel="tag">系统发育</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%9F%E8%AE%A1/" rel="tag">统计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" rel="tag">行摄匆匆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%81%E9%97%BB%E5%BD%95/" rel="tag">见闻录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%97%E6%AD%8C/" rel="tag">诗歌</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E5%8C%96/" rel="tag">进化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E6%83%B3/" rel="tag">随想</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A9%B3%E8%AE%BA/" rel="tag">驳论</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/R%E7%BC%96%E7%A8%8B/" style="font-size: 18.75px;">R编程</a> <a href="/tags/%E4%BA%BA%E7%89%A9/" style="font-size: 11.88px;">人物</a> <a href="/tags/%E5%86%99%E4%BD%9C/" style="font-size: 13.13px;">写作</a> <a href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" style="font-size: 12.5px;">可视化</a> <a href="/tags/%E5%9B%BE%E4%B9%A6/" style="font-size: 10px;">图书</a> <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" style="font-size: 11.88px;">图像处理</a> <a href="/tags/%E5%9C%B0%E7%90%86/" style="font-size: 17.5px;">地理</a> <a href="/tags/%E5%A3%B0%E6%98%8E/" style="font-size: 10.63px;">声明</a> <a href="/tags/%E5%A4%A9%E6%96%87/" style="font-size: 16.25px;">天文</a> <a href="/tags/%E5%AF%B9%E8%AF%9D%E5%BD%95/" style="font-size: 10px;">对话录</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 10px;">心得</a> <a href="/tags/%E6%8A%A5%E5%91%8A/" style="font-size: 12.5px;">报告</a> <a href="/tags/%E6%8E%92%E7%89%88/" style="font-size: 13.75px;">排版</a> <a href="/tags/%E6%95%85%E4%B9%A1/" style="font-size: 10.63px;">故乡</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10.63px;">数据库</a> <a href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" style="font-size: 14.38px;">标本馆</a> <a href="/tags/%E6%A4%8D%E7%89%A9%E5%88%86%E7%B1%BB/" style="font-size: 10px;">植物分类</a> <a href="/tags/%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%90%8D/" style="font-size: 10px;">植物学名</a> <a href="/tags/%E6%B1%82%E8%81%8C/" style="font-size: 10px;">求职</a> <a href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" style="font-size: 11.25px;">版本控制</a> <a href="/tags/%E7%94%9F%E6%80%81/" style="font-size: 16.88px;">生态</a> <a href="/tags/%E7%94%9F%E6%80%81%E8%B5%84%E8%AE%AF/" style="font-size: 10px;">生态资讯</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E8%B5%84%E8%AE%AF/" style="font-size: 10px;">研究资讯</a> <a href="/tags/%E7%B3%BB%E7%BB%9F%E5%8F%91%E8%82%B2/" style="font-size: 10px;">系统发育</a> <a href="/tags/%E7%BB%9F%E8%AE%A1/" style="font-size: 18.13px;">统计</a> <a href="/tags/%E7%BC%96%E7%A8%8B/" style="font-size: 10.63px;">编程</a> <a href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" style="font-size: 15px;">行摄匆匆</a> <a href="/tags/%E8%A7%81%E9%97%BB%E5%BD%95/" style="font-size: 10px;">见闻录</a> <a href="/tags/%E8%AF%97%E6%AD%8C/" style="font-size: 15.63px;">诗歌</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 19.38px;">软件</a> <a href="/tags/%E8%BF%9B%E5%8C%96/" style="font-size: 10.63px;">进化</a> <a href="/tags/%E9%9A%8F%E6%83%B3/" style="font-size: 11.25px;">随想</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 20px;">随笔</a> <a href="/tags/%E9%A9%B3%E8%AE%BA/" style="font-size: 10px;">驳论</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">January 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">December 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">October 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05/">May 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">May 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">December 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">August 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">March 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">April 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/01/">January 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/08/">August 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/07/">July 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/06/">June 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">May 2009</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/18/2021-03-18/">为什么《xxxx在XX研究中取得进展》这类文章很少有人转发？</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/2021-02-16/">如何恢复森林？– 从嘉道理农场的森林恢复样地说起</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 Jinlong Zhang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

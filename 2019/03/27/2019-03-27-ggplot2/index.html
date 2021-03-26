@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>一文读懂ggplot2数据可视化 | Jinlong Zhang&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="1.前言 ggplot2是数据可视化的重要程序包，用于绘制各种高级统计图形。该程序包是新西兰统计学家Hadley Wickham在2005年左右开发的，那时候作者还是美国Iowa大学的博士生。 1.1 ggplot2的命令是一种用R实现的绘图语言 ggplot2的代码相对容易理解，设定各种参数较为方便，图形也十分美观，能用相对简单的代码在图形中呈现出非常丰富的信息。不过，ggplot2的语法与传统">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一文读懂ggplot2数据可视化">
+<meta property="og:url" content="https://helixcn.github.io/2019/03/27/2019-03-27-ggplot2/index.html">
+<meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
+<meta property="og:description" content="1.前言 ggplot2是数据可视化的重要程序包，用于绘制各种高级统计图形。该程序包是新西兰统计学家Hadley Wickham在2005年左右开发的，那时候作者还是美国Iowa大学的博士生。 1.1 ggplot2的命令是一种用R实现的绘图语言 ggplot2的代码相对容易理解，设定各种参数较为方便，图形也十分美观，能用相对简单的代码在图形中呈现出非常丰富的信息。不过，ggplot2的语法与传统">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-03-27T01:47:54.000Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:24.627Z">
+<meta property="article:author" content="Jinlong Zhang">
+<meta property="article:tag" content="可视化">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Jinlong Zhang's blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jinlong Zhang&#39;s blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://helixcn.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-2019-03-27-ggplot2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2019/03/27/2019-03-27-ggplot2/" class="article-date">
+  <time class="dt-published" datetime="2019-03-27T01:47:54.000Z" itemprop="datePublished">2019-03-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      一文读懂ggplot2数据可视化
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="1-前言"><a href="#1-前言" class="headerlink" title="1.前言"></a>1.前言</h1><p> ggplot2是数据可视化的重要程序包，用于绘制各种高级统计图形。该程序包是新西兰统计学家Hadley Wickham在2005年左右开发的，那时候作者还是美国Iowa大学的博士生。</p>
+<h2 id="1-1-ggplot2的命令是一种用R实现的绘图语言"><a href="#1-1-ggplot2的命令是一种用R实现的绘图语言" class="headerlink" title="1.1 ggplot2的命令是一种用R实现的绘图语言"></a>1.1 ggplot2的命令是一种用R实现的绘图语言</h2><p> ggplot2的代码相对容易理解，设定各种参数较为方便，图形也十分美观，能用相对简单的代码在图形中呈现出非常丰富的信息。不过，ggplot2的语法与传统R函数的调用方式有很大差别，所以不少人反映学起来有些困难。</p>
+<p> 在ggplot2出现以前，R绘图都是调用函数，再通过改变函数的参数实现的。ggplot2将所绘制图形的各部分独立出来，如xy坐标，基本组件的颜色、图标大小、填充类型、堆叠方式、坐标轴、地图投影、数据分组、图形分面等等信息划归为一些基本类型，每一部分分别用一段代码表示。每段代码内部有相应的参数控制，各代码段再通过“+”运算符连接。这里的“+”并非四则运算的加法，而是表示图形各要素/组件之间的叠加。“+”运算符所连接的代码片段，有任何一部分做出更改，整个图形就做出相应调整。因此，本质上，ggplot2代码是用R语言实现的一种绘图语言。</p>
+<p> ggplot2所用的绘图语言，主要是按照Wilkinson（2005）的设想实现的。Wilkinson（2005）将一幅统计图形看做由以下几个主要部分:</p>
+<ol>
+<li><pre><code> 数据；
+</code></pre>
+</li>
+<li><pre><code> 表现数据的点、线、多边形、栅格、颜色等；
+</code></pre>
+</li>
+<li><pre><code> 坐标系
+</code></pre>
+</li>
+</ol>
+<h2 id="1-2-ggplot2命令的基本组成"><a href="#1-2-ggplot2命令的基本组成" class="headerlink" title="1.2 ggplot2命令的基本组成"></a>1.2 ggplot2命令的基本组成</h2><p> 具体来讲，在ggplot2程序包中，每一副图都是由若干组件组成的，这些组件包括：</p>
+<ul>
+<li><pre><code> `data`:     数据，必须为data.frame。
+</code></pre>
+</li>
+<li><pre><code> `coordinate     system`:     数据可视化，主要是在二维平面上表示数据的关系，所用坐标系一般为平面直角坐标，有时会用到极坐标、地图投影等。ggplot2软件默认使用平面直角坐标。
+</code></pre>
+</li>
+<li><pre><code> `geoms`:     包括geoms_开头的各种对象，用来绘制各种基本组件，包括点、线、面、多边形、柱状图、箱线图等。
+</code></pre>
+</li>
+<li><pre><code> `aesthetics`:     图形的美学特征，如颜色、形状、透明度、大小、分组等。
+</code></pre>
+</li>
+<li><pre><code> `scales`:     坐标轴的属性
+</code></pre>
+</li>
+<li><pre><code> `stats`:     统计变换。用于设定数据要进行的统计转换，例如平均值、中位数、记录数等。
+</code></pre>
+</li>
+<li><pre><code> `facets`:     描述如何将图形按照某一个或者几个因子（factors）不同水平（levels）用多个图形分开展示。
+</code></pre>
+</li>
+</ul>
+<h2 id="1-3-ggplot2要求输入数据为data-frame"><a href="#1-3-ggplot2要求输入数据为data-frame" class="headerlink" title="1.3 ggplot2要求输入数据为data.frame"></a>1.3 ggplot2要求输入数据为data.frame</h2><p> ggplot2要求输入的数据为data.frame。为了将R中的各种数据转换为ggplot2能够读取和操作的data.frame格式，H. Wickham还开发了reshape2以及dplyr等程序包，专门用于数据转换。</p>
+<h2 id="1-4-ggplot2中的aes函数"><a href="#1-4-ggplot2中的aes函数" class="headerlink" title="1.4 ggplot2中的aes函数"></a>1.4 ggplot2中的aes函数</h2><p> 完整的ggplot2绘图命令， 总是以<code>ggplot()</code> 开始。ggplot()及其参数奠定整个ggplot2图形的基础，最重要的两个参数为data和mapping。其中data必须为data.frame格式。mapping参数要求数据通过aes函数进一步转换。aes是aesthetic的缩写。在aes函数中，要输入的参数有x, y, group, color, size等。aes可以直接访问data参数所输入数据框的各列，从而直接控制图形的横坐标、纵坐标、分组以及各组的颜色、大小、透明度等等。</p>
+<p> 注意：在ggplot()代码部分设置的aes参数对于整个图形都有效。在某个geom组件内部设置的aes参数，如颜色、分组、字体大小、线段类型等，只对该geom组件有效。若要设定所有geom组件的形状、大小、颜色等，相应的参数如size, color等，不要放入aes函数转换，而是作为ggplot()函数的普通参数即可。</p>
+<h2 id="1-5-ggplot2的geom组件"><a href="#1-5-ggplot2的geom组件" class="headerlink" title="1.5 ggplot2的geom组件"></a>1.5 ggplot2的geom组件</h2><p> ggplot()代码段只定义数据展示的逻辑关系，并不直接绘图。要用ggplot2绘图，还必须为其添加各种基本图形组件。要添加的图形组件根据变量的数目以及要绘制的图形有所不同，包括：点geom_point、线geom_line、多边形geom_polygon、箱线图geom_boxplot、柱状图geom_bar、六角形图geom_hex、栅格图geom_tile、阶梯线geom_step、拟合的趋势线geom_smooth等等。</p>
+<p> 为了对图形进行进一步修饰，还可能要更改图形的横坐标、纵坐标、标题等等。</p>
+<h2 id="1-6-ggplot2图形的显示"><a href="#1-6-ggplot2图形的显示" class="headerlink" title="1.6 ggplot2图形的显示"></a>1.6 ggplot2图形的显示</h2><p> ggplot2所生成的对象，同时具有gg和ggplot两种属性。如果要显示图形，需要将其print到屏幕上，而不是像plot()函数一样直接调用函数就可以调用绘图设备（屏幕也是绘图设备）。与此同时，ggplot2的图形也不接受par()设定的各种参数。</p>
+<p> 本文就ggplot2的常用绘图组件做简要介绍。</p>
+<h1 id="2-快速绘图"><a href="#2-快速绘图" class="headerlink" title="2 快速绘图"></a>2 快速绘图</h1><h2 id="2-1-qplot-（不建议使用）"><a href="#2-1-qplot-（不建议使用）" class="headerlink" title="2.1 qplot （不建议使用）"></a>2.1 qplot （不建议使用）</h2><p> 为了让只熟悉R基础绘图的用户也能使用ggplot2，H. Wickham编写了qplot函数，调用方式类似plot()。在qplot()中，所有控制图形的信息都封装为参数。但是qplot()在一定程度上降低了绘图的灵活性，难以体现ggplot2的优势，因此不太建议使用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#### 载入数据</span><br><span class="line">library(maps)</span><br><span class="line">library(ggthemes)</span><br><span class="line">library(ggplot2)</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-1-1-普通绘图"><a href="#2-1-1-普通绘图" class="headerlink" title="2.1.1 普通绘图"></a>2.1.1 普通绘图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plot(hwy ~ cty, data &#x3D; mpg)</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-1-2-qplot绘图"><a href="#2-1-2-qplot绘图" class="headerlink" title="2.1.2 qplot绘图"></a>2.1.2 qplot绘图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">qplot(x &#x3D; cty, y &#x3D; hwy, color &#x3D; cyl, data &#x3D; mpg, geom &#x3D; &quot;point&quot;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-1-3-ggplot2绘图"><a href="#2-1-3-ggplot2绘图" class="headerlink" title="2.1.3 ggplot2绘图"></a>2.1.3 ggplot2绘图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ggplot(data &#x3D; mpg, aes(x &#x3D; cty, y &#x3D; hwy)) + ### 设置x, y以及数据</span><br><span class="line">    geom_point(aes(color &#x3D; cyl)) +          ### 添加 点， 以及 设置 点 的颜色</span><br><span class="line">    geom_smooth(method &#x3D; &quot;lm&quot;) +            ### 添加拟合曲线&#x2F;曲线以及置信区间</span><br><span class="line">    coord_cartesian() +                     ### 笛卡尔坐标系， 即平面直角坐标系</span><br><span class="line">    scale_color_gradient() +                ### 图例的颜色</span><br><span class="line">    theme_base() +                          ### 主题为base风格</span><br><span class="line">    scale_shape(solid &#x3D; FALSE) +            ### 点的类型为中空。</span><br><span class="line">    ggtitle(&quot;New Plot Title&quot;) +             ### 标题</span><br><span class="line">    xlab(&quot;New X label&quot;) +                   ### 横轴</span><br><span class="line">    ylab(&quot;New Y label&quot;)                     ### 纵轴</span><br></pre></td></tr></table></figure>
+
+<h1 id="3-基本绘图组件及其属性"><a href="#3-基本绘图组件及其属性" class="headerlink" title="3 基本绘图组件及其属性"></a>3 基本绘图组件及其属性</h1><h2 id="3-1-多边形"><a href="#3-1-多边形" class="headerlink" title="3.1 多边形"></a>3.1 多边形</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">thismap &#x3D; map_data(&quot;world&quot;)</span><br><span class="line">c &lt;- ggplot(thismap, aes(long, lat, group&#x3D;group)) </span><br><span class="line">c + geom_polygon(fill&#x3D;&quot;white&quot;, colour&#x3D;&quot;gray&quot;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-2-折线图"><a href="#3-2-折线图" class="headerlink" title="3.2 折线图"></a>3.2 折线图</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ggplot(economics, aes(date, unemploy)) +</span><br><span class="line">    geom_path(lineend &#x3D; &quot;butt&quot;, linejoin &#x3D; &quot;round&quot;, linemitre &#x3D; 1)</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-3-带状图"><a href="#3-3-带状图" class="headerlink" title="3.3 带状图"></a>3.3 带状图</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ggplot(economics, aes(date, unemploy)) + </span><br><span class="line">    geom_ribbon(aes(ymin &#x3D; unemploy - 900, ymax &#x3D; unemploy + 900))</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-4-线段"><a href="#3-4-线段" class="headerlink" title="3.4 线段"></a>3.4 线段</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ggplot(seals, aes(x &#x3D; long, y &#x3D; lat)) + </span><br><span class="line">    geom_segment(aes(xend &#x3D; long + delta_long, yend &#x3D; lat + delta_lat))</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-5-长方形"><a href="#3-5-长方形" class="headerlink" title="3.5 长方形"></a>3.5 长方形</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ggplot(seals, aes(x &#x3D; long, y &#x3D; lat)) + </span><br><span class="line">    geom_rect(aes(xmin &#x3D; long, ymin &#x3D; lat, </span><br><span class="line">        xmax &#x3D; long + delta_long, ymax &#x3D; lat + delta_lat))</span><br></pre></td></tr></table></figure>
+
+<h1 id="4-一维连续数据-向量-绘图"><a href="#4-一维连续数据-向量-绘图" class="headerlink" title="4 一维连续数据(向量)绘图"></a>4 一维连续数据(向量)绘图</h1><h2 id="4-1-一维连续数据"><a href="#4-1-一维连续数据" class="headerlink" title="4.1 一维连续数据"></a>4.1 一维连续数据</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a &lt;- ggplot(mpg, aes(hwy))</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-2-频度阴影图"><a href="#4-2-频度阴影图" class="headerlink" title="4.2 频度阴影图"></a>4.2 频度阴影图</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a + geom_area(stat &#x3D; &quot;bin&quot;)</span><br><span class="line">## &#96;stat_bin()&#96; using &#96;bins &#x3D; 30&#96;. Pick better value with &#96;binwidth&#96;.</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-3-核密度图"><a href="#4-3-核密度图" class="headerlink" title="4.3 核密度图"></a>4.3 核密度图</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a + geom_density(kernel &#x3D; &quot;gaussian&quot;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-4-点状频度图"><a href="#4-4-点状频度图" class="headerlink" title="4.4 点状频度图"></a>4.4 点状频度图</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a + geom_dotplot()</span><br><span class="line">## &#96;stat_bindot()&#96; using &#96;bins &#x3D; 30&#96;. Pick better value with &#96;binwidth&#96;.</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-5-频度折线图"><a href="#4-5-频度折线图" class="headerlink" title="4.5 频度折线图"></a>4.5 频度折线图</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a + geom_freqpoly()</span><br><span class="line">## &#96;stat_bin()&#96; using &#96;bins &#x3D; 30&#96;. Pick better value with &#96;binwidth&#96;.</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-6-单变量离散数据"><a href="#4-6-单变量离散数据" class="headerlink" title="4.6 单变量离散数据"></a>4.6 单变量离散数据</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">b &lt;- ggplot(mpg, aes(fl))</span><br><span class="line">b + geom_bar()</span><br></pre></td></tr></table></figure>
+
+<h1 id="5-二维连续变量绘图"><a href="#5-二维连续变量绘图" class="headerlink" title="5 二维连续变量绘图"></a>5 二维连续变量绘图</h1><h2 id="5-1-x和y均为连续变量"><a href="#5-1-x和y均为连续变量" class="headerlink" title="5.1 x和y均为连续变量"></a>5.1 x和y均为连续变量</h2><h3 id="5-1-1-空白图形，只生成坐标"><a href="#5-1-1-空白图形，只生成坐标" class="headerlink" title="5.1.1 空白图形，只生成坐标"></a>5.1.1 空白图形，只生成坐标</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f &lt;- ggplot(mpg, aes(cty, hwy))</span><br><span class="line">f + geom_blank()</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-1-2-带随机扩散的散点图"><a href="#5-1-2-带随机扩散的散点图" class="headerlink" title="5.1.2 带随机扩散的散点图"></a>5.1.2 带随机扩散的散点图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f + geom_jitter()</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-1-3-散点图"><a href="#5-1-3-散点图" class="headerlink" title="5.1.3 散点图"></a>5.1.3 散点图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f + geom_point()</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-1-4-分位数回归线"><a href="#5-1-4-分位数回归线" class="headerlink" title="5.1.4 分位数回归线"></a>5.1.4 分位数回归线</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">f + geom_quantile()</span><br><span class="line">## Loading required package: SparseM</span><br><span class="line">## </span><br><span class="line">## Attaching package: &#39;SparseM&#39;</span><br><span class="line">## The following object is masked from &#39;package:base&#39;:</span><br><span class="line">## </span><br><span class="line">##     backsolve</span><br><span class="line">## Smoothing formula not specified. Using: y ~ x</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-1-5-xy轴投影"><a href="#5-1-5-xy轴投影" class="headerlink" title="5.1.5 xy轴投影"></a>5.1.5 xy轴投影</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f + geom_rug(sides &#x3D; &quot;bl&quot;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-1-6-线性模型拟合以及置信区间"><a href="#5-1-6-线性模型拟合以及置信区间" class="headerlink" title="5.1.6 线性模型拟合以及置信区间"></a>5.1.6 线性模型拟合以及置信区间</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f + geom_smooth(method &#x3D; &quot;lm&quot;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-1-7-Loess拟合趋势线以及置信区间"><a href="#5-1-7-Loess拟合趋势线以及置信区间" class="headerlink" title="5.1.7 Loess拟合趋势线以及置信区间"></a>5.1.7 Loess拟合趋势线以及置信区间</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f + geom_smooth(method &#x3D; &quot;auto&quot;)</span><br><span class="line">## &#96;geom_smooth()&#96; using method &#x3D; &#39;loess&#39; and formula &#39;y ~ x&#39;</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-2-x为离散变量，y为连续变量"><a href="#5-2-x为离散变量，y为连续变量" class="headerlink" title="5.2 x为离散变量，y为连续变量"></a>5.2 x为离散变量，y为连续变量</h2><h3 id="5-2-1-柱状图"><a href="#5-2-1-柱状图" class="headerlink" title="5.2.1 柱状图"></a>5.2.1 柱状图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">g &lt;- ggplot(mpg, aes(class, hwy))</span><br><span class="line">g + geom_bar(stat &#x3D; &quot;identity&quot;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-2-2-箱线图"><a href="#5-2-2-箱线图" class="headerlink" title="5.2.2 箱线图"></a>5.2.2 箱线图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g + geom_boxplot()</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-2-3-点图"><a href="#5-2-3-点图" class="headerlink" title="5.2.3 点图"></a>5.2.3 点图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">g + geom_dotplot(binaxis &#x3D; &quot;y&quot;, stackdir &#x3D; &quot;center&quot;)</span><br><span class="line">## &#96;stat_bindot()&#96; using &#96;bins &#x3D; 30&#96;. Pick better value with &#96;binwidth&#96;.</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-2-4-小提琴图"><a href="#5-2-4-小提琴图" class="headerlink" title="5.2.4 小提琴图"></a>5.2.4 小提琴图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g + geom_violin(scale &#x3D; &quot;area&quot;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-3-x为离散变量，-y为离散变量"><a href="#5-3-x为离散变量，-y为离散变量" class="headerlink" title="5.3 x为离散变量， y为离散变量"></a>5.3 x为离散变量， y为离散变量</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">h &lt;- ggplot(diamonds, aes(cut, color))</span><br><span class="line">h + geom_jitter()</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-4-二维密度分布图"><a href="#5-4-二维密度分布图" class="headerlink" title="5.4 二维密度分布图"></a>5.4 二维密度分布图</h2><h3 id="5-4-1-栅格图"><a href="#5-4-1-栅格图" class="headerlink" title="5.4.1 栅格图"></a>5.4.1 栅格图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">data(iris)</span><br><span class="line">i &lt;- ggplot(iris, aes(Sepal.Length, Sepal.Width))</span><br><span class="line">i + geom_bin2d(binwidth &#x3D; c(5, 0.5))</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-4-2-等高线密度图"><a href="#5-4-2-等高线密度图" class="headerlink" title="5.4.2 等高线密度图"></a>5.4.2 等高线密度图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">i + geom_density2d()</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-4-3-六角形密度图"><a href="#5-4-3-六角形密度图" class="headerlink" title="5.4.3 六角形密度图"></a>5.4.3 六角形密度图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">i + geom_hex()</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-5-x轴为时间序列的连续变量"><a href="#5-5-x轴为时间序列的连续变量" class="headerlink" title="5.5 x轴为时间序列的连续变量"></a>5.5 x轴为时间序列的连续变量</h2><h3 id="5-5-1-阴影图"><a href="#5-5-1-阴影图" class="headerlink" title="5.5.1 阴影图"></a>5.5.1 阴影图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">j &lt;- ggplot(economics, aes(date, unemploy))</span><br><span class="line">j + geom_area()</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-5-2-折线图"><a href="#5-5-2-折线图" class="headerlink" title="5.5.2 折线图"></a>5.5.2 折线图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">j + geom_line()</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-5-3-阶梯图"><a href="#5-5-3-阶梯图" class="headerlink" title="5.5.3 阶梯图"></a>5.5.3 阶梯图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">j + geom_step(direction &#x3D; &quot;hv&quot;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-6-添加误差线"><a href="#5-6-添加误差线" class="headerlink" title="5.6 添加误差线"></a>5.6 添加误差线</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">df &lt;- data.frame(grp &#x3D; c(&quot;A&quot;, &quot;B&quot;), fit &#x3D; 4:5, se &#x3D; 1:2)</span><br><span class="line">k &lt;- ggplot(df, aes(grp, fit, ymin &#x3D; fit-se, ymax &#x3D; fit+se))</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-6-1-误差箱图"><a href="#5-6-1-误差箱图" class="headerlink" title="5.6.1 误差箱图"></a>5.6.1 误差箱图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">k + geom_crossbar(fatten &#x3D; 2)</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-6-2-误差线图（带横线）"><a href="#5-6-2-误差线图（带横线）" class="headerlink" title="5.6.2 误差线图（带横线）"></a>5.6.2 误差线图（带横线）</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">k + geom_errorbar()</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-6-3-误差线图-不带横线"><a href="#5-6-3-误差线图-不带横线" class="headerlink" title="5.6.3 误差线图(不带横线)"></a>5.6.3 误差线图(不带横线)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">k + geom_linerange()</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-6-4-带误差线的点图"><a href="#5-6-4-带误差线的点图" class="headerlink" title="5.6.4 带误差线的点图"></a>5.6.4 带误差线的点图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">k + geom_pointrange()</span><br></pre></td></tr></table></figure>
+
+<h1 id="6-三维数据的可视化"><a href="#6-三维数据的可视化" class="headerlink" title="6 三维数据的可视化"></a>6 三维数据的可视化</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">seals$z &lt;- with(seals, sqrt(delta_long^2 + delta_lat^2))</span><br><span class="line">m &lt;- ggplot(seals, aes(long, lat))</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-1-等高线图"><a href="#6-1-等高线图" class="headerlink" title="6.1 等高线图"></a>6.1 等高线图</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">m + geom_contour(aes(z &#x3D; z))</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-2-栅格图"><a href="#6-2-栅格图" class="headerlink" title="6.2 栅格图"></a>6.2 栅格图</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">m + geom_raster(aes(fill &#x3D; z), hjust&#x3D;0.5, vjust&#x3D;0.5, interpolate&#x3D;FALSE)</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-3-瓦片图"><a href="#6-3-瓦片图" class="headerlink" title="6.3 瓦片图"></a>6.3 瓦片图</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">m + geom_tile(aes(fill &#x3D; z))</span><br></pre></td></tr></table></figure>
+
+<h1 id="7-统计变换"><a href="#7-统计变换" class="headerlink" title="7 统计变换"></a>7 统计变换</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a + geom_bar(stat &#x3D; &quot;bin&quot;)</span><br><span class="line">## &#96;stat_bin()&#96; using &#96;bins &#x3D; 30&#96;. Pick better value with &#96;binwidth&#96;.</span><br></pre></td></tr></table></figure>
+
+<p> 说明：<code>stat_bin(geom = &quot;bar&quot;)</code> 和 <code>geom_bar(stat = &quot;bin&quot;)</code> 两者等价</p>
+<h2 id="7-1-一维概率密度统计变换参数的设定"><a href="#7-1-一维概率密度统计变换参数的设定" class="headerlink" title="7.1 一维概率密度统计变换参数的设定"></a>7.1 一维概率密度统计变换参数的设定</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a + stat_bin(binwidth &#x3D; 1, boundary &#x3D; 10)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a + stat_density(adjust &#x3D; 1, kernel &#x3D; &quot;gaussian&quot;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-2-二维概率密度统计变换参数的设定"><a href="#7-2-二维概率密度统计变换参数的设定" class="headerlink" title="7.2 二维概率密度统计变换参数的设定"></a>7.2 二维概率密度统计变换参数的设定</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f + stat_bin2d(bins &#x3D; 30, drop &#x3D; TRUE)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f + stat_binhex(bins &#x3D; 30)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f + stat_density2d(contour &#x3D; TRUE, n &#x3D; 100)</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-3-三维数据的统计变换参数设定"><a href="#7-3-三维数据的统计变换参数设定" class="headerlink" title="7.3 三维数据的统计变换参数设定"></a>7.3 三维数据的统计变换参数设定</h2><h3 id="7-3-1-等高线图"><a href="#7-3-1-等高线图" class="headerlink" title="7.3.1 等高线图"></a>7.3.1 等高线图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">m + stat_contour(aes(z &#x3D; z))</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-3-2-线段图"><a href="#7-3-2-线段图" class="headerlink" title="7.3.2 线段图"></a>7.3.2 线段图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">m+ geom_spoke(aes(radius&#x3D; z, angle &#x3D; z))</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-3-3-六角形图"><a href="#7-3-3-六角形图" class="headerlink" title="7.3.3 六角形图"></a>7.3.3 六角形图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">m + stat_summary_hex(aes(z &#x3D; z), bins &#x3D; 30, fun &#x3D; mean)</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-3-4-栅格图"><a href="#7-3-4-栅格图" class="headerlink" title="7.3.4 栅格图"></a>7.3.4 栅格图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">m + stat_summary_2d(aes(z &#x3D; z), bins &#x3D; 30, fun &#x3D; mean)</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-4-组间比较"><a href="#7-4-组间比较" class="headerlink" title="7.4 组间比较"></a>7.4 组间比较</h2><h3 id="7-4-1-箱线图"><a href="#7-4-1-箱线图" class="headerlink" title="7.4.1 箱线图"></a>7.4.1 箱线图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g + stat_boxplot(coef &#x3D; 1.5)</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-4-2-提琴图参数设定"><a href="#7-4-2-提琴图参数设定" class="headerlink" title="7.4.2 提琴图参数设定"></a>7.4.2 提琴图参数设定</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g + stat_ydensity(adjust &#x3D; 1, kernel &#x3D; &quot;gaussian&quot;, scale &#x3D; &quot;area&quot;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-4-3-累积曲线"><a href="#7-4-3-累积曲线" class="headerlink" title="7.4.3 累积曲线"></a>7.4.3 累积曲线</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f + stat_ecdf(n &#x3D; 40)</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-4-4-分位数曲线图"><a href="#7-4-4-分位数曲线图" class="headerlink" title="7.4.4 分位数曲线图"></a>7.4.4 分位数曲线图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f + geom_quantile(quantiles &#x3D; c(0.25, 0.5, 0.75), formula &#x3D; y ~ log(x), method &#x3D; &quot;rq&quot;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-4-5-Loess回归以及置信区间统计变换的参数设定"><a href="#7-4-5-Loess回归以及置信区间统计变换的参数设定" class="headerlink" title="7.4.5 Loess回归以及置信区间统计变换的参数设定"></a>7.4.5 Loess回归以及置信区间统计变换的参数设定</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f + geom_smooth(method &#x3D; &quot;auto&quot;, formula &#x3D; y ~ x, se &#x3D; TRUE, n &#x3D; 80, fullrange &#x3D; FALSE, level &#x3D; 0.95)</span><br><span class="line">## &#96;geom_smooth()&#96; using method &#x3D; &#39;loess&#39; and formula &#39;y ~ x&#39;</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-4-6-绘制dnorm的概率密度分布"><a href="#7-4-6-绘制dnorm的概率密度分布" class="headerlink" title="7.4.6 绘制dnorm的概率密度分布"></a>7.4.6 绘制dnorm的概率密度分布</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ggplot() + stat_function(aes(x &#x3D; -3:3), fun &#x3D; dnorm, n &#x3D; 101, args &#x3D; list(sd&#x3D;0.5))</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-4-7-绘制散点图"><a href="#7-4-7-绘制散点图" class="headerlink" title="7.4.7 绘制散点图"></a>7.4.7 绘制散点图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f + stat_identity()</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-4-8-绘制qq图"><a href="#7-4-8-绘制qq图" class="headerlink" title="7.4.8 绘制qq图"></a>7.4.8 绘制qq图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ggplot() + stat_qq(aes(sample&#x3D;1:100), distribution &#x3D; qt, dparams &#x3D; list(df&#x3D;5))</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-4-9-绘制散点图，-点的大小为该点数据出现的次数"><a href="#7-4-9-绘制散点图，-点的大小为该点数据出现的次数" class="headerlink" title="7.4.9 绘制散点图， 点的大小为该点数据出现的次数"></a>7.4.9 绘制散点图， 点的大小为该点数据出现的次数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f + stat_sum()</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-4-10-带误差线的点图"><a href="#7-4-10-带误差线的点图" class="headerlink" title="7.4.10 带误差线的点图"></a>7.4.10 带误差线的点图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f + stat_summary(fun.data &#x3D; &quot;mean_cl_boot&quot;)</span><br><span class="line">## Warning: Removed 3 rows containing missing values (geom_pointrange).</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-4-11-无重复散点图"><a href="#7-4-11-无重复散点图" class="headerlink" title="7.4.11 无重复散点图"></a>7.4.11 无重复散点图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f + stat_unique()</span><br></pre></td></tr></table></figure>
+
+<h1 id="8-图例"><a href="#8-图例" class="headerlink" title="8 图例"></a>8 图例</h1><p> ggplot2 的图例与图形是一个整体， 设定图例的参数， 图例会更改， 设定图形的参数， 图例会自动更改。scale 控制图形中的颜色，文字显示， 图例中的图形。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">n &lt;- b + geom_bar(aes(fill &#x3D; fl))</span><br><span class="line">n</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">##### 柱状图设定颜色， 各组名称， 图例中各组名， 类别划分</span><br><span class="line">n + scale_fill_manual(</span><br><span class="line">   values &#x3D; c(&quot;skyblue&quot;, &quot;royalblue&quot;, &quot;blue&quot;, &quot;navy&quot;),</span><br><span class="line">   limits &#x3D; c(&quot;d&quot;, &quot;e&quot;, &quot;p&quot;, &quot;r&quot;), </span><br><span class="line">   breaks &#x3D;c(&quot;d&quot;, &quot;e&quot;, &quot;p&quot;, &quot;r&quot;),</span><br><span class="line">   name &#x3D; &quot;fuel&quot;, labels &#x3D; c(&quot;D&quot;, &quot;E&quot;, &quot;P&quot;, &quot;R&quot;))</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-1-坐标轴的控制"><a href="#8-1-坐标轴的控制" class="headerlink" title="8.1 坐标轴的控制"></a>8.1 坐标轴的控制</h2><p> 按照数据的类别， 分为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">scale_x_continuous()</span><br><span class="line">scale_x_discrete()</span><br><span class="line">scale_x_identity()</span><br><span class="line">scale_x_manual(values &#x3D; c())</span><br><span class="line">scale_y_continuous()</span><br><span class="line">scale_y_discrete()</span><br><span class="line">scale_y_identity()</span><br><span class="line">scale_y_manual(values &#x3D; c())</span><br></pre></td></tr></table></figure>
+
+<p> 这几个函数的参数主要为：</p>
+<ul>
+<li><pre><code> alpha,     透明度
+</code></pre>
+</li>
+<li><pre><code> color,     颜色序列
+</code></pre>
+</li>
+<li><pre><code> fill,     颜色序列
+</code></pre>
+</li>
+<li><pre><code> linetype,     线段类型
+</code></pre>
+</li>
+<li><pre><code> shape,     点的形状
+</code></pre>
+</li>
+<li><pre><code> size,     点的大小
+</code></pre>
+</li>
+</ul>
+<h3 id="8-1-1-x轴显示日期"><a href="#8-1-1-x轴显示日期" class="headerlink" title="8.1.1 x轴显示日期"></a>8.1.1 x轴显示日期</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">library(scales)</span><br><span class="line">scale_x_date(labels &#x3D; date_format(&quot;%m&#x2F;%d&quot;), breaks &#x3D; date_breaks(&quot;2 weeks&quot;))</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-1-2-x轴显示为日期和时间"><a href="#8-1-2-x轴显示为日期和时间" class="headerlink" title="8.1.2 x轴显示为日期和时间"></a>8.1.2 x轴显示为日期和时间</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scale_x_datetime()</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-1-3-x轴转换为以10为底的对数"><a href="#8-1-3-x轴转换为以10为底的对数" class="headerlink" title="8.1.3 x轴转换为以10为底的对数"></a>8.1.3 x轴转换为以10为底的对数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scale_x_log10()</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-1-4-x轴逆向显示"><a href="#8-1-4-x轴逆向显示" class="headerlink" title="8.1.4 x轴逆向显示"></a>8.1.4 x轴逆向显示</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scale_x_reverse()</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-1-5-x轴平方根变换"><a href="#8-1-5-x轴平方根变换" class="headerlink" title="8.1.5 x轴平方根变换"></a>8.1.5 x轴平方根变换</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scale_x_sqrt()</span><br></pre></td></tr></table></figure>
+
+<h1 id="9-颜色"><a href="#9-颜色" class="headerlink" title="9 颜色"></a>9 颜色</h1><p> 颜色主要用来显示分组，或者数据的连续梯度变化。</p>
+<h2 id="9-1-颜色设定"><a href="#9-1-颜色设定" class="headerlink" title="9.1 颜色设定"></a>9.1 颜色设定</h2><p> 在ggplot2中，可以通过scale_fill_brewer(palette = “”)函数，可以将色系调整为以下任何一种。</p>
+<h3 id="9-1-1-最大差异色系-Diverging"><a href="#9-1-1-最大差异色系-Diverging" class="headerlink" title="9.1.1 最大差异色系 Diverging"></a>9.1.1 最大差异色系 Diverging</h3><p> BrBG, PiYG, PRGn, PuOr, RdBu, RdGy, RdYlBu, RdYlGn, Spectral</p>
+<h3 id="9-1-2-离散色系-Qualitative"><a href="#9-1-2-离散色系-Qualitative" class="headerlink" title="9.1.2 离散色系 Qualitative"></a>9.1.2 离散色系 Qualitative</h3><p> Accent, Dark2, Paired, Pastel1, Pastel2, Set1, Set2, Set3</p>
+<h3 id="9-1-3-序列色系-Sequential"><a href="#9-1-3-序列色系-Sequential" class="headerlink" title="9.1.3 序列色系 Sequential"></a>9.1.3 序列色系 Sequential</h3><p> Blues, BuGn, BuPu, GnBu, Greens, Greys, Oranges, OrRd, PuBu, PuBuGn, PuRd, Purples, RdPu, Reds, YlGn, YlGnBu, YlOrBr, YlOrRd</p>
+<p> 通过aes设定分组之后，如fill, color, group等，ggplot会自动设定颜色。点图、栅格图等连续变量，默认为深蓝色色系(“Diamond\nclarity”)。</p>
+<p> 调整图形颜色的函数还包括：</p>
+<ul>
+<li><pre><code> `scale_colour_brewer`
+</code></pre>
+</li>
+<li><pre><code> `scale_fill_brewer`
+</code></pre>
+</li>
+<li><pre><code> `scale_colour_distiller`
+</code></pre>
+</li>
+<li><pre><code> `scale_fill_distiller`
+</code></pre>
+</li>
+<li><pre><code> `scale_colour_gradient`
+</code></pre>
+</li>
+<li><pre><code> `scale_fill_gradient`
+</code></pre>
+</li>
+<li><pre><code> `scale_colour_gradient2`
+</code></pre>
+</li>
+<li><pre><code> `scale_fill_gradient2`
+</code></pre>
+</li>
+<li><pre><code> `scale_colour_gradientn`
+</code></pre>
+</li>
+<li><pre><code> `scale_fill_gradientn`
+</code></pre>
+</li>
+<li><pre><code> `scale_colour_grey`
+</code></pre>
+</li>
+<li><pre><code> `scale_fill_grey`
+</code></pre>
+</li>
+<li><pre><code> `scale_colour_hue`
+</code></pre>
+</li>
+<li><pre><code> `scale_fill_hue`
+</code></pre>
+</li>
+</ul>
+<p> 等多种，分别用来对画布中的点线面进行不同的填充设色等。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n &lt;- b + geom_bar(aes(fill &#x3D; fl))</span><br></pre></td></tr></table></figure>
+
+<h3 id="9-1-4-R中调色板设置"><a href="#9-1-4-R中调色板设置" class="headerlink" title="9.1.4 R中调色板设置"></a>9.1.4 R中调色板设置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n + scale_fill_brewer(palette &#x3D; &quot;Blues&quot;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n + scale_fill_brewer(palette &#x3D; &quot;BrBG&quot;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="9-1-4-1-R中的灰色梯度显示柱状图"><a href="#9-1-4-1-R中的灰色梯度显示柱状图" class="headerlink" title="9.1.4.1 R中的灰色梯度显示柱状图"></a>9.1.4.1 R中的灰色梯度显示柱状图</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n + scale_fill_grey( start &#x3D; 0.2, end &#x3D; 0.8, na.value &#x3D; &quot;red&quot;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="9-1-4-2-通过-scale-fill-gradient显示颜色过渡"><a href="#9-1-4-2-通过-scale-fill-gradient显示颜色过渡" class="headerlink" title="9.1.4.2 通过 scale_fill_gradient显示颜色过渡"></a>9.1.4.2 通过 scale_fill_gradient显示颜色过渡</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">o &lt;- a + geom_dotplot(aes(fill &#x3D; ..x..)) </span><br><span class="line">o + scale_fill_gradient( low &#x3D; &quot;red&quot;, high &#x3D; &quot;yellow&quot;)</span><br><span class="line">## &#96;stat_bindot()&#96; using &#96;bins &#x3D; 30&#96;. Pick better value with &#96;binwidth&#96;.</span><br></pre></td></tr></table></figure>
+
+<h4 id="9-1-4-3-通过scale-fill-gradient2显示颜色过渡"><a href="#9-1-4-3-通过scale-fill-gradient2显示颜色过渡" class="headerlink" title="9.1.4.3 通过scale_fill_gradient2显示颜色过渡"></a>9.1.4.3 通过scale_fill_gradient2显示颜色过渡</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">o + scale_fill_gradient2( low &#x3D; &quot;red&quot;, high &#x3D; &quot;blue&quot;, mid &#x3D; &quot;white&quot;, midpoint &#x3D; 25 )</span><br><span class="line">## &#96;stat_bindot()&#96; using &#96;bins &#x3D; 30&#96;. Pick better value with &#96;binwidth&#96;.</span><br></pre></td></tr></table></figure>
+
+<h4 id="9-1-4-4-选择颜色序列"><a href="#9-1-4-4-选择颜色序列" class="headerlink" title="9.1.4.4 选择颜色序列"></a>9.1.4.4 选择颜色序列</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">o + scale_fill_gradientn(colours &#x3D; terrain.colors(6) )</span><br><span class="line">## &#96;stat_bindot()&#96; using &#96;bins &#x3D; 30&#96;. Pick better value with &#96;binwidth&#96;.</span><br></pre></td></tr></table></figure>
+
+<p> 其他可以选择的颜色: rainbow(), heat.colors(), topo.colors(), cm.colors(), RColorBrewer::brewer.pal()</p>
+<h1 id="10-形状"><a href="#10-形状" class="headerlink" title="10 形状"></a>10 形状</h1><p> 绘制散点图时，不同形状的点表示分组，ggplot2已经尽可能做了最优化处理。以保证各组点的形状都能做较好区分。如果要表示的分组数量太多，ggplot2会给出相应警告。</p>
+<h2 id="10-1-按照形状分组"><a href="#10-1-按照形状分组" class="headerlink" title="10.1 按照形状分组"></a>10.1 按照形状分组</h2><h3 id="10-1-1-点图标的选择"><a href="#10-1-1-点图标的选择" class="headerlink" title="10.1.1 点图标的选择"></a>10.1.1 点图标的选择</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p &lt;- f + geom_point(aes(shape &#x3D; fl))</span><br></pre></td></tr></table></figure>
+
+<h3 id="10-1-2-显示空心图标"><a href="#10-1-2-显示空心图标" class="headerlink" title="10.1.2 显示空心图标"></a>10.1.2 显示空心图标</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p + scale_shape(solid &#x3D; FALSE)</span><br></pre></td></tr></table></figure>
+
+<h3 id="10-1-3-指定点图标"><a href="#10-1-3-指定点图标" class="headerlink" title="10.1.3 指定点图标"></a>10.1.3 指定点图标</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p + scale_shape_manual(values &#x3D; c(3:7))</span><br></pre></td></tr></table></figure>
+
+<h2 id="10-2-更改图标大小"><a href="#10-2-更改图标大小" class="headerlink" title="10.2 更改图标大小"></a>10.2 更改图标大小</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#### 设定图标大小与变量的关系q &lt;- f + geom_point(aes(size &#x3D; cyl)) </span><br><span class="line">#### 设定图标大小的范围q + scale_size_area()</span><br></pre></td></tr></table></figure>
+
+<h1 id="11-坐标系"><a href="#11-坐标系" class="headerlink" title="11 坐标系"></a>11 坐标系</h1><p> 每个图形，只能设定一个坐标系。默认情况下，ggplot2使用平面直角坐标系。用户可以指定使用极坐标coord_polar，也可以通过coord_trans，coord_flip等对坐标轴的刻度进行相应变换。</p>
+<h2 id="11-1-平面直角坐标系"><a href="#11-1-平面直角坐标系" class="headerlink" title="11.1 平面直角坐标系"></a>11.1 平面直角坐标系</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">r &lt;- b + geom_bar()</span><br><span class="line">r + coord_cartesian(xlim &#x3D; c(0, 5))</span><br></pre></td></tr></table></figure>
+
+<h2 id="11-2-横轴、纵轴以固定比例显示"><a href="#11-2-横轴、纵轴以固定比例显示" class="headerlink" title="11.2 横轴、纵轴以固定比例显示"></a>11.2 横轴、纵轴以固定比例显示</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">r + coord_fixed(ratio &#x3D; 1&#x2F;2)</span><br></pre></td></tr></table></figure>
+
+<h2 id="11-3-横轴纵轴调换"><a href="#11-3-横轴纵轴调换" class="headerlink" title="11.3 横轴纵轴调换"></a>11.3 横轴纵轴调换</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">r + coord_flip()</span><br></pre></td></tr></table></figure>
+
+<h2 id="11-4-极坐标，-适用于绘制饼图"><a href="#11-4-极坐标，-适用于绘制饼图" class="headerlink" title="11.4 极坐标， 适用于绘制饼图"></a>11.4 极坐标， 适用于绘制饼图</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">r + coord_polar(theta &#x3D; &quot;x&quot;, direction&#x3D;1 )</span><br></pre></td></tr></table></figure>
+
+<h3 id="11-4-1-横轴、纵轴的变换，如-log，-sqrt等"><a href="#11-4-1-横轴、纵轴的变换，如-log，-sqrt等" class="headerlink" title="11.4.1 横轴、纵轴的变换，如 log， sqrt等"></a>11.4.1 横轴、纵轴的变换，如 log， sqrt等</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">r + coord_trans(y &#x3D; &quot;sqrt&quot;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="11-5-设定坐标轴范围"><a href="#11-5-设定坐标轴范围" class="headerlink" title="11.5 设定坐标轴范围"></a>11.5 设定坐标轴范围</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">t + coord_cartesian(xlim &#x3D; c(0, 100), ylim &#x3D; c(10, 20))</span><br><span class="line">## NULL</span><br><span class="line">t + xlim(0, 100) + ylim(10, 20)</span><br><span class="line">## NULL</span><br></pre></td></tr></table></figure>
+
+<h1 id="12-细节调整"><a href="#12-细节调整" class="headerlink" title="12 细节调整"></a>12 细节调整</h1><h2 id="12-1-柱状图的叠加以及比较"><a href="#12-1-柱状图的叠加以及比较" class="headerlink" title="12.1 柱状图的叠加以及比较"></a>12.1 柱状图的叠加以及比较</h2><h3 id="12-1-1-并排排列"><a href="#12-1-1-并排排列" class="headerlink" title="12.1.1 并排排列"></a>12.1.1 并排排列</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s &lt;- ggplot(mpg, aes(fl, fill &#x3D; drv))</span><br><span class="line">s + geom_bar(position &#x3D; &quot;dodge&quot;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="12-1-2-堆叠排列"><a href="#12-1-2-堆叠排列" class="headerlink" title="12.1.2 堆叠排列"></a>12.1.2 堆叠排列</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s + geom_bar(position &#x3D; &quot;stack&quot;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="12-1-3-按百分比堆叠排列，-各柱子等高"><a href="#12-1-3-按百分比堆叠排列，-各柱子等高" class="headerlink" title="12.1.3 按百分比堆叠排列， 各柱子等高"></a>12.1.3 按百分比堆叠排列， 各柱子等高</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s + geom_bar(position &#x3D; &quot;fill&quot;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="12-1-4-散点图的随机化"><a href="#12-1-4-散点图的随机化" class="headerlink" title="12.1.4 散点图的随机化"></a>12.1.4 散点图的随机化</h3><p> 在每个点的x，y方向上都加上较小的随机值， 以便点能散开。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f + geom_point(position &#x3D; &quot;jitter&quot;)</span><br></pre></td></tr></table></figure>
+
+<h1 id="13-绘图主题与风格"><a href="#13-绘图主题与风格" class="headerlink" title="13 绘图主题与风格"></a>13 绘图主题与风格</h1><p> 所谓主题，就是绘图的风格。通过设定图形的主题，可以生成各种风格的图形。</p>
+<p> ggplot2自身提供了一些主题，如：</p>
+<ul>
+<li><pre><code> `theme_grey()`
+</code></pre>
+</li>
+<li><pre><code> `theme_gray()`
+</code></pre>
+</li>
+<li><pre><code> `theme_bw()`
+</code></pre>
+</li>
+<li><pre><code> `theme_linedraw()`
+</code></pre>
+</li>
+<li><pre><code> `theme_light()`
+</code></pre>
+</li>
+<li><pre><code> `theme_dark()`
+</code></pre>
+</li>
+<li><pre><code> `theme_minimal()`
+</code></pre>
+</li>
+<li><pre><code> `theme_classic()`
+</code></pre>
+</li>
+<li><pre><code> `theme_void()`
+</code></pre>
+</li>
+<li><pre><code> `theme_test()`
+</code></pre>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">t &lt;- ggplot(mpg, aes(cty, hwy)) + geom_point()</span><br><span class="line">t + theme_grey()</span><br><span class="line">t + theme_classic()</span><br><span class="line">t + theme_minimal()</span><br></pre></td></tr></table></figure>
+
+<p> ggthemes程序包(<a target="_blank" rel="noopener" href="https://jrnold.github.io/ggthemes/reference/index.html">https://jrnold.github.io/ggthemes/reference/index.html)</a>提供了更多主题，加载后，即可与ggplot2混合使用)<a target="_blank" rel="noopener" href="https://jrnold.github.io/ggthemes/reference/index.html">提供了更多主题，加载后，即可与</a>提供了更多主题，加载后，即可与ggplot2混合使用)<a target="_blank" rel="noopener" href="https://jrnold.github.io/ggthemes/reference/index.html">ggplot2混合使用</a>提供了更多主题，加载后，即可与ggplot2混合使用)。</p>
+<ul>
+<li><pre><code> `theme_base()`：     模拟plot()的风格
+</code></pre>
+</li>
+<li><pre><code> `theme_calc()`：     LibreOffice     Calc风格
+</code></pre>
+</li>
+<li><pre><code> `theme_economist()` ：     经济学家杂志风格
+</code></pre>
+</li>
+<li><pre><code> `theme_economist_white()`：     经济学家杂志
+</code></pre>
+</li>
+<li><pre><code> `theme_excel()`：     微软Office     Excel传统风格
+</code></pre>
+</li>
+<li><pre><code> `theme_excel_new()`：     微软Office     Excel最新风格
+</code></pre>
+</li>
+<li><pre><code> `theme_few()`：Few’s     “Practical Rules for Using Color in Charts”
+</code></pre>
+</li>
+<li><pre><code> `theme_fivethirtyeight()`：     Theme     inspired by fivethirtyeight.com plots
+</code></pre>
+</li>
+<li><pre><code> `theme_foundation()`
+</code></pre>
+</li>
+<li><pre><code> `theme_gdocs()` ：     google文档风格
+</code></pre>
+</li>
+<li><pre><code> `theme_hc()`：     Highcharts     Theme
+</code></pre>
+</li>
+<li><pre><code> `theme_igray()`：     逆向灰色梯度风格
+</code></pre>
+</li>
+<li><pre><code> `theme_map()`：     简约地图风格 Clean     theme for maps
+</code></pre>
+</li>
+<li><pre><code> `theme_pander()` ：     A     ggplot theme originated from the pander package
+</code></pre>
+</li>
+<li><pre><code> `theme_par()`：     Theme     which uses the current ‘base’ graphics parameter values from     par(). Not all par() parameters, are supported, and not all are     relevant to ggplot2 themes.
+</code></pre>
+</li>
+<li><pre><code> `theme_solarized()` `theme_solarized_2()`：     ggplot     color themes based on the Solarized palette
+</code></pre>
+</li>
+<li><pre><code> `theme_solid()`:     Theme with nothing other than a background color
+</code></pre>
+</li>
+<li><pre><code> `theme_stata()`:     Stata统计软件绘图风格
+</code></pre>
+</li>
+<li><pre><code> `theme_tufte()`：Tufte     Maximal Data, Minimal Ink Theme
+</code></pre>
+</li>
+<li><pre><code> `theme_wsj()`：华尔街日报风格     Wall     Street Journal theme
+</code></pre>
+</li>
+</ul>
+<p> 更多细节调整，可以查看theme()函数。</p>
+<h1 id="14-图形分面-facet"><a href="#14-图形分面-facet" class="headerlink" title="14 图形分面 facet"></a>14 图形分面 facet</h1><p> 当要按照某一个因子的不同水平，将每个水平分别展示在不同的图形时，可以使用图形分面。例如，各省份GDP的逐年变化，可以按照年份绘制多个地图，每个小地图（分面）只展示该年份的GDP即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">###按照因子组合绘制多图</span><br><span class="line">t &lt;- ggplot(mpg, aes(cty, hwy)) + geom_point()</span><br><span class="line">t + facet_grid(. ~ fl)    ### 按照列， 排列不同 fl</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t + facet_grid(year ~ .)  ### 按照行， 排列不同 year</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t + facet_grid(year ~ fl) ### 行为 year， 列为 fl</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t + facet_wrap(~ fl)      #### 设定显示为几行几列， nrow &#x3D; NULL, ncol &#x3D; NULL</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#### 每幅图小标题的显示</span><br><span class="line">t + facet_grid(. ~ fl, labeller &#x3D; label_both)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t + facet_grid(. ~ fl, labeller &#x3D; label_bquote(alpha ^ .(x)))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t + facet_grid(. ~ fl, labeller &#x3D; label_parsed)</span><br></pre></td></tr></table></figure>
+
+<h1 id="15-标题和坐标轴"><a href="#15-标题和坐标轴" class="headerlink" title="15 标题和坐标轴"></a>15 标题和坐标轴</h1><h2 id="15-1-更改标题和坐标轴名称"><a href="#15-1-更改标题和坐标轴名称" class="headerlink" title="15.1 更改标题和坐标轴名称"></a>15.1 更改标题和坐标轴名称</h2><p> 默认情况下，ggplot2绘制的图形并没有标题，添加标题，可以用ggtitle函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t + ggtitle(&quot;New Plot Title&quot;)  ### 标题</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t + xlab(&quot;New X label&quot;)        ### x轴标题</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t + ylab(&quot;New Y label&quot;)        ### y轴标题</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t + labs(title &#x3D;&quot; New title&quot;, x &#x3D; &quot;New x&quot;, y &#x3D; &quot;New y&quot;) ### 同时设定标题， xy轴标题</span><br></pre></td></tr></table></figure>
+
+<p> ggtitle添加的标题默认是向左排列的，要设置标题居中，则用theme函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">t + ggtitle(&quot;New Plot Title&quot;)+</span><br><span class="line">  theme(plot.title &#x3D; element_text(hjust &#x3D; 0.5))</span><br></pre></td></tr></table></figure>
+
+<h2 id="15-2-图例位置"><a href="#15-2-图例位置" class="headerlink" title="15.2 图例位置"></a>15.2 图例位置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">t2 &lt;- ggplot(mpg, aes(cty, hwy, color &#x3D; trans)) + geom_point()</span><br><span class="line">t2 + theme(legend.position &#x3D; &quot;bottom&quot;) </span><br><span class="line">###&quot;bottom&quot;, &quot;top&quot;, &quot;left&quot;, or &quot;right&quot;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t2 + guides(color &#x3D; &quot;none&quot;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t2 + scale_fill_discrete(name &#x3D; &quot;Title&quot;, labels &#x3D; c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;))</span><br></pre></td></tr></table></figure>
+
+<h2 id="15-3-添加标注"><a href="#15-3-添加标注" class="headerlink" title="15.3 添加标注"></a>15.3 添加标注</h2><p> 而在ggplot2中，使用的是annotate()。annotate可以添加，文字、多边形或者任何其他geom对象。</p>
+<h1 id="16-绘制地图"><a href="#16-绘制地图" class="headerlink" title="16 绘制地图"></a>16 绘制地图</h1><h2 id="16-1-geom-map"><a href="#16-1-geom-map" class="headerlink" title="16.1 geom_map"></a>16.1 geom_map</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">data &lt;- data.frame(murder &#x3D; USArrests$Murder,</span><br><span class="line">    state &#x3D; tolower(rownames(USArrests)))</span><br><span class="line">    map &lt;- map_data(&quot;state&quot;)</span><br><span class="line"></span><br><span class="line">l &lt;- ggplot(data, aes(fill &#x3D; murder))</span><br><span class="line"></span><br><span class="line">l + geom_map( aes(map_id &#x3D; state), map &#x3D; map ) + </span><br><span class="line">    expand_limits( x &#x3D; map$long, y &#x3D; map$lat )</span><br></pre></td></tr></table></figure>
+
+<h2 id="16-2-geom-polygon"><a href="#16-2-geom-polygon" class="headerlink" title="16.2 geom_polygon"></a>16.2 geom_polygon</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">### 地图投影变换</span><br><span class="line">### see:  </span><br><span class="line">library(maps)</span><br><span class="line">thismap &#x3D; map_data(&quot;world&quot;)</span><br><span class="line">ggplot(thismap, aes(long, lat, group&#x3D;group)) +</span><br><span class="line">  geom_polygon(fill&#x3D;&quot;white&quot;, colour&#x3D;&quot;gray&quot;) + </span><br><span class="line">  coord_map(projection &#x3D; &quot;ortho&quot;, orientation&#x3D;c(41, -74, 0))</span><br></pre></td></tr></table></figure>
+
+<h2 id="16-3-geom-sf"><a href="#16-3-geom-sf" class="headerlink" title="16.3 geom_sf"></a>16.3 geom_sf</h2><p> ggplot2 程序包还可以支持sf程序包的对象，geo_sf系列函数可以较为方便地生成地图。</p>
+<p> 由于sf程序包的st_read, st_transform, st_as_sf提供了读取和转换空间数据的办法，因此通过sf读取和处理空间数据，用ggplot2进行可视化，不失为很好的选择。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">stat_sf()</span><br><span class="line">geom_sf()</span><br><span class="line">geom_sf_label()</span><br><span class="line">geom_sf_text()</span><br><span class="line">coord_sf()</span><br></pre></td></tr></table></figure>
+
+<h1 id="17-保存图像"><a href="#17-保存图像" class="headerlink" title="17 保存图像"></a>17 保存图像</h1><p> ggplot2的ggsave函数，可以根据图形的扩展名， 将ggplot2绘制的图形保存为相应的文件格式，默认保存7×7英寸， 300dpi的图形。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ggsave()</span><br></pre></td></tr></table></figure>
+
+<h1 id="18-进一步阅读"><a href="#18-进一步阅读" class="headerlink" title="18 进一步阅读"></a>18 进一步阅读</h1><ul>
+<li><pre><code> [http://www.cookbook-r.com/Graphs/](http://www.cookbook-r.com/Graphs/)
+</code></pre>
+</li>
+<li><pre><code> https://www.rstudio.com/resources/cheatsheets/
+</code></pre>
+</li>
+<li><pre><code> Hadley     Wickham (2010). A layered grammar of graphics. Journal of     Computational and Graphical Statistics, 19(1), 3-28.
+</code></pre>
+</li>
+<li><pre><code> Wilkinson,     L. (2012). The grammar of graphics. In Handbook of Computational     Statistics (pp. 375-414). Springer, Berlin, Heidelberg.
+</code></pre>
+</li>
+<li><pre><code> Wilkinson,     L. (2011). ggplot2: Elegant Graphics for Data Analysis by WICKHAM,     H. Biometrics, 67(2), 678-679.
+</code></pre>
+</li>
+<li><pre><code> Hadley     Wickham (2007). Reshaping Data with the reshape Package. Journal of     Statistical Software, 21(12),     1-20. [http://www.jstatsoft.org/v21/i12/](http://www.jstatsoft.org/v21/i12/).
+</code></pre>
+</li>
+<li><pre><code> Hadley     Wickham, Romain François, Lionel Henry and Kirill Müller (2019).     dplyr: A Grammar of Data Manipulation. R package version     0.8.0.1. [https://CRAN.R-project.org/package=dplyr](https://cran.r-project.org/package=dplyr)
+</code></pre>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2019/03/27/2019-03-27-ggplot2/" data-id="ckmq2gwvt00ejq884e0ccgky5" data-title="一文读懂ggplot2数据可视化" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" rel="tag">可视化</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/03/29/2019-03-29-qgis/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          QGIS3 创建包含多边形的shape文件
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/03/20/2019-03-20-tozhuangtou/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">一个村庄开始隐姓埋名——写给庄头</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/R%E7%BC%96%E7%A8%8B/" rel="tag">R编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%BA%E7%89%A9/" rel="tag">人物</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%99%E4%BD%9C/" rel="tag">写作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" rel="tag">可视化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E4%B9%A6/" rel="tag">图书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" rel="tag">图像处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9C%B0%E7%90%86/" rel="tag">地理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A3%B0%E6%98%8E/" rel="tag">声明</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A9%E6%96%87/" rel="tag">天文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%AF%9D%E5%BD%95/" rel="tag">对话录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%83%E5%BE%97/" rel="tag">心得</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E5%91%8A/" rel="tag">报告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E7%89%88/" rel="tag">排版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%85%E4%B9%A1/" rel="tag">故乡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" rel="tag">标本馆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%88%86%E7%B1%BB/" rel="tag">植物分类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%90%8D/" rel="tag">植物学名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%82%E8%81%8C/" rel="tag">求职</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" rel="tag">版本控制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%80%81/" rel="tag">生态</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%80%81%E8%B5%84%E8%AE%AF/" rel="tag">生态资讯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%94%E7%A9%B6%E8%B5%84%E8%AE%AF/" rel="tag">研究资讯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B3%BB%E7%BB%9F%E5%8F%91%E8%82%B2/" rel="tag">系统发育</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%9F%E8%AE%A1/" rel="tag">统计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" rel="tag">行摄匆匆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%81%E9%97%BB%E5%BD%95/" rel="tag">见闻录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%97%E6%AD%8C/" rel="tag">诗歌</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E5%8C%96/" rel="tag">进化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E6%83%B3/" rel="tag">随想</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A9%B3%E8%AE%BA/" rel="tag">驳论</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/R%E7%BC%96%E7%A8%8B/" style="font-size: 18.75px;">R编程</a> <a href="/tags/%E4%BA%BA%E7%89%A9/" style="font-size: 11.88px;">人物</a> <a href="/tags/%E5%86%99%E4%BD%9C/" style="font-size: 13.13px;">写作</a> <a href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" style="font-size: 12.5px;">可视化</a> <a href="/tags/%E5%9B%BE%E4%B9%A6/" style="font-size: 10px;">图书</a> <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" style="font-size: 11.88px;">图像处理</a> <a href="/tags/%E5%9C%B0%E7%90%86/" style="font-size: 17.5px;">地理</a> <a href="/tags/%E5%A3%B0%E6%98%8E/" style="font-size: 10.63px;">声明</a> <a href="/tags/%E5%A4%A9%E6%96%87/" style="font-size: 16.25px;">天文</a> <a href="/tags/%E5%AF%B9%E8%AF%9D%E5%BD%95/" style="font-size: 10px;">对话录</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 10px;">心得</a> <a href="/tags/%E6%8A%A5%E5%91%8A/" style="font-size: 12.5px;">报告</a> <a href="/tags/%E6%8E%92%E7%89%88/" style="font-size: 13.75px;">排版</a> <a href="/tags/%E6%95%85%E4%B9%A1/" style="font-size: 10.63px;">故乡</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10.63px;">数据库</a> <a href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" style="font-size: 14.38px;">标本馆</a> <a href="/tags/%E6%A4%8D%E7%89%A9%E5%88%86%E7%B1%BB/" style="font-size: 10px;">植物分类</a> <a href="/tags/%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%90%8D/" style="font-size: 10px;">植物学名</a> <a href="/tags/%E6%B1%82%E8%81%8C/" style="font-size: 10px;">求职</a> <a href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" style="font-size: 11.25px;">版本控制</a> <a href="/tags/%E7%94%9F%E6%80%81/" style="font-size: 16.88px;">生态</a> <a href="/tags/%E7%94%9F%E6%80%81%E8%B5%84%E8%AE%AF/" style="font-size: 10px;">生态资讯</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E8%B5%84%E8%AE%AF/" style="font-size: 10px;">研究资讯</a> <a href="/tags/%E7%B3%BB%E7%BB%9F%E5%8F%91%E8%82%B2/" style="font-size: 10px;">系统发育</a> <a href="/tags/%E7%BB%9F%E8%AE%A1/" style="font-size: 18.13px;">统计</a> <a href="/tags/%E7%BC%96%E7%A8%8B/" style="font-size: 10.63px;">编程</a> <a href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" style="font-size: 15px;">行摄匆匆</a> <a href="/tags/%E8%A7%81%E9%97%BB%E5%BD%95/" style="font-size: 10px;">见闻录</a> <a href="/tags/%E8%AF%97%E6%AD%8C/" style="font-size: 15.63px;">诗歌</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 19.38px;">软件</a> <a href="/tags/%E8%BF%9B%E5%8C%96/" style="font-size: 10.63px;">进化</a> <a href="/tags/%E9%9A%8F%E6%83%B3/" style="font-size: 11.25px;">随想</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 20px;">随笔</a> <a href="/tags/%E9%A9%B3%E8%AE%BA/" style="font-size: 10px;">驳论</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">January 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">December 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">October 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05/">May 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">May 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">December 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">August 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">March 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">April 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/01/">January 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/08/">August 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/07/">July 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/06/">June 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">May 2009</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/18/2021-03-18/">为什么《xxxx在XX研究中取得进展》这类文章很少有人转发？</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/2021-02-16/">如何恢复森林？– 从嘉道理农场的森林恢复样地说起</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 Jinlong Zhang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

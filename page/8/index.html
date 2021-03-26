@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Jinlong Zhang&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Jinlong Zhang&#39;s blog">
+<meta property="og:url" content="https://helixcn.github.io/page/8/index.html">
+<meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Jinlong Zhang">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Jinlong Zhang's blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jinlong Zhang&#39;s blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://helixcn.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-2018-2-22-styler" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/02/22/2018-2-22-styler/" class="article-date">
+  <time class="dt-published" datetime="2018-02-21T22:10:54.000Z" itemprop="datePublished">2018-02-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/02/22/2018-2-22-styler/">R代码的可读性与编程风格</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>最近收到不少R编程方面的求助，请求帮忙修改代码。不过有些人的代码， 实在很难看懂。 计算机代码是高度考验逻辑思维、记忆力和想象力的，代码的每一步都应该简单直接，易于理解， 这样整个脚本才能容易理解。</p>
+<p>为了能看懂这些代码，对相关的求助也必须提出基本要求： 必须要有R脚本和数据，二者缺一不可， 否则这活儿根本接不了。本来帮忙看代码，帮回答或者解决技术问题就是义务性的，看到糟糕的代码，不知道要多耗费多少脑细胞， 心情也差了很多。</p>
+<p>看看收到的R代码有什么常见问题：</p>
+<h2 id="1-脚本没有列明目的"><a href="#1-脚本没有列明目的" class="headerlink" title="1. 脚本没有列明目的"></a>1. 脚本没有列明目的</h2><p>R脚本一般是为了计算或者绘图， 如果目的不够明确， 说明作者可能没有想清楚。 如果脚本想要干什么都说不清楚， 是没有办法将目标化繁为简， 用计算机语言实现的。 所以最重要的一步， 就是要在计算机脚本最前面写一个标题， 上面说清楚这个脚本是干什么的， 是谁写的，什么时候写的。</p>
+<h2 id="2-重要步骤没有备注，重要函数和算法没有列出参考文献"><a href="#2-重要步骤没有备注，重要函数和算法没有列出参考文献" class="headerlink" title="2. 重要步骤没有备注，重要函数和算法没有列出参考文献"></a>2. 重要步骤没有备注，重要函数和算法没有列出参考文献</h2><p>计算机语言中， 一些核心的算法， 往往是最复杂的， 也是程序的核心部分，最好能有清楚的注释， 有时候还要列出参考文献， 以便核对。 否则计算机代码就很容易成为天书。</p>
+<h2 id="3-变量名极短，常用a、b、c、d等命名但是没有注释"><a href="#3-变量名极短，常用a、b、c、d等命名但是没有注释" class="headerlink" title="3. 变量名极短，常用a、b、c、d等命名但是没有注释"></a>3. 变量名极短，常用a、b、c、d等命名但是没有注释</h2><p>让计算机代码成为天书的另外一种方法就是使用极为简短的变量名， a, b, c, d, var 或者 data这样的变量名, 一个星期之后，连编写代码的人也看不懂了。 计算机代码要想能让人看懂，变量名称要有良好的注释， 最好能自明其意， 同时变量名称之间不能太相似。 trait, community, species, specielist, community_structure, res_pd都是好的变量名，而 a, b, var, t, data, 都是不好的变量名。 说到这里，不得不说一下变量命名的风格：有人建议用大小写命名区分变量的不同部分， 增加可读性， 例如 ComStruct， 这本来无可厚非， 但是输入过程中频繁切换大小写， 其实是很麻烦的事，最好能避免。有人建议用点 . 分隔，也就是com.struct，这本来是很好的选择，但是.也用来做S3子函数的命名， 所以有时候用.命名并不十分妥当。 我个人比较推荐用下环线分隔不同的部分，例如 com_struct, 这样在Notepad++等编辑器里面也更容易找到同一个词， 便于查看数据处理的流程。</p>
+<h2 id="4-没有缩进"><a href="#4-没有缩进" class="headerlink" title="4. 没有缩进"></a>4. 没有缩进</h2><p>代码没有良好的缩进，说明编写代码的人没有很好的编程习惯， 或多或少会造成阅读的障碍。</p>
+<h2 id="5-变量重复命名，同一变量出现多次或者用常用函数名命名"><a href="#5-变量重复命名，同一变量出现多次或者用常用函数名命名" class="headerlink" title="5. 变量重复命名，同一变量出现多次或者用常用函数名命名"></a>5. 变量重复命名，同一变量出现多次或者用常用函数名命名</h2><p>让人费解的是， 变量名称有几乎无数种可能，但有些人偏偏喜欢让某变量名在一个脚本中要反复出现，并且不断覆盖前面的变量。 这样做的后果就是，检查脚本的时候自己都糊涂了， 不知道哪个函数控制哪个变量。 最可怕的是data 作为变量名出现多次。 要知道， data在R中是调取内部数据的函数，所有的变量在取名的时候应该避免和R的常用函数重名。</p>
+<h2 id="6-运算过程过于隐晦，-在不必要的时候使用apply函数或者循环"><a href="#6-运算过程过于隐晦，-在不必要的时候使用apply函数或者循环" class="headerlink" title="6. 运算过程过于隐晦， 在不必要的时候使用apply函数或者循环"></a>6. 运算过程过于隐晦， 在不必要的时候使用apply函数或者循环</h2><p>简单明了的代码，才能长远。 但是有些代码太复杂了， 复杂的原因是因为运算过程太隐晦， 太难理解，例如本来就没有几个要读取的数据表，不知道为什么要用sapply或者for循环来读取，造成读取后的数据结果复杂， 难以访问。 任何一个单层循环或者多层循环，看似复杂， 其实都是从最简单的一层数据开始的，然后用[i]或者[j]控制下标的走向完成循环。 apply函数家族实现了矢量预算，能节省循环，但为了简单明了，编程时应该尽量避开循环和apply函数。apply虽好， 但最好也不要贪杯。</p>
+<h2 id="7-lt-或者-两侧缺少空格"><a href="#7-lt-或者-两侧缺少空格" class="headerlink" title="7. &lt;- 或者 = 两侧缺少空格"></a>7. &lt;- 或者 = 两侧缺少空格</h2><p>在&lt;- 或者 = 两侧加上空格， 是R用户的基本修养， 这里就不多说了。</p>
+<p>说了这么多， 只是希望所见到的R脚本能够：目标明确，结构清楚，变量自己能表明自己的意思，尽量不用注释，也能够看懂。 当然，关键语句的注释仍然是必不可少的。要编写高质量R脚本， 有兴趣的老师同学还可以参考 Google R风格指南 <a target="_blank" rel="noopener" href="https://google.github.io/styleguide/Rguide.xml">https://google.github.io/styleguide/Rguide.xml</a> 或其中文版 <a target="_blank" rel="noopener" href="https://nanx.me/rstyle/">https://nanx.me/rstyle/</a> 。 虽然风格是只是形式上的， 但好的风格会对编程有很大的帮助。</p>
+<p>2017-9-19 初稿</p>
+<p>2018-2-22 修改</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/02/22/2018-2-22-styler/" data-id="ckmq2gwua00bgq884c1nq8f1i" data-title="R代码的可读性与编程风格" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2018-2-21-paper" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/02/21/2018-2-21-paper/" class="article-date">
+  <time class="dt-published" datetime="2018-02-20T16:56:54.000Z" itemprop="datePublished">2018-02-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/02/21/2018-2-21-paper/">高水平论文讨论的写法 -- 从祝燕等(2018)的论文说起</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>大年三十这天，中国科学院植物研究所祝燕师姐的一篇关于热带地区树种密度制约的论文在Ecology Letters上线了。其实最有发言权的应当是作者本人 （<a target="_blank" rel="noopener" href="http://www.biodiv.ibcas.ac.cn/staff/zhuyan.html">http://www.biodiv.ibcas.ac.cn/staff/zhuyan.html</a> ），但是她一直忙于科研，而且极为低调和谦逊，很少抛头露面。因此，笔者在这里简要介绍一下她的这项研究，并谈谈读后感，最后谈谈高水平论文的讨论是怎么写出来的。也非常感谢她长期以来对我的帮助与支持。</p>
+<p>热带地区的物种共存一直是生态学家们关注的问题。近些年来， 一些生态学家研究森林大型监测样地内相同种个体密度、不同种个体密度、水分、光照等因子对不同树种幼苗的生长和生存状况的影响，以探讨物种共存机制。这些研究一般只局限在幼苗阶段。祝燕等（2018）基于巴拿马BCI 50公顷样地中47个个体数大于30个的树种的数据，分析了不同成长阶段: 幼苗 (高度 ≥ 20 cm ，胸径 &lt; 1 cm), 幼树 (胸径 1–4.9 cm ), 小树 (胸径 5–9.9 cm) 和 成熟树 (胸径 ≥ 10 cm )的生存率随同种个体密度、异种个体密度以及相对生长速率的变化规律。</p>
+<p>一般来说，由于幼苗监测样方和大样地起测标准不同，整合相应结果会有一定困难。但该研究基于相对生长速率，很好地整合了不同阶段密度制约分析的结果。研究发现，生长速率越快的树木，死亡率也越高；生长速率越慢的树木，死亡率越低。树木的死亡率可能与对病原体以及机械伤害的抵抗能力有关。该研究中，树种相应的生活史对策在成长过程中没有变化。研究的结论十分明确，文章也并不长，正文中也不包括复杂的公式。</p>
+<p>实际上，理论性强的论文，并不一定满是公式。相反，公式只是某种思想以数学方式的实现，是作为工具而存在的。生态学因为研究的是各种关系，所以只要在论文中阐述清楚了所探讨问题之间的关系，就是理论性较强的论文，也就容易发在高影响因子的刊物上。</p>
+<p>该研究使用了广义线性混合模型 Generalized Linear Mixed Models (GLMM)。GLMM听起来很复杂，但是其实与广义线性模型大同小异，只是增加了解释变量的一些随机效应，虽然在编写软件时复杂， 但是理解起来并不复杂。近年来，GLMM几乎已经成了群落生态研究的标准配置。lme4程序包的出现，更是让拟合广义线性混合模型简化了很多。普通人只要认真学习一段时间就能快速上手。</p>
+<p>本研究创新的地方，在于整合了不同阶段的相对生长速率，也就是生活史对策，从而将树种的生存情况在不同生长阶段都做了理论上的探讨，这确实是研究上的突破。Ecology Letters的影响因子达9.449， 在生态学150多种生态学期刊中排名第二，投稿和审稿要求极为严格和苛刻，拒稿率一直居高不下，能够发表是非常难的。论文能发表在Ecology Letters上，除了研究本身的新意、工作扎实等因素之外，最重要的就是论文的讨论的力度，特别是抓住一个问题，进行深入讨论，以获得新知。</p>
+<p>高引用率的论文， 不一定是鸿篇巨制，也不一定是长篇大论：其实只需要抓住一个明确的问题， 通过令人信服的方法收集数据并进行检验，得到相关的结果后再深入讨论，就有可能成为高引用率的论文。虽然高引用率的论文不一定都发在高影响因子的刊物上，但是高影响因子的刊物发表的大部分论文都有相对较高的引用率，也更受业界关注。</p>
+<p>深入讨论学术问题，是学术写作的重中之重。研究结果的意义以及研究的贡献，都是通过讨论部分展现出来的。该研究的几位合作者也都是生态学名家，如Hubbell是世界上第一个大型森林监测样地：巴拿马BCI样地 （<a target="_blank" rel="noopener" href="http://ctfs.si.edu/webatlas/datasets/bci/">http://ctfs.si.edu/webatlas/datasets/bci/）</a>  的建立者之一，更是群落生态学中中性理论的主要提出者；Richard Condit博士则是BCI样地的当前负责人。不难想象，作者们在写作过程中一定少不了对内容的斟酌和适当的取舍，以确保论文短小精悍。</p>
+<p>研究论文写作的确有一定的套路。虽然被有些人称为八股文式的写法，但由于这样容易被人接受，仍然是现在最重要的写作方式，所以值得借鉴。这里主要谈谈这篇论文的讨论部分是怎么写的。</p>
+<p>讨论的主要内容，一般是将研究结果放在大的研究背景中，以更深入地阐述研究的意义，使其有所启发。生态学研究是讨论一般性的原理和机制，要从研究结果中抽象出新的认知，需要有数据支撑，但是讨论的主题不能过于具体，否则读者可能会觉得研究不具有代表性。深入来讲，研究基本上都是在为某一种作用、机制或原理提供相应的证据，所以最应该着眼于理论上的贡献。</p>
+<p>这篇论文的讨论部分主要按照以下顺序：简单介绍背景以及主要发现，然后逐项展开。按照以下各方面分别讨论。</p>
+<ol>
+<li><p>本研究结果支持哪些已有的结论和研究；</p>
+</li>
+<li><p>本研究结果否定了哪些已有的结论和研究；</p>
+</li>
+<li><p>本研究在之前的研究基础上有什么新的发现，澄清了哪些问题；</p>
+</li>
+<li><p>为新发现和相关机制提供相应的解释；</p>
+</li>
+<li><p>本研究的不足，如数据量、分析方法等的不足之处以及原因；</p>
+</li>
+<li><p>研究有哪些潜在的问题需要进一步澄清以及下一步的研究方向。</p>
+</li>
+</ol>
+<p>在以上六个点都论述之后，就很容易方便地引出结论。这种方法是学术论文讨论的一般模式，这篇论文在很多方面都给我们做出了很好的示范。</p>
+<p>参考：</p>
+<p>Zhu, Y., Queenborough, S. A., Condit, R., Hubbell, S. P., Ma, K. P., &amp; Comita, L. S. (2018). Density-dependent survival varies with species life history strategy in a tropical forest. <em>Ecology Letters</em>. （<a target="_blank" rel="noopener" href="http://onlinelibrary.wiley.com/doi/10.1111/ele.12915/full">http://onlinelibrary.wiley.com/doi/10.1111/ele.12915/full</a> ）</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/02/21/2018-2-21-paper/" data-id="ckmq2gwu900beq8843dso6am2" data-title="高水平论文讨论的写法 -- 从祝燕等(2018)的论文说起" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2018-2-20-compoundleaves" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/02/20/2018-2-20-compoundleaves/" class="article-date">
+  <time class="dt-published" datetime="2018-02-20T00:31:54.000Z" itemprop="datePublished">2018-02-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/02/20/2018-2-20-compoundleaves/">怎样鉴定羽状复叶植物的营养体？</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>全世界现存的被子植物约35-40万种，分布于300多个科中。对于普通人来说， 能认识几百种已经比较困难。绝大部分植物分类学家也只是熟悉某一类群或者某一地区的植物。植物分类学家鉴定植物、描述植物时往往需要有完整花果的标本，以确保准确。这是因为，叶的形态变异往往较大，花果往往具有相对稳定的形态特征，所以更为可靠。不过在做植物区系调查或者植被调查时，有可能只能采集到无花无果的标本作凭证。基于无花无果的标本进行植物鉴定，结论准确与否高度依赖植物鉴定者的专业水平。</p>
+<p>植物的叶分可为单叶和复叶。植物的小叶在叶轴的两侧排列成羽毛状，就是这里所说的羽状复叶植物。所谓“营养体”就是指无花无果的植物或者植物标本。植物鉴定需要相关人员认真学习形态解剖的基础知识， 并且要经过不断刻苦记忆和练习，才能达到准确鉴定的程度。无论如何，依靠营养体鉴定植物，准确性会大打折扣，以下为个人鉴定植物的经验之谈， 仅供参考。</p>
+<p>羽状复叶的植物常见于漆树科、芸香科、胡桃科、无患子科、苦木科、豆科、蔷薇科、紫葳科、木犀科、楝科、五加科、省沽油科、橄榄科、酢酱草科等。由于系统位置较为分散， 认不好，就很容易弄出笑话。 本人就曾经根据一张照片，在没有看清楚特征的情况下， 将韧荚红豆 Ormosia indurata 认到白蜡树属 Fraxinus，真是相差十万八千里。后来看到果实，才确定是一种红豆。也难怪， 因为韧荚红豆的叶近对生， 照片中的几个叶都是对生， 所以当时才怀疑是光蜡树 Fraxinus griffithii。</p>
+<p>这里根据个人经验列出一些观察植物时要回答的问题，回答这些问题后， 加上不断练习，基本上能将东亚地区的羽状复叶植物营养体划分到科或者属。</p>
+<ol>
+<li>叶对生还是互生？ 对生： 多见于省沽油科、芸香科、紫葳科、木犀科</li>
+<li>叶是否有叶枕？ 有叶枕， 多见于豆科</li>
+<li>叶是否有乳汁？ 有乳汁， 多见于漆树科</li>
+<li>芽是否裸露？ 多见于无患子科、木犀科等</li>
+<li>叶痕以及叶迹的形状？ 如胡桃属多为猴脸状</li>
+<li>叶轴上是否具翼？ 如盐肤木属</li>
+<li>叶轴上是否有刺？ 如花椒属</li>
+<li>小叶轴是否在小叶着生处膨大或者弯曲？ 是：多见于白蜡树属，省沽油属等</li>
+<li>小叶有多少枚？奇数还是偶数？</li>
+<li>小叶是对生还是互生？ 小叶对生， 如盐肤木</li>
+<li>小叶是否有托叶？</li>
+<li>小叶是否有小叶柄？ 如臭椿、大叶山楝</li>
+<li>小叶叶基是圆形？楔形？偏斜？ 叶基圆形， 如臭椿属；叶基偏斜， 如樫木属</li>
+<li>小叶的总体叶形： 披针形， 卵形， 椭圆形， 长椭圆形，矩形， 倒卵形， 倒披针形等</li>
+<li>小叶的叶尖形状： 急尖、渐尖、尾尖、钝、微凹、有小尖头等</li>
+<li>小叶的质地： 纸质？ 革质？ 硬纸质？ 厚革质</li>
+<li>小叶叶片是否沿小叶柄下延？</li>
+<li>小叶侧脉的条数以及是否弧形向上弯曲？</li>
+<li>小叶基部是否有腺点？ 叶基部有腺点，见于臭椿属等</li>
+<li>小叶叶片上是否有有油腺点？ 有：常见于花椒属、吴茱萸属等</li>
+<li>小叶是否有锯齿？ 如果有锯齿是在先端还是在基部？</li>
+<li>顶端小叶是否增大，或者缩小？</li>
+<li>小叶的毛被如何？</li>
+<li>小叶的网脉是否明显？</li>
+<li>小叶叶脉是否在正面凹陷， 在叶背面凸起？</li>
+</ol>
+<p>当然， 这些特征只能帮你分一个大概。要准确鉴定，还是需要花果特征的标本，并且最好能咨询一下该地区的分类学专家了。</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201802/20/160241l1b8w9ow0bbzv0l8.jpg"><img src="http://image.sciencenet.cn/home/201802/20/160241l1b8w9ow0bbzv0l8.jpg" alt="img"></a></p>
+<p>图1 盐肤木 Rhus chinensis， Anacardiaceae 漆树科，Rhus盐麸木属</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201802/20/160311urykyyjiuz2zfvvr.jpg"><img src="http://image.sciencenet.cn/home/201802/20/160311urykyyjiuz2zfvvr.jpg" alt="img"></a></p>
+<p>图2 伯乐树Bretschneidera sinensis，Akaniaceae叠珠树科，Bretschneidera伯乐树属</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201802/20/160330f4vvleljxpejjjjt.jpg"><img src="http://image.sciencenet.cn/home/201802/20/160330f4vvleljxpejjjjt.jpg" alt="img"></a></p>
+<p>图3 无患子 Sapindus saponaria， Sapindaceae无患子科，Sapindus无患子属</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201802/20/160357lhbm6hy1en0mklhh.jpg"><img src="http://image.sciencenet.cn/home/201802/20/160357lhbm6hy1en0mklhh.jpg" alt="img"></a></p>
+<p>图4 白背麸杨Rhus hypoleuca， Anacardiaceae漆树科，Rhus盐麸木属</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201802/20/160417ym90ww0avbwmwwr0.jpg"><img src="http://image.sciencenet.cn/home/201802/20/160417ym90ww0avbwmwwr0.jpg" alt="img"></a></p>
+<p>图5 野漆 Toxicodendron succedaneum， Anacardiaceae漆树科， Toxicodendron漆树属</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201802/20/160449bjjuc6k35uz1lt41.jpg"><img src="http://image.sciencenet.cn/home/201802/20/160449bjjuc6k35uz1lt41.jpg" alt="img"></a></p>
+<p>图6 楝叶吴茱萸Tetradium glabrifolium，Rutaceae芸香科，Tetradium吴茱萸属</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201802/20/160529aqzr5qqxiqxqy52n.jpg"><img src="http://image.sciencenet.cn/home/201802/20/160529aqzr5qqxiqxqy52n.jpg" alt="img"></a></p>
+<p>图7 黄皮Clausena lansium， Rutaceae芸香科， Clausena黄皮属</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201802/20/160552watwtt6xxxtwmam3.jpg"><img src="http://image.sciencenet.cn/home/201802/20/160552watwtt6xxxtwmam3.jpg" alt="img"></a></p>
+<p>图8 凹叶红豆Ormosia emarginata， Fabaceae豆科，Ormosia红豆属</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201802/20/160612v62ukoaovt6vktr6.jpg"><img src="http://image.sciencenet.cn/home/201802/20/160612v62ukoaovt6vktr6.jpg" alt="img"></a></p>
+<p>图9 龙眼Dimocarpus longana，Sapindaceae无患子科，Dimocarpus龙眼属</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201802/20/160632f9uwwb956lze69wn.jpg"><img src="http://image.sciencenet.cn/home/201802/20/160632f9uwwb956lze69wn.jpg" alt="img"></a></p>
+<p>图10 红柴枝 Meliosma oldhamii， Sabiaceae清风藤科， Meliosma泡花树属</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201802/20/160651aa9d348w394y4999.jpg"><img src="http://image.sciencenet.cn/home/201802/20/160651aa9d348w394y4999.jpg" alt="img"></a></p>
+<p>图11 白蜡树属 Fraxinus 木犀科 Oleaceae （存疑）</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201802/20/160721i3ft8odef3jz3jlj.jpg"><img src="http://image.sciencenet.cn/home/201802/20/160721i3ft8odef3jz3jlj.jpg" alt="img"></a></p>
+<p>图12 枫杨Pterocarya stenoptera， Juglandaceae胡桃科， Pterocarya枫杨属 （种存疑）</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201802/20/160744peezfynube1b7n6h.jpg"><img src="http://image.sciencenet.cn/home/201802/20/160744peezfynube1b7n6h.jpg" alt="img"></a></p>
+<p>图13 荔枝Litchi chinensis，Sapindaceae无患子科，Litchi荔枝属</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201802/20/160803rc8jv9zxc55xczjv.jpg"><img src="http://image.sciencenet.cn/home/201802/20/160803rc8jv9zxc55xczjv.jpg" alt="img"></a></p>
+<p>图14 华西花楸Sorbus wilsoniana， Rosaceae蔷薇科， Sorbus花楸属</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201802/20/160827msq4zm6v6mmrms5n.jpg"><img src="http://image.sciencenet.cn/home/201802/20/160827msq4zm6v6mmrms5n.jpg" alt="img"></a></p>
+<p>图15 南酸枣 Choerospondias axillaris， Anacardiaceae漆树科， Choerospondias南酸枣属</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201802/20/160927daarotmwnpwtr3nn.jpg"><img src="http://image.sciencenet.cn/home/201802/20/160927daarotmwnpwtr3nn.jpg" alt="img"></a></p>
+<p>图16 马尾树Rhoiptelea chiliantha， Juglandaceae胡桃科， Rhoiptelea马尾树属</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201802/20/160950g3ee330033z5d55d.jpg"><img src="http://image.sciencenet.cn/home/201802/20/160950g3ee330033z5d55d.jpg" alt="img"></a></p>
+<p>图17 化香 Platycarya strobilacea，Juglandaceae胡桃科， Platycarya化香树属</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201802/20/161013uz3252uzv12g25pk.jpg"><img src="http://image.sciencenet.cn/home/201802/20/161013uz3252uzv12g25pk.jpg" alt="img"></a></p>
+<p>图18 青钱柳Cyclocarya paliurus，Juglandaceae胡桃科，Cyclocarya青钱柳属</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201802/20/161425iqqq99w6x1nqapab.jpg"><img src="http://image.sciencenet.cn/home/201802/20/161425iqqq99w6x1nqapab.jpg" alt="img"></a></p>
+<p>图19 橄榄 Canarium album， Burseraceae  橄榄科，Canarium橄榄属</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201802/20/161454vrbk046yjfpy77fp.jpg"><img src="http://image.sciencenet.cn/home/201802/20/161454vrbk046yjfpy77fp.jpg" alt="img"></a></p>
+<p>图 20 人面子Dracontomelon duperreanum， Anacardiaceae漆树科， Dracontomelon人面子属</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201802/20/161515awwg8hho8emzu8oo.jpg"><img src="http://image.sciencenet.cn/home/201802/20/161515awwg8hho8emzu8oo.jpg" alt="img"></a></p>
+<p>图21 韶子Nephelium chryseum， Sapindaceae无患子科， Nephelium韶子属</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201802/20/161644ypteaytos1typssw.jpg"><img src="http://image.sciencenet.cn/home/201802/20/161644ypteaytos1typssw.jpg" alt="img"></a></p>
+<p>图 22 乌榄 Canarium pimela， Burseraceae橄榄科，Canarium橄榄属</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/02/20/2018-2-20-compoundleaves/" data-id="ckmq2gwu700b8q8846k5r4g27" data-title="怎样鉴定羽状复叶植物的营养体？" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" rel="tag">标本馆</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2018-2-15-theory" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/02/14/2018-2-15-theory/" class="article-date">
+  <time class="dt-published" datetime="2018-02-14T09:20:54.000Z" itemprop="datePublished">2018-02-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/02/14/2018-2-15-theory/">从高端制瓷业到进化生态的理论研究</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>在微信里刚读到一篇关于中国制瓷业历史与现状的报道，让人很有感触 (志钧瓷坊 2018)。忽然想到一个问题：为什么我们发表的相当一部分研究论文读起来索然无味？甚至还有的期刊，因为国人灌水太多而不得不做出调整？这可能要从理论研究的深度说起，甚至涉及科学研究的本质。由于也没做什么前期调查，这里只说说自己的感受，算是读后感。如有不同意见，也十分欢迎拍砖。</p>
+<p>根据这篇报道，中国不能占据陶瓷业的制高点，可能主要是因为业界还没有彻底觉醒：历史上输给日本人是因为我们太保守，中国过去教徒弟只是口授心传，对各种秘方更是严格保密，一些工艺失传之后，后人只能不断再进行探索， 造成工艺水平停滞不前；输给欧洲人是因为欧洲人掌握了出奇制胜的方法：用科学指导技术。欧洲人靠科学指导制瓷，中国靠经验指导制瓷，很显然后者会被前者打败。</p>
+<p>现代科学发源于欧洲，现代世界的格局，深受几次科学与技术革命的影响。其实不仅制瓷业，其它工业领域莫不如此。在很多领域，我们都在努力追赶，不过差距仍然是显著的：虽然在研究论文的数量上我们有了长足进步，但创新明显不足。这可能与我们缺乏相应的文化传统，也与学科没有深厚的积累有关，尤其重要的是， 对青年学者的理论研究的训练严重不足。这里就谈谈自己有点儿了解的植物生态与进化方向。</p>
+<p>最近几年，在植物生态学与进化领域，中国学者的科研论文在主流期刊上并不罕见了，但是最大问题就是创新性严重不足，或者理论深度不够。一部分论文发表在知名刊物上的论文，主要是靠拼数据，拼人力物力，换句话说，论文是用钱砸出来的。例如研究某个科的进化，动不动就全基因组测几百个种，这样的研究是非常费钱，非常费劳动力的。几百万甚至上千万人民币的项目中，相当一部分钱用于运行外国生产的测序仪器，使用外国进口的昂贵试剂，再使用外国人提出的算法以及他们编写的计算机程序进行拼接和注释。与此同时，有大量研究生在做着简单而重复性的实验工作，在这个过程中，并不一定受到足够的训练。</p>
+<p>虽然这些研究可能能发到Nature，Science等顶级刊物，但是国外同行看到这种方式也只能叹息。相比之下，他们掌握不了那么多资源。也可能是欧美的竞争更为激烈，很多欧美学者，只能多从理论的深度上下功夫。对理论的严格训练以及深入思考， 让一些青年学者在博士毕业时就提出了一些新的方法，甚至编写了一些软件，为研究方向带来了质的突破。例如，密歇根大学的Dan Rabosky （<a target="_blank" rel="noopener" href="https://scholar.google.com/citations?user=0NdRYeoAAAAJ&amp;hl=zh-CN%EF%BC%89%E8%AF%BB%E5%8D%9A%E5%A3%AB%E6%9C%9F%E9%97%B4%E5%B0%B1%E5%BC%80%E5%8F%91%E4%BA%86laser%E7%A8%8B%E5%BA%8F%E5%8C%85%E7%94%A8%E4%BA%8E%E4%BC%B0%E8%AE%A1%E8%BF%9B%E5%8C%96%E6%A0%91%E4%B8%8A%E7%9A%84%E7%89%A9%E7%A7%8D%E5%BD%A2%E6%88%90%E5%92%8C%E7%81%AD%E7%BB%9D%E7%9A%84%E9%80%9F%E7%8E%87%EF%BC%8C%E5%81%9A%E4%BA%86%E4%B8%80%E6%9C%9F%E5%8D%9A%E5%A3%AB%E5%90%8E%E4%B9%8B%E5%90%8E%EF%BC%8C%E6%88%90%E7%AB%8B%E7%A0%94%E7%A9%B6%E7%BB%84%E5%BC%80%E5%8F%91%E4%BA%86BAMM%E7%A8%8B%E5%BA%8F%E5%8C%85">https://scholar.google.com/citations?user=0NdRYeoAAAAJ&amp;hl=zh-CN）读博士期间就开发了laser程序包用于估计进化树上的物种形成和灭绝的速率，做了一期博士后之后，成立研究组开发了BAMM程序包</a> (Rabosky et al. 2014)。类似的，用于估计祖先分布区的LAGRANGE (Ree and Smith 2008) 和BioGeoBEARS (Matzke 2013)，用于构建进化树的RAxML (Stamatakis 2014)等软件包也都经历过这样的发展过程。作者们的理论基础极为扎实，由于在理论上的突破，大都能年纪轻轻就站在生态和进化理论舞台的中心，极大促进学科的发展。相比之下， 我国青年学者却没有成长起来， 其中一个因素应该就是缺乏足够的基础理论学习。</p>
+<p>很多人分析数据写论文，只停留在使用别人提供的软件上， 对背后的原理和算法缺乏足够的兴趣， 更别提在理论上进一步发展了。 必须要承认，很多生物学专业的学生在数学和计算机上没有很好的基础， 这也是很多人不想了解背后理论的原因之一。很多时候，分析数据只是出于实用的目的， 研究人员只需要获得进化树或者获得遗传距离，获得祖先分布区，并不用关心这些结果是怎么得来的。虽然如此，如果研究缺乏创新性，论文读起来就容易索然无味。</p>
+<p>理论做得好不好，主要看在理论性强的刊物上发表论文的多少，并不一定看影响因子高低。生态学与进化领域，代表性刊物主要有 Ecology，Ecological Monographs，American Naturalist，Ecology Letters，Systematic Biology，Evolution，Annual Review in Ecology and Evolution，Trends in Ecology and Evolution, Methods in Ecology and Evolution等。目前，国内的学者在这些刊物上发表论文数量还很少，编写软件的也就更少。目前为止，似乎只有用于推断祖先分布区的RASP (Y. Yu et al. 2015) 和绘制进化树的ggtree (G. Yu et al. 2017) 达到了国际主流的水平 （欢迎补充）。理论研究做得深入，自然能写出高水平的论文和软件。研究论文有实质性的贡献， 读起来也就会不会索然无味了。</p>
+<p>科学本身是完备的理论体系，需要不断创新，其知识和理论也要不断更新。西方人掌握着科学研究的话语权，其根源就在于他们掌握了让科学不断成长的方法，让知识之树不但长青而且还在不断生长。从这点来看，我们确实还要加强基础理论的学习与研究，在多发好文章的同时，做好传承和创新。</p>
+<h1 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h1><ol>
+<li>Matzke, Nicholas J. 2013. “BioGeoBEARS: BioGeography with Bayesian (and Likelihood) Evolutionary Analysis in R Scripts.” R Package, Version 0.2 1: 2013.</li>
+<li>Rabosky, Daniel L., Michael Grundler, Carlos Anderson, Pascal Title, Jeff J. Shi, Joseph W. Brown, Huateng Huang, and Joanna G. Larson. 2014. “BAMMtools: An R Package for the Analysis of Evolutionary Dynamics on Phylogenetic Trees.” Edited by Steven Kembel. Methods in Ecology and Evolution 5 (7): 701–7. <a target="_blank" rel="noopener" href="https://doi.org/10.1111/2041-210X.12199">https://doi.org/10.1111/2041-210X.12199</a>.</li>
+<li>Ree, Richard H., and Stephen A. Smith. 2008. “Maximum Likelihood Inference of Geographic Range Evolution by Dispersal, Local Extinction, and Cladogenesis.” Systematic Biology 57 (1): 4–14.</li>
+<li>Stamatakis, Alexandros. 2014. “RAxML Version 8: A Tool for Phylogenetic Analysis and Post-Analysis of Large Phylogenies.” Bioinformatics 30 (9): 1312–13. <a target="_blank" rel="noopener" href="https://doi.org/10.1093/bioinformatics/btu033">https://doi.org/10.1093/bioinformatics/btu033</a>.</li>
+<li>Yu, Guangchuang, David K. Smith, Huachen Zhu, Yi Guan, and Tommy Tsan-Yuk Lam. 2017. “Ggtree: An R Package for Visualization and Annotation of Phylogenetic Trees with Their Covariates and Other Associated Data.” Methods in Ecology and Evolution 8 (1): 28–36.</li>
+<li>Yu, Yan, A.J. Harris, Christopher Blair, and Xingjin He. 2015. “RASP (Reconstruct Ancestral State in Phylogenies): A Tool for Historical Biogeography.” Molecular Phylogenetics and Evolution 87 (June): 46–49. <a target="_blank" rel="noopener" href="https://doi.org/10.1016/j.ympev.2015.03.008">https://doi.org/10.1016/j.ympev.2015.03.008</a>.</li>
+<li>志钧瓷坊. 2018. “为什么有1700多年的历史沉淀的中国还诞生不了世界顶级的瓷器品牌？.” 2018. <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/qLFuBJzTRAPiouHmWrZJPA">https://mp.weixin.qq.com/s/qLFuBJzTRAPiouHmWrZJPA</a> .</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/02/14/2018-2-15-theory/" data-id="ckmq2gwu800baq8847xc02jll" data-title="从高端制瓷业到进化生态的理论研究" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E6%83%B3/" rel="tag">随想</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2018-02-11-writingreview" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/02/10/2018-02-11-writingreview/" class="article-date">
+  <time class="dt-published" datetime="2018-02-10T10:18:54.000Z" itemprop="datePublished">2018-02-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/02/10/2018-02-11-writingreview/">撰写综述的十个原则</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>综述是对学科中某个研究方向进行总结和展望的论文，一般是由对该领域有深刻理解的学者撰写。撰写综述需要阅读大量的文献，需要作者检索文献，筛选文献，从文献中提取重要的信息以及进行批判性的思考。为了让学生对所研究问题有深入的理解，有时候也有学生撰写综述。</p>
+<p>法国国家科学研究院(CNRS)功能与进化生态学中心的Marco Pautasso就曾在PLOS Computational Biology 撰文，列出了撰写综述的十个原则。以下是笔者的阅读笔记，撰写综述时，这些原则还是很重要的，供生态与进化方向的同仁参考。</p>
+<h1 id="1-确定主题和读者"><a href="#1-确定主题和读者" class="headerlink" title="1. 确定主题和读者"></a>1. 确定主题和读者</h1><p>选择的主题必须：</p>
+<p>（1）你特别感兴趣， 最好是最近有一些新的研究论文，出现了一些新的问题等，需要写综述；</p>
+<p>（2）对于学科是重要的，这样，你所能参考的文献就比较多，而且也会有很多人愿意看你写的综述；</p>
+<p>（3）有非常明确的研究问题，否则，所包含的文献就会有上千篇，太泛泛的综述对别人是没有什么帮助的。</p>
+<p>要综述的主题往往来源于已有研究所提出的问题，也可能是阅读或者讨论时兴致所致。综述所针对的读者群最好能专一些，如果是跨学科的综述，其他领域的学者也可能感兴趣。</p>
+<h1 id="2-文献检索与再检索"><a href="#2-文献检索与再检索" class="headerlink" title="2. 文献检索与再检索"></a>2. 文献检索与再检索</h1><p>确定好题目后，就要开始检索文献。</p>
+<p>以下是检索文献的五条建议：</p>
+<p>（1）记录检索的过程，以便可以重复检索</p>
+<p>（2）对于找不到pdf的文献，要记下题目、作者和期刊，之后再通过其他方式获取。</p>
+<p>（3）一定要使用文献管理系统，如Mendeley，Papers，Qiqqa，Sente 等。（个人最喜欢Zotero）</p>
+<p>（4）早些确定哪些论文应该保留，哪些不应该保留的标准。这一标准，也就是文献检索涵盖的范围，可以在综述中做出相应介绍。</p>
+<p>（5）不仅要看研究论文，也要看之前的综述。 假如某一领域已经有相关的综述，也不要轻易放弃， 而是要继续准备你自己的综述。这时候可以这样应对：</p>
+<p>（i）在你的综述中讨论之前综述的研究方法，不足和结论；</p>
+<p>（ii）努力找出一个之前综述没有涉及或者讨论不够深入的方向；</p>
+<p>（iii）整合该综述之后出现的新的研究成果</p>
+<p>检索研究论文和综述论文时，一定要记得以下三个原则：</p>
+<p>（i）要全面</p>
+<p>（ii）要在不同数据库中检索， DBLP，Google Scholar，ISI Proceedings，JSTOR Search, Medline, Scopus, Web of Science….</p>
+<p>（iii)要检索相关文献以及图书被引用的情况</p>
+<h1 id="3-读文献时要做好笔记"><a href="#3-读文献时要做好笔记" class="headerlink" title="3. 读文献时要做好笔记"></a>3. 读文献时要做好笔记</h1><p>如果读文献时，自己想到的如果不及时写下来，那么在写综述的时候，就需要超级好的记忆力。不过大多数人没有这么好的记忆力，所以， 读文献时，最好能将重要的内容和自己的想法写下来。要想一下，这篇文献应该放在综述里面的什么位置。有了这些笔记，写作时再进一步组织正文就容易得多。 最好避免在没有阅读笔记时写综述，因为那样难度极高。也要注意，文献阅读笔记要用自己的话写出来，避免直接拷贝原文的句子。笔记要写写清楚作者，年份，题目等， 以备参考。文献管理软件这时候肯定能帮到你。</p>
+<h1 id="4-选择综述的类型"><a href="#4-选择综述的类型" class="headerlink" title="4. 选择综述的类型"></a>4. 选择综述的类型</h1><p>按照长短，综述可以粗略分成小综述（minireview）和大综述 （full review）。小综述有字数以及引用文献数的限制，内容短小，一般只包括最近几年的研究进展，受到一些杂志的青睐。小综述一般来说不会列出一些进展的细节。大综述则比较自由，可能会包括一些研究进展的细节，同时也会列出一系列文献，让有兴趣的读者进一步阅读。按照内容，有描述性综述（descriptive）和 整合性综述 （integrative）之分。描述性综述着重方法、进展以及相应的解释。整合性综述着重于研究的思想以及概念。除此之外，还有叙述性综述以及定性综述，系统性综述等。系统性综述基于现有文献的数据，检验假说，整合分析（metaanalysis）是常用方法。各种类型的综述之间并无明确的界限，需要根据问题、文献、作者以及刊物等灵活选择。</p>
+<h1 id="5-综述要聚焦，但又能引起很多人的兴趣"><a href="#5-综述要聚焦，但又能引起很多人的兴趣" class="headerlink" title="5.综述要聚焦，但又能引起很多人的兴趣"></a>5.综述要聚焦，但又能引起很多人的兴趣</h1><p>综述要讨论的问题要明确，同时也要放在学科发展的大背景中。这样既有同行阅读，也可能有其他领域的学者阅读。</p>
+<h1 id="6-要有批判性和一致性"><a href="#6-要有批判性和一致性" class="headerlink" title="6. 要有批判性和一致性"></a>6. 要有批判性和一致性</h1><p>好的综述并不是只是介绍当前的进展，罗列文献。综述需要指出研究方法上的问题以及研究中的不足等。读者在读完一篇好的综述， 应该了解：</p>
+<p>（i）所综述领域的主要进展</p>
+<p>（ii）有争议的领域</p>
+<p>（iii）主要的研究问题</p>
+<p>当然，要实现这三个目标是不容易的。不同的人擅长不同的方向，邀请不同的作者撰写不同方面，有助于写出一篇优秀的综述。从写作风格上，好的综述在行文（语态、时态等）也会保持统一。</p>
+<h1 id="7-逻辑结构"><a href="#7-逻辑结构" class="headerlink" title="7. 逻辑结构"></a>7. 逻辑结构</h1><p>优秀的结构往往有以下特征，让人开篇有益： 1. 反映最新进展；2.有良好的结构；3.行文流畅；4.聚焦；5.具批判性。研究性论文用到的前言、材料与方法、结果与讨论、结论等类似的结构，并不适用于综述性论文。但是综述论文也要交待清楚综述的背景和意义，通篇要有清晰的逻辑，列清楚综述的主要结论以及要传递的最重要信息（takehome message），这些和研究性论文是相通的。系统性综述近年来常常包括文献检索的方法，如给出用了哪些数据库， 用了哪些关键词， 检索的时间范围等。</p>
+<p>为了让综述的结构更清楚，可以画一个流程图， 设定好各部分的内容，分别撰写，再将各部分串起来， 以便吸引读者和引导读者阅读并得出相应的结论。流程图不但对于写综述是十分有用的， 甚至可以放在综述中。</p>
+<h1 id="8-听取同行的意见"><a href="#8-听取同行的意见" class="headerlink" title="8. 听取同行的意见"></a>8. 听取同行的意见</h1><p>综述论文会跟研究论文一样，需要审稿，需要同行评议。写综述时，由于涉及的内容很多，很容易引入一些小错误。审稿人一般能发现综述稿件中表达模糊、不准确或前后不一致的地方。一般在提交之前，要仔细检查稿件的字词、语法等错误，以免让审稿人提出一些让人尴尬的意见。写好的稿件也可以先发给同事或者合作者们看一看，以了解一下不同的合作者有什么意见。对于有争议的观点，获得反馈是很重要的，修改后可以进一步提升综述的质量。</p>
+<h1 id="9-综述包括自己的研究时，要尽可能客观"><a href="#9-综述包括自己的研究时，要尽可能客观" class="headerlink" title="9.综述包括自己的研究时，要尽可能客观"></a>9.综述包括自己的研究时，要尽可能客观</h1><p>有些人在综述中对自己的研究评价过高，或者可以贬低一些同行的研究，甚至完全不提及。这样都是不好的。由于从事的领域相近，一些研究人员难免会有利益冲突的情况发生。此时最好能够客观公正地评价竞争者的贡献。邀请多个人参与撰写综述，在一定程度上能提高客观性。</p>
+<h1 id="10-综述要涵盖最新进展，也不能遗漏年代久远的“睡美人”"><a href="#10-综述要涵盖最新进展，也不能遗漏年代久远的“睡美人”" class="headerlink" title="10.综述要涵盖最新进展，也不能遗漏年代久远的“睡美人”"></a>10.综述要涵盖最新进展，也不能遗漏年代久远的“睡美人”</h1><p>从发表到收录的数据库可能需要一段时间，有时候甚至是几个月。所以稿子写出来的时候，其实就已经过时了。在稿件的修改阶段再进行文献检索，以涵盖最新进展是很必要的。由于综述本身要指出研究中的不足以及研究方向等，有时候，一些很久以前的文献，虽然可能很少被引用过，但其重要性需要重新评估，这些被遗忘的文献，可以称为“睡美人”。新旧兼顾，是一篇优秀综述所要做好的工作。</p>
+<h1 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h1><p>Pautasso, Marco.2013. “Ten Simple Rules for Writing a Literature Review.” Editedby Philip E. Bourne. PLoS Computational Biology 9 (7): e1003149.<a target="_blank" rel="noopener" href="https://doi.org/10.1371/journal.pcbi.1003149">https://doi.org/10.1371/journal.pcbi.1003149</a>.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/02/10/2018-02-11-writingreview/" data-id="ckmq2gwtq009xq8847dhh79ka" data-title="撰写综述的十个原则" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%86%99%E4%BD%9C/" rel="tag">写作</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2018-2-9-beswriting" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/02/08/2018-2-9-beswriting/" class="article-date">
+  <time class="dt-published" datetime="2018-02-08T09:07:54.000Z" itemprop="datePublished">2018-02-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/02/08/2018-2-9-beswriting/">BES:生态学与进化论文发表指南</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>BES 是英国生态学会， British Ecological Society的缩写。 英国生态学会开办了 Journal of Applied Ecology,  Methods in Ecology and Evolution,  Functional Ecology,  Journal of Animal Ecology,  Journal of Ecology 以及Ecology and Evolution等刊物，这些杂志可以说都是生态学的主流刊物，对论文撰写的要求很高。为了让年轻生态学家和研究生能尽快开展研究并顺利发表研究结果 ，BES在官方网站（ <a target="_blank" rel="noopener" href="https://www.britishecologicalsociety.org/">https://www.britishecologicalsociety.org</a>  ）在公布了几个小册子， 包括（1）论文撰写和发表；（2）同行评议；（3）数据管理；（4）可重复性研究等，都是PDF文件，供免费下载和浏览。 其中 A Guide to Getting Published in Ecology and Evolution《生态学与进化学论文发表指南》分册有中文版。这四本小册子的网址是： <a target="_blank" rel="noopener" href="https://www.britishecologicalsociety.org/publications/guides-to/">https://www.britishecologicalsociety.org/publications/guides-to/</a> 。</p>
+<p>以下是个人读书笔记， 是根据英文版直接翻译的，并未参考中文译文，因此一些段落未必准确。 如果要了解更多， 请参考这些小册子中的原文。</p>
+<h2 id="为什么发表？"><a href="#为什么发表？" class="headerlink" title="为什么发表？"></a>为什么发表？</h2><ol>
+<li><p>传播自己的研究</p>
+</li>
+<li><p>职业生涯的需要</p>
+</li>
+<li><p>为科学添砖加瓦</p>
+</li>
+</ol>
+<p>虽然目前发表研究结果有很多渠道，但学术论文仍然是最重要的渠道。</p>
+<h2 id="是否可以开始写了？"><a href="#是否可以开始写了？" class="headerlink" title="是否可以开始写了？"></a>是否可以开始写了？</h2><p>发表之前要弄清楚自己的论文要传递什么信息？必须要彻底理解自己的研究以及想要交流的信息是什么。开始写之前，要先问问自己，该研究：</p>
+<ol>
+<li><p>是否新颖及有意思？</p>
+</li>
+<li><p>是否对研究热点有贡献？</p>
+</li>
+<li><p>是否为难题提供了新的解决方法？</p>
+</li>
+</ol>
+<p>如果对三个问题都是“是”，就有了很好的基础。</p>
+<p><em>编辑Natalie Cooper，论文需要讲一个完整的故事，一般按照如下顺序：</em></p>
+<p><em>背景知识</em></p>
+<p><em>基于背景引出问题</em></p>
+<p><em>给出相应理论做出的假设</em></p>
+<p><em>清楚给出检验的方法</em></p>
+<p><em>结果</em></p>
+<p><em>讨论相应的结果，揭示更深层次的意义</em></p>
+<p>在动笔之前，要考虑好文章要写给谁看，然后再选择杂志。确保内容和格式都符合刊物的要求。一篇论文从头到尾，就说一件事，要说深入、说完整。</p>
+<h2 id="拟定题目"><a href="#拟定题目" class="headerlink" title="拟定题目"></a>拟定题目</h2><p>先拟一个题目，题目要使用陈述句：</p>
+<p>只用大约15个词，太长和太短都会增加拒稿的风险</p>
+<p>使用副标题做进一步解释，用冒号隔开</p>
+<p>题目要有广泛意义，标题尽量不要含有物种名</p>
+<p>可以使用趣味性与双关性的标题，这能够增加论文在网络上传播的机会。不要用疑问句，疑问句会大大减少论文被引用的次数。</p>
+<p>不要用缩写，减少术语。</p>
+<p>不要使用 The effect of/ the involvement of 等词组。</p>
+<h2 id="摘要的撰写"><a href="#摘要的撰写" class="headerlink" title="摘要的撰写"></a>摘要的撰写</h2><p>摘要应该在写完论文，也就是讲完故事以后再写。</p>
+<p>应该清楚表述了本研究的贡献以及有趣的信息</p>
+<p>列出方法和结果</p>
+<p>将研究放在大的图景中</p>
+<p>指出本研究的贡献以及对本领域的启示</p>
+<p>摘要的最后一句是最关键的信息。</p>
+<p><em>Journal of Applied Ecology的投稿指南列出如下要求：</em></p>
+<p><em>Summary：论文的目的、结果、结论以及相应的建议。各条目要用清楚、忠于事实的陈述句，同时加以编号。</em></p>
+<p><em>1. 研究背景以及必要性</em></p>
+<p><em>2. 使用什么方法研究</em></p>
+<p><em>3. 下面2-3个点，介绍主要结果</em></p>
+<p><em>4. 最后一点，要给出一般性的建议或者给出对管理上以及政策上的建议。</em></p>
+<p><em>5. 最后的summary要给出论文的主旨，具有一般性的意义，特别让非专业人员能够读懂。而且必须以以下一种标题结束：</em></p>
+<p><em>（1）Synthesis and applications：主要适用于在管理上有相关建议的论文</em></p>
+<p><em>（2）Policy implications：主要适用于讨论研究结果在保育方面的意义以及与政策制定有关系的论文。</em></p>
+<h2 id="写作风格"><a href="#写作风格" class="headerlink" title="写作风格"></a>写作风格</h2><p>三个要点：清晰、简洁、准确，即 clarity , simplicity, accuracy</p>
+<p>学术写作并不是堆砌术语，优秀的科研论文总是能优雅地展示自己 “Good science speaks for itself!”</p>
+<p><em>Think like a reader and keep it simple.</em></p>
+<p><em>– Ken Thompson, University of Shelffield, UK. Senior Editor, Functional Ecology</em></p>
+<p>论文中，每多出的一个词汇都会审稿人否定的机会。论文中叙述的点越多，审稿人的批评也就会越多。</p>
+<p>使用主动语态，简单直接，避免模糊表达。资深编辑会评价论文中所提出的问题是否值得深入研究，所以一定要阐述清楚研究的紧迫性和重要性，并讲清楚原因。每一小节，都以要表述的重要信息开头，以表述的重要消息以及下一步的引申含义结尾。很多杂志喜欢这样的写作风格，因为这样能把研究放在更广的背景中。</p>
+<h2 id="写草稿"><a href="#写草稿" class="headerlink" title="写草稿"></a>写草稿</h2><p>先写出草稿，修改草稿时，要确保全文的顺畅，确保要传达的信息清楚，全文紧扣主题。写论文时要一直想着读者。要想想如果是第一次听说这个研究的人会怎样看待这篇论文。由于经年累月进行数据收集、数据分析，写论文时很容易陷入细节，在写作时更重要的，是要阐述清楚研究的背景，并且向读者展示，结论是怎样基于逻辑一步一步得出来的。</p>
+<h2 id="材料与方法"><a href="#材料与方法" class="headerlink" title="材料与方法"></a>材料与方法</h2><p>撰写材料与方法不能像烹饪指南一样罗列内容，结果部分也不能堆砌统计结果和P值。在材料与方法一段中，要给出分析的具体目的，如为了探讨XXX，我们分析了……。这样，材料与方法还有结果部分，就更容易与其他部分融合成一个整体。</p>
+<h2 id="写作的艺术"><a href="#写作的艺术" class="headerlink" title="写作的艺术"></a>写作的艺术</h2><ol>
+<li><p>用陈述句</p>
+</li>
+<li><p>先陈述，后解释。但是不过度增加细节。细节部分应该尽量用图表展示。</p>
+</li>
+</ol>
+<p><em>Sophie Evison: 无论在论文中还是在回复审稿意见时，都不能过度解释想法或者数据。因为这些小辫子很容易让人抓住，容易受到批评。</em></p>
+<p><em>Joseph Bennet：论文不要试图掩盖主要的缺陷或不足。如果研究的不足指出没有说清楚，审稿人可能会在此抓住这一点不放。讨论一节应该正视不足，并指出未来的研究方向。</em></p>
+<p><em>Alice Hughes: 没有充足证据时，不要做假设，也不要找捷径，会有人注意到的！</em></p>
+<p><em>Daniel Stouffer: 如果稿件有一段都是对论文的某个缺陷进行辩护，就不要投稿。相反，论文要将研究放入文献支撑的大背景中，找出研究对下一步有什么启示等。研究的可能缺陷要勇敢面对，不能掩盖。审稿人总是能发现研究中存在的疏漏。因为字数限制，将研究结果写成论文相当于穿上了小一号的鞋子，此时再给人发一支枪打自己并不好玩儿……</em></p>
+<h2 id="关键词与搜索引擎"><a href="#关键词与搜索引擎" class="headerlink" title="关键词与搜索引擎"></a>关键词与搜索引擎</h2><p>选择紧扣主题的关键词，特别要注意研究的专有关键词。在摘要中，需要适当重复使用关键词，以保证论文能在网站的搜索结果中出现在较为靠前的位置（SEO Search Engine Optimisation）。通常情况下，最好列出15-20个关键词，要尽量使用常用名如水 water,避免使用H2O。选出5个最为核心的关键词以及一些次要关键词。将核心关键词置于题目、摘要、小节标题中，将次级关键词放入正文、图表的标题中。摘要以及正文中，关键词的重复要自然。这样，搜索引擎会更容易找到论文的关键词。</p>
+<h2 id="统计"><a href="#统计" class="headerlink" title="统计"></a>统计</h2><p>如果不是精通统计，要及早请教行家，以免出现致命错误。</p>
+<h2 id="数据存储"><a href="#数据存储" class="headerlink" title="数据存储"></a>数据存储</h2><p>一些刊物会要求将数据公开，保存在一些数据存储网站。相关指南可以参考英国生态学会数据管理指南 （<a target="_blank" rel="noopener" href="https://www.britishecologicalsociety.org/wp-content/uploads/2017/06/BES-Data-Guide-2017_web.pdf%EF%BC%89">https://www.britishecologicalsociety.org/wp-content/uploads/2017/06/BES-Data-Guide-2017_web.pdf）</a></p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>要找到好用的文献管理工具，并尽量使用新版本，如Zotero, Mendeley, Endnote, Reference Manager 等等，这些工具能大大简化文献的管理。论文要尽量引用新的文献，以保证自己对学科进展有较好的理解。</p>
+<h2 id="图表"><a href="#图表" class="headerlink" title="图表"></a>图表</h2><p>一图胜过万语千言。图表需要精心设计，以体现论文要传递的主要信息。对图表的要求是，即使不看正文，也能明白其中要传递的信息，所以必须要清晰、简单。问自己： 别人在作报告时，会考虑本研究的截图吗？</p>
+<h2 id="版权"><a href="#版权" class="headerlink" title="版权"></a>版权</h2><p>使用别人的数据、材料、图片，是否经过授权？使用Google Earth的地图截图或者使用网络上的线图，插入自己的论文中是万万不能做的。</p>
+<h2 id="检查和编辑"><a href="#检查和编辑" class="headerlink" title="检查和编辑"></a>检查和编辑</h2><p>写完初稿后一星期，再重新编辑论文。</p>
+<ol>
+<li><p>拼写和语法：如果不是英语母语人士，应该找一个英语母语的编辑，最好是该领域的专业人士；或者请编辑公司润色。</p>
+</li>
+<li><p>所有的陈述（statements）以及相应的假设都需要有充足的解释。</p>
+</li>
+<li><p>去掉多余的词汇或短语，要简约，尽量不要出现术语以避免冲淡信息。</p>
+</li>
+<li><p>缩写：第一次出现时必须给出全称。</p>
+</li>
+<li><p>致谢：项目的资助方是否已经都列出来了？对论文有贡献的人，是否都已经感谢了？有些人的贡献可能只适合列在共同作者中，要参考杂志的相应规定。</p>
+</li>
+<li><p>关键词：关键词要一致，最好能在文中较为均匀地出现。</p>
+</li>
+<li><p>假说与验证：要保证前言中的假说，在讨论中全部都讨论过了。</p>
+</li>
+</ol>
+<p><em>Michael Hochberg:</em></p>
+<p><em>投稿之前，必须要保证稿子经过认真修改和润色。无数的愚蠢错误很可能会惹恼审稿人。那些人知道你是谁，但是你不知道他们是谁。事关个人声誉，后果难以预料。</em></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/02/08/2018-2-9-beswriting/" data-id="ckmq2gwud00bmq8845bl5f9c2" data-title="BES:生态学与进化论文发表指南" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%86%99%E4%BD%9C/" rel="tag">写作</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2018-02-06-predictcommunity" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/02/06/2018-02-06-predictcommunity/" class="article-date">
+  <time class="dt-published" datetime="2018-02-06T07:52:54.000Z" itemprop="datePublished">2018-02-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/02/06/2018-02-06-predictcommunity/">植物群落组成能够准确预测吗？</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>要回答这个问题， 首先要看群落是如何构建以及在群落中每个种是如何更新的， 也就是不同个体从出生到死亡的全过程是受到什么影响的。</p>
+<p>关于群落构建， 最近二十年来， 有两种主流的理论： 一个是生态位理论， 一个是中性理论。</p>
+<p>生态位理论认为物种在一个地点的存在与否，与它的生境偏好有关， 如对光照、 水分、对土壤因子以及微生物是如何响应的。 不同种，因为自身条件的不同， 生境偏好也有所不同。</p>
+<p>中性理论则认为物种之间并没有生境偏好的区别， 物种从出生、传播、定植、死亡， 新种形成等各个阶段，均遵循随机过程。在中性理论中，决定物种分布的是概率，而群落表现出来的是事件而已， 是概率的体现。事件是否发生， 取决于概率， 但是事件本身是不能预测的。 正如你知道一枚硬币有正反两面，出现的概率都是50%，却不能预测到下一次投掷硬币是正面和反面一样。虽然群落组成不像投硬币那么简单， 但是刻画群落多样性格局的一些基本特征， 如种面积曲线、多度分布、 beta多样性、个体大小分布等， 中性理论的相关模型均能给出较为准确的统计分布上的预测。</p>
+<p>如果中性理论是正确的， 那么群落的物种组成将是难以直接预测的。在一个动态的群落中， 人们也许只能预测到物种出现的概率， 而难以预测到物种的个体数，每个个体的大小， 每个个体与其他物种之间的空间距离， 个体与周围个体之间的系统发育距离等等。</p>
+<p>最新的核心种-临时种Core-Transient理论框架认为，在群落中，常见种是否出现以及相应的多度分布， 在一定程度下容易预测。这是因为在个体数较多的情况下，常见种与生境之间的统计关系容易建立。 而临时种，也就是个体数很少的种， 是否在群落中出现主要取决于随机因素。换一句话说， 稀有种是否存在，是难以预测的。</p>
+<p>还有重要的一个方面， 就是研究的尺度。 群落生态学家已经发现， 在样方面积很小的情况下， 物种的分布更倾向于表现出随机性， 在样方面积较大的情况下， 物种的分布倾向于表现出一定的生境偏好。当然， 这是群落构建机制中仍在不断探讨的话题。生态学家们仍然在用功能性状、点格局分析、群落多样性指数、种面积曲线、多度分布曲线、系统发育结构甚至转录组等方法去探讨这些问题。</p>
+<p>由于生境本身在空间变化的某一尺度也表现出随机性，在不同尺度下， 物种分布和群落组成的相应机制是如何相互作用的， 也值得进一步研究。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/02/06/2018-02-06-predictcommunity/" data-id="ckmq2gwtp009vq8845e039h5e" data-title="植物群落组成能够准确预测吗？" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%94%9F%E6%80%81/" rel="tag">生态</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2018-1-31-lunareclipse" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/01/31/2018-1-31-lunareclipse/" class="article-date">
+  <time class="dt-published" datetime="2018-01-31T06:48:54.000Z" itemprop="datePublished">2018-01-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/01/31/2018-1-31-lunareclipse/">月食小记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>淅淅沥沥，下了一天的雨，晚饭之后，天居然放晴了。大埔林村河桥上，抬头就见到初亏后不久的月亮，正悬挂在半空中：今天月全食。</p>
+<p>发了一条微信朋友圈，很快收到远在黑龙江的妹妹的回复：“想起小时候大哥在院子里支起桌子，穿着绿大衣，拿圆规画好圆圈后记录月食的过程。大哥的兴趣并没有随着时间消磨掉，这次月食仿佛让我回到小时候”。是的，上次看月全食已经是二十年前。</p>
+<p>月全食隔几年就能见到一次，可是很多时候观赏条件未必理想，要么天气不佳，要么发生在凌晨，所以二十年了，只是初中那一次见过月全食的全过程。</p>
+<p>茫茫天地，不知所止；日月运行，周而复始。在这颗蓝色的星球上，生活着七十亿人还有数不清的生灵。每个人的经历和想法都不同，然而大家都喜欢明媚的阳光，喜欢雨后的彩虹，喜欢大自然恩赐的美食。也有人喜欢云彩，有人喜欢星空，有人喜欢花草，喜欢动物，喜欢湖泊海洋，喜欢大漠……自然现象、自然风光确实能让人愉悦。不过日常生活中，多少人是与大自然分开的呢？朝九晚五，公交、地铁、电脑、外卖，这一切都让自己与自然拉开了距离。也许有时是自己太狭隘，过于计较一些人和事，或者沉迷于想象不能自拔，甚至情绪失控。</p>
+<p>哲学家康德说，世界上有两样东西能够深深震撼人的心灵，一个是崇高的道德准则， 另一个是头顶上灿烂的星空。人若无道德约束，则形同走兽；人若不仰望星空，则难以认识宇宙的浩瀚，难以知道自身的渺小与力所不及，也很难明白人生本无意义。天文爱好者里流行一句话：心系宇宙天地宽。是啊，相比天文学上的时间和空间，人力所及是多么渺小……</p>
+<p>二十年，发生了多少事，早已经不记得，现在记忆力似乎也开始衰退；二十年，风风雨雨，走南闯北，读了高中、大学、硕士、博士，甚至还去了瑞典待了几个月；二十年里，认识了新朋友，没有忘记老朋友。改变的是体重，是年龄，不变的是对自然的兴趣和一如既往的真诚。</p>
+<p>曾经用过mrstarlitsky、自然之美、北国秋韵、红景天等网名，名字虽然不同，却都只是一个人的代号。多年的学习，让人学到很多知识、技巧，让人努力学会思考，更让人知道自己不知道的其实更多。学到多少知识，掌握多少技巧，其实并不多么重要，保持对大自然的好奇、欣赏与敬畏，才正是要时时要提醒自己的。</p>
+<p>二十年后的月全食，能否唤醒尘世中漂泊的自己？初心易得，始终难守。愿你乘风归来，依旧是少年。</p>
+<p>2018年1月31日</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/01/31/2018-1-31-lunareclipse/" data-id="ckmq2gwtv00agq884ffg53iih" data-title="月食小记" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2018-1-29-floristic" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/01/29/2018-1-29-floristic/" class="article-date">
+  <time class="dt-published" datetime="2018-01-28T18:44:54.000Z" itemprop="datePublished">2018-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/01/29/2018-1-29-floristic/">植物分布区类型分析何去何从？</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>植物分布区类型分析， 就是在某地区植物名录的基础上， 列出一个地区的热带成份占多少， 温带成份占多少， 每种区系类型的主要代表科属是什么，占多大百分比等。分布区类型划分的标准主要是吴征镒院士提出的植物属的分布区类型。</p>
+<p>十年以前，植物分布区类型分析是一类非常流行的研究。一些中文刊物发表过大量植物区系分析的论文。植物区系分析也早已经成为保护区考察报告的标准配置：在一个地区进行科学考察，采集标本、鉴定之后，研究人员会给出植物名录。名录部分是科考报告的核心内容。 在给出具体的名录之前，科考报告一般还会列出不同类群的科、属、种数量，再讨论不同分布区类型的科属数量等。</p>
+<p>不过，近年来，植物区系分析已经很难再发表论文。最重要的原因是这些研究很难提供新知识或者新的认知。在区系分析中，大部分作者对分布区类型的划分只是按照吴先生的观点， 简单统计不同类型的科属数量，与流水账无异，其结果必然缺乏吸引力。例如， 研究点在华南某地，热带亚洲成份必然占重要比例；若在西北地区， 古地中海成份则更高； 在长白山或者辽东半岛， 中国日本成份必然占重要比例。只要知道研究地点，就能猜出结果，这样的分析当然缺乏吸引力。然而，这只是这些研究局限性的第一层面。</p>
+<p>物种的分布受到自身生态位的限制，受到物种形成、扩散、种间竞争、杂交、入侵以及海陆变迁、气候变化、人为干扰等多种因素的影响。不同地区的不同类群，其分布格局受到的影响因素一般是不同的。当然，一定区域内气候条件等往往更为相似，可能有一些类群，经过漫长时间的适应和扩散之后出现类似的分布格局。例如， 冬青科、山茶科、木兰科、山矾科、金缕梅科等植物，常见于亚热带季风地区。冷杉、红莓苔子、岩高兰、天栌、松毛翠等见于寒带或者寒温带等。</p>
+<p>对不同等级分类单元进行分布区类型的划分，有助于了解这些类群在地质历史上经历的重要变化，也有助于了解该类群的生态位需求等，从而认识为什么有些类群出现了众多的物种，为什么有些类群物种数很少，为什么有些物种分布区狭窄，有些物种分布区广阔， 为什么会出现间断分布等，这就是分布区类型划分的主要意义。不过，很多分布区类型的研究将属的分布区类型生搬硬套到种水平，就很难再探讨这些问题。一个属下的各个种，由于异域物种形成、扩散等原因， 往往分布在不同的地区，有些种的分布区面积大些，有些面积小些，或者占据不同的生态位等。在这种情况下，如果针对性地研究每个种的分布格局成因，最后总结出相应的结论，无疑会是更有意思的研究内容。</p>
+<p>研究物种分布格局的成因， 现在常常用两种手段：潜在分布区预测以及遗传多样性分析。</p>
+<p>第一种方法是利用物种的标本记录以及当前的气候图层预测物种的潜在分布区。假设物种在很长一段时间以来生态位是保守的，可以推断物种在历史上分布区的变化，能够帮人们更好的了解物种当前分布根据的成因。当然，这样的研究虽然听起来“高、大、上”，也有一些限制条件。 首先， 物种的标本采集强度在不同地区有很大差异。 特别是一些广布种，标本采集人常常认为是“大路货”而不予采集， 造成常见种在标本采集上严重不足。这样也就造成标本记录的偏差。 同时，一些地区采集过于集中。 据东北林业大学王洪峰老师这次在NSII会议的报告， 黑龙江省植物标本绝大多数采集自哈尔滨和伊春两个地区，这是因为帽儿山以及凉水两个重要的实验和实习基地吸引了众多的植物学家和生态学家进行采集，而其他地区，如牡丹江，黑河等，标本采集量仍然严重不足。在其他省份，类似的情况也极为常见。江西师范大学阳文静博士的研究就曾指出，中国东部地区还有很多县市标本采集严重不足， 特别是华北平原等人为干扰相对严重的农业地区。所以十分有必要对这些地区集中采集， 甚至进行网格化调查等。 再有， 很多物种受到人为干扰， 已经发生了局域灭绝，分布点数目以及分布区缩小到很小的范围，其分布区范围难以反映物种真实的生态位。</p>
+<p>标本采集在空间上的偏差以及人为干扰等， 都会影响人们对物种分布区格局的预测。 不过，相比用属一级的物种分布区类型生搬硬套到种的水平，用模型预测的方法探讨物种分布格局成因，至少能在种水平有更多的讨论空间。</p>
+<p>第二种方法需要如下假设， 如果一个地区在历史上相对稳定，某一个物种在某地区已经存在过很长时间， 那么该地区往往保存了更多的古老遗传突变，所以这些地区，该物种的遗传多样性往往比较高；而物种新扩散到的地区，由于缺乏足够长时间的积累遗传突变，物种的遗传多样性相对会低一些。群体遗传研究当然能从基因水平，帮人们了解物种的迁移、扩散、杂交等， 不过也受到若干因素的限制，如检测遗传多样性的位点选择，种群大小， 采样的完整程度等。尽管也有很多限制，从目前来看， 深入的进行物种分布格局成因的探讨，必须要结合群体遗传学的相关证据。</p>
+<p>如果更多的植物学家能了解这方面的进展，相信也就没有人对分布区类型划分有那么浓厚的兴趣了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/01/29/2018-1-29-floristic/" data-id="ckmq2gwtw00aiq8846363am5q" data-title="植物分布区类型分析何去何从？" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%94%9F%E6%80%81/" rel="tag">生态</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2018-1-17-latexbook" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/01/17/2018-1-17-latexbook/" class="article-date">
+  <time class="dt-published" datetime="2018-01-17T05:03:54.000Z" itemprop="datePublished">2018-01-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/01/17/2018-1-17-latexbook/">一个较为完整的中文图书Latex模板</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>用Latex编写中文书是让人头疼的工作。如果不是需要输入很多公式，很多人是不愿意用latex排版中文书的。</p>
+<p>在ctex宏包发布之前， latex系统对中文排版的支持一直不太理想。虽然中文能够正常显示，但是一些排版细节， 如章节号、行距、字体选择、缩进等都需要写很多命令重新定义。ctex宏包较好地解决了这个问题。</p>
+<p>这里给出一个latex中文图书模板。 该模板主要包括：</p>
+<ol>
+<li>扉页</li>
+<li>序言</li>
+<li>前言</li>
+<li>目录</li>
+<li>部分</li>
+<li>章</li>
+<li>章以下标题</li>
+<li>分栏模式</li>
+<li>include包含其他tex文档</li>
+<li>标题名称转换</li>
+<li>标题部分加入目录</li>
+<li>自动生成索引</li>
+<li>参考文献（待完善）</li>
+<li>生成目录、索引以及参考文献的超链接</li>
+<li>后记</li>
+</ol>
+<p>编译的方法是： 将代码部分保存到文本文件中， 用UTF-8编码。 之后用XeLaTeX编译即可生成中文文档。 虽然生成的图书效果值得商榷， 但是相信编译为书稿后， 再交给专业排版人员， 一定能省很多事。 最主要的是可以用Latex直接写公式。</p>
+<p>利用这个模板，编写植物名录、植物图集等会容易很多。可以借助其他脚本语言如Python或者R处理相应的数据库，生成tex代码，\include{}之后，再编译即可。</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%%% Latex代码开始</span></span><br><span class="line"><span class="keyword">\documentclass</span>[utf8]&#123;book&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;titletoc&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;titlesec&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;ctexcap&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>[b5paper,text=&#123;125mm,195mm&#125;,centering,left=1in,right=1in,top=1in,bottom=1in]&#123;geometry&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>[]&#123;geometry&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;imakeidx&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;multicol&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;hyperref&#125;</span><br><span class="line"><span class="keyword">\makeindex</span></span><br><span class="line"><span class="keyword">\bibliographystyle</span>&#123;plain&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line"><span class="keyword">\title</span>&#123;<span class="keyword">\heiti</span>中国植物多样性地理图集&#125;</span><br><span class="line"><span class="keyword">\author</span>&#123;<span class="keyword">\fangsong</span>中国科学院植物研究所 编著&#125;</span><br><span class="line"><span class="keyword">\date</span>&#123;2018年1月&#125;</span><br><span class="line"><span class="keyword">\frontmatter</span></span><br><span class="line"><span class="keyword">\maketitle</span></span><br><span class="line"><span class="keyword">\chapter</span>&#123;序 I&#125;</span><br><span class="line">这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言</span><br><span class="line"><span class="keyword">\chapter</span>&#123;序 II&#125;</span><br><span class="line">这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分</span><br><span class="line"><span class="keyword">\chapter</span>&#123;前~言&#125;</span><br><span class="line">这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分</span><br><span class="line">这部分是前言</span><br><span class="line"><span class="keyword">\renewcommand</span><span class="keyword">\contentsname</span>&#123;目~录&#125;</span><br><span class="line"><span class="keyword">\tableofcontents</span></span><br><span class="line"><span class="keyword">\mainmatter</span></span><br><span class="line"><span class="keyword">\part</span>&#123;总论&#125;</span><br><span class="line"><span class="keyword">\chapter</span>&#123;中国植物调查的历史&#125;</span><br><span class="line"><span class="keyword">\section</span>&#123;一级节标题&#125;</span><br><span class="line"><span class="keyword">\subsection</span>&#123;二级节标题&#125;</span><br><span class="line"><span class="keyword">\subsubsection</span>&#123;三级节标题&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;multicols&#125;&#123;2&#125;</span><br><span class="line">清朝中期，外国人就开始中国采集植物标本。清朝中期， 外国人就开始中国采集植物标本。清朝中期， 外国人就开始中国采集植物标本。清朝中期， 外国人就开始中国采集植物标本。清朝中期，外国人就开始中国采集植物标本。清朝中期， 外国人就开始中国采集植物标本。</span><br><span class="line"><span class="keyword">\end</span>&#123;multicols&#125;</span><br><span class="line"><span class="keyword">\chapter</span>&#123;植物区系分区&#125;</span><br><span class="line"><span class="keyword">\section</span>&#123;一级节标题&#125;</span><br><span class="line"><span class="keyword">\subsection</span>&#123;二级节标题&#125;</span><br><span class="line"><span class="keyword">\subsubsection</span>&#123;三级节标题&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;multicols&#125;&#123;2&#125;</span><br><span class="line">和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物<span class="keyword">\index</span>&#123;调查&#125;和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集</span><br><span class="line"><span class="keyword">\end</span>&#123;multicols&#125;</span><br><span class="line"><span class="keyword">\part</span>&#123;植物多样性分区概述&#125;</span><br><span class="line"><span class="keyword">\chapter</span>&#123;东北地区&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;multicols&#125;&#123;2&#125;</span><br><span class="line">Lorem ipsum dolor sit amet,consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore etdolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamcolaboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in <span class="keyword">\index</span>&#123;reprehenderit&#125; in voluptate velit essecillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat nonproident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span><br><span class="line"><span class="keyword">\end</span>&#123;multicols&#125;</span><br><span class="line"><span class="keyword">\chapter</span>&#123;华北地区&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;multicols&#125;&#123;2&#125;</span><br><span class="line">Lorem ipsum dolor sit amet,consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore etdolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamcolaboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor inreprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officiadeserunt mollit anim id est laborum.</span><br><span class="line"><span class="keyword">\end</span>&#123;multicols&#125;</span><br><span class="line"><span class="keyword">\include</span>&#123;angiosperms&#125;</span><br><span class="line"><span class="keyword">\appendix</span></span><br><span class="line"><span class="keyword">\chapter</span>&#123;APG分类系统的科名&#125;</span><br><span class="line">内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容文内容正文内容正文内容正文<span class="keyword">\index</span>&#123;内容&#125;</span><br><span class="line">内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容正文内容正文<span class="keyword">\cite</span>&#123;DK1&#125;.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">\renewcommand</span><span class="keyword">\indexname</span>&#123;索~~引&#125;</span><br><span class="line"><span class="keyword">\printindex</span></span><br><span class="line"><span class="keyword">\addcontentsline</span>&#123;toc&#125;&#123;chapter&#125;&#123;索~引&#125;</span><br><span class="line"><span class="keyword">\backmatter</span></span><br><span class="line"><span class="keyword">\addcontentsline</span>&#123;toc&#125;&#123;chapter&#125;&#123;参考文献&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;thebibliography&#125;&#123;参考文献&#125;</span><br><span class="line"><span class="keyword">\bibitem</span>[Knuth1 et al. 1997]&#123;DK1&#125; D. Knuth, T.A.O.C.P. , Vol.1, Addison-Wesley, 1997.</span><br><span class="line"><span class="keyword">\bibitem</span>[Knuth2]&#123;DK2&#125; D. Knuth, T.A.O.C.P. , Vol.2, Addison-Wesley, 1997.</span><br><span class="line"><span class="keyword">\bibitem</span>[TONG YH 2014]&#123;TONG&#125; TONG YH, PANG KS, XIAN NH,2014. Carpinus insularis(Betulaceae), A new species from HongKong [J]. J Trop Subtrop Bot, 22(2): 121-124. [童毅华， 彭权森，夏念和，2014.香港桦木科一新种——香港鹅耳枥 [J]. 热带亚热带植物学报，22(2):121-124.]</span><br><span class="line"><span class="keyword">\bibitem</span>[XIA NH 2008]&#123;XIA&#125; XIA NH, DENG YF, YIP KL,2008. Syzygium impressum (Myrtaceae), A new species from HongKong [J]. J Trop Subtrop Bot, 16(1):19-22. [夏念和，邓云飞，叶国梁，2008. 香港桃金娘科一新种-凹脉赤楠 [J].热带亚热带植物学报，16(1):19-22.]</span><br><span class="line"><span class="keyword">\end</span>&#123;thebibliography&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\chapter</span>&#123;后~~记&#125;</span><br><span class="line">后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容</span><br><span class="line"><span class="keyword">\begin</span>&#123;flushright&#125;</span><br><span class="line">作~~者~~~~~~~~~</span><br><span class="line">2018年1月~~~~~</span><br><span class="line"><span class="keyword">\end</span>&#123;flushright&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br><span class="line"><span class="comment">%% Latex代码结束</span></span><br></pre></td></tr></table></figure>
+
+
+<p><a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=attachment&id=151326">中文图书模板.pdf</a></p>
+<p><a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=attachment&id=151327">中文图书模板.tex</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/01/17/2018-1-17-latexbook/" data-id="ckmq2gwtv00aeq8848fguhwyi" data-title="一个较为完整的中文图书Latex模板" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8E%92%E7%89%88/" rel="tag">排版</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/9/">Next &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/R%E7%BC%96%E7%A8%8B/" rel="tag">R编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%BA%E7%89%A9/" rel="tag">人物</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%99%E4%BD%9C/" rel="tag">写作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" rel="tag">可视化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E4%B9%A6/" rel="tag">图书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" rel="tag">图像处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9C%B0%E7%90%86/" rel="tag">地理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A3%B0%E6%98%8E/" rel="tag">声明</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A9%E6%96%87/" rel="tag">天文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%AF%9D%E5%BD%95/" rel="tag">对话录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%83%E5%BE%97/" rel="tag">心得</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E5%91%8A/" rel="tag">报告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E7%89%88/" rel="tag">排版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%85%E4%B9%A1/" rel="tag">故乡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" rel="tag">标本馆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%88%86%E7%B1%BB/" rel="tag">植物分类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%90%8D/" rel="tag">植物学名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%82%E8%81%8C/" rel="tag">求职</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" rel="tag">版本控制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%80%81/" rel="tag">生态</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%80%81%E8%B5%84%E8%AE%AF/" rel="tag">生态资讯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%94%E7%A9%B6%E8%B5%84%E8%AE%AF/" rel="tag">研究资讯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B3%BB%E7%BB%9F%E5%8F%91%E8%82%B2/" rel="tag">系统发育</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%9F%E8%AE%A1/" rel="tag">统计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" rel="tag">行摄匆匆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%81%E9%97%BB%E5%BD%95/" rel="tag">见闻录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%97%E6%AD%8C/" rel="tag">诗歌</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E5%8C%96/" rel="tag">进化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E6%83%B3/" rel="tag">随想</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A9%B3%E8%AE%BA/" rel="tag">驳论</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/R%E7%BC%96%E7%A8%8B/" style="font-size: 18.75px;">R编程</a> <a href="/tags/%E4%BA%BA%E7%89%A9/" style="font-size: 11.88px;">人物</a> <a href="/tags/%E5%86%99%E4%BD%9C/" style="font-size: 13.13px;">写作</a> <a href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" style="font-size: 12.5px;">可视化</a> <a href="/tags/%E5%9B%BE%E4%B9%A6/" style="font-size: 10px;">图书</a> <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" style="font-size: 11.88px;">图像处理</a> <a href="/tags/%E5%9C%B0%E7%90%86/" style="font-size: 17.5px;">地理</a> <a href="/tags/%E5%A3%B0%E6%98%8E/" style="font-size: 10.63px;">声明</a> <a href="/tags/%E5%A4%A9%E6%96%87/" style="font-size: 16.25px;">天文</a> <a href="/tags/%E5%AF%B9%E8%AF%9D%E5%BD%95/" style="font-size: 10px;">对话录</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 10px;">心得</a> <a href="/tags/%E6%8A%A5%E5%91%8A/" style="font-size: 12.5px;">报告</a> <a href="/tags/%E6%8E%92%E7%89%88/" style="font-size: 13.75px;">排版</a> <a href="/tags/%E6%95%85%E4%B9%A1/" style="font-size: 10.63px;">故乡</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10.63px;">数据库</a> <a href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" style="font-size: 14.38px;">标本馆</a> <a href="/tags/%E6%A4%8D%E7%89%A9%E5%88%86%E7%B1%BB/" style="font-size: 10px;">植物分类</a> <a href="/tags/%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%90%8D/" style="font-size: 10px;">植物学名</a> <a href="/tags/%E6%B1%82%E8%81%8C/" style="font-size: 10px;">求职</a> <a href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" style="font-size: 11.25px;">版本控制</a> <a href="/tags/%E7%94%9F%E6%80%81/" style="font-size: 16.88px;">生态</a> <a href="/tags/%E7%94%9F%E6%80%81%E8%B5%84%E8%AE%AF/" style="font-size: 10px;">生态资讯</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E8%B5%84%E8%AE%AF/" style="font-size: 10px;">研究资讯</a> <a href="/tags/%E7%B3%BB%E7%BB%9F%E5%8F%91%E8%82%B2/" style="font-size: 10px;">系统发育</a> <a href="/tags/%E7%BB%9F%E8%AE%A1/" style="font-size: 18.13px;">统计</a> <a href="/tags/%E7%BC%96%E7%A8%8B/" style="font-size: 10.63px;">编程</a> <a href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" style="font-size: 15px;">行摄匆匆</a> <a href="/tags/%E8%A7%81%E9%97%BB%E5%BD%95/" style="font-size: 10px;">见闻录</a> <a href="/tags/%E8%AF%97%E6%AD%8C/" style="font-size: 15.63px;">诗歌</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 19.38px;">软件</a> <a href="/tags/%E8%BF%9B%E5%8C%96/" style="font-size: 10.63px;">进化</a> <a href="/tags/%E9%9A%8F%E6%83%B3/" style="font-size: 11.25px;">随想</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 20px;">随笔</a> <a href="/tags/%E9%A9%B3%E8%AE%BA/" style="font-size: 10px;">驳论</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">January 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">December 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">October 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05/">May 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">May 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">December 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">August 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">March 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">April 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/01/">January 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/08/">August 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/07/">July 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/06/">June 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">May 2009</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/18/2021-03-18/">为什么《xxxx在XX研究中取得进展》这类文章很少有人转发？</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/2021-02-16/">如何恢复森林？– 从嘉道理农场的森林恢复样地说起</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 Jinlong Zhang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

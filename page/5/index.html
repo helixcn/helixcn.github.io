@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Jinlong Zhang&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Jinlong Zhang&#39;s blog">
+<meta property="og:url" content="https://helixcn.github.io/page/5/index.html">
+<meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Jinlong Zhang">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Jinlong Zhang's blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jinlong Zhang&#39;s blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://helixcn.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-2018-11-06-tmap" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/11/05/2018-11-06-tmap/" class="article-date">
+  <time class="dt-published" datetime="2018-11-05T09:30:54.000Z" itemprop="datePublished">2018-11-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/11/05/2018-11-06-tmap/">用tmap程序包绘制带指北针、图例和经纬网的采样点地图</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;C:/Users/jlzhang/Desktop/sample_map&quot;</span>)</span><br><span class="line"><span class="comment">#### 导入所需要的程序包</span></span><br><span class="line">library(rgdal)</span><br><span class="line">library(tmap)</span><br><span class="line">library(tmaptools)</span><br><span class="line">library(sp)</span><br><span class="line">rm(<span class="built_in">list</span> = ls())</span><br><span class="line"><span class="comment">## 读取地图</span></span><br><span class="line">country &lt;- readOGR(<span class="string">&quot;bou1_4l.shp&quot;</span>)</span><br><span class="line">province &lt;- readOGR(<span class="string">&quot;province_polygon.shp&quot;</span>)</span><br><span class="line">world &lt;- readOGR(<span class="string">&quot;ne_50m_admin_0_countries.shp&quot;</span>)</span><br><span class="line"><span class="comment"># Source: https://www.naturalearthdata.com/downloads/50m-cultural-vectors/ </span></span><br><span class="line">world &lt;- set_projection(world, <span class="string">&quot;longlat&quot;</span>)    </span><br><span class="line">country &lt;- set_projection(country, <span class="string">&quot;longlat&quot;</span>)    </span><br><span class="line">province &lt;- set_projection(province, <span class="string">&quot;longlat&quot;</span>)    </span><br><span class="line">province &lt;- set_projection(province, <span class="string">&quot;longlat&quot;</span>)    </span><br><span class="line">data(World)</span><br><span class="line"><span class="comment"># 城市</span></span><br><span class="line">city &lt;- read.csv(<span class="string">&quot;simplemaps-worldcities-basic.csv&quot;</span>, header = <span class="literal">TRUE</span>)</span><br><span class="line">city &lt;- city[sample(<span class="number">1</span>:nrow(city), <span class="number">400</span>),] <span class="comment"># 随机筛选400个</span></span><br><span class="line">coordinates(city) &lt;- ~lng+lat </span><br><span class="line">proj4string(city) &lt;- CRS(<span class="string">&quot;+proj=longlat +datum=WGS84&quot;</span>)</span><br><span class="line"></span><br><span class="line">World$name[World$name == <span class="string">&quot;Taiwan&quot;</span>] &lt;- <span class="literal">NA</span></span><br><span class="line"><span class="comment"># 转换为spatial dataframe</span></span><br><span class="line"><span class="comment"># 绘图</span></span><br><span class="line">tm_shape(world, </span><br><span class="line">         xlim = <span class="built_in">c</span>(<span class="number">60</span>, <span class="number">140</span>), </span><br><span class="line">         ylim = <span class="built_in">c</span>(<span class="number">0</span>, <span class="number">60</span>)) + </span><br><span class="line">  tm_borders(<span class="string">&quot;grey40&quot;</span>, lwd = <span class="number">1.5</span>) + </span><br><span class="line">  tm_grid()+ </span><br><span class="line">tm_shape(province) +</span><br><span class="line">  tm_fill(col = <span class="string">&quot;lightgrey&quot;</span>) + </span><br><span class="line">  tm_borders(<span class="string">&quot;grey60&quot;</span>, lwd = <span class="number">0.8</span>) + </span><br><span class="line">tm_shape(country) + </span><br><span class="line">  tm_lines(col=<span class="string">&quot;grey40&quot;</span>, lwd = <span class="number">1.5</span>) + </span><br><span class="line">tm_scale_bar(position=<span class="built_in">c</span>(<span class="number">0.05</span>,<span class="number">0.0</span>)) + </span><br><span class="line">tm_compass(type = <span class="string">&quot;4star&quot;</span>, </span><br><span class="line">           position=<span class="built_in">c</span>(<span class="string">&quot;left&quot;</span>, <span class="string">&quot;top&quot;</span>)) +     </span><br><span class="line">tm_layout(inner.margins=<span class="built_in">c</span>(<span class="number">0.12</span>,<span class="number">0.03</span>,<span class="number">0.08</span>,<span class="number">0.03</span>), </span><br><span class="line">          legend.stack = <span class="string">&quot;horizontal&quot;</span>) + </span><br><span class="line">tm_shape(city) +</span><br><span class="line">    tm_bubbles(<span class="string">&quot;pop&quot;</span>, </span><br><span class="line">               col = <span class="string">&quot;red&quot;</span>, </span><br><span class="line">               scale=<span class="number">.5</span>,</span><br><span class="line">               border.col = <span class="string">&quot;red&quot;</span>) + </span><br><span class="line">    tm_text(<span class="string">&quot;city&quot;</span>, size=<span class="number">0.5</span>) + </span><br><span class="line">tm_legend(legend.position = <span class="built_in">c</span>(<span class="number">0.05</span>, <span class="number">0.08</span>)) + </span><br><span class="line">tm_shape(World) +</span><br><span class="line">    tm_text(<span class="string">&quot;name&quot;</span>, size=<span class="number">1.0</span>)</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/11/05/2018-11-06-tmap/" data-id="ckmq2gwu100axq884gtxvdxuf" data-title="用tmap程序包绘制带指北针、图例和经纬网的采样点地图" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9C%B0%E7%90%86/" rel="tag">地理</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2018-11-05-r8sinwin10" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/11/05/2018-11-05-r8sinwin10/" class="article-date">
+  <time class="dt-published" datetime="2018-11-05T06:35:54.000Z" itemprop="datePublished">2018-11-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/11/05/2018-11-05-r8sinwin10/">怎样在Windows10系统中编译和运行r8s</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>r8s是用于进化树订年的重要软件。然而作者Mike Sanderson只提供了MacOS的可执行程序，对于Windows用户，将r8s从源文件编译为.exe可执行文件，很多人不一定熟悉。这里介绍用Cygwin将r8s源代码编译为r8s.exe的方法。用Cygwin编译r8s软件，之前在Windows XP系统中，我在科学网博客上有介绍过，但是当时生成的r8s.exe在Windows10中已经不能运行。在Win10中，相应的操作也发生了一些变化，因此这里重新撰写了指南。</p>
+<p>1 所需软件<br>本说明是为Window10专业版，64位操作系统而写的。要编译和运行r8s，需要用到的软件包括：</p>
+<p>r8s源代码: <a target="_blank" rel="noopener" href="https://sourceforge.net/projects/r8s/">https://sourceforge.net/projects/r8s/</a><br>Cygwin: <a target="_blank" rel="noopener" href="https://www.cygwin.com/install.html">https://www.cygwin.com/install.html</a> 用于将r8s源代码编译为.exe文件。<br>示例数据: AAA.nex ，这是nexus文件， 包含一棵需要订年的进化树以及若干r8s命令。<br>Notepad++: <a target="_blank" rel="noopener" href="https://notepad-plus-plus.org/download/v7.5.9.html">https://notepad-plus-plus.org/download/v7.5.9.html</a> 这是一个加强版的记事本程序，用于编辑nexus文件，查看运行结果。<br>2 安装Cygwin<br>Cygwin是Windows下运行的软件，用于模拟Linux/Unix操作系统，常用于将Unix/Linux操作系统下的命令行软件编译为Windows下的可执行文件(维基百科)[<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Cygwin]%E3%80%82%E7%94%B1%E4%BA%8Er8s%E6%98%AF%E7%94%A8C%E5%92%8CFortran%E4%B8%BALinux%E7%BC%96%E5%86%99%E7%9A%84%EF%BC%8C">https://zh.wikipedia.org/wiki/Cygwin]。由于r8s是用C和Fortran为Linux编写的，</a> 编译时会用到gcc和make，因此需要在Cygwin安装时选取好安装这些组件。</p>
+<p>2.1 64位计算机应选择setup-x86_64.exe<br>img</p>
+<p>2.2 双击setup-x86_64.exe开始运行<br>img</p>
+<p>选择从网络安装即可，但是要注意选择合适的镜像，部分镜像链接可能已经过期，或者由于其他原因不能正常访问。</p>
+<p>2.3 安装时注意选取安装gcc和make<br>img</p>
+<p>2.4 开始下载并安装Cygwin程序包<br>img</p>
+<p>3 编译r8s<br>3.1 解压缩已经下载好的 r8s1.81.tar.gz<br>img</p>
+<p>3.2 cd到src文件夹<br>img</p>
+<p>3.3 在Windows查找Cygwin64 Terminal<br>img</p>
+<p>3.4 复制r8s/src的路径<br>img</p>
+<p>3.5 在Cygwin Terminal中输入r8s/src的路径，注意斜杠向右<br>第一行表示直接拷贝路径不能识别，要转换为向右的斜杠</p>
+<p>第一行表示直接拷贝路径不能识别，要转换为向右的斜杠</p>
+<p>3.6 输入make，回车，开始编译<br>img</p>
+<p>3.7 编译生成的r8s.exe<br>img</p>
+<p>4 运行r8s<br>4.1 将r8s.exe拷贝到一个新的文件夹（如run_r8s），注意路径不能有中文<br>img</p>
+<p>4.2 在Window中搜索CMD，即命令提示符Console<br>img</p>
+<p>4.3 用cd转换到新文件夹run_r8s<br>img</p>
+<p>4.4 查看并编辑AAA.nex文件夹的r8s命令模块<br>命令的相关解释请参考r8s软件书的说明各命令的说明详见 r8s使用指南 <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/upload/blog/file/2010/3/201032420201531842.0.pdf">http://blog.sciencenet.cn/upload/blog/file/2010/3/201032420201531842.0.pdf</a></p>
+<p>4.5 运行nexus文件中的r8s命令模块<br>img</p>
+<p>4.6 用Notepad++打开生成的out.txt文件<br>img找到已经校对好分化时间的newick进化树即可。</p>
+<p>5 参考资料<br>张金龙(2010)进化时间的估算:r8s软件使用指南 <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/blog-255662-305898.html">http://blog.sciencenet.cn/blog-255662-305898.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/11/05/2018-11-05-r8sinwin10/" data-id="ckmq2gwu400azq884441g1tuk" data-title="怎样在Windows10系统中编译和运行r8s" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2018-10-26-forest" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/10/26/2018-10-26-forest/" class="article-date">
+  <time class="dt-published" datetime="2018-10-25T18:37:54.000Z" itemprop="datePublished">2018-10-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/10/26/2018-10-26-forest/">黑龙江畔的森林</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="黑龙江畔的森林-–收到王洪峰博士赠书有感"><a href="#黑龙江畔的森林-–收到王洪峰博士赠书有感" class="headerlink" title="黑龙江畔的森林 –收到王洪峰博士赠书有感"></a>黑龙江畔的森林 –收到王洪峰博士赠书有感</h1><p>&nbsp;</p>
+<p>题记：22日晚，收到东北林业大学王洪峰博士的著作《东北主要森林植物及其解剖图谱》，非常感动。回想多年前在黑龙江哈尔滨、尚志帽儿山、平山、七台河桃山、勃利县西大圈、庆安、伊春凉水、五营、牡丹江镜泊湖等地拍照片、采标本，不由得想起那时候的人和事。时光荏苒，这么多年过去了，但一切又好像是在昨天，无尽思念和伤感。希望老师、同学、朋友们一切都好。</p>
+<p>&nbsp;</p>
+<p>一百九十六种草木</p>
+<p>从黑龙江畔的森林</p>
+<p>跋涉九千里</p>
+<p>到达南海之滨</p>
+<p>&nbsp;</p>
+<p>心意已经收到——</p>
+<p>那时</p>
+<p>黑夜正在降临</p>
+<p>来自北国的一片阳光</p>
+<p>照亮了谁的孤独？</p>
+<p>&nbsp;</p>
+<p>深秋里的那一天</p>
+<p>白桦林一片金黄</p>
+<p>山杨睁大了眼睛张望</p>
+<p>山葡萄沾满清晨的露水</p>
+<p>冻青盼望着初冬的暖阳</p>
+<p>&nbsp;</p>
+<p>这一晚</p>
+<p>北国森林的呼吸</p>
+<p>还有十五年以来</p>
+<p>那片森林里</p>
+<p>所有的萌芽</p>
+<p>所有的绽放</p>
+<p>所有的漂泊</p>
+<p>所有的热情</p>
+<p>所有的收获</p>
+<p>夹在黑土地的气息中</p>
+<p>铺面而来</p>
+<p>&nbsp;</p>
+<p>今晚</p>
+<p>北国深秋的阳光</p>
+<p>让人年轻了十五岁</p>
+<p>倘若能回到那片土地</p>
+<p>那一片森林</p>
+<p>就一定要在那里生活</p>
+<p>直到地老天荒</p>
+<p>&nbsp;</p>
+<p>10月23日凌晨 于香港大埔</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/10/26/2018-10-26-forest/" data-id="ckmq2gwu600b1q884359qddrb" data-title="黑龙江畔的森林" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AF%97%E6%AD%8C/" rel="tag">诗歌</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2018-10-25" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/10/25/2018-10-25/" class="article-date">
+  <time class="dt-published" datetime="2018-10-24T18:37:54.000Z" itemprop="datePublished">2018-10-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/10/25/2018-10-25/">样方调查数据怎样转换成群落-物种矩阵？</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/TmqE3hm8mvauSsjjhDQKllfR8CdrqDvsvKwE406je6KcbeuGxo1mOrPzI86tcZYRreGPtaFR4VQyQuJ9lSCNBg/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><strong>问</strong>：spaa程序包的data2mat函数可将样方调查数据转换为矩阵，用于计算生物多样性指数 (<a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/blog-255662-310032.html)%EF%BC%8C%E4%BD%86%E6%98%AFdata2mat%E5%8F%AA%E8%83%BD%E5%A4%84%E7%90%86%E4%B8%AA%E4%BD%93%E6%95%B0%E4%B8%BA%E6%95%B4%E6%95%B0%E7%9A%84%E6%83%85%E5%86%B5%E3%80%82%E5%A6%82%E6%9E%9C%E8%A6%81%E5%A4%84%E7%90%86%E7%9A%84%E6%95%B0%E6%8D%AE%E6%98%AF%E5%B0%8F%E6%95%B0%EF%BC%8C">http://blog.sciencenet.cn/blog-255662-310032.html)，但是data2mat只能处理个体数为整数的情况。如果要处理的数据是小数，</a> 该怎么办？</p>
+<p><strong>答</strong>：请参照以下的例子，用reshape2的acast函数转换。下面的R代码先将spaa程序包内置的datasample数据集转换为调查用的长格式，再将长格式转换为矩阵格式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">library(reshape2)library(spaa)</span><br><span class="line">data(datasample)# melt需要将行名作为data.frame中的一列datasample2 &lt;- cbind(plot &#x3D; row.names(datasample), datasample)# 将修改后的matrix转换为数据记录的常用格式aaa &lt;- melt(data &#x3D; datasample2, </span><br><span class="line">            id.vars &#x3D; &quot;plot&quot;, </span><br><span class="line">            measure.vars &#x3D; 2:ncol(datasample2), </span><br><span class="line">            variable.name &#x3D; &quot;species&quot;,</span><br><span class="line">            value.name &#x3D; &quot;abundance&quot;,</span><br><span class="line">            factorsAsStrings &#x3D; TRUE)# 因有些样方中物种没有出现， 所以是0.00aaa1 &lt;- aaa[aaa$abundance &gt; 0, ]</span><br><span class="line">head(aaa1)</span><br><span class="line">##   plot           species abundance</span><br><span class="line">## 1    1 Castanopsis.eyrei     25.58</span><br><span class="line">## 2    2 Castanopsis.eyrei     28.41</span><br><span class="line">## 3    3 Castanopsis.eyrei     39.43</span><br><span class="line">## 4    4 Castanopsis.eyrei     11.53</span><br><span class="line">## 5    5 Castanopsis.eyrei     35.01</span><br><span class="line">## 6    6 Castanopsis.eyrei     51.34</span><br><span class="line"># 将长数据转换为矩阵格式，行(row)这里是plot,置于 ~ 之前， # 列(column)这里是species，置于 ~ 之后。 # value.var当然就是 abundance。# 缺失值用0补齐。bbb &lt;- acast(aaa1, </span><br><span class="line">             formula &#x3D; plot ~ species, </span><br><span class="line">             value.var &#x3D; &quot;abundance&quot;, </span><br><span class="line">             fill &#x3D; 0)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/10/25/2018-10-25/" data-id="ckmq2gwu100avq884dic1gbzh" data-title="样方调查数据怎样转换成群落-物种矩阵？" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AF%97%E6%AD%8C/" rel="tag">诗歌</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2018-10-12-managing" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/10/12/2018-10-12-managing/" class="article-date">
+  <time class="dt-published" datetime="2018-10-11T16:45:54.000Z" itemprop="datePublished">2018-10-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/10/12/2018-10-12-managing/">谈谈科研论文的追踪、管理和阅读</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>阅读文献是了解各研究领域内新动态的最重要途径。通过阅读最近出版的论文，研究人员可以了解国内外同行做了什么，怎么做的，得到了什么重要结论等。及时找到感兴趣的专业文献，并尽可能将重要文献吃透，对于研究是至关重要的。</p>
+<p>当前，检索文献的主要方式是直接在数据库，特别是谷歌学术搜索关键词，找到关键论文后，再查看引用这些论文的论文，下载pdf全文，甄选后阅读。</p>
+<p>随着研究工作的深入，文献也逐渐积累，绝大多数研究人员积累的PDF文件可能达几百个，几千甚至几万个。这么多pdf文件，如果不按照一定规则管理，并按照一定顺序优先阅读，很容易让人陷入文献的海洋。读文献宜精不宜多。时间有限，不能漫无目的地在文献的海洋中漂流。</p>
+<p>本文分享一些跟踪、整理和阅读文献的方法，主要是希望对生态学研究生有所帮助。与标题的顺序稍有不同，按照阅读、追踪和整理的顺序介绍。</p>
+<h1 id="阅读文献"><a href="#阅读文献" class="headerlink" title="阅读文献"></a>阅读文献</h1><h2 id="为什么要阅读文献？"><a href="#为什么要阅读文献？" class="headerlink" title="为什么要阅读文献？"></a>为什么要阅读文献？</h2><p>阅读文献的最终目标是为自己在所研究的领域构建最前沿、最深刻的认知。最终目标能否达到，是一个人能否成为一流学者的重要因素。每一位研究人员都要做好文献阅读和整理，这是学术研究能历久弥新的重要保证。</p>
+<p>具体来说，阅读文献主要有以下三个原因：</p>
+<ol>
+<li>获得新的认知</li>
+<li>学习新的方法</li>
+<li>熟悉研究领域</li>
+</ol>
+<p>这三点就不展开了。而读文献时最重要的一点就是目的明确，也就是知道想从这篇文献中获得什么。</p>
+<h2 id="学术论文的常见类别"><a href="#学术论文的常见类别" class="headerlink" title="学术论文的常见类别"></a>学术论文的常见类别</h2><p>\1. 研究论文</p>
+<p>主要是收集数据，通过一定的方法进行假设的检验，展示结果，讨论。这也是研究论文最常见的格式。研究论文最核心的内容，就是原创性和新的知识。因为这是人们从科学领域获得并且记录新知识的最重要方式。</p>
+<h4 id="2-方法和技术论文"><a href="#2-方法和技术论文" class="headerlink" title="2. 方法和技术论文"></a>2. 方法和技术论文</h4><p>这种论文一般介绍新的软件或者新的方法、新的工作流程或数据标准，如Darwin Core数据交换标准，植物标本图像采集的流程和具体要求等。生态学中常用的vegan程序包，分子系统学中建立进化树的RAxML软件，作者都撰写了相应的论文。论文中介绍软件研发的背景、目的，实现的主要功能以及和其他软件相比的优势等，一般还会提供一个或者几个研究实例。如果软件或算法得到的了广泛关注，文章的引用率往往会很高。</p>
+<h4 id="3-数据论文"><a href="#3-数据论文" class="headerlink" title="3. 数据论文"></a>3. 数据论文</h4><p>一般只介绍数据以及数据采集和生成的过程，或者标准化的过程，并提供初步的统计图表等。例如介绍CHELSA气候图层的论文，介绍植物功能性状数据库TRY的论文等。一般来说，数据都在Dryad, Figshare, Github等网站，或者专门设立网站将数据公开。这类论文可能比较短，而且不包括对数据的深入分析。数据论文也可能是某地区的生物多样性编目，如某地区的物种名录及其濒危等级评估等。</p>
+<h4 id="4-综述"><a href="#4-综述" class="headerlink" title="4. 综述"></a>4. 综述</h4><p>综述是对某一个领域的研究现状进行总结、评述和展望的论文。国际上的主流学术期刊，一般以研究性论文为主，但也会发表少量综述，一般为约稿。部分期刊，如Trends in Ecology and Evolution, Annual Reviews上的论文以综述为主。这些论文，大多是某学者取得很高的学术声望后，由期刊的编辑发邀请函，请该学者围绕领域内的某一问题撰写的。综述论文往往涉及大量文献。一般的研究论文，参考文献数量很少超过100篇， 且一般在80篇以下，而综述性论文，为了详细介绍研究进展等，往往从学科的历史、现状、问题、展望等多方面进行论述，因此参考文献也较一般的研究论文多得多。阅读好的综述论文，有助于快速了解某一个领域的动态，把握学科的发展方向，也能帮忙快速找到以前忽略的重要文献，因此是了解某一领域的首选。</p>
+<h4 id="5-观点述评"><a href="#5-观点述评" class="headerlink" title="5. 观点述评"></a>5. 观点述评</h4><p>一般是学者对某一研究进展，或者现象表达个人观点的论文，在一定程度上接近综述，但由于篇幅所限，很难展示某一领域的全貌。一般来说，对某一问题持不同观点的学者， 可能在期刊的同一期，或者附近的几期内刊登论文。例如植物分类学家Maarten J. M. Christenhusz将蕨类植物的属名分类系统进行了大量合并，而一些蕨类专家对此持反对态度，因此在Taxon杂志上发表论文互相驳斥对方的观点。观点述评一类的论文，当然也要用数据支撑自己的观点，做到有理有据。</p>
+<h4 id="6-编者按"><a href="#6-编者按" class="headerlink" title="6. 编者按"></a>6. 编者按</h4><p>一般是主编对某一期的若干篇论文进行简要的评述，也可能是基于该期发表的论文做进一步的呼吁（如怎样有效保护野生动植物）等。编者按一般是期刊编委会成员或者特邀编委撰写的，对于了解学科动态有一定的指导意义。</p>
+<h4 id="7-meta分析"><a href="#7-meta分析" class="headerlink" title="7. meta分析"></a>7. meta分析</h4><p>一般是从不同的研究论文提取数据， 再进一步分析，一般也进行假说检验，形式上介于研究论文和综述之间。</p>
+<h2 id="读文献的基本要求"><a href="#读文献的基本要求" class="headerlink" title="读文献的基本要求"></a>读文献的基本要求</h2><p>无论是读哪种类型的论文，最重要有三点要了解：</p>
+<ol>
+<li>研究人员做了什么</li>
+<li>得到了什么结果</li>
+<li>作者持什么观点</li>
+</ol>
+<h2 id="研究论文阅读的顺序"><a href="#研究论文阅读的顺序" class="headerlink" title="研究论文阅读的顺序"></a>研究论文阅读的顺序</h2><p>一般来说，论文都可以从头到尾通读。如果时间太紧张，或者对技术细节不感兴趣，则可以按照以下顺序阅读：</p>
+<ol>
+<li>先读摘要，确定是否有读下去的必要</li>
+<li>再看图表，确定结果是否足够吸引人</li>
+<li>再读结论，即论文最重要的信息是什么</li>
+<li>再读讨论，了解结果的意义</li>
+<li>若对材料与方法的细节感兴趣，则应全面阅读全文</li>
+<li>若自己对研究内容与问题不太熟悉，则要从前言开始顺序阅读</li>
+</ol>
+<h2 id="阅读笔记"><a href="#阅读笔记" class="headerlink" title="阅读笔记"></a>阅读笔记</h2><p>阅读笔记，就是在读论文过程中记录看文献时得到的重要信息以及自己的想法。一般用一两句话总结该论文做了什么，得到了什么结果或者结论，有什么不足等。以后要回忆文献的内容，直接看笔记就能想起来大部分。阅读笔记可在文献管理软件中撰写和保存。</p>
+<h2 id="用好文献管理软件"><a href="#用好文献管理软件" class="headerlink" title="用好文献管理软件"></a>用好文献管理软件</h2><p>文献管理软件，对于每个读论文、写论文的的学生，都是必须要熟练掌握的。</p>
+<p>常用软件包括Mendeley, Zotero, JabRef, Endnote等，只需要选择一种自己认为顺手的软件即可。这些软件一般都包括以下功能：</p>
+<ol>
+<li>自动提取PDF中的文字信息， 通过查询文档的DOI或者对PDF内容进行识别，而在软件中自动填写文献的作者、标题、期刊、页码等信息</li>
+<li>PDF的文字部分导入数据库中，以便搜索时能顺利找到</li>
+<li>做笔记的功能</li>
+<li>按照一定格式，在Word, OpenOffice, LaTeX文档中插入参考文献，能极大节省论文撰写的时间。</li>
+</ol>
+<p>在文献管理软件中，阅读笔记一般可以和标签一样检索。如果阅读笔记总结得合适，一般在检索时能快速找到文献。</p>
+<h2 id="什么时候读论文，每天读多少？"><a href="#什么时候读论文，每天读多少？" class="headerlink" title="什么时候读论文，每天读多少？"></a>什么时候读论文，每天读多少？</h2><p>写文章之前一般要大量阅读论文，以确保自己对学科状态有全面和客观的认识。科研人员来说，最好需要养成在空闲时间阅读和思考的习惯，只是要懂得如何选择最适合自己的论文，去粗取精。对于博士研究生来说，最好每天能读一篇文献。</p>
+<h2 id="读文献遇到不懂的地方怎么办？"><a href="#读文献遇到不懂的地方怎么办？" class="headerlink" title="读文献遇到不懂的地方怎么办？"></a>读文献遇到不懂的地方怎么办？</h2><p>任何人在读论文时，都会有疑惑，或者对概念或者方法等不清楚。如果是关键性的方法，而作者在论文中介绍的不清楚，建议直接联系作者。其他情况下，建议按照以下顺序搜索或者请教问题。</p>
+<ol>
+<li>谷歌 Google。善用搜索引擎已经是信息社会的基本生存能力。</li>
+<li>维基百科 Wikipedia。对于一些基本概念，部分背景知识，维基百科介绍得可能更清楚。不过，因为所有人都能编辑维基百科，相关内容的可信度要经过认真评价。</li>
+<li>在QQ群、微信群、Stackoverflow、统计之都等专业论坛咨询： 这些群或者论坛主要用来求助技术问题，特别是数据处理问题，如R，Python等的问题。国外就有研究生拍毕业照时，致谢Stackoverflow.</li>
+<li>向同行求助。一些科研人员，愿意将自己的代码、模型等在网站上共享，一般来说，他们也非常愿意帮助别人。如果在QQ群、微信群、专业论坛等都没能解决，则可以尝试联系这些人，看能否帮忙解答问题。</li>
+</ol>
+<h1 id="文献检索"><a href="#文献检索" class="headerlink" title="文献检索"></a>文献检索</h1><h2 id="怎样获得研究领域的最新进展？"><a href="#怎样获得研究领域的最新进展？" class="headerlink" title="怎样获得研究领域的最新进展？"></a>怎样获得研究领域的最新进展？</h2><p>一般包括以下几种方式：</p>
+<ol>
+<li>关注在谷歌学术设立个人页面的主要科学家，并让谷歌学术在作者有新论文发表时，发email提醒;</li>
+<li>在Google Scholar创建若干核心论文的引用提醒（citation alert），这些论文在有新的引用后，谷歌学术就会发邮件提醒。</li>
+<li>在ResearchGate, Twitter, facebook上跟踪感兴趣的学者;</li>
+<li>订阅Wiley, Springer, Science Direct， Oxford等数据库中感兴趣期刊的Content Alert。有新论文发表时，系统会发邮件通知;</li>
+<li>订阅期刊的RSS，有新的论文上线时，通过RSS Reader 等就能方便查看;</li>
+<li>浏览学会或者期刊的网站或者博客，如英国生态学会(BES)，Methods in Ecology and Evolution网站等都有相应的博客，介绍出版的重要论文;</li>
+<li>专业论坛、QQ群、微信群等分享的文献</li>
+</ol>
+<h2 id="寻找文献的过程"><a href="#寻找文献的过程" class="headerlink" title="寻找文献的过程"></a>寻找文献的过程</h2><p>通过Google Scholar等找到引用率较高的核心论文之后（又称为种子论文， seed paper），继续查找引用这些文献的论文，以及这些文献本身引用了哪些论文，防止将重要文献遗漏。综述论文一般可以作为种子论文，帮你找到更多的论文。</p>
+<h2 id="怎样下载论文的全文？"><a href="#怎样下载论文的全文？" class="headerlink" title="怎样下载论文的全文？"></a>怎样下载论文的全文？</h2><p>一般是在Google Scholar检索到之后，打开期刊的网页，找到DOI，然后在SCI-Hub搜索DOI，就可下载到PDF全文。绝大部分英文论文都可以在Sci-hub下载到全文，由于Sci-Hub侵犯了一些出版商的知识产权，目前不清楚还能坚持多久。当然，如果能够合法下载，可能还是合法下载更好。</p>
+<h1 id="文献整理"><a href="#文献整理" class="headerlink" title="文献整理"></a>文献整理</h1><ol>
+<li>综述或者引用率很高的研究论文要归类为核心论文，这些是必须要精读的。可在文献管理软件中添加特定标签，方便查阅。</li>
+<li>下载的论文应立即导入文献管理软件，并按照关键词分类，并加上适当标签，便于查找和做笔记。</li>
+<li>用文献管理软件给PDF重命名，建议为 “第一作者，年份，杂志”，这样，不但在管理软件中能快速找到文件，在单机版搜索软件（如Everything）也能快速找到。Zotero, Mendeley等软件都具有批量重命名PDF文件的功能。</li>
+</ol>
+<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><ul>
+<li>罗民： 谈研究生如何读文献<a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/blog-84925-1084890.html">http://blog.sciencenet.cn/blog-84925-1084890.html</a></li>
+<li>花晓波： 如何有效地跟踪文献<a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/blog-267717-1063595.html">http://blog.sciencenet.cn/blog-267717-1063595.html</a></li>
+<li>林元震： 如何有效检索和获取英文文献<a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/blog-1114360-1083060.html">http://blog.sciencenet.cn/blog-1114360-1083060.html</a></li>
+<li>熊小锋：做文献笔记的好软件<a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/blog-3313677-1041005.html">http://blog.sciencenet.cn/blog-3313677-1041005.html</a></li>
+<li>王竹青： 如何读好一篇文献 ——《文献深度分析讨论课程》感想<a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/blog-3392387-1134851.html">http://blog.sciencenet.cn/blog-3392387-1134851.html</a></li>
+<li>孙学军： 如何精读文献<a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/blog-41174-661749.html">http://blog.sciencenet.cn/blog-41174-661749.html</a></li>
+<li>吴军： 综述是如此重要——如何写好一篇真正的综述<a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/blog-215974-1115851.html">http://blog.sciencenet.cn/blog-215974-1115851.html</a></li>
+<li>于法标：阅读文献的方法和意义<a target="_blank" rel="noopener" href="http://bbs.sciencenet.cn/thread-3234467-1-1.html">http://bbs.sciencenet.cn/forum.php?mod=viewthread&amp;tid=3234467</a></li>
+<li>pbjacob：参考文献管理工具zotero的使用经验分<a target="_blank" rel="noopener" href="http://muchong.com/html/201410/7981977.html">http://muchong.com/html/201410/7981977.html</a></li>
+<li>于淼：文献管理的三个阶段<a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/blog-430956-1093330.html">http://blog.sciencenet.cn/blog-430956-1093330.html</a></li>
+</ul>
+<p>本文同时在ecoinformatics上发布</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201810/12/084340jqg0ra2fbf2mmrq8.png"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/10/12/2018-10-12-managing/" data-id="ckmq2gwu000atq884cbckh5x3" data-title="谈谈科研论文的追踪、管理和阅读" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2018-10-09-review" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/10/09/2018-10-09-review/" class="article-date">
+  <time class="dt-published" datetime="2018-10-09T02:02:54.000Z" itemprop="datePublished">2018-10-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/10/09/2018-10-09-review/">怎样为学术期刊审稿？</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>本文主要根据Elisabeth Pain编写的 How To 系列内容编译（见文末网址）。</p>
+<h3 id="为什么要为学术刊物审稿？"><a href="#为什么要为学术刊物审稿？" class="headerlink" title="为什么要为学术刊物审稿？"></a>为什么要为学术刊物审稿？</h3><ol>
+<li>评价稿件质量，确保研究的原创性和创新性</li>
+<li>提高稿件质量，减少错误使用研究方法或错误阐述研究发现等</li>
+<li>帮助编辑确定稿件是否应该发表</li>
+</ol>
+<h3 id="审稿对审稿人有什么好处？"><a href="#审稿对审稿人有什么好处？" class="headerlink" title="审稿对审稿人有什么好处？"></a>审稿对审稿人有什么好处？</h3><ol>
+<li>了解学科最新进展</li>
+<li>促进职业生涯的发展，特别是年轻学者可在审稿中提高自己的业务水平</li>
+<li>提高批判性思考的能力</li>
+</ol>
+<h3 id="匿名审稿重要吗？"><a href="#匿名审稿重要吗？" class="headerlink" title="匿名审稿重要吗？"></a>匿名审稿重要吗？</h3><p>答：重要。</p>
+<ol>
+<li>审稿最好匿名，因为作者不一定很客观地看待审稿意见，稿件被拒时可能会“记仇”。这对正处于事业上升期的年轻人来说，可能会有所影响。</li>
+<li>要遵守期刊的审稿规定，一般不要向外透露审稿信息，以免招来不必要的麻烦。</li>
+</ol>
+<h3 id="审稿的要求"><a href="#审稿的要求" class="headerlink" title="审稿的要求"></a>审稿的要求</h3><ol>
+<li>公平公正：不要因为作者的国籍、种族、性别、籍贯、宗教信仰等对论文本身做出有偏颇的评价</li>
+<li>客观与实事求是：对稿件不要因个人对研究方向的偏爱与厌恶，做出不恰当的评价</li>
+<li>审稿意见要有建设性：最好对稿件本身进一步提升有所帮助，如研究方法中的问题，结果的展示等提出建设性的意见</li>
+<li>写清楚稿子的可取之处与不足之处：这是编辑评价是否接受发表该稿件的重要参考</li>
+</ol>
+<h3 id="什么时候接受审稿？"><a href="#什么时候接受审稿？" class="headerlink" title="什么时候接受审稿？"></a>什么时候接受审稿？</h3><ol>
+<li>在自身的专业知识和技能范围内，确实能为稿子提供建设性的意见或者建议</li>
+<li>对稿件报告的研究要很感兴趣</li>
+<li>有足够的时间，能保证在规定的时间内完成</li>
+<li>无利益冲突，如果作者里面包括现在或者三年以内的同事、主要合作人，或者同学校的研究人员，或者存在其他方面的利益冲突，应该避免审稿</li>
+</ol>
+<h3 id="审稿的一般流程"><a href="#审稿的一般流程" class="headerlink" title="审稿的一般流程"></a>审稿的一般流程</h3><ol>
+<li>收到审稿邀请，现在一般是通过电子邮件发送邀请函</li>
+<li>根据题目和摘要，确定是否接受审稿。接受审稿后，可查看全文PDF</li>
+<li>快速阅读全文，获得第一印象</li>
+<li>精读全文，全程在PDF上标注</li>
+<li>检查格式并标记</li>
+<li>撰写审稿意见</li>
+<li>检查审稿意见</li>
+<li>在审稿系统提交审稿意见</li>
+</ol>
+<h3 id="审稿过程中要关注的主要问题"><a href="#审稿过程中要关注的主要问题" class="headerlink" title="审稿过程中要关注的主要问题"></a>审稿过程中要关注的主要问题</h3><p>审稿之中最关键是对研究质量的客观评价。</p>
+<ol>
+<li>前言部分，研究的问题的重要性是否阐述清楚了？</li>
+<li>为阐述研究背景，相关的重要文献是否都已经引用了？</li>
+<li>要检验的假说是否符合逻辑与当前主流认知？</li>
+<li>其他研究者根据材料与方法部分的描述，是否能重复该研究？</li>
+<li>数据的样本量是否充足？研究方法是否正确？是否有错漏？</li>
+<li>结果部分的文字部分是否清晰而条理？是否与图表内容重复而存在冗余？</li>
+<li>图表设计是否合理？单位是否正确？图例是否清楚？</li>
+<li>讨论部分是否将新发现放在大背景中，以突出新发现的意义？是否存在过多异想天开？</li>
+<li>各部分之间衔接是否顺畅？是否互相矛盾？</li>
+<li>讨论部分是否在某些方面阐述得还不够充分？或者存在某些重要的纰漏？</li>
+<li>结果能否支撑结论？</li>
+<li>附件中的内容是否有效补充了正文的内容，附件文档中是否有很多错误？</li>
+<li>论文处理动植物的方式是否妥当？如：是否有虐待动物？是否暴露了珍稀动植物的位置？</li>
+</ol>
+<h3 id="稿件的格式"><a href="#稿件的格式" class="headerlink" title="稿件的格式"></a>稿件的格式</h3><ol>
+<li>格式是否符合刊物的要求？</li>
+<li>行文否流畅，无语法错误？</li>
+<li>图表设计是否符合刊物要求，大小和分辨率是否合适？</li>
+<li>文献格式是否正确？</li>
+<li>物种的学名等是否正确拼写？是否需要斜体？缩写是否正确?</li>
+</ol>
+<h3 id="写审稿意见的注意事项"><a href="#写审稿意见的注意事项" class="headerlink" title="写审稿意见的注意事项"></a>写审稿意见的注意事项</h3><ol>
+<li>先写总体感受，即一般性的意见。这篇稿件主要是关于什么的，有什么发现。读者会不会对稿件感兴趣</li>
+<li>列出论文各部分存在的主要问题，特别是样本量、统计方法等方面的缺陷</li>
+<li>指出或者建议语法问题等能够即时修改的问题</li>
+<li>避免使用强烈感情色彩甚至带歧视性和侮辱性的词汇评价稿件，更不能借此攻击稿件作者</li>
+<li>审稿意见中的对稿件的每一句评论，都要有充足的证据</li>
+<li>审稿意见写成之后，要问一下自己：如果我是作者，愿意看到自己的稿件被别人这样评价吗？</li>
+</ol>
+<h3 id="怎样处理语法错误？"><a href="#怎样处理语法错误？" class="headerlink" title="怎样处理语法错误？"></a>怎样处理语法错误？</h3><ol>
+<li>如果正文的语法错误非常多，审稿人通常不用全部指出错误，而是建议作者认真修改</li>
+<li>如果语法错误很少，发现之后可指出，并给出自己的建议</li>
+<li>注意不要用自己的行文风格要求作者重写句子。虽然这可能是在帮作者，但是这会让人感觉受到冒犯</li>
+</ol>
+<h3 id="审一篇论文要多长时间？"><a href="#审一篇论文要多长时间？" class="headerlink" title="审一篇论文要多长时间？"></a>审一篇论文要多长时间？</h3><p>一般加起来要几个小时甚至一天左右的时间，但一般会分开在几天中完成。</p>
+<h3 id="参考网址"><a href="#参考网址" class="headerlink" title="参考网址"></a>参考网址</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.sciencemag.org/careers/2016/09/how-review-paper">https://www.sciencemag.org/careers/2016/09/how-review-paper</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://authorservices.wiley.com/Reviewers/journal-reviewers/index.html">https://authorservices.wiley.com/Reviewers/journal-reviewers/index.html</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://reviewers.plos.org/resources/how-to-write-a-peer-review/">http://reviewers.plos.org/resources/how-to-write-a-peer-review/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.springer.com/gp/authors-editors/authorandreviewertutorials/howtopeerreview">https://www.springer.com/gp/authors-editors/authorandreviewertutorials/howtopeerreview</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://crosstalk.cell.com/blog/reviewing-review-articles-part-1-the-who-and-why">http://crosstalk.cell.com/blog/reviewing-review-articles-part-1-the-who-and-why</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://crosstalk.cell.com/blog/reviewing-review-articles-part-2-the-how">http://crosstalk.cell.com/blog/reviewing-review-articles-part-2-the-how</a></p>
+</li>
+</ul>
+<p>本文同时发布在ecoinformatics微信号</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/10/09/2018-10-09-review/" data-id="ckmq2gwtz00apq8846x4v59dx" data-title="怎样为学术期刊审稿？" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%86%99%E4%BD%9C/" rel="tag">写作</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2018-10-08-tmap-province" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/10/08/2018-10-08-tmap-province/" class="article-date">
+  <time class="dt-published" datetime="2018-10-08T03:22:54.000Z" itemprop="datePublished">2018-10-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/10/08/2018-10-08-tmap-province/">R绘制中国地图：你去过哪些省份? (tmap版)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>前段时间，一个去过哪些省份的微信小程序刷爆朋友圈：用户设定去过的省份之后，后台就自动生成地图。本人之前编写了ggplot2版本的R代码，用来绘制去过哪些省份。不过ggplot2的代码较为繁琐。这里给出tmap版。相比ggplot2，tmap的代码更容易理解。</p>
+<p>本代码也适宜批量生成物种分布图。闲言少叙，直接贴代码了。</p>
+<p>数据下载：<a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=attachment&id=208159">http://blog.sciencenet.cn/home.php?mod=attachment&amp;id=208159</a></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;...&quot;</span>)</span><br><span class="line">library(rgdal)</span><br><span class="line">library(dplyr)</span><br><span class="line">library(tmap)</span><br><span class="line">library(tmaptools)</span><br><span class="line">rm(<span class="built_in">list</span> = ls())</span><br><span class="line"><span class="comment">## 直接读取地图shp文件</span></span><br><span class="line">country      &lt;- readOGR(<span class="string">&quot;bou1_4l.shp&quot;</span>)             <span class="comment">## 国界</span></span><br><span class="line">province     &lt;- readOGR(<span class="string">&quot;province_polygon.shp&quot;</span>)    <span class="comment">## 省界</span></span><br><span class="line">sort(province$ID)</span><br><span class="line"><span class="comment">## 指定去过的省份</span></span><br><span class="line">visited &lt;- <span class="built_in">c</span>( <span class="string">&quot;Beijing&quot;</span>, <span class="string">&quot;Chongqing&quot;</span>, <span class="string">&quot;Fujian&quot;</span>, <span class="string">&quot;Guangdong&quot;</span>, <span class="string">&quot;Guangxi&quot;</span>, </span><br><span class="line">              <span class="string">&quot;Guizhou&quot;</span>, <span class="string">&quot;Hainan&quot;</span>, <span class="string">&quot;Hebei&quot;</span>, <span class="string">&quot;Heilongjiang&quot;</span>, <span class="string">&quot;Henan&quot;</span>, </span><br><span class="line">              <span class="string">&quot;Hubei&quot;</span>, <span class="string">&quot;Hunan&quot;</span>, <span class="string">&quot;Jiangsu&quot;</span>, <span class="string">&quot;Jiangxi&quot;</span>, <span class="string">&quot;Jilin&quot;</span>, <span class="string">&quot;Liaoning&quot;</span>, </span><br><span class="line">              <span class="string">&quot;NeiMongol&quot;</span>, <span class="string">&quot;Shanghai&quot;</span>,  <span class="string">&quot;Sichuan&quot;</span>, <span class="string">&quot;Tianjin&quot;</span>, <span class="string">&quot;Xianggang&quot;</span>, </span><br><span class="line">              <span class="string">&quot;Yunnan&quot;</span>, <span class="string">&quot;Zhejiang&quot;</span>)</span><br><span class="line"></span><br><span class="line">province$ID &lt;- <span class="built_in">as.character</span>(province$ID)</span><br><span class="line">province$ID2 &lt;- ifelse(province$ID %in% visited, <span class="string">&quot;Visited&quot;</span>, <span class="string">&quot;Not Visited&quot;</span>)</span><br><span class="line">province$ID2 &lt;- as.factor(province$ID2)</span><br><span class="line"><span class="comment">## 投影转换：西安80坐标系(EPSG 2343)，高斯-克吕格投影</span></span><br><span class="line">country &lt;- set_projection(country, projection = <span class="number">2343</span>)  </span><br><span class="line">province &lt;- set_projection(province, projection = <span class="number">2343</span>)  </span><br><span class="line"></span><br><span class="line"><span class="comment">## 保存高分辨率地图</span></span><br><span class="line"><span class="comment">## tiff(filename = &quot;visitation.tiff&quot;,</span></span><br><span class="line"><span class="comment">##     width = 4200, height = 4600, units = &quot;px&quot;, pointsize = 12,</span></span><br><span class="line"><span class="comment">##     compression = &quot;lzw&quot;, res = 600)</span></span><br><span class="line"><span class="comment">## 显示地图</span></span><br><span class="line"></span><br><span class="line">tm_shape(country) + </span><br><span class="line">tm_lines(col=<span class="string">&quot;dodgerblue3&quot;</span>) + </span><br><span class="line">tm_shape(province) +</span><br><span class="line">tm_fill(<span class="string">&quot;ID2&quot;</span>, </span><br><span class="line">  title =<span class="string">&quot;Provinces I have been to:&quot;</span>, </span><br><span class="line">  palette=<span class="string">&quot;Pastel2&quot;</span>) + </span><br><span class="line">tm_borders(<span class="string">&quot;grey40&quot;</span>, lwd = <span class="number">1</span>) +</span><br><span class="line">tm_scale_bar(position=<span class="built_in">c</span>(<span class="string">&quot;left&quot;</span>, <span class="string">&quot;bottom&quot;</span>)) + </span><br><span class="line">tm_compass(type = <span class="string">&quot;4star&quot;</span>, position=<span class="built_in">c</span>(<span class="string">&quot;left&quot;</span>, <span class="string">&quot;top&quot;</span>)) + </span><br><span class="line">tm_layout(inner.margins=<span class="built_in">c</span>(<span class="number">0.12</span>,<span class="number">0.03</span>,<span class="number">0.08</span>,<span class="number">0.03</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">## 保存地图</span></span><br><span class="line">dev.off()</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/blog-255662-1117385.html">http://blog.sciencenet.cn/blog-255662-1117385.html</a></li>
+<li><a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/blog-255662-1121513.html">http://blog.sciencenet.cn/blog-255662-1121513.html</a></li>
+<li></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/10/08/2018-10-08-tmap-province/" data-id="ckmq2gwu000arq884av6qdnbd" data-title="R绘制中国地图：你去过哪些省份? (tmap版)" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9C%B0%E7%90%86/" rel="tag">地理</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2018-10-02" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/10/02/2018-10-02/" class="article-date">
+  <time class="dt-published" datetime="2018-10-01T17:14:00.000Z" itemprop="datePublished">2018-10-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/10/02/2018-10-02/">为什么要开通“ecoinformatics”公众号？</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>十年前，不少人对研究所用软件的操作过程和计算机代码讳莫如深，当时中文学习资源也不多。不仅如此，也有一些人不太理解软件背后的原理而用错数据分析方法，以至影响了研究。与此同时，大量硕士生、博士生在科研过程中缺乏正确的训练和指导，十分无助。</p>
+<p>我从那时开始写博客(<a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/u/zjlcas)%EF%BC%8C%E4%B8%BB%E8%A6%81%E8%AE%B0%E5%BD%95%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95%E4%BB%A5%E5%8F%8A%E8%87%AA%E5%B7%B1%E5%AF%B9%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98%E7%9A%84%E6%84%9F%E6%83%B3%E3%80%82%E5%8D%81%E5%B9%B4%E4%B9%8B%E9%97%B4%EF%BC%8C%E6%88%91%E7%BC%96%E5%86%99%E6%88%96%E7%BF%BB%E8%AF%91%E4%BA%86%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%8D%9A%E6%96%87150%E7%AF%87%E5%B7%A6%E5%8F%B3%EF%BC%8C%E9%80%9A%E8%BF%87%E7%94%B5%E5%AD%90%E9%82%AE%E4%BB%B6%E5%9B%9E%E7%AD%94%E9%97%AE%E9%A2%981800%E5%A4%9A%E5%B0%81%E3%80%82">http://blog.sciencenet.cn/u/zjlcas)，主要记录数据分析方法以及自己对一些问题的感想。十年之间，我编写或翻译了数据分析博文150篇左右，通过电子邮件回答问题1800多封。</a></p>
+<p>十年来，生物多样性研究中的数据的整理、统计分析方法、理论等发生了很多变化。现有的数据分析技术和方法，虽然有很多现成的资料可供参考，可实际操作上仍有很多困难。为此，博客中的内容仍需不断更新与完善，这在排版时比较麻烦，而且科学网博客与读者之间的互动也不是特别方便。</p>
+<p>微信公众号的影响力已经逐渐取代博客。在若干老师和同学的鼓励下，我在2018年10月1日开通了公众号ecoinformatics。本公众号的目标是促进国内生物多样性和保护生物学的相关研究。推送的内容将涉及：生物多样性研究进展，生态学数据资源分享，数据分析笔记和本人对一些问题的评论。</p>
+<p>未来的生态学研究应该是开放的：从论文、数据、计算机代码各方面都应该开放。未来的生态学应该以团队合作的方式实现的，做到“各尽所能，各出所知”。希望本公众号能够和我国生物多样性研究共同步入开放时代，也祝我国生态学家们做出辉煌的成绩。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/10/02/2018-10-02/" data-id="ckmq2gwtx00amq8842u2x8ye3" data-title="为什么要开通“ecoinformatics”公众号？" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2018-09-14-rhodes" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/09/14/2018-09-14-rhodes/" class="article-date">
+  <time class="dt-published" datetime="2018-09-13T17:09:54.000Z" itemprop="datePublished">2018-09-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/09/14/2018-09-14-rhodes/">天文爱好者Brandon Rhodes和他的程序包PyEphem, Skyfield</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p> 昨天在Youtube听了Brandon Rhodes的讲座 ，Skyfield and 15 Years of Bad APIs(<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=FVEEndIwOSA">https://www.youtube.com/watch?v=FVEEndIwOSA</a> )，颇有感触。</p>
+<p>Brandon Rhodes是Dropbox公司的高级架构师， 精通Python，同时也是一位天文爱好者( <a target="_blank" rel="noopener" href="http://rhodesmill.org/brandon/">http://rhodesmill.org/brandon/</a> )。他在2000年左右编写了一个Python程序包PyEphem并且维护至今，这个程序包现在还在使用。PyEphem主要用于计算天体的位置与星历表，例如某地日出日落时刻，天体升降和中天时刻，给定轨道根数计算小行星、彗星和人造卫星在某一时刻、某一历元下的位置以及各种天文坐标系之间的转换等。</p>
+<p>PyEphem程序包的名称来源于Ephem软件(<a target="_blank" rel="noopener" href="http://www.clearskyinstitute.com/xephem/">http://www.clearskyinstitute.com/xephem/</a>)。Ephem是用C语言写的， Ephem是Ephemeris，即历书的缩写。Ephem软件的作者Elwood C. Downey是位天文学家，在上世纪九十年代编写了Ephem软件并公布了源代码。经过Elwood允许，Brandon Rhodes将Ephem中用于天文计算的引擎libastro提出来， 利用Python胶水语言的特性，编写了一个Python外壳，用于历算。他将这些Python脚本打包发布，就是我们见到的PyEphem。</p>
+<p>PyEphem程序包的星历表基于VSOP87行星运动理论（<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/VSOP_(planets)#VSOP87%EF%BC%89">https://en.wikipedia.org/wiki/VSOP_(planets)#VSOP87）</a>, 精度已经非常高。在VSO87星历表中，在历元2000.0前后各4000年，水星、金星、地月质心和火星的精度在1角秒以内；木星、土星前后在历元2000.0各2000年，精度在1角秒内；天王星和海王星，前后各6000年，精度在1角秒以内。这样的精度对于绝大多数天文观测、望远镜控制以及中长期的日月食计算都绰绰有余了。但完美主义世家出身的Brandon Rhodes对PyEphem的表现并不满意。</p>
+<p>一方面，由于PyEphem的运算核心是用C编写的，而C是一种编译语言，在不同的平台上编译时难免出现各种问题。而且Ephem本身编写的时间比较早，那时候C 语言有些特性现在某些版本的编译器可能已经不支持了，如Windows下用MinGW就不能正常编译PyEphem，而用Visual Studio就可以。虽然大部分人绝大多数时间都用不到Visual Studio，但为了从源代码编译PyEphem，Windows用户不得不安装几个G的Visual Studio。Brandon想了各种办法编译主要平台的二进制版本供用户下载使用，但是某些操作系统不能编译的情况仍然困扰着他。求助他的人太多，光PyEphem程序包相关的问题，他就收到2000多封邮件。</p>
+<p>另一方面，随着Python语言的进一步发展，人们逐渐转移到Python3。而从Python3上调用代码的写法和方式的标准来看 （应用程序界面，Application programming interface, API）， PyEphem的函数参数以及调用方法等有时让人十分费解。与此同时还有各种各样的潜在问题，一不留神， Python对象就可能因调用某种方法（Method）而发生了变化，以致而得到意想不到的结果，因此这些是要避免的。</p>
+<p>为此，Brandon非常想用纯Python重新写一遍PyEphem，不过重新编写一个功能与PyEphem完全一样的程序包，本身就非常无聊，所以他一直没有动力。直到有一天，有位网友问他关于PyEphem结果精度的问题，咨询他怎样将计算结果与瑞士星历表比较，于是他进一步检索到了美国国家航空航天局喷气推进实验室(NASA JPL)的星历表源数据。他获得这些星历表后大喜过望 ，立即着手编写新工具。</p>
+<p>JPL是干什么的？了解航空航天的朋友知道，JPL是负责为美国的太空探索计算星历表的，也就是说NASA所发射航天器的轨道，要经过JPL设计并计算，因此，JPL对星历表准确性的要求极高。JPL将一系列高精度星历表公开了，用户可以免费下载和使用(<a target="_blank" rel="noopener" href="https://pypi.org/project/jplephem/">https://pypi.org/project/jplephem/</a>), 其中，著名的 DE405星历表覆盖公元 1600年 到2200年的大行星运动数据。既然星历表的元数据已经公布了，就很容易通过说明文档，计算出星历表规定范围内行星的位置。而通过JPL的DE系列星历表计算大行星位置，直接写一个小程序包是最好不过了。于是Brandon编写了jplephem程序包。他说，与其用很长时间埋头写大项目的代码，一年的之中什么都拿不出来，不如将项目分割成小项目，写一段时间代码就先拿出来，以小项目的形式管理，这样才不至于让自己过于焦虑。</p>
+<p>在使用JPL的星历表之后，Brandon不断编写PyEphem类似的功能，这次是用符合现代编码规范，且易于理解的python代码，于是就有了Skyfield程序包 (<a target="_blank" rel="noopener" href="http://rhodesmill.org/skyfield/">http://rhodesmill.org/skyfield/</a>)。</p>
+<p>Brandon非常看重skyfield。在Skyfield的主页上，他甚至直接说， skyfield对于天文计算来说是“优雅”的。而skyfield程序包，也确实是用优雅的方式进行各种星历表计算和转换，值得天文爱好者们了解和学习。有了它，在个人电脑上实现更高精度的天文计算成为可能。</p>
+<p>PyEphem和skyfield受到天文爱好者的欢迎，在业余甚至专业天文学界都有很大的影响，这为Brandon Rhodes赢得了盛誉。他在演讲中提到，有一天，他收到一封求助邮件，发信人向他咨询，能不能帮忙解决美国海军天文台的NOVAS程序在Python中运行的问题，而发邮件的人居然是NASA某实验室的主管。这让他大为惊讶，不过这个忙最后还是帮了。现在在Pipy上novas的Python包 （<a target="_blank" rel="noopener" href="https://pypi.org/project/novas/%EF%BC%89">https://pypi.org/project/novas/）</a>, 也是Brandon帮忙整理的。</p>
+<p>这里再补充两句，美国海军天文台（United States Naval Observatory）成立于1830年，是天体测量学最为权威的机构之一，负责守时和授时，发布高精度的天文数据。香港天文台从1984年开始编写的《香港天文年历》（<a target="_blank" rel="noopener" href="https://www.hko.gov.hk/gts/astron2018/almanac2018_index_uc.htm%EF%BC%89%EF%BC%8C%E9%83%A8%E5%88%86%E5%86%85%E5%AE%B9%E5%B0%B1%E6%98%AF%E6%A0%B9%E6%8D%AE%E7%BE%8E%E5%9B%BD%E6%B5%B7%E5%86%9B%E5%A4%A9%E6%96%87%E5%8F%B0%E7%9A%84%E6%95%B0%E6%8D%AE%E8%80%8C%E8%AE%A1%E7%AE%97%E5%BE%97%E5%87%BA%E7%9A%84%E3%80%82NASA%E7%9A%84%E5%AE%9E%E9%AA%8C%E5%AE%A4%E4%B8%BB%E7%AE%A1%E8%AF%B7Brandon%E5%B8%AE%E5%BF%99%E8%A7%A3%E5%86%B3novas%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%8C%E8%B6%B3%E4%BB%A5%E8%AF%81%E6%98%8E%E4%BB%96%E7%9A%84%E5%BD%B1%E5%93%8D%E5%8F%97%E5%88%B0%E5%AE%98%E6%96%B9%E7%9A%84%E9%87%8D%E8%A7%86%E3%80%82">https://www.hko.gov.hk/gts/astron2018/almanac2018_index_uc.htm），部分内容就是根据美国海军天文台的数据而计算得出的。NASA的实验室主管请Brandon帮忙解决novas的问题，足以证明他的影响受到官方的重视。</a></p>
+<p>不过，大家不要忘了，其实Brandon的正式职业是高级架构师，天文历算只是他的爱好，他只是一位天文爱好者而已。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/09/14/2018-09-14-rhodes/" data-id="ckmq2gwtt00aaq884h9bbcign" data-title="天文爱好者Brandon Rhodes和他的程序包PyEphem, Skyfield" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BA%BA%E7%89%A9/" rel="tag">人物</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2018-08-22-youth" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/08/22/2018-08-22-youth/" class="article-date">
+  <time class="dt-published" datetime="2018-08-21T23:29:54.000Z" itemprop="datePublished">2018-08-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/08/22/2018-08-22-youth/">为什么不要把引进的青年教师称为“论文写手”？</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>最近，南京林业大学李明阳教授的博文《人才引进背后的隐忧》引发热议， 各大网络媒体竞相转载。由于受到多方关注， 新华社主办的《半月谈》杂志还就此发表文章《引进林学人才，竟不认识树木？行业院校争抢“论文写手”引人忧》。</p>
+<p>这篇博文讨论了引进人才的标准、数量及其与现有人才的关系。文中强调，一些农林院校最近几年引进的人才  “基本上是在利用开放式数据源、在电脑上玩模型的论文写手。一个林业专业学科，引进的师资不认识树木、没有野外调查实践经验，天晓得如何胜任教学任务” ，“大部分以补充师资身份引进的青椒在成长的初期以消耗资源为主” ，“除了C9集团少数以科研为主导的一流高校外，绝大部分学校绝大部分教师的主要工作还是教书育人” 。</p>
+<p>李教授的这篇博文， 可谓针砭时弊， 列出了当前高校引进人才的一些问题，例如只看论文影响因子和数量，忽略人才在教学等方面的能力等。诚然，引进的人才的标准和数量， 不同人会有不同的看法。由于资源有限，引进的人才与在职人员也存在各种矛盾， 特别是待遇方面。不过要看到，绝大部分人才引进单位在引进人才之前，用人单位是经过充分论证的，特别是引进人才的科研水平，更是要经得起考验。恐怕没有哪一所大学愿意引进无科研论文发表的“人才”。</p>
+<h2 id="1．-学术论文的形式与内容"><a href="#1．-学术论文的形式与内容" class="headerlink" title="1． 学术论文的形式与内容"></a>1． 学术论文的形式与内容</h2><p>当前， 对科研人员的评价标准主要是看他/她能否在国际重要期刊发表一定数量的研究论文。研究论文是科学家最主要的交流媒介，报道新发现，提出新理论，对原有理论进行批评和改进，评论研究现状并做出进一步展望等等，都是通过发表学术论文进行的。</p>
+<p>为什么一定要在期刊上进行讨论，而不是通过博客或者QQ群，微信群讨论呢？ 这是因为研究论文需要对针对某一个问题的知识体系进行系统梳理：学术论文要说清楚前人做了什么，有什么观点，问题在什么地方，哪些地方还不清楚，作者的理论和假设是怎样的，应该如何检验，数据是怎样采集的，怎样分析的，得到了什么结果，结果的意义是什么等。论文不但要充分涉及这些方面，而且每一个论点和证据都要提供详细的参考文献，列出前人在某一个问题的贡献，并提供文献的作者、年份、题目、期刊、卷、页码等。如果研究中使用了软件，不仅要列出软件名称， 还要提供软件的版本，甚至获取方式和获取日期。近几年兴起的可重复研究（reproducible research）， 更是提倡作者提供原始数据和计算机代码（如R\Python\Matlab\SAS的原代码）。 由于涉及的内容复杂，为了方便理解和撰写，学术期刊上发表的论文要遵循十分严格的范式，学术论文一般分为前言、材料与方法、结果、讨论等几大部分，并有摘要、参考文献，并常有附录。因此，有人甚至戏称学术论文比八股文更为八股。</p>
+<p>学习过学术写作的人都知道，学术写作所用的语言要求平实易懂，与文学语言有所区别。在小说、诗歌、散文中，为了传递情感，语言常常有浓厚的感情色彩。然而学术论文主要是陈述事实、阐述思想，要求句式简单，易于理解。同是文章，学术论文行文要求有理有据，与小说和博客的文字是有很大区别的。</p>
+<h2 id="2．-发表学术论文的难度"><a href="#2．-发表学术论文的难度" class="headerlink" title="2． 发表学术论文的难度"></a>2． 发表学术论文的难度</h2><p> “写手”这个词本无贬义， 但是用在这种语境下， 就有一定的贬义。笔者认为， “写手”这种提法是不合适的。 “写手” 原本是指会写东西的人，可泛指各种从事写作的人：写博客的人可称为写手， 写网络小说的人也可以称为写手。然而将写学术论文的年轻学者称为“写手”， 难免会让不了解学术研究， 不了解学术论文写作的人产生误解：认为科研论文人人都能写。如果科研论文人人都能写， 那么大学何苦花重金引进科研人才？</p>
+<p>科研论文从形式和内容的复杂性已经决定撰写时要耗费极大精力。然而这还不是全部，因为学术论文的灵魂是创新，论文当中或多或少要有新的发现、新的认知。新发现和新认知，是科学能够不断提升人类对自然认知的保证，也是科学研究最重要的意义。一篇学术论文是否能够在主流刊物发表，其创新性、研究的合理性，撰写等都非常重要。而这些都要经过同行评议。论文能否发表，不是取决于作者自己，也不是取决于期刊的编辑，绝大部分论文都要经过短则一、两个月，长则一年多的审稿过程。稿子是谁来评审呢？一般是研究方向相同或者相近的2到3位匿名审稿人，有时候甚至是双盲审稿，稿件作者不知道审稿人是谁， 审稿人不知道稿件作者是谁，以保证评价的客观和公正。由于研究和论文难免有一定的缺陷或者瑕疵，或者由于稿件写的不够好，如逻辑不清， 语言不过关等，拒稿是家常便饭。 有些期刊的拒稿率甚至高达90%。越是重要的期刊，文章接受发表的难度也越大。</p>
+<p>世界上从事科研工作的人很多，但是主流的期刊数量有限。主流期刊，一般是业界关注率比较高的期刊。在这些期刊上发表的论文，其他同行比较容易见到，所以研究的成果也更容易受到关注。以生物地理学和群落生态学为例， SCI影响因子较高的期刊，一般是主流期刊， 而排在最前面的，有时候也称为“权威”期刊。这些刊物包括 Nature , Science, PNAS, Ecology Letters, Ecological Mongraphs, The American Naturalist, Global Ecology and Biogeography, Journal of Biogeography, Ecography, Ecology, Journal of Ecology, Oikos, Diversity and Distributions等。 只有将自己的研究成果发表在这些刊物上，才更容易受到国际同行的关注和承认。如果论文没有发表在这些刊物上， 并不是说研究就一定不重要或者不好， 但是难以获得学术界关注和承认是肯定的。如果科研人员没有重量级的论文发表，就难以获得学术界承认，基本上只能自娱自乐了。 这也是为什么顶尖学者一定要将研究成果以论文的形式发表在主流刊物上。</p>
+<h2 id="3．-科研是怎样促进教学的？"><a href="#3．-科研是怎样促进教学的？" class="headerlink" title="3． 科研是怎样促进教学的？"></a>3． 科研是怎样促进教学的？</h2><p>李教授的博客中提到， 一些引进的人才只会写论文，连认树木都不认识， 难以承担教学任务。笔者认为这基本上是杞人忧天， 而且将科学研究与教学对立起来是不好的。</p>
+<p>现代大学的功能，主要包括通过传播思想、知识和技能，进行科学研究与技术开发等为社会服务，同时为社会发展提供人才等，保证科学和文化能够很好的传承。由于历史原因， 我国的高等院校有理工、农林、师范、综合院校等区别，但若要满足社会发展的需求，若以李教授提到的C9院校以科研为主，其他院校以“教书育人”为主是不妥的。如果C9以外的院校都不做科学研究， 只做教学， 那么这些大学是否能满足社会发展的要求？只重教学不做科研的后果， 当然就是无论文产出，老师缺乏课题经费，学校学术声望降低，学校排名下降， 最后学生是否愿意就读都成问题，何谈学校发展？ 何谈大学的社会责任？</p>
+<p>当然，在这样学校里经历过“教书育人”熏陶的学生仍然会对社会有所贡献。 但是不做科学研究， 不了解研究进展的教学，究竟会优秀到何种程度还很难说。我国大学教材中的知识体系和方法上， 在一定程度上落后于欧美一流大学的教材。原因之一可能是编写教材的老师，很难有精力大量阅读国际上最前沿的进展并编写到课本中，以致中文教材滞后于同时期欧美英文教材。当代科学研究学科划分十分精细，技术和认知更新都很快， 如果只从事教学而不做研究，不写论文，甚至很难读懂最新的研究进展，势必对教学有很大的影响。</p>
+<p>教学与科研应该是相辅相成的，而不应该是”论文写手连树木都不认识，何谈教学？”。恰恰是因为这些引进的青年人才在写论文， 能够了解最新的研究进展， 才能将新知识和新技能传授给学生，在教学过程中能启发学生进行批判性的思考， 从而达到更好的教学效果。如果只以“不认识树木”作为单一的评价标准，对这些青年教师来讲是不公平的。他们所教的课程，是否一定要求“认识树木”？ 认识多少种树算认识树木？ 他们的课堂，学生是否满意？ 是否达到了学校的教学要求，这些恐怕并不是“认识几种树木”那么简单。如果授课教师未能达到教学要求，最早有意见的恐怕是学生本身。没有经过学校和学院的批准，教师是否能开展教学工作？ 不能完成教学任务，管理机构难道会坐视不管？</p>
+<h2 id="4．-不做实验的科研不是好的科研吗？"><a href="#4．-不做实验的科研不是好的科研吗？" class="headerlink" title="4． 不做实验的科研不是好的科研吗？"></a>4． 不做实验的科研不是好的科研吗？</h2><p>博文中说，这些引进的人才， 基本上是“利用开放式数据源、在电脑上玩模型的论文写手”，然而利用开放式数据源， 通过运行模型的结果撰写论文是近些年兴起的生物信息学和生物多样性信息学的主要方法。如果认为研究人员不自己做实验，亲自收集数据就是在钻科研的空子，其实是十分荒谬的。</p>
+<p>近年来，生命科学从宏观上和微观上都积累了海量的数据， 如保存DNA序列、蛋白质序列和基因组学信息的Genbank数据库， 保存物种分布数据的GBIF、 NSII数据库， 保存全球地形、气候、植被、土壤的USGS数据库，保存植物功能性状的TRY数据库， 保存物种化石记录和分化时间的 TIMETREE (<a target="_blank" rel="noopener" href="http://www.timetree.org/">http://www.timetree.org/</a>)网站 ， 还有诸如地震数据、人口数据、光污染数据库等等。 这些数据库基本上实现了开放获取。 例如，要查询某一个种在世界范围内的分布情况，是否濒危，查询GBIF数据库就可以了。这些信息在不同的时空尺度有一定的规律性，找出其中的规律以及理解背后的机制，正是科研工作者的重要任务。通过实验收集数据，获得的新认知是科学发现，而对现有大数据进行深入分析， 获得的新认知也是科学发现， 并不存在谁优谁劣的问题。前文提到，在学术领域， 发表科研论文是要经过同行评议的， 现代科学的主要发现是通过学术论文展示的，既然能够在“权威期刊”上发表学术论文， 研究的重要性当然是有目共睹的。</p>
+<p>当然， 不排除有些作者以发论文为目的，论文的方法和材料都缺乏创新性，但是这样的论文即使能发表， 在学术界也没有多少人关注，很难发表在主流期刊，更谈不上权威期刊。科研人员的时间和精力有限， 大部分人是想做出出色的原创性成果的。诚然，大部分研究只能对学科发展做出有限的推进，不过质变是建立在量变基础上的，证据不断积累，学科之间不断融合，才能促进新的理论或者新的方法的诞生。</p>
+<p>前文提到的论文，为一般的研究论文，但是科学论文还有综述性论文等。综述又分为描述性综述和系统性综述。Meta analysis（整合分析）就是综述的一种。在meta analysis中，研究人员在充分搜集文献的基础上， 从现有文献提取数据，然后根据每个研究的样本量给予适当权重，再进一步计算各结果的重要性等从而做出判断。Meta analysis不仅阐述某一问题的研究进展，也会对相应的理论机制进行深入探讨，从而得出一些结论，获得新的认知。Meta analysis也不做实验，只是提取和汇总数据， 然后运行通过软件得出结果，但由于确实能加深人们对事物的认知，有理有据， 所以也能够以重量级的科研论文形式发表， 而且在学术界也很受欢迎。</p>
+<h2 id="5．-人才引进与青年教师的生存困境"><a href="#5．-人才引进与青年教师的生存困境" class="headerlink" title="5． 人才引进与青年教师的生存困境"></a>5． 人才引进与青年教师的生存困境</h2><p>当前， 青年教师的生存状况总体上令人忧虑，但这是否是由于人才引进导致的？ 引进的青年人才是否在生活上无后顾之忧，从而一心扑在教学和科研第一线呢？ 当然， 高房价、高生活成本与高校青年教师微薄的薪水之间形成强烈的反差， 而发表论文，获得科研项目支持， 对于职称晋升， 改善青年学者的生存状况至关重要。从国外或者外校引进的青年教师，在待遇上可能确实相对好一些，但是仍然面临很大的生存压力。毕竟在科研领域，不发表论文， 没有研究成果，就不可能拿到基金资助，不能晋升职称，此时就很难谈上事业上的发展。指出本校人才和引进人才待遇之间的不公平当然是好的，但是人们更为期待的是解决这些矛盾的具体措施和具体建议。</p>
+<h2 id="6．-结论"><a href="#6．-结论" class="headerlink" title="6． 结论"></a>6． 结论</h2><p>青年教师是大学科研、教学的中坚力量。青年教师在科研和教学领域投身一线工作都是需要鼓励和爱护的。如果将能写论文的青年教师贬称为“写手”，那么所有的科学家或许都是“写手”了。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="http://www.banyuetan.org/jy/detail/20180814/1000200033136041534209038987589123_1.html">http://www.banyuetan.org/jy/detail/20180814/1000200033136041534209038987589123_1.html</a> </p>
+<p><a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/blog-814548-1123826.html">http://blog.sciencenet.cn/blog-814548-1123826.html</a> </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/08/22/2018-08-22-youth/" data-id="ckmq2gwtt00a8q8842qss99de" data-title="为什么不要把引进的青年教师称为“论文写手”？" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%A9%B3%E8%AE%BA/" rel="tag">驳论</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/R%E7%BC%96%E7%A8%8B/" rel="tag">R编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%BA%E7%89%A9/" rel="tag">人物</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%99%E4%BD%9C/" rel="tag">写作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" rel="tag">可视化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E4%B9%A6/" rel="tag">图书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" rel="tag">图像处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9C%B0%E7%90%86/" rel="tag">地理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A3%B0%E6%98%8E/" rel="tag">声明</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A9%E6%96%87/" rel="tag">天文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%AF%9D%E5%BD%95/" rel="tag">对话录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%83%E5%BE%97/" rel="tag">心得</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E5%91%8A/" rel="tag">报告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E7%89%88/" rel="tag">排版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%85%E4%B9%A1/" rel="tag">故乡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" rel="tag">标本馆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%88%86%E7%B1%BB/" rel="tag">植物分类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%90%8D/" rel="tag">植物学名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%82%E8%81%8C/" rel="tag">求职</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" rel="tag">版本控制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%80%81/" rel="tag">生态</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%80%81%E8%B5%84%E8%AE%AF/" rel="tag">生态资讯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%94%E7%A9%B6%E8%B5%84%E8%AE%AF/" rel="tag">研究资讯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B3%BB%E7%BB%9F%E5%8F%91%E8%82%B2/" rel="tag">系统发育</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%9F%E8%AE%A1/" rel="tag">统计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" rel="tag">行摄匆匆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%81%E9%97%BB%E5%BD%95/" rel="tag">见闻录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%97%E6%AD%8C/" rel="tag">诗歌</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E5%8C%96/" rel="tag">进化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E6%83%B3/" rel="tag">随想</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A9%B3%E8%AE%BA/" rel="tag">驳论</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/R%E7%BC%96%E7%A8%8B/" style="font-size: 18.75px;">R编程</a> <a href="/tags/%E4%BA%BA%E7%89%A9/" style="font-size: 11.88px;">人物</a> <a href="/tags/%E5%86%99%E4%BD%9C/" style="font-size: 13.13px;">写作</a> <a href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" style="font-size: 12.5px;">可视化</a> <a href="/tags/%E5%9B%BE%E4%B9%A6/" style="font-size: 10px;">图书</a> <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" style="font-size: 11.88px;">图像处理</a> <a href="/tags/%E5%9C%B0%E7%90%86/" style="font-size: 17.5px;">地理</a> <a href="/tags/%E5%A3%B0%E6%98%8E/" style="font-size: 10.63px;">声明</a> <a href="/tags/%E5%A4%A9%E6%96%87/" style="font-size: 16.25px;">天文</a> <a href="/tags/%E5%AF%B9%E8%AF%9D%E5%BD%95/" style="font-size: 10px;">对话录</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 10px;">心得</a> <a href="/tags/%E6%8A%A5%E5%91%8A/" style="font-size: 12.5px;">报告</a> <a href="/tags/%E6%8E%92%E7%89%88/" style="font-size: 13.75px;">排版</a> <a href="/tags/%E6%95%85%E4%B9%A1/" style="font-size: 10.63px;">故乡</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10.63px;">数据库</a> <a href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" style="font-size: 14.38px;">标本馆</a> <a href="/tags/%E6%A4%8D%E7%89%A9%E5%88%86%E7%B1%BB/" style="font-size: 10px;">植物分类</a> <a href="/tags/%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%90%8D/" style="font-size: 10px;">植物学名</a> <a href="/tags/%E6%B1%82%E8%81%8C/" style="font-size: 10px;">求职</a> <a href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" style="font-size: 11.25px;">版本控制</a> <a href="/tags/%E7%94%9F%E6%80%81/" style="font-size: 16.88px;">生态</a> <a href="/tags/%E7%94%9F%E6%80%81%E8%B5%84%E8%AE%AF/" style="font-size: 10px;">生态资讯</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E8%B5%84%E8%AE%AF/" style="font-size: 10px;">研究资讯</a> <a href="/tags/%E7%B3%BB%E7%BB%9F%E5%8F%91%E8%82%B2/" style="font-size: 10px;">系统发育</a> <a href="/tags/%E7%BB%9F%E8%AE%A1/" style="font-size: 18.13px;">统计</a> <a href="/tags/%E7%BC%96%E7%A8%8B/" style="font-size: 10.63px;">编程</a> <a href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" style="font-size: 15px;">行摄匆匆</a> <a href="/tags/%E8%A7%81%E9%97%BB%E5%BD%95/" style="font-size: 10px;">见闻录</a> <a href="/tags/%E8%AF%97%E6%AD%8C/" style="font-size: 15.63px;">诗歌</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 19.38px;">软件</a> <a href="/tags/%E8%BF%9B%E5%8C%96/" style="font-size: 10.63px;">进化</a> <a href="/tags/%E9%9A%8F%E6%83%B3/" style="font-size: 11.25px;">随想</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 20px;">随笔</a> <a href="/tags/%E9%A9%B3%E8%AE%BA/" style="font-size: 10px;">驳论</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">January 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">December 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">October 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05/">May 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">May 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">December 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">August 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">March 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">April 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/01/">January 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/08/">August 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/07/">July 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/06/">June 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">May 2009</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/18/2021-03-18/">为什么《xxxx在XX研究中取得进展》这类文章很少有人转发？</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/2021-02-16/">如何恢复森林？– 从嘉道理农场的森林恢复样地说起</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 Jinlong Zhang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

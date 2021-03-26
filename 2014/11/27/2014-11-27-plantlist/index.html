@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>用R程序包plantlist查询和处理植物学名 | Jinlong Zhang&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="plantlist是用来查询和处理植物学名的R程序包，自2013年发布以来，受到很多老师和同学的关注。R软件中，类似的程序包还有taxize(https:&#x2F;&#x2F;cran.r-project.org&#x2F;web&#x2F;packages&#x2F;taxize&#x2F;index.html)、Taxonstand([https:&#x2F;&#x2F;cran.r-project.org&#x2F;web&#x2F;packages&#x2F;Taxonstand&#x2F;index.h">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用R程序包plantlist查询和处理植物学名">
+<meta property="og:url" content="https://helixcn.github.io/2014/11/27/2014-11-27-plantlist/index.html">
+<meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
+<meta property="og:description" content="plantlist是用来查询和处理植物学名的R程序包，自2013年发布以来，受到很多老师和同学的关注。R软件中，类似的程序包还有taxize(https:&#x2F;&#x2F;cran.r-project.org&#x2F;web&#x2F;packages&#x2F;taxize&#x2F;index.html)、Taxonstand([https:&#x2F;&#x2F;cran.r-project.org&#x2F;web&#x2F;packages&#x2F;Taxonstand&#x2F;index.h">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2014-11-26T20:37:54.000Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:24.551Z">
+<meta property="article:author" content="Jinlong Zhang">
+<meta property="article:tag" content="软件">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Jinlong Zhang's blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jinlong Zhang&#39;s blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://helixcn.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-2014-11-27-plantlist" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2014/11/27/2014-11-27-plantlist/" class="article-date">
+  <time class="dt-published" datetime="2014-11-26T20:37:54.000Z" itemprop="datePublished">2014-11-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      用R程序包plantlist查询和处理植物学名
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>plantlist是用来查询和处理植物学名的R程序包，自2013年发布以来，受到很多老师和同学的关注。R软件中，类似的程序包还有taxize(<a target="_blank" rel="noopener" href="https://cran.r-project.org/web/packages/taxize/index.html)%E3%80%81Taxonstand([https://cran.r-project.org/web/packages/Taxonstand/index.html)](https://cran.r-project.org/web/packages/Taxonstand/index.html)%E7%AD%89)[%E7%AD%89](https://cran.r-project.org/web/packages/Taxonstand/index.html)%E7%AD%89)%E3%80%82">https://cran.r-project.org/web/packages/taxize/index.html)、Taxonstand([https://cran.r-project.org/web/packages/Taxonstand/index.html)](https://cran.r-project.org/web/packages/Taxonstand/index.html)等)[等](https://cran.r-project.org/web/packages/Taxonstand/index.html)等)。</a></p>
+<p>相比之下plantlist的主要特点在于：</p>
+<ol>
+<li><pre><code>使用校对过的内置数据，使用过程中不需要连网。
+</code></pre>
+</li>
+<li><pre><code>优化了查询单个物种名是否为接受名的算法，速度比taxize更快
+</code></pre>
+</li>
+<li><pre><code>查询结果所显示的信息更加简洁清晰
+</code></pre>
+</li>
+<li><pre><code>支持用中文名批量查询学名
+</code></pre>
+</li>
+</ol>
+<h2 id="plantlist的主要功能"><a href="#plantlist的主要功能" class="headerlink" title="plantlist的主要功能"></a>plantlist的主要功能</h2><ol>
+<li><pre><code>批量查询植物科属，内置的数据主要来源于The    Plant    List网站(www.theplantlist.org/)，其中被子植物采用APGIII分类系统，同时提供维管植物每个科的编号，极大方便了植物标本的管理，方便植物名录处理等。
+</code></pre>
+</li>
+<li><pre><code>直接生成科/属/种的列表,    以便导入Phylomatic等软件生成进化树
+</code></pre>
+</li>
+<li><pre><code>用中文名批量查询植物学名以及科属
+</code></pre>
+</li>
+<li><pre><code>查询学名的接受状态以及完整学名等
+</code></pre>
+</li>
+</ol>
+<h2 id="plantlist包内的函数"><a href="#plantlist包内的函数" class="headerlink" title="plantlist包内的函数"></a>plantlist包内的函数</h2><ul>
+<li><pre><code>`CTPL()` 用中文名查询每个种的科、属、分布、海拔、在中国的IUCN等级数据
+</code></pre>
+</li>
+<li><pre><code>`CTPL2()` 功能与CTPL类似，但`CTPL2()`只读写Excel文件，而CTPL在查询时可直接输入中文字符。
+</code></pre>
+</li>
+<li><pre><code>`status()` 查询每个学名在The    Plant List 1.1数据库中的接受状态（该数据库已经放在程序包中）
+</code></pre>
+</li>
+<li><pre><code>`taxa.table()` 基于TPL查询结果制作科、属、种列表，以便用Phylomatic软件建立进化树
+</code></pre>
+</li>
+<li><pre><code>`TPL()` 用学名查询目、科、属以及科在分类系统中的编号
+</code></pre>
+</li>
+</ul>
+<h2 id="内置数据"><a href="#内置数据" class="headerlink" title="内置数据"></a>内置数据</h2><ul>
+<li><pre><code>`acc_dat`:    The Plant List 1.1 网站上的所有接受名
+</code></pre>
+</li>
+<li><pre><code>`cnplants_dat`:    《中国植物名录》及每个种的科、属、分布、海拔、中国IUCN等级以及特有性等数据
+</code></pre>
+</li>
+<li><pre><code>`genera_dat`:    The Plant List 1.1 网站上的所有属名列表，因源数据有一些错误，绝大部分已经修订。
+</code></pre>
+</li>
+<li><pre><code>`orders_dat`:    Angiosperm Phylogeny Website (www.mobot.org/MOBOT/research/APweb/)    提供的各科所属的目。
+</code></pre>
+</li>
+<li><pre><code>`syn_dat`:    The Plant List 1.1 网站的异名数据库
+</code></pre>
+</li>
+</ul>
+<h1 id="软件安装"><a href="#软件安装" class="headerlink" title="软件安装"></a>软件安装</h1><p>plantlist必须要先安装R才能使用。由于plantlist内部函数<code>CTPL2</code>函数需要使用openxlsx程序包读取xlsx文件，所以也要安装openxlsx所依赖的Rtools以及Rcpp，并配置好启动路径才能正常使用。</p>
+<h2 id="安装R软件"><a href="#安装R软件" class="headerlink" title="安装R软件"></a>安装R软件</h2><p>R软件下载的地址为:(<a target="_blank" rel="noopener" href="http://cran.r-project.org/bin/windows/base/">http://cran.r-project.org/bin/windows/base/</a>)。请尽量下载最新版本的R并按照默认路径安装。因为程序运行过程中涉及UTF8字符转换，所以R版本不能低于3.0.3。</p>
+<p>图1.R软件windows版本下载页</p>
+<p>图2.R软件3.3.1的登录界面</p>
+<h2 id="安装Rstudio"><a href="#安装Rstudio" class="headerlink" title="安装Rstudio"></a>安装Rstudio</h2><p>推荐用Rstudio的Console输入函数查询，这是因为在部分Windows系统中，R自带的RGui中无法正常输入汉字，而Rstudio较好地解决了字符编码和汉字输入的问题。建议所有文本文件都使用UTF-8编码，以降低出现乱码的机会。</p>
+<p>Rstudio可以在(<a target="_blank" rel="noopener" href="https://www.rstudio.com/products/rstudio/download/)%E4%B8%8B%E8%BD%BD%E3%80%82">https://www.rstudio.com/products/rstudio/download/)下载。</a></p>
+<h2 id="安装Rtools"><a href="#安装Rtools" class="headerlink" title="安装Rtools"></a>安装Rtools</h2><p>Rtools是编写R程序包的工具软件，含有读写xlsx文件所需的unzip和zip函数，安装时<strong>必须允许<strong><strong>Rtools</strong></strong>修改启动路径</strong>。</p>
+<p>Rtools的下载地址为(<a target="_blank" rel="noopener" href="https://cran.r-project.org/bin/windows/Rtools/)%E3%80%82%E5%AE%89%E8%A3%85Rtools%E6%97%B6%E9%A1%BB%E5%85%81%E8%AE%B8%E5%85%B6%E4%BF%AE%E6%94%B9%E7%B3%BB%E7%BB%9F%E8%B7%AF%E5%BE%84systemPATH%E3%80%82">https://cran.r-project.org/bin/windows/Rtools/)。安装Rtools时须允许其修改系统路径systemPATH。</a></p>
+<p>图3.Rtools下载页面，<strong>请以列表中第一行未冻结的版本为准</strong></p>
+<p>图4.安装Rtools时应该允许其修改systemPATH</p>
+<p>Rtools安装完成后可以通过以下方式检查是否安装成功:</p>
+<p>图5.在控制台中输入zip,如图所示，若未提示错误，则Rtools安装和配置成功</p>
+<h2 id="安装openxlsx程序包"><a href="#安装openxlsx程序包" class="headerlink" title="安装openxlsx程序包"></a>安装openxlsx程序包</h2><p>openxlsx程序包用来读取和保存带有植物名录的xlsx模板，在Rconsole中输入：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">&quot;openxlsx&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>然后，在弹出的窗口选择距离较近的CRAN镜像，openxlsx程序包会自动下载并安装好。部分地区由于网络限制，不一定能打开r-project网站的云服务，以致报错。此时可以用以下命令从指定的CRAN镜像网站安装:</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">&quot;ctv&quot;</span>, repos = <span class="string">&quot;http://cran.R-project.org&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>其中 <a target="_blank" rel="noopener" href="http://cran.r-project.org/">http://cran.R-project.org</a> 可替换为任何CRAN镜像名。CRAN镜像列表见以下网址：<a target="_blank" rel="noopener" href="https://cran.r-project.org/mirrors.html">https://cran.r-project.org/mirrors.html</a></p>
+<p>图6.通过<code>install.packages</code>命令安装openxlsx程序包</p>
+<h2 id="安装plantlist程序包"><a href="#安装plantlist程序包" class="headerlink" title="安装plantlist程序包"></a>安装plantlist程序包</h2><p>由于plantlist程序包内置的数据约20M,不便提交到CRAN。稳定版本在R-Forge(<a target="_blank" rel="noopener" href="https://r-forge.r-project.org/R/?group_id=2052),%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC%E7%9A%84%E6%BA%90%E4%BB%A3%E7%A0%81%E4%BF%9D%E5%AD%98%E5%9C%A8github%E3%80%82">https://r-forge.r-project.org/R/?group_id=2052),最新版本的源代码保存在github。</a></p>
+<p>图7.Rforge网站上plantlist的页面</p>
+<h3 id="从R-Forge下载安装"><a href="#从R-Forge下载安装" class="headerlink" title="从R-Forge下载安装"></a>从R-Forge下载安装</h3><p>命令是:</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">&quot;plantlist&quot;</span>, repos=<span class="string">&quot;http://R-Forge.R-project.org&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="从github下载和安装"><a href="#从github下载和安装" class="headerlink" title="从github下载和安装"></a>从github下载和安装</h3><p>plantlist的github网址是(<a target="_blank" rel="noopener" href="https://www.github.com/helixcn/plantlist)%E3%80%82%E5%8F%AF%E4%BD%BF%E7%94%A8%E5%A6%82%E4%B8%8B%E5%91%BD%E4%BB%A4%E5%AE%89%E8%A3%85%EF%BC%9A">https://www.github.com/helixcn/plantlist)。可使用如下命令安装：</a></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">devtools::install_github(<span class="string">&quot;helixcn/plantlist&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>若尚未安装devtools程序包,需要输入以下命令安装:</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">&quot;devtools&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>至此，plantlist及其依赖的程序包都安装好了。</p>
+<h1 id="plantlist各函数的用法"><a href="#plantlist各函数的用法" class="headerlink" title="plantlist各函数的用法"></a>plantlist各函数的用法</h1><p>在使用plantlist之前，必须用<code>library(plantlist)</code> 加载plantlist。查询每个函数的使用方法，请输入<code>?``函数名</code>，例如：<code>?TPL</code>即可查看TPL函数的帮助界面。</p>
+<h2 id="CTPL-用中文名查询科、属、分布、海拔、IUCN等级数据"><a href="#CTPL-用中文名查询科、属、分布、海拔、IUCN等级数据" class="headerlink" title="CTPL() 用中文名查询科、属、分布、海拔、IUCN等级数据"></a><code>CTPL()</code> 用中文名查询科、属、分布、海拔、IUCN等级数据</h2><p>调用方式和参数如下： <code>CTPL(taxa= NULL, print_as_list = TRUE)</code></p>
+<p>其中taxa是植物的中文名， <code>print_as_list</code> 只是打印方式的选项，如果为TRUE，则用列表的方式打印。</p>
+<p><strong>注意：用列表的方式打印，只是为了显示的方便，本函数返回值为****data.frame,</strong> <code>print_as_list</code><strong>参数并不会改变返回值的数据类型。</strong></p>
+<p>示例代码如下：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">library(plantlist)</span><br><span class="line">CTPL(<span class="built_in">c</span>(<span class="string">&quot;杨梅&quot;</span>, <span class="string">&quot;多花泡花树&quot;</span>))</span><br><span class="line">CTPL(<span class="built_in">c</span>(<span class="string">&quot;网脉实蕨&quot;</span>, <span class="string">&quot;江南星蕨&quot;</span>))</span><br><span class="line"><span class="comment"># 将结果保存到Excel文件中</span></span><br><span class="line">library(openxlsx)</span><br><span class="line">rrr &lt;- CTPL(<span class="built_in">c</span>(<span class="string">&quot;侧金盏花&quot;</span>,               </span><br><span class="line">              <span class="string">&quot;多花泡花树&quot;</span>,               </span><br><span class="line">              <span class="string">&quot;网脉山龙眼&quot;</span>,               </span><br><span class="line">              <span class="string">&quot;绿樟&quot;</span>,               </span><br><span class="line">              <span class="string">&quot;网脉实蕨&quot;</span>))</span><br><span class="line">write.xlsx(rrr, <span class="string">&quot;results.xlsx&quot;</span>)<span class="comment"># 纯文本文件的读写</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Save to UTF-8</span></span><br><span class="line"></span><br><span class="line">writeLines(text = <span class="built_in">c</span>(<span class="string">&quot;桃儿七&quot;</span>, <span class="string">&quot;连香树&quot;</span>,<span class="string">&quot;水青树&quot;</span>,<span class="string">&quot;绿樟&quot;</span>,<span class="string">&quot;网脉实蕨&quot;</span>),     </span><br><span class="line">con = <span class="string">&quot;test_species.txt&quot;</span>,     </span><br><span class="line">useBytes = <span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line">sp &lt;- readLines(<span class="string">&quot;test_species.txt&quot;</span>, encoding = <span class="string">&quot;UTF-8&quot;</span>)</span><br><span class="line"></span><br><span class="line">CTPL(sp)</span><br></pre></td></tr></table></figure>
+
+
+<p>图8.CTPL的查询结果</p>
+<h2 id="CTPL2-用中文名查询科、属、分布、海拔、IUCN等级数据"><a href="#CTPL2-用中文名查询科、属、分布、海拔、IUCN等级数据" class="headerlink" title="CTPL2() 用中文名查询科、属、分布、海拔、IUCN等级数据"></a><code>CTPL2()</code> 用中文名查询科、属、分布、海拔、IUCN等级数据</h2><p><code>CTPL2</code>可直接读取Excel文件第一列的数据，并以此和内置的<code>cnplants_dat</code>数据匹配，结果保存在自动生成的xlsx文件中。</p>
+<p>示例代码如下：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Example of CTPL2</span></span><br><span class="line">library(plantlist)</span><br><span class="line">library(openxlsx)</span><br><span class="line"></span><br><span class="line">species &lt;- data.frame(plants = <span class="built_in">c</span>(<span class="string">&quot;侧金盏花&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;多花泡花树&quot;</span>,                                  </span><br><span class="line"><span class="string">&quot;网脉山龙眼&quot;</span>,                                  </span><br><span class="line"><span class="string">&quot;绿樟&quot;</span>,                                  </span><br><span class="line"><span class="string">&quot;网脉实蕨&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;无根藤&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;黄樟&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;香叶树&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;山鸡椒&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;潺槁木姜子&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;豺皮樟&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;浙江润楠&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;广东润楠&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;广寄生&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;两广梭罗&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;假苹婆&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;地桃花&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;白背黄花稔&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;通泉草&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;野牡丹&quot;</span>))</span><br><span class="line"></span><br><span class="line">write.xlsx(species, <span class="string">&quot;species_to_search.xlsx&quot;</span>)</span><br><span class="line">CTPL2(<span class="string">&quot;species_to_search.xlsx&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+
+<p>图9.CTPL2的查询结果。</p>
+<h2 id="status-查询每个学名在ThePlant-List-1-1-的接受状态"><a href="#status-查询每个学名在ThePlant-List-1-1-的接受状态" class="headerlink" title="status() 查询每个学名在ThePlant List 1.1 的接受状态"></a><code>status()</code> 查询每个学名在ThePlant List 1.1 的接受状态</h2><p>函数的参数 <code>status(species=NA, exact =TRUE, spell_error_max =NULL)</code></p>
+<ul>
+<li><pre><code>`species`为输入的字符串向量。
+</code></pre>
+</li>
+<li><pre><code>`exact`表示是否进行精确匹配，如果不是精确匹配，则所有能用grep正则表达式匹配的结果都会显示。一般建议用精确匹配。
+</code></pre>
+</li>
+<li><pre><code>`spell_error_max` 为所允许的最大的错误拼写的字母数量。
+</code></pre>
+</li>
+<li><pre><code>`status`函数对输入的species物种名大小写不敏感,物种名的前后以及中间允许有多个空格，species可以包括或者不包括命名人（变型f.之前的命名人除外）。
+</code></pre>
+</li>
+</ul>
+<p><code>status</code>函数可以查询变种var.亚种subsp.以及变型f.是否接受等信息.</p>
+<p>示例代码：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">library(plantlist)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 建立物种名单</span></span><br><span class="line">sp &lt;-<span class="built_in">c</span>(<span class="string">&quot;Elaeocarpus decipiens&quot;</span>,       </span><br><span class="line">       <span class="string">&quot;Syzygium buxifolium&quot;</span>,       </span><br><span class="line">       <span class="string">&quot;Daphniphyllum oldhamii&quot;</span>,       </span><br><span class="line">       <span class="string">&quot;Loropetalum chinense&quot;</span>,       </span><br><span class="line">       <span class="string">&quot;Rhododendron latoucheae&quot;</span>,       </span><br><span class="line">       <span class="string">&quot;Rhododendron ovatum&quot;</span>,       </span><br><span class="line">       <span class="string">&quot;Vaccinium carlesii&quot;</span>,       </span><br><span class="line">       <span class="string">&quot;Schima superba&quot;</span>)</span><br><span class="line">       </span><br><span class="line"><span class="comment">### 检查名单内每个种的接受情况以及接受名</span></span><br><span class="line">status(sp)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 检查一个种的接受情况</span></span><br><span class="line">status(<span class="string">&quot;Myrica rubra&quot;</span>)              <span class="comment">## 杨梅</span></span><br><span class="line">status(<span class="string">&quot;Adinandra millettii&quot;</span>)       <span class="comment">## 杨桐</span></span><br><span class="line">status(<span class="string">&quot;cyclobalanopsis neglecta &quot;</span>) <span class="comment">## 竹叶青冈</span></span><br><span class="line">status(<span class="string">&quot;Lirianthe henryi&quot;</span>)          <span class="comment">## 大叶木兰</span></span><br><span class="line"><span class="comment">#### 同时检查几个学名的状态</span></span><br><span class="line">status(<span class="built_in">c</span>(<span class="string">&quot;Myrica rubra&quot;</span>,          </span><br><span class="line">         <span class="string">&quot;Adinandra millettii&quot;</span>,         </span><br><span class="line">         <span class="string">&quot;Machilus thunbergii&quot;</span>,         </span><br><span class="line">         <span class="string">&quot;Ranunculus japonicus&quot;</span>,         </span><br><span class="line">         <span class="string">&quot;Cyclobalanopsis neglecta&quot;</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">### Check the statusof a scientific name (with or without authorship)</span></span><br><span class="line"><span class="comment">### 查询学名是否接受</span></span><br><span class="line">status(<span class="string">&quot;Hypoxis filifolia&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### Subspecies (withor without authorship)</span></span><br><span class="line"><span class="comment">### 查询亚种是否接受</span></span><br><span class="line">status(<span class="string">&quot;Hypoxis kilimanjarica subsp. kilimanjarica&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### Variaty (with orwithout authorship)</span></span><br><span class="line"><span class="comment">### 查询变种是否接受</span></span><br><span class="line">status(<span class="string">&quot;Hypoxis erecta var. aestivalis&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### Form (with orwithout authorship)</span></span><br><span class="line"><span class="comment">### 查询变型是否接受</span></span><br><span class="line">status(<span class="string">&quot;Hypoxis hirsuta f. villosissima&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 重要提示： 由于表示变型的 f. 有时也用于命名人中，</span></span><br><span class="line"><span class="comment">### 因此，用status函数在查询变型时， 请勿为种添加命名人，</span></span><br><span class="line"><span class="comment">### 但是变型的命名人可以提供或者不提供，具体为:</span></span><br><span class="line"><span class="string">&quot;Hypoxis hirsuta (L.)Coville f. vollosissima Fernald&quot;</span><span class="comment">#  （不能处理）</span></span><br><span class="line"><span class="string">&quot;Hypoxis hirsuta f. vollosissima Fernald&quot;</span><span class="comment">#（能处理）</span></span><br><span class="line"><span class="string">&quot;Hypoxis hirsuta f. vollosissima&quot;</span><span class="comment">#（能处理）</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="taxa-table-基于TPL查询结果制作科属种列表"><a href="#taxa-table-基于TPL查询结果制作科属种列表" class="headerlink" title="taxa.table() 基于TPL查询结果制作科属种列表"></a><code>taxa.table()</code> 基于TPL查询结果制作科属种列表</h2><p>查询结果多用于在Phylomatic软件中构建进化树。示例代码如下：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sp &lt;- <span class="built_in">c</span>( <span class="string">&quot;Ranunculus japonicus&quot;</span>,</span><br><span class="line">         <span class="string">&quot;Anemone udensis&quot;</span>,         </span><br><span class="line">         <span class="string">&quot;Ranunculus repens&quot;</span>,         </span><br><span class="line">         <span class="string">&quot;Ranunculus chinensis&quot;</span>,         </span><br><span class="line">         <span class="string">&quot;Solanum nigrum&quot;</span>,         </span><br><span class="line">         <span class="string">&quot;Punica sp.&quot;</span> )</span><br><span class="line">res &lt;- TPL(sp)taxa.table(res)</span><br></pre></td></tr></table></figure>
+
+<h2 id="TPL-根据拉丁名，查询目、科、属、以及科的编号"><a href="#TPL-根据拉丁名，查询目、科、属、以及科的编号" class="headerlink" title="TPL()根据拉丁名，查询目、科、属、以及科的编号"></a><code>TPL()</code>根据拉丁名，查询目、科、属、以及科的编号</h2><p>TPL函数输入的数据必须是字符串格式的向量。可以查询科、属、种的相应信息，但是并不会提示学名是否为接受名。查询学名是否有效，请用<code>status</code>函数。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">TPL(<span class="string">&quot;Carex&quot;</span>) <span class="comment"># </span></span><br><span class="line">查询薹草属</span><br><span class="line">TPL(<span class="string">&quot;Apple&quot;</span>) </span><br><span class="line"><span class="comment"># 查询苹果的英文名</span></span><br><span class="line">splist &lt;- <span class="built_in">c</span>(<span class="string">&quot;Ranunculus japonicus&quot;</span>,</span><br><span class="line">             <span class="string">&quot;Solanum nigrum&quot;</span>,</span><br><span class="line">             <span class="string">&quot;Punica sp.&quot;</span>,</span><br><span class="line">             <span class="string">&quot;Machilus&quot;</span>,</span><br><span class="line">             <span class="string">&quot;Today&quot;</span>,</span><br><span class="line">             <span class="string">&quot;####&quot;</span> ) <span class="comment">### 查询多个种</span></span><br><span class="line">res &lt;- TPL(splist)</span><br></pre></td></tr></table></figure>
+
+<h1 id="引用plantlist程序包"><a href="#引用plantlist程序包" class="headerlink" title="引用plantlist程序包"></a>引用plantlist程序包</h1><p>如果您使用了plantlist程序包，请通过以下方式引用：</p>
+<p>JinlongZhang (2018). plantlist: Looking Up the Status of Plant ScientificNames based on The Plant List Database. R package version0.5.3. <a target="_blank" rel="noopener" href="https://github.com/helixcn/plantlist/">https://github.com/helixcn/plantlist/</a></p>
+<h1 id="致谢"><a href="#致谢" class="headerlink" title="致谢"></a>致谢</h1><p>感谢高芳銮、李嵘、张健、朱慧玲、刘冰、胡晓丽、冯嘉恩、黄世芳、俞筱押、胡海花、李家湘、刘水银、鲍志贵、张美霞、葛斌杰、孔德良、刘振稳、龙文兴、金建军、夏尚文、李霞、陶旺兰、李秋萍、易逸瑜、张璋、骆争荣、彭舜磊、郭文永、贾蕙君等各位老师同学提出宝贵意见和建议。</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><ul>
+<li><pre><code>多识团队.    (2016至今).    多识植物百科. [http://doucet.ibiodiversity.net/](http://doucet.ibiodiversity.net/).
+</code></pre>
+</li>
+<li><pre><code>刘冰,    叶建飞,    刘夙,    汪远,    杨永,    赖阳均,    曾刚，林秦文.    (2015). 中国被子植物科属概览:    依据    APG    III 系统.    生物多样性,    23(2), 225-231.
+</code></pre>
+</li>
+<li><pre><code>环境保护部,    中国科学院    (2013)    《中国生物多样性红色名录——高等植物卷    》 电子版来源：    www.mep.gov.cn/gkml/hbb/bgg/201309/W020130917614244055331.pdf
+</code></pre>
+</li>
+<li><pre><code>Christenhusz,    M., Zhang, X. C., and Schneider, H. (2011a). A linear sequence of    extant families and genera of lycophytes and ferns. Phytotaxa.    19:7-54
+</code></pre>
+</li>
+<li><pre><code>Christenhusz,    M., Reveal, J., Farjon, A., Gardner, M. F., Mill, R. R., and Chase,    M. W. (2011b). A new classification and linear sequence of extant    gymnosperms. Phytotaxa. 19:55-70
+</code></pre>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2014/11/27/2014-11-27-plantlist/" data-id="ckmq2gws2005vq8847wdya0ot" data-title="用R程序包plantlist查询和处理植物学名" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/12/05/2014-12-5-maximumlikelihood/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          从黑球、白球到极大似然估计
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/11/12/2014-11-13-bayesian/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">基于贝叶斯法的线性模型参数估计</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/R%E7%BC%96%E7%A8%8B/" rel="tag">R编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%BA%E7%89%A9/" rel="tag">人物</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%99%E4%BD%9C/" rel="tag">写作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" rel="tag">可视化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E4%B9%A6/" rel="tag">图书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" rel="tag">图像处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9C%B0%E7%90%86/" rel="tag">地理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A3%B0%E6%98%8E/" rel="tag">声明</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A9%E6%96%87/" rel="tag">天文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%AF%9D%E5%BD%95/" rel="tag">对话录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%83%E5%BE%97/" rel="tag">心得</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E5%91%8A/" rel="tag">报告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E7%89%88/" rel="tag">排版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%85%E4%B9%A1/" rel="tag">故乡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" rel="tag">标本馆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%88%86%E7%B1%BB/" rel="tag">植物分类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%90%8D/" rel="tag">植物学名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%82%E8%81%8C/" rel="tag">求职</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" rel="tag">版本控制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%80%81/" rel="tag">生态</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%80%81%E8%B5%84%E8%AE%AF/" rel="tag">生态资讯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%94%E7%A9%B6%E8%B5%84%E8%AE%AF/" rel="tag">研究资讯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B3%BB%E7%BB%9F%E5%8F%91%E8%82%B2/" rel="tag">系统发育</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%9F%E8%AE%A1/" rel="tag">统计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" rel="tag">行摄匆匆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%81%E9%97%BB%E5%BD%95/" rel="tag">见闻录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%97%E6%AD%8C/" rel="tag">诗歌</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E5%8C%96/" rel="tag">进化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E6%83%B3/" rel="tag">随想</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A9%B3%E8%AE%BA/" rel="tag">驳论</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/R%E7%BC%96%E7%A8%8B/" style="font-size: 18.75px;">R编程</a> <a href="/tags/%E4%BA%BA%E7%89%A9/" style="font-size: 11.88px;">人物</a> <a href="/tags/%E5%86%99%E4%BD%9C/" style="font-size: 13.13px;">写作</a> <a href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" style="font-size: 12.5px;">可视化</a> <a href="/tags/%E5%9B%BE%E4%B9%A6/" style="font-size: 10px;">图书</a> <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" style="font-size: 11.88px;">图像处理</a> <a href="/tags/%E5%9C%B0%E7%90%86/" style="font-size: 17.5px;">地理</a> <a href="/tags/%E5%A3%B0%E6%98%8E/" style="font-size: 10.63px;">声明</a> <a href="/tags/%E5%A4%A9%E6%96%87/" style="font-size: 16.25px;">天文</a> <a href="/tags/%E5%AF%B9%E8%AF%9D%E5%BD%95/" style="font-size: 10px;">对话录</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 10px;">心得</a> <a href="/tags/%E6%8A%A5%E5%91%8A/" style="font-size: 12.5px;">报告</a> <a href="/tags/%E6%8E%92%E7%89%88/" style="font-size: 13.75px;">排版</a> <a href="/tags/%E6%95%85%E4%B9%A1/" style="font-size: 10.63px;">故乡</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10.63px;">数据库</a> <a href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" style="font-size: 14.38px;">标本馆</a> <a href="/tags/%E6%A4%8D%E7%89%A9%E5%88%86%E7%B1%BB/" style="font-size: 10px;">植物分类</a> <a href="/tags/%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%90%8D/" style="font-size: 10px;">植物学名</a> <a href="/tags/%E6%B1%82%E8%81%8C/" style="font-size: 10px;">求职</a> <a href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" style="font-size: 11.25px;">版本控制</a> <a href="/tags/%E7%94%9F%E6%80%81/" style="font-size: 16.88px;">生态</a> <a href="/tags/%E7%94%9F%E6%80%81%E8%B5%84%E8%AE%AF/" style="font-size: 10px;">生态资讯</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E8%B5%84%E8%AE%AF/" style="font-size: 10px;">研究资讯</a> <a href="/tags/%E7%B3%BB%E7%BB%9F%E5%8F%91%E8%82%B2/" style="font-size: 10px;">系统发育</a> <a href="/tags/%E7%BB%9F%E8%AE%A1/" style="font-size: 18.13px;">统计</a> <a href="/tags/%E7%BC%96%E7%A8%8B/" style="font-size: 10.63px;">编程</a> <a href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" style="font-size: 15px;">行摄匆匆</a> <a href="/tags/%E8%A7%81%E9%97%BB%E5%BD%95/" style="font-size: 10px;">见闻录</a> <a href="/tags/%E8%AF%97%E6%AD%8C/" style="font-size: 15.63px;">诗歌</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 19.38px;">软件</a> <a href="/tags/%E8%BF%9B%E5%8C%96/" style="font-size: 10.63px;">进化</a> <a href="/tags/%E9%9A%8F%E6%83%B3/" style="font-size: 11.25px;">随想</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 20px;">随笔</a> <a href="/tags/%E9%A9%B3%E8%AE%BA/" style="font-size: 10px;">驳论</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">January 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">December 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">October 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05/">May 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">May 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">December 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">August 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">March 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">April 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/01/">January 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/08/">August 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/07/">July 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/06/">June 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">May 2009</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/18/2021-03-18/">为什么《xxxx在XX研究中取得进展》这类文章很少有人转发？</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/2021-02-16/">如何恢复森林？– 从嘉道理农场的森林恢复样地说起</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 Jinlong Zhang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

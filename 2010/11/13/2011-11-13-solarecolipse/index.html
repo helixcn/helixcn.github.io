@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>如何计算日食的时间和类型（附R源代码）？ | Jinlong Zhang&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="​     日食的原理在小学课本中就有介绍，也就是月亮的影子遮挡住了太阳。日食每次必定发生在农历初一，因为农历初一是朔，此时从地心看起来月亮距离太阳最近。为什么要强调地心呢？ 因为在地球表面的不同位置，有视差的存在。天文学家在计算天象的时候，很多时候会先计算地心坐标。具体到某一个地点，再归算到地平坐标。 ​    日食的原理说来简单，但是计算起来并不容易。在我国古代，对日食的时间和类型的计算，是检">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何计算日食的时间和类型（附R源代码）？">
+<meta property="og:url" content="https://helixcn.github.io/2010/11/13/2011-11-13-solarecolipse/index.html">
+<meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
+<meta property="og:description" content="​     日食的原理在小学课本中就有介绍，也就是月亮的影子遮挡住了太阳。日食每次必定发生在农历初一，因为农历初一是朔，此时从地心看起来月亮距离太阳最近。为什么要强调地心呢？ 因为在地球表面的不同位置，有视差的存在。天文学家在计算天象的时候，很多时候会先计算地心坐标。具体到某一个地点，再归算到地平坐标。 ​    日食的原理说来简单，但是计算起来并不容易。在我国古代，对日食的时间和类型的计算，是检">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2010-11-12T23:20:54.000Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:24.510Z">
+<meta property="article:author" content="Jinlong Zhang">
+<meta property="article:tag" content="天文">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Jinlong Zhang's blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jinlong Zhang&#39;s blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://helixcn.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-2011-11-13-solarecolipse" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2010/11/13/2011-11-13-solarecolipse/" class="article-date">
+  <time class="dt-published" datetime="2010-11-12T23:20:54.000Z" itemprop="datePublished">2010-11-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      如何计算日食的时间和类型（附R源代码）？
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>​     日食的原理在小学课本中就有介绍，也就是月亮的影子遮挡住了太阳。日食每次必定发生在农历初一，因为农历初一是朔，此时从地心看起来月亮距离太阳最近。为什么要强调地心呢？ 因为在地球表面的不同位置，有视差的存在。天文学家在计算天象的时候，很多时候会先计算地心坐标。具体到某一个地点，再归算到地平坐标。</p>
+<p>​    日食的原理说来简单，但是计算起来并不容易。在我国古代，对日食的时间和类型的计算，是检验历法是否准确的重要标准。很多部历法由于不能准确的预测日月食，而不得不被新的历法所替代。如《新唐书.历志一》记载：“唐终始二百九十馀年，而历八改。初曰戊寅元历，曰麟德甲子元历，曰开元大衍历。”《新唐书.历志三上》又记载：”开元九年，麟德历署日蚀不效，诏僧一行作新历，推大衍数立术以应之…”。被誉为唐代历法首屈一指的《大衍历》，最后也难免被更为精确的历法所代替。</p>
+<p>​    这里采用的算法，是基于比利时天文学家Jean Meeus提出的现代天文算法。详情请参见许剑伟老师翻译的《天文算法》第52章。</p>
+<p>​    全部R程序改变自剑伟老师的《寿星万年历》javascript源代码。</p>
+<p>### 快速日食搜索,jd为朔时间</p>
+<p>### 改编自许剑伟老师的《寿星万年历》javascript源代码</p>
+<p>### 输入儒略日2000，计算最近的朔的时间，并判断该次朔是否会发生日食。</p>
+<p>DateSolarEclipse  <strong>&lt;-</strong></p>
+<p><strong>function</strong> <strong>(<strong>jd</strong>){</strong>                       </p>
+<p>​    rad  <strong>=</strong> 180***<strong>3600</strong>/**pi;                               #每弧度的角秒数</p>
+<p>​    radd <strong>=</strong> 180**/**pi;                                    #每弧度的度数</p>
+<p>​    pi2  <strong>=</strong> pi*****2;</p>
+<p>​    pi_2 <strong>=</strong> pi**/**2;</p>
+<p>​    J2000 <strong>=</strong> 2451545;</p>
+<p>​    </p>
+<p>​    re**=<strong>list</strong>()**;</p>
+<p>​    W <strong>=</strong> floor**((<strong>jd</strong>+<strong>8</strong>)/<strong>29.5306</strong>)*<strong>pi</strong>***2;                   #合朔时的日月黄经差</p>
+<p>​    #合朔时间计算,2000前+-4000年误差1小时以内，+-2000年小于10分钟</p>
+<p>​    t  <strong>=</strong> <strong>(</strong> W <strong>+</strong> 1.08472 **)/**7771.37714500204; #平朔时间</p>
+<p>​    re**$<strong>jd <strong>=</strong> re</strong>$<strong>jdNewMoon <strong>=</strong> t</strong>***36525;</p>
+<p>​    t2**=<strong>t</strong>***t</p>
+<p>​    t3**=<strong>t2</strong>***t</p>
+<p>​    t4**=<strong>t3</strong>***t;</p>
+<p>​    L <strong>=</strong> <strong>(</strong> 93.2720993**+<strong>483202.0175273***</strong>t**-<strong>0.0034029***</strong>t2**-<strong>t3</strong>/<strong>3526000</strong>+<strong>t4</strong>/**863310000 <strong>)/<strong>180</strong></strong>*pi;</p>
+<p>​    re**$<strong>ac</strong>=**1</p>
+<p>​    re**$<strong>type</strong>=**’N’;</p>
+<p>​    <strong>if**</strong>(<strong>abs</strong>(<strong>sin</strong>(<strong>L</strong>))&gt;<strong>0.4</strong>)** return**(<strong>re</strong>)**;                    #一般大于21度已不可能</p>
+<p>​    t <strong>=</strong> t <strong>-</strong> <strong>(</strong> <strong>-<strong>0.0000331</strong>*</strong>t<strong><em><strong>t <strong>+</strong> 0.10976 <em><strong><strong>cos</strong>(</strong> 0.785 <strong>+</strong> 8328.6914</em></strong></em>*t</strong>)** **)/**7771;</p>
+<p>​    t2**=** t*****t;</p>
+<p>​    L <strong>=</strong> **(-<strong>1.084719 <strong>+<strong>7771.377145013</strong>*</strong>t **-<strong>0.0000331</strong>*</strong>t2 <strong>+</strong></p>
+<p>​        <strong>(<strong>22640 ***** cos</strong>(<strong>0.785</strong>+</strong>  8328.6914<strong><strong>*t <strong>+<strong>0.000152</strong></strong>*t2</strong>)</strong></p>
+<p>​         <strong>+<strong>4586 ***** cos</strong>(<strong>0.19 <strong>+</strong>  7214.063</strong>*</strong>t  <strong>-<strong>0.000218</strong>*</strong>t2**)**</p>
+<p>​         <strong>+<strong>2370 ***** cos</strong>(<strong>2.54 <strong>+</strong> 15542.754</strong>*</strong>t  <strong>-<strong>0.000070</strong>*</strong>t2**)**</p>
+<p>​         <strong>+</strong> 769 ***** cos**(<strong>3.1  <strong>+</strong> 16657.383***</strong>t**)**</p>
+<p>​         <strong>+</strong> 666 ***** cos**(<strong>1.5  <strong>+</strong>   628.302***</strong>t**)**</p>
+<p>​         <strong>+</strong> 412 ***** cos**(<strong>4.8  <strong>+</strong> 16866.93***</strong>t**)**</p>
+<p>​         <strong>+</strong> 212 ***** cos**(<strong>4.1    <strong>-<strong>1114.63</strong></strong>*t</strong>)**</p>
+<p>​         <strong>+</strong> 205 ***** cos**(<strong>0.2  <strong>+</strong>  6585.76***</strong>t**)**</p>
+<p>​         <strong>+</strong> 192 ***** cos**(<strong>4.9  <strong>+</strong> 23871.45***</strong>t**)**</p>
+<p>​         <strong>+</strong> 165 ***** cos**(<strong>2.6  <strong>+</strong> 14914.45***</strong>t**)**</p>
+<p>​         <strong>+</strong> 147 ***** cos**(<strong>5.5    <strong>-<strong>7700.39</strong></strong>*t</strong>)**</p>
+<p>​         <strong>+</strong> 125 ***** cos**(<strong>0.5  <strong>+</strong>  7771.38***</strong>t**)**</p>
+<p>​         <strong>+</strong> 109 ***** cos**(<strong>3.9  <strong>+</strong>  8956.99***</strong>t**)**</p>
+<p>​         <strong>+</strong>  55 ***** cos**(<strong>5.6    <strong>-<strong>1324.18</strong></strong>*t</strong>)**</p>
+<p>​         <strong>+</strong>  45 ***** cos**(<strong>0.9  <strong>+</strong> 25195.62***</strong>t**)**</p>
+<p>​         <strong>+</strong>  40 ***** cos**(<strong>3.8    <strong>-<strong>8538.24</strong></strong>*t</strong>)**</p>
+<p>​         <strong>+</strong>  38 ***** cos**(<strong>4.3  <strong>+</strong> 22756.82***</strong>t**)**</p>
+<p>​         <strong>+</strong>  36 ***** cos**(<strong>5.5  <strong>+</strong> 24986.07***</strong>t**)**</p>
+<p>​         <strong>-<strong>6893 ***** cos</strong>(<strong>4.669257</strong>+<strong>628.3076</strong>*</strong>t**)**</p>
+<p>​         <strong>-</strong>  72 ***** cos**(<strong>4.6261 <strong>+<strong>1256.62</strong></strong>*t</strong>)**</p>
+<p>​         <strong>-</strong>  43 ***** cos**(<strong>2.67823 <strong>+<strong>628.31</strong></strong>*t</strong>)***t</p>
+<p>​         <strong>+</strong>  21**)** <strong>/</strong> rad**)**;</p>
+<p>​    t <strong>=</strong> t <strong>+</strong> <strong>(</strong> W <strong>-</strong> L <strong>)</strong> <strong>/</strong> <strong>(</strong> 7771.38</p>
+<p>​     <strong>-</strong> 914 ***** sin**(** 0.7848 <strong>+</strong> 8328.691425<em><strong><strong>t <strong>+</strong> 0.0001523</strong></strong></em>t2 <strong>)</strong></p>
+<p>​     <strong>-</strong> 179 ***** sin**(** 2.543  <strong>+<strong>15542.7543</strong>*</strong>t <strong>)</strong></p>
+<p>​     <strong>-</strong> 160 ***** sin**(** 0.1874 <strong>+</strong> 7214.0629*****t <strong>)</strong> <strong>)</strong>;</p>
+<p>​    re**$<strong>jd <strong>=</strong> re</strong>$<strong>jdNewMoon <strong>=</strong> jd <strong>=</strong> t</strong>***36525; #朔时刻</p>
+<p>​    #纬 52,15 (角秒)</p>
+<p>​    t2**=<strong>t***</strong>t**/**10000;</p>
+<p>​    t3**=<strong>t2***</strong>t**/**10000;</p>
+<p>​    mB**=** <strong>(</strong> 18461<em><strong><strong>cos</strong>(<strong>0.0571</strong>+</strong>  8433.46616****</em>t   <strong>-<strong>0.640</strong>*</strong>t2    <strong>-<strong>1</strong>*</strong>t3**)**</p>
+<p>​         <strong>+</strong> 1010***<strong>cos</strong>(**2.413 <strong>+</strong> 16762.1576 **<em><strong>t <strong>+</strong>  0.88 <em><strong><strong>t2 <strong>+</strong>  25</strong></strong></em>t3</strong>)</em>*</p>
+<p>​         <strong>+</strong> 1000***<strong>cos</strong>(**5.440    **-**104.7747 **<em><strong>t <strong>+</strong>  2.16 <em><strong><strong>t2 <strong>+</strong>  26</strong></strong></em>t3</strong>)</em>*</p>
+<p>​         <strong>+</strong>  624***<strong>cos</strong>(**0.915 <strong>+</strong>  7109.2881 **<em><strong>t <strong>+</strong>  0    <em><strong><strong>t2 <strong>+</strong>   7</strong></strong></em>t3</strong>)</em>*</p>
+<p>​         <strong>+</strong>  199***<strong>cos</strong>(**1.82  <strong>+</strong> 15647.529  *****t   **-**2.8  <strong><strong>*t2   <strong>-<strong>19</strong></strong>*t3</strong>)</strong></p>
+<p>​         <strong>+</strong>  167***<strong>cos</strong>(**4.84    **-**1219.403  *****t   **-**1.5  <strong><strong>*t2   <strong>-<strong>18</strong></strong>*t3</strong>)</strong></p>
+<p>​         <strong>+</strong>  117***<strong>cos</strong>(**4.17  <strong>+</strong> 23976.220  *****t   <strong>-<strong>1.3  <em><strong><strong>t2 <strong>+</strong>   6</strong></strong></em>t3</strong>)</strong></p>
+<p>​         <strong>+</strong>   62***<strong>cos</strong>(**4.8   <strong>+</strong> 25090.849  **<em><strong>t <strong>+</strong>  2    <em><strong><strong>t2 <strong>+</strong>  50</strong></strong></em>t3</strong>)</em>*</p>
+<p>​         <strong>+</strong>   33***<strong>cos</strong>(**3.3   <strong>+</strong> 15437.980  **<em><strong>t <strong>+</strong>  2    <em><strong><strong>t2 <strong>+</strong>  32</strong></strong></em>t3</strong>)</em>*</p>
+<p>​         <strong>+</strong>   32***<strong>cos</strong>(**1.5   <strong>+</strong>  8223.917  **<em><strong>t <strong>+</strong>  4    <em><strong><strong>t2 <strong>+</strong>  51</strong></strong></em>t3</strong>)</em>*</p>
+<p>​         <strong>+</strong>   30***<strong>cos</strong>(**1.0   <strong>+</strong>  6480.986  **<em><strong>t <strong>+</strong>  0    <em><strong><strong>t2 <strong>+</strong>   7</strong></strong></em>t3</strong>)</em>*</p>
+<p>​         <strong>+</strong>   16***<strong>cos</strong>(**2.5     **-**9548.095  *****t   **-**3    <strong><strong>*t2   <strong>-<strong>43</strong></strong>*t3</strong>)</strong></p>
+<p>​         <strong>+</strong>   15***<strong>cos</strong>(**0.2   <strong>+</strong> 32304.912  **<em><strong>t <strong>+</strong>  0    <em><strong><strong>t2 <strong>+</strong>  31</strong></strong></em>t3</strong>)</em>*</p>
+<p>​         <strong>+</strong>   12***<strong>cos</strong>(**4.0   <strong>+</strong>  7737.590  *<strong><strong>t</strong>)</strong></p>
+<p>​         <strong>+</strong>    9***<strong>cos</strong>(**1.9   <strong>+</strong> 15019.227  *<strong><strong>t</strong>)</strong></p>
+<p>​         <strong>+</strong>    8***<strong>cos</strong>(**5.4   <strong>+</strong>  8399.709  *<strong><strong>t</strong>)</strong></p>
+<p>​         <strong>+</strong>    8***<strong>cos</strong>(**4.2   <strong>+</strong> 23347.918  *<strong><strong>t</strong>)</strong></p>
+<p>​         <strong>+</strong>    7***<strong>cos</strong>(**4.9     **-**1847.705  *<strong><strong>t</strong>)</strong></p>
+<p>​         <strong>+</strong>    7***<strong>cos</strong>(**3.8    **-**16133.856  *<strong><strong>t</strong>)</strong></p>
+<p>​         <strong>+</strong>    7***<strong>cos</strong>(**2.7   <strong>+</strong> 14323.351  **<em><strong>t</strong>))</em>*;</p>
+<p>​    mB <strong>=</strong> mB <strong>/</strong> rad;</p>
+<p>​                                                #月地距离 106, 23 (千米)</p>
+<p>​    mR <strong>=</strong> **(**385001</p>
+<p>​          <strong>+<strong>20905</strong>*</strong>cos**(<strong>5.4971</strong>+**  8328.691425<strong><strong><em>t</em>*+</strong>  1.52 <em><strong><strong>t2 <strong>+</strong>  25</strong></strong></em>t3</strong>)**</p>
+<p>​          <strong>+</strong> 3699<em><strong><strong>cos</strong>(<strong>4.900 <strong>+</strong>  7214.06287</strong></strong></em>t   **-**2.18 <strong><strong>*t2   <strong>-<strong>19</strong></strong>*t3</strong>)</strong></p>
+<p>​          <strong>+</strong> 2956<em><strong><strong>cos</strong>(<strong>0.972 <strong>+</strong> 15542.75429</strong></strong></em>t   <strong>-<strong>0.66 <em><strong><strong>t2 <strong>+</strong>   6</strong></strong></em>t3</strong>)</strong></p>
+<p>​          <strong>+</strong>  570***<strong>cos</strong>(**1.57  <strong>+</strong> 16657.3828 **<em><strong>t <strong>+</strong>  3.0  <em><strong><strong>t2 <strong>+</strong>  50</strong></strong></em>t3</strong>)</em>*</p>
+<p>​          <strong>+</strong>  246***<strong>cos</strong>(**5.69    **-**1114.6286 *****t   **-**3.7  <strong><strong>*t2   <strong>-<strong>44</strong></strong>*t3</strong>)</strong></p>
+<p>​          <strong>+</strong>  205***<strong>cos</strong>(**1.02  <strong>+</strong> 14914.4523 *****t   <strong>-<strong>1    <em><strong><strong>t2 <strong>+</strong>   6</strong></strong></em>t3</strong>)</strong></p>
+<p>​          <strong>+</strong>  171***<strong>cos</strong>(**3.33  <strong>+</strong> 23871.4457 **<em><strong>t <strong>+</strong>  1    <em><strong><strong>t2 <strong>+</strong>  31</strong></strong></em>t3</strong>)</em>*</p>
+<p>​          <strong>+</strong>  152***<strong>cos</strong>(**4.94  <strong>+</strong>  6585.761  *****t   **-**2    <strong><strong>*t2   <strong>-<strong>19</strong></strong>*t3</strong>)</strong></p>
+<p>​          <strong>+</strong>  130***<strong>cos</strong>(**0.74    **-**7700.389  *****t   **-**2    <strong><strong>*t2   <strong>-<strong>25</strong></strong>*t3</strong>)</strong></p>
+<p>​          <strong>+</strong>  109***<strong>cos</strong>(**5.20  <strong>+</strong>  7771.377  *<strong><strong>t</strong>)</strong></p>
+<p>​          <strong>+</strong>  105***<strong>cos</strong>(**2.31  <strong>+</strong>  8956.993  **<em><strong>t <strong>+</strong>  1    <em><strong><strong>t2 <strong>+</strong>  25</strong></strong></em>t3</strong>)</em>*</p>
+<p>​          <strong>+</strong>   80***<strong>cos</strong>(**5.38    **-**8538.241  **<em><strong>t <strong>+</strong>  2.8  <em><strong><strong>t2 <strong>+</strong>  26</strong></strong></em>t3</strong>)</em>*</p>
+<p>​          <strong>+</strong>   49***<strong>cos</strong>(**6.24  <strong>+</strong>   628.302  *<strong><strong>t</strong>)</strong></p>
+<p>​          <strong>+</strong>   35***<strong>cos</strong>(**2.7   <strong>+</strong> 22756.817  *****t   **-**3    <strong><strong>*t2   <strong>-<strong>13</strong></strong>*t3</strong>)</strong></p>
+<p>​          <strong>+</strong>   31***<strong>cos</strong>(**4.1   <strong>+</strong> 16171.056  *****t   <strong>-<strong>1    <em><strong><strong>t2 <strong>+</strong>   6</strong></strong></em>t3</strong>)</strong></p>
+<p>​          <strong>+</strong>   24***<strong>cos</strong>(**1.7   <strong>+</strong>  7842.365  *****t   **-**2    <strong><strong>*t2   <strong>-<strong>19</strong></strong>*t3</strong>)</strong></p>
+<p>​          <strong>+</strong>   23***<strong>cos</strong>(**3.9   <strong>+</strong> 24986.074  **<em><strong>t <strong>+</strong>  5    <em><strong><strong>t2 <strong>+</strong>  75</strong></strong></em>t3</strong>)</em>*</p>
+<p>​          <strong>+</strong>   22***<strong>cos</strong>(**0.4   <strong>+</strong> 14428.126  *****t   **-**4    <strong><strong>*t2   <strong>-<strong>38</strong></strong>*t3</strong>)</strong></p>
+<p>​          <strong>+</strong>   17***<strong>cos</strong>(**2.0   <strong>+</strong>  8399.679  **<em><strong>t</strong>))</em>*;</p>
+<p>​    mR <strong>=</strong> mR**/** 6378.1366;</p>
+<p>​    t**=<strong>jd</strong>/**365250;</p>
+<p>​    t2**=<strong>t</strong>***t;</p>
+<p>​    t3**=<strong>t2</strong>***t;</p>
+<p>​                                                       #误0.0002AU</p>
+<p>​    sR <strong>=</strong> **(**10001399                                     #日地距离</p>
+<p>​          <strong>+<strong>167070</strong>*</strong>cos**(<strong>3.098464 <strong>+</strong>  6283.07585***</strong>t**)**</p>
+<p>​          <strong>+</strong>  1396***<strong>cos</strong>(**3.0552   <strong>+</strong> 12566.1517 *<strong><strong>t</strong>)</strong></p>
+<p>​          <strong>+</strong> 10302<em><strong><strong>cos</strong>(<strong>1.10749  <strong>+</strong>  6283.07585</strong></strong></em>t**)***t</p>
+<p>​          <strong>+</strong>   172***<strong>cos</strong>(**1.064    <strong>+</strong> 12566.152  ***<strong>t</strong>)***t</p>
+<p>​          <strong>+</strong>   436***<strong>cos</strong>(**5.785    <strong>+</strong>  6283.076  ***<strong>t</strong>)***t2</p>
+<p>​          <strong>+</strong>    14***<strong>cos</strong>(**4.27     <strong>+</strong>  6283.08   *<strong><strong>t</strong>)*<strong>t3</strong>)</strong></p>
+<p>​    sR <strong>=</strong> sR ***** 1.49597870691**/<strong>6378.1366</strong>***10;</p>
+<p>​                                                       #经纬速度</p>
+<p>​    t**=<strong>jd</strong>/**36525;                                       </p>
+<p>​    vL <strong>=</strong> **(**7771                                         #月日黄经差速度</p>
+<p>​        <strong>-<strong>914</strong>*</strong>sin**(<strong>0.785 <strong>+</strong> 8328.6914***</strong>t**)**                 </p>
+<p>​        <strong>-<strong>179</strong>*</strong>sin**(<strong>2.543 <strong>+<strong>15542.7543</strong></strong>*t</strong>)**                 </p>
+<p>​        <strong>-<strong>160</strong>*</strong>sin**(<strong>0.187 <strong>+</strong> 7214.0629***</strong>t**))**;               </p>
+<p>​    vB <strong>=</strong> <strong>(-<strong>755</strong>*</strong>sin**(<strong>0.057 <strong>+</strong> 8433.4662***</strong>t**)**                #月亮黄纬速度</p>
+<p>​        <strong>-</strong> 82<strong><strong><em>sin*</em>(**2.413 <strong>+<strong>16762.1576</strong></strong>*t</strong>))</strong>;        </p>
+<p>​    vR <strong>=(-<strong>27299</strong>*</strong>sin**(<strong>5.497 <strong>+</strong> 8328.691425***</strong>t**)**     </p>
+<p>​        <strong>-</strong> 4184<em><strong><strong>sin</strong>(<strong>4.900 <strong>+</strong> 7214.06287</strong></strong></em>t**)**       </p>
+<p>​        <strong>-</strong> 7204<strong><strong><em>sin*</em>(**0.972 <strong>+<strong>15542.75429</strong></strong>*t</strong>))</strong>;     </p>
+<p>​    vL <strong>=</strong> vL**/**36525                              </p>
+<p>​    vB <strong>=</strong> vB**/**36525                              </p>
+<p>​    vR <strong>=</strong> vR**/**36525;                                     #每日速度</p>
+<p>​                                                      </p>
+<p>​                                                      </p>
+<p>​    gm <strong>=</strong> mR<em><strong><strong>sin</strong>(<strong>mB</strong>)*<strong>vL</strong>/<strong>sqrt</strong>(<strong>vB</strong></strong></em>vB**+<strong>vL***</strong>vL**)**;             </p>
+<p>​    smR**=** sR**-**mR;                                        #gm伽马值,smR日月距</p>
+<p>​    mk <strong>=</strong> 0.2725076;                                   </p>
+<p>​    sk <strong>=</strong> 109.1222;                                    </p>
+<p>​    f1 <strong>=</strong> <strong>(<strong>sk</strong>+<strong>mk</strong>)/<strong>smR; r1 <strong>=</strong> mk</strong>+<strong>f1</strong></strong>*mR;                   #tanf1半影锥角, r1半影半径</p>
+<p>​    f2 <strong>=</strong> <strong>(<strong>sk</strong>-<strong>mk</strong>)/<strong>smR; r2 <strong>=</strong> mk</strong>-<strong>f2</strong></strong>*mR;                   #tanf2本影锥角, r2本影半径</p>
+<p>​    b <strong>=</strong> 0.9972;</p>
+<p>​    Agm <strong>=</strong> abs**(<strong>gm</strong>)**;</p>
+<p>​    Ar2 <strong>=</strong> abs**(<strong>r2</strong>)**;</p>
+<p>​    fh2 <strong>=</strong> mR**-<strong>mk</strong>/**f2;</p>
+<p>​    <strong>if**</strong>(<strong>Agm <strong>&lt;</strong> 1</strong>){**</p>
+<p>​       h <strong>=</strong> sqrt**(<strong>1</strong>-<strong>gm***</strong>gm**)**</p>
+<p>​    <strong>}<strong><strong>else</strong></strong>{</strong></p>
+<p>​       h <strong>=</strong> 0</p>
+<p>​    <strong>}</strong></p>
+<p>​                                                       ## h = Agm&lt;1 ? sqrt(1-gm*gm) : 0; #fh2本影顶点的z坐标</p>
+<p>​                                                       ## ls1,ls2,ls3,ls4;</p>
+<p>​    <strong>if**</strong>(<strong>fh2</strong>&lt;<strong>h</strong>)** <strong>{</strong></p>
+<p>​        re**$**type <strong>=</strong> ‘T’;                                 #全食</p>
+<p>​    <strong>}<strong><strong>else</strong></strong>{</strong>                                            </p>
+<p>​        re**$**type <strong>=</strong> ‘A’;                                 #环食</p>
+<p>​    <strong>}</strong>                                                 </p>
+<p>​                                                      </p>
+<p>​    ls1 <strong>=</strong> Agm**-(<strong>b</strong>+**r1 <strong>)</strong>;                                </p>
+<p>​    <strong>if**</strong>(<strong>abs</strong>(<strong>ls1</strong>)&lt;<strong>0.016</strong>)** re**$<strong>ac</strong>=**0;                        #无食分界</p>
+<p>​    ls2 <strong>=</strong> Agm**-(<strong>b</strong>+<strong>Ar2</strong>)**;                                </p>
+<p>​    <strong>if**</strong>(<strong>abs</strong>(<strong>ls2</strong>)&lt;<strong>0.016</strong>)** re**$<strong>ac</strong>=**0;                        #偏食分界</p>
+<p>​    ls3 <strong>=</strong> Agm**-(**b    <strong>)</strong>;                                </p>
+<p>​    <strong>if**</strong>(<strong>abs</strong>(<strong>ls3</strong>)&lt;<strong>0.016</strong>)** re**$<strong>ac</strong>=**0;                        #无中心食分界</p>
+<p>​    ls4 <strong>=</strong> Agm**-(<strong>b</strong>-<strong>Ar2</strong>)**;                                </p>
+<p>​    <strong>if**</strong>(<strong>abs</strong>(<strong>ls4</strong>)&lt;<strong>0.016</strong>)** re**$<strong>ac</strong>=**0;                        #有中心食分界(但本影未全部进入)</p>
+<p>​    <strong>if</strong> <strong>(<strong>ls1</strong>&gt;<strong>0</strong>)</strong> <strong>{</strong></p>
+<p>​      re**$**type  <strong>=</strong> ‘N’;                                  #无日食</p>
+<p>​     <strong>}</strong> <strong>else</strong> <strong>{</strong></p>
+<p>​       <strong>if**</strong>(<strong>ls2</strong>&gt;<strong>0</strong>)** <strong>{</strong></p>
+<p>​           re**$**type  <strong>=</strong> ‘P’;                             #偏食</p>
+<p>​     <strong>}</strong> <strong>else</strong> <strong>{</strong></p>
+<p>​       <strong>if**</strong>(<strong>ls3</strong>&gt;<strong>0</strong>)** <strong>{</strong></p>
+<p>​        re**$<strong>type <strong>=</strong> paste</strong>(<strong>re</strong>$<strong>type, ‘0’, sep <strong>=</strong> “”</strong>)**;   #无中心</p>
+<p>​     <strong>}</strong> <strong>else</strong> <strong>{</strong>                                         </p>
+<p>​    <strong>if**</strong>(<strong>ls4</strong>&gt;<strong>0</strong>)** <strong>{</strong>                                   </p>
+<p>​        re**$<strong>type <strong>=</strong> paste</strong>(<strong>re</strong>$<strong>type, ‘1’, sep <strong>=</strong> “”</strong>)**;   #有中心(本影未全部进入)</p>
+<p>​     <strong>}</strong> <strong>else</strong> <strong>{</strong>                                          #本影全进入</p>
+<p>​       <strong>if**</strong>(<strong>abs</strong>(<strong>fh2</strong>-<strong>h</strong>)&lt;<strong>0.019</strong>)** re**$<strong>ac</strong>=**0;</p>
+<p>​       <strong>if**</strong>(** abs**(<strong>fh2</strong>)&lt;**h <strong>){</strong></p>
+<p>​           dr <strong>=</strong> vR***<strong>h</strong>/<strong>vL</strong>/**mR;                           </p>
+<p>​           H1 <strong>=</strong> mR**-<strong>dr</strong>-<strong>mk</strong>/**f2;                           #入点影锥z坐标</p>
+<p>​           H2 <strong>=</strong> mR**+<strong>dr</strong>-<strong>mk</strong>/**f2;                           #出点影锥z坐标</p>
+<p>​           <strong>if**</strong>(<strong>H1</strong>&gt;<strong>0</strong>)**          re**$<strong>type</strong>=**’H3’;             #环全全</p>
+<p>​           <strong>if**</strong>(<strong>H2</strong>&gt;<strong>0</strong>)**          re**$<strong>type</strong>=**’H2’;             #全全环</p>
+<p>​           <strong>if**</strong>(<strong>H1</strong>&gt;<strong>0</strong>&amp;<strong>H2</strong>&gt;<strong>0</strong>)**     re**$<strong>type</strong>=**’H’;              #环全环</p>
+<p>​           <strong>if**</strong>(<strong>abs</strong>(<strong>H1</strong>)&lt;<strong>0.019</strong>)** re**$<strong>ac</strong>=**0;</p>
+<p>​           <strong>if**</strong>(<strong>abs</strong>(<strong>H2</strong>)&lt;<strong>0.019</strong>)** re**$<strong>ac</strong>=**0;</p>
+<p>​        <strong>}</strong></p>
+<p>​       <strong>}</strong></p>
+<p>​      <strong>}</strong></p>
+<p>​     <strong>}</strong></p>
+<p>​    <strong>}</strong></p>
+<p>​    return <strong>(<strong>re</strong>)</strong>;</p>
+<p><strong>}</strong></p>
+<p>#取整数部分</p>
+<p>int2 <strong>&lt;-</strong></p>
+<p><strong>function</strong> <strong>(<strong>v</strong>)</strong> <strong>{</strong></p>
+<p>   return <strong>(<strong>floor</strong>(<strong>v</strong>))</strong>;</p>
+<p><strong>}</strong> </p>
+<p>### 公历转儒略日  </p>
+<p>JD <strong>&lt;-</strong></p>
+<p><strong>function**</strong>(<strong>y,m,d</strong>){**</p>
+<p>   n**=<strong>0;G</strong>=**0;</p>
+<p>   <strong>if**</strong>(<strong>y***</strong>372**+<strong>m***</strong>31**+<strong>int2</strong>(<strong>d</strong>)&gt;=<strong>588829</strong>)**</p>
+<p>​       G <strong>=</strong> 1; #判断是否为格里高利历日1582<em>372+10</em>31+15</p>
+<p>   <strong>if**</strong>(<strong>m</strong>&lt;=<strong>2</strong>)** <strong>{</strong></p>
+<p>​       m <strong>=</strong> m **+**12;</p>
+<p>​       y <strong>=</strong> y <strong>-</strong> 1;</p>
+<p>   <strong>}</strong></p>
+<p>   <strong>if**</strong>(<strong>G <strong>&gt;</strong> 0</strong>)** <strong>{</strong></p>
+<p>​       n**=<strong>int2</strong>(<strong>y</strong>/<strong>100</strong>)**;</p>
+<p>​       n**=<strong>2</strong>-<strong>n</strong>+<strong>int2</strong>(<strong>n</strong>/<strong>4</strong>)**; #加百年闰</p>
+<p>   <strong>}</strong></p>
+<p>   res  <strong>&lt;-</strong> int2**(<strong>365.25*</strong>(<strong>y</strong>+<strong>4716</strong>))** <strong>+</strong> int2**(<strong>30.6001*</strong>(<strong>m</strong>+<strong>1</strong>))+<strong>d</strong>+**n <strong>-</strong> 1524.5;</p>
+<p>   class**(<strong>res</strong>)**  <strong>&lt;-</strong> “JD”</p>
+<p>   return**(<strong>res</strong>)**</p>
+<p><strong>}</strong></p>
+<p>### 将儒略日转换为儒略日2000</p>
+<p>JD2000 <strong>&lt;-</strong></p>
+<p><strong>function**</strong>(<strong>jd</strong>){**</p>
+<p>   res <strong>&lt;-</strong> jd <strong>-</strong> JD**(<strong>2000,1,1</strong>)**</p>
+<p>   return**(<strong>res</strong>)**</p>
+<p><strong>}</strong></p>
+<p>### 将日期转换为儒略日2000</p>
+<p>date2JD2000 <strong>&lt;-</strong></p>
+<p><strong>function**</strong>(<strong>y,m,d</strong>){**</p>
+<p>​    juliand <strong>&lt;-</strong> JD**(<strong>y,m,d</strong>)**</p>
+<p>​    res <strong>&lt;-</strong> JD2000**(<strong>juliand</strong>)**</p>
+<p>​    return**(<strong>res</strong>)**</p>
+<p><strong>}</strong></p>
+<p>### 打印JD类型对象的方法</p>
+<p>print.JD <strong>&lt;-</strong></p>
+<p><strong>function**</strong>(<strong>JD</strong>){**</p>
+<p>​    print**(<strong>sprintf</strong>(<strong>“%f”,JD</strong>))**</p>
+<p><strong>}</strong></p>
+<p>##儒略日转为公历</p>
+<p>Julian2Date <strong>&lt;-</strong></p>
+<p><strong>function**</strong>(<strong>jd</strong>){**</p>
+<p>   r <strong>=</strong> list**()**;</p>
+<p>   D <strong>=</strong> int2**(<strong>jd</strong>+<strong>0.5</strong>)**;</p>
+<p>   F**=** jd**+<strong>0.5</strong>-**D #取得日数的整数部份A及小数部分F</p>
+<p>   <strong>if**</strong>(<strong>D <strong>&gt;=</strong> 2299161</strong>)** <strong>{</strong></p>
+<p>​        c <strong>=</strong> int2**((<strong>D</strong>-<strong>1867216.25</strong>)/<strong>36524.25</strong>)**;</p>
+<p>​        D <strong>=</strong> D <strong>+</strong> 1 <strong>+</strong> c <strong>-</strong> int2**(<strong>c</strong>/<strong>4</strong>)**;</p>
+<p>​    <strong>}</strong></p>
+<p>   D  <strong>=</strong> D <strong>+</strong> 1524;              </p>
+<p>   r**$<strong>Y <strong>=</strong> int2</strong>((<strong>D <strong>-</strong> 122.1</strong>)/<strong>365.25</strong>)**;#年数</p>
+<p>   D  <strong>=</strong> D <strong>-</strong> int2**(<strong>365.25***</strong>r**$<strong>Y</strong>)**;  </p>
+<p>   r**$<strong>M <strong>=</strong> int2</strong>(<strong>D</strong>/<strong>30.601</strong>)**; #月数</p>
+<p>   D  <strong>=</strong> D <strong>-</strong> int2**(<strong>30.601***</strong>r**$<strong>M</strong>)**;</p>
+<p>   r**$**D <strong>=</strong> D; #日数</p>
+<p>   <strong>if**</strong>(<strong>r</strong>$<strong>M</strong>&gt;<strong>13</strong>)** <strong>{</strong></p>
+<p>​       r**$<strong>M <strong>=</strong> r</strong>$**M <strong>-</strong> 13;</p>
+<p>​       r**$<strong>Y <strong>=</strong> r</strong>$**Y <strong>-</strong> 4715;</p>
+<p>​    <strong>}</strong> <strong>else</strong> <strong>{</strong></p>
+<p>​       r**$<strong>M <strong>=</strong> r</strong>$**M <strong>-</strong>  1;</p>
+<p>​       r**$<strong>Y <strong>=</strong> r</strong>$**Y <strong>-</strong> 4716;</p>
+<p>​    <strong>}</strong></p>
+<p>   #日的小数转为时分秒</p>
+<p>   F <strong>=</strong> F ***** 24;</p>
+<p>   r**$<strong>h</strong>=<strong>int2</strong>(<strong>F</strong>)**;</p>
+<p>   F <strong>=</strong> F <strong>-</strong> r**$**h;</p>
+<p>   F <strong>=</strong> F ***** 60;</p>
+<p>   r**$<strong>m</strong>=<strong>int2</strong>(<strong>F</strong>)**;</p>
+<p>   F <strong>=</strong> F **-<strong>r</strong>$**m;</p>
+<p>   F <strong>=</strong> F ***** 60;</p>
+<p>   r**$<strong>s</strong>=**F;</p>
+<p>   return**(<strong>r</strong>)**;</p>
+<p><strong>}</strong></p>
+<p>#日期转为字符串</p>
+<p>DD2str  <strong>&lt;-</strong></p>
+<p><strong>function**</strong>(<strong>r</strong>){**</p>
+<p>   Y <strong>=</strong> r**$**Y</p>
+<p>   M <strong>=</strong> r**$**M</p>
+<p>   D <strong>=</strong> r**$**D;</p>
+<p>   h <strong>=</strong> r**$**h;</p>
+<p>   m <strong>=</strong> r**$**m;</p>
+<p>   s <strong>=</strong> int2**(<strong>r</strong>$<strong>s</strong>+<strong>0.5</strong>)**;</p>
+<p>   <strong>if**</strong>(<strong>s <strong>&gt;=</strong> 60</strong>)** <strong>{</strong></p>
+<p>​      s <strong>=</strong> s <strong>-</strong> 60;</p>
+<p>​      m <strong>=</strong> m <strong>+</strong> 1;</p>
+<p>​    <strong>}</strong></p>
+<p>​     </p>
+<p>   <strong>if**</strong>(<strong>m <strong>&gt;=</strong> 60</strong>)** <strong>{</strong></p>
+<p>​      m <strong>=</strong> m <strong>-</strong> 60</p>
+<p>​      h <strong>=</strong> h <strong>+</strong> 1;</p>
+<p>​    <strong>}</strong></p>
+<p>   h <strong>=</strong> paste**(<strong>“0”, h, sep <strong>=</strong> “”</strong>)**;</p>
+<p>   m <strong>=</strong> paste**(<strong>“0”, m, sep <strong>=</strong> “”</strong>)**;</p>
+<p>   s <strong>=</strong> paste**(<strong>“0”, s, sep <strong>=</strong> “”</strong>)**;</p>
+<p>   Y <strong>=</strong> substr**(<strong>Y, nchar</strong>(<strong>Y</strong>)-** 4,  nchar**(<strong>Y</strong>)** <strong>)</strong>;</p>
+<p>   M <strong>=</strong> substr**(<strong>M, nchar</strong>(<strong>M</strong>)-** 1,  nchar**(<strong>M</strong>)** <strong>)</strong>;</p>
+<p>   D <strong>=</strong> substr**(<strong>D, nchar</strong>(<strong>D</strong>)-** 1,  nchar**(<strong>D</strong>)** <strong>)</strong>;</p>
+<p>   h <strong>=</strong> substr**(<strong>h, nchar</strong>(<strong>h</strong>)-** 1,  nchar**(<strong>h</strong>)** <strong>)</strong>;</p>
+<p>   m <strong>=</strong> substr**(<strong>m, nchar</strong>(<strong>m</strong>)-** 1,  nchar**(<strong>m</strong>)** <strong>)</strong>;</p>
+<p>   s <strong>=</strong> substr**(<strong>s, nchar</strong>(<strong>s</strong>)-** 1,  nchar**(<strong>s</strong>)** <strong>)</strong>;</p>
+<p>   res  <strong>&lt;-</strong> paste**(<strong>Y,”-“,M,”-“,D,” “,h,”:”,m,”:”,s, sep <strong>=</strong> “”</strong>)**;</p>
+<p>   return**(<strong>res</strong>)**</p>
+<p><strong>}</strong></p>
+<p>JD2str  <strong>&lt;-</strong></p>
+<p><strong>function**</strong>(<strong>jd</strong>){** #JD转为串</p>
+<p>   r <strong>=</strong> DD**(** jd <strong>)</strong>;</p>
+<p>   res  <strong>&lt;-</strong> DD2str**(** r <strong>)</strong>;</p>
+<p>   return**(<strong>res</strong>)**</p>
+<p><strong>}</strong></p>
+<p>### 判断距离输入日期最近的朔，有没有日食发生。</p>
+<p>## “P”为偏食</p>
+<p>## “T”为全食</p>
+<p>## “A”为日环食</p>
+<p>## “N”没有日食发生</p>
+<p>find.solar.eclipse <strong>&lt;-</strong></p>
+<p><strong>function**</strong>(<strong>y,m,d</strong>){**</p>
+<p>​    res <strong>&lt;-</strong> list**()**</p>
+<p>​    dd <strong>&lt;-</strong> DateSolarEclipse**(<strong>date2JD2000</strong>(<strong>y,m,d</strong>))**</p>
+<p>​    date.solar.eclipse <strong>&lt;-</strong> DD2str**(<strong>Julian2Date</strong>(<strong>dd</strong>$<strong>jdNewMoon <strong>+</strong> JD</strong>(<strong>2000,1,1</strong>)** <strong>+</strong> 0.5**))**</p>
+<p>​    type <strong>&lt;-</strong> dd**$**type</p>
+<p>​    res**$**NewMoonTime <strong>&lt;-</strong> date.solar.eclipse</p>
+<p>​    res**$**EclipseType <strong>&lt;-</strong> type</p>
+<p>​    return**(<strong>res</strong>)**</p>
+<p><strong>}</strong></p>
+<p>##距离1987年9月23日最近的朔，以及日食类型</p>
+<p>find.solar.eclipse**(<strong>1987,9,23</strong>)**</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2010/11/13/2011-11-13-solarecolipse/" data-id="ckmq2gwva00dvq884535s3on3" data-title="如何计算日食的时间和类型（附R源代码）？" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A9%E6%96%87/" rel="tag">天文</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2010/11/16/2010-11-16-boundaryeclipse/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          如何绘制日食界限图？
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2010/11/08/2010-11-8-phylotools/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">phylotools:处理DNA条码（DNA-Barcoding）序列的程序包</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/R%E7%BC%96%E7%A8%8B/" rel="tag">R编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%BA%E7%89%A9/" rel="tag">人物</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%99%E4%BD%9C/" rel="tag">写作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" rel="tag">可视化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E4%B9%A6/" rel="tag">图书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" rel="tag">图像处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9C%B0%E7%90%86/" rel="tag">地理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A3%B0%E6%98%8E/" rel="tag">声明</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A9%E6%96%87/" rel="tag">天文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%AF%9D%E5%BD%95/" rel="tag">对话录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%83%E5%BE%97/" rel="tag">心得</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E5%91%8A/" rel="tag">报告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E7%89%88/" rel="tag">排版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%85%E4%B9%A1/" rel="tag">故乡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" rel="tag">标本馆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%88%86%E7%B1%BB/" rel="tag">植物分类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%90%8D/" rel="tag">植物学名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%82%E8%81%8C/" rel="tag">求职</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" rel="tag">版本控制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%80%81/" rel="tag">生态</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%80%81%E8%B5%84%E8%AE%AF/" rel="tag">生态资讯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%94%E7%A9%B6%E8%B5%84%E8%AE%AF/" rel="tag">研究资讯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B3%BB%E7%BB%9F%E5%8F%91%E8%82%B2/" rel="tag">系统发育</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%9F%E8%AE%A1/" rel="tag">统计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" rel="tag">行摄匆匆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%81%E9%97%BB%E5%BD%95/" rel="tag">见闻录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%97%E6%AD%8C/" rel="tag">诗歌</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E5%8C%96/" rel="tag">进化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E6%83%B3/" rel="tag">随想</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A9%B3%E8%AE%BA/" rel="tag">驳论</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/R%E7%BC%96%E7%A8%8B/" style="font-size: 18.75px;">R编程</a> <a href="/tags/%E4%BA%BA%E7%89%A9/" style="font-size: 11.88px;">人物</a> <a href="/tags/%E5%86%99%E4%BD%9C/" style="font-size: 13.13px;">写作</a> <a href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" style="font-size: 12.5px;">可视化</a> <a href="/tags/%E5%9B%BE%E4%B9%A6/" style="font-size: 10px;">图书</a> <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" style="font-size: 11.88px;">图像处理</a> <a href="/tags/%E5%9C%B0%E7%90%86/" style="font-size: 17.5px;">地理</a> <a href="/tags/%E5%A3%B0%E6%98%8E/" style="font-size: 10.63px;">声明</a> <a href="/tags/%E5%A4%A9%E6%96%87/" style="font-size: 16.25px;">天文</a> <a href="/tags/%E5%AF%B9%E8%AF%9D%E5%BD%95/" style="font-size: 10px;">对话录</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 10px;">心得</a> <a href="/tags/%E6%8A%A5%E5%91%8A/" style="font-size: 12.5px;">报告</a> <a href="/tags/%E6%8E%92%E7%89%88/" style="font-size: 13.75px;">排版</a> <a href="/tags/%E6%95%85%E4%B9%A1/" style="font-size: 10.63px;">故乡</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10.63px;">数据库</a> <a href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" style="font-size: 14.38px;">标本馆</a> <a href="/tags/%E6%A4%8D%E7%89%A9%E5%88%86%E7%B1%BB/" style="font-size: 10px;">植物分类</a> <a href="/tags/%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%90%8D/" style="font-size: 10px;">植物学名</a> <a href="/tags/%E6%B1%82%E8%81%8C/" style="font-size: 10px;">求职</a> <a href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" style="font-size: 11.25px;">版本控制</a> <a href="/tags/%E7%94%9F%E6%80%81/" style="font-size: 16.88px;">生态</a> <a href="/tags/%E7%94%9F%E6%80%81%E8%B5%84%E8%AE%AF/" style="font-size: 10px;">生态资讯</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E8%B5%84%E8%AE%AF/" style="font-size: 10px;">研究资讯</a> <a href="/tags/%E7%B3%BB%E7%BB%9F%E5%8F%91%E8%82%B2/" style="font-size: 10px;">系统发育</a> <a href="/tags/%E7%BB%9F%E8%AE%A1/" style="font-size: 18.13px;">统计</a> <a href="/tags/%E7%BC%96%E7%A8%8B/" style="font-size: 10.63px;">编程</a> <a href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" style="font-size: 15px;">行摄匆匆</a> <a href="/tags/%E8%A7%81%E9%97%BB%E5%BD%95/" style="font-size: 10px;">见闻录</a> <a href="/tags/%E8%AF%97%E6%AD%8C/" style="font-size: 15.63px;">诗歌</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 19.38px;">软件</a> <a href="/tags/%E8%BF%9B%E5%8C%96/" style="font-size: 10.63px;">进化</a> <a href="/tags/%E9%9A%8F%E6%83%B3/" style="font-size: 11.25px;">随想</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 20px;">随笔</a> <a href="/tags/%E9%A9%B3%E8%AE%BA/" style="font-size: 10px;">驳论</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">January 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">December 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">October 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05/">May 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">May 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">December 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">August 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">March 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">April 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/01/">January 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/08/">August 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/07/">July 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/06/">June 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">May 2009</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/18/2021-03-18/">为什么《xxxx在XX研究中取得进展》这类文章很少有人转发？</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/2021-02-16/">如何恢复森林？– 从嘉道理农场的森林恢复样地说起</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 Jinlong Zhang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

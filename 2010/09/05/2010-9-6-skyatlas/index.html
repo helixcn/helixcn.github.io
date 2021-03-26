@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>skyatlas:用R绘制星图和行星的周年视运动 | Jinlong Zhang&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="在一些天文期刊上经常看到赤道坐标星图，不但给出了某一个时刻太阳、月亮的位置，还给出了大行星在一年中相对于星空背景的运行轨迹。今天我们就用R软件绘制这样的星图。 当然，为了绘制星图，我们需要知道恒星的位置和亮度。这就需要引入天文坐标系。天文学上天体的位置有多种坐标系统，包括赤道坐标系，黄道坐标系和地平坐标系等。 首先介绍一下今天用到的赤道坐标系。 赤道坐标系是以春分点作为起点，春分点和秋分点是赤道和">
+<meta property="og:type" content="article">
+<meta property="og:title" content="skyatlas:用R绘制星图和行星的周年视运动">
+<meta property="og:url" content="https://helixcn.github.io/2010/09/05/2010-9-6-skyatlas/index.html">
+<meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
+<meta property="og:description" content="在一些天文期刊上经常看到赤道坐标星图，不但给出了某一个时刻太阳、月亮的位置，还给出了大行星在一年中相对于星空背景的运行轨迹。今天我们就用R软件绘制这样的星图。 当然，为了绘制星图，我们需要知道恒星的位置和亮度。这就需要引入天文坐标系。天文学上天体的位置有多种坐标系统，包括赤道坐标系，黄道坐标系和地平坐标系等。 首先介绍一下今天用到的赤道坐标系。 赤道坐标系是以春分点作为起点，春分点和秋分点是赤道和">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://blog.sciencenet.cn/upload/blog/images/2010/9/20109601735522.JPG">
+<meta property="og:image" content="http://blog.sciencenet.cn/upload/blog/images/2010/9/20109601748756.JPG">
+<meta property="og:image" content="http://blog.sciencenet.cn/upload/blog/images/2010/9/20109601719225.JPG">
+<meta property="article:published_time" content="2010-09-05T08:05:54.000Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:24.503Z">
+<meta property="article:author" content="Jinlong Zhang">
+<meta property="article:tag" content="天文">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.sciencenet.cn/upload/blog/images/2010/9/20109601735522.JPG">
+  
+    <link rel="alternate" href="/atom.xml" title="Jinlong Zhang's blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jinlong Zhang&#39;s blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://helixcn.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-2010-9-6-skyatlas" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2010/09/05/2010-9-6-skyatlas/" class="article-date">
+  <time class="dt-published" datetime="2010-09-05T08:05:54.000Z" itemprop="datePublished">2010-09-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      skyatlas:用R绘制星图和行星的周年视运动
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>在一些天文期刊上经常看到赤道坐标星图，不但给出了某一个时刻太阳、月亮的位置，还给出了大行星在一年中相对于星空背景的运行轨迹。今天我们就用R软件绘制这样的星图。</p>
+<p>当然，为了绘制星图，我们需要知道恒星的位置和亮度。这就需要引入天文坐标系。天文学上天体的位置有多种坐标系统，包括赤道坐标系，黄道坐标系和地平坐标系等。</p>
+<p>首先介绍一下今天用到的赤道坐标系。</p>
+<p>赤道坐标系是以春分点作为起点，春分点和秋分点是赤道和黄道两个大圈相交的点。由于地球的自转，我们看到太阳相对于恒星背景从西向东运行，太阳所经过的路线就称为黄道。不难想象，春分点过后，太阳相对于星空背景一天天逐渐向北移动（当然也同时向东移动，差不多每天移动1度多一点儿）。我们就说春分点为升交点。太阳到达夏至点的时候，是最北的，之后逐渐向南，到秋分点又与赤道相交。因此秋分点又称为降交点。太阳继续向南，此时太阳位于天赤道以南。到达冬至点之后又逐渐向北。如此周而复始。</p>
+<p>我们定义赤道坐标系的原点就是升交点，向左度量，一圈用24h表示。其经度就称为“赤经”，其纬度就称为“赤纬”，用度表示， 北半球为正，南半球为负。这就是我们将要看到的图形中的星图。天文学上的星图左东右西，与地图正好相反。</p>
+<p>其次，我们需要了解一下恒星的位置和亮度。<br>这里我们选取了耶鲁亮星星表。这个星表包含了肉眼可见的9110颗较亮恒星的位置亮度等信息。按照肉眼可见的亮度分成不同的星等，星的亮度是用照相测量法测量的。</p>
+<p>第三，我们需要知道行星在任何一个时刻的位置。即，我们输入时刻，就有程序可以计算出该天体的位置等信息。这是球面天文学和天体力学的内容了。我们这里使用R的moonsun程序包计算某一时刻天体的位置和亮度。 我们需要输入的时间为儒略日（Julian day）。儒略日是什么？儒略日是指从公元前4713年1月1日中午12时开始，开始距离现在的天数。我们输入的日期都必须先转换成儒略日，再用儒略日作为时间点计算。儒略日计算两个时间点之间相隔的天数非常方便，因此在天文学上得到了广泛的应用。</p>
+<p>第四，我们需要了解一下行星运行的基本知识。<br>水星，金星位于地球内侧，更靠近太阳，称为内行星。火星，木星，土星，天王星，海王星位于地球外侧，称为外行星。<br>八大行星的轨道与黄道相差不大，而且均自西向东运行。靠近太阳最近的水星运行速度最快。从地球上看，行星相对于星空背景有时候向东，有时候向西。向东称为顺行，各行星大部分时间在顺行中，向西称为逆行，在顺行和逆行的转换过程中，有较短的时间，行星相对星空背景处于相对静止的状态，称为留。</p>
+<p>这里给出了skyatlasR程序能够绘制行星周年视运动的轨迹，当然，由于没有考虑到星体之间的摄动等更精确的天体力学因素，行星的位置计算不太高，精度在几角分之内，但是仍然能够满足大部分天文科普的需求。更精确的历表就得参考NASA,也就是美国国家航空航天局喷气推进实验室的HORIZON历书系统了。用户可以在线查询一些信息。</p>
+<p>下面简要介绍一下 skyatlas 程序的用法</p>
+<p>使用方法</p>
+<p>当然，首先要下载我们编好的程序了。 下载 <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/upload/blog/file/2010/9/20109603912834771.rar.rar">skyatlas.rar</a></p>
+<p>1 下载R软件 <a target="_blank" rel="noopener" href="http://ftp.ctex.org/mirrors/CRAN/bin/windows/base/R-2.11.1-win32.exe">http://ftp.ctex.org/mirrors/CRAN/bin/windows/base/R-2.11.1-win32.exe</a> 下载<br>2 将 “plot.r”, “resstar.csv”, “moonsun_0.1.1.zip” 拷贝到 C:下,”moonsun_0.1.1.zip” 为R程序包，安装时不需要解压缩。<br>3 安装moonsun.zip程序包，双击R的图标，路径为 开始&gt;所有程序&gt; R, 2.11.1, 然后再菜单中选择，菜单“程序包”，“从本地zip安装程序包”，选择 moonsun_0.1.1.zip 即可。<br>4 从R的菜单 “文件” “source R code”. 打开 “C:/plot.r”,或者输入命令source(“C:/plot.r”)即可。</p>
+<p>运行实例<br>R图形的组件都是一步一步添加上去的，故绘制一个图形步骤较多，这里举出了绘制水星1980年和2011年的例子，可供有兴趣的读者参考。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">######################################</span></span><br><span class="line"><span class="comment">######################################</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### 例一 绘制1980年水星的周年视运动  </span></span><br><span class="line"><span class="comment">##  该结果与《中国大百科全书 天文学卷》参见 485页 进行比较，水星的运行曲线结果是一致的。</span></span><br><span class="line">x11(<span class="number">14</span>, <span class="number">5</span>)</span><br><span class="line"><span class="comment">##绘制底图</span></span><br><span class="line">background(type = <span class="string">&quot;n&quot;</span>, xlim =<span class="built_in">c</span>(<span class="number">0</span>, <span class="number">24</span>), ylim = <span class="built_in">c</span>(-<span class="number">40</span>, <span class="number">40</span>), xlab = <span class="string">&quot;赤经&quot;</span>, ylab = <span class="string">&quot;赤纬&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">##添加黄道</span></span><br><span class="line">add.ecliptic()</span><br><span class="line"></span><br><span class="line"><span class="comment">##添加4等以上的恒星</span></span><br><span class="line">add.stars(resstar, mag = <span class="number">4</span>, pch = <span class="number">19</span>, time = <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 添加水星的运行轨迹</span></span><br><span class="line">tracks(mercury(jd(year = <span class="number">1980</span>,month = <span class="number">1</span>,day = <span class="number">1</span>,<span class="built_in">length</span> = <span class="number">365</span>)))</span><br><span class="line"><span class="comment">## 添加亮星的名称</span></span><br><span class="line">add.bright.lab ()</span><br><span class="line"></span><br><span class="line"><span class="comment">###生成每隔30天的点数据，</span></span><br><span class="line">position &lt;- mercury(jd(year = <span class="number">1980</span>,month = <span class="number">1</span>, day = <span class="number">1</span>,<span class="built_in">length</span> = <span class="number">12</span>, by = <span class="number">30</span>))</span><br><span class="line">addlab(position)</span><br><span class="line">title(<span class="string">&quot;1980年水星的周年视运动&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>结果如下</p>
+<p><img src="http://blog.sciencenet.cn/upload/blog/images/2010/9/20109601735522.JPG" alt="img"></p>
+<h1 id="例二"><a href="#例二" class="headerlink" title="例二"></a>例二</h1><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### 2011水星的周年视运动</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### 第一步 打开一个绘图窗口</span></span><br><span class="line">x11(<span class="number">14</span>, <span class="number">5</span>)</span><br><span class="line"><span class="comment">##  第二步 绘制底图</span></span><br><span class="line">background(type = <span class="string">&quot;n&quot;</span>, xlim =<span class="built_in">c</span>(<span class="number">0</span>, <span class="number">24</span>), ylim = <span class="built_in">c</span>(-<span class="number">40</span>, <span class="number">40</span>), xlab = <span class="string">&quot;赤经&quot;</span>, ylab = <span class="string">&quot;赤纬&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">##添加黄道</span></span><br><span class="line">add.ecliptic()</span><br><span class="line"></span><br><span class="line"><span class="comment">##第四步 添加4等以上的恒星</span></span><br><span class="line">add.stars(resstar, mag = <span class="number">4</span>, pch = <span class="number">19</span>, time = <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 第五步 添加水星的运行轨迹</span></span><br><span class="line">tracks(mercury(jd(year = <span class="number">2010</span>,month = <span class="number">1</span>,day = <span class="number">1</span>,<span class="built_in">length</span> = <span class="number">365</span>)))</span><br><span class="line"></span><br><span class="line"><span class="comment">## 第六步 添加亮星的名称</span></span><br><span class="line">add.bright.lab()</span><br><span class="line"></span><br><span class="line"><span class="comment">###第七步 添加生成每隔30天的点数据，并标在图上</span></span><br><span class="line">position &lt;- mercury(jd(year = <span class="number">2010</span>,month = <span class="number">1</span>, day = <span class="number">1</span>,<span class="built_in">length</span> = <span class="number">12</span>, by = <span class="number">30</span>))</span><br><span class="line">addlab(position)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 第八步 添加标题</span></span><br><span class="line">title(<span class="string">&quot;2011年水星的周年视运动&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p> <img src="http://blog.sciencenet.cn/upload/blog/images/2010/9/20109601748756.JPG" alt="img"></p>
+<h1 id="例三-当前时刻日月及大行星的位置图"><a href="#例三-当前时刻日月及大行星的位置图" class="headerlink" title="例三 当前时刻日月及大行星的位置图"></a>例三 当前时刻日月及大行星的位置图</h1><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### 打开一个绘图窗口</span></span><br><span class="line">x11(<span class="number">14</span>, <span class="number">5</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 绘制赤道背景坐标</span></span><br><span class="line">background(type = <span class="string">&quot;n&quot;</span>, xlim =<span class="built_in">c</span>(<span class="number">0</span>, <span class="number">24</span>), ylim = <span class="built_in">c</span>(-<span class="number">40</span>, <span class="number">40</span>), xlab = <span class="string">&quot;赤经&quot;</span>, ylab = <span class="string">&quot;赤纬&quot;</span>, bg = <span class="string">&quot;darkblue&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">##添加黄道</span></span><br><span class="line">add.ecliptic()</span><br><span class="line"></span><br><span class="line"><span class="comment">## 添加4等以上的恒星</span></span><br><span class="line">add.stars(resstar, mag = <span class="number">4</span>, pch = <span class="number">19</span>, time = <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 添加亮星的名称</span></span><br><span class="line">add.bright.lab()</span><br><span class="line"></span><br><span class="line"><span class="comment">#### 添加大行星</span></span><br><span class="line">add.planet(col = <span class="string">&quot;black&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 添加标题</span></span><br><span class="line">title(paste(<span class="string">&quot;&quot;</span>, <span class="string">&quot;日月及大行星的位置(&quot;</span>,<span class="built_in">as.character</span>(Sys.Date()),<span class="string">&quot;)&quot;</span> ))</span><br></pre></td></tr></table></figure>
+
+<p> <img src="http://blog.sciencenet.cn/upload/blog/images/2010/9/20109601719225.JPG" alt="img"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2010/09/05/2010-9-6-skyatlas/" data-id="ckmq2gwqm001zq884fjvjds40" data-title="skyatlas:用R绘制星图和行星的周年视运动" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A9%E6%96%87/" rel="tag">天文</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2010/09/09/2010-9-9-apparentmotion/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          R语言：行星运行轨迹的绘制
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2010/08/08/2010-8-9-niche/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">计算生态位宽度与生态位重叠的R程序</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/R%E7%BC%96%E7%A8%8B/" rel="tag">R编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%BA%E7%89%A9/" rel="tag">人物</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%99%E4%BD%9C/" rel="tag">写作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" rel="tag">可视化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E4%B9%A6/" rel="tag">图书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" rel="tag">图像处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9C%B0%E7%90%86/" rel="tag">地理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A3%B0%E6%98%8E/" rel="tag">声明</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A9%E6%96%87/" rel="tag">天文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%AF%9D%E5%BD%95/" rel="tag">对话录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%83%E5%BE%97/" rel="tag">心得</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E5%91%8A/" rel="tag">报告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E7%89%88/" rel="tag">排版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%85%E4%B9%A1/" rel="tag">故乡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" rel="tag">标本馆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%88%86%E7%B1%BB/" rel="tag">植物分类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%90%8D/" rel="tag">植物学名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%82%E8%81%8C/" rel="tag">求职</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" rel="tag">版本控制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%80%81/" rel="tag">生态</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%80%81%E8%B5%84%E8%AE%AF/" rel="tag">生态资讯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%94%E7%A9%B6%E8%B5%84%E8%AE%AF/" rel="tag">研究资讯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B3%BB%E7%BB%9F%E5%8F%91%E8%82%B2/" rel="tag">系统发育</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%9F%E8%AE%A1/" rel="tag">统计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" rel="tag">行摄匆匆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%81%E9%97%BB%E5%BD%95/" rel="tag">见闻录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%97%E6%AD%8C/" rel="tag">诗歌</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E5%8C%96/" rel="tag">进化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E6%83%B3/" rel="tag">随想</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A9%B3%E8%AE%BA/" rel="tag">驳论</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/R%E7%BC%96%E7%A8%8B/" style="font-size: 18.75px;">R编程</a> <a href="/tags/%E4%BA%BA%E7%89%A9/" style="font-size: 11.88px;">人物</a> <a href="/tags/%E5%86%99%E4%BD%9C/" style="font-size: 13.13px;">写作</a> <a href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" style="font-size: 12.5px;">可视化</a> <a href="/tags/%E5%9B%BE%E4%B9%A6/" style="font-size: 10px;">图书</a> <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" style="font-size: 11.88px;">图像处理</a> <a href="/tags/%E5%9C%B0%E7%90%86/" style="font-size: 17.5px;">地理</a> <a href="/tags/%E5%A3%B0%E6%98%8E/" style="font-size: 10.63px;">声明</a> <a href="/tags/%E5%A4%A9%E6%96%87/" style="font-size: 16.25px;">天文</a> <a href="/tags/%E5%AF%B9%E8%AF%9D%E5%BD%95/" style="font-size: 10px;">对话录</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 10px;">心得</a> <a href="/tags/%E6%8A%A5%E5%91%8A/" style="font-size: 12.5px;">报告</a> <a href="/tags/%E6%8E%92%E7%89%88/" style="font-size: 13.75px;">排版</a> <a href="/tags/%E6%95%85%E4%B9%A1/" style="font-size: 10.63px;">故乡</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10.63px;">数据库</a> <a href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" style="font-size: 14.38px;">标本馆</a> <a href="/tags/%E6%A4%8D%E7%89%A9%E5%88%86%E7%B1%BB/" style="font-size: 10px;">植物分类</a> <a href="/tags/%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%90%8D/" style="font-size: 10px;">植物学名</a> <a href="/tags/%E6%B1%82%E8%81%8C/" style="font-size: 10px;">求职</a> <a href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" style="font-size: 11.25px;">版本控制</a> <a href="/tags/%E7%94%9F%E6%80%81/" style="font-size: 16.88px;">生态</a> <a href="/tags/%E7%94%9F%E6%80%81%E8%B5%84%E8%AE%AF/" style="font-size: 10px;">生态资讯</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E8%B5%84%E8%AE%AF/" style="font-size: 10px;">研究资讯</a> <a href="/tags/%E7%B3%BB%E7%BB%9F%E5%8F%91%E8%82%B2/" style="font-size: 10px;">系统发育</a> <a href="/tags/%E7%BB%9F%E8%AE%A1/" style="font-size: 18.13px;">统计</a> <a href="/tags/%E7%BC%96%E7%A8%8B/" style="font-size: 10.63px;">编程</a> <a href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" style="font-size: 15px;">行摄匆匆</a> <a href="/tags/%E8%A7%81%E9%97%BB%E5%BD%95/" style="font-size: 10px;">见闻录</a> <a href="/tags/%E8%AF%97%E6%AD%8C/" style="font-size: 15.63px;">诗歌</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 19.38px;">软件</a> <a href="/tags/%E8%BF%9B%E5%8C%96/" style="font-size: 10.63px;">进化</a> <a href="/tags/%E9%9A%8F%E6%83%B3/" style="font-size: 11.25px;">随想</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 20px;">随笔</a> <a href="/tags/%E9%A9%B3%E8%AE%BA/" style="font-size: 10px;">驳论</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">January 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">December 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">October 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05/">May 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">May 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">December 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">August 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">March 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">April 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/01/">January 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/08/">August 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/07/">July 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/06/">June 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">May 2009</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/18/2021-03-18/">为什么《xxxx在XX研究中取得进展》这类文章很少有人转发？</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/2021-02-16/">如何恢复森林？– 从嘉道理农场的森林恢复样地说起</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 Jinlong Zhang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

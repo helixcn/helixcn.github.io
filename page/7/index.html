@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Jinlong Zhang&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Jinlong Zhang&#39;s blog">
+<meta property="og:url" content="https://helixcn.github.io/page/7/index.html">
+<meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Jinlong Zhang">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Jinlong Zhang's blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jinlong Zhang&#39;s blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://helixcn.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-2018-05-29-skyatlas" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/05/29/2018-05-29-skyatlas/" class="article-date">
+  <time class="dt-published" datetime="2018-05-29T06:29:54.000Z" itemprop="datePublished">2018-05-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/05/29/2018-05-29-skyatlas/">天文年历中几种常见天象图的绘制</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>中科院紫金山天文台和北京天文馆《天文爱好者》杂志社曾连续多年编纂《天文普及年历》， 其中就有不少行星周年视运动、日月和大行星的升没时刻和中天时刻图、木星伽利略卫星动态等。类似的图形，在《香港天文年历》中也有出现， 如 <a target="_blank" rel="noopener" href="http://www.weather.gov.hk/gts/astron2018/2018transit.pdf">http://www.weather.gov.hk/gts/astron2018/2018transit.pdf</a> ， <a target="_blank" rel="noopener" href="http://www.weather.gov.hk/gts/astron2018/2018rise-set.pdf">http://www.weather.gov.hk/gts/astron2018/2018rise-set.pdf</a> </p>
+<p>这里提供一些R代码， 用于绘制类似图形。这些图形有些已经用于近几年的《爱牧夫天文台历》等 （参见 <a target="_blank" rel="noopener" href="http://bbs.imufu.cn/thread-689955-1-1.html">http://bbs.imufu.cn/thread-689955-1-1.html</a>  ）。由于学识有限，错误和疏漏在所难免， 恳请广大读者指正。</p>
+<p>用到的R程序包及其安装<br>天象图全部是用R语言程序包 skycalc, moonsun和ephem， 假设已安装了devtools程序包以及Rtools(针对Windows用户)， 可以用以下命令安装上述三个程序包，需要按照如下顺序安装：</p>
+<h3 id="先安装Rcpp"><a href="#先安装Rcpp" class="headerlink" title="先安装Rcpp"></a>先安装Rcpp</h3><p>install.packages(“Rcpp”)</p>
+<h3 id="skycalck安装："><a href="#skycalck安装：" class="headerlink" title="skycalck安装："></a>skycalck安装：</h3><p>devtools::install_github(“helixcn/skycalc”)</p>
+<h3 id="ephem包安装："><a href="#ephem包安装：" class="headerlink" title="ephem包安装："></a>ephem包安装：</h3><p>devtools::install_github(“helixcn/ephem”)</p>
+<h3 id="moonsun程序包-install-packages-“moonsun”"><a href="#moonsun程序包-install-packages-“moonsun”" class="headerlink" title="moonsun程序包: install.packages(“moonsun”)"></a>moonsun程序包: install.packages(“moonsun”)</h3><p>R脚本<br>library(ephem)</p>
+<h2 id="Loading-required-package-moonsun"><a href="#Loading-required-package-moonsun" class="headerlink" title="Loading required package: moonsun"></a>Loading required package: moonsun</h2><h2 id="Loading-required-package-skycalc"><a href="#Loading-required-package-skycalc" class="headerlink" title="Loading required package: skycalc"></a>Loading required package: skycalc</h2><h2 id="Loading-required-package-Rcpp"><a href="#Loading-required-package-Rcpp" class="headerlink" title="Loading required package: Rcpp"></a>Loading required package: Rcpp</h2><p>library(skycalc)<br>options(longitude = 120) ## 假设经度为东经120度<br>金星和水星在日出日落时的高度和方位<br>venus_sunset(CAADate_DateToJD(2018, 1, 1, TRUE),<br>              latitude = 40, days = 365, label_interval = 10 )<br>2018年金星在日落时的高度和方位</p>
+<p>2018年金星在日落时的高度和方位</p>
+<p> venus_sunrise(CAADate_DateToJD(2018, 1, 1, TRUE),<br>               latitude = 40, days = 365, label_interval = 10)<br>2018年金星在日出时的高度和方位</p>
+<p>2018年金星在日出时的高度和方位</p>
+<p>  mercury_sunrise( CAADate_DateToJD(2018, 1, 1, TRUE) ,<br>                  latitude = 40, days = 365, label_interval = 10)<br>2018年水星在日出时的高度和方位</p>
+<p>2018年水星在日出时的高度和方位</p>
+<p> mercury_sunset(CAADate_DateToJD(2018, 1, 1, TRUE),<br>                latitude = 40, days = 365, label_interval = 10 )<br>2018年水星在日落时的高度和方位</p>
+<p>2018年水星在日落时的高度和方位</p>
+<p>2018年日月和大行星每月中旬在星空背景中的位置<br> plot_location_atlas(CAADate_DateToJD(Year = 2018,<br>                                      Month =1,<br>                                      Day =15,<br>                                      TRUE))</p>
+<h2 id="Warning-in-log-constellation-MAG-NaNs-produced"><a href="#Warning-in-log-constellation-MAG-NaNs-produced" class="headerlink" title="Warning in log(constellation$MAG): NaNs produced"></a>Warning in log(constellation$MAG): NaNs produced</h2><h2 id="Warning-in-log-constellation-MAG-NaNs-produced-1"><a href="#Warning-in-log-constellation-MAG-NaNs-produced-1" class="headerlink" title="Warning in log(constellation$MAG): NaNs produced"></a>Warning in log(constellation$MAG): NaNs produced</h2><h2 id="Warning-in-log-constellation-MAG-NaNs-produced-2"><a href="#Warning-in-log-constellation-MAG-NaNs-produced-2" class="headerlink" title="Warning in log(constellation$MAG): NaNs produced"></a>Warning in log(constellation$MAG): NaNs produced</h2><p>2018年1月15日月和大行星在星空背景中的位置</p>
+<p>2018年1月15日月和大行星在星空背景中的位置</p>
+<h2 id="ra-d-phase-angle-dist-size-mag"><a href="#ra-d-phase-angle-dist-size-mag" class="headerlink" title="ra             d phase  angle  dist size  mag"></a>ra             d phase  angle  dist size  mag</h2><h2 id="2018-01-15-Sun-19h-46m-53s-22-49’-43’’-NA-NA-0-98-0-5-NA"><a href="#2018-01-15-Sun-19h-46m-53s-22-49’-43’’-NA-NA-0-98-0-5-NA" class="headerlink" title="2018-01-15-Sun     19h 46m 53s -22* 49’ 43’’    NA     NA  0.98  0.5   NA"></a>2018-01-15-Sun     19h 46m 53s -22* 49’ 43’’    NA     NA  0.98  0.5   NA</h2><h2 id="2018-01-15-Moon-18h-9m-11s-24-38’-15’’-3-9-89-2-1-05-29-6-NA"><a href="#2018-01-15-Moon-18h-9m-11s-24-38’-15’’-3-9-89-2-1-05-29-6-NA" class="headerlink" title="2018-01-15-Moon    18h  9m 11s -24* 38’ 15’’   3.9   89.2  1.05 29.6   NA"></a>2018-01-15-Moon    18h  9m 11s -24* 38’ 15’’   3.9   89.2  1.05 29.6   NA</h2><h2 id="2018-01-15-Mercury-18h-23m-22s-24-33’-59’’-85-4-87-4-1-25-5-4-1-5"><a href="#2018-01-15-Mercury-18h-23m-22s-24-33’-59’’-85-4-87-4-1-25-5-4-1-5" class="headerlink" title="2018-01-15-Mercury 18h 23m 22s -24* 33’ 59’’  85.4   87.4  1.25  5.4 -1.5"></a>2018-01-15-Mercury 18h 23m 22s -24* 33’ 59’’  85.4   87.4  1.25  5.4 -1.5</h2><h2 id="2018-01-15-Venus-19h-51m-40s-22-4’-13’’-100-0-55-9-1-71-9-9-3-9"><a href="#2018-01-15-Venus-19h-51m-40s-22-4’-13’’-100-0-55-9-1-71-9-9-3-9" class="headerlink" title="2018-01-15-Venus   19h 51m 40s -22*  4’ 13’’ 100.0  -55.9  1.71  9.9 -3.9"></a>2018-01-15-Venus   19h 51m 40s -22*  4’ 13’’ 100.0  -55.9  1.71  9.9 -3.9</h2><h2 id="2018-01-15-Mars-15h-18m-55s-18-32’-58’’-92-1-105-3-1-82-5-1-0-9"><a href="#2018-01-15-Mars-15h-18m-55s-18-32’-58’’-92-1-105-3-1-82-5-1-0-9" class="headerlink" title="2018-01-15-Mars    15h 18m 55s -18* 32’ 58’’  92.1  105.3  1.82  5.1  0.9"></a>2018-01-15-Mars    15h 18m 55s -18* 32’ 58’’  92.1  105.3  1.82  5.1  0.9</h2><h2 id="2018-01-15-Jupiter-15h-5m-39s-17-41’-9’’-99-3-106-4-5-76-34-2-1-9"><a href="#2018-01-15-Jupiter-15h-5m-39s-17-41’-9’’-99-3-106-4-5-76-34-2-1-9" class="headerlink" title="2018-01-15-Jupiter 15h  5m 39s -17* 41’  9’’  99.3  106.4  5.76 34.2 -1.9"></a>2018-01-15-Jupiter 15h  5m 39s -17* 41’  9’’  99.3  106.4  5.76 34.2 -1.9</h2><h2 id="2018-01-15-Saturn-18h-11m-18s-23-28’-40’’-100-0-91-1-10-99-15-1-1-3"><a href="#2018-01-15-Saturn-18h-11m-18s-23-28’-40’’-100-0-91-1-10-99-15-1-1-3" class="headerlink" title="2018-01-15-Saturn  18h 11m 18s -23* 28’ 40’’ 100.0   91.1 10.99 15.1  1.3"></a>2018-01-15-Saturn  18h 11m 18s -23* 28’ 40’’ 100.0   91.1 10.99 15.1  1.3</h2><h2 id="2018-01-15-Uranus-1h-33m-44s-9-11’-8’’-99-9-111-4-19-90-3-3-5-8"><a href="#2018-01-15-Uranus-1h-33m-44s-9-11’-8’’-99-9-111-4-19-90-3-3-5-8" class="headerlink" title="2018-01-15-Uranus   1h 33m 44s   9* 11’  8’’  99.9 -111.4 19.90  3.3  5.8"></a>2018-01-15-Uranus   1h 33m 44s   9* 11’  8’’  99.9 -111.4 19.90  3.3  5.8</h2><h2 id="2018-01-15-Neptune-22h-52m-20s-9-50’-40’’-100-0-111-5-30-66-2-0-7-9"><a href="#2018-01-15-Neptune-22h-52m-20s-9-50’-40’’-100-0-111-5-30-66-2-0-7-9" class="headerlink" title="2018-01-15-Neptune 22h 52m 20s  -9* 50’ 40’’ 100.0 -111.5 30.66  2.0  7.9"></a>2018-01-15-Neptune 22h 52m 20s  -9* 50’ 40’’ 100.0 -111.5 30.66  2.0  7.9</h2><h2 id="2018-01-15-Pluto-18h-45m-15s-21-55’-52’’-100-0-97-1-33-40-0-2-14-2"><a href="#2018-01-15-Pluto-18h-45m-15s-21-55’-52’’-100-0-97-1-33-40-0-2-14-2" class="headerlink" title="2018-01-15-Pluto   18h 45m 15s -21* 55’ 52’’ 100.0   97.1 33.40  0.2 14.2"></a>2018-01-15-Pluto   18h 45m 15s -21* 55’ 52’’ 100.0   97.1 33.40  0.2 14.2</h2><h2 id=""><a href="#" class="headerlink" title=""></a></h2><h2 id="2018-01-15-Sun-Sgr"><a href="#2018-01-15-Sun-Sgr" class="headerlink" title="2018-01-15-Sun     Sgr"></a>2018-01-15-Sun     Sgr</h2><h2 id="2018-01-15-Moon-Sgr"><a href="#2018-01-15-Moon-Sgr" class="headerlink" title="2018-01-15-Moon    Sgr"></a>2018-01-15-Moon    Sgr</h2><h2 id="2018-01-15-Mercury-Sgr"><a href="#2018-01-15-Mercury-Sgr" class="headerlink" title="2018-01-15-Mercury Sgr"></a>2018-01-15-Mercury Sgr</h2><h2 id="2018-01-15-Venus-Sgr"><a href="#2018-01-15-Venus-Sgr" class="headerlink" title="2018-01-15-Venus   Sgr"></a>2018-01-15-Venus   Sgr</h2><h2 id="2018-01-15-Mars-Lib"><a href="#2018-01-15-Mars-Lib" class="headerlink" title="2018-01-15-Mars    Lib"></a>2018-01-15-Mars    Lib</h2><h2 id="2018-01-15-Jupiter-Lib"><a href="#2018-01-15-Jupiter-Lib" class="headerlink" title="2018-01-15-Jupiter Lib"></a>2018-01-15-Jupiter Lib</h2><h2 id="2018-01-15-Saturn-Sgr"><a href="#2018-01-15-Saturn-Sgr" class="headerlink" title="2018-01-15-Saturn  Sgr"></a>2018-01-15-Saturn  Sgr</h2><h2 id="2018-01-15-Uranus-Psc"><a href="#2018-01-15-Uranus-Psc" class="headerlink" title="2018-01-15-Uranus  Psc"></a>2018-01-15-Uranus  Psc</h2><h2 id="2018-01-15-Neptune-Aqr"><a href="#2018-01-15-Neptune-Aqr" class="headerlink" title="2018-01-15-Neptune Aqr"></a>2018-01-15-Neptune Aqr</h2><h2 id="2018-01-15-Pluto-Sgr"><a href="#2018-01-15-Pluto-Sgr" class="headerlink" title="2018-01-15-Pluto   Sgr"></a>2018-01-15-Pluto   Sgr</h2><p>2018年日月和大行星中天时刻<br> plot_transit_table(transit_table(<br>   CAADate_DateToJD(Year = 2018,<br>                    Month =1,<br>                    Day =1,<br>                    TRUE),<br>   days =365),<br>   legend = TRUE)<br>2018年日月和大行星的中天时刻</p>
+<p>2018年日月和大行星的中天时刻</p>
+<p>2018年行星的周年视运动<br>library(moonsun)<br>data(starcat)<br>ephem.mercury &lt;- mercury(jd(year = 2018,<br>                            month = 1,<br>                            day = 1,<br>                            length = 365))<br>track(ephem.mercury,<br>      mag = 4,<br>      interval.lab = 30,<br>      bright.lab = TRUE,<br>      starcat = starcat,<br>      bright = bright)<br>2018年水星的周年视运动</p>
+<p>2018年水星的周年视运动</p>
+<p>ephem.venus &lt;- venus(jd(year = 2018,<br>                        month = 1,<br>                        day = 1,<br>                        length = 365))<br>track(ephem.venus, mag = 4,<br>      interval.lab = 30,<br>      bright.lab = TRUE,<br>      starcat = starcat,<br>      bright = bright)<br>2018年金星的周年视运动</p>
+<p>2018年金星的周年视运动</p>
+<p>ephem.mars &lt;- mars(jd(year = 2018,<br>                      month = 1,<br>                      day = 1,<br>                      length = 365))<br>track(ephem.mars,<br>      mag = 4,<br>      interval.lab = 30,<br>      bright.lab = TRUE,<br>      starcat = starcat,<br>      bright = bright)<br>2018年火星的周年视运动</p>
+<p>2018年火星的周年视运动</p>
+<p>ephem.jupiter &lt;- jupiter(jd(year = 2018,<br>                            month = 1,<br>                            day = 1,<br>                            length = 365))<br>track(ephem.jupiter,<br>      mag = 6,<br>      interval.lab = 30,<br>      bright.lab = TRUE,<br>      starcat = starcat,<br>      bright = bright)<br>2018年木星的周年视运动</p>
+<p>2018年木星的周年视运动</p>
+<p>ephem.saturn &lt;- saturn(jd(year = 2018,<br>                          month = 1,<br>                          day = 1,<br>                          length = 365))<br>track(ephem.saturn,<br>      mag = 8,<br>      interval.lab = 30,<br>      bright.lab = TRUE,<br>      starcat = starcat,<br>      bright = bright)<br>2018年土星的周年视运动</p>
+<p>2018年土星的周年视运动</p>
+<p>ephem.uranus &lt;- uranus(jd(year = 2018,<br>                          month = 1,<br>                          day = 1,<br>                          length = 365))<br>track(ephem.uranus,<br>      mag = 8,<br>      interval.lab = 30,<br>      bright.lab = TRUE,<br>      starcat = starcat,<br>      bright = bright)<br>2018年天王星的周年视运动</p>
+<p>2018年天王星的周年视运动</p>
+<p>ephem.neptune &lt;- neptune(jd(year = 2018,<br>                            month = 1,<br>                            day = 1,<br>                            length = 365))<br>track(ephem.neptune,<br>      mag = 8,<br>      interval.lab = 30,<br>      bright.lab = TRUE,<br>      starcat = starcat,<br>      bright = bright)<br> 2018年海王星的周年视运动</p>
+<p>2018年海王星的周年视运动</p>
+<p>ephem.pluto &lt;- pluto(jd(year = 2018,<br>                        month = 1,<br>                        day = 1,<br>                        length = 365))<br>track(ephem.pluto,<br>      mag = 8,<br>      interval.lab = 30,<br>      bright.lab = TRUE,<br>      starcat = starcat,<br>      bright = bright)<br>2018年冥王星的周年视运动</p>
+<p>2018年冥王星的周年视运动</p>
+<p>木星伽利略卫星的位置变化<br> plot_juptermoons(CAADate_DateToJD(Year = 2018,<br>                                   Month = 1,<br>                                   Day =1,<br>                                   TRUE),<br>                  days = 31, increment = 1/24)<br>2018年1月木星伽利略卫星的位置变化</p>
+<p>2018年1月木星伽利略卫星的位置变化</p>
+<p>参考文献</p>
+<p>Komsta, Lukasz. 2013. Moonsun: Basic Astronomical Calculations with R. <a target="_blank" rel="noopener" href="https://cran.r-project.org/package=moonsun">https://CRAN.R-project.org/package=moonsun</a>.</p>
+<p>Zhang, Jinlong. 2015. Skycalc: Computational Astronomy in R Based on Pj Naughter’s Aa+ Library. <a target="_blank" rel="noopener" href="https://github.com/helixcn/skycalc/">https://github.com/helixcn/skycalc/</a>.</p>
+<p>Zhang, Jinlong.. 2016. Ephem: Creating Figures for Astronomical Almanac.<a target="_blank" rel="noopener" href="https://github.com/helixcn/">https://github.com/helixcn/</a>. </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/05/29/2018-05-29-skyatlas/" data-id="ckmq2gwtr00a1q88474uy908t" data-title="天文年历中几种常见天象图的绘制" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A9%E6%96%87/" rel="tag">天文</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2018-5-29-extractaltitude" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/05/29/2018-5-29-extractaltitude/" class="article-date">
+  <time class="dt-published" datetime="2018-05-29T00:19:54.000Z" itemprop="datePublished">2018-05-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/05/29/2018-5-29-extractaltitude/">利用R提取海拔、温度和降水等信息</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>全球范围内的温度降水等信息， 常用于物种潜在分布区预测研究中。与此同时，在生态学研究中，常需要某些地点的温度降水等信息。 较早公开的较高精度的气候数据，包括Worldclim（<a target="_blank" rel="noopener" href="http://www.worldclim.org/%EF%BC%89%E3%80%82">http://www.worldclim.org/）。</a> 2017年，另一套高精度数据CHELSA （Climatologies at high resolution for the earth’s land surface areas， <a target="_blank" rel="noopener" href="http://chelsa-climate.org/%EF%BC%89">http://chelsa-climate.org/）</a> 公开发布。 CHELSA数据整合了局域尺度的降雨等信息， 部分气象因子比Worldclim更准确。 同一年，Worldclimate也发布了2.0版本。</p>
+<p>已知某些地点的经纬度，要提取这些地点的温度降水等信息，用DIVA-GIS(<a target="_blank" rel="noopener" href="http://www.diva-gis.org/">http://www.diva-gis.org/</a> ) 和Worldclim数据很容易做到， 具体方法参见 <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/blog-255662-679159.html">http://blog.sciencenet.cn/blog-255662-679159.html</a></p>
+<p>不过由于DIVA-GIS是依靠鼠标操作，很难批量化处理。 本文给出提取气候数据的R代码。相关操作主要基于Robert Hijmans的raster程序包， 更多详细信息请参考 （<a target="_blank" rel="noopener" href="http://rspatial.org/index.html%EF%BC%89">http://rspatial.org/index.html）</a></p>
+<p>海拔数据下载<br><a target="_blank" rel="noopener" href="http://edcintl.cr.usgs.gov/downloads/sciweb1/shared/topo/downloads/GMTED/Grid_ZipFiles/mn30_grd.zip">http://edcintl.cr.usgs.gov/downloads/sciweb1/shared/topo/downloads/GMTED/Grid_ZipFiles/mn30_grd.zip</a></p>
+<p>CHELSA提供的19个Bioclimate 数据下载<br><a target="_blank" rel="noopener" href="https://www.wsl.ch/lud/chelsa/data/bioclim/integer/">https://www.wsl.ch/lud/chelsa/data/bioclim/integer/</a></p>
+<p>各环境变量<br>Bio1 = Annual Mean Temperature 年均温</p>
+<p>Bio2 = Mean Diurnal Range，即 Mean of monthly (max temp - min temp) 平均月温差</p>
+<p>Bio3 = Isothermality 等温性</p>
+<p>Bio4 = Temperature Seasonality 温度的季节性</p>
+<p>Bio5 = Max Temperature of Warmest Month 最暖月最高温</p>
+<p>Bio6 = Min Temperature of Coldest Month 最冷月最低温</p>
+<p>Bio7 = Temperature Annual Range 气温年较差</p>
+<p>Bio8 = Mean Temperature of Wettest Quarter 最湿季均温</p>
+<p>Bio9 = Mean Temperature of Driest Quarter 最干季均温</p>
+<p>Bio10 = Mean Temperature of Warmest Quarter 最暖月均温</p>
+<p>Bio11 = Mean Temperature of Coldest Quarter 最冷月均温</p>
+<p>Bio12 = Annual Precipitation 年降水</p>
+<p>Bio13 = Precipitation of Wettest Month 最湿润月降水</p>
+<p>Bio14 = Precipitation of Driest Month 最干旱月降水</p>
+<p>Bio15 = Precipitation Seasonality 气温的季节性</p>
+<p>Bio16 = Precipitation of Wettest Quarter 最湿润季降水</p>
+<p>Bio17 = Precipitation of Driest Quarter 最干旱季降水</p>
+<p>Bio18 = Precipitation of Warmest Quarter 最暖季降水</p>
+<p>Bio19 = Precipitation of Coldest Quarter 最冷季降水</p>
+<p>CHELSA气候图层， 选择整数还是浮点数图层？<br>可选择整数图层 integer ，这是因为整数图层占用空间较小， 同时也有相对较高的精度， 如温度可精确到0.1度。 注意，这里的温度是*10的值， 也就说，某地年均温为15.2度， 则提取出的数值为152。</p>
+<p>30s数据能达到什么精度？<br>edge.length &lt;- 6378<em>2</em>pi<em>1000/(360</em>60*60)*30<br>edge.length<br>表明最大栅格边长约为928米。</p>
+<p>计算对角线长度<br>edge.length *1.414</p>
+<h2 id="1-1311-686"><a href="#1-1311-686" class="headerlink" title="[1] 1311.686"></a>[1] 1311.686</h2><p>所以如果两个地点相距不足1312m， 那么两个点有可能落在同一个栅格内， 那么提取的气候要素也就没有任何区别。</p>
+<p>图层用的是什么投影？<br>所有图层都使用WGS1984投影， 用于提取数据的坐标， 也必须是WGS1984坐标</p>
+<p>解压缩<br>下载的7z文件用 7-Zip（<a target="_blank" rel="noopener" href="https://www.7-zip.org/">https://www.7-zip.org/</a> ）</p>
+<p>R代码</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;C:/Users/jlzhang/Desktop/CHELSA&quot;</span>)</span><br><span class="line">library(raster)</span><br><span class="line"><span class="comment">## Loading required package: sp</span></span><br><span class="line">library(openxlsx)</span><br><span class="line"><span class="comment">#### locations &lt;- read.csv(&quot;https://simplemaps.com/static/data/world-cities/basic/simplemaps-worldcities-basic.csv&quot;, header = TRUE)</span></span><br><span class="line"><span class="comment">#### write.csv(locations, &quot;locations.csv&quot;)</span></span><br><span class="line">locations &lt;- read.csv(<span class="string">&quot;locations.csv&quot;</span>)</span><br><span class="line">locations30 &lt;- locations[sample(<span class="number">1</span>:nrow(locations), <span class="number">30</span>),]</span><br><span class="line">colnames(locations30)</span><br><span class="line"><span class="comment">##  [1] &quot;X&quot;          &quot;city&quot;       &quot;city_ascii&quot; &quot;lat&quot;        &quot;lng&quot;       </span></span><br><span class="line"><span class="comment">##  [6] &quot;pop&quot;        &quot;country&quot;    &quot;iso2&quot;       &quot;iso3&quot;       &quot;province&quot;</span></span><br><span class="line">locations30</span><br><span class="line"><span class="comment">##         X            city      city_ascii        lat           lng</span></span><br><span class="line"><span class="comment">## 3081 3081       Bhagalpur       Bhagalpur  25.229996   86.98000321</span></span><br><span class="line"><span class="comment">## 6838 6838           Homer           Homer  59.642934 -151.54827970</span></span><br><span class="line"><span class="comment">## 7257 7257           Lahij           Lahij  13.058181   44.88376135</span></span><br><span class="line"><span class="comment">## 1214 1214            Dori            Dori  14.033997   -0.02799852</span></span><br><span class="line"><span class="comment">## 6716 6716         Douglas         Douglas  31.507778  -82.85068994</span></span><br><span class="line"><span class="comment">## 4313 4313      Bluefields      Bluefields  11.999977  -83.76494938</span></span><br><span class="line"><span class="comment">## 1743 1743          Fuyang          Fuyang  32.900407  115.82000000</span></span><br><span class="line"><span class="comment">## 6831 6831          Ambler          Ambler  67.086485 -157.85140910</span></span><br><span class="line"><span class="comment">## 6249 6249     Southampton     Southampton  50.900031   -1.39997685</span></span><br><span class="line"><span class="comment">## 4920 4920     Vladikavkaz     Vladikavkaz  43.050381   44.66997595</span></span><br><span class="line"><span class="comment">## 5423 5423     Al Mubarraz     Al Mubarraz  25.429054   49.56590450</span></span><br><span class="line"><span class="comment">## 5784 5784    Schaffhausen    Schaffhausen  47.706003    8.63299852</span></span><br><span class="line"><span class="comment">## 1304 1304         Creston         Creston  49.099960 -116.51669700</span></span><br><span class="line"><span class="comment">## 7110 7110        Guliston        Guliston  40.495731   68.79072587</span></span><br><span class="line"><span class="comment">## 5309 5309     Pervouralsk     Pervouralsk  56.910026   59.95503780</span></span><br><span class="line"><span class="comment">## 6658 6658        Woodward        Woodward  36.433421  -99.39769027</span></span><br><span class="line"><span class="comment">## 1405 1405        Cochrane        Cochrane  49.067017  -81.01656417</span></span><br><span class="line"><span class="comment">## 7264 7264          Sayhut          Sayhut  15.210504   51.24544023</span></span><br><span class="line"><span class="comment">## 187   187   Troll Station   Troll Station -72.016290    2.53332312</span></span><br><span class="line"><span class="comment">## 7034 7034      Cincinnati      Cincinnati  39.161885  -84.45692265</span></span><br><span class="line"><span class="comment">## 4395 4395          Sokoto          Sokoto  13.060015    5.24003129</span></span><br><span class="line"><span class="comment">## 3078 3078         Lucknow         Lucknow  26.855039   80.91499874</span></span><br><span class="line"><span class="comment">## 3877 3877       Tidjikdja       Tidjikdja  18.550016  -11.41660059</span></span><br><span class="line"><span class="comment">## 4130 4130           Rabat           Rabat  34.025299   -6.83613082</span></span><br><span class="line"><span class="comment">## 7000 7000      Montgomery      Montgomery  32.361602  -86.27918868</span></span><br><span class="line"><span class="comment">## 1990 1990            Bose            Bose  23.899716  106.61332680</span></span><br><span class="line"><span class="comment">## 6893 6893       Kalispell       Kalispell  48.197767 -114.31597860</span></span><br><span class="line"><span class="comment">## 3587 3587           Rudny           Rudny  52.952697   63.13003780</span></span><br><span class="line"><span class="comment">## 1030 1030        Mineiros        Mineiros -17.569536  -52.55998071</span></span><br><span class="line"><span class="comment">## 3114 3114 Padangsidempuan Padangsidempuan   1.388738   99.27336137</span></span><br><span class="line"><span class="comment">##            pop                  country iso2 iso3</span></span><br><span class="line"><span class="comment">## 3081  361548.0                    India   IN  IND</span></span><br><span class="line"><span class="comment">## 6838    5021.5 United States of America   US  USA</span></span><br><span class="line"><span class="comment">## 7257   44831.5                    Yemen   YE  YEM</span></span><br><span class="line"><span class="comment">## 1214   37806.0             Burkina Faso   BF  BFA</span></span><br><span class="line"><span class="comment">## 6716   12159.0 United States of America   US  USA</span></span><br><span class="line"><span class="comment">## 4313   40033.0                Nicaragua   NI  NIC</span></span><br><span class="line"><span class="comment">## 1743  170023.0                    China   CN  CHN</span></span><br><span class="line"><span class="comment">## 6831     258.0 United States of America   US  USA</span></span><br><span class="line"><span class="comment">## 6249  384417.0           United Kingdom   GB  GBR</span></span><br><span class="line"><span class="comment">## 4920  341000.0                   Russia   RU  RUS</span></span><br><span class="line"><span class="comment">## 5423  294682.0             Saudi Arabia   SA  SAU</span></span><br><span class="line"><span class="comment">## 5784   33863.0              Switzerland   CH  CHE</span></span><br><span class="line"><span class="comment">## 1304    4816.0                   Canada   CA  CAN</span></span><br><span class="line"><span class="comment">## 7110   74446.5               Uzbekistan   UZ  UZB</span></span><br><span class="line"><span class="comment">## 5309  127236.0                   Russia   RU  RUS</span></span><br><span class="line"><span class="comment">## 6658   12339.5 United States of America   US  USA</span></span><br><span class="line"><span class="comment">## 1405    4441.0                   Canada   CA  CAN</span></span><br><span class="line"><span class="comment">## 7264     189.0                    Yemen   YE  YEM</span></span><br><span class="line"><span class="comment">## 187       25.5               Antarctica   AQ  ATA</span></span><br><span class="line"><span class="comment">## 7034  971191.0 United States of America   US  USA</span></span><br><span class="line"><span class="comment">## 4395  648019.5                  Nigeria   NG  NGA</span></span><br><span class="line"><span class="comment">## 3078 2583505.5                    India   IN  IND</span></span><br><span class="line"><span class="comment">## 3877   19981.0               Mauritania   MR  MRT</span></span><br><span class="line"><span class="comment">## 4130 1680376.5                  Morocco   MA  MAR</span></span><br><span class="line"><span class="comment">## 7000  194491.5 United States of America   US  USA</span></span><br><span class="line"><span class="comment">## 1990  132942.5                    China   CN  CHN</span></span><br><span class="line"><span class="comment">## 6893   25040.0 United States of America   US  USA</span></span><br><span class="line"><span class="comment">## 3587  104235.5               Kazakhstan   KZ  KAZ</span></span><br><span class="line"><span class="comment">## 1030   28247.0                   Brazil   BR  BRA</span></span><br><span class="line"><span class="comment">## 3114  183721.5                Indonesia   ID  IDN</span></span><br><span class="line"><span class="comment">##                            province</span></span><br><span class="line"><span class="comment">## 3081                          Bihar</span></span><br><span class="line"><span class="comment">## 6838                         Alaska</span></span><br><span class="line"><span class="comment">## 7257                          Lahij</span></span><br><span class="line"><span class="comment">## 1214                          SÃ©no</span></span><br><span class="line"><span class="comment">## 6716                        Georgia</span></span><br><span class="line"><span class="comment">## 4313                 AtlÃ¡ntico Sur</span></span><br><span class="line"><span class="comment">## 1743                          Anhui</span></span><br><span class="line"><span class="comment">## 6831                         Alaska</span></span><br><span class="line"><span class="comment">## 6249                    Southampton</span></span><br><span class="line"><span class="comment">## 4920                  North Ossetia</span></span><br><span class="line"><span class="comment">## 5423                  Ash Sharqiyah</span></span><br><span class="line"><span class="comment">## 5784                   Schaffhausen</span></span><br><span class="line"><span class="comment">## 1304               British Columbia</span></span><br><span class="line"><span class="comment">## 7110                       Sirdaryo</span></span><br><span class="line"><span class="comment">## 5309                     Sverdlovsk</span></span><br><span class="line"><span class="comment">## 6658                       Oklahoma</span></span><br><span class="line"><span class="comment">## 1405                        Ontario</span></span><br><span class="line"><span class="comment">## 7264                      Al Mahrah</span></span><br><span class="line"><span class="comment">## 187                                </span></span><br><span class="line"><span class="comment">## 7034                           Ohio</span></span><br><span class="line"><span class="comment">## 4395                         Sokoto</span></span><br><span class="line"><span class="comment">## 3078                  Uttar Pradesh</span></span><br><span class="line"><span class="comment">## 3877                         Tagant</span></span><br><span class="line"><span class="comment">## 4130 Rabat - SalÃ© - Zemmour - Zaer</span></span><br><span class="line"><span class="comment">## 7000                        Alabama</span></span><br><span class="line"><span class="comment">## 1990                        Guangxi</span></span><br><span class="line"><span class="comment">## 6893                        Montana</span></span><br><span class="line"><span class="comment">## 3587                       Qostanay</span></span><br><span class="line"><span class="comment">## 1030                         GoiÃ¡s</span></span><br><span class="line"><span class="comment">## 3114                 Sumatera Utara</span></span><br><span class="line">coordinates(locations30) = <span class="built_in">c</span>(<span class="string">&quot;lng&quot;</span>,<span class="string">&quot;lat&quot;</span>) <span class="comment"># specify column names</span></span><br><span class="line"><span class="comment">### 年均温</span></span><br><span class="line">bio1 &lt;- raster(<span class="string">&quot;CHELSA_bio10_1.tif&quot;</span>)</span><br><span class="line">plot(bio1, main=<span class="string">&quot;Annual Mean Temperature&quot;</span>, </span><br><span class="line">xlab=<span class="string">&quot;Longitude&quot;</span>, ylab=<span class="string">&quot;Latitude&quot;</span>, col=rev(heat.colors(<span class="number">100</span>)))</span><br><span class="line">img</span><br><span class="line"></span><br><span class="line">res_bio1 &lt;- extract(x = bio1, y = locations30)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">### 海拔</span></span><br><span class="line">elevation &lt;- raster(<span class="string">&quot;mn30_grd&quot;</span>)</span><br><span class="line">plot(elevation, main=<span class="string">&quot;Altitude&quot;</span>, </span><br><span class="line">xlab=<span class="string">&quot;Longitude&quot;</span>, ylab=<span class="string">&quot;Latitude&quot;</span>,col= terrain.colors(<span class="number">100</span>))</span><br><span class="line">img</span><br><span class="line"></span><br><span class="line">res_elevation &lt;- extract(x = elevation, y = locations30)</span><br><span class="line"></span><br><span class="line">res &lt;- data.frame(locations30, res_bio1, res_elevation)</span><br><span class="line">res</span><br><span class="line"><span class="comment">##         X            city      city_ascii        lat           lng</span></span><br><span class="line"><span class="comment">## 3081 3081       Bhagalpur       Bhagalpur  25.229996   86.98000321</span></span><br><span class="line"><span class="comment">## 6838 6838           Homer           Homer  59.642934 -151.54827970</span></span><br><span class="line"><span class="comment">## 7257 7257           Lahij           Lahij  13.058181   44.88376135</span></span><br><span class="line"><span class="comment">## 1214 1214            Dori            Dori  14.033997   -0.02799852</span></span><br><span class="line"><span class="comment">## 6716 6716         Douglas         Douglas  31.507778  -82.85068994</span></span><br><span class="line"><span class="comment">## 4313 4313      Bluefields      Bluefields  11.999977  -83.76494938</span></span><br><span class="line"><span class="comment">## 1743 1743          Fuyang          Fuyang  32.900407  115.82000000</span></span><br><span class="line"><span class="comment">## 6831 6831          Ambler          Ambler  67.086485 -157.85140910</span></span><br><span class="line"><span class="comment">## 6249 6249     Southampton     Southampton  50.900031   -1.39997685</span></span><br><span class="line"><span class="comment">## 4920 4920     Vladikavkaz     Vladikavkaz  43.050381   44.66997595</span></span><br><span class="line"><span class="comment">## 5423 5423     Al Mubarraz     Al Mubarraz  25.429054   49.56590450</span></span><br><span class="line"><span class="comment">## 5784 5784    Schaffhausen    Schaffhausen  47.706003    8.63299852</span></span><br><span class="line"><span class="comment">## 1304 1304         Creston         Creston  49.099960 -116.51669700</span></span><br><span class="line"><span class="comment">## 7110 7110        Guliston        Guliston  40.495731   68.79072587</span></span><br><span class="line"><span class="comment">## 5309 5309     Pervouralsk     Pervouralsk  56.910026   59.95503780</span></span><br><span class="line"><span class="comment">## 6658 6658        Woodward        Woodward  36.433421  -99.39769027</span></span><br><span class="line"><span class="comment">## 1405 1405        Cochrane        Cochrane  49.067017  -81.01656417</span></span><br><span class="line"><span class="comment">## 7264 7264          Sayhut          Sayhut  15.210504   51.24544023</span></span><br><span class="line"><span class="comment">## 187   187   Troll Station   Troll Station -72.016290    2.53332312</span></span><br><span class="line"><span class="comment">## 7034 7034      Cincinnati      Cincinnati  39.161885  -84.45692265</span></span><br><span class="line"><span class="comment">## 4395 4395          Sokoto          Sokoto  13.060015    5.24003129</span></span><br><span class="line"><span class="comment">## 3078 3078         Lucknow         Lucknow  26.855039   80.91499874</span></span><br><span class="line"><span class="comment">## 3877 3877       Tidjikdja       Tidjikdja  18.550016  -11.41660059</span></span><br><span class="line"><span class="comment">## 4130 4130           Rabat           Rabat  34.025299   -6.83613082</span></span><br><span class="line"><span class="comment">## 7000 7000      Montgomery      Montgomery  32.361602  -86.27918868</span></span><br><span class="line"><span class="comment">## 1990 1990            Bose            Bose  23.899716  106.61332680</span></span><br><span class="line"><span class="comment">## 6893 6893       Kalispell       Kalispell  48.197767 -114.31597860</span></span><br><span class="line"><span class="comment">## 3587 3587           Rudny           Rudny  52.952697   63.13003780</span></span><br><span class="line"><span class="comment">## 1030 1030        Mineiros        Mineiros -17.569536  -52.55998071</span></span><br><span class="line"><span class="comment">## 3114 3114 Padangsidempuan Padangsidempuan   1.388738   99.27336137</span></span><br><span class="line"><span class="comment">##            pop                  country iso2 iso3</span></span><br><span class="line"><span class="comment">## 3081  361548.0                    India   IN  IND</span></span><br><span class="line"><span class="comment">## 6838    5021.5 United States of America   US  USA</span></span><br><span class="line"><span class="comment">## 7257   44831.5                    Yemen   YE  YEM</span></span><br><span class="line"><span class="comment">## 1214   37806.0             Burkina Faso   BF  BFA</span></span><br><span class="line"><span class="comment">## 6716   12159.0 United States of America   US  USA</span></span><br><span class="line"><span class="comment">## 4313   40033.0                Nicaragua   NI  NIC</span></span><br><span class="line"><span class="comment">## 1743  170023.0                    China   CN  CHN</span></span><br><span class="line"><span class="comment">## 6831     258.0 United States of America   US  USA</span></span><br><span class="line"><span class="comment">## 6249  384417.0           United Kingdom   GB  GBR</span></span><br><span class="line"><span class="comment">## 4920  341000.0                   Russia   RU  RUS</span></span><br><span class="line"><span class="comment">## 5423  294682.0             Saudi Arabia   SA  SAU</span></span><br><span class="line"><span class="comment">## 5784   33863.0              Switzerland   CH  CHE</span></span><br><span class="line"><span class="comment">## 1304    4816.0                   Canada   CA  CAN</span></span><br><span class="line"><span class="comment">## 7110   74446.5               Uzbekistan   UZ  UZB</span></span><br><span class="line"><span class="comment">## 5309  127236.0                   Russia   RU  RUS</span></span><br><span class="line"><span class="comment">## 6658   12339.5 United States of America   US  USA</span></span><br><span class="line"><span class="comment">## 1405    4441.0                   Canada   CA  CAN</span></span><br><span class="line"><span class="comment">## 7264     189.0                    Yemen   YE  YEM</span></span><br><span class="line"><span class="comment">## 187       25.5               Antarctica   AQ  ATA</span></span><br><span class="line"><span class="comment">## 7034  971191.0 United States of America   US  USA</span></span><br><span class="line"><span class="comment">## 4395  648019.5                  Nigeria   NG  NGA</span></span><br><span class="line"><span class="comment">## 3078 2583505.5                    India   IN  IND</span></span><br><span class="line"><span class="comment">## 3877   19981.0               Mauritania   MR  MRT</span></span><br><span class="line"><span class="comment">## 4130 1680376.5                  Morocco   MA  MAR</span></span><br><span class="line"><span class="comment">## 7000  194491.5 United States of America   US  USA</span></span><br><span class="line"><span class="comment">## 1990  132942.5                    China   CN  CHN</span></span><br><span class="line"><span class="comment">## 6893   25040.0 United States of America   US  USA</span></span><br><span class="line"><span class="comment">## 3587  104235.5               Kazakhstan   KZ  KAZ</span></span><br><span class="line"><span class="comment">## 1030   28247.0                   Brazil   BR  BRA</span></span><br><span class="line"><span class="comment">## 3114  183721.5                Indonesia   ID  IDN</span></span><br><span class="line"><span class="comment">##                            province optional res_bio1 res_elevation</span></span><br><span class="line"><span class="comment">## 3081                          Bihar     TRUE      252            44</span></span><br><span class="line"><span class="comment">## 6838                         Alaska     TRUE       46            56</span></span><br><span class="line"><span class="comment">## 7257                          Lahij     TRUE      294           128</span></span><br><span class="line"><span class="comment">## 1214                          SÃ©no     TRUE      290           281</span></span><br><span class="line"><span class="comment">## 6716                        Georgia     TRUE      185            81</span></span><br><span class="line"><span class="comment">## 4313                 AtlÃ¡ntico Sur     TRUE      266             5</span></span><br><span class="line"><span class="comment">## 1743                          Anhui     TRUE      158            34</span></span><br><span class="line"><span class="comment">## 6831                         Alaska     TRUE      -46            34</span></span><br><span class="line"><span class="comment">## 6249                    Southampton     TRUE      109             6</span></span><br><span class="line"><span class="comment">## 4920                  North Ossetia     TRUE      103           663</span></span><br><span class="line"><span class="comment">## 5423                  Ash Sharqiyah     TRUE      273           155</span></span><br><span class="line"><span class="comment">## 5784                   Schaffhausen     TRUE      100           446</span></span><br><span class="line"><span class="comment">## 1304               British Columbia     TRUE       88           622</span></span><br><span class="line"><span class="comment">## 7110                       Sirdaryo     TRUE      163           273</span></span><br><span class="line"><span class="comment">## 5309                     Sverdlovsk     TRUE       20           329</span></span><br><span class="line"><span class="comment">## 6658                       Oklahoma     TRUE      146           592</span></span><br><span class="line"><span class="comment">## 1405                        Ontario     TRUE       16           276</span></span><br><span class="line"><span class="comment">## 7264                      Al Mahrah     TRUE      283            10</span></span><br><span class="line"><span class="comment">## 187                                     TRUE     -212          1242</span></span><br><span class="line"><span class="comment">## 7034                           Ohio     TRUE      126           193</span></span><br><span class="line"><span class="comment">## 4395                         Sokoto     TRUE      285           291</span></span><br><span class="line"><span class="comment">## 3078                  Uttar Pradesh     TRUE      251           128</span></span><br><span class="line"><span class="comment">## 3877                         Tagant     TRUE      283           409</span></span><br><span class="line"><span class="comment">## 4130 Rabat - SalÃ© - Zemmour - Zaer     TRUE      193            22</span></span><br><span class="line"><span class="comment">## 7000                        Alabama     TRUE      183            88</span></span><br><span class="line"><span class="comment">## 1990                        Guangxi     TRUE      223           137</span></span><br><span class="line"><span class="comment">## 6893                        Montana     TRUE       78           903</span></span><br><span class="line"><span class="comment">## 3587                       Qostanay     TRUE       39           145</span></span><br><span class="line"><span class="comment">## 1030                         GoiÃ¡s     TRUE      229           769</span></span><br><span class="line"><span class="comment">## 3114                 Sumatera Utara     TRUE      250           325</span></span><br><span class="line">write.xlsx(res, <span class="string">&quot;extracted.xlsx&quot;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/05/29/2018-5-29-extractaltitude/" data-id="ckmq2gwuf00bsq8840qqz2t1w" data-title="利用R提取海拔、温度和降水等信息" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9C%B0%E7%90%86/" rel="tag">地理</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2018-05-29-species" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/05/28/2018-05-29-species/" class="article-date">
+  <time class="dt-published" datetime="2018-05-28T09:53:54.000Z" itemprop="datePublished">2018-05-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/05/28/2018-05-29-species/">在R中分析物种和系统发育多样性</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>本课程中， 我们将学习如何分析阿尔伯塔草原的一组植物群落数据。数据中包括阿尔伯塔几个地点草原植物盖度、功能性状和系统发育关系等，</p>
+<p>数据详细介绍参见以下论文: S.W. Kembel and J.F. Cahill, Jr. 2011. Independent evolution of leaf and root traits within and among temperate grassland plant communities. PLoS ONE 6(6): e19992. (doi:10.1371/journal.pone.0019992).</p>
+<h1 id="怎样使用课程材料"><a href="#怎样使用课程材料" class="headerlink" title="怎样使用课程材料"></a>怎样使用课程材料</h1><p>本课程覆盖了导入数据，在R中分析生物多样性的全部内容。如果要学习全部课程， 可以从R入门部分开始。如果已经有R的基础， 则可以直接学习本讲义。本课程需要用到picante程序包，以及数据映像（即.Rdata），后者包括练习用的全部数据，有了这些数据，运行后面的命令就可直接得到结果。</p>
+<h1 id="生物多样性数据导入R"><a href="#生物多样性数据导入R" class="headerlink" title="生物多样性数据导入R"></a>生物多样性数据导入R</h1><p>首先， 查看一下我们需要的程序包是否能加载。需要用的程序包有ape, picante, vegan. 由于picante是依赖另外两个程序包的，所以加载picante的时候，另外两个程序包也会自动加载。</p>
+<p>设定工作路径，请注意Windows和MacOS以及Linux操作系统上，路径斜杠的方向</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#setwd(&quot;/Users/jinlong/Dropbox/04\ to\ review/kembel/&quot;)</span></span><br><span class="line">setwd(<span class="string">&quot;C:\\Users\\jlzhang\\Dropbox\\04 to review\\kembel&quot;</span>)</span><br><span class="line">library(picante)</span><br></pre></td></tr></table></figure>
+
+<h2 id="群落数据"><a href="#群落数据" class="headerlink" title="群落数据"></a>群落数据</h2><p>群落数据包括每个地点，或者每块样地物种的个体数，或者相对多度等。在本课程的数据中，多度数据是每个不同生境20m*20m样方中植物的相对盖度。</p>
+<p>群落数据的格式为data.frame, 行表示样地，列表示物种。 练习数据已经包括comm数据了， 所以直接用就行了。 如果数据是保存在csv文件中， 则需要用read.csv函数读取，格式如下：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 每一行代表一块样地，因此行名就是样地编号，</span></span><br><span class="line"><span class="comment"># 第一行作为各列名称，所以这里设定header = TRUE。</span></span><br><span class="line"></span><br><span class="line">comm &lt;- read.csv(<span class="string">&quot;grassland.community.csv&quot;</span>, header = <span class="literal">TRUE</span>, row.names = <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>用以上方法将数据读取到R中，注意行名和列名并不是数据本身，而是各行列的名称。行列有了名称， 在后续就更容易操作和展示。群落数据的各行列有了名称，才方便和其他类型的数据关联。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 先查看comm的数据类型</span></span><br><span class="line"><span class="built_in">class</span>(comm)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看该data.frame是由多少行列组成的。(rows x columns)</span></span><br><span class="line"><span class="built_in">dim</span>(comm)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看行名</span></span><br><span class="line">rownames(comm)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看前六列的名</span></span><br><span class="line">head(colnames(comm))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 提取数据的子集，1到5行，1到5列数据</span></span><br><span class="line">comm[<span class="number">1</span>:<span class="number">5</span>, <span class="number">1</span>:<span class="number">5</span>]</span><br></pre></td></tr></table></figure>
+<p>本数据中， 多度其实是样地中某种植物的盖度。多元统计中的很多方法对于多度很敏感，因此可以将绝对多度转换为相对多度。用vegan中的函数即可完成。 </p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看每个样方中盖度之合， 如果数据为个体数， </span></span><br><span class="line"><span class="comment"># 则表示每个样方中所有种的总个体数</span></span><br><span class="line">apply(comm, <span class="number">1</span>, <span class="built_in">sum</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 除以每个样方的盖度和， 将盖度转换为相对盖度</span></span><br><span class="line">comm &lt;- decostand(comm, method = <span class="string">&quot;total&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 每个样方的总盖度</span></span><br><span class="line">apply(comm, <span class="number">1</span>, <span class="built_in">sum</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看转换后的数据</span></span><br><span class="line">comm[<span class="number">1</span>:<span class="number">5</span>, <span class="number">1</span>:<span class="number">5</span>]</span><br></pre></td></tr></table></figure>
+<h2 id="性状数据"><a href="#性状数据" class="headerlink" title="性状数据"></a>性状数据</h2><p>trait包括每个种叶和根的数据。读取到R中的方法与群落数据一样，但是在性状数据中，每个种是一行，每个性状是一列。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">traits &lt;- read.csv(<span class="string">&quot;species.traits.csv&quot;</span>, header = <span class="literal">TRUE</span>, row.names = <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看性状数据的前6列</span></span><br><span class="line">head(traits)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制两两相关图</span></span><br><span class="line">pairs(traits)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 由于一些变量显著偏向一侧，因此进行对数转换</span></span><br><span class="line">traits &lt;- log10(traits)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看转换后的数据</span></span><br><span class="line">pairs(traits) </span><br></pre></td></tr></table></figure>
+<h2 id="样地的总体情况Metadata"><a href="#样地的总体情况Metadata" class="headerlink" title="样地的总体情况Metadata"></a>样地的总体情况Metadata</h2><p>主要包括样地的生境，采集地点，环境数据，如坡度、干湿度等</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">metadata &lt;- read.csv(<span class="string">&quot;plot.metadata.csv&quot;</span>, header = <span class="literal">TRUE</span>, row.names = <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看前6行</span></span><br><span class="line">head(metadata)</span><br></pre></td></tr></table></figure>
+<h2 id="进化树（或称为系统树）"><a href="#进化树（或称为系统树）" class="headerlink" title="进化树（或称为系统树）"></a>进化树（或称为系统树）</h2><p>newick格式的进化树，用read.tree读取. Nexus格式的进化树，用read.nexus读取。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">phy &lt;- read.tree(<span class="string">&quot;grassland.phylogeny.newick&quot;</span>)</span><br><span class="line"><span class="built_in">class</span>(phy)</span><br><span class="line">phy</span><br></pre></td></tr></table></figure>
+<p>读取到R中的进化树为phylo为格式。 phylo格式的详细说明参见ape的主页(<a target="_blank" rel="noopener" href="http://ape.mpl.ird.fr/)%E3%80%82">http://ape.mpl.ird.fr/)。</a> phylo对象的本质是list，包括进化树末端分类单元名称（tip label），枝长（edge length）等等， ape内置的相关函数可以针对phylo这种数据格式打印， 汇总， 绘图等。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 列出phy对象的所有名称， 这些名称是list内部对象的名</span></span><br><span class="line"><span class="built_in">names</span>(phy)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看末端分类单元名称， 取前5个</span></span><br><span class="line">phy$tip.label[<span class="number">1</span>:<span class="number">5</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进化树有多少末端分类单元？</span></span><br><span class="line">Ntip(phy)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制进化树，用cex参数调整物种名字体大小</span></span><br><span class="line">plot(phy, cex = <span class="number">0.5</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="数据整理（cleaning）及匹配"><a href="#数据整理（cleaning）及匹配" class="headerlink" title="数据整理（cleaning）及匹配"></a>数据整理（cleaning）及匹配</h2><p>本分析用到的数据包括群落、性状、进化树以及metadata。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls()</span><br></pre></td></tr></table></figure>
+
+<p>示例中的数据，因为已经经过了认真整理，样地和样品中的物种名能够完全对应。但是很多情况下，物种名并不能完全匹配。例如， 样地数据可能只有一部分种出现在进化树中，有些种可能有性状数据，但未出现在进化树中。一些分析中， R假设物种在群落数据和进化树中出现的顺序是一致的。但是有可能出现输入错误等。 以上问题都要找出来。picante程序包中有几个函数来检测不同数据中物种名是否相同。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 检查物种是否匹配</span></span><br><span class="line">combined &lt;- match.phylo.comm(phy, comm)</span><br><span class="line"><span class="comment"># 返回结果是一个包含 phy和com的list，</span></span><br><span class="line"><span class="comment"># 未在两个数据集中都出现的物种都已经去除，</span></span><br><span class="line"><span class="comment"># 并且顺序都排好了。</span></span><br><span class="line"><span class="comment"># 这里用combined中的数据，替换原始数据。</span></span><br><span class="line"></span><br><span class="line">phy &lt;- combined$phy</span><br><span class="line">comm &lt;- combined$comm</span><br><span class="line"><span class="comment"># 性状数据也需要进行同样的处理</span></span><br><span class="line">combined &lt;- match.phylo.data(phy, traits)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用结果中检查过的数据，替换掉原来的数据。</span></span><br><span class="line"><span class="comment"># 由于之前的返回结果是list， 这里用$调取phy和data</span></span><br><span class="line">phy &lt;- combined$phy</span><br><span class="line">traits &lt;- combined$data</span><br><span class="line"></span><br><span class="line"><span class="comment">#再检查一下metadata与群落数据出现的顺序是否一致？</span></span><br><span class="line">all.equal(rownames(comm), rownames(metadata))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 若顺序不同， metadata数据中样方出现的顺序就应该按照群落顺序排序</span></span><br><span class="line">metadata &lt;- metadata[rownames(comm), ]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这样，数据预处理就完成了。 后面即可开始各种生物多样性分析。</span></span><br></pre></td></tr></table></figure>
+<h1 id="生物多样性数据的可视化及汇总"><a href="#生物多样性数据的可视化及汇总" class="headerlink" title="生物多样性数据的可视化及汇总"></a>生物多样性数据的可视化及汇总</h1><h2 id="物种丰富度和多样性"><a href="#物种丰富度和多样性" class="headerlink" title="物种丰富度和多样性"></a>物种丰富度和多样性</h2><p>每种生境上的物种数是否相同？</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 比较 fescue 和 mixedgrass 生境中物种数的差异</span></span><br><span class="line">boxplot(specnumber(comm) ~ metadata$habitat, ylab = <span class="string">&quot;# of species&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用t检验比较不同生境中物种数是否存在差异</span></span><br><span class="line">t.test(specnumber(comm) ~ metadata$habitat)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 物种累计曲线，用于查看样方总面积是否足够大</span></span><br><span class="line">plot(specaccum(comm), xlab = <span class="string">&quot;# of samples&quot;</span>, ylab = <span class="string">&quot;# of species&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h1 id="群落多元分析"><a href="#群落多元分析" class="headerlink" title="群落多元分析"></a>群落多元分析</h1><p>不同样地植物群落物种组成是怎样变化的？生境类型和环境变量与群落植物组成有什么关系？</p>
+<p>要研究这些问题， 需要用到多元排序方法。 相关函数在vegan程序包中，相关的函数的帮助文件和使用指南也非常详尽。 也可以参考 Borcard等人编写的 Numerical Ecology in R， 这本书在2018年出的第二版。</p>
+<h2 id="等级聚类"><a href="#等级聚类" class="headerlink" title="等级聚类"></a>等级聚类</h2><p>通过聚类，物种组成相近的群落能聚合到一起。 先计算样方之间的Bray-Curtis距离，Bray-Curtis不但考虑了物种组成的差异， 同时考虑了每个种的多度。之后，用聚合等级聚类（agglomerative hierachical clustering algorithm）算法即可实现聚类。 </p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 计算样地之间的 Bray-Curtis距离 </span></span><br><span class="line">comm.bc.dist &lt;- vegdist(comm, method = <span class="string">&quot;bray&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用UPGMA方法聚类</span></span><br><span class="line">comm.bc.clust &lt;- hclust(comm.bc.dist, method = <span class="string">&quot;average&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制聚类图</span></span><br><span class="line">plot(comm.bc.clust, ylab = <span class="string">&quot;Bray-Curtis dissimilarity&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>两种类型的草地， 由于有不同的物种组成，分别聚成两类</p>
+<h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><p>R中的排序方法比较多，这里我们采用NMDS （non-metric multidimensional scaling）方法。 NMDS的方法是基于距离矩阵的。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># metaMDS函数会自动进行数据转换，并检查结果是否已经收敛。</span></span><br><span class="line">comm.bc.mds &lt;- metaMDS(comm, dist = <span class="string">&quot;bray&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制stressplot，检查排序结果</span></span><br><span class="line">stressplot(comm.bc.mds)</span><br></pre></td></tr></table></figure>
+<p>排序结果可通过多种方式展示</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在Biplot中显示样地</span></span><br><span class="line">ordiplot(comm.bc.mds, display = <span class="string">&quot;sites&quot;</span>, type = <span class="string">&quot;text&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加物种名</span></span><br><span class="line">ordipointlabel(comm.bc.mds)</span><br><span class="line"></span><br><span class="line"><span class="comment"># ordiplot可以只打开绘图设备和画布，不绘制任何内容</span></span><br><span class="line">mds.fig &lt;- ordiplot(comm.bc.mds, type = <span class="string">&quot;none&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只添加样地，颜色为样地类型，pch这里设定的是点的形状。</span></span><br><span class="line"><span class="comment"># 试试 plot(1:30, pch = 1:30)</span></span><br><span class="line">points(mds.fig, <span class="string">&quot;sites&quot;</span>, pch = <span class="number">19</span>, col = <span class="string">&quot;green&quot;</span>, </span><br><span class="line">       select = metadata$habitat == <span class="string">&quot;Fescue&quot;</span>)</span><br><span class="line">points(mds.fig, <span class="string">&quot;sites&quot;</span>, pch = <span class="number">19</span>, col = <span class="string">&quot;blue&quot;</span>, </span><br><span class="line">       select = metadata$habitat == <span class="string">&quot;Mixedgrass&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加生境置信椭圆</span></span><br><span class="line">ordiellipse(comm.bc.mds, metadata$habitat, </span><br><span class="line">            conf = <span class="number">0.95</span>, label = <span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将聚类结果在NMDS排序图中显示</span></span><br><span class="line">ordicluster(comm.bc.mds, comm.bc.clust, col = <span class="string">&quot;gray&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>也可以用ordisurf函数显示物种多度</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 显示球葵属Sphaeralcea 的多度. cex参数可以调整点的大小</span></span><br><span class="line">ordisurf(comm.bc.mds, comm[, <span class="string">&quot;Sphaeralcea_coccinea&quot;</span>], </span><br><span class="line">         bubble = <span class="literal">TRUE</span>, main = <span class="string">&quot;Sphaeralcea coccinea abundance&quot;</span>,</span><br><span class="line">         cex = <span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="添加环境信息和性状数据到排序中"><a href="#添加环境信息和性状数据到排序中" class="headerlink" title="添加环境信息和性状数据到排序中"></a>添加环境信息和性状数据到排序中</h2><p>环境变量与排序轴之间是怎样的关系？这里使用envfit函数拟合</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ordiplot(comm.bc.mds)</span><br><span class="line">plot(envfit(comm.bc.mds, metadata[, <span class="number">3</span>:<span class="number">6</span>]))</span><br></pre></td></tr></table></figure>
+
+<p>用vegan中的cca或者rda等排序方法也是可以的。cca或者rda直接考虑了物种组成和多度， 并不用先计算样方之间的距离。</p>
+<h1 id="性状与进化树"><a href="#性状与进化树" class="headerlink" title="性状与进化树"></a>性状与进化树</h1><h2 id="系统发育信号"><a href="#系统发育信号" class="headerlink" title="系统发育信号"></a>系统发育信号</h2><p>最近，系统发育保守性受到很多人关注。群落系统发育结构分析就假设物种的性状是系统发育保守的。</p>
+<p>系统发育信号是度量不同物种的性状在进化树上相似程度的指数。Blomberg K统计量就是比较性状的观察值与布朗运动模型预测值的统计量 （Blomberg et al. 2003）。K 值接近1表明性状进化过程接近布朗运动， 表明有一定程度的系统发育信号或者呈现一定的保守性。K接近于0表明性状进化倾向于随机，K&gt;1 表明性状保守。</p>
+<p>K的显著性检验可以用以下方法：  将进化树上的物种名随机打乱，计算每次打乱物种名后，性状的系统发育独立差（Phylogenetic independent contrast）的方差, 在多次打乱物种名生成零分布后，真实进化树的系统发育独立差方差与之进行比较。相关检验在Kcalc，phylosignal和multiPhylosignal 函数中可实现。</p>
+<p>下面用练习数据计算系统发育信号</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 可以用Kcalc依次计算traits数据框的所有列</span></span><br><span class="line">apply(traits, <span class="number">2</span>, Kcalc, phy)</span><br><span class="line"></span><br><span class="line"><span class="comment"># multiPhylosignal函数可以检验多列的P值，</span></span><br><span class="line"><span class="comment"># 但该函数需要的进化树为严格的二分叉树</span></span><br><span class="line">multiPhylosignal(traits, multi2di(phy))</span><br></pre></td></tr></table></figure>
+
+<p>结果中包括K和PIC.variance.P, 后者表示性状的非随机程度。大部分变量都完全随机表现出更强的系统发育信号。</p>
+<h2 id="性状进化的可视化"><a href="#性状进化的可视化" class="headerlink" title="性状进化的可视化"></a>性状进化的可视化</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">plot(phy, direction = <span class="string">&quot;up&quot;</span>, show.tip.label = <span class="literal">FALSE</span>, </span><br><span class="line">     show.node.label = <span class="literal">TRUE</span>, cex = <span class="number">0.7</span>)</span><br><span class="line">tiplabels(pch = <span class="number">19</span>, col = <span class="string">&quot;black&quot;</span>, </span><br><span class="line">          cex = <span class="number">3</span> * (traits[, <span class="string">&quot;LeafArea&quot;</span>]/<span class="built_in">max</span>(traits[,<span class="string">&quot;LeafArea&quot;</span>])))</span><br></pre></td></tr></table></figure>
+<h2 id="性状相关性的系统发育分析"><a href="#性状相关性的系统发育分析" class="headerlink" title="性状相关性的系统发育分析"></a>性状相关性的系统发育分析</h2><p>若功能性状表现出较强的系统发育信号，就违背了数据完全独立的假设。此时可以在gls中设定corBrownian 关联矩阵，考虑物种之间的系统发育关系。（注：在分析过程中， 可以使用caper的pgls回归。）</p>
+<p>其中gls是一般最小二乘(Generalised least squares)法的简称，方法类似ANOVA 或线性模型。无序类别变量以及连续变量都可以通过这种方式检验。</p>
+<p>下面检验检测一下， 考虑物种之间系统发育关系时， specific root length (SRL) 和 root tissue density 之间的关系。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 普通的gls模型， 不考虑系统发育关系</span></span><br><span class="line">root.gls &lt;- gls(RootTissueDens ~ SRL, data = traits)</span><br><span class="line">anova(root.gls)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 考虑系统发育关系</span></span><br><span class="line">root.pgls &lt;- gls(RootTissueDens ~ SRL, </span><br><span class="line">                 correlation = corBrownian(value = <span class="number">1</span>, phy),</span><br><span class="line">                 data = traits)</span><br><span class="line">anova(root.pgls)</span><br><span class="line"><span class="comment"># 绘图</span></span><br><span class="line">plot(RootTissueDens ~ SRL, data = traits, </span><br><span class="line">     xlab = <span class="string">&quot;SRL (specific root length)&quot;</span>,</span><br><span class="line">     ylab = <span class="string">&quot;Root tissue density&quot;</span>)</span><br><span class="line">abline(coef(root.gls), lwd = <span class="number">2</span>, col = <span class="string">&quot;black&quot;</span>)</span><br><span class="line">abline(coef(root.pgls), lwd = <span class="number">2</span>, col = <span class="string">&quot;red&quot;</span>)</span><br><span class="line">legend(<span class="string">&quot;bottomleft&quot;</span>, </span><br><span class="line">       legend = <span class="built_in">c</span>(<span class="string">&quot;GLS fit&quot;</span>, <span class="string">&quot;Phylogenetic GLS fit&quot;</span>), </span><br><span class="line">       lwd = <span class="number">2</span>, col = <span class="built_in">c</span>(<span class="string">&quot;black&quot;</span>, <span class="string">&quot;red&quot;</span>))</span><br></pre></td></tr></table></figure>
+<p>当不考虑系统发育关系时，SRL和root tissue density的关系很弱。考虑系统发育信号后，两者的相关性就明显了。</p>
+<h1 id="系统发育与性状多样性"><a href="#系统发育与性状多样性" class="headerlink" title="系统发育与性状多样性"></a>系统发育与性状多样性</h1><h2 id="系统发育多样性"><a href="#系统发育多样性" class="headerlink" title="系统发育多样性"></a>系统发育多样性</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 计算Faith&#x27;s PD</span></span><br><span class="line">comm.pd &lt;- pd(comm, phy)</span><br><span class="line">head(comm.pd)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 不同生境的Faith&#x27;s PD</span></span><br><span class="line">boxplot(comm.pd$PD ~ metadata$habitat, </span><br><span class="line">        xlab = <span class="string">&quot;Habitat&quot;</span>, ylab = <span class="string">&quot;Faith&#x27;s PD&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 不同生境PD是否相同</span></span><br><span class="line">t.test(comm.pd$PD ~ metadata$habitat)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看PD和物种丰富度的关系</span></span><br><span class="line">plot(comm.pd$PD ~ comm.pd$SR, </span><br><span class="line">     xlab = <span class="string">&quot;Species richness&quot;</span>, ylab = <span class="string">&quot;Faith&#x27;s PD&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>picante可以用来计算<br>(MPD), (MNTD), (SES_{MPD}) and (SES_{MNTD})<br>具体定义， 请参见Phylocom的说明书。</p>
+<p>群落系统发育最重要指数之一就是标准效应值。公式如下<br>(SES_{metric} = \frac{ Metric_{observed} - mean(Metric_{null}) }{sd(Metric_{null})})</p>
+<p>一般包括：<br>(SES_{MPD}) 等于 -NRI， (SES_{MNTD}) 等于 -NTI</p>
+<p>picante中提供了不同的零模型，用来进行随机化，以计算SES。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 系统发育距离矩阵</span></span><br><span class="line">phy.dist &lt;- cophenetic(phy)</span><br><span class="line"></span><br><span class="line"><span class="comment"># ses.mpd</span></span><br><span class="line">comm.sesmpd &lt;- ses.mpd(comm, phy.dist, null.model = <span class="string">&quot;richness&quot;</span>, </span><br><span class="line">                       abundance.weighted = <span class="literal">FALSE</span>, </span><br><span class="line">                       runs = <span class="number">999</span>)</span><br><span class="line">head(comm.sesmpd)</span><br><span class="line"></span><br><span class="line"><span class="comment"># ses.mntd</span></span><br><span class="line">comm.sesmntd &lt;- ses.mntd(comm, phy.dist, null.model = <span class="string">&quot;richness&quot;</span>,</span><br><span class="line">                         abundance.weighted = <span class="literal">FALSE</span>,</span><br><span class="line">                         runs = <span class="number">999</span>)</span><br><span class="line">head(comm.sesmntd)</span><br></pre></td></tr></table></figure>
+<p>输出结果<br><code>ntaxa</code> - 物种丰富度<br><code>mpd.obs</code> -  群落中mpd观察值<br><code>mpd.rand.mean</code> - 零群落mpd平均值<br><code>mpd.rand.sd</code> - 零模型mpd的标准差<br><code>mpd.obs.rank</code> - 观察值在零模型中的顺序rank（秩）<br><code>mpd.obs.z</code> -  mpd标准效应指数 (等于 -NRI)<br><code>mpd.obs.p - P-value (quantile) of observed mpd vs. null communities (= mpd.obs.rank / runs + 1)</code><br><code>runs</code> - 随机化次数</p>
+<p>SES.mpd&gt;0，且mpd.obs.p&gt;0.95时，表示群落系统发育均匀。  SES.mpd&lt;0，且mpd.obs.p&lt;0.05时，表明与零模型相比系统发育聚集。</p>
+<p>一般认为， MPD对对系统发育整体的聚集性或均匀性较为敏感，MNTD对靠近进化树末端的均匀性和聚集性更为敏感。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 不同生境的ses.mpd</span></span><br><span class="line">plot(comm.sesmpd$mpd.obs.z ~ metadata$habitat, </span><br><span class="line">     xlab = <span class="string">&quot;Habitat&quot;</span>, ylab = <span class="string">&quot;SES(MPD)&quot;</span>)</span><br><span class="line">abline(h = <span class="number">0</span>, col = <span class="string">&quot;gray&quot;</span>)</span><br><span class="line">t.test(comm.sesmpd$mpd.obs.z ~ metadata$habitat)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 不同生境的ses.mntd</span></span><br><span class="line">plot(comm.sesmntd$mntd.obs.z ~ metadata$habitat, </span><br><span class="line">     xlab = <span class="string">&quot;Habitat&quot;</span>, ylab = <span class="string">&quot;SES(MNTD)&quot;</span>)</span><br><span class="line">abline(h = <span class="number">0</span>, col = <span class="string">&quot;gray&quot;</span>)</span><br><span class="line">t.test(comm.sesmntd$mntd.obs.z ~ metadata$habitat)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 某fescue群落中的物种</span></span><br><span class="line">plot(phy, show.tip.label = <span class="literal">FALSE</span>, </span><br><span class="line">     main = <span class="string">&quot;Fescue community fes-K-11&quot;</span>)</span><br><span class="line">tiplabels(tip = which(phy$tip.label %in% </span><br><span class="line">                        colnames(comm)[comm[<span class="string">&quot;fes-K-11&quot;</span>, ] &gt; <span class="number">0</span>]), </span><br><span class="line">          pch = <span class="number">19</span>)</span><br></pre></td></tr></table></figure>
+<p> ‘mix-H-23’ Mixedgrass 群落中包含了一系列系统发育聚集的种。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 某mixedgrass群落中出现的个体</span></span><br><span class="line">plot(phy, show.tip.label = <span class="literal">FALSE</span>, </span><br><span class="line">     main = <span class="string">&quot;Fescue community mix-H-23&quot;</span>)</span><br><span class="line">tiplabels(tip = which(phy$tip.label %in% </span><br><span class="line">                        colnames(comm)[comm[<span class="string">&quot;mix-H-23&quot;</span>, ] &gt;</span><br><span class="line">                                         <span class="number">0</span>]), pch = <span class="number">19</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="性状多样性"><a href="#性状多样性" class="headerlink" title="性状多样性"></a>性状多样性</h2><p>性状的分析方法与进化树分析的方法类似，一般都是先进行标准化，再计算欧式距离，再计算功能性状相似性，计算MPD或者MNTD</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 性状先用scale标准化， 再用dist计算欧式距离计算</span></span><br><span class="line">trait.dist &lt;- as.matrix(dist(scale(traits), method = <span class="string">&quot;euclidean&quot;</span>))</span><br><span class="line">comm.sesmpd.traits &lt;- ses.mpd(comm, trait.dist, null.model = <span class="string">&quot;richness&quot;</span>, </span><br><span class="line">                              abundance.weighted = <span class="literal">FALSE</span>, runs = <span class="number">999</span>)</span><br><span class="line">plot(comm.sesmpd.traits$mpd.obs.z ~ metadata$habitat, </span><br><span class="line">     xlab = <span class="string">&quot;Habitat&quot;</span>, ylab = <span class="string">&quot;Trait SES(MPD)&quot;</span>)</span><br><span class="line">abline(h = <span class="number">0</span>, col = <span class="string">&quot;gray&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>vegan中的treedive函数与picante中的pd类似。</p>
+<h2 id="系统发育beta多样性"><a href="#系统发育beta多样性" class="headerlink" title="系统发育beta多样性"></a>系统发育beta多样性</h2><p>unifrac函数和phylosor函数，都是计算样方之间的Faith’s PD。 comdist和comdistnt的计算类似于MPD和MNTD，但是是针对样方之间的距离。计算过程中可以考虑多度，由于之前我们计算的Bray-Curtis距离已经考虑了多度。为了方便比较，后续的计算也考虑多度， 即abundance.weighted = TRUE</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 系统发育beta多样性</span></span><br><span class="line">comm.mntd.dist &lt;- comdistnt(comm, phy.dist, </span><br><span class="line">                            abundance.weighted = <span class="literal">TRUE</span>)</span><br><span class="line"><span class="comment"># 功能性状beta多样性</span></span><br><span class="line">comm.mntd.traits.dist &lt;- comdistnt(comm, trait.dist, </span><br><span class="line">                                   abundance.weighted = <span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算两个距离矩阵的相关性，用mantel检验</span></span><br><span class="line"><span class="comment"># 此处计算Bray-Curtis距离和mntd距离的相关性</span></span><br><span class="line">mantel(comm.bc.dist, comm.mntd.dist)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 此处计算Bray-Curtis距离和功能性状距离的相关性</span></span><br><span class="line">mantel(comm.bc.dist, comm.mntd.traits.dist)</span><br></pre></td></tr></table></figure>
+<h2 id="系统发育和功能性状排序"><a href="#系统发育和功能性状排序" class="headerlink" title="系统发育和功能性状排序"></a>系统发育和功能性状排序</h2><p>之前，我们用Bray-Curtis进行了NDMS排序，实际上，系统发育MNTD以及功能性状MNTD都可以用类似的方法排序， 以展示样地之间的关系</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 由于只有样地之间的距离，这里用monoMDS. </span></span><br><span class="line"><span class="comment"># 具体请认真阅读 monoMDS的说明书。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 系统发育距离</span></span><br><span class="line">comm.mntd.mds &lt;- monoMDS(comm.mntd.dist)</span><br><span class="line">mds.fig &lt;- ordiplot(comm.mntd.mds, type = <span class="string">&quot;none&quot;</span>)</span><br><span class="line">points(mds.fig, <span class="string">&quot;sites&quot;</span>, pch = <span class="number">19</span>, col = <span class="string">&quot;green&quot;</span>, </span><br><span class="line">       select = metadata$habitat == <span class="string">&quot;Fescue&quot;</span>)</span><br><span class="line">points(mds.fig, <span class="string">&quot;sites&quot;</span>, pch = <span class="number">19</span>, col = <span class="string">&quot;blue&quot;</span>, </span><br><span class="line">       select = metadata$habitat == <span class="string">&quot;Mixedgrass&quot;</span>)</span><br><span class="line">ordiellipse(comm.mntd.mds, metadata$habitat, </span><br><span class="line">            conf = <span class="number">0.95</span>, label = <span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 功能性状</span></span><br><span class="line">comm.mntd.traits.mds &lt;- monoMDS(comm.mntd.traits.dist)</span><br><span class="line">mds.fig &lt;- ordiplot(comm.mntd.traits.mds, type = <span class="string">&quot;none&quot;</span>)</span><br><span class="line">points(mds.fig, <span class="string">&quot;sites&quot;</span>, pch = <span class="number">19</span>, col = <span class="string">&quot;green&quot;</span>, </span><br><span class="line">       select = metadata$habitat == <span class="string">&quot;Fescue&quot;</span>)</span><br><span class="line">points(mds.fig, <span class="string">&quot;sites&quot;</span>, pch = <span class="number">19</span>, col = <span class="string">&quot;blue&quot;</span>, </span><br><span class="line">       select = metadata$habitat == <span class="string">&quot;Mixedgrass&quot;</span>)</span><br><span class="line">ordiellipse(comm.mntd.traits.mds, metadata$habitat, </span><br><span class="line">            conf = <span class="number">0.95</span>, label = <span class="literal">TRUE</span>)</span><br></pre></td></tr></table></figure>
+<p>无论是对物种beta多样性， 系统发育beta多样性还是功能性状beta多样性进行排序方式，两种生境类型的差别都比较大。</p>
+<p>##解释beta多样性</p>
+<p>为了解释哪些因子对样方之间的系统发育关系有影响， 可以用permutational MANOVA （adonis）计算，R代码如下。输出结果类似ANOVA方差分析。</p>
+<p>以下分别检验生境对于Bray-Curtis距离、系统发育距离、功能性状距离的解释能力。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Bray-Curtis距离</span></span><br><span class="line">adonis(comm.bc.dist ~ habitat, data = metadata)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 系统发育多样性距离</span></span><br><span class="line">adonis(comm.mntd.dist ~ habitat, data = metadata)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 功能性状距离</span></span><br><span class="line">adonis(comm.mntd.traits.dist ~ habitat, data = metadata)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/05/28/2018-05-29-species/" data-id="ckmq2gwvr00ebq8843moqhk7s" data-title="在R中分析物种和系统发育多样性" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%94%9F%E6%80%81/" rel="tag">生态</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2018-5-25-morning" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/05/25/2018-5-25-morning/" class="article-date">
+  <time class="dt-published" datetime="2018-05-24T23:54:54.000Z" itemprop="datePublished">2018-05-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/05/25/2018-5-25-morning/">清晨</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>冬季的清晨六点， 华北平原上的小村还沉浸在黑暗里， 东边的天空一丝鱼肚白也没有。</p>
+<p>从家里出发到等车的地方，只需要五分钟，走在路上， 却觉得如此漫长。周围漆黑一片，夜空仿佛被黑幕笼罩着，什么都看不清，星星也没有。一切沉浸在冬天那安静的雾气里，只能偶尔听到公鸡报晓。早起人们的走路声打破了拂晓的沉寂。</p>
+<p>等车的人裹着厚厚的棉衣，穿着粗笨的棉鞋，头上或是包着围巾或是戴着帽子。零下七八度，已经足够严寒。 不得不把双手插进口袋或袖口，站在穿村而过的乡间公路边， 吸进带着白霜的寒冷空气，身体也不知不觉瑟瑟发抖。 呼出的“哈气”只有偶尔在汽车经过时才能看到，“哈气”在呼出的瞬间向上飘散，消失在眉宇间，湿润了睫毛和头发，很快又结成霜。</p>
+<p>这就是二十年前一天清晨，等车时的一切。</p>
+<p>车来了。</p>
+<p>一辆白色的破旧中巴车缓缓驶来。狭窄的乡间公路似乎刚刚容得下一辆中巴。公路并不平， 车跟着公路的坑坑洼洼一直在喘。 车开过来了，车灯照得人睁不开眼。</p>
+<p>上车后拣一个靠窗的位子坐下。好不容易等到了车， 车里却汽油味弥漫。 还好我不晕车，不然短短的旅途又不知道长了多少倍。窗玻璃上结满一层白霜，阻挡了视线，白霜用窗帘都擦不掉，如果真要看，只能用手的温度化开一小片，向往望望。 窗外的世界还沉浸在黑暗里， 偶尔有一两盏灯光， 不看也罢。</p>
+<p>车窗玻璃由深蓝逐渐变成了浅蓝。 最后外面天光大亮，窗玻璃后面仿佛也在演着电影。天亮了，窗玻璃上的霜花也越来越清楚。汽车前方的玻璃上，远远感觉只是薄薄一层雾气， 靠近看却是霜。车窗的四角霜多些，多到看不到车外的景物。 距离自己近的玻璃上霜总是厚些，霜花又叫霜雪（雪读轻声）。霜雪里面有各种想要的图案：有山，有河，有农田，有树，有云彩，有大雁，有房子，有背着书包上学的小学生，有汽车，有大桥……有一切你能想到的东西——结霜的玻璃，总是让人忍不住冥想。</p>
+<p>天边红起来了。 这就是冬天的日出，华北平原上一个普通得不能再普通的日出。那时候，一切好像都还没有准备好：炊烟，薄雾都还没有，小河也在冰封，树叶也都落了，冬天的大地透着一望无际的荒芜，小河沟里的芦苇早已枯黄，仿佛告诉你，这一切真的还没准备好迎接新的一天。然而太阳还是升起来了，如天边的一盏红灯，发出温暖而柔和的光。 太阳总是在你不经意的时候出来，就在最红最红的那片云彩下面。</p>
+<p>太阳一出来，一切就有了温暖。</p>
+<p>太阳出来，大地上绵延千里的白霜仿佛一瞬间就散了。大地暖了，风也暖了。公路两旁的树木，把影子投在公路上，中巴车的影子就在树木的影子上缓缓驶过。 玻璃上的霜花，不知不觉间就已经消融： 那一切，或者平凡，或者普通，或者壮丽辉煌的事物，还有一个人全部的想象，都在那一刻戛然而止。窗外的路和景透进来， 一切又变得俗不可耐。</p>
+<p>新的一天了。</p>
+<p>车窗外，有人在上学路上，有人骑车去赶集，有人在吃早点……一切的一切，就这样，在这个冬日的清晨，以这种方式开始。 从那时候开始，每个人的生活都以同样的方式开始了几千次。</p>
+<p>一切有情皆过往。那一个寒冬离开了，那一个清晨的雾气散去了，那一块窗玻璃上的冰雪消融了。 </p>
+<p>那一天的风，吹到哪里了？那一天的目的地， 有没有到达？ 那一天里的梦，有没有醒来？</p>
+<p>2018年5月25日凌晨</p>
+<p>香港大埔</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/05/25/2018-5-25-morning/" data-id="ckmq2gwuh00buq8846o5q6izt" data-title="清晨" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2018-4-28-arrow" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/04/27/2018-4-28-arrow/" class="article-date">
+  <time class="dt-published" datetime="2018-04-27T09:03:54.000Z" itemprop="datePublished">2018-04-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/04/27/2018-4-28-arrow/">用R绘制采样点地图——带指北针、比例尺、图例</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="用R绘制采样点地图——带指北针、比例尺、图例"><a href="#用R绘制采样点地图——带指北针、比例尺、图例" class="headerlink" title="用R绘制采样点地图——带指北针、比例尺、图例"></a>用R绘制采样点地图——带指北针、比例尺、图例</h1><p>已有 4286 次阅读 2018-4-28 01:03 |系统分类:<a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=space&do=blog&view=all&uid=255662&catid=1">科研笔记</a>    <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/###">推荐到群组</a>  </p>
+<p>本例子中的代码已经不推荐使用，tmap版本的地图示例参见 <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/blog-255662-1144743.html">http://blog.sciencenet.cn/blog-255662-1144743.html </a></p>
+<p>如果所示： 用R绘制的采样点地图——带指北针、比例尺、图例等 </p>
+<p>更多请参考 <a target="_blank" rel="noopener" href="https://news-at.zhihu.com/story/9275383">https://news-at.zhihu.com/story/9275383</a></p>
+<p>源代码和数据下载 <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=attachment&id=194129">用R绘制采样点地图.zip</a></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;/Users/jinlong/world map&quot;</span>)</span><br><span class="line"></span><br><span class="line">library(maps)     <span class="comment">## 提供绘制世界地图的函数</span></span><br><span class="line"></span><br><span class="line">library(mapdata)  <span class="comment">## 提供世界地图</span></span><br><span class="line"></span><br><span class="line">library(openxlsx) <span class="comment">## 读取xlsx文件</span></span><br><span class="line"></span><br><span class="line">library(ggplot2)  <span class="comment">## 绘图核心函数</span></span><br><span class="line"></span><br><span class="line">library(ggsn)     <span class="comment">## 提供指北针</span></span><br><span class="line"></span><br><span class="line">library(legendMap) <span class="comment">## 提供比例尺</span></span><br><span class="line"></span><br><span class="line">\<span class="comment">### devtools::install_github(&quot;3wen/legendMap&quot;)</span></span><br><span class="line"></span><br><span class="line">library(maptools) <span class="comment">## 提供readShapePoly函数， 读取中国多边形数据</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">\<span class="comment">### Download https://simplemaps.com/static/data/world-cities/basic/simplemaps-worldcities-basic.csv</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">china0   &lt;-readShapePoly(<span class="string">&quot;bou1_4p&quot;</span>) <span class="comment">## 读取中国地图</span></span><br><span class="line"></span><br><span class="line">china_df &lt;-fortify(china0) <span class="comment">## 将list转换为ggplot可以使用的dataframe</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">\<span class="comment">##读取数据https://simplemaps.com/static/data/world-cities/basic/simplemaps-worldcities-basic.csv</span></span><br><span class="line"></span><br><span class="line">cities &lt;-read.csv(<span class="string">&quot;simplemaps-worldcities-basic.csv&quot;</span>)</span><br><span class="line"></span><br><span class="line">cities &lt;-cities[sample(<span class="number">1</span>:nrow(cities),size =<span class="number">200</span>), ] <span class="comment">## 元数据有7000条， 这里随机选出100条</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pdf(file =<span class="string">&quot;sampling sites location.pdf&quot;</span>,width =<span class="number">11.5</span>,height =<span class="number">5.8</span>)</span><br><span class="line"></span><br><span class="line">\<span class="comment">### tiff(filename = &quot;sampling sites location.tiff&quot;,</span></span><br><span class="line"></span><br><span class="line">\<span class="comment">###      width = 7200, height = 3600, res = 600,</span></span><br><span class="line"></span><br><span class="line">\<span class="comment">###      compression = &quot;lzw&quot;)  ## 如果输出tiff文件，600dpi，宽度7200像素，高度3600像素</span></span><br><span class="line"></span><br><span class="line">rrr &lt;-ggplot()+</span><br><span class="line"></span><br><span class="line">borders(colour=<span class="string">&#x27;darkgrey&#x27;</span>)+                 <span class="comment">##添加世界地图</span></span><br><span class="line"></span><br><span class="line">geom_polygon(data =china_df,</span><br><span class="line"></span><br><span class="line"> aes(x =long, y =lat, group =group), colour =<span class="string">&quot;darkgrey&quot;</span>,</span><br><span class="line"></span><br><span class="line"> fill =<span class="string">&quot;white&quot;</span>)+                          <span class="comment">##添加中国地图</span></span><br><span class="line"></span><br><span class="line">geom_point(data =cities,</span><br><span class="line"></span><br><span class="line"> aes(x=lng,y=lat,colour=pop),size =<span class="number">2</span>)+ <span class="comment">##点的颜色代表人口</span></span><br><span class="line"></span><br><span class="line"> theme_bw()+                               <span class="comment">##简约风格主题</span></span><br><span class="line"></span><br><span class="line"> ggtitle(<span class="string">&quot;Population of World Cities&quot;</span>)+    <span class="comment">##标题</span></span><br><span class="line"></span><br><span class="line"> scale_bar(lon =<span class="number">100</span>,lat =-<span class="number">60</span>,</span><br><span class="line"></span><br><span class="line">​           distance_lon =<span class="number">1000</span>,distance_lat =<span class="number">200</span>,</span><br><span class="line"></span><br><span class="line">​           distance_legend =<span class="number">500</span>,dist_unit =<span class="string">&quot;km&quot;</span>,</span><br><span class="line"></span><br><span class="line">​           arrow_length =<span class="number">0</span>,arrow_distance =<span class="number">0</span>,</span><br><span class="line"></span><br><span class="line">​           arrow_north_size =<span class="number">0</span>)+    <span class="comment">##比例尺</span></span><br><span class="line"></span><br><span class="line"> xlab(<span class="string">&quot;Longitude (Degree)&quot;</span>)+         <span class="comment">##横坐标</span></span><br><span class="line"></span><br><span class="line"> ylab(<span class="string">&quot;Latitude (Degree)&quot;</span>)+          <span class="comment">##纵坐标</span></span><br><span class="line"></span><br><span class="line"> scale_colour_gradientn(colours=<span class="built_in">c</span>(<span class="string">&quot;green&quot;</span>,<span class="string">&quot;yellow&quot;</span>,<span class="string">&quot;orange&quot;</span>,<span class="string">&quot;red&quot;</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">north2(rrr,<span class="number">.82</span>,<span class="number">.88</span>)                   <span class="comment">## 数字是指定指北针的位置</span></span><br><span class="line"></span><br><span class="line">dev.off()</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/04/27/2018-4-28-arrow/" data-id="ckmq2gwub00biq8849ua37wks" data-title="用R绘制采样点地图——带指北针、比例尺、图例" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9C%B0%E7%90%86/" rel="tag">地理</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2018-4-24-fdp" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/04/24/2018-4-24-fdp/" class="article-date">
+  <time class="dt-published" datetime="2018-04-24T04:11:54.000Z" itemprop="datePublished">2018-04-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/04/24/2018-4-24-fdp/">大样地海拔数据的克里格插值与地形图绘制</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>最近收到几位同学求助， 咨询如何通过全站仪测得的海拔数据绘制大样地的地形图以及计算地形因子，本文作简要说明。本文中，“样方”是大样地中边长为20m的样方。前面的博文 （<a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/blog-255662-1081363.html">http://blog.sciencenet.cn/blog-255662-1081363.html</a>   ）简要介绍了大样地中样方的命名方法以及物种调查数据的整理过程，可供参考。</p>
+<p>大样地研究除了收集物种分布数据，还需要获得每个样方对应的环境因子才能进行进一步分析。环境因子又包括地形变量和土壤因子变量，这里只说地形数据。地形数据一般包括某尺度下（如5m, 10m, 20m, 50m, 100m等）每个样方中心点的海拔、坡度、坡向以及凹凸度等。其中坡度、坡向和凹凸度又都是通过样方中心点海拔矩阵计算得出的。</p>
+<p>每个样方中心点的海拔有两种获取方式：（1） 用全站仪直接测量，但是这种情况极少见；（2）对全站仪测得的海拔数据进行克里格插值之后，再在海拔模型上从中心点坐标提取。</p>
+<p>为什么不全都用全站仪在每个20m样方的中心点直接测量呢？ 这是由于全站仪在打点时一般都是测量各样方顶点的海拔。有些样方的顶点正好位于深沟内或巨石上，难以获得，此时只能在附近的点测量。因此大多数情况下，全站仪所测得的数据并总不出现在样方顶点。所以第二种处理方式就很常见了。</p>
+<p>有些研究中，样方的海拔没有经过克里格插值之后再提取中心点，而是直接用四个顶点海拔的平均值，这也是一种近似的处理方法。仍然是上述原因，相应条件不容易满足。</p>
+<p>下面以西双版纳补蚌大样地的海拔数据为例， 介绍海拔数据读取，克里格插值，并提取20m中心点的海拔。获得样方中心点海拔之后，即可计算出坡度、坡向和凹凸度等（<a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/blog-255662-690600.html">http://blog.sciencenet.cn/blog-255662-690600.html</a> ）</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;C:/Users/jlzhang/Desktop/bubeng plot&quot;</span>)</span><br><span class="line"></span><br><span class="line">library(gstat)</span><br><span class="line"></span><br><span class="line">library(sp)</span><br><span class="line"></span><br><span class="line">library(raster)</span><br><span class="line"></span><br><span class="line">library(openxlsx)</span><br><span class="line"></span><br><span class="line">library(lattice)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">#### 边长为20m米的点阵</span></span><br><span class="line"></span><br><span class="line">bubeng.grid &lt;- expand.grid(x = seq(<span class="number">0</span>, <span class="number">400</span>, <span class="number">20</span>), y = seq(<span class="number">0</span>, <span class="number">500</span>, <span class="number">20</span>))</span><br><span class="line"></span><br><span class="line">coordinates(bubeng.grid) &lt;- ~ x + y</span><br><span class="line"></span><br><span class="line">gridded(bubeng.grid) &lt;- <span class="literal">TRUE</span></span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">## 数据来源 https://doi.org/10.1371/journal.pone.0108450.s008</span></span><br><span class="line"></span><br><span class="line">bubeng.topo20160318 &lt;- read.xlsx(<span class="string">&quot;bubeng_topo.xlsx&quot;</span>)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">## 指定横纵坐标</span></span><br><span class="line"></span><br><span class="line">coordinates(bubeng.topo20160318) = ~ x + y</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">## 变异函数</span></span><br><span class="line"></span><br><span class="line">bubeng_variogram &lt;- variogram(alt ~ <span class="number">1</span>, data = bubeng.topo20160318)</span><br><span class="line"></span><br><span class="line">plot(bubeng_variogram)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">### 拟合高斯模型， 初始值选择参见 （How Kriging works—Help）</span></span><br><span class="line"></span><br><span class="line">bubeng_variogram.fit = fit.variogram(bubeng_variogram, model = vgm(psill = <span class="number">10</span>, <span class="string">&quot;Gau&quot;</span>, <span class="built_in">range</span> = <span class="number">200</span>, nugget = <span class="number">.1</span>))</span><br><span class="line"></span><br><span class="line">plot(bubeng_variogram, bubeng_variogram.fit)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">### 进行克里格插值</span></span><br><span class="line"></span><br><span class="line">bubeng.krig &lt;- krige(alt ~ <span class="number">1</span>, bubeng.topo20160318, bubeng.grid, model = bubeng_variogram.fit)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">### 绘图</span></span><br><span class="line"></span><br><span class="line">levelplot(bubeng.krig$var1.pred ~ bubeng.krig$x+bubeng.krig$y, cuts = <span class="number">50</span>,</span><br><span class="line"></span><br><span class="line">          main=<span class="string">&quot;Ordinary kriging predictions&quot;</span>,contour = <span class="literal">TRUE</span>,</span><br><span class="line"></span><br><span class="line">          labels = <span class="literal">TRUE</span>, col.regions = terrain.colors(<span class="number">255</span>),  pretty = <span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">## 三维图</span></span><br><span class="line"></span><br><span class="line">wireframe(bubeng.krig$var1.pred ~ bubeng.krig$x+bubeng.krig$y,</span><br><span class="line"></span><br><span class="line">          main=<span class="string">&quot;Ordinary kriging predictions&quot;</span>,</span><br><span class="line"></span><br><span class="line">          labels = <span class="literal">TRUE</span>, col.regions = terrain.colors(<span class="number">255</span>),  pretty = <span class="literal">TRUE</span>, drape = <span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">## 转换为raster</span></span><br><span class="line"></span><br><span class="line">dat &lt;- data.frame(bubeng.krig$var1.pred, bubeng.krig$x, bubeng.krig$y)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">### Convert the object x to a raster object.</span></span><br><span class="line"></span><br><span class="line">rdat &lt;- raster(bubeng.krig)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">### plot the raster</span></span><br><span class="line"></span><br><span class="line">plot(rdat, col = terrain.colors(<span class="number">255</span>))</span><br><span class="line"></span><br><span class="line">contour(rdat, add = <span class="literal">TRUE</span>, nlevel = <span class="number">15</span>)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">### 获得每个20m样方的中心点</span></span><br><span class="line"></span><br><span class="line">x10 &lt;- seq(<span class="number">10</span>, <span class="number">400</span>-<span class="number">10</span>, by = <span class="number">20</span>)</span><br><span class="line"></span><br><span class="line">y10 &lt;- seq(<span class="number">10</span>, <span class="number">500</span>-<span class="number">10</span>, by = <span class="number">20</span>)</span><br><span class="line"></span><br><span class="line">grids10 &lt;- expand.grid(x10, y10)</span><br><span class="line"></span><br><span class="line">plot(Var2 ~ Var1, data = grids10)</span><br><span class="line"></span><br><span class="line">coordinates(grids10) &lt;- <span class="built_in">c</span>(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">###从raster图层中提取海拔</span></span><br><span class="line"></span><br><span class="line">alt_center &lt;- extract(x = rdat, y = grids10)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">### 20m样方的中心点海拔数据</span></span><br><span class="line"></span><br><span class="line">res_alt_center &lt;- data.frame(grids10, alt_center)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<p>参考文献</p>
+<p>How Kriging works—Help | ArcGIS for Desktop. (2018). Available at: <a target="_blank" rel="noopener" href="http://desktop.arcgis.com/en/arcmap/10.3/tools/3d-analyst-toolbox/how-kriging-works.htm">http://desktop.arcgis.com/en/arcmap/10.3/tools/3d-analyst-toolbox/how-kriging-works.htm</a>. Last accessed 24 April 2018.</p>
+<p>Hu, Y.-H., Kitching, R.L., Lan, G.-Y., Zhang, J.-L., Sha, L.-Q. &amp; Cao, M. (2014). Size-Class Effect Contributes to Tree Species Assembly through Influencing Dispersal in Tropical Forests. PLoS ONE, 9, e108450.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/04/24/2018-4-24-fdp/" data-id="ckmq2gwue00boq8849h6332v9" data-title="大样地海拔数据的克里格插值与地形图绘制" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%94%9F%E6%80%81/" rel="tag">生态</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2018-04-12-waybackmachine" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/04/12/2018-04-12-waybackmachine/" class="article-date">
+  <time class="dt-published" datetime="2018-04-12T01:24:54.000Z" itemprop="datePublished">2018-04-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/04/12/2018-04-12-waybackmachine/">网络时光与网络时光机</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>如果你学过代码管理， 就一定知道Subversions， 知道Tortoise SVN， 知道git。 这些软件能记录你对代码的修改， 每做出一定的修改后， 通常是修改了一些Bug或者增加了一些新的功能， 就保存一次修改意见， 这样就增加了一个版本。 好比攀岩， 每向上一步， 就加上一个锚定点， 确保不会从山崖上滑落。如果进行了错误的更改， 那么最好的办法就是回到之前的版本， SVN以及git都有相应的机制帮你回到之前某一个版本。所以SVN或者git称得上是软件源代码的时光机， 不但保证你稳步向前， 还能带你回到过去。</p>
+<p>那么已经关闭的网站， 能否回到过去呢？ 答案可能是否定的， 如果网站没有进行很好地备份，数据损坏后， 再回去， 几乎是不可能的。不过有一种方法， 可以让你查看过去某一个时间点的一部分网页， 就是网络时光机 <a target="_blank" rel="noopener" href="https://web.archive.org/%E3%80%82%E9%80%9A%E8%BF%87%E6%90%9C%E7%B4%A2%E7%BD%91%E5%9D%80%EF%BC%8C">https://web.archive.org/。通过搜索网址，</a> 就可以查看该网址指向的网站， 在某年某月某日的网页。</p>
+<p>网络时光机并不是真正网站回到了过去， 而是在某一个时间点， 通过下载软件， 下载了某一个指定网站的完整网页， 备份存档。 这样在将来就可以访问，再回到这个界面，仿佛回到了过去一样。</p>
+<p>1998年， 我第一次接触电脑， 那时候PC的操作系统还是DOS。有一次上计算机课， 启动电脑时我不小心选择了Windows95，老师看到后赶紧过来吼到： “谁让你开Windows了？ Windows界面化操作， 那么复杂， 属于“超纲”的内容，不能打开”。 所谓“超纲”， 就是超出教学大纲的范围， 一般是比较难的教学内容， 学生可能很难理解。 当时我们学习DOS和QuickBasic， 对世界上其他地方发生的事情一无所知。</p>
+<p>其实早在1986年， 美国就建成了连接主要大学的NSFNET网络， 网络通讯协议在更早的七十年代就已经确立， 也就是说，互联网在那时候就已经诞生了。1998年， 互联网已经在蓬勃发展。重要的机构陆续建立了自己的网站。</p>
+<p>上大学后当然也少不了学习计算机， 这就要提到学校的机房。要进入机房， 先要买一副鞋套，要保证机房里面一尘不染。 每人带着一张1.44M的软盘，机箱上有一个软驱， 重要的资料，一般是计算机作业， 或者要打印的文档， 就都保存在这张软盘内，以便在机房的电脑上修改。</p>
+<p>不过机房里的电脑实在是不争气。因为是投射显示器，眼睛看一会儿就回觉得发酸流泪， Windows98系统也经常无缘无故的死机， 再加上机房用电负荷增加，经常跳闸断电更为修改电脑作业增加了无数烦恼： 要么文件损坏， 要么几个小时的打字内容因为断电没能保存。 宏病毒是Office 软件的座上客， Word、PowerPoint和Excel可能在毫无征兆下中毒， 再打开后内容被清空， 也无法恢复。由于计算机配置太低，要读取PDF，打开Adobe Reader 都要几分钟的时间。2005年前后 ，1.44寸软盘终于逐渐被U盘取代， 谁那时候有一个128M的U盘， 也能足够风光一阵了。</p>
+<p>QQ号成了非常紧俏的商品， 帮忙申请QQ号是讨女孩子欢心的重要法宝。 坐在网吧里，跟相邻的电脑网聊居然会成为一种享受。 当然， 更多人是在打游戏， 暗黑、魔兽、CS等等， 不过由于我不打游戏， 所以也说不上来很多。网吧里， 除了打游戏的，网络对骂的，看电影的，呼呼大睡的，二手烟更是充斥了网吧的每个房间， 电脑桌甚至键盘上，都不难找到被烟灰烫伤的地方。 有些大学生甚至连续几个月不上课， 也不回宿舍， 饿了叫外卖，完全在网吧里过日子。 我的一位室友就因为抑郁， 在网吧打游戏， 连续五个月没有回宿舍。 把他找回来的时候， 他脸色惨白， 人几乎瘦成了骷髅， 我都担心他能不能站起来， 担心一旦站起来，风会不会把他吹倒。虽然沉迷在网吧的学生有不少， 学校门口的“超越”和“飞跃”两个网吧还是二十四小时开放，后来据说加强监管，不过因为我去的很少，就不清楚情况了。</p>
+<p>那时候我特别迷恋一个植物学网站， 网站叫做 “原本山川，极命草木”， 这是中科院植物所的植物爱好者开设的网站，因为网址为 <a target="_blank" rel="noopener" href="http://www.emay.com.cn/">http://www.emay.com.cn</a>, 大家都称它为 “义妹” 论坛。也就是在那个论坛， 我认识了山东大学的刘冰、北京大学的刘夙、北京林业大学的林秦文、植物所高贤明等几位老师，那时候都是网友。 我的注册网名是 mrstarlitsky，头像是一个星系。</p>
+<p>管理员“静生”在论坛里非常活跃， 帖子数长期居第一位， 发言也毫无忌惮， 我有时候怀疑他帖子的真实性。静生对在同一个单位工作的同事多有指责， 虽然有些时候不无道理， 但是现在想起来有些内容是不便在网络发表的。</p>
+<p>emay论坛里面最吸引人的， 就是有人贴上天南海北的植物求助鉴定， 然后谁能提供相应的线索， 也许就能帮上大忙， 也有人分享自己考察的照片， 展示当地特别的植物。我在大一以后痴迷于认植物，常常抱着书本不放， 抄写了《东北植物检索表》的全部拉丁名和中文名， 抄写了《中国种子植物科属检索表》的各属， 并且努力背诵各科属之间的区别。图书馆的植物图鉴和地方植物志，被我借了个遍。 emay论坛也是我一展身手的好地方，除了北方的植物， emay上南方的照片很多， 这让我感觉南方的植物更丰富， 所以一直非常想到南方看看。也许这就是为什么我现在会在南方工作。</p>
+<p>emay网站好像有一种魔力， 让人不断分享， 也不断收获。 后来的普兰塔论坛也有这种魔力。 由于种种因素， 这两个论坛都没有能够坚持下来， 让人觉得很可惜。这两个网站是承载了自己成长过程中的重要回忆。</p>
+<p>日月如梭， 过去的时光是回不去了。 要了解网站在当时的样子，就在web.archive.org看看吧。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/04/12/2018-04-12-waybackmachine/" data-id="ckmq2gwtr009zq8843q9f5lee" data-title="网络时光与网络时光机" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2018-4-6-review" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/04/06/2018-4-6-review/" class="article-date">
+  <time class="dt-published" datetime="2018-04-06T01:14:54.000Z" itemprop="datePublished">2018-04-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/04/06/2018-4-6-review/">修改综述遇到的一些问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p> 修改论文、综述或者申请书，真的很累， 甚至感觉比自己写还要累。总结起来， 大概有以下方面的问题：</p>
+<p><strong>1. 缺乏中心思想，看不出作者的观点。</strong> 看了半天，不知道作者想说什么。</p>
+<p><strong>2. 缺乏清晰的结构。</strong>结构不清晰，想要看懂不容易。</p>
+<p><strong>3. 行文冗长，絮絮叨叨</strong>。唉，作者高兴就好……</p>
+<p><strong>4. 内容空泛</strong>。XXX将有力促进生物多样性保护，改善环境，保护绿水青山。是的，我也同意，但是是怎么保护的？ 说得太大， 我有点儿不信呢。</p>
+<p><strong>5. 引入不必要的概念。</strong>本来能用一句话说清楚的事， 非要弄出一个新概念或新的专业词汇。抽象出新词汇或者引用过时的概念都不太好。如，XXX将促进“生态平衡”……问题是现在谁还用生态平衡？ </p>
+<p><strong>6. 观点前后矛盾。</strong>刚刚说的XXX很重要， 下一段马上说， XXX不重要了。真是180°大转弯，变化太快，小心刹不住车啊。</p>
+<p><strong>7. 逻辑不清。</strong>本来大部分文字读起来就挺枯燥的， 你再来个不按套路出牌，后果可想而知。 如果按照，（1）是什么问题，（2）问题的后果，（3）问题的成因，（4）怎么解决问题的顺序写，读者就容易理解。 没错， 思维是发散的， 思想是立体的， 但文字是线性的。既然如此， 行文时最好能把要说的事按照一定顺序串起来， 而且必须以一种容易理解的顺序串起来。如果一个人先说（1）问题该怎么解决，再说（2）问题的后果，（3）什么问题， 最后再（4）解释问题的成因， 读者心里恐怕要骂人了。</p>
+<p><strong>8. 缺乏论据。</strong>论述的要求就是有理有据，还是摆点儿事实比较好，因为这些是你的论据啊 。虽然论点可能是你最早意识到的，但是还是要收集证据去支持论点， 做到有理有据， 否则又流于空泛了。</p>
+<p><strong>9. 论据选择不当。</strong>举例：要说明物种分布区预测的算法存在缺陷， 但后面引用的是关于物种分布数据不足的论文， 然后一直在强调数据是怎样不足……这，我还真不知道说点儿什么好。</p>
+<p><strong>10.用词不准。</strong>专业人士，用词还是准确一点儿好。比如phylogenetic diversity, 就翻译为“系统发育多样性”吧， 至于“谱系多样性”，额，麻烦再改改吧，倒不是说完全不行， 而是“谱系”已经另有所指，不要再和“系统发育多样性”掺和了。这让我想起几种植物：苦苣菜、苦荬菜、苣荬菜、苦菜、小苦荬……命可真够苦的。做研究本来就不容易，不要再用中文增加困难了……</p>
+<p><strong>11.语法错误。</strong> 英文没有学好的童鞋们， 请继续努力哦</p>
+<p><strong>12.英式中文和中式英文。</strong>“DNA条形码图书馆的组建与物种丰富的自然群落的关系特别密切，物种准确鉴定将促进详细的生态学司法研究。”……好了， 你爱说什么说什么， 这中文我看起来不太爽……别拦我，我下次直接百度翻译。在这里，我要友善提示一下，要“小心落水”哦：Take care to fall into water….</p>
+<p><strong>13.图表质量太差。</strong>重要的事情说三遍： 三线表， 三线表， 三线表；分辨率， 分辨率， 分辨率……</p>
+<p><strong>14.引用文献不足或缺少重要细节。</strong>做进化树，还是要介绍用什么软件建的树吧；同理， 物种分布区预测， 也要说清楚是用什么软件预测的。All the statistical analysis were carried out in R， 就这么一句话就概括了数据分析部分，真的很厉害……但是，你说的我做不出来， 我面壁思过去了</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/04/06/2018-4-6-review/" data-id="ckmq2gwue00bqq884er8p5yvi" data-title="修改综述遇到的一些问题" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%86%99%E4%BD%9C/" rel="tag">写作</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2018-04-03-rss" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/04/03/2018-04-03-rss/" class="article-date">
+  <time class="dt-published" datetime="2018-04-03T01:02:54.000Z" itemprop="datePublished">2018-04-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/04/03/2018-04-03-rss/">用RSS追踪研究植物生态学研究进展简明教程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p>下载附件 <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=attachment&id=182842">plant_ecology rss.zip</a> 解压缩，有两个文件 RSSOwl.2.2.1.Setup.exe 和 plant_ecology.opml 文件</p>
+</li>
+<li><p>双击安装RSSOwl.2.2.1.Setup.exe开始安装RSS浏览器， 选默认就好， 安装过程没什么好说的。因为RSSOwl是用Java写的， 因此如果没有安装Java Runtime的电脑， 需要先安装Java SE （<a target="_blank" rel="noopener" href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">http://www.oracle.com/technetwork/java/javase/downloads/index.html</a>）。</p>
+</li>
+<li><p>批量导入RSS数据源</p>
+</li>
+</ol>
+<p>点击 File&gt; Import &gt; 在Choose Source 界面选择 Import Feeds from a file or website &gt; Browse , 选择 RSS for plant ecology 20180403.opml, 点击open &gt; next &gt; Finish</p>
+<p> 如果之前已经导入过opml文件， 则不能重复导入。</p>
+<ol start="4">
+<li>单独导入RSS数据源， 以Journal of Ecology为例</li>
+</ol>
+<p>首先要找到该杂志的网页， 找到RSS图标， 点击图标， 可以见到RSS网址，或者RSS的内容， 这个网址称为Feed。按住Contrl + C 复制该网址。</p>
+<p>点击File下方的 + ，在新弹出的New Feed 窗口选择 Create a new feed to read news,复制的网址应该已经自动填写好了，点击Finish即可。</p>
+<p><a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=attachment&id=182842">plant_ecology rss.zip</a></p>
+<p><a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=attachment&id=182848">RSS追踪科研进展.pdf</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/04/03/2018-04-03-rss/" data-id="ckmq2gwtp009tq884g8j86bqy" data-title="用RSS追踪研究植物生态学研究进展简明教程" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2018-3-28-moutains" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/03/28/2018-3-28-moutains/" class="article-date">
+  <time class="dt-published" datetime="2018-03-27T17:58:54.000Z" itemprop="datePublished">2018-03-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/03/28/2018-3-28-moutains/">行走山间</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>一个人行走山间</p>
+<p>哪管料峭春寒</p>
+<p>白桦林下</p>
+<p>菟葵娇羞不语</p>
+<p>什么节日</p>
+<p>朵朵金盏被阳光装满</p>
+<p>鞑靼香崖边伫立</p>
+<p>红粉佳人飞花入眼</p>
+<p>银莲花素淡如云</p>
+<p>槲寄生的新装唤醒了群山</p>
+<p>十二年前</p>
+<p>春天到了帽儿山</p>
+<p>今时今日</p>
+<p>春天也到了帽儿山</p>
+<p>2018年3月27日</p>
+<p>题记：</p>
+<p>笔者曾于2004-2006年之间到黑龙江尚志市帽儿山吕家围子观察早春植物。不知不觉已经过去了十二年，不由得感慨山花不老，光阴易逝……</p>
+<p>注：</p>
+<p>菟葵 （<em>Eranthis stellata</em> Maxim.），毛茛科，菟葵属， 分布于东北。3月下旬，冰雪初融时开花，初时花低垂，因此称娇羞不语。</p>
+<p>金盏： 即侧金盏花 （<em>Adonis amurensis</em> Regel et Radde）， 毛茛科， 侧金盏花属。早春冰雪初融时开花， 先花后叶， 花色金黄， 极艳丽。</p>
+<p>鞑靼香：即兴安杜鹃 （<em>Rhododendron dauricum</em> Linn.）， 俗称鞑靼香， 达子香。常生于山崖边，四月中旬开花，花色粉紫色。</p>
+<p>银莲花：指黑水银莲花（<em>Anemone amurensis</em> (Korsh.) Kom.）和多被银莲花（<em>Anemone raddeana</em> Regel）， 两者都是毛茛科小草本， 常成片生于林下。 清晨花被片打开， 黄昏后花被片关闭，花朵随太阳转动。花色纯白， 素雅。</p>
+<p>槲寄生（<em>Viscum coloratum</em> (Kom.) Nakai）：俗称冻青， 为槲寄生科半寄生常绿灌木，常生于山杨（<em>Populus davidiana</em>Dode）、蒙古栎（<em>Quercus mongolica</em> Fisch. ex Ledeb.）上。春天到来，愈发嫩绿。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/03/28/2018-3-28-moutains/" data-id="ckmq2gwuc00bkq88412njb9he" data-title="行走山间" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AF%97%E6%AD%8C/" rel="tag">诗歌</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/6/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/8/">Next &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/R%E7%BC%96%E7%A8%8B/" rel="tag">R编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%BA%E7%89%A9/" rel="tag">人物</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%99%E4%BD%9C/" rel="tag">写作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" rel="tag">可视化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E4%B9%A6/" rel="tag">图书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" rel="tag">图像处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9C%B0%E7%90%86/" rel="tag">地理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A3%B0%E6%98%8E/" rel="tag">声明</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A9%E6%96%87/" rel="tag">天文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%AF%9D%E5%BD%95/" rel="tag">对话录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%83%E5%BE%97/" rel="tag">心得</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E5%91%8A/" rel="tag">报告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E7%89%88/" rel="tag">排版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%85%E4%B9%A1/" rel="tag">故乡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" rel="tag">标本馆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%88%86%E7%B1%BB/" rel="tag">植物分类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%90%8D/" rel="tag">植物学名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%82%E8%81%8C/" rel="tag">求职</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" rel="tag">版本控制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%80%81/" rel="tag">生态</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%80%81%E8%B5%84%E8%AE%AF/" rel="tag">生态资讯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%94%E7%A9%B6%E8%B5%84%E8%AE%AF/" rel="tag">研究资讯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B3%BB%E7%BB%9F%E5%8F%91%E8%82%B2/" rel="tag">系统发育</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%9F%E8%AE%A1/" rel="tag">统计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" rel="tag">行摄匆匆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%81%E9%97%BB%E5%BD%95/" rel="tag">见闻录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%97%E6%AD%8C/" rel="tag">诗歌</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E5%8C%96/" rel="tag">进化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E6%83%B3/" rel="tag">随想</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A9%B3%E8%AE%BA/" rel="tag">驳论</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/R%E7%BC%96%E7%A8%8B/" style="font-size: 18.75px;">R编程</a> <a href="/tags/%E4%BA%BA%E7%89%A9/" style="font-size: 11.88px;">人物</a> <a href="/tags/%E5%86%99%E4%BD%9C/" style="font-size: 13.13px;">写作</a> <a href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" style="font-size: 12.5px;">可视化</a> <a href="/tags/%E5%9B%BE%E4%B9%A6/" style="font-size: 10px;">图书</a> <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" style="font-size: 11.88px;">图像处理</a> <a href="/tags/%E5%9C%B0%E7%90%86/" style="font-size: 17.5px;">地理</a> <a href="/tags/%E5%A3%B0%E6%98%8E/" style="font-size: 10.63px;">声明</a> <a href="/tags/%E5%A4%A9%E6%96%87/" style="font-size: 16.25px;">天文</a> <a href="/tags/%E5%AF%B9%E8%AF%9D%E5%BD%95/" style="font-size: 10px;">对话录</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 10px;">心得</a> <a href="/tags/%E6%8A%A5%E5%91%8A/" style="font-size: 12.5px;">报告</a> <a href="/tags/%E6%8E%92%E7%89%88/" style="font-size: 13.75px;">排版</a> <a href="/tags/%E6%95%85%E4%B9%A1/" style="font-size: 10.63px;">故乡</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10.63px;">数据库</a> <a href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" style="font-size: 14.38px;">标本馆</a> <a href="/tags/%E6%A4%8D%E7%89%A9%E5%88%86%E7%B1%BB/" style="font-size: 10px;">植物分类</a> <a href="/tags/%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%90%8D/" style="font-size: 10px;">植物学名</a> <a href="/tags/%E6%B1%82%E8%81%8C/" style="font-size: 10px;">求职</a> <a href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" style="font-size: 11.25px;">版本控制</a> <a href="/tags/%E7%94%9F%E6%80%81/" style="font-size: 16.88px;">生态</a> <a href="/tags/%E7%94%9F%E6%80%81%E8%B5%84%E8%AE%AF/" style="font-size: 10px;">生态资讯</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E8%B5%84%E8%AE%AF/" style="font-size: 10px;">研究资讯</a> <a href="/tags/%E7%B3%BB%E7%BB%9F%E5%8F%91%E8%82%B2/" style="font-size: 10px;">系统发育</a> <a href="/tags/%E7%BB%9F%E8%AE%A1/" style="font-size: 18.13px;">统计</a> <a href="/tags/%E7%BC%96%E7%A8%8B/" style="font-size: 10.63px;">编程</a> <a href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" style="font-size: 15px;">行摄匆匆</a> <a href="/tags/%E8%A7%81%E9%97%BB%E5%BD%95/" style="font-size: 10px;">见闻录</a> <a href="/tags/%E8%AF%97%E6%AD%8C/" style="font-size: 15.63px;">诗歌</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 19.38px;">软件</a> <a href="/tags/%E8%BF%9B%E5%8C%96/" style="font-size: 10.63px;">进化</a> <a href="/tags/%E9%9A%8F%E6%83%B3/" style="font-size: 11.25px;">随想</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 20px;">随笔</a> <a href="/tags/%E9%A9%B3%E8%AE%BA/" style="font-size: 10px;">驳论</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">January 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">December 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">October 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05/">May 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">May 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">December 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">August 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">March 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">April 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/01/">January 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/08/">August 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/07/">July 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/06/">June 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">May 2009</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/18/2021-03-18/">为什么《xxxx在XX研究中取得进展》这类文章很少有人转发？</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/2021-02-16/">如何恢复森林？– 从嘉道理农场的森林恢复样地说起</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 Jinlong Zhang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Jinlong Zhang&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Jinlong Zhang&#39;s blog">
+<meta property="og:url" content="https://helixcn.github.io/page/18/index.html">
+<meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Jinlong Zhang">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Jinlong Zhang's blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jinlong Zhang&#39;s blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://helixcn.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-2012-12-5-tree" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/12/05/2012-12-5-tree/" class="article-date">
+  <time class="dt-published" datetime="2012-12-05T06:58:54.000Z" itemprop="datePublished">2012-12-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/12/05/2012-12-5-tree/">两棵进化树一致性的校对</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>首先， 要保证获得的进化树是有根树， 设定好外类群，并且，分支出现的次序经过排序reorder，这可以在Figtree软件中， 对newick格式的进化树进行操作， export as currently displayed 即可。</p>
+<p>其次， 用R软件ape程序包的 cophyloplot函数， 可以实现， 将两棵进化树面对面绘制， 并将名称相同的分类单元用线段联系起来， 此时， 如果两个进化树结构有差别， 就一目了然了。</p>
+<p>举例：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">library(ape)</span><br><span class="line">labs1 &lt;- paste(<span class="string">&quot;t&quot;</span>, <span class="number">1</span>:<span class="number">10</span>, sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">labs2 &lt;- paste(<span class="string">&quot;t&quot;</span>, <span class="number">1</span>:<span class="number">10</span>, sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">cophyloplot(x = rtree(<span class="number">20</span>), y = rtree(<span class="number">10</span>), space = <span class="number">100</span>, length.line = <span class="number">0.1</span>, gap = <span class="number">10</span>,assoc = as.matrix(data.frame(labs1, labs2)))</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2012/12/05/2012-12-5-tree/" data-id="ckmq2gwr5003fq884ew0w0f3e" data-title="两棵进化树一致性的校对" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BF%9B%E5%8C%96/" rel="tag">进化</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2012-10-11-rpars" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/10/10/2012-10-11-rpars/" class="article-date">
+  <time class="dt-published" datetime="2012-10-10T09:33:54.000Z" itemprop="datePublished">2012-10-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/10/10/2012-10-11-rpars/">R绘图一则 （2017年1月9日修订）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>2017年1月9日修订</p>
+<p>这里给出R常见绘图用到的参数。供生成出版质量的TIFF图。</p>
+<p>调整R绘图的字体，一页多图， 分辨率600dpi， tiff， 压缩方式lzw</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">tiff(filename = <span class="string">&quot;test.tif&quot;</span>,</span><br><span class="line">    width = <span class="number">3600</span>, height = <span class="number">3600</span>, units = <span class="string">&quot;px&quot;</span>, pointsize = <span class="number">8</span>,</span><br><span class="line">    compression = <span class="string">&quot;lzw&quot;</span>, res = <span class="number">600</span>) <span class="comment">## 打开绘图器</span></span><br><span class="line">par(mfrow = <span class="built_in">c</span>(<span class="number">2</span>,<span class="number">2</span>), font.lab = <span class="number">6</span>, font.main = <span class="number">6</span>,font.axis = <span class="number">6</span>, font = <span class="number">6</span>) <span class="comment">## 分割成2行2列，共四个图</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## 图1</span></span><br><span class="line"><span class="comment">## 标题部分斜体</span></span><br><span class="line">hist(rnorm(<span class="number">200</span>), main = <span class="built_in">expression</span>(paste(<span class="string">&quot;Testing &quot;</span>, italic(Hist1))), col = <span class="string">&quot;gray&quot;</span>)</span><br><span class="line"><span class="comment"># 添加边框</span></span><br><span class="line">box()</span><br><span class="line"><span class="comment">## 图中添加图例</span></span><br><span class="line">legend.label &lt;- <span class="built_in">c</span>(<span class="string">&quot;Type I&quot;</span>, <span class="string">&quot;Type II&quot;</span>, <span class="string">&quot;Type III&quot;</span>)</span><br><span class="line">legend(<span class="number">1.5</span>, <span class="number">30</span>, legend = legend.label, pch = <span class="built_in">c</span>(<span class="number">19</span>, <span class="number">20</span>, <span class="number">21</span>), col = <span class="built_in">c</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line">legend(-<span class="number">3.0</span>, <span class="number">30</span>, legend = legend.label, lty = <span class="built_in">c</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>), col = <span class="built_in">c</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">## 图2</span></span><br><span class="line"><span class="comment">## 标题中显示度等特殊字符，标题中显示希腊字母</span></span><br><span class="line">hist(rnorm(<span class="number">200</span>), main = <span class="built_in">expression</span>(paste(plain(<span class="built_in">sin</span>) * phi, <span class="string">&quot;  and &quot;</span>, plain(<span class="built_in">cos</span>) * phi)), xlab = <span class="built_in">expression</span>(paste(<span class="string">&quot;Latitude &quot;</span>, degree)), col = <span class="string">&quot;gray&quot;</span>)</span><br><span class="line"><span class="comment">## 图中添加公式</span></span><br><span class="line">text(-<span class="number">2</span>, <span class="number">30</span>, <span class="built_in">expression</span>(bar(x) == <span class="built_in">sum</span>(frac(x[i], n), i==<span class="number">1</span>, n)), cex = <span class="number">1.2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 图3</span></span><br><span class="line">x &lt;- rnorm(<span class="number">100</span>)</span><br><span class="line">m=mean(x)</span><br><span class="line">sd=sd(x)</span><br><span class="line">hist(x)</span><br><span class="line">x00 &lt;- seq(-<span class="number">10</span>, <span class="number">10</span>, <span class="number">0.01</span>)</span><br><span class="line">lines(x00, m*dnorm(x00,m,sd), lty=<span class="number">1</span>, col=<span class="string">&quot;red&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 图4</span></span><br><span class="line">y = <span class="number">1</span>:<span class="number">50</span> + (<span class="number">5</span>*rnorm(<span class="number">50</span>) + <span class="number">20</span>)</span><br><span class="line">x = <span class="number">1</span>:<span class="number">50</span></span><br><span class="line">plot(y ~ x, main = <span class="string">&quot;Scatter plot&quot;</span>, col = <span class="string">&quot;gray&quot;</span>)</span><br><span class="line">abline(lm(y ~ x), col = <span class="number">2</span>)</span><br><span class="line">dev.off() <span class="comment">## 关闭绘图器</span></span><br><span class="line">getwd()   <span class="comment">## 查看图保存的位置</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2012/10/10/2012-10-11-rpars/" data-id="ckmq2gwr6003iq884f91fdg4s" data-title="R绘图一则 （2017年1月9日修订）" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/R%E7%BC%96%E7%A8%8B/" rel="tag">R编程</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2012-8-22-lyxcn" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/08/22/2012-8-22-lyxcn/" class="article-date">
+  <time class="dt-published" datetime="2012-08-22T01:01:54.000Z" itemprop="datePublished">2012-08-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/08/22/2012-8-22-lyxcn/">LyX生成中文pdf文档</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>摘要 本文概述了用LyX编译中文文档的过程， 可以作为LyX中文入门的指南。</p>
+<p>引言</p>
+<p>LyX软件可以看做是LaTeX的前端。LaTeX则是学术领域应用很广的排版软件。计算机领域有大量的专业人士以及爱好者醉心于LaTeX。LaTeX不仅可以排版论文、图书、还可以用来写简历，制作做幻灯片，生成的文件简洁、 清晰，十分美观。同时，LaTeX最优越之处在于能够十分方便得输入数学公式。</p>
+<p>但是用LaTeX编写文档，用户常常需要面对大量的代码。此时不得不记忆大量的命令。有人形容，用LaTeX写文档， 就相当于写程序。幸运的是，有一批软件实现了对LaTeX代码进行图形化的管理。LyX就是其中的佼佼者。LyX软件实现了LaTeX代码管理的图形化，对于入门级用户来说， 即便没有学过LaTeX，也能快速做出漂亮的LaTeX文档。</p>
+<h1 id="1-下载安装程序"><a href="#1-下载安装程序" class="headerlink" title="1 下载安装程序"></a>1 下载安装程序</h1><ul>
+<li><p>下载 CTeX软件 <a target="_blank" rel="noopener" href="http://ftp.ctex.org/pub/tex/systems/ctex/2.9/CTeX_2.9.2.164.exe">http://ftp.ctex.org/pub/tex/systems/ctex/2.9/CTeX_2.9.2.164.exe</a> </p>
+</li>
+<li><p>下载 LyX软件 <a href="ftp://ftp.lyx.org/pub/lyx/bin/2.0.4/LyX-2.0.4-1-Installer.exe">ftp://ftp.lyx.org/pub/lyx/bin/2.0.4/LyX-2.0.4-1-Installer.exe</a></p>
+</li>
+</ul>
+<p>安装好后，如图1[图-1-LyX2.0.4版本界面(2012)]所示<br><img src="http://image.sciencenet.cn/album/201208/22/103627p29c2lz3t4t599w3.jpg" alt="img"></p>
+<p>图 1 LyX2.0.4版本界面(2012)</p>
+<h1 id="2-设定文档的类型"><a href="#2-设定文档的类型" class="headerlink" title="2 设定文档的类型"></a>2 设定文档的类型</h1><p>每一次新建文档，首先要选择文档的类型，这里以article的类型举例。 </p>
+<p>点击 File &gt; New ，新建一个空白文档， 点击 Document&gt; Settings </p>
+<p>分别点击左侧的导航栏，在Document class中选择 CTeX，这是由于我们的文档中包含中文，参考文献， 目录的格式，CTeX类型的文档能给予很好的支持。 </p>
+<p>Language中选 Chinese (simplefied)，Encoding 选 Unicode (XeTeX) (utf8) 这是由于我们在后续编译LyX文档的时候， 要用到XeTeX程序， 而要在正文中使用中文，xeCJK宏包的效果很好。 </p>
+<p>在output设置Default output format 为 PDF (XeTeX)，我们用XeTeX编译LyX文档， 生成PDF文档。</p>
+<p>在LaTeX Preamble中输入如下LaTeX 代码</p>
+<p>usepackage{xeCJK}</p>
+<p>setCJKmainfont{SimSun} </p>
+<p><img src="http://image.sciencenet.cn/album/201208/22/103629ydf8d484cwh1q4aw.jpg" alt="img"></p>
+<p>图 2 增加两行命令，作为LaTeX开始时导入的命令</p>
+<p>LaTeX Preamble保证在LyX生成LaTeX源代码的时候，将这部分加入到LaTeX源代码中。usepackage{xeCJK} 是导入xeCJK宏包。由于xeCJK包只有设定了字体之后才能生效，因此需要输入setCJKmainfont{SimSun}。 如果不输入setCJKmainfont{SimSun}, 将出现PDF能够编译， 但是中文不能显示出来的问题。</p>
+<p>这样， article的中文环境格式就设定好了。</p>
+<h1 id="3-调整文本格式"><a href="#3-调整文本格式" class="headerlink" title="3 调整文本格式"></a>3 调整文本格式</h1><p>默认条件下，文本部分都是作为Standard的格式，这也是正文中最多的格式。但是一篇论文，需要有标题（Title） 作者， 日期，摘要，以及前言，材料与方法，结果和讨论等，有时候还要有插图和参考文献的引用。这些内容，都需要逐项设定。设定的方法，就是在左侧的下拉菜单中，选择对应的格式。例如LyX生成pdf中文文档，应设置为Title ，作者Author。</p>
+<p>前言， 材料与方法， 结果， 讨论，都通过类似的方法设定。</p>
+<h2 id="3-1-公式的输入"><a href="#3-1-公式的输入" class="headerlink" title="3.1 公式的输入"></a>3.1 公式的输入</h2><p>有时候， 在材料和方法中要输入公式</p>
+<p>例如 </p>
+<p>$$NRI=({MPD}<em>{Observed}-mean({MPD}</em>{Null}))/(sd({MPD}_{Null}))$$</p>
+<p>则点击Insert菜单，选择要输入的公式类型, 则屏幕下方将出现公式管理的按钮，点击即可调整。</p>
+<p>Insert菜单，不仅包括包括公式，还包括输入标签，以及插入参考文献，插入目录，图表等功能。公式、图表、 参考文献等物件， 在LyX中会自动编号，动态调整，非常方便。</p>
+<h2 id="3-2-参考文献的输入"><a href="#3-2-参考文献的输入" class="headerlink" title="3.2 参考文献的输入"></a>3.2 参考文献的输入</h2><p>设定参考文献的方法， 在文章的最后， 输入要引用的参考文献的纯文本。</p>
+<p>例如 S.W. Kembel, P.D. Cowan, M.R. Helmus, W.K. Cornwell, H. Morlon, D.D. Ackerly, S.P. Blomberg, and C.O. Webb. 2010. Picante: R tools for integrating phylogenies and ecology. Bioinformatics 26:1463-1464.</p>
+<p>选中该部分文字，在设定格式的菜单栏中，选定Biblography，将该部分作为参考文献。当然， 也可以引用用BibTeX，方法是，先在计算机上创建一个BibTeX纯文本文档， 注意以utf8格式编码，然后在正文中引用即可。很多软件或网站，如Mendeley,R,及google scholar都提供BibTeX格式的文献导出。而参考文献的引用，点击Insert&gt;Citation即可。如果使用的是BibTeX，直接输入Insert&gt;List/TOC&gt;BibTeX Biblography,选择扩展名为.bib的文件即可。</p>
+<p>.bib文件内的格式为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@Article&#123;, </span><br><span class="line">title &#x3D; &#123;Picante: &#123;R&#125; tools for integrating phylogenies and ecology&#125;, </span><br><span class="line">author &#x3D; &#123;S.W. Kembel and P.D. Cowan and M.R. Helmus and W.K. Cornwell and H. Morlon and D.D. Ackerly and S.P. Blomberg and C.O. Webb&#125;, </span><br><span class="line">journal &#x3D; &#123;Bioinformatics&#125;, </span><br><span class="line">volume &#x3D; &#123;26&#125;, </span><br><span class="line">pages &#x3D; &#123;1463--1464&#125;, </span><br><span class="line">year &#x3D; &#123;2010&#125;, </span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p>假设，撰写论文中有一句话，“NRI[equation 1]表示群落内物种系统发育关系的远近， 通过picante程序包可以计算SES.MPD等价于NRI[equation 1]” 需要引用公式以及计算NRI用到的软件picante</p>
+<p>则先创建一个标签， 方法为 Insert&gt;Label, 随后输入Insert cross reference ，在出现的对话框中选择引用该标签即可。</p>
+<h2 id="3-3-插入图片"><a href="#3-3-插入图片" class="headerlink" title="3.3 插入图片"></a>3.3 插入图片</h2><p>通常情况下，文章中出现图片会更吸引人。点击Insert&gt;Graphics即可输入图片。推荐使用pdf格式的图片。 因为pdf格式的图片在整个文档编译成pdf后， 仍然是矢量的， 不会有分辨率的损失。jpg，png等格式也都是可以的。</p>
+<h1 id="4-文档的编译"><a href="#4-文档的编译" class="headerlink" title="4 文档的编译"></a>4 文档的编译</h1><p>前面的内容都准备好后，只需点击<code>View&gt;View\[pdf(XeTeX)]</code>即可完成编译，此时， 你的pdf阅览器应该能够自动打开编译好的pdf文档。看，一篇用LyX编译的文档诞生了。其它类型的文档， 还包括图书，幻灯片(Beamer)等,方法大同小异，只不过设定的文档结构和格式不同罢了。例如，报告或者图书， 需要目录，图书在最后往往还要设置索引等内容。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2012/08/22/2012-8-22-lyxcn/" data-id="ckmq2gwrk004mq884156vginx" data-title="LyX生成中文pdf文档" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8E%92%E7%89%88/" rel="tag">排版</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2012-8-20-deltat" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/08/20/2012-8-20-deltat/" class="article-date">
+  <time class="dt-published" datetime="2012-08-19T20:57:54.000Z" itemprop="datePublished">2012-08-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/08/20/2012-8-20-deltat/">世界时与力学时之差：Delta T的计算</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>为了便于天文计算，需要使用均匀流逝的时间标尺， 这种时间系统最早称为历书时， 后来，由于天文计算均以力学规律为基础， 又改称力学时。 人们发现原子内电子的能级跃迁振荡频率非常均匀， 如铯133的共振频率为每秒9192631770周。遵循这一原理， 科学家制作出了原子钟，作为均匀的时间标尺。因此， 原子时又成为力学时的等价时间。</p>
+<p>通常， 人们用到的时间为世界时（UT）。 世界时是完全根据地球自转而确定的时间参考系统。 但是地球自转是不均匀的（章动）， 同时也包括一些未知的因素， 造成了世界时与力学时之间的差异。</p>
+<p>星历表、日月食、行星动态等， 都是先通过力学时为基准计算的， 再通过世界时与力学时之差转换为世界时。因此， </p>
+<p>在天象计算中， Delta T是决定计算精度的重要因素之一。 </p>
+<p>但是Delta T只能通过实测来获得。 对远古时代的Delta T， 只能通过古代的可靠的天象记录进行推测，  例如， 2500年前， Delta T 可能达到4到5小时。 </p>
+<p>为此， 若需要某一特定时刻的Delta T， 则需要使用插值法。 插值法包括线性插值， 二次插值， 三次插值， 拉格朗日插值法等多种， 这里提供三次插值法的R函数， 以及相应的插值表， 以备参考。</p>
+<p>详细参考 天文算法 <a target="_blank" rel="noopener" href="http://www.fjptsz.com/xxjs/xjw/rj/117/03.htm">http://www.fjptsz.com/xxjs/xjw/rj/117/03.htm</a></p>
+<p>这里给出R函数， 计算Delta T</p>
+<p>数据和函数改编自 许剑伟 老师的 寿星万年历 javascript 源代码。</p>
+<p>int2 <strong>&lt;-</strong> <strong>function</strong> <strong>(<strong>v</strong>)</strong> <strong>{</strong> floor**(<strong>v</strong>)**; <strong>}</strong></p>
+<p>dt_ext <strong>&lt;-</strong> <strong>function**</strong>(<strong>y, jsd</strong>){**            #二次曲线外推，用于数值外插</p>
+<p>​    dy <strong>=</strong> **(<strong>y <strong>-</strong> 1820</strong>)/**100;</p>
+<p>​    return <strong>(-<strong>20 <strong>+</strong> jsd ***** dy ***** dy</strong>)</strong>;</p>
+<p><strong>}</strong></p>
+<p>dt_calc <strong>&lt;-</strong> <strong>function**</strong>(<strong>y</strong>){**                   #传入年， 返回世界时UT与原子时（力学时 TD）之差, ΔT = TD - UT</p>
+<p>​    y0 <strong>=</strong> dt_at**[<strong>length</strong>(<strong>dt_at</strong>)** <strong>-</strong> 1**]**;        #表中最后一年</p>
+<p>​    t0 <strong>=</strong> dt_at**[<strong>length</strong>(<strong>dt_at</strong>)]**;            #表中最后一年的 deltatT</p>
+<p>​    <strong>if**</strong>(<strong>y <strong>&gt;=</strong> y0</strong>){**                         </p>
+<p>​     jsd <strong>=</strong> 31;                            # sjd是y1年之后的加速度估计。</p>
+<p>​                                          # 瑞士星历表jsd=31, NASA网站jsd=32, skmap的jsd=29</p>
+<p>​     <strong>if**</strong>(<strong>y <strong>&gt;</strong> y0 <strong>+</strong> 100</strong>){**                  </p>
+<p>​         return**(<strong>dt_ext</strong>(<strong>y, jsd</strong>))**         </p>
+<p>​         <strong>}</strong>;                             </p>
+<p>​     v  <strong>=</strong> dt_ext**(<strong>y, jsd</strong>)**;                 #二次曲线外推</p>
+<p>​     dv <strong>=</strong> dt_ext**(<strong>y0, jsd</strong>)** <strong>-</strong> t0;           # ye年的二次外推与te的差</p>
+<p>​     return <em><em>(<strong>v <strong>-</strong> dv</strong></em>(<strong>y0 <strong>+</strong> 100 <strong>-</strong> y</strong>)/<strong>100</strong>)</em>*;</p>
+<p>​     <strong>}</strong></p>
+<p>​    </p>
+<p>​    d <strong>=</strong> dt_at;</p>
+<p>​    <strong>for**</strong>(<strong>i <strong>in</strong> seq</strong>(<strong>1, length</strong>(<strong>d</strong>)<strong>, by <strong>=</strong> 5</strong>)** <strong>)</strong>  <strong>{</strong></p>
+<p>​        <strong>if**</strong>(<strong>y <strong>&lt;</strong> d</strong>[<strong>i <strong>+</strong> 5</strong>])** <strong>break</strong>;           # 判断年所在的区间</p>
+<p>​       <strong>}</strong></p>
+<p>​        t1 <strong>=</strong> <strong>(<strong>y <strong>-</strong> d</strong>[<strong>i</strong>])</strong> <strong>/</strong> <strong>(<strong>d</strong>[<strong>i <strong>+</strong> 5</strong>]</strong> <strong>-</strong> d**[<strong>i</strong>])** ***** 10            #### 三次插值， 保证精确性</p>
+<p>​        t2 <strong>=</strong> t1 ***** t1</p>
+<p>​        t3 <strong>=</strong> t2 ***** t1;</p>
+<p>​        res <strong>&lt;-</strong> d**[<strong>i <strong>+</strong> 1</strong>]** <strong>+<strong>d</strong>[<strong>i <strong>+</strong> 2</strong>]</strong> ***** t1 <strong>+<strong>d</strong>[<strong>i <strong>+</strong> 3</strong>]</strong> ***** t2 <strong>+<strong>d</strong>[<strong>i <strong>+</strong> 4</strong>]</strong> ***** t3</p>
+<p>​    return**(** res <strong>)</strong>;</p>
+<p><strong>}</strong></p>
+<p> # TD - UT1 插值表</p>
+<p>dt_at <strong>=</strong> c**(**                   </p>
+<p>**-**4000,  108371.7, **-**13036.80,  392.000,    0.0000,</p>
+<p> **-**500,   17201.0,   **-**627.82,   16.170,   **-**0.3413,</p>
+<p> **-**150,   12200.6,   **-**346.41,    5.403,   **-**0.1593,</p>
+<p>  150,    9113.8,   **-**328.13,   **-**1.647,    0.0377,</p>
+<p>  500,    5707.5,   **-**391.41,    0.915,    0.3145,</p>
+<p>  900,    2203.4,   **-**283.45,   13.034,   **-**0.1778,</p>
+<p> 1300,     490.1,    **-**57.35,    2.085,   **-**0.0072,</p>
+<p> 1600,     120.0,     **-**9.81,   **-**1.532,    0.1403,</p>
+<p> 1700,      10.2,     **-**0.91,    0.510,   **-**0.0370,</p>
+<p> 1800,      13.4,     **-**0.72,    0.202,   **-**0.0193,</p>
+<p> 1830,       7.8,     **-**1.81,    0.416,   **-**0.0247,</p>
+<p> 1860,       8.3,     **-**0.13,   **-**0.406,    0.0292,</p>
+<p> 1880,      **-**5.4,      0.32,   **-**0.183,    0.0173,</p>
+<p> 1900,      **-**2.3,      2.06,    0.169,   **-**0.0135,</p>
+<p> 1920,      21.2,      1.69,   **-**0.304,    0.0167,</p>
+<p> 1940,      24.2,      1.22,   **-**0.064,    0.0031,</p>
+<p> 1960,      33.2,      0.51,    0.231,   **-**0.0109,</p>
+<p> 1980,      51.0,      1.29,   **-**0.026,    0.0032,</p>
+<p> 2000,      63.87,     0.1,     0,        0,</p>
+<p> 2005,      64.7,      0.4,     0,        0,                 #一次项记为x, 则 10x=0.4秒/年*(2015-2005), 解得x=0.4</p>
+<p> 2015,      69</p>
+<p><strong>)</strong>;</p>
+<p>## 输入年， 计算delta T</p>
+<p>dt_calc**(<strong>1800</strong>)**</p>
+<p>dt_calc**(<strong>1960</strong>)**</p>
+<p>dt_calc**(<strong>1965</strong>)**</p>
+<p>dt_calc**(<strong>2012</strong>)**</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2012/08/20/2012-8-20-deltat/" data-id="ckmq2gwrg004cq884djn0f8oo" data-title="世界时与力学时之差：Delta T的计算" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A9%E6%96%87/" rel="tag">天文</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2012-7-29-sweden" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/07/28/2012-7-29-sweden/" class="article-date">
+  <time class="dt-published" datetime="2012-07-28T13:43:54.000Z" itemprop="datePublished">2012-07-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/07/28/2012-7-29-sweden/">瑞典：美丽的西博滕</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>7月22日到28日， 我在瑞典北部的西博滕省西部的Asele进行植物调查。</p>
+<p>Asele地区是拉普兰的一部分， 湖泊众多， 景色怡人。拉普兰是传说中圣诞老人居住的地方。 这里一年大部分时间被积雪覆盖， 夏季阳光充足， 但是物种比较单一。 分布着广泛的欧洲赤松（Pinus sylvestris）、欧洲刺柏（Juniperus communis）、欧洲山杨（Populus tremula）、 欧洲白桦（Betula pendula）林 。</p>
+<p>植物调查的内容， 是在划分好的边长5km的方格内，尽可能详尽得记录出现的植物，并编写植物名录。这是为了编写西博滕省植物志的需要。西博腾省共包括2700多个方格，此项调查已经进行了三十年，现在即将完成。三十年来，参加调查的，是几百位志愿者。 此次参加调查的志愿者，是来自瑞典各地，有些驱车十几小时，从乌普萨拉甚至是更遥远的地方驱车而来，其中有大学教授， 也有林业工人， 学生， 都算是对认植物有一定兴趣的爱好者。 有的爱好者对植物分类学有很深的造诣， 和专业人士比起来毫不逊色。 在瑞典， 这样的调查在很多省份都已经完成， 这样的调查为更好的认识物种分布、 物种入侵、全球变化等， 提供了最为详实的基础资料。</p>
+<p>调查虽然只有五天， 我却深深折服于拉普兰的美， 那里的蓝天， 白云， 绿草， 那里清澈见底的河流， 广阔的沼泽， 深深映入人心。 除此之外， 也不得不折服这些瑞典人对工作的敬业与坚持： 一个基本植被调查项目， 在没有收益的情况下进行了三十年， 实属不易。再看看他们每天工作的那种执着精神，每人胸前挂着一个高倍的放大镜，讨论一个物种最细致入微的区别，一丝一毫也不放过，工作到这种状态，让人觉得很可爱。那种细致入微的工作方式，是一份纯真，也是一种美好，这些也许更耐人寻味。</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225731od8to7fbgw7ji3hg.jpg" alt="img"></p>
+<p>调查用的植物志</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225733gej3cck4e593kgnt.jpg" alt="img"></p>
+<p>调查用的地图和表格</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225736bcp1cyzvoyuvqyxt.jpg" alt="img"></p>
+<p>租用的工作场地： 人民活动中心</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225738i3mtoyoi3ytto1dx.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225741i7h7zmzw20q79cff.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225744g0vplz0ilvx22ov2.jpg" alt="img"></p>
+<p>驯鹿</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225747hxdebi1711sibk5p.jpg" alt="img"></p>
+<p>林间小路</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225750nd6zl36ebo48rrn0.jpg" alt="img"></p>
+<p>湖泊</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/22575350rm5j6dalat95gj.jpg" alt="img"></p>
+<p>水毛茛， 毛茛科毛茛属植物，随水漂浮， 沉水叶裂片线型， 细长， 挺水叶裂片掌状分裂。花白色</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/2257564fte4ttpf3f53ybr.jpg" alt="img"></p>
+<p>湖泊</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225759v3l8vsxeg3l4cvo4.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225802p8k8zzrqwqq82iii.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225805iup8v3vswdzpwpp8.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225808mmuzuuuwq8biuquf.jpg" alt="img"></p>
+<p>矢车菊</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225811hl46sa5al9c6lc5e.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/2258141372um1mz2mtkk17.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225816m896v27wq26qjw9t.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225819pww7ydw297sz29ey.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/2258210p41qb31obmlpmis.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225825sktd99ssods89tkz.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225828fyyyhs66cmtcc0my.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225831b411bgqi9mq4i1fm.jpg" alt="img"></p>
+<p>欧洲赤松</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/22583493cucdfccpkgpklc.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225837wbpkexpfbbjxmmxg.jpg" alt="img"></p>
+<p>欧洲赤松</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225840lbkb1wnnolnnn2oh.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/2258423q6599zt5tvb6xii.jpg" alt="img"></p>
+<p>沼生马先蒿， 玄参科马先蒿属植物， 花粉红色，常分布在河岸或溪流旁。</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225846vdyk1ghd177c7dyc.jpg" alt="img"></p>
+<p>欧洲赤松</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225849o0v2c32cz2vr2qh8.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225852f8pa71rtfdu1lffz.jpg" alt="img"></p>
+<p>睡菜，为龙胆科睡菜属植物， 三出复叶，椭圆形， 喜欢生长在浅水中， 在沼泽中也有分布。</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225856i82csshcgniv4inh.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225859xydawk71kayzbh2w.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/2259026gieucycco88844d.jpg" alt="img"></p>
+<p>欧洲赤松</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225905n38zm8mscmeso8xo.jpg" alt="img"></p>
+<p>狐尾藻， 小二仙草科植物， 完全沉在水下，随水流摇摆， 仅开花时， 部分出露到水面。</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/2259080c1qzorowx7jvyyv.jpg" alt="img"></p>
+<p>睡莲</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/2259123x4xxs34p7ooeez4.jpg" alt="img"></p>
+<p>球尾花，报春花科珍珠菜属植物， 喜欢生长在河边，溪流旁。</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225915lrr2jl2xsm020x5i.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225917658j8skz86jky56s.jpg" alt="img"></p>
+<p>发草</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/2259203y0tp3lup6plpap5.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225923bv11lnoekwj0q5lw.jpg" alt="img"></p>
+<p>驯鹿</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/2259265ref7hvq7qaz37zq.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225929yfkr1yczqficpuqb.jpg" alt="img"></p>
+<p>睡莲</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/22593144txhmm4574ty5xm.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225934aegcpgi5mpk5gp5e.jpg" alt="img"></p>
+<p>睡莲</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225937dwzs3sfnqaf8yynj.jpg" alt="img"></p>
+<p>萍蓬草</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225940wmpxp99pp63x3qam.jpg" alt="img"></p>
+<p>萍蓬草</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/22594277tccoxt4pp4nnw3.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225945qgigrvjinvgridq2.jpg" alt="img"></p>
+<p>阵雨袭来</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225947qgq44414uq9h448i.jpg" alt="img"></p>
+<p>雨过天晴</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225950t119cxmmunw91jnx.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225953pigdq7kxpdddxzqw.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/225956d5958lzy8fd6ady2.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/2259592e4uieri4lvgiem1.jpg" alt="img"></p>
+<p>北极花，又名林耐草，是忍冬科小灌木， 在我国的大兴安岭， 长白山等地有分布。 北极花纯白淡雅， 小巧精致，惹人喜爱。分类学之父，瑞典人卡尔－林耐用自己的姓氏为这个属命名。</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/230001hkepqa7kk3ozmhnk.jpg" alt="img"></p>
+<p>麦瓶草</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/230005dtr6t0eei7veespp.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/230007wdr3ztrp6wbc45rw.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/230010hzhe6s90lmn64pe4.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/230016me1ggggl81e0l87m.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/2300193n61fp2n22y4ohyh.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/230021mzmt4qchhtqqmqmr.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/230024p4keezmc1qw9ebex.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/230026y1p2qfyelclqe2ng.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/230029hfr5zo58l5qgrgor.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/230031ynt341tj6vy6bajn.jpg" alt="img"></p>
+<p>The bumblebee beetle</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/23003406qqyiiprizt0o2v.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/230037ggah6z2iooio7266.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/230040r4drjq54hdwqdzd5.jpg" alt="img"></p>
+<p>雏菊</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/2300435yyew9yz6wtp6otb.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/230046adzoxhczjh7997zp.jpg" alt="img"></p>
+<p>狸藻，是著名的食虫植物， 喜欢生长在有一定流水的沼泽中，沉水叶中有捕虫囊， 能够捕捉水蚤等多种生物</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/230049466bcwby377929y7.jpg" alt="img"></p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/2300524ywcvv91cl8whb4y.jpg" alt="img"></p>
+<p>小河截弯取直形成的牛轭湖</p>
+<p><img src="http://image.sciencenet.cn/album/201207/28/230055q48iyyuq2pzyuzqo.jpg" alt="img"></p>
+<p>长叶茅膏菜， 只生长在贫瘠的沼泽中</p>
+<p><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></p>
+<p>溪流中的苔藓</p>
+<p><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></p>
+<p>夏季小屋，瑞典人一般在城镇拥有一套房屋， 而在乡间也有专门用于度假的房屋，仅供夏季休闲娱乐</p>
+<p><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></p>
+<p>沼泽</p>
+<p><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></p>
+<p>欧石南</p>
+<p><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></p>
+<p><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></p>
+<p>羊群</p>
+<p><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></p>
+<p><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></p>
+<p><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></p>
+<p><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></p>
+<p><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></p>
+<p><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></p>
+<p>奶牛</p>
+<p><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></p>
+<p>瑞典大量使用机械， 这是牧场上打包的青贮饲料。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2012/07/28/2012-7-29-sweden/" data-id="ckmq2gwrf0049q8845ak64xgo" data-title="瑞典：美丽的西博滕" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" rel="tag">行摄匆匆</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2012-7-15-phylobeta" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/07/15/2012-7-15-phylobeta/" class="article-date">
+  <time class="dt-published" datetime="2012-07-14T17:47:54.000Z" itemprop="datePublished">2012-07-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/07/15/2012-7-15-phylobeta/">How to compute phylobeta diversity indices?</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## Files required</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## phylocom.exe</span></span><br><span class="line"><span class="comment">## phylomatic.exe</span></span><br><span class="line"><span class="comment">## davies_dated.new </span></span><br><span class="line"><span class="comment">## species.table.csv Format shown below: </span></span><br><span class="line">Family	Genus	Species</span><br><span class="line">Actinidiaceae	Actinidia	<span class="number">1</span></span><br><span class="line">Actinidiaceae	Actinidia	<span class="number">2</span></span><br><span class="line">Apiaceae	Aegopodium	<span class="number">6</span></span><br><span class="line">... </span><br><span class="line"></span><br><span class="line"><span class="comment">## sample.csv</span></span><br><span class="line">01 <span class="number">1</span> sp1</span><br><span class="line">01 <span class="number">1</span> sp2</span><br><span class="line">01 <span class="number">1</span> sp6</span><br><span class="line">01 <span class="number">1</span> sp10</span><br><span class="line">01 <span class="number">1</span> sp12</span><br><span class="line">01 <span class="number">1</span> sp13</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">setwd(<span class="string">&quot;C:/Jinlong/phylobeta&quot;</span>)</span><br><span class="line">library(picante)</span><br><span class="line">library(simba)</span><br><span class="line">library(hydroTSM)</span><br><span class="line"></span><br><span class="line">taxatab &lt;- read.csv(<span class="string">&quot;species.table.csv&quot;</span>, header = <span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line">taxatab$SPECIES &lt;- paste(<span class="string">&quot;sp&quot;</span>, taxatab$SPECIES, sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">taxatab$GENUS &lt;- tolower(taxatab$GENUS)</span><br><span class="line">taxatab$DAVIES_Family &lt;- tolower(taxatab$DAVIES_Family)</span><br><span class="line">write.table(unique(taxatab), <span class="string">&quot;taxatable.txt&quot;</span>, row.names = <span class="literal">FALSE</span>, col.names = <span class="literal">FALSE</span>, <span class="built_in">quote</span> = <span class="literal">FALSE</span>, sep = <span class="string">&quot;/&quot;</span>)</span><br><span class="line"></span><br><span class="line">shell(<span class="string">&quot;phylomatic -f davies_dated.new -t taxatable.txt&gt;phylo.to.modify&quot;</span>)</span><br><span class="line"><span class="comment">## Delete the outer most edge</span></span><br><span class="line">dat &lt;- read.csv(<span class="string">&quot;sample.csv&quot;</span>, header = <span class="literal">TRUE</span>)</span><br><span class="line"><span class="keyword">if</span>(<span class="built_in">any</span>(nchar(dat$PLOT) == <span class="number">1</span>))&#123;</span><br><span class="line">   dat$PLOT[nchar(dat$PLOT) == <span class="number">1</span>]  &lt;- paste(<span class="string">&quot;0&quot;</span>, dat$PLOT[nchar(dat$PLOT) == <span class="number">1</span>], sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line">dat$PLOT &lt;- paste(dat$PLOT)</span><br><span class="line">dat$SPECIES &lt;- paste(<span class="string">&quot;sp&quot;</span>, dat$SPECIES, sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">dat$Abund &lt;- <span class="built_in">rep</span>(<span class="number">1</span>, nrow(dat))</span><br><span class="line">write.table(dat[,<span class="built_in">c</span>(<span class="number">1</span>, <span class="number">3</span>, <span class="number">2</span>)], <span class="string">&quot;sample&quot;</span>, <span class="built_in">quote</span> = <span class="literal">FALSE</span>, row.names = <span class="literal">FALSE</span>, col.names = <span class="literal">FALSE</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">## Calculating Diversity metrics using picante</span></span><br><span class="line">test.tree   &lt;- read.tree(<span class="string">&quot;phylo&quot;</span>)</span><br><span class="line">test.sample &lt;- sample2matrix(dat[,<span class="built_in">c</span>(<span class="number">1</span>, <span class="number">3</span>, <span class="number">2</span>)])</span><br><span class="line"></span><br><span class="line"><span class="comment">##  PhyloSor ## Not available from Phylocom</span></span><br><span class="line">test.phylosor &lt;- phylosor(samp =test.sample, tree =test.tree) </span><br><span class="line"></span><br><span class="line"><span class="comment">##  UniFrac  ## Not available from Phylocom</span></span><br><span class="line">test.unifrac &lt;- unifrac(comm =test.sample, tree = test.tree)</span><br><span class="line"></span><br><span class="line"><span class="comment">##  Dnn   COMDIST</span></span><br><span class="line">test.comdist &lt;- comdist(comm =test.sample, dis = cophenetictest.tree))</span><br><span class="line"></span><br><span class="line"><span class="comment">##  Dpw   comdistnt</span></span><br><span class="line">test.comdistnt &lt;- comdistnt(comm =test.sample, dis = cophenetictest.tree))</span><br><span class="line"></span><br><span class="line"><span class="comment">##  Rao D and Rao H</span></span><br><span class="line">test.rao &lt;- raoD(comm =test.sample,  phy =test.tree) </span><br><span class="line"></span><br><span class="line"><span class="comment">## raoD.Dkl  (&quot;US.species.raoD.Dkl.pairlist.ver2.csv &quot;) is rao&#x27;s D </span></span><br><span class="line">test.raoD &lt;- as.dist(test.rao$Dkl)</span><br><span class="line"></span><br><span class="line"><span class="comment"># and &quot;US.species.raoD.H.pairlist.ver2.csv&quot; is Rao&#x27;s H.</span></span><br><span class="line">test.raoH &lt;- as.dist(test.rao$H)</span><br><span class="line"></span><br><span class="line">test.phylosor.list   &lt;- liste(test.phylosor)</span><br><span class="line">test.unifrac.list    &lt;- liste(test.unifrac)</span><br><span class="line">test.comdist.list    &lt;- liste(test.comdist)</span><br><span class="line">test.comdistnt.list  &lt;- liste(test.comdistnt)</span><br><span class="line">test.rao.D.list      &lt;- liste(test.raoD )</span><br><span class="line">test.rao.H.list      &lt;- liste(test.raoH)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">result &lt;- data.frame(test.phylosor.list[,<span class="number">3</span>], test.unifrac.list[,<span class="number">3</span>], </span><br><span class="line">                    test.comdist.list[,<span class="number">3</span>], test.comdistnt.list[,<span class="number">3</span>], </span><br><span class="line">test.rao.D.list[,<span class="number">3</span>], test.rao.H.list[,<span class="number">3</span>])</span><br><span class="line"></span><br><span class="line">colnames(result) &lt;- <span class="built_in">c</span>(<span class="string">&quot;phylosor&quot;</span>, <span class="string">&quot;unifrac&quot;</span>, <span class="string">&quot;Dpw&quot;</span>, <span class="string">&quot;Dnn&quot;</span>, <span class="string">&quot;raoD&quot;</span>, <span class="string">&quot;raoH&quot;</span>)</span><br><span class="line"></span><br><span class="line">pdf(<span class="string">&quot;phylo.beta.pairs.pdf&quot;</span>, width = <span class="number">10</span>, height = <span class="number">10</span>)</span><br><span class="line">hydropairs(result)</span><br><span class="line">dev.off()</span><br><span class="line"></span><br><span class="line">result2 &lt;- data.frame(test.phylosor.list, test.unifrac.list[,<span class="number">3</span>], </span><br><span class="line">                    test.comdist.list[,<span class="number">3</span>], test.comdistnt.list[,<span class="number">3</span>], </span><br><span class="line">test.rao.D.list[,<span class="number">3</span>], test.rao.H.list[,<span class="number">3</span>])</span><br><span class="line">colnames(result2) &lt;- <span class="built_in">c</span>(<span class="string">&quot;PlotI&quot;</span>,<span class="string">&quot;PlotII&quot;</span>, <span class="string">&quot;phylosor&quot;</span>, <span class="string">&quot;unifrac&quot;</span>, <span class="string">&quot;comdist&quot;</span>, <span class="string">&quot;comdistnt&quot;</span>, <span class="string">&quot;raoD&quot;</span>, <span class="string">&quot;raoH&quot;</span>)</span><br><span class="line"></span><br><span class="line">write.csv(result2, <span class="string">&quot;phylobeta.result.csv&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">write.csv(test.phylosor.list   ,<span class="string">&quot;test.phylosor.list.csv&quot;</span> , row.names = <span class="literal">FALSE</span>)</span><br><span class="line">write.csv(test.unifrac.list    ,<span class="string">&quot;test.unifrac.list.csv&quot;</span>  , row.names = <span class="literal">FALSE</span>)</span><br><span class="line">write.csv(test.comdist.list    ,<span class="string">&quot;test.Dpw.list.csv&quot;</span>      , row.names = <span class="literal">FALSE</span>)</span><br><span class="line">write.csv(test.comdistnt.list  ,<span class="string">&quot;test.Dnn.list.csv&quot;</span>      , row.names = <span class="literal">FALSE</span>)</span><br><span class="line">write.csv(test.rao.D.list      ,<span class="string">&quot;test.rao.D.list.csv&quot;</span>    , row.names = <span class="literal">FALSE</span>)</span><br><span class="line">write.csv(test.rao.H.list      ,<span class="string">&quot;test.rao.H.list.csv&quot;</span>    , row.names = <span class="literal">FALSE</span>)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2012/07/15/2012-7-15-phylobeta/" data-id="ckmq2gwre0047q88481x03bo3" data-title="How to compute phylobeta diversity indices?" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%94%9F%E6%80%81/" rel="tag">生态</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2012-7-8-editfigures" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/07/08/2012-7-8-editfigures/" class="article-date">
+  <time class="dt-published" datetime="2012-07-08T03:51:54.000Z" itemprop="datePublished">2012-07-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/07/08/2012-7-8-editfigures/">论文投稿用什么软件修改图片？</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>学术期刊要求在投稿时， 一般要求矢量图(eps, pdf, svg等)或者高分辨率（600DPI以上）的栅格图(一般为TIFF)。</p>
+<p>这里简要总结如下：</p>
+<h1 id="1-生成图片"><a href="#1-生成图片" class="headerlink" title="1 生成图片"></a>1 生成图片</h1><p>绘制用散点图、柱状图、 折线图等，一般用R （免费）、GNUplot （免费）、Python（免费）、Matlab （需购买）、 SigmaPlot（需购买）、Excel等；绘制进化树，使用FigTree （免费）；绘制地图等用ArcGIS （需购买）； 绘制流程图等，用OpenOffice的Draw（免费）。处理公式， 常用MathType（需购买）, 也可以用EqualX Equation Editor (免费)。</p>
+<h1 id="2-不同格式图的修改"><a href="#2-不同格式图的修改" class="headerlink" title="2 不同格式图的修改"></a>2 不同格式图的修改</h1><p>修改矢量图，一般保存为pdf格式或eps格式，以pdf最方便处理和浏览。</p>
+<p>eps、 pdf等格式的矢量图， 可以用inkscape （免费）、Adobe Illustrator （需购买） 修改。</p>
+<p>tiff等栅格图（包括照片）， 一般需要在600dpi以上，可以用paint.net （免费）、 GIMP （免费）或Adobe Photoshop （需购买）修改，</p>
+<p>总之， R、 OpenOffice、 Inkscape、GIMP、paint.net、EqualX Equation Editor 等免费软件， 完全可以保证对图片作出符合投稿要求的修改。 科研工作者几乎不需要购买昂贵的软件或使用盗版软件， 即可获得高质量的图片， 更好地展示自己的科研成果。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2012/07/08/2012-7-8-editfigures/" data-id="ckmq2gwri004hq884hu6fg1ny" data-title="论文投稿用什么软件修改图片？" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" rel="tag">图像处理</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2012-7-5-genera" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/07/05/2012-7-5-genera/" class="article-date">
+  <time class="dt-published" datetime="2012-07-05T04:03:54.000Z" itemprop="datePublished">2012-07-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/07/05/2012-7-5-genera/">[转载]被子植物大于500个种的属</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>摘编自 维基百科 <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/List_of_the_largest_genera_of_flowering_plants">http://en.wikipedia.org/wiki/List_of_the_largest_genera_of_flowering_plants</a></p>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>Genus</th>
+<th>中文名</th>
+<th>Species</th>
+<th>中文科名</th>
+<th>Family</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>Astragalus</td>
+<td>黄芪属</td>
+<td>3,270</td>
+<td>豆科</td>
+<td>Fabaceae / Leguminosae</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Bulbophyllum</td>
+<td>石豆兰属</td>
+<td>2,032</td>
+<td>兰科</td>
+<td>Orchidaceae</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Psychotria</td>
+<td>九节属</td>
+<td>1,951</td>
+<td>茜草科</td>
+<td>Rubiaceae</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Euphorbia</td>
+<td>大戟属</td>
+<td>1,836</td>
+<td>大戟科</td>
+<td>Euphorbiaceae</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Carex</td>
+<td>薹草属</td>
+<td>1,795</td>
+<td>莎草科</td>
+<td>Cyperaceae</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Begonia</td>
+<td>秋海棠属</td>
+<td>1,484</td>
+<td>秋海棠科</td>
+<td>Begoniaceae</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Dendrobium</td>
+<td>石斛属</td>
+<td>1,371</td>
+<td>兰科</td>
+<td>Orchidaceae</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Acacia</td>
+<td>金合欢属</td>
+<td>c. 1,353</td>
+<td>豆科</td>
+<td>Fabaceae / Leguminosae</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Solanum</td>
+<td>茄属</td>
+<td>c. 1,250</td>
+<td>茄科</td>
+<td>Solanaceae</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Senecio</td>
+<td>千里光属</td>
+<td>c. 1,250</td>
+<td>菊科</td>
+<td>Asteraceae / Compositae</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Croton</td>
+<td>巴豆属</td>
+<td>1,223</td>
+<td>大戟科</td>
+<td>Euphorbiaceae</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Pleurothallis</td>
+<td>叶上花属</td>
+<td>1,120+</td>
+<td>兰科</td>
+<td>Orchidaceae</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Eugenia</td>
+<td>番樱桃属</td>
+<td>1,113</td>
+<td>紫金牛科</td>
+<td>Myrtaceae</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Piper</td>
+<td>胡椒属</td>
+<td>1,055</td>
+<td>胡椒科</td>
+<td>Piperaceae</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Ardisia</td>
+<td>紫金牛属</td>
+<td>1,046</td>
+<td>紫金牛科</td>
+<td>Myrsinaceae</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Syzygium</td>
+<td>蒲桃属</td>
+<td>1,041</td>
+<td>桃金娘科</td>
+<td>Myrtaceae</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Rhododendron</td>
+<td>杜鹃花属</td>
+<td>c. 1,000</td>
+<td>杜鹃花科</td>
+<td>Ericaceae</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Miconia</td>
+<td>大叶野牡丹属</td>
+<td>1,000</td>
+<td>野牡丹科</td>
+<td>Melastomataceae</td>
+</tr>
+<tr>
+<td>19</td>
+<td>Peperomia</td>
+<td>椒草属</td>
+<td>1,000</td>
+<td>胡椒科</td>
+<td>Piperaceae</td>
+</tr>
+<tr>
+<td>20</td>
+<td>Salvia</td>
+<td>鼠尾草属</td>
+<td>945</td>
+<td>唇形科</td>
+<td>Lamiaceae / Labiatae</td>
+</tr>
+<tr>
+<td>21</td>
+<td>Erica</td>
+<td>欧石楠属</td>
+<td>860</td>
+<td>杜鹃花科</td>
+<td>Ericaceae</td>
+</tr>
+<tr>
+<td>22</td>
+<td>Impatiens</td>
+<td>凤仙花属</td>
+<td>850</td>
+<td>凤仙花科</td>
+<td>Balsaminaceae</td>
+</tr>
+<tr>
+<td>23</td>
+<td>Cyperus</td>
+<td>莎草属</td>
+<td>839</td>
+<td>莎草科</td>
+<td>Cyperaceae</td>
+</tr>
+<tr>
+<td>24</td>
+<td>Phyllanthus</td>
+<td>叶下珠属</td>
+<td>833</td>
+<td>大戟科</td>
+<td>Phyllanthaceae</td>
+</tr>
+<tr>
+<td>25</td>
+<td>Allium</td>
+<td>葱属</td>
+<td>815</td>
+<td>葱科</td>
+<td>Amaryllidaceae</td>
+</tr>
+<tr>
+<td>26</td>
+<td>Epidendrum</td>
+<td>树兰属</td>
+<td>800</td>
+<td>兰科</td>
+<td>Orchidaceae</td>
+</tr>
+<tr>
+<td>27</td>
+<td>Vernonia</td>
+<td>斑鸠菊属</td>
+<td>800–1,000</td>
+<td>菊科</td>
+<td>Asteraceae / Compositae</td>
+</tr>
+<tr>
+<td>28</td>
+<td>Lepanthes</td>
+<td>细叶兰属</td>
+<td>c. 800</td>
+<td>兰科</td>
+<td>Orchidaceae</td>
+</tr>
+<tr>
+<td>29</td>
+<td>Anthurium</td>
+<td>安祖花属</td>
+<td>789</td>
+<td>天南星科</td>
+<td>Araceae</td>
+</tr>
+<tr>
+<td>30</td>
+<td>Diospyros</td>
+<td>柿属</td>
+<td>767</td>
+<td>柿树科</td>
+<td>Ebenaceae</td>
+</tr>
+<tr>
+<td>31</td>
+<td>Ficus</td>
+<td>榕属</td>
+<td>750</td>
+<td>桑科</td>
+<td>Moraceae</td>
+</tr>
+<tr>
+<td>33</td>
+<td>Indigofera</td>
+<td>胡枝子属</td>
+<td>700+</td>
+<td>豆科</td>
+<td>Fabaceae / Leguminosae</td>
+</tr>
+<tr>
+<td>32</td>
+<td>Silene</td>
+<td>蝇子草属</td>
+<td>700</td>
+<td>石竹科</td>
+<td>Caryophyllaceae</td>
+</tr>
+<tr>
+<td>34</td>
+<td>Oxalis</td>
+<td>酢浆草属</td>
+<td>700</td>
+<td>酢浆草科</td>
+<td>Oxalidaceae</td>
+</tr>
+<tr>
+<td>35</td>
+<td>Crotalaria</td>
+<td>猪屎豆属</td>
+<td>699</td>
+<td>豆科</td>
+<td>Fabaceae / Leguminosae</td>
+</tr>
+<tr>
+<td>36</td>
+<td>Centaurea</td>
+<td>矢车菊属</td>
+<td>695</td>
+<td>菊科</td>
+<td>Asteraceae / Compositae</td>
+</tr>
+<tr>
+<td>37</td>
+<td>Cassia</td>
+<td>决明属</td>
+<td>692</td>
+<td>豆科</td>
+<td>Fabaceae / Leguminosae</td>
+</tr>
+<tr>
+<td>38</td>
+<td>Eucalyptus</td>
+<td>桉属</td>
+<td>681</td>
+<td>桃金娘科</td>
+<td>Myrtaceae</td>
+</tr>
+<tr>
+<td>39</td>
+<td>Oncidium</td>
+<td>文心兰属</td>
+<td>680</td>
+<td>兰科</td>
+<td>Orchidaceae</td>
+</tr>
+<tr>
+<td>40</td>
+<td>Galium</td>
+<td>拉拉藤属</td>
+<td>661</td>
+<td>茜草科</td>
+<td>Rubiaceae</td>
+</tr>
+<tr>
+<td>41</td>
+<td>Cousinia</td>
+<td>刺头菊属</td>
+<td>655</td>
+<td>菊科</td>
+<td>Asteraceae / Compositae</td>
+</tr>
+<tr>
+<td>42</td>
+<td>Ipomoea</td>
+<td>番薯属</td>
+<td>650</td>
+<td>旋花科</td>
+<td>Convolvulaceae</td>
+</tr>
+<tr>
+<td>43</td>
+<td>Dioscorea</td>
+<td>薯蓣属</td>
+<td>631</td>
+<td>薯蓣科</td>
+<td>Dioscoreaceae</td>
+</tr>
+<tr>
+<td>44</td>
+<td>Cyrtandra</td>
+<td>浆果苣苔属</td>
+<td>622</td>
+<td>苦苣苔科</td>
+<td>Gesneriaceae</td>
+</tr>
+<tr>
+<td>45</td>
+<td>Helichrysum</td>
+<td>蜡菊属</td>
+<td>600</td>
+<td>菊科</td>
+<td>Asteraceae / Compositae</td>
+</tr>
+<tr>
+<td>46</td>
+<td>Ranunculus</td>
+<td>毛茛属</td>
+<td>600</td>
+<td>毛茛科</td>
+<td>Ranunculaceae</td>
+</tr>
+<tr>
+<td>47</td>
+<td>Habenaria</td>
+<td>玉凤花属</td>
+<td>600</td>
+<td>兰科</td>
+<td>Orchidaceae</td>
+</tr>
+<tr>
+<td>48</td>
+<td>Justicia</td>
+<td>爵床属</td>
+<td>600</td>
+<td>爵床科</td>
+<td>Acanthaceae</td>
+</tr>
+<tr>
+<td>49</td>
+<td>Schefflera</td>
+<td>鹅掌柴属</td>
+<td>584</td>
+<td>五加科</td>
+<td>Araliaceae</td>
+</tr>
+<tr>
+<td>50</td>
+<td>Ixora</td>
+<td>龙船花属</td>
+<td>561</td>
+<td>茜草科</td>
+<td>Rubiaceae</td>
+</tr>
+<tr>
+<td>51</td>
+<td>Berberis</td>
+<td>小檗属</td>
+<td>556</td>
+<td>小檗科</td>
+<td>Berberidaceae</td>
+</tr>
+<tr>
+<td>52</td>
+<td>Quercus</td>
+<td>栎属</td>
+<td>531</td>
+<td>壳斗科</td>
+<td>Fagaceae</td>
+</tr>
+<tr>
+<td>53</td>
+<td>Pandanus</td>
+<td>露兜树属</td>
+<td>c. 520</td>
+<td>露兜树科</td>
+<td>Pandanaceae</td>
+</tr>
+<tr>
+<td>54</td>
+<td>Panicum</td>
+<td>黍属</td>
+<td>500+</td>
+<td>禾本科</td>
+<td>Poaceae / Gramineae</td>
+</tr>
+<tr>
+<td>55</td>
+<td>Eria</td>
+<td>毛兰属</td>
+<td>500</td>
+<td>兰科</td>
+<td>Orchidaceae</td>
+</tr>
+<tr>
+<td>56</td>
+<td>Polygala</td>
+<td>远志属</td>
+<td>500</td>
+<td>远志科</td>
+<td>Polygalaceae</td>
+</tr>
+<tr>
+<td>57</td>
+<td>Potentilla</td>
+<td>委陵菜属</td>
+<td>500</td>
+<td>蔷薇科</td>
+<td>Rosaceae</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2012/07/05/2012-7-5-genera/" data-id="ckmq2gwrh004eq8844oii0ip8" data-title="[转载]被子植物大于500个种的属" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%88%86%E7%B1%BB/" rel="tag">植物分类</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2012-6-25-rml" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/06/25/2012-6-25-rml/" class="article-date">
+  <time class="dt-published" datetime="2012-06-24T17:42:54.000Z" itemprop="datePublished">2012-06-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/06/25/2012-6-25-rml/">R中的极大似然估计</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>人们经常用样本(sample)来估计总体(population)的参数， 假定一个概率密度函数，如正态分布，并给出所有可能的参数组合，那么每一种参数组合所生成当前样本的可能性分别有多大？将最可能产生当前样本的参数，作为总体参数的估计，这就是极大似然(Maximum Likelihood)思想的体现。</p>
+<p>在实际的计算中， 人们往往需要先假定某一概率密度， 如正态分布， </p>
+<p>$p.d.f. (y) = \frac{1} {\sqrt{2 \pi} \sigma} e^{-1/2 \frac{(y- \mu)^2} {\sigma^2}}$</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pdfi &lt;- 1/(<span class="built_in">sqrt</span>(<span class="number">2</span>*<span class="built_in">pi</span>)*sigma) * <span class="built_in">exp</span>(-<span class="number">1</span>/<span class="number">2</span> * (obs - mu)^<span class="number">2</span>/(sigma^<span class="number">2</span>))</span><br></pre></td></tr></table></figure>
+
+<p>其中, </p>
+<ul>
+<li><code>obs</code>为某一次观测值</li>
+<li><code>mu</code> 为 总体平均值的任意估计值</li>
+<li><code>sigma</code> 为 总体标准差的任意估计值，<br>则可以求得观测到该次观测值的概率 <code>pdfi</code></li>
+</ul>
+<p>对所有的样本数据的概率密度相成， 即获得联合概率密度， 即似然函数。<br>似然函数 <code>L = pdf1 * pdf2 * pdf3 * ... * pdfn</code></p>
+<p>$L = \prod_{i=1}^n \frac{1} {\sqrt{2 \pi} \sigma} e^{-1/2 \frac{(y- \mu)^2} {\sigma^2}}$</p>
+<p>那么，什么样的参数， 才能保证Likelihood函数取最大值？<br>由于联合概率密度的值往往非常小，在计算机中难以处理，一般情况下， 将似然函数取对数， 便于数值操作。 此时，做一系列的变换。 ：<br>如： </p>
+<p>$LogL = \sum_{i=1}^n \log\left ( \frac{1} {\sqrt{2 \pi} \sigma} e^{-1/2 \frac{(y- \mu)^2} {\sigma^2}} \right )$</p>
+<p>$LogL= \sum_{i=1}^n \left [ \log\left ( \frac{1} {\sqrt{2 \pi} \sigma} \right ) + \log\left ( e^{-1/2 \frac{(y- \mu)^2} {\sigma^2}} \right ) \right ]$</p>
+<p>$LogL= \sum_{i=1}^n \log(2 \pi)^{-1/2} + \sum_{i=1}^n \log\left (\frac{1} {\sigma}\right ) + \sum_{i=1}^n \left ( -1/2 \frac{(y- \mu)^2} {\sigma^2} \right )$</p>
+<p>$LogL= -\frac{n} {2} \log(2 \pi) - n \log(\sigma) - \frac{1} {2 \sigma^2} \sum_{i=1}^n ( y - \mu)^2$</p>
+<p>若认为LogL为$\mu$的函数, 若保证LogL最大值，令 $\sum_{i=1}^n ( y - \mu)^2$ 取最大值，则</p>
+<p>$\mu = \frac{\sum_{i=1}^n y_i}{n}$<br>另外一方面， 若认为LogL为$\sigma$的函数, 将LogL函数对$\sigma$求导， 令导数为0， 可求得极值。</p>
+<p>$\frac{\delta LogL}{\delta \sigma} = -\frac{n}{\sigma} - (-2) \frac{1}{2} \sum_{i=1}^n (y - \mu)^2 \sigma^{-3}$</p>
+<p>$\frac{\delta LogL}{\delta \sigma} = -\frac{n}{\sigma} + \frac{1}{\sigma^2} \sum_{i=1}^n (y - \mu)^2$</p>
+<p>令导数为0， 得<br>$\frac{n}{\sigma} = \frac{1}{\sigma^3} \sum_{i=1}^n (y - \mu)^2$</p>
+<p>$\sigma^2 = \frac{\sum_{i=1}^n (y - \mu)^2}{n}$</p>
+<p>此时， 带入之前$\mu$，求得$\sigma$的估计</p>
+<p>$\hat{\sigma}^2 = \frac{\sum_{i=1}^n (y - \bar{y})^2}{n}$</p>
+<p>用极大似然估计求得的$\sigma$值为有偏估计， 即样本的最可能取值。 </p>
+<p>以上是解析解。 在实际情况下， 人们常用多种优化方法， 求得极大似然估计的数值解。 这些方法包括 </p>
+<ul>
+<li><code>&quot;Nelder-Mead&quot;</code> （Nelder and Mead ，1965), </li>
+<li><code>&quot;BFGS&quot;</code> （Broyden, Fletcher, Goldfarb and Shanno， 1970）, </li>
+<li><code>&quot;CG&quot;</code> （Fletcher and Reeves，1964), </li>
+<li><code>&quot;L-BFGS-B&quot;</code> （Byrd et. al. ，1995) , </li>
+<li><code>&quot;SANN&quot;</code> (Belisle 1992), 等。</li>
+</ul>
+<p>由此看来， 极大似然估计， 首先是按照假定的概率密度， 求得联合概率密度， 即似然函数，进一步写成对数似然函数， 再用数值优化的方法， 求得对数似然函数所对应的点(各参数)。即获得参数的极大然估计。</p>
+<p>下面提供一个实例：<br>问题：<br>假设一批树木中抽取若干个体，胸径分别为 150, 124, 100, 107, 170, 144, 113, 108, 92, 129, 123, 118，试求这批树木胸径的平均值和标准差。</p>
+<p>分析：<br>如果用这批样本数据直接计算平均值和方差， 可以得到总体平均值和标准差的估计。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">dat &lt;- <span class="built_in">c</span>(<span class="number">150</span>, <span class="number">124</span>, <span class="number">100</span>, <span class="number">107</span>, <span class="number">170</span>, <span class="number">144</span>, <span class="number">113</span>, <span class="number">108</span>, <span class="number">92</span>, <span class="number">129</span>, <span class="number">123</span>, <span class="number">118</span>)</span><br><span class="line"></span><br><span class="line">&gt; mean(dat)</span><br><span class="line">[<span class="number">1</span>] <span class="number">123.1667</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### 求样本平均值</span></span><br><span class="line">mean.sample &lt;- <span class="built_in">sum</span>(dat)/<span class="built_in">length</span>(dat)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 设置空向量</span></span><br><span class="line">var.sample &lt;- <span class="built_in">c</span>()</span><br><span class="line"><span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(dat))&#123;</span><br><span class="line">   var.sample[i] &lt;- (dat[i] - mean.sample)^<span class="number">2</span></span><br><span class="line">&#125;</span><br><span class="line">dd &lt;- <span class="built_in">sum</span>(var.sample)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 求样本标准差</span></span><br><span class="line"><span class="built_in">sqrt</span>(dd/(<span class="built_in">length</span>(dat)))</span><br><span class="line"></span><br><span class="line"><span class="comment">## 求总体标准差</span></span><br><span class="line"><span class="built_in">sqrt</span>(dd/(<span class="built_in">length</span>(dat) - <span class="number">1</span>))</span><br><span class="line">以上是普通的估计方法</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">下面用极大似然方法估计</span><br><span class="line"><span class="comment">###########################################################################</span></span><br><span class="line"><span class="comment">### 联合概率密度</span></span><br><span class="line"></span><br><span class="line">like = <span class="keyword">function</span>(data, mu, sigma) &#123;</span><br><span class="line"> like = <span class="number">1</span></span><br><span class="line"> <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(data))&#123;</span><br><span class="line">   <span class="comment"># like = like *( 1/(sqrt(2*pi)*sigma) * exp(-1/2 * (data[i] - mu)^2/(sigma^2)))</span></span><br><span class="line">like = like * dnorm(x = dat[i], mean = mu, sd = sigma)</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="built_in">return</span>(like)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">like(dat, <span class="number">120</span>, <span class="number">20</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 对数似然函数</span></span><br><span class="line">loglike = <span class="keyword">function</span>(data, mu, sigma) &#123;</span><br><span class="line"> loglike = <span class="number">0</span></span><br><span class="line">   <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(data))&#123;</span><br><span class="line">     loglike = loglike + <span class="built_in">log</span>(dnorm(x = dat[i], mean = mu, sd = sigma))</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="built_in">return</span>(loglike)</span><br><span class="line">&#125;</span><br><span class="line">loglike(dat, <span class="number">122</span>, <span class="number">20</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 扩展参数组合</span></span><br><span class="line">params = expand.grid(mu = seq(<span class="number">50</span>, <span class="number">200</span>, <span class="number">1</span>),</span><br><span class="line">                    sigma = seq(<span class="number">10</span>, <span class="number">40</span>, <span class="number">1</span>))</span><br><span class="line">LogLik.surf = with(params, loglike(dat, mu, sigma))</span><br><span class="line"></span><br><span class="line"><span class="built_in">dim</span>(LogLik.surf) &lt;- <span class="built_in">c</span>(<span class="built_in">length</span>(seq(<span class="number">50</span>, <span class="number">200</span>, <span class="number">1</span>)), <span class="built_in">length</span>(seq(<span class="number">10</span>, <span class="number">40</span>, <span class="number">1</span>))) </span><br><span class="line"></span><br><span class="line">library(lattice)</span><br><span class="line">contourplot(LogLik.surf ~ mu*sigma, data = params, cuts = <span class="number">20</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Zooming in</span></span><br><span class="line">params = expand.grid(mu = seq(<span class="number">120</span>, <span class="number">126</span>, <span class="number">0.01</span>), sigma = seq(<span class="number">18</span>, <span class="number">25</span>, <span class="number">0.1</span>))</span><br><span class="line">LogLik.surf.zoom = with(params, loglike(dat, mu, sigma))</span><br><span class="line"></span><br><span class="line"><span class="built_in">dim</span>(LogLik.surf.zoom) &lt;- <span class="built_in">c</span>(<span class="built_in">length</span>(seq(<span class="number">120</span>, <span class="number">126</span>, <span class="number">0.01</span>)), <span class="built_in">length</span>(seq(<span class="number">18</span>, <span class="number">25</span>, <span class="number">0.1</span>))) </span><br><span class="line"></span><br><span class="line">library(lattice)</span><br><span class="line">contourplot(LogLik.surf.zoom ~ mu*sigma, data = params, cuts = <span class="number">20</span>, region = <span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### nlm进行极大似然优化， 需要提供初始值</span></span><br><span class="line"><span class="comment">### 对数似然函数</span></span><br><span class="line">loglike000 = <span class="keyword">function</span>(p) &#123;</span><br><span class="line">   loglike = <span class="number">0</span></span><br><span class="line">   <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(dat))&#123;</span><br><span class="line">     loglike = loglike + <span class="built_in">log</span>(dnorm(x = dat[i], mean = p[<span class="number">1</span>], sd = p[<span class="number">2</span>]))</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="built_in">return</span>(-loglike)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">(MLEst &lt;- nlm(f = loglike000, p = <span class="built_in">c</span>(<span class="number">100</span>, <span class="number">10</span>)))</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="http://www.quantumforest.com/2011/10/maximum-likelihood/">http://www.quantumforest.com/2011/10/maximum-likelihood/</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2012/06/25/2012-6-25-rml/" data-id="ckmq2gwrd0044q884apjxb1r6" data-title="R中的极大似然估计" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BB%9F%E8%AE%A1/" rel="tag">统计</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2012-6-23-pollen" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/06/22/2012-6-23-pollen/" class="article-date">
+  <time class="dt-published" datetime="2012-06-22T14:40:54.000Z" itemprop="datePublished">2012-06-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/06/22/2012-6-23-pollen/">花粉传播有关的几个公式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>$d_{j,k}=\sqrt{(x_{j}-x_{k})^2 +(y_{j}-y_{k})^2}$</p>
+<p>$f(x, y; \delta, b)=\frac{ b\Gamma(3/b)}{2\pi\delta^2\Gamma(2/b)^3}e^{(\frac{\Gamma(3/b)d}{\Gamma(2/b)\delta})^2}$</p>
+<p>$\pi_{r, jk}=\frac{F_{r,k}f(d_{jk}; \delta, b))}{\sum_{l:fathers}F_{r,l}f(d_{jl};\delta,b)}$</p>
+<p>$L(g|\alpha_{COV}, \delta, b, s, m) = \prod_{o:offspring}[sT(g_{0}|g_{j_{0}}, g_{j_{0}}) + mT(g_{0}|g_{j_{0}}, BAF) +(1-s-m)\sum_{k:father}\pi_{j_{0}k}T(g_{0}|g_{j_{0}}, g_{k})]$</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2012/06/22/2012-6-23-pollen/" data-id="ckmq2gwrc0042q88425rgatfz" data-title="花粉传播有关的几个公式" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%94%9F%E6%80%81/" rel="tag">生态</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/17/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/19/">Next &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/R%E7%BC%96%E7%A8%8B/" rel="tag">R编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%BA%E7%89%A9/" rel="tag">人物</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%99%E4%BD%9C/" rel="tag">写作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" rel="tag">可视化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E4%B9%A6/" rel="tag">图书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" rel="tag">图像处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9C%B0%E7%90%86/" rel="tag">地理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A3%B0%E6%98%8E/" rel="tag">声明</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A9%E6%96%87/" rel="tag">天文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%AF%9D%E5%BD%95/" rel="tag">对话录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%83%E5%BE%97/" rel="tag">心得</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E5%91%8A/" rel="tag">报告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E7%89%88/" rel="tag">排版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%85%E4%B9%A1/" rel="tag">故乡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" rel="tag">标本馆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%88%86%E7%B1%BB/" rel="tag">植物分类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%90%8D/" rel="tag">植物学名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%82%E8%81%8C/" rel="tag">求职</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" rel="tag">版本控制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%80%81/" rel="tag">生态</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%80%81%E8%B5%84%E8%AE%AF/" rel="tag">生态资讯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%94%E7%A9%B6%E8%B5%84%E8%AE%AF/" rel="tag">研究资讯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B3%BB%E7%BB%9F%E5%8F%91%E8%82%B2/" rel="tag">系统发育</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%9F%E8%AE%A1/" rel="tag">统计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" rel="tag">行摄匆匆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%81%E9%97%BB%E5%BD%95/" rel="tag">见闻录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%97%E6%AD%8C/" rel="tag">诗歌</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E5%8C%96/" rel="tag">进化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E6%83%B3/" rel="tag">随想</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A9%B3%E8%AE%BA/" rel="tag">驳论</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/R%E7%BC%96%E7%A8%8B/" style="font-size: 18.75px;">R编程</a> <a href="/tags/%E4%BA%BA%E7%89%A9/" style="font-size: 11.88px;">人物</a> <a href="/tags/%E5%86%99%E4%BD%9C/" style="font-size: 13.13px;">写作</a> <a href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" style="font-size: 12.5px;">可视化</a> <a href="/tags/%E5%9B%BE%E4%B9%A6/" style="font-size: 10px;">图书</a> <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" style="font-size: 11.88px;">图像处理</a> <a href="/tags/%E5%9C%B0%E7%90%86/" style="font-size: 17.5px;">地理</a> <a href="/tags/%E5%A3%B0%E6%98%8E/" style="font-size: 10.63px;">声明</a> <a href="/tags/%E5%A4%A9%E6%96%87/" style="font-size: 16.25px;">天文</a> <a href="/tags/%E5%AF%B9%E8%AF%9D%E5%BD%95/" style="font-size: 10px;">对话录</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 10px;">心得</a> <a href="/tags/%E6%8A%A5%E5%91%8A/" style="font-size: 12.5px;">报告</a> <a href="/tags/%E6%8E%92%E7%89%88/" style="font-size: 13.75px;">排版</a> <a href="/tags/%E6%95%85%E4%B9%A1/" style="font-size: 10.63px;">故乡</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10.63px;">数据库</a> <a href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" style="font-size: 14.38px;">标本馆</a> <a href="/tags/%E6%A4%8D%E7%89%A9%E5%88%86%E7%B1%BB/" style="font-size: 10px;">植物分类</a> <a href="/tags/%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%90%8D/" style="font-size: 10px;">植物学名</a> <a href="/tags/%E6%B1%82%E8%81%8C/" style="font-size: 10px;">求职</a> <a href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" style="font-size: 11.25px;">版本控制</a> <a href="/tags/%E7%94%9F%E6%80%81/" style="font-size: 16.88px;">生态</a> <a href="/tags/%E7%94%9F%E6%80%81%E8%B5%84%E8%AE%AF/" style="font-size: 10px;">生态资讯</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E8%B5%84%E8%AE%AF/" style="font-size: 10px;">研究资讯</a> <a href="/tags/%E7%B3%BB%E7%BB%9F%E5%8F%91%E8%82%B2/" style="font-size: 10px;">系统发育</a> <a href="/tags/%E7%BB%9F%E8%AE%A1/" style="font-size: 18.13px;">统计</a> <a href="/tags/%E7%BC%96%E7%A8%8B/" style="font-size: 10.63px;">编程</a> <a href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" style="font-size: 15px;">行摄匆匆</a> <a href="/tags/%E8%A7%81%E9%97%BB%E5%BD%95/" style="font-size: 10px;">见闻录</a> <a href="/tags/%E8%AF%97%E6%AD%8C/" style="font-size: 15.63px;">诗歌</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 19.38px;">软件</a> <a href="/tags/%E8%BF%9B%E5%8C%96/" style="font-size: 10.63px;">进化</a> <a href="/tags/%E9%9A%8F%E6%83%B3/" style="font-size: 11.25px;">随想</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 20px;">随笔</a> <a href="/tags/%E9%A9%B3%E8%AE%BA/" style="font-size: 10px;">驳论</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">January 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">December 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">October 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05/">May 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">May 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">December 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">August 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">March 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">April 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/01/">January 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/08/">August 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/07/">July 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/06/">June 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">May 2009</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/18/2021-03-18/">为什么《xxxx在XX研究中取得进展》这类文章很少有人转发？</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/2021-02-16/">如何恢复森林？– 从嘉道理农场的森林恢复样地说起</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 Jinlong Zhang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

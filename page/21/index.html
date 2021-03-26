@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Jinlong Zhang&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Jinlong Zhang&#39;s blog">
+<meta property="og:url" content="https://helixcn.github.io/page/21/index.html">
+<meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="Jinlong Zhang">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Jinlong Zhang's blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jinlong Zhang&#39;s blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://helixcn.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-2011-5-18-ltt-plot" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2011/05/18/2011-5-18-ltt-plot/" class="article-date">
+  <time class="dt-published" datetime="2011-05-18T04:02:54.000Z" itemprop="datePublished">2011-05-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2011/05/18/2011-5-18-ltt-plot/">ltt.plot从进化树推断物种分化的历史：分类单元数与时间的关系</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>NM Hallinan原著</p>
+<p>Nick Matzke增补</p>
+<p>今天我们分析生物类群在时间上的多样性是如何变化的。我们将用到分类单元数-时间图（Lineages-through-time plot）,该图可以用来描述物种多样化的总体趋势。我们将真实的格局与零分布进行比较，从而推断其与期望的差别。同时，我们还将学习一下几种用来推断物种丰富度随时间变化的似然方法。当然，第一步是用R模拟生成进化树。<br>在R中进行进化树的模拟<br>在tree平衡的试验中，你已经做了一些这方面的分析。在R中进行进化树模拟有几种方法。我们下面就将看到几种。ape程序包提供了进化树模拟的两个函数，rtree和rcoal. 两个函数随机生成枝长相等的进化树，但是都不能满足我们的需求。</p>
+<p>geiger程序包中的birthdeath.tree 用处更大些。 这一函数从两个分类单元开始，基于随机生灭过程（birth death BD）进行进化树的模拟。用户给出生成率，同时给出灭亡率， 以及该过程经历的时间或者分类单元数，就可完成进化树的模拟。如果让这一函数经历相同的时间，则它会给出不同的分类单元数，如果让它给出相同的分类单元数，则经历的时间会不同。下面首先要载入 geiger程序包。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">library(geiger)</span><br><span class="line">tree1  &lt;- birthdeath.tree(<span class="number">0.3</span>,<span class="number">0</span>,<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+
+<p>以上命令将建立一个λ=0.3, μ=0 的（物种生成和绝灭速率），经过十个时间单位的进化树。理论上，这将产生 2<em>exp(0.3</em>10) 个分类单元，但是也可能多些或少些。我们看一下其结果:</p>
+<h2 id="图1代码"><a href="#图1代码" class="headerlink" title="图1代码"></a>图1代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">plot(tree1)</span><br><span class="line">axisPhylo()</span><br></pre></td></tr></table></figure>
+<p>图 1<br>看起来怪怪的，像一只螃蟹？ 等一下，问题可以解决：</p>
+<h2 id="图2代码"><a href="#图2代码" class="headerlink" title="图2代码"></a>图2代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tree1&lt;-reorder(tree1)</span><br><span class="line">plot(tree1)</span><br><span class="line">axisPhylo()</span><br></pre></td></tr></table></figure>
+<p>图 2<br>你到进化树是否包括大约40个分类单元？ 是否具有10个时间单位？我们来建立另外一棵进化树，这棵进化树的灭绝速率不为0. 仍然设定λ=0.35, and μ=0.05，r仍然等于 0.3</p>
+<h2 id="图3代码"><a href="#图3代码" class="headerlink" title="图3代码"></a>图3代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tree2 &lt;- reorder(birthdeath.tree(<span class="number">0.35</span>,<span class="number">0.05</span>,<span class="number">10</span>))</span><br><span class="line">plot(tree2)</span><br><span class="line">axisPhylo()</span><br></pre></td></tr></table></figure>
+<p>图3<br>请注意，该树既包括了现存的，也包括了已经灭绝的分类单元。上一个例子中，我们没有获得绝灭的分类单元，那是因为 μ 为 0。我们可以将已经灭绝的分类单元去除。</p>
+<h2 id="图4代码"><a href="#图4代码" class="headerlink" title="图4代码"></a>图4代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tree2.pruned&lt;-prune.extinct.taxa(tree2)</span><br><span class="line">plot(tree2.pruned)</span><br><span class="line">axisPhylo()</span><br></pre></td></tr></table></figure>
+<p>图 4</p>
+<p>这就是上面的结果了。进化树中只包括了现存的分类单元。我们也可以生成一个分类单元数一定的进化树。</p>
+<h2 id="图5代码"><a href="#图5代码" class="headerlink" title="图5代码"></a>图5代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tree3 &lt;- reorder(birthdeath.tree(<span class="number">0.35</span>,<span class="number">0.05</span>,taxa.stop=<span class="number">40</span>))</span><br><span class="line">plot(tree3)</span><br><span class="line">axisPhylo()</span><br></pre></td></tr></table></figure>
+<p>图 5<br>这就是想获得的40个分类单元。由于一些分支灭绝，可能获得的分类单元数多于40个，这一过程在生成40个分类单元的时候结束。这一过程需要的时间是随机分布的。可能你注意到了，最后一个时间段重复的很厉害。这是由于当前仅包括40个分类单元数引起的。这一模拟过程并不是完全可信的，因为之后你仍然能够获得40个分类单元。我们这里不考虑这一问题。</p>
+<p>现在，我们将会用到我编写的函数，rdbtree.n. 这一函数的参数有 λ,  μ, 时长,以及分类单元数，继而依据这些参数生成一棵随机进化树。与此同时，λ 和 μ随时间的变化可以发生变化。需要注意的是，该函数本函数将给出一系列分支长度，虽然你选择的速率可能产生你所设定的分类单元数可能不能用这些枝长来生成。因此，选择速率的时候，要尽量有所参考。从网站上下载 rbdtree.n3.R 文件，或者远程读取。<br>source(“<a target="_blank" rel="noopener" href="http://ib.berkeley.edu/courses/ib200b/labs/lab12/rbdtree.n3.R">http://ib.berkeley.edu/courses/ib200b/labs/lab12/rbdtree.n3.R</a>“)<br>之后，运行函数 rbdtree.n：</p>
+<h2 id="图6代码"><a href="#图6代码" class="headerlink" title="图6代码"></a>图6代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tree4&lt;-rbdtree.n(<span class="number">40</span>,<span class="number">10</span>,<span class="number">0.35</span>,<span class="number">0.05</span>)</span><br><span class="line">plot(tree4)</span><br><span class="line">axisPhylo()</span><br></pre></td></tr></table></figure>
+<p>图6<br>很棒！ 现在的结果大体上能够符合我们检验所需要的零分布了。这是由于从分类单元数以及时间上，都设定了，而且，这两个因素对于分类单元数-时间图，都是有很大影响的。需要注意的是，可能存在着其他的假设更为合适的情况。</p>
+<p>分类单元数-时间图</p>
+<p>现在，我们就来做一些分类单元数时间图。该图为一个clade拥有的子代物种数量随时间变化的图。该过程的期望是，如果μ=0 而 λ为常数，则物种数随着时间指数性的增加。偏离于该期望时，就是说明多样化是随时间而变化的。我们将调用ape程序包的一些函数来绘制这些图形。</p>
+<h2 id="图7代码"><a href="#图7代码" class="headerlink" title="图7代码"></a>图7代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ltt.plot(tree1)</span><br></pre></td></tr></table></figure>
+<p>图 7<br>按照经验，y轴要经过对数转换。我们应用R 绘图函数的log = “y”来实现相应的功能，该参数将改变所选轴数值的显示方式，但是并不会改变数值本身。</p>
+<h2 id="图8代码"><a href="#图8代码" class="headerlink" title="图8代码"></a>图8代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ltt.plot(tree1,<span class="built_in">log</span>=<span class="string">&quot;y&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>图 8<br>对于对数转换的图形，期望值应该为一条直线，我们可以在图形上添加一条直线，用来比较其异同。</p>
+<h2 id="图9代码"><a href="#图9代码" class="headerlink" title="图9代码"></a>图9代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lines(<span class="built_in">c</span>(-<span class="number">10</span>,<span class="number">0</span>), <span class="built_in">c</span>(<span class="number">2</span>,<span class="number">40</span>), lty=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<p>图 9<br>结果看起来确实不错。你还可以继续添加物种数-时间曲线到现有的图形上</p>
+<h2 id="图10代码"><a href="#图10代码" class="headerlink" title="图10代码"></a>图10代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ltt.lines(tree2,col=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<p>图 10<br>不错，但是看起来有点儿奇怪，这是由于我们两棵进化树最后的分类单元数不同。我们也可以同时绘制多棵进化树的物种数-时间曲线。</p>
+<h2 id="图11代码"><a href="#图11代码" class="headerlink" title="图11代码"></a>图11代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mltt.plot(tree1,tree2,tree3,tree4)</span><br></pre></td></tr></table></figure>
+<p>图 11<br>物种数-时间图的零分布<br>为了理解多样性系数会怎样影响物种数-时间图形的形状，我们需要了解这些图形在零假设的时候的形状。我们从一段给定时间的完全随机生灭过程的零假设开始。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">trees.yule &lt;- replicate(<span class="number">100</span>, birthdeath.tree(<span class="number">0.3</span>,<span class="number">0</span>,<span class="number">10</span>), simplify=<span class="literal">FALSE</span>)</span><br></pre></td></tr></table></figure>
+<p>以上函数将birthdeath.tree函数重复100次，创建了一个列表。我们用现有数据建立物种数-时间图</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mltt.plot(trees.yule, legend&#x3D;FALSE)</span><br></pre></td></tr></table></figure>
+<h2 id="图12代码"><a href="#图12代码" class="headerlink" title="图12代码"></a>图12代码</h2><p>图 12<br>问题来了，每棵进化树具有不同的分类单元数，你看到的大多数情况是，物种数比较多的图，其结尾分类单元数也比较多。如果你设定了物种数一定，那么将会有另外一个问题。让我们创建一些具有相同问题的进化树。</p>
+<h2 id="图13代码"><a href="#图13代码" class="headerlink" title="图13代码"></a>图13代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">trees.yule2&lt;-replicate(<span class="number">100</span>, rbdtree.n(<span class="number">40</span>,<span class="number">10</span>,<span class="number">0.3</span>,<span class="number">0</span>), simplify=<span class="literal">FALSE</span>)</span><br><span class="line">mltt.plot(trees.yule2, legend=<span class="literal">FALSE</span>, <span class="built_in">log</span>=<span class="string">&quot;y&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>图 13<br>可以见到本图中的Yule进化树的分布，但是在与其他分布比较的时候会遇到困难，因为所有的线都是跳跃性的上升。因此，我编写了另一个函数，用来对任意参数值给出物种数-时间的零分布。</p>
+<h2 id="图14代码"><a href="#图14代码" class="headerlink" title="图14代码"></a>图14代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ltt.null(<span class="number">40</span>, <span class="number">10</span>, <span class="number">0.3</span>, <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p>图 14<br>该函数的参数与yule2进化树的例子是一致的。颜色的深浅代表了不同的p值。查看我们已经生成的yule2进化树的分布可以添加到这一图形中。</p>
+<h2 id="图15代码"><a href="#图15代码" class="headerlink" title="图15代码"></a>图15代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x &lt;- lapply(trees.yule2,ltt.lines)</span><br></pre></td></tr></table></figure>
+<p>图 15<br>我们将结果赋值给x, 因此，该函数就不会像屏幕中打印出一些无用的信息了。可以看出，大部分线都落在我们分布的中间部分。一部分跑到了95%置信区间以外。甚至有一条落在了99%置信区间，就像我们进行100次随机模拟所期望的。<br>现在看一下更高的灭绝速率下，这一分布会如何变化？ 我们将μ提高到0.1, λ提高到0.4, 因此净出生率仍然不发生变化，N==2<em>exp(r</em>t)仍然保持不变。在此之前，我们需要为零分布创建另外一个图，之后，用新参数模拟生成100棵进化树，最后，添加到我们的图上。</p>
+<h2 id="图16代码"><a href="#图16代码" class="headerlink" title="图16代码"></a>图16代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ltt.null(<span class="number">40</span>,<span class="number">10</span>,<span class="number">0.3</span>,<span class="number">0</span>)</span><br><span class="line">trees.bd&lt;-replicate(<span class="number">100</span>,rbdtree.n(<span class="number">40</span>,<span class="number">10</span>,<span class="number">0.4</span>,<span class="number">0.1</span>),simplify=<span class="literal">FALSE</span>)</span><br><span class="line">x &lt;- lapply(trees.bd,ltt.lines)</span><br></pre></td></tr></table></figure>
+<p>图 16<br>可以看出，这些分布并不相同。首先，灭绝速率较高时，起始部分延伸所需的时间更长。其次，图形变得更为凹陷，其中大部分分类单元低于Yule分布，甚至有些超出了99%的分布。这就意味着，lttplot的曲线越凹陷，则其μ值，也就是灭绝速率就越高。此时，我们倾向于认为，古老的分类单元更容易灭绝。但是大部分的分类单元仍然处于95%的置信区间内，因此，这一检验的效力是十分薄弱的。</p>
+<p>进化树与零分布的比较</p>
+<p>我们看一下一些实际的进化树，看其是否符合我们的零分布。laser程序包中已经收录了几棵进化树，我们以此为例。第一棵进化树包含了澳大利亚69种Agamid蜥蜴，相应的数据发表在Evolution上Rabosky (2006) Evolution 60:1152-1164。</p>
+<h2 id="图17代码"><a href="#图17代码" class="headerlink" title="图17代码"></a>图17代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">data(agamids)</span><br><span class="line">agamid.tree&lt;-read.tree(text=agamids)</span><br><span class="line">plot(agamid.tree)</span><br></pre></td></tr></table></figure>
+
+<p>图 17<br>很好，看起来这棵进化树不错。我们把它和零分布做一下比较。我们从Yule过程开始，可以用极大似然法估计λ。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">yule.agam&lt;-yule(agamid.tree)</span><br><span class="line">\&gt; yule.agam</span><br><span class="line">$lambda</span><br><span class="line">[1] 6.807443</span><br><span class="line"></span><br><span class="line">$se</span><br><span class="line">[1] 0.8316616</span><br><span class="line"></span><br><span class="line">$loglik</span><br><span class="line">[1] 283.4636</span><br><span class="line"></span><br><span class="line">attr(,&quot;class&quot;)</span><br><span class="line">[1] &quot;yule&quot;</span><br></pre></td></tr></table></figure>
+<p>同时，估计进化树的时间长度。即根的深度。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">btimes.agam&lt;-sort(branching.times(agamid.tree),decreasing=<span class="literal">TRUE</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">\&gt; btimes.agam</span><br><span class="line">      70       71      131      132       72       73       74      133 </span><br><span class="line">0.323855 0.322855 0.313397 0.307173 0.294147 0.270881 0.238577 0.238520 </span><br><span class="line">     109      135       75      134       76       77       85      110 </span><br><span class="line">0.222756 0.219480 0.217127 0.216939 0.213018 0.213018 0.213018 0.209613 </span><br><span class="line">     112      113       86       93      116      117       94      111 </span><br><span class="line">0.207659 0.202293 0.194939 0.183979 0.178225 0.172959 0.167084 0.162999 </span><br><span class="line">      98      118      123      115      124      106      102      128 </span><br><span class="line">0.162093 0.160592 0.157785 0.157288 0.154405 0.149574 0.144083 0.141278 </span><br><span class="line">     125       95      114       87      136       99       91      119 </span><br><span class="line">0.141127 0.140194 0.136160 0.133171 0.131567 0.124221 0.120235 0.118270 </span><br><span class="line">     103      105      107       88      137       89      127       78 </span><br><span class="line">0.112825 0.105969 0.104019 0.102561 0.087830 0.086799 0.085487 0.082827 </span><br><span class="line">      92      126      120       97      104      129      121      100 </span><br><span class="line">0.082356 0.074543 0.074123 0.073526 0.071486 0.069944 0.067407 0.063750 </span><br><span class="line">     122       96      108      130      101       80       83       81 </span><br><span class="line">0.062395 0.060306 0.051672 0.050408 0.049427 0.042118 0.035946 0.020464 </span><br><span class="line">      79       90       82       84 </span><br><span class="line">0.009766 0.008402 0.003883 0.001482 </span><br><span class="line">\&gt;</span><br></pre></td></tr></table></figure>
+<p>我们在零模型中可以运用这些值。</p>
+<h2 id="图18代码"><a href="#图18代码" class="headerlink" title="图18代码"></a>图18代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ltt.null(<span class="number">69</span>,btimes.agam[<span class="number">1</span>],yule.agam$lambda,<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>图 18<br>之后，我们可以添加上进化树的ltt.</p>
+<h2 id="图19代码"><a href="#图19代码" class="headerlink" title="图19代码"></a>图19代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ltt.lines(agamid.tree)</span><br></pre></td></tr></table></figure>
+<p>图 19</p>
+<p>该进化树的ltt线超出了99%的置信区间。在一开始符合的很好，但是在中间逐渐超越了我们的零模型的预期，最后有回到了预期的置信区间。这与我们的预期中的零分布有较大的不同；当μ逐渐升高，零分布将变得越来越凹陷，而不是当前这样。从图中大约可以看出，在0.22时间左右，存在一个物种分化异常高的时期，同时也包括约0.15时期（遗憾的是，我并不知道时间单位）。我们可以尝试拟合一个BD模型，以查看其与灭绝速率大于0的结果是否一致。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">birthdeath(agamid.tree)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&gt; birthdeath(agamid.tree)</span><br><span class="line">Estimation of Speciation and Extinction Rates</span><br><span class="line">            with Birth-Death Models</span><br><span class="line">     Phylogenetic tree: agamid.tree </span><br><span class="line">        Number of tips: 69 </span><br><span class="line">              Deviance: -566.9276 </span><br><span class="line">        Log-likelihood: 283.4638 </span><br><span class="line">   Parameter estimates:</span><br><span class="line">      d &#x2F; b &#x3D; 0   StdErr &#x3D; 0 </span><br><span class="line">      b - d &#x3D; 6.807467   StdErr &#x3D; 0.5881344 </span><br><span class="line">   (b: speciation rate, d: extinction rate)</span><br><span class="line">   Profile likelihood 95% confidence intervals:</span><br><span class="line">      d &#x2F; b: [0, 0.1605283]</span><br><span class="line">      b - d: [5.30515, 8.569748]</span><br></pre></td></tr></table></figure>
+
+<p>我们仍然得到灭绝速率为0，因此，不要保留那种想法。因为这种情况并不总是那么重要。在laser程序包中还有两个数据，并且只有物种分化时间，plethodon （highton and larson 1979 Syst. Zool. 28:579-599）以及 warblers （Lovette and Bermingham 1999 Proc. Roy. Soc. B. Lond. 266:1629-1636）。我们对这两套数据进行再分析。</p>
+<h2 id="图20代码"><a href="#图20代码" class="headerlink" title="图20代码"></a>图20代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">data(plethodon)</span><br><span class="line">yule.pleth &lt;- pureBirth(plethodon) <span class="comment">##This is like yule, but for vector of branching times</span></span><br><span class="line">ltt.null(<span class="built_in">length</span>(plethodon)+<span class="number">1</span>, <span class="built_in">max</span>(plethodon), yule.pleth$r1, <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>图 20<br>由于只给出了物种数和分化时间，我们需要自己将信息添加到ltt图中。</p>
+<h2 id="图21代码"><a href="#图21代码" class="headerlink" title="图21代码"></a>图21代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ntaxa.pleth &lt;- 1:<span class="built_in">length</span>(plethodon) + <span class="number">1</span> <span class="comment">## Number of lineages corresponding to times</span></span><br><span class="line">segments(-plethodon, ntaxa.pleth, -plethodon, ntaxa.pleth-<span class="number">1</span>)</span><br><span class="line">segments(-plethodon, ntaxa.pleth, -<span class="built_in">c</span>(plethodon[-<span class="number">1</span>],<span class="number">0</span>), ntaxa.pleth)</span><br></pre></td></tr></table></figure>
+
+<p>图 21<br>这一结果好于Agamid进化树的结果。从结果看来，在15到30个时间单位上，很长时间都没有发生物种分化，但是这并不出乎我们的意料。但是，有可能某一个类群在30个时间单位以前已经有很多分类单元了。我们下面就来对此进行检验。</p>
+<p>可以对分支时间数据拟合一个BD模型：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bd.pleth &lt;- bd(plethodon)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">\&gt; bd.pleth </span><br><span class="line">$LH</span><br><span class="line">[1] -45.28264</span><br><span class="line">$r1</span><br><span class="line">[1] 0.01098217</span><br><span class="line">$a</span><br><span class="line">[1] 0.8337962</span><br></pre></td></tr></table></figure>
+
+<p>aic [1] 94.56529 这一模型的拟合结果中，灭绝速率确实大于0，因此，我们设定如下的零分布。在此之前，我们必须先进行一个LRT(似然比检验)，来确保两者之间的差异是否显著。但是你已经知道了如何进行该检验，因此我们跳过这一步。该函数给出r和a=λ/μ,因此，我们需要首先计算λ和μ。 ## 图22代码 lam.pleth &lt;- bd.plethaic [1] 94.56529 这一模型的拟合结果中，灭绝速率确实大于0，因此，我们设定如下的零分布。在此之前，我们必须先进行一个LRT(似然比检验)，来确保两者之间的差异是否显著。但是你已经知道了如何进行该检验，因此我们跳过这一步。该函数给出r和a=λ/μ,因此，我们需要首先计算λ和μ。 </p>
+<h2 id="图22代码"><a href="#图22代码" class="headerlink" title="图22代码"></a>图22代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lam.pleth &lt;- bd.plethr1 / (<span class="number">1</span>-bd.pletha)mu.pleth&lt;−lam.pleth−bd.pletha)mu.pleth&lt;−lam.pleth−bd.plethr1</span><br><span class="line">ltt.null(<span class="built_in">length</span>(plethodon)+<span class="number">1</span> ,<span class="built_in">max</span>(plethodon), lam.pleth, mu.pleth)</span><br><span class="line">segments(-plethodon, ntaxa.pleth, -plethodon, ntaxa.pleth-<span class="number">1</span>)</span><br><span class="line">segments(-plethodon, ntaxa.pleth, -<span class="built_in">c</span>(plethodon[-<span class="number">1</span>],<span class="number">0</span>), ntaxa.pleth)</span><br></pre></td></tr></table></figure>
+
+<p>图 22<br>问题： 对warblers数据重复这一分析。你估计的lambda值是怎样的？该图与零分布有什么差异？（具体说明<br>对进化速率变化的进化树模拟</p>
+<p>分类单元数-时间图与零分布不同究竟意味着什么？一般的假设认为这是由于多样化速率随时间变化。你可以用我提供的函数生成随机进化树，对这种零分布进行模拟。需要提供一个向量，该向量包含了每个时间段结束的时间。也可以设定出生和灭绝速率随时间的变化的向量，每个向量给出相应时间段的出生和灭绝速率。例如：</p>
+<h2 id="图23代码"><a href="#图23代码" class="headerlink" title="图23代码"></a>图23代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tree5&lt;-rbdtree.n(<span class="number">40</span>, <span class="built_in">c</span>(<span class="number">3</span>,<span class="number">6</span>,<span class="number">10</span>), <span class="built_in">c</span>(<span class="number">0.1</span>,<span class="number">1</span>,<span class="number">0.05</span>), <span class="number">0</span>)</span><br><span class="line">plot(tree5)</span><br></pre></td></tr></table></figure>
+
+<p>图 23<br>以上程序将生成一个40个分类单元的进化树，在时间段 0 - 3， 灭绝速率为0， μ= 0， λ is 0.1； 而在3 - 6时间段为1， 在第三个时间段，也就是6之后到结束的时候，λ 为 0.05. 可以看到，大部分分支出现在进化树的中间部分。 另外：</p>
+<h2 id="图24代码"><a href="#图24代码" class="headerlink" title="图24代码"></a>图24代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tree6 &lt;- mrbdtree.n(<span class="number">10</span>, <span class="number">40</span>, <span class="built_in">c</span>(<span class="number">3</span>,<span class="number">6</span>,<span class="number">10</span>), <span class="built_in">c</span>(<span class="number">0.1</span>,<span class="number">1</span>,<span class="number">0.05</span>), <span class="built_in">c</span>(<span class="number">0.05</span>,<span class="number">0.05</span>,<span class="number">0</span>))</span><br><span class="line">mltt.plot(tree6)</span><br></pre></td></tr></table></figure>
+
+<p>图 24<br>将生成10棵进化树，其中的μ随时间变化。应该能很清楚的看到lttplot期望的分布格局。</p>
+<p>同时可以建立在某一个时刻具有一定物种数的进化树及类似的零分布，而不是对末端分类单元。 还记得plethodon图吗？</p>
+<h2 id="图25代码"><a href="#图25代码" class="headerlink" title="图25代码"></a>图25代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ltt.null(<span class="built_in">length</span>(plethodon)+<span class="number">1</span>, <span class="built_in">max</span>(plethodon), lam.pleth, mu.pleth)</span><br><span class="line">segments(-plethodon, ntaxa.pleth, -plethodon, ntaxa.pleth-<span class="number">1</span>)</span><br><span class="line">segments(-plethodon, ntaxa.pleth, -<span class="built_in">c</span>(plethodon[-<span class="number">1</span>],<span class="number">0</span>), ntaxa.pleth)</span><br></pre></td></tr></table></figure>
+
+<p>图 25<br>所有内容都在我们期望的范围内，但是有一段时间较为奇怪，该段时间没有新物种形成。我在怀疑，是否整条ltt图都超出了我们的零分布，虽然说每个时刻都处于我们的零分布的预期。让我们来看一下，当将20个时间单元设定到物种分布为11个分类单元时，零分布会变成什么样子。</p>
+<h2 id="图26代码"><a href="#图26代码" class="headerlink" title="图26代码"></a>图26代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ltt.null(<span class="built_in">c</span>(<span class="number">11</span>, <span class="built_in">length</span>(plethodon)+<span class="number">1</span>), <span class="built_in">c</span>(-<span class="number">20</span>,<span class="number">0</span>)+<span class="built_in">max</span>(plethodon), lam.pleth, mu.pleth)</span><br><span class="line">segments(-plethodon, ntaxa.pleth, -plethodon, ntaxa.pleth-<span class="number">1</span>)</span><br><span class="line">segments(-plethodon, ntaxa.pleth, -<span class="built_in">c</span>(plethodon[-<span class="number">1</span>],<span class="number">0</span>), ntaxa.pleth)</span><br></pre></td></tr></table></figure>
+
+<p>图 26<br>在我看来，这些也是可以的。事实上，除了靠右面的第二部分被强制设定为11个种之外，我没有看出这些零分布的显著差别。</p>
+<p>出生率的下降以及灭绝率的上升<br>好了，我们已经看到一些进化树的物种分化速率在初期似乎比后期要高。这一现象不能用常规的随机生灭过程解释。这一格局常常在大型进化树中遇到，通常被认为是适应辐射的标志。换句话说，这一格局可以解释为，演化早期拥有较高的物种分化速率， 而随着生态位被逐步填充， 物种分化速率降低。 但是， 也可以用灭绝速率升高来解释。</p>
+<p>我们看一下，我们的猜想是否正确。我们将会建立一对主观模型（arbitrary model）. 例如，我们将以60个种结束，并且将进化树分成两个时间段；我们将第一阶段设定为一个时间单位，后一个阶段设定为9个时间单位。同时，我们认为多样化速率r在第一阶段（r1）在第一阶段是第二阶段（r2）的10倍。相应的物种数可以通过公式计算，N=2*exp(r1t1)*exp(r2t2),那么我们将其中的已知数填入，解方程，得到r2=log(30)/19=0.179, and r1=1.79.<br>下面，我们看一下随着 μ的上升或 λ的下降，我们的零分布将会怎样变化？假如，我们设定μ1=0.05, λ1=1.84.之后，我们的第一个模型λ下降，令μ保持不变，而令λ2=.229，对于模型二，我们令λ保持不变，而μ2=1.661。我们将这两种模型同时和Yule分布进行比较。Yule分布的λ=log(30)/10=0.34</p>
+<h2 id="图27代码"><a href="#图27代码" class="headerlink" title="图27代码"></a>图27代码</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ltt.null(<span class="number">60</span>, <span class="number">10</span>, <span class="number">0.34</span>, <span class="number">0</span>)</span><br><span class="line">model.lambda &lt;- mrbdtree.n(<span class="number">10</span>, <span class="number">60</span>, <span class="built_in">c</span>(<span class="number">1</span>,<span class="number">10</span>), <span class="built_in">c</span>(<span class="number">1.84</span>,<span class="number">0.229</span>), <span class="number">0.05</span>)</span><br><span class="line">lapply(model.lambda, ltt.lines) -&gt; x</span><br></pre></td></tr></table></figure>
+
+<p>图 27</p>
+<p>看起来非常不错，分类群在早期迅速增加，之后回到了预期的曲线中。或许两个时间段在长度上接近，我们会得到更为平滑的曲线。 我们现在看一下，如果灭绝速率升高，将会有什么发生：</p>
+<h2 id="图28代码"><a href="#图28代码" class="headerlink" title="图28代码"></a>图28代码</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ltt.null(<span class="number">60</span>, <span class="number">10</span>, <span class="number">0.34</span>, <span class="number">0</span>)</span><br><span class="line">model.mu &lt;- mrbdtree.n(<span class="number">10</span>, <span class="number">60</span>, <span class="built_in">c</span>(<span class="number">1</span>,<span class="number">10</span>), <span class="number">1.84</span>, <span class="built_in">c</span>(<span class="number">0.05</span>, <span class="number">1.661</span>))</span><br><span class="line">lapply(model.mu, ltt.lines) -&gt; x</span><br></pre></td></tr></table></figure>
+
+<p>图 28</p>
+<p>Huh, 完全失效了。这表明，我们之间看到的格局（例如Agamid进化树），物种数在早期的增加，实际上是由于物种分化速率降低造成的。 我们无法提高灭绝速率，同时又生成一个凹陷的ltt图，虽然可以通过另一些参数的组合完成这一功能。<br>对这种格局的另外一种解释就是取样问题。我们认为随机取样能够降低最近的物种分化时间，但是对早期的分化则影响很小。这是由于古老的分支类群往往很大，从而在随机抽样的时候很难去除。在处理隐性物种（cryptic species）或者更高等级的分类单元时，这种情况变得尤为严重。我们下面就做一个80个物种的模拟数据，并且随机提取出20个种。</p>
+<h2 id="图29代码"><a href="#图29代码" class="headerlink" title="图29代码"></a>图29代码</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ltt.null(<span class="number">60</span>, <span class="number">10</span>, <span class="number">0.34</span>, <span class="number">0</span>)</span><br><span class="line">make.samp &lt;- <span class="keyword">function</span> () prune.random.taxa(rbdtree.n(<span class="number">100</span>, <span class="number">10</span>, <span class="number">0.3912</span>, <span class="number">0</span>), <span class="number">40</span>)</span><br><span class="line">x &lt;- replicate(<span class="number">10</span>, ltt.lines(make.samp()))</span><br></pre></td></tr></table></figure>
+
+<p>图 29<br>我们看到了，上面的函数几乎不起什么作用。</p>
+<p>用来探测分化速率变化的似然模型<br>laser程序包中有函数可以用来检验多样性速率的变化。第一个模型与Yule模型比较，其中的物种分化速率随时间是恒定的，而实际情况中，物种分化速率存在着发生者变化。（Rabosky 2006, Evolution 60:1152-1164）. 我们来检验一下模拟出的早期进化速率很高的那棵进化树。</p>
+<p>首先，我们用单一速率检验该模型。所有这些模型都对分化时间进行拟合，而不是整个进化树，因此，我们需要创建一个物种分支时间的向量。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">times.lambda &lt;- branching.times(model.lambda[[<span class="number">1</span>]])</span><br><span class="line">pureBirth(times.lambda)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">\&gt; pureBirth(times.lambda)</span><br><span class="line">$LH</span><br><span class="line">      61 </span><br><span class="line">36.49077</span><br><span class="line"></span><br><span class="line">$aic</span><br><span class="line">       61 </span><br><span class="line">-70.98154</span><br><span class="line"></span><br><span class="line">$r1</span><br><span class="line">       61 </span><br><span class="line">0.2117251</span><br></pre></td></tr></table></figure>
+
+<p>看起来非常合理。λ 比我们预想的要低一些，但这可能是由于曲线的凹凸度的后果。现在我们试验一下两个速率的模型。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yule2rate(times.lambda)</span><br><span class="line">yule2rate(times.lambda)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">        LH      st1       r1        r2       aic</span><br><span class="line">6 45.92311 9.010908 1.882302 0.1887342 -85.84621</span><br></pre></td></tr></table></figure>
+
+<p>看一下这一模型的结果。LH是Log likehihood. stl是物种分户速率变化的转折点。但是这些结果与我们时间上所做的转折如何比较？r1 和 r2分别是每个时间段的物种分化速率。 AIC是Akaike’s information criterion, 这是一种比较似然率的另外一种方法；即使在模型为非巢式的时候，仍然很有效。 AIC定义为 2k-2log(likelihood)，需要选择AIC值最低的模型。那么按照这一标准，什么才是最好的模型？ 此外，也可以用似然比检验（Likelihood Ratio Test）来选择模型。</p>
+<p>如果选择了两速率模型作为最好的，那么可以继续用 yule3rate, yule4rate, 或yule5rate. 同样可以用fitdAICrc来比较不同模型，虽然我没有看出在比较这些模型时的优势。<br>问题2。 Warbler进化树的最优模型是什么？ 该模型的参数是什么？</p>
+<p>模拟物种分化速率连续变化的进化树</p>
+<p>在Rabosky和Lovette 2008（Evolution 62 - 8: 1866 - 1875）中，作者提出了一个物种分化速率模型，该模型的多样性速率指数递减。他们提出了三种模型： λ(t)=λ0exp(-kt)， μ 对于 SPVAR是常数。λ 为常数， μ(t)=μ0(1-exp(-zt)) 对于EXVAR是常数，两者都是BOTHVAR的变量。我们估计成百上千的不同点上的速率来模拟这些数据。<br>对于SPVAR模型，期望的分类单元数为 N=2*exp(λ0[1-exp(-kt)]/k-μt)<br>因此，如果我们希望模拟的过程持续10个时间单位，产生60个物种，灭绝速率0.05，在开始的时候物种分化速率比后期高十倍，则满足 </p>
+<p>$exp(-10k)=0.1$</p>
+<p>$N=2λ0exp(-10k)/k-10μ)$</p>
+<p>因此 k = 0.23, λ0= 0.997</p>
+<p>如果我们将时间100等分，就将获得每个时刻的平均值 <br>λ0exp(-kt)[exp(-kΔt)-1]/kΔt=1.009exp(-0.23t)。 之后创建一个向量</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lambdas &lt;- 1.009*<span class="built_in">exp</span>(-<span class="number">0.23</span>*<span class="number">1</span>:<span class="number">100</span>/<span class="number">10</span>)</span><br><span class="line">lambdas</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">  [1] 0.9860578 0.9636373 0.9417266 0.9203141 0.8993884 0.8789386 0.8589537</span><br><span class="line">  [8] 0.8394232 0.8203368 0.8016844 0.7834561 0.7656422 0.7482334 0.7312205</span><br><span class="line"> [15] 0.7145943 0.6983462 0.6824676 0.6669500 0.6517852 0.6369652 0.6224822</span><br><span class="line"> [22] 0.6083285 0.5944966 0.5809792 0.5677692 0.5548596 0.5422434 0.5299142</span><br><span class="line"> [29] 0.5178652 0.5060903 0.4945830 0.4833374 0.4723475 0.4616075 0.4511117</span><br><span class="line"> [36] 0.4408546 0.4308306 0.4210346 0.4114613 0.4021057 0.3929628 0.3840278</span><br><span class="line"> [43] 0.3752960 0.3667627 0.3584234 0.3502738 0.3423094 0.3345261 0.3269198</span><br><span class="line"> [50] 0.3194865 0.3122222 0.3051230 0.2981853 0.2914053 0.2847794 0.2783043</span><br><span class="line"> [57] 0.2719763 0.2657923 0.2597488 0.2538428 0.2480710 0.2424305 0.2369182</span><br><span class="line"> [64] 0.2315313 0.2262668 0.2211221 0.2160943 0.2111809 0.2063792 0.2016866</span><br><span class="line"> [71] 0.1971008 0.1926192 0.1882395 0.1839594 0.1797766 0.1756889 0.1716942</span><br><span class="line"> [78] 0.1677903 0.1639752 0.1602468 0.1566032 0.1530424 0.1495626 0.1461619</span><br><span class="line"> [85] 0.1428386 0.1395908 0.1364168 0.1333150 0.1302838 0.1273215 0.1244265</span><br><span class="line"> [92] 0.1215973 0.1188325 0.1161306 0.1134900 0.1109096 0.1083877 0.1059233</span><br><span class="line"> [99] 0.1035148 0.1011612</span><br><span class="line"></span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+
+<p>之后，可以建立一些进化树，并且绘制出来。</p>
+<h2 id="图30代码"><a href="#图30代码" class="headerlink" title="图30代码"></a>图30代码</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">trees.spvar &lt;- mrbdtree.n(<span class="number">10</span>, <span class="number">60</span>, <span class="number">1</span>:<span class="number">100</span>/<span class="number">10</span>, lambdas, <span class="number">0.05</span>)</span><br><span class="line">ltt.null(<span class="number">60</span>, <span class="number">10</span>, <span class="number">0.34</span>, <span class="number">0</span>)</span><br><span class="line">lapply(trees.spvar, ltt.lines) -&gt; x</span><br></pre></td></tr></table></figure>
+
+<p>图 30<br>这与我们想要解释的真实进化树极为相似，在早期都具有较高的分化速率。我们也可以建立一个相反的模型，在每个区间μ不断升高，而r保持不变，但是λ为常数。这可以通过 λ2=λ0 - μ1以及 μ2(t)=λ0 - λ1(t)实现。 我们可以建立这些进化树，并且与SPVAR进化树进行比较。</p>
+<h2 id="图31代码"><a href="#图31代码" class="headerlink" title="图31代码"></a>图31代码</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mus &lt;- 0.997-lambdas</span><br><span class="line">trees.exvar &lt;- mrbdtree.n(<span class="number">10</span>, <span class="number">60</span>, <span class="number">1</span>:<span class="number">100</span>/<span class="number">10</span>, <span class="number">0.947</span>, mus)</span><br><span class="line">lapply(trees.exvar,ltt.lines,col=3)-&gt;x</span><br></pre></td></tr></table></figure>
+
+<p>图 31<br>问题3 EXVAR模拟的进化树总体上应该是什么形状？ 它们看起来是否与我们说的早期物种分化速率较高的进化树相似？ 这些现象说明什么过程能够生成这些进化树?</p>
+<p>用似然率连续变化模型的拟合<br>如果你注意到，上面提到的论文的作者，就是laser程序包的作者（现在是Huelsenbeck实验室的博士后， 很快就要成为Michigan大学的老师）， 那么在这个程序包中发现几个用来拟合物种分化速率连续变化的模型的函数就不奇怪了。该程序包中包含了拟合SPVAR, EXVAR和BOTHVAR的函数， 也就是我在前一段中提到的。同时，也有随着物种丰富度的升高，物种分化速率下降的模型。 我们仅简要介绍其中的内容，如果你有兴趣，可以查看其选项。<br>我们用SPVAR模型来拟合SPVAR模拟生成的进化树，同时看一下它是如何工作的。首先检验一下其物种分化速率为常量的零假设。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">times.spvar &lt;- branching.times(trees.spvar[[<span class="number">1</span>]])</span><br><span class="line">bd(times.spvar)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">$LH</span><br><span class="line">     61 </span><br><span class="line">35.7508</span><br><span class="line">$r1</span><br><span class="line">      61 </span><br><span class="line">0.209041</span><br><span class="line">$a</span><br><span class="line">[1] 0</span><br><span class="line">$aic</span><br><span class="line">       61 </span><br><span class="line">-67.50159</span><br><span class="line"></span><br><span class="line">之后，检查SPVAR模型</span><br><span class="line">fitSPVAR(times.spvar)</span><br><span class="line">\&gt; fitSPVAR(times.spvar)</span><br><span class="line">$model</span><br><span class="line">[1] &quot;SPVAR&quot;</span><br><span class="line"></span><br><span class="line">$LH</span><br><span class="line">[1] 47.27787</span><br><span class="line"></span><br><span class="line">$aic</span><br><span class="line">[1] -88.55573</span><br><span class="line"></span><br><span class="line">$lam0</span><br><span class="line">[1] 1.081366</span><br><span class="line"></span><br><span class="line">$k</span><br><span class="line">[1] 0.2593436</span><br><span class="line"></span><br><span class="line">$mu0</span><br><span class="line">[1] 0.001</span><br></pre></td></tr></table></figure>
+<p>你是如何估计模型参数的？ 你青睐那种模型？ 我们这里暂不涉及EXVAR和BOTHVAR，但是你应该了解到了如何使用它们。我们简要查看一下密度依赖多样化模型。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DDX(times.spvar)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">\&gt; DDX(times.spvar)</span><br><span class="line">$LH</span><br><span class="line">[1] 45.96522</span><br><span class="line"></span><br><span class="line">$aic</span><br><span class="line">[1] -87.93044</span><br><span class="line"></span><br><span class="line">$r1</span><br><span class="line">[1] 2.532487</span><br><span class="line"></span><br><span class="line">$xparam</span><br><span class="line">[1] 0.7286594</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>该模型拟合的效果好吗？ 如果想要理解这一模型的意思，则必须查看laser程序包的帮助文件。不仅如此，如果想要了解R任何函数的使用方法，都需要查看帮助文件。 我只介绍了其中很少一部分函数的用法，你可以参考更多的选项及功能。</p>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><ul>
+<li><p>Rabosky, D. L. (2006). “Likelihood methods for detecting temporal shifts in diversification rates.” Evolution 60(6): 1152-1164.<br><a target="_blank" rel="noopener" href="http://dx.doi.org/10.1111/j.0014-3820.2006.tb01194.x">http://dx.doi.org/10.1111/j.0014-3820.2006.tb01194.x</a><br>Link: <a target="_blank" rel="noopener" href="http://onlinelibrary.wiley.com/doi/10.1111/j.0014-3820.2006.tb01194.x/abstract">http://onlinelibrary.wiley.com/doi/10.1111/j.0014-3820.2006.tb01194.x/abstract</a></p>
+</li>
+<li><p>Rabosky, D. L. (2006). “LASER: a maximum likelihood toolkit for detecting temporal shifts in diversification rates from molecular phylogenies.” Evolutionary Bioinformatics Online 2: 247-250<br>Link: <a target="_blank" rel="noopener" href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2674670/?tool=pubmed">http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2674670/?tool=pubmed</a></p>
+</li>
+<li><p>Rabosky, D. L. and I. J. Lovette (2008). “Explosive evolutionary radiations: decreasing speciation or increasing extinction through time?” Evolution 62(8): 1866-1875.<br><a target="_blank" rel="noopener" href="http://dx.doi.org/10.1111/j.1558-5646.2008.00409.x">http://dx.doi.org/10.1111/j.1558-5646.2008.00409.x</a><br>Link: <a target="_blank" rel="noopener" href="http://onlinelibrary.wiley.com/doi/10.1111/j.1558-5646.2008.00409.x/full">http://onlinelibrary.wiley.com/doi/10.1111/j.1558-5646.2008.00409.x/full</a></p>
+</li>
+<li><p>Harmon, L. J., J. T. Weir, et al. (2008). “GEIGER: investigating evolutionary radiations.” Bioinformatics 24(1): 129-131.<br><a target="_blank" rel="noopener" href="http://dx.doi.org/10.1093/bioinformatics/btm538">http://dx.doi.org/10.1093/bioinformatics/btm538</a><br>Link: <a target="_blank" rel="noopener" href="http://bioinformatics.oxfordjournals.org/content/24/1/129.abstract">http://bioinformatics.oxfordjournals.org/content/24/1/129.abstract</a></p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2011/05/18/2011-5-18-ltt-plot/" data-id="ckmq2gwvb00dxq8844q94enjt" data-title="ltt.plot从进化树推断物种分化的历史：分类单元数与时间的关系" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BF%9B%E5%8C%96/" rel="tag">进化</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2011-04-16-spring2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2011/04/16/2011-04-16-spring2/" class="article-date">
+  <time class="dt-published" datetime="2011-04-16T02:56:54.000Z" itemprop="datePublished">2011-04-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2011/04/16/2011-04-16-spring2/">银杏的春天</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>春天里的银杏充满着渴望，充满着憧憬，充满着期待。春天里的银杏静静的，无花也芬芳。</p>
+<p><img src="http://image.sciencenet.cn/album/201104/16/185619xhax8dvz7ds8qhbd.jpg" alt="img"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2011/04/16/2011-04-16-spring2/" data-id="ckmq2gwqj001sq8848igf426q" data-title="银杏的春天" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" rel="tag">行摄匆匆</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2011-4-2-midspring" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2011/04/02/2011-4-2-midspring/" class="article-date">
+  <time class="dt-published" datetime="2011-04-02T04:58:54.000Z" itemprop="datePublished">2011-04-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2011/04/02/2011-4-2-midspring/">春之印象：仲春</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>才十天的光景，西山已经从初春走进仲春，到处是绚烂的花草，四处弥漫着醉人的花香.</p>
+<p>夕阳西下</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205526nnatwll6tfalrlpe.jpg"><img src="http://image.sciencenet.cn/album/201104/02/205526nnatwll6tfalrlpe.jpg" alt="img"></a></p>
+<p>桃花</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205525kt58kt0u2vgk52vi.jpg"><img src="http://image.sciencenet.cn/album/201104/02/205525kt58kt0u2vgk52vi.jpg" alt="img"></a></p>
+<p>山茱萸<br><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205524anpacjzzaeqaqjjz.jpg"><img src="http://image.sciencenet.cn/album/201104/02/205524anpacjzzaeqaqjjz.jpg" alt="img"></a></p>
+<p>植物园回廊<br><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205523yh239klfyrckklys.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>迎红杜鹃<br><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205521wyida30khdaititw.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>香荚蒾<br><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205520dh42k6opmmlygn2m.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>杏梅<br><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205519tz705as570m4t0m0.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205518zws5vpll5ow53rzd.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205516hfq9hp9qf6aodqd6.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>迎红杜鹃<br><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/20551560zxxa94p6mvmu0s.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/2055149m222b9v839gzg3z.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>榆叶梅<br><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/2055133gt3o6jgjtyw6tww.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205512yrfb5zppp0frfdrz.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205510gcwcyrrqbtqwt2cr.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205509bzay6bb4b0aqbrqq.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>领春木<br><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205508pdteyenpd4tezkxd.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>黄山木兰<br><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205507fdx3c2fjqyxcoqja.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/2055069vkqvg7jk89bzgd7.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205505bqfynbwhc0xgk3d3.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205503xy2alaccychhxhaa.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>玉兰<br><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205502o4n64548ob1focy5.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205500kqnvvpiv99lt2zaf.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205459ddfc82xenjrae1nd.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>重瓣榆叶梅<br><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205457rr0crm20b36eu0ud.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205456kbjnndoo7sfttgo7.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>垂柳</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/20545526l22w1kkw2s2wr3.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>黄杨</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205454lry6hobodgzdlu0y.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>玉兰<br><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205453a60650ba66ykd9b5.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205452tgxvllzxg9tsyyoe.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/2054510gkh6b8pbz0ebb67.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205450rt86c66a8o9aa89a.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205449b23g8rjbjxzdbn2i.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205447pr89zuukgkuogrxc.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205446jia811vpa9fqwzu6.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>蜡梅</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/20544579227w9akw67eae0.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>迎春<br><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205438vcxtuc1ttwv7xwuq.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>连翘<br><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205439z2nz2kkd2jkhm3wc.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>洋水仙<br><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/2054409wjwbpy9bp3p4pp9.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205442l94dh6dv0dcii54y.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/20544318hofa8cac8ma1zf.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>洋水仙<br><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205434siafaiii5fhc7dd6.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201104/02/205436q1wsu2pyyz6fr5u2.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2011/04/02/2011-4-2-midspring/" data-id="ckmq2gwqy002yq88431qq73fa" data-title="春之印象：仲春" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" rel="tag">行摄匆匆</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2011-4-2-ntsys" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2011/04/01/2011-4-2-ntsys/" class="article-date">
+  <time class="dt-published" datetime="2011-04-01T10:58:54.000Z" itemprop="datePublished">2011-04-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2011/04/01/2011-4-2-ntsys/">NTsys实现聚类分析及树状图的绘制</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><strong>注意：聚类分析和树状图在R软件中能够十分方便的实现，而在NTsys中实现的过程较为复杂。但由于NTsys软件是图形界面操作的，这里仍然列出相应的操作步骤，以供同仁参考。</strong></p>
+<p><strong>以下内容 首次发表在planta论坛</strong></p>
+<p><strong>NTsys</strong>可以处理质量性状与连续数量性状，并据此计算多种距离矩阵，根据距离矩阵采取适当的聚类方法得到聚类图。<br>每一个运算步骤，均有相应的模块执行，需要做的只是选择相应的参数。<br>以UPGMA法为例，对于数量性状，常遵循以下步骤: </p>
+<h1 id="1-矩阵的制作"><a href="#1-矩阵的制作" class="headerlink" title="1 矩阵的制作"></a>1 矩阵的制作</h1><p>操作：在Excel里，按照<strong>NTsys</strong>的要求面做好矩阵。 </p>
+<ul>
+<li>第1行第1个数字一般填1，代表要处理的数据为数字矩阵。 </li>
+<li>第1行第2个数字填行数，</li>
+<li>第3个数字填列数。 </li>
+<li>第1行第4个数字，如果有缺失值填1，没有缺失值填0.当然最好不要有缺失值。 </li>
+<li>第2行 按照顺序填写每一列的名称。第2行的定格要空出来。 </li>
+<li>第3行 开始才是正式的数据矩阵。从第3行开始，第1列作为要操作的单元名称。<br>数据准备好后，一般要存为Excel97格式。 </li>
+</ul>
+<p>再用ntedit打开，查看是否有错误，如果没有错误，建议另存为“.nts”格式的文件，如data.nts. </p>
+<h1 id="2-矩阵的标准化，数据标准化的是为了便于数据的横向比较。"><a href="#2-矩阵的标准化，数据标准化的是为了便于数据的横向比较。" class="headerlink" title="2 矩阵的标准化，数据标准化的是为了便于数据的横向比较。"></a>2 矩阵的标准化，数据标准化的是为了便于数据的横向比较。</h1><p>操作：采用左侧output&amp;Transf. 栏下的Standardization模块. 一般是将数据减去算术平均值，并除以标准差，转换为N(0,1)分布。 </p>
+<h1 id="3-计算距离矩阵"><a href="#3-计算距离矩阵" class="headerlink" title="3 计算距离矩阵"></a>3 计算距离矩阵</h1><p>操作：采用左侧Similarity 栏下的 Interval data模块（又称simint），默认为平均分类距离（Average taxonomic distance）。<br>其公式可以参考帮助文件。<br>当然，有多种距离可供选择：<br>如： </p>
+<ul>
+<li>Bray-Curtis distance. </li>
+<li>DIST Average taxonomic distance. </li>
+<li>DISTSQ Squared average distances. </li>
+<li>EUCLID Euclidean distances. </li>
+<li>EUCLIDSQ Euclidean distances squared. </li>
+<li>MANHAT Average Manhattan distances (city block). </li>
+<li>PSHAPE Penrose’s shape coefficient. </li>
+<li>PSIZE Penrose’s size coefficient. </li>
+<li>CORR Pearson product-moment correlation. </li>
+<li><h1 id="4-依据第3步计算出的距离矩阵，进行聚类分析，计算聚类树矩阵。"><a href="#4-依据第3步计算出的距离矩阵，进行聚类分析，计算聚类树矩阵。" class="headerlink" title="4 依据第3步计算出的距离矩阵，进行聚类分析，计算聚类树矩阵。"></a>4 依据第3步计算出的距离矩阵，进行聚类分析，计算聚类树矩阵。</h1>操作：点击左侧Clustering栏下的 SAHN模块，默认为UPGMA。<br>也有多种算法可以选择。这里采用UPGMA. </li>
+</ul>
+<h1 id="5-Mantel检验"><a href="#5-Mantel检验" class="headerlink" title="5 Mantel检验"></a>5 Mantel检验</h1><p>将第4步计算出的聚类树矩阵，和第三部计算的距离矩阵进行比较，进行Mantel检测，计算协表距离矩阵，及相关性系数。以表示该聚类树对原始距离矩阵的代表程度。<br>操作： 点击左侧Graphics栏下的 Matrix comparison plot输入聚类树矩阵与距离矩阵，运行即可。 </p>
+<h1 id="6-绘制聚类树图"><a href="#6-绘制聚类树图" class="headerlink" title="6 绘制聚类树图"></a>6 绘制聚类树图</h1><p>操作： 点击左侧Graphics栏下的 Tree plot，选择聚类树距离文件，就可做出聚类结果图。 </p>
+<p>当然，一步一步操作非常麻烦，所以建议最好用批处理命令进行。<br>批处理命令脚本的编写：</p>
+<ul>
+<li>“为注释行 </li>
+<li>*为命令行 </li>
+<li>“*”后紧跟模块名称， </li>
+<li>“o”为要读取的文件，</li>
+<li>“r”为运行后的结果存储的文件<br>另有多种参数。 </li>
+</ul>
+<p>对数量性状进行聚类分析，采用UPGMA方法的批处理代码如下： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&quot; Standardize the variables </span><br><span class="line">*stand o&#x3D;data.nts r&#x3D;sdata.nts </span><br><span class="line">&quot; Compute a distance matrix </span><br><span class="line">*simint o&#x3D;sdata.nts r&#x3D;dist.nts c&#x3D;dist </span><br><span class="line">&quot; Do a single-link cluster analysis of the distance matrix </span><br><span class="line">*sahn o&#x3D;dist.nts r&#x3D;tree.nts </span><br><span class="line">&quot; Compute cophenetic values </span><br><span class="line">*coph o&#x3D;tree.nts r&#x3D;coph.nts </span><br><span class="line">&quot; Compute the cophenetic correlation </span><br><span class="line">*mxcomp x&#x3D;coph.nts y&#x3D;dist.nts </span><br><span class="line">&quot; Display phenogram </span><br><span class="line">*tree o&#x3D;tree.nts </span><br><span class="line">&quot; Display distance matrix </span><br><span class="line">*output o&#x3D;dist.nts </span><br></pre></td></tr></table></figure>
+
+<p>将以上脚本复制到记事本中，将扩展名改为.ntb文件，就可执行批处理命令了。</p>
+<p>下载相应的文档和软件</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="http://bbs.sciencenet.cn/home.php?mod=attachment&id=3339">ntsys.rar</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://bbs.sciencenet.cn/home.php?mod=attachment&id=3340">NTsys软件进行聚类分析UPGMA.pdf</a>  [该文档为转载]</p>
+</li>
+</ul>
+<p><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></p>
+<p>聚类树状图 举例</p>
+<h1 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h1><p>NTsys进行主成分分析的脚本</p>
+<p>主成份分析的散点图<br><strong>ntsys</strong>目前可以绘制三维的散点图 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&quot; Standardize variables (rows) </span><br><span class="line">*stand o&#x3D;data.nts r&#x3D;sdata.nts </span><br><span class="line">&quot; Compute correlations among variables (rows) </span><br><span class="line">*simint o&#x3D;sdata.nts c&#x3D;corr r&#x3D;corr.nts d&#x3D;row </span><br><span class="line">&quot; Output the correlation matrix </span><br><span class="line">*output o&#x3D;corr.nts </span><br><span class="line">&quot; Extract first 3 PCA axes from correlation matrix </span><br><span class="line">*eigen o&#x3D;corr.nts n&#x3D;3 r&#x3D;vect.nts val&#x3D;val.nts </span><br><span class="line">&quot; Output principal component axes </span><br><span class="line">*output o&#x3D;vect.nts </span><br><span class="line">&quot; Project objects onto PCA axes </span><br><span class="line">*proj o&#x3D;sdata.nts d&#x3D;col f&#x3D;vect.nts r&#x3D;proj.nts </span><br><span class="line">&quot; Output projections </span><br><span class="line">*output o&#x3D;proj.nts </span><br><span class="line">&quot; Display 3D plot of projection of objects </span><br><span class="line">*mod3d o&#x3D;proj.nts </span><br><span class="line">&quot; Display 3D plot of variables defining the PCA axes </span><br><span class="line">*mod3d o&#x3D;vect.nts d&#x3D;col</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2011/04/01/2011-4-2-ntsys/" data-id="ckmq2gwqz0031q8842rnp0rdo" data-title="NTsys实现聚类分析及树状图的绘制" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2011-3-26-dizhen" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2011/03/26/2011-3-26-dizhen/" class="article-date">
+  <time class="dt-published" datetime="2011-03-26T00:02:54.000Z" itemprop="datePublished">2011-03-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2011/03/26/2011-3-26-dizhen/">[转载]中国历史上的80次大地震</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><img src="http://image.sciencenet.cn/album/201104/02/044023nyiz56176bnfaef4.jpg" alt="img"></p>
+<p>公元前780年（周幽王二年）陕西岐山（34.5°N,107.8°E）M≥7（震中烈度≥Ⅸ）”幽王二年，西周三川皆震。……是岁也，三川竭，岐山崩。”（《国语》卷1《周语》）</p>
+<p>公元前70年6月1日（汉宣帝本始四年四月壬寅）山东诸城昌乐一带（36.3°N,119.2°E）M≥7（震中烈度≥Ⅸ）”本始四年四月壬寅地震，河南以东四十九郡，北海琅琊坏祖宗庙城郭，杀六千余人。”(《汉书·五行志》)</p>
+<p>143年10月后（东汉顺帝汉安二年九月后）甘肃甘谷西（35.0°N,104.0°E）M7（震中烈度Ⅸ）”建康元年正月，凉州部郡六，地震。从去年九月以来至四月，凡百八十地震，山谷坼裂，坏败城寺，伤害人物。”（《后汉书·五行志》）</p>
+<p>180年秋（东汉灵帝光和三年秋）甘肃高台西（39.4°N,99.5°E）M71/2（震中烈度Ⅹ）”三年自秋至明年春，酒泉表氏地八十余地，涌水出，城中官寺民舍皆顿，县易处，更筑城郭。”（《后汉书·五行志》）</p>
+<p>512年5月23日（北魏宣武帝延昌元年四月庚辰）山西原平代县间（38.9°N,112.8°E）M71/2（震中烈度Ⅹ）”延昌元年四月庚辰，京师及并、朔、相、冀、定、瀛六州地震。恒州之繁峙、桑乾、灵丘，肆州之秀容、雁门地震陷裂，山崩泉涌，杀五千三百一十人，伤者二千七百二十二人，牛马杂畜死伤者三千余。”(《魏书》卷112《灵征志》)</p>
+<p>734年3月23日（唐玄宗开元二十二年二月壬寅）甘肃天水附近（34.6°N,105.6°E）M≥7（震中烈度≥Ⅸ）”二月壬寅，秦州地震，廨宇及居人庐舍崩坏殆尽，压死官吏以下四十（千）余人，殷殷有声，仍连震不止。”（《旧唐书》卷8《玄宗纪》）”时天水地震，陵迁于谷，城夏于隍。公谋去故绛，制造新邑。”（《山右石刻丛编》卷七《大唐故宣威将军守右武卫中郎将陇西董君墓志铭》）</p>
+<p>814年4月6日（唐宪宗元和九年三月丙辰）四川西昌一带（27.9°N,102.2°E）M7（震中烈度Ⅸ）”三月丙辰，西（）州地震，昼夜八十震方止，压死者百余人。”（《旧唐书》卷37《五行志》）”三月丙辰，西州地震，昼夜八十，压死百余人，地陷者三十里。”（《新唐书》卷35《五行志》）</p>
+<p>849年10月24日（唐宣宗大中三年十月辛已）内蒙古包头西北（40.8°N,109.8°E）M7”十月辛已，京师地震，河西、天德、灵、夏尤甚，戌卒坏压死者数千人。”（《旧唐书》卷37《五行志》）”十月辛已，上都及振武、河西、天德、灵武、盐、夏等州皆震，坏庐舍，压死数十（千）人。”（《新唐书》卷35《五行志》）</p>
+<p>1038年1月15日（宋仁宗景右（）四年十二月二日）山西定襄、忻州（38.4°N,112.9°E）M71/4（震中烈度Ⅹ）”先是京师地震，直使馆叶清臣上疏曰：’……乃十二月二日丙夜，京师地震，移刻止。定襄同日震，至五日不止，坏庐寺、杀人畜，凡十之六。大河以东，弥千五百里而及都下，诚大异也。’”（《续资治通鉴长编》卷120）</p>
+<p> 1125年9月6日（宋宣和七年七月己亥）甘肃兰州一带（36.1°N,103.7°E）M7（震中烈度Ⅸ）地震”七月己亥，熙河路地震，有裂数十丈者，兰州尤甚。陷数百家，仓库俱没。河东诸郡或震裂。”（《宋书》卷67《五行志》）</p>
+<p> 1216年3月24日（南宋宁宗嘉定九年二月辛亥）四川雷波马湖（28.4°N,103.8°E）M7（震中烈度Ⅸ）”二月辛亥，东西川地大震四日。”（《宋书》卷67《五行志》）”甲子，又震。马湖夷界山崩八十里，江水不通。”（《宋书》卷39《宁宗志》）</p>
+<p> 1303年9月25日（元成宗大德七年八月辛卯）山西赵城、洪洞（36.3°N,111.7°E）M8（震中烈度Ⅺ）”八月辛卯夕，地震，太原、平阳尤甚，坏官民庐舍十万计。平阳赵城县范宣义郇堡徙十余里。太原徐沟、祁县及汾州平遥、介休、西河、孝义等县地震成渠，泉涌黑沙。汾州北城陷，长一里，东城陷七十余步。”(《元史》卷50《五行志》》)”八月辛卯，初夜地震，汾晋尤甚，涌堆阜，裂沟渠，坏墙屋，压人畜，死者无数。延、庆次之，安西又次之，余尚未闻也。至今月余。犹若乘舟车，然间复一动”。(《勤斋集》卷4《杂著·地震问答》乾隆翰林院抄本)”大德柒年八月初六日戌时地震，平阳路倒塌房舍七分，塌死人肆拾柒万伍千八百。”(元大德十一年《河伯将军为记》木牌)”大德癸卯秋八月六日，河东地震，压死者二十余万人。吉乡为轻，屋之存者什三、四。”(清胡聘之《山右石刻丛编》卷三0)”元大德七年八月六日，地震，县人死者三千六百三十六名口，伤者三千三百九十名口，头畜死者五百二十，房屋倒塌二万四千六百间，公廨倒塌殆尽，地涌黑沙与水不止。”(康熙《平遥县志》卷下)”考元之大德七年八月初六日戌时地震，本路一境房屋尽皆塌坏，压死人口二十七万有余，地震频频不止，直至十一年乃定。”(康熙三十四年《重修三圣楼记》)</p>
+<p> 1352年4月26日（元顺帝至正十二年闰三月丁丑）甘肃会宁东南（35.6°N,105.3°E）M7”闰三月丁丑，陕西地震，庄浪、定西、静宁、会州尤甚，移山湮谷，陷没庐舍，有不见其踪者。”(《元史》卷51《五行志》》)</p>
+<p> 1411年10月8日（明永乐九年九月十二日，藏历第七绕回（）阴铁兔年九月十一日）西藏当雄西南一带（30.1°N,90.5°E）M8（震中烈度Ⅹ－Ⅺ）”约半夜时分发生强烈地震，黎明时发生比前更大的地震。许多房屋倒塌，经堂东门墙壁倒塌五至六度长，门窗亦倒，旧依怙殿门前经书倒下约五十捆，金顶下塌一大块墙壁；正中的供奉品亦倒下来。此时佛仍在背诵经文，并令念经之僧众迁居室外。十五日又发生大地震，托其恩泽，幸无大损失。其他地区灾害严重，出现山岩塌落、湖崩等现象；有的村庄被埋入地下，平地出现大裂缝，众多人畜死亡，损失惊人。”(《达隆白教传》页117）</p>
+<p> 1500年1月13日（明弘治十二年十二月己丑）云南宜良（24.9°N,103.1°E）M≥7（震中烈度≥Ⅸ）”冬地震，有声如雷，从西南方起，自子时至亥时连震二十余次。衙门、城铺、寺庙、民房摇倒几尽，打死压伤男女无数。嗣后或一日一震，旬日一震、半月一震、一月一震，经四年方止。”(康熙《宜良县志》卷2)”弘治十二年冬，宜良县地震，自西南来如雷，民居尽圮。压死以万计，旬月常震，越四年始宁。”(隆庆六年修万历四年刊本《云南通志》卷17)</p>
+<p> 1501年1月29日（明弘治十四年正月庚戌朔）陕西朝邑（34.8°N,110.1°E）M7（震中烈度Ⅸ）”陕西延安、庆阳二府、潼关等卫、同、华等州，咸阳、长安等县，是日至次日地皆震，有声如雷。而朝邑县尤甚，自是日至十七日频震不已，摇倒城垣楼橹；损坏官民庐舍共五千四百余间，压死男妇一百六十人，头畜死者甚众；……”(《弘治实录》卷170）”……据本府朝邑县申，……将本县城楼、垛口，并各衙门仓监等房，及既（）县军民房屋，震摇倒塌，共五千四百八十五间，压死大小男女一百七十多口，压伤九十四名口，死头畜三百九十一头只。……汛流震开裂缝，长约一二丈、四五丈者，涌出溢流，良久方止；蔡家堡、严伯村等，四处涌出，几流成河。”（《马端肃公奏议》卷7）</p>
+<p> 1515年6月27日（明正德十年五月壬辰）云南永胜西北（36.7°N,100.7°E）M73/4（震中烈度Ⅹ）”云南地震，逾月不止，或日至二、三十震，黑气如雾，地裂水涌，坏城垣、官廨、民居，不可胜计。死者数千人，伤者倍之。”（《正德实录》卷125）</p>
+<p> 1536年3月29日（明嘉靖十五年二月二十八日）四川西昌北（28.1°N,102.2°E）M71/2（震中烈度Ⅹ）”二月二十八日丑时建昌卫地震，声吼如雷数阵。本都司并建前二卫大小衙门、官厅宅舍、监房仓库、内外军民房舍、墙垣、门壁、城楼、垛口、城门俱各倒塌顷(倾)塞，压毙……内外屯镇乡村、军民客商人等，死伤不计其数。自二十八日以后至二十九日，时常震动有声，间有地裂涌水，陷下三、四、五尺者。卫城内外，似若浮块，山崩石裂，军民惊惶。又据宁番卫申称，同日地震，房屋墙垣倒塌无存，压死……。”(嘉靖二十年抄本《四川总志》卷16)</p>
+<p> 1548年9月22日（明嘉靖二十七年八月癸丑）渤海（38.0°N,121.0°E）M7”癸丑，京师及辽东广宁卫，山东登州府同日地震。”（《嘉靖实录》卷339)</p>
+<p>  1556年2月2日（嘉靖三十四年十二月壬寅）陕西华县（34.5°N,109.7°E）M81/4（震中烈度Ⅺ）”壬寅，山西、陕西、河南同时地震，声如雷。渭南、华县、朝邑、三原、蒲州等处尤甚，或地裂泉涌，中有鱼物、河渭大泛，或城郭房屋陷入地中，或平地突成山阜，或一日数震，或累日震不止。河渭大泛，华岳终南山鸣，河清数日，官吏、军民死八十三万有奇。”(《明史·五行志》)”十二月二十二日晡时，……而地在在皆陷裂，裂之大者，水出火出，怪不可状。人有堕于水穴而复出者，有堕于水穴之下地复合，他日掘一丈余得之者。原阜旋移，地高下尽〖改〗故迹。后计压伤者数万人。”(隆庆六年修光绪重刊本《华州志》卷10)</p>
+<p> 1561年8月4日（明嘉靖四十年六月壬申）宁夏中卫东（37.5°N,106.2°E）M71/4（震中烈度Ⅸ－Ⅹ)”壬申，山西太原，大同等府，陕西榆林、宁夏、固原等处各地震有声，宁、固尤甚，城垣、墩台、房屋皆摇塌。地裂涌出黑黄沙水，压死军人无算，坏广武、红寺等城、兰州、庄浪天鼓鸣。”(《嘉靖实录》卷498)</p>
+<p> 1588年8月9日（明万历十六年闰六月十八日）云南建水曲溪（24.0°N,102.8°E）M≥7（震中烈度≥Ⅸ)”闰六月十八日，临安通海、曲江同日地震，有声如雷，山木摧裂，河水噎流，通海倾城垣，仆公署、民居，压者甚众，曲江尤甚。”（天启五年抄本《滇志》卷31）</p>
+<p> 1597年10月6日（明万历二十五年八月甲申）渤海 （38.5°N,120.0°E）M7”辽阳、开原、广宁等卫俱震，地裂涌水，三日乃止，宣府，蓟镇等处俱震，次日复震。蒲州池塘无风波，涌溢三四尺。”（《万历实录》卷313）</p>
+<p> 1600年9月29日（明万历二十八年八月壬辰）广东南澳（23.5°N,117.2°E）M7（震中烈度Ⅸ)”八月二十二日戍时地震，响声如雷。又二十三日戍时地震，澳城官舍民房倾倒，压死陈二、黄森、张德、妇女吴氏等六命。”（《续文献通考》卷221）</p>
+<p> 1604年12月29日（明万历三十二年十一月乙酉）福建泉州海外（24.7°N,119.0°E）M71/2”夜，浙、直、福建地震。兴化尤甚，坏城舍，数夕而止。”(《国榷》卷七九)”十一月初九日夜，福宁地大震如雷，山谷响应；寿宁县地震。是年饥。是日，福州、兴化、建宁、松溪、寿宁同日地震。福州大震有声，夜不止，墙垣多颓。兴化地大震，自南而北，树木皆摇有声，城圮数处，屋倾无数，洋尾、柯地、利港水利田皆裂，中出黑沙，作硫磺臭，池水皆涸。初十夜，地又震。”(道光九年同治刊本《福建通志》卷271)?</p>
+<p> 1605年7月13日（明万历三十三年五月二十八日）海南琼山（23.5°N,117.2°E）M7（震中烈度Ⅸ)”五月二十八日亥时地大震，自东北起，声响如雷，公署民房崩倒殆尽，城中压死者数千，地裂水沙涌出，南湖水深三尺，田地陷没者不可胜纪。调塘等都田沉成海，计若干顷。二十九日午时复大震，以后不时震响不止。”(清康熙抄本《琼山县志》卷12)</p>
+<p> 1609年7月12日（明万历三十七年六月辛酉）甘肃酒泉红崖堡（39.2°N,99.0°E）M71/4（震中烈度Ⅹ)”辛酉，甘肃地震，红崖、清水等堡军民压死者八百四十余人，边墩摇损凡八百七十里。东关地裂，南山一带崩，讨来等河绝流数日。”(《万历实录》卷459)</p>
+<p> 1622年10月25日（明天启二年九月甲寅）宁夏固原北（36.5°N,106.3°E）M7（震中烈度Ⅸ－Ⅹ)”陕西固原州星陨如雨。平凉、隆德等县，镇戎、平虏等所，马刚、双峰等堡地震如翻（），城垣震塌七千九百余丈，房屋震塌一万一千八百余间，牲畜塌死一万六千余只，男妇塌死一万二千余名口。”（《天启实录》卷26)</p>
+<p> 1626年6月28日（明天启六年六月丙子）山西灵丘（39.4°N,114.2°E）M7（震中烈度Ⅸ)”六月丙子，大同地震数十，死伤惨甚。灵丘昼夜数震，月余方止，城郭庐舍并摧，压死人民无算。”（清乾隆《大同府志》卷25)</p>
+<p> 1652年7月13日（清顺治九年六月初八）云南弥渡南（25.5°N,100.6°E）M7（震中烈度Ⅸ＋)”蒙化地大震，地中若万马奔驰，尘雾障天。夜复大雨，雷电交作，民舍尽塌，压死三千余人。地裂涌出黑水，鳅鳝结聚，不知何来。震时河水俱乾，年余乃止。”（清康熙《云南通志》卷28)</p>
+<p> 1654年7月21日（清顺治十一年六月丙寅）甘肃天水南（34.3°N,105.5°E）M8（震中烈度Ⅺ)”丙寅，陕西西安、延安、平凉、庆阳、巩昌、汉中府属地震，倾倒城垣、楼垛、堤坝、庐舍，压死兵民三万一千余人及牛马牲畜无算。”（《清世祖实录》卷84) 1642－1654年（明崇祯十年至永乐八年，藏历第十一绕回阴水马年至阳水马年）西藏洛隆西北（30.8°N,95.6°E）M≥7（震中烈度≥Ⅸ)</p>
+<p> 1668年7月25日（清康熙七年六月甲申）山东郯城（34.8°N,118.5°E）M81/2（震中烈度≥Ⅺ)”六月十七日戍时地震。督抚入告者，北直、山东、浙江、江苏、河南五省而已。闻之入都者，山西、陕西、江西、福建、湖广诸省同时并震。大都天下皆然，远者或未及知，史册所未有。”(宣统二年《客舍偶闻》页四）”康熙七年六月十七日戍时地震……城楼垛口，官舍民房并村落寺观，一时俱倒塌如平地。打死男妇子女八千七百有奇。查上册人丁打死一千五百有奇。其时地裂泉涌，上喷二三丈高，遍地水流，沟浍皆盈，移时即消化为乌有。……合邑震塌房屋约数十万间，……其时死尸遍于四野，不能殓葬者甚多，凡值村落之处，腥臭之气达于四远，难以俱载。”(康熙《郯城县志》卷9)</p>
+<p> 1679年9月2日（清康熙十八年七月庚申）河北三河平谷（40.0°N,117.0°E）M8（震中烈度Ⅺ)”七月二十八日已时初刻，京师地震……是夜连震3次，平地坼开数丈，得胜门下裂一大沟，水如泉涌。官民震伤不可胜计，至有全家覆没者。二十九日午刻又大震，八月初一日子时复震如前，自后时时簸荡，十三日震二次。……二十五日晚又大震二次。……积尸如山，莫可辨认。通州城房坍塌更甚。空中有火光，四面焚烧，哭声震天。有李总兵者携眷八十七口进都，宿馆驿，俱陷没，止存三口。涿州、良乡等处街道震裂，黑水涌出，高三四尺。山海关，三河地方平沉为河。环绕帝都连震一月，举朝震惊。”(清《三冈识略》卷8)</p>
+<p> 1683年11月22日（清康熙二十二年十月壬寅）山西原平附近（38.7°N,112.7°E）M7（震中烈度Ⅸ)”十月初五日，山西巡抚穆尔赛疏报，太原府属地震，凡十五州县，而岱（代）州，崞县，繁峙为甚。崞县城陷地中。毁庐舍凡六万余间，与丁末山东，已末京师之灾相似。”(清乾隆《池北偶谈·谈异》卷22)</p>
+<p> 1695年5月18日（清康熙三十四年四月丁酉）山西临汾（36.0°N,110.5°E）M73/4（震中烈度Ⅹ)”检查平阳府地震原卷，当时被灾共二十八州县，内被灾较重十四州县，统计压毙人民五万二千六百余名。”（钦差刑部侍郎那彦宝奏摺，嘉庆二十年十一月二十四日）</p>
+<p> 1709年10月14日（清康熙四十八年九月十二日）宁夏中卫（37.4°N,105.3°E）M71/2（震中烈度Ⅸ－Ⅹ)”九月十二日辰时固原，宁夏等处地震伤人，中卫尤甚。河南各堡平地水溢鱼游，推出大石有合抱者，井水激射高出数尺，压死男妇二千余口。是日震动无常，人率露栖，年余始定。”(宣统《甘肃新通志》卷2)?</p>
+<p> 1718年6月19日（清康熙五十七年五月二十一日）甘肃通渭南（35.0°N,105.3°E）M71/2（震中烈度Ⅹ)”夏五月廿一日地大震，山崩。城北笔架山(县北里许)一峰崩覆没。城内东北隅平地裂陷，黄沙、黑水涌出，南乡尤甚，土山多崩。城乡压杀老幼男女共四万有奇。”(乾隆《通渭县志》卷1)</p>
+<p> 1725年8月1日（清雍正三年六月二十三日）四川康定（30.0°N,101.9°E）M7（震中烈度Ⅸ)”六月二十三日申时，打箭炉地忽然大震，将喇嘛官员住居衙门、买卖人等并蛮人住居房屋、楼房俱行摇塌，一间无存。被房楼压死买卖民人并蛮人，十分压死七八分。再，宣慰司桑结、驿丞俞殿宣、料理钱粮事务效力之南部县典史徐中（）宵，俱被所塌房楼压死。”（署川陕总督岳锺琪奏摺雍正三年七月十三日）</p>
+<p> 1733年8月2日（清雍正十一年六月二十三日）云南东川紫牛坡（26.3°N,103.1°E）M73/4（震中烈度Ⅹ)”小江一区，居治之西隅，南通碧谷坝，西南通汤丹厂，尤称甚焉。山谷纷扬，土石翻飞，崖岸◆堕，陵阜分错，而沿山道途，多阻绝不通。最可悯者，禾苗沃若，畦塍纵横破裂，渐就枯槁耳。……阿旺小营土阜居人数家，地震推其房址于前一里许，房舍瓜蔬果木竹篱，无纤毫参差。宛如未动。……木树郎两岸山颓断流，沙石汇阻三日，水溢溃决田亩，冲蚀禾稼，而沟洫寸裂，无复旧形。……而碧谷、阿旺、小江皆倚山为居，山崩石裂，故致毙者四十余人，视他处独惨。……自紫牛坡地裂，有罅由南而北，宽者四五尺，田苗陷于内，狭者尺许，测之以长竿，竟莫知深浅，相延几二百里，至寻甸之柳树河止，田中裂纹，直横不一，断续不绝，…汤丹厂…入山采矿之曹（）硐，深入数里。一有动摇，碛叠沙挤难保其不死亡也。厂数百硐，硐千百砂丁，一硐有七十三尖。尖者各商取矿之路经由，每尖至少不下十四、五人，即一硐中，而幸出者盖少矣。”(清雍正《东川府志》卷2)?</p>
+<p> 1739年1月3日（清乾隆三年十一月二十三日）宁夏平罗银川间（38.8°N,106.5°E）M8（震中烈度Ⅹ＋) “宁夏府城于十一月二十三日戍时陡然地震，竟如簸箕上下两簸。瞬息之间，阖城庙宇，衙署、兵民房屋倒塌无存。男妇人口奔跑不及，被压大半。……城垣四面塌摞，仅存基址。其满城房屋，亦同时一齐俱倒，官兵被压死者一千数百名。且平地裂成大缝，长数十丈不等，宽或数寸或一二尺不等。地中黑水带沙上涌，亦有陷入而死者。城垣亦俱塌摞，且城根低陷尺许。……每昼夜震动三五次。其宁城北面一百六十余里至宝丰县，西南四十余里至平羌堡，南面、东面俱二、三十里之村庄，其被震程度与宁城相类。此外受伤稍轻。查平罗、新渠、宝丰三县，洪广一营，平羌一堡，阖城房屋亦倒塌无存。而平罗、新渠、宝丰等处，平地裂缝，涌出黑水更甚，或深三五尺，七八尺不等。民人被压而死者已多，尤被溺、被冻而死者，亦复不少，城垣亦大半倒塌。”（川陕总督查郎阿奏摺乾隆三年十二月二十日）?</p>
+<p> 1786年6月1日（清乾隆五十一年五月戊申）四川康定南（29.9°N,102.0°E）M71/4（震中烈度≥Ⅹ) “川省地震，人家房屋墙垣倒塌者不一其处。……山崩和，壅塞泸河，断流十日。至五月十六日，泸水忽决，高数十丈，一涌而下，沿河居民悉漂以去。嘉定府城西南临水，冲塌数百丈，……沿河沟港，水皆倒射数十里，至湖北宜昌势始渐平，舟船遇之，无不立覆。……其时地震，川南尤甚，打箭炉及建昌等处数月不止，官舍民庐俱倒塌，被火延烧无一存者，至八月之后，始获宁居。”（清·张邦伸《锦里新编》卷14）?</p>
+<p> 1786年6月10日（清乾隆五十一年五月十五日）四川泸定得妥（29.4°N,102.2°E）M≥7[见上] 1789年6月7日（清乾隆五十四年五月十四日）云南华宁（31.0°N,102.9°E）M7（震中烈度Ⅸ＋)”五月与通海同时地震，坏屋舍，伤人畜，矣渎村倾入湖中。”（嘉庆四年《临安府志》卷17）</p>
+<p> 1792年8月2日（清乾隆五十七年六月二十二日）台湾嘉义（23.6°N,120.6°E）M7（震中烈度Ⅸ)”嘉城地大震，店屋、民房倒坏，而继之火，一城惶恐无措，民房烧毁过半，死者百余人。”（清·陈国英《台湾采访册》卷39）</p>
+<p> 1799年8月27日（清嘉庆四年七月二十七日）云南石屏宝秀（23.8°N,102.4°E）M7（震中烈度Ⅸ)”七月二十七日子时初刻地震起，至子正止，又自丑刻至寅刻，连震数次，申刻又大震一次。所有城垣、庙宇、官署、民房、监狱、仓廒，多有塌倒，人口亦多伤毙。”（云南总督富纲奏摺 嘉庆四年八月初五日）</p>
+<p> 1806年6月11日（清嘉庆十一年四月二十五日，藏历第十三绕回火虎年四月二十五日）西藏错那西北（28.2°N,91.8°E）M71/2（震中烈度Ⅹ)”……为宗属各地空前未有之巨灾，因摇动甚烈，柱折梁倾者甚多，今后宗府难以居住。德珠日顶寺之大殿、佛堂、库房、僧舍等坍塌损坏者尤多。”（隆子宗宗堆呈噶履禀帖）</p>
+<p> 1812年3月8日（清嘉庆十七年正月二十五日）新疆尼勒克东（43.7°N,83.5°E）M8（震中烈度Ⅺ)”伊犁地震，厄鲁特游牧衮佐特哈、胡吉尔泰（台）、齐木库尔图等处山裂四处，长二十里至六十里不等，宽五、六里不等，深高十余丈至二十丈不等，压毙蒙古人四十七名，遣犯十一名，……。”（松 筠《新疆识略》卷10 道光元年刊本）</p>
+<p> 1816年12月8日（清嘉庆二十一年十月二十日）四川炉霍（31.4°N,100.7°E）M71/2（震中烈度Ⅹ)”十月二十日丑时，章谷一带地震，喇嘛寺及各房屋猝遭倒塌，压毙汉、番男、妇大小人口甚多。……共压毙汉、番大男妇并大喇嘛一千八百一十六名口，小男女、小喇嘛一千三十八名口。”（云南总督常明奏摺 嘉庆二十二年二月二十五日）</p>
+<p> 1830年6月12日（清道光十年闰四月二十二日）河北磁县（36.4°N,114.3°E）M71/2（震中烈度Ⅹ)”京畿三辅北方广轮千余里，同日地震。其尤甚者，则直隶之磁州、河南之临漳县等处，……房屋倒塌殆尽，人物压毙无算。又平地圻裂，有水从内涌出，其色黑白不等。水尽继之以沙，沙尽继之以寒气。男号女泣，惨若万状。”（给事中刘光三奏摺 道光十一年三月十七日）</p>
+<p> 1833年8月26日（清道光十三年七月十二日，藏历第十四绕回阴水蛇年七月十二日）西藏聂拉木（28.3°N,85.5°E）M8（震中烈度≥Ⅹ)”七月十二日傍晚，至次日凌晨，此间聂拉木地区以及地区以及尼泊尔境内，连续发生地震，致使税卡官邸，差民百姓住房等遭到极大破坏，坍塌倾圮无遗。”（西藏聂拉木税官禀噶厦文（藏文） 七月廿六日）</p>
+<p> 1833年9月6日（清道光十三年七月二十三日）云南嵩明杨林一带（25.0°N,103.0°E）M8（震中烈度≥Ⅹ)”已刻，昆明等十余县同时地大震，坍塌瓦草房八万三四千间，压毙男妇六千七百余口。午未二时又震，至夜又震数次。八月、九月或三四日或五六日又震十余次。富民等数十州县提举同时亦震，间有损伤房屋人口，……嵩明房屋倾圮，人民压毙，地面裂而复合，黑泉涌出，杨林尤甚。宜良损伤房屋人口。”(《云南通志》卷22 民国三十八年刊本)</p>
+<p> 1842年6月11日（清道光二十二年五月初三日）新疆巴里坤附近（25.0°N,103.0°E）M8（震中烈度≥Ⅹ)”五月初三日卯时，猛然地震，一刻之间，满汉两城、文武大小衙署及兵房、仓库等处，同时被震。其中有全行压塌者，城垣城楼，并商民百姓房屋，率皆塌损歪斜，……。”（伊犁参赞大臣庆昌录副奏摺 道光二十二年五月初八）</p>
+<p> 1846年8月4日（清道光二十六年六月十三日）黄海（33.5°N,122.0°E）M7（震中烈度无考)”道光丙午六月十三日。时加寅，江、浙等处地震，屋瓦横飞，居民狂奔，呐喊之声，山鸣谷应。”（《续当湖外志》卷6 光绪元年刊本）</p>
+<p> 1850年9月12日（清道光三十年八月初七）四川西昌、普格间（27.7°N,102.4°E）M71/2（震中烈度Ⅹ)”八月初七日夜，西昌县城内地震。屋宇倒塌，压毙官民，……城内城外及各乡场，除外来客民被压身死者不计外，共计灾户二万七千八百八十家，灾民十三万五千三百八十二名口，倒塌居民瓦屋、草房二万六千一百六间，压毙男妇二万六百五十二名口。”（四川总督徐泽醇奏折 道光三十年九月二十六日）</p>
+<p> 1867年12月18日（清同治六年十一月二十三日）台湾基隆北海中（25.3°N,121.8°E）M7（震中烈度无考)”在基隆，第一次感到震动是在上午九时四十分，延续了三十秒钟。海关前的地面上有一些裂缝。市镇内大部分房屋震塌。有许多人被压在废墟下面。”（《字林西报》（英文）</p>
+<p> 1868年1月4日） 1870年4月11日（清同治九年三月十一日）四川巴塘（30.0°N,99.1°E）M71/4（震中烈度Ⅹ)”三月十一日突然地震，后被火灾，……汉番军民喇嘛等约毙一千有奇。惟东面只震四十余里，南西北三面皆震一、二百里，二、三百里不等。震后复火，番民均被压烧过半，纷纷搬移如蚁。”（清·恒 保《公余随笔》卷3 同治刻本）</p>
+<p> 1871年6月（清同治十年五月，藏历第十五绕回阴铁羊年五月）西藏错那、洛扎一带（28.0°N,91.5°E）M71/2（震中烈度Ⅹ)”今年地震灾情严重，房屋全倒，人畜物品亦全埋于地下。宗、寺院、百姓处境悲惨，因此无法支应差务。”（西藏错那宗呈噶厦文（藏文）铁羊年）</p>
+<p> 1879年7月1日（清光绪五年五月乙酉）甘肃武都南（33.2°N,104.7°E）M8（震中烈度Ⅺ)”十二日寅时地大震，南山崩塌，冲压西南城垣数十丈，居民二百余家。城中突起土阜，周二里许。各处山飞石走，地裂水出，杀九千八百八十一人，弥月不息。”（光绪《阶州直隶州续志》卷19）</p>
+<p> 1883年10月（清光绪九年九月，藏历第十五绕回阴水羊年九月）西藏普兰（30.2°N,81.2°E）M7（震中烈度Ⅸ)”九月普兰和噶尔通等地遭到空前大地震，宗府、溪卡房屋倒塌，……从噶尔通废墟土石中挖出之粮、物、死牲畜皮等，……”（西藏噶厦批复（藏文） 木猴年八月十二日）</p>
+<p> 1887年12月16日（清光绪十三年十一月初二日）云南石屏（23.7°N,102.5°E）M7（震中烈度Ⅸ＋)”冬十一月初二日，石屏地大震，声如雷鸣，自远而2近。城垣崩颓，房屋倾圮过半，压死老幼男妇二千余人。”（光绪《云南通志》卷4）</p>
+<p> 1888年6月13日（清光绪十四年五月初四日）渤海湾（38.5°N,119.0°E）M71/2（震中烈度无考)”直隶永平府迁安县城东北隅，有塔……五月初四日地大震动，塔遂倾塌，压坏塔旁寺屋及附近各住房，且有人口受伤者。”（《申报》光绪十四年戊子六月十五日）</p>
+<p> 1893年8月29日（清光绪十九年七月十八日）四川道孚乾宁（30.6°N,101.5°E）M7（震中烈度Ⅸ)”七月十八日黎明时，噶达惠远寺一带发生地震。该寺楼上、下共一千四百余间房屋倒塌，六十五名喇嘛死亡，九十八名喇嘛受伤。受震区域东至中谷，西到恰坝石，共约三百余方里范围，汉、藏民人房屋共倒塌约四百幢，死亡二百二十八人，受伤一百三十三人。”（驻藏邦办大臣奎焕致摄政第穆咨文（藏文） 光绪十九年）</p>
+<p> 1895年7月5日（光绪二十一年闰五月十三日）新疆塔什库尔干（37.7°N,75.1°E）M7（震中烈度Ⅸ)”旧堡基址、垛口均经损毁，四面倒缺两处，长三四丈不等。并坏炮台三座。其余营房、局屋、粮仓，坍塌无存。军装、粮料多被压坏。堡内及附近各庄民房，倾倒不少。”（新疆巡抚陶模录副奏片 光绪二十一年七月二十三日）</p>
+<p> 1896年3月（清光绪二十二年二月，藏历第十五绕回阳火猴年二月）四川石渠洛须（32.5°N,98.0°E）M7（震中烈度Ⅸ)”火猴年二月，一场可怖之地震，使寺庙、经堂、佛像以及僧俗人等尽陷地下。”（昌都基巧、寺庙拉让等呈西藏诸噶伦文（藏文））<br> 1902年8月22日（清光绪二十八年七月十九日）新疆阿图什北（39.9°N,76.2°E）M81/4（震中烈度＞Ⅹ)”八月二十二号，即华历七月十九日，新疆喀什噶尔地震甚厉，民屋塌倒，城镇毁伤，灾区甚广，人民之被压死者约千余名，附近亚士颠村压毙四百人，吕宜林死二十人。”（《汇报》 光绪二十八年壬寅十月三十日）</p>
+<p> 1902年11月21日（清光绪二十八年十月二十二日）台湾台东东北海中（23.0°N,121.5°E）M71/4（震中烈度无考)”十五时三分在台东发生地震，全岛有感。稍显著地震。”（西村传三《昭和十年台湾震灾志·台湾地震史》（日文） 1936年刊本）<br> 1904年8月30日（清光绪三十年七月二十日）四川道孚（31.0°N,101.1°E）M7（震中烈度Ⅸ)”七月二十日、三十日、八月初二日三次地震成灾，坍塌居民房屋多间。该处灵雀寺殿宇，并衙寨道坞均多震塌，计压毙汉、番居民、寺内喇嘛共四百多人。”（四川总督锡良奏片 光绪三十年九月二十八日）</p>
+<p> 1906年12月23日（清光绪三十二年十一月初八）新疆沙湾西（43.5°N,85.0°E）M7.7（震中烈度Ⅹ)”计县属博罗通古地方，震倒民房五百二十间，压毙男女一百零五名，灾民二百五十四名，震塌渠岸十余里。又石厂子地方，震倒民房六百八十间，压毙男女六十七名，灾民三百四十四名。又庄浪庙地方，震倒民房三百四十二间，压毙男女四十六名，灾民二百四二十九名，震塌渠岸三十余里。又牛圈子地方，震倒民房三百七十八间，压毙男女二十六名，灾民二百一十九名。又附近数里之大塘地方，震倒民房一百零八间，压毙男女四十一名，灾民四十六名。被灾各户，或全家覆毙，或仅存老幼，即残喘幸延，亦压覆数时，受伤甚重。”（甘肃新疆巡抚联魁奏片 光绪三十三年二月二十二日）?</p>
+<p> 1908年8月20日西藏奇林湖（32.0°N,89.0°E）M7（震中烈度无考)68 1909年4月15日（清宣统元年闰二月十五日）台湾台北附近（25.0°N,121.5°E）M7.3（震中烈度无考)”全岛有感，台北州及新竹州北部，死九人，伤五十一人。住房全坏一百二十二户，半坏二百五十二户，破损七百九十八户，烧毁一户。”（西村传三《昭和十年台湾震灾志·台湾地震史》（日文） 1936年刊本）</p>
+<p> 1920年海原地震 1920年12月16日20时5分53秒，中国宁夏海原县（北纬36.5度，东经105.7度）发生震级为8.5级的强烈地震。这次地震，震中烈度12度，震源深度17公里，死亡24万人，毁城四座，数十座县城遭受破坏。它是中国历史上一次波及范围最广的地震，宁夏、青海、甘肃、陕西、山西、内蒙古、河南、河北、北京、天津、山东、四川、湖北、安徽、江苏、上海、福建等17地有感，有感面积达251万平方公里。海原地震还造成了中国历史上最大的地震滑坡。地震发生时山崩土走，有住室随山移出二三里。灾区有的一间窑洞压死100多人；有的村庄300多口人在山崩时同葬一穴。死者陈尸百里，伤者遍地哀嚎，野狗群出吃人，灾民情景惨不忍睹。</p>
+<p> 1927年古浪地震 1927年5月23日6时32分47秒，中国甘肃古浪（北纬37.6度，东经102.6度）发生震级为8级的强烈地震。这次地震，震中烈度11度，震源深度12公里，死亡4万余人。地震发生时，土地开裂，冒出发绿的黑水，硫磺毒气横溢，熏死饥民无数。古浪县城夷为平地。甘肃某天主教堂，一修女怀抱四名孤儿埋于屋瓦中，蒲登波罗克大主教称之“世界末日将要来临”！</p>
+<p>1932年昌马地震 1932年12月25日10时4分27秒，中国甘肃昌马堡（北纬39.7度，东经97.0度）发生震级为7.6级的大地震。此次地震，震中烈度10度，死亡7万人。地震发生时，有黄风白光在黄土墙头“扑来扑去”；山岩乱蹦冒出灰尘，中国著名古迹嘉峪关城楼被震坍一角；疏勒河南岸雪峰崩塌；千佛洞落石滚滚……余震频频，持续竟达半年。这次“稀有大震”，令各国科学家众说纷纭；昌马，这个地图上都找不见的地名，成为地震学者关注的中心。</p>
+<p> 1933年叠溪地震 1933年8月25日15时50分30秒，中国四川茂县叠溪镇（北纬32.0度，东经103.7度）发生震级为7.5级的大地震。此次地震，震中烈度10度，叠溪镇被摧毁。震前该地异象迭出：犬哭羊嘶，蛇出鼠惊，乌鸦惨啼，母鸡司晨。地震发生时，地吐黄雾，城郭无存，有一个牧童竟然飞越了两重山岭。巨大山崩使岷江断流，壅坝成湖。1933年10月9日19时，地震湖崩溃，洪水倾湖溃出，霹雳震山，尘雾障天，造成下游严重水灾，仅灌县境内捞获的尸体就有4000多具。叠溪地震和地震引发的水灾，共使2万多人死亡。</p>
+<p> 1950年察隅地震 1950年8月15日22时9分34秒，中国西藏察隅县（北纬28.5度，东经96.0度）发生震级为8.5级的强烈地震。此次地震，震中烈度12度，死亡近4000人。强震使世界各国的地震记录仪纷纷出格，美国的科学家认为地震发生在日本，而日本的科学家认为地震发生在美国。喜马拉雅山几十万平方公里大地瞬间面目全非：雅鲁藏布江在山崩中被截成四段；整座村庄被抛到江对岸。几百名喇嘛和尼姑深埋寺院的瓦砾之下。一位在印度境内的英国茶叶种植园主说地震“听起来就像高速火车通过隧道”。成千上万惊恐的印度人喊着“老天爷发话啦，老天爷发话啦”逃奔旷野。</p>
+<p> 1966年邢台地震 邢台地震由两个大地震组成：1966年3月8日5时29分14秒，河北省邢台专区隆尧县（北纬37度21分，东经114度55分）发生震级为6.8级的大地震，震中烈度9度强；1966年3月22日16时19分46秒，河北省邢台专区宁晋县（北纬37度32分，东经115度03分）发生震级为7.2级的大地震，震中烈度10度。两次地震共死亡8064人，伤38000人，经济损失10亿元。这是一次久旱之后的大震。地震发生后，漫天飘雪。中国总理周恩来三赴震区，百姓的苦难使他落泪，他指示中国一定要有自己的地震预报系统。中国的地震预报事业在邢台地震的血泊中矗立起划时代的里程碑。</p>
+<p> 1970年通海地震：1970年1月5日1时0分34秒，中国云南省通海县（北纬24.0度，东经102.7度）发生震级为7.7级的大地震。此次地震，震中烈度为10度强，震源深度为10公里，死亡15621人，伤残32431人。为中国1949年以来继1954年长江大水后第二个死亡万人以上的重灾。震前，豕突犬吠，雀啼鱼惊，墙缝喷水，骡马伤人。当时全国地震工作会议正紧锣密鼓筹备，强震猝然而至。地震发生时，极震区内，村寨房屋尽毁，地面或裂或陷。中国总理周恩来于除夕之夜召见青年地震预报工作者，号召“地震预报问题你们要好好攻关”。</p>
+<p> 1975年海城地震：1975年2月4日19时36分6秒，中国辽宁省海城县（北纬40度39分，东经122度48分）发生震级为7.3级的大地震。此次地震，震中烈度9度强，死亡1328人，重伤4292人。经济损失8.1亿元。由于此次地震被成功预测预报预防，使更为巨大和惨重的损失得以避免，它因此被称为20世纪地球科学史和世界科技史上的奇迹。</p>
+<p> 1976年唐山地震 1976年7月28日3时42分54点2秒，中国河北省唐山市（震中纬度39.4度，东经118.0度）发生震级为7.8级的大地震。此次地震，震中烈度11度，震源深度11公里，死亡24.2万人，重伤16万人，一座重工业城市毁于一旦，直接经济损失100亿元以上，为20世纪世界上人员伤亡最大的地震。这次地震的预报过程极为复杂。海城地震发生后，京、津、唐地区是否还有大震的问题在地震界引起争论，一批地震工作者对这一地区的监视一直持续到唐山地震发生之前。中央政府最终没有得到来自国家地震局方面提供的短期临震预报意见，以致唐山市最终没有预防。然而，河北省青龙县在全县范围内采取了预防措施，取得了为世界瞩目的防震减灾效果。唐山地震是数十万蒙难者的巨大悲剧，也是地震工作者终生的创痛。</p>
+<p> 1988年澜沧、耿马地震 1988年11月6日21时3分、21时16分，中国云南省澜沧（北纬22.9度，东经100.1度）、耿马（北纬23度23分，东经99度36分）发生震级为7.6级（澜沧）、7.2级（耿马）的两次大地震。相距120公里的两次地震，时间仅相隔13分钟，两座县城被夷为平地，伤4105人，死亡743人，经济损失25.11亿元。由于本次地震和12年前的唐山地震一样发生在中国的“龙年”，又由于1988年中国灾祸频仍，使一些中国人加剧了对“龙年”的恐惧。</p>
+<p> 2008年汶川地震 2008年5月2日14时28分 据国家地震台网重新核定，北京时间5月12日14时28分，在四川汶川县（北纬31度，东经103.4度)发生的地震震级为7.8级。 据民政部统计，截至5月13日7时，四川汶川县地震已造成四川、甘肃、陕西、重庆、云南、山西、贵州、湖北8省市共9219人死亡，倒塌房屋50余万间。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2011/03/26/2011-3-26-dizhen/" data-id="ckmq2gwvv00enq8843zg052ur" data-title="[转载]中国历史上的80次大地震" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9C%B0%E7%90%86/" rel="tag">地理</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2011-3-25-earlyspring" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2011/03/25/2011-3-25-earlyspring/" class="article-date">
+  <time class="dt-published" datetime="2011-03-24T23:26:54.000Z" itemprop="datePublished">2011-03-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2011/03/25/2011-3-25-earlyspring/">春之印象:早春</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201103/25/0105597tymfdyaa2wdu7w7.jpg"><img src="http://image.sciencenet.cn/album/201103/25/0105597tymfdyaa2wdu7w7.jpg" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201103/25/01055605e5o8nxenfeppk0.jpg"><img src="http://image.sciencenet.cn/album/201103/25/01055605e5o8nxenfeppk0.jpg" alt="img"></a></p>
+<p>洋水仙</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201103/25/010553vb6tz99xxp621dxc.jpg"><img src="http://image.sciencenet.cn/album/201103/25/010553vb6tz99xxp621dxc.jpg" alt="img"></a></p>
+<p>洋水仙</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201103/25/010550vz28lwvo2pwox823.jpg"><img src="http://image.sciencenet.cn/album/201103/25/010550vz28lwvo2pwox823.jpg" alt="img"></a></p>
+<p>铁筷子</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201103/25/010547zv353e8t57rtimr4.jpg"><img src="http://image.sciencenet.cn/album/201103/25/010547zv353e8t57rtimr4.jpg" alt="img"></a></p>
+<p>铁筷子</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201103/25/010544ffcm44j4ziupxxiz.jpg"><img src="http://image.sciencenet.cn/album/201103/25/010544ffcm44j4ziupxxiz.jpg" alt="img"></a></p>
+<p>冬青卫矛</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201103/25/010541ann9ia7noivhlsl9.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>土三七</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201103/25/010538y6kli3ynnkunn3iu.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>金缕梅</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201103/25/010535pe949vk9n0rekhnv.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>金缕梅</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201103/25/010533oeeq8ok8bmqn8qc8.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>金缕梅</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201103/25/010530y5viqnfxgmivfai2.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>远山</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201103/25/0105265gerri5mrbvvv6zy.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>香荚蒾</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201103/25/010523ou2z2o1o46raz2f2.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>西山</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201103/25/010520e4elzyqadzlfg74p.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>回廊</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/album/201103/25/010517wwq6t65v556s6476.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>桃花</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2011/03/25/2011-3-25-earlyspring/" data-id="ckmq2gwqx002wq884ffx67e5e" data-title="春之印象:早春" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" rel="tag">行摄匆匆</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2011-2-27-mrt" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2011/02/27/2011-2-27-mrt/" class="article-date">
+  <time class="dt-published" datetime="2011-02-27T03:56:54.000Z" itemprop="datePublished">2011-02-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2011/02/27/2011-2-27-mrt/">什么是多元回归树？</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><strong>多元回归树：条件限制聚类</strong></p>
+<p>多元回归树是一种聚类的方法，不需要人为指定划分成的类群数量或者人为设定判别标准。多元回归树能够很好的处理非线性问题，经过交叉验证等一系列筛选过程，多元回归树能够发挥很好的预测作用。</p>
+<p>多元回归树在经济决策领域、生态学领域等正受到越来越多的重视。</p>
+<p>本文是根据《Numerical Ecology with R》中对多元回归树的部分翻译整理过来的。希望对感兴趣的读者有帮助。</p>
+<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>多元回归树（MRT, De’ath 2002） 是单变量回归树的推广，是用来对一系列数量变量递归划分成多个类群的一种方法，其划分的依据为这一系列变量所对应的数量或者分等级的解释变量。这样的过程有时候称为条件限制聚类。其结果为一个树状结构图，其“叶片”分别为各操作单元，这些单元分处于各类群中，各个类群内的总方差最小。但是类群的划分有一个临界值，或者受到解释变量准确程度的限制。在海量的类群划分方案中，人们倾向于找到“最具预测能力的”划分方案。</p>
+<p>多元回归树在多种数据处理的场合都是十分稳健的，并且显示出强大的功能。在缺失值存在的情况下，以及变量和解释变量之间的关系为非线性时，仍然能够得到较好的结果。</p>
+<h1 id="计算原理"><a href="#计算原理" class="headerlink" title="计算原理"></a>计算原理</h1><p>多元回归树包含两步：</p>
+<ol>
+<li><p>条件限制数据分割</p>
+</li>
+<li><p>对结果的交叉验证</p>
+</li>
+</ol>
+<p>下面对两个的计算过程分别作检验的介绍。</p>
+<h1 id="1-条件限制数据分割"><a href="#1-条件限制数据分割" class="headerlink" title="1. 条件限制数据分割"></a>1. 条件限制数据分割</h1><p>对每一个解释变量，将样点划分成两个类群的所有可能都给出。对于数量变量，首先将要样点按照解释变量排序，之后，顺序的将其划分成两类，从第一个，第二个，第n-1个点处划分。对于分等级的变量，将样点划分为两个类群，将所有可能组合均给出。在所有可能的情况下，计算响应变量的每个小组内各数据和小组平均值的平方和。保留平方和最小的划分方案，记录该划分方案中解释变量或等级变量的数值。</p>
+<p>对划分出的两个子类群，分别再重复上述过程，分别筛选出最优的划分方案，并记录该划分方案中解释变量或等级变量的数值。</p>
+<p>重复上述过程，直至所有的样点均被划分成自己的类群中。继而搜寻类群数适当的划分方案，以满足研究的需要。如果数据分析的目的是为了预测，那么就必须进行下一步的交叉验证，以便找到预测效果最优的树。</p>
+<p>出了末端样点的数量，也就是所谓的“叶片”的数量和组成之外，相对误差（relative error，RE）也是多元回归树的一个重要特征。例如，组间平方和与总平方的商。换句话说，这就是该回归树没能解释的方差变化。在没有经过交叉验证时，应该保留的是使得RE最小的回归树。这与保留R^2最大的情形类似。但是，这种情况下，回归树只具有解释功能，而缺乏预测功能。De’ath（2002）年指出：“RE给出的是回归树对于新数据的预测能力的过优化估计，而回归树预测的准确性能够从交叉验证相对误差（cross-validated relative error ，CVRE)获得更准确的估计”。</p>
+<h1 id="2-回归树的交叉验证和剪接："><a href="#2-回归树的交叉验证和剪接：" class="headerlink" title="2. 回归树的交叉验证和剪接："></a>2. 回归树的交叉验证和剪接：</h1><p>应该在什么水平上对回归树进行修剪？也就是如何保留最为敏感的划分位点？为了回答这一问题，人们利用如下方法：将样点划分成两个子集，其中一个为“训练集合”， 另一个为“验证集合”。具有良好预测能力的回归树会将验证集合中的各样点划分到合适的类群中。例如，验证集合中新增加的样点，其响应变量的数值与预测的该组响应变量的数值的差较小。回归树的预测能力可以用其预测误差进行评估。</p>
+<p>预测误差的度量为CVRE,其公式为</p>
+<p><code>CVRE = sum(sum((y[i,j][k] - y_estimate[k])^2))/sum(sum((y[i,j] - y_mean[j])^2))</code><br>其中 y[i,j][k] 为验证数据集k的一个样点</p>
+<p>y_estimate[k] 是该点的预测值，</p>
+<p>分母部分表示数据的总方差。</p>
+<p>因此，CVRE可以定义为回归树没有解释的方差，除以响应数据的总方差。当然，回归树的划分有一点儿变化，则相应的分子也会发生变化。理想的预测情况下，CVRE的值为0，而回归树的预测效果越差，CVRE的值越接近于1.</p>
+<h1 id="3-MRT的过程"><a href="#3-MRT的过程" class="headerlink" title="3 MRT的过程"></a>3 MRT的过程</h1><p>以下是多元回归树交叉验证的总过程。</p>
+<ol>
+<li><p>将数据随机划分成k组（默认为10组）。</p>
+</li>
+<li><p>随机保留其中一组作为“验证组”（test groups），利用条件限制分类，按照组内平方和最小的原则，选取一棵最优的回归树。</p>
+</li>
+<li><p>将以上过程重复k-1次，每次保留一个预测组。</p>
+</li>
+<li><p>在以上的k个划分方案中，重新指派训练集合（什么意思？）。 计算每个划分方案的CVRE。</p>
+</li>
+<li><p>对回归树进行剪接：保留CVRE最小的划分方案。另一种方法是，保留CVRE与CVRE标准误相加最小的划分方案。这种方法是称为一标准误原则。</p>
+</li>
+<li><p>为了获得这一过程的误差，将其他随机分配的对象划分成k组，将这一或称重复多次（如500 - 1000次）。</p>
+</li>
+<li><p>最后获得的回归树是所有随机排列组合中CVRE值最小的，或者是1SE值最小的。</p>
+</li>
+</ol>
+<p>在多元回归树分析中，平方和的计算是在欧几里得空间中进行的。如果数据需要保留自身的特性，则需要进行相应的转换。</p>
+<h1 id="4-多元回归树实例：mvpart程序包"><a href="#4-多元回归树实例：mvpart程序包" class="headerlink" title="4 多元回归树实例：mvpart程序包"></a>4 多元回归树实例：mvpart程序包</h1><p>mvpart程序包最初是Terry M Therneau和Beth Atkinson编写的， Glenn De’ath对其进行了扩展，并负责该程序包的更新和维护。其计算用到的主要函数为<code>rpart()</code>。该函数需要输入的响应变量为matrix,解释变量为<code>data.frame()</code>. 两者的关系采用R的标准公示格式（可参考?lm）.</p>
+<p>示例来自mvpart程序包的帮助：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">library(mvpart)</span><br><span class="line"></span><br><span class="line">data(spider)</span><br><span class="line">mvpart(data.matrix(spider[,<span class="number">1</span>:<span class="number">12</span>])~herbs+reft+moss+sand+twigs+</span><br><span class="line">water,spider) <span class="comment"># defaults</span></span><br><span class="line">mvpart(data.matrix(spider[,<span class="number">1</span>:<span class="number">12</span>])~herbs+reft+moss+sand+twigs+</span><br><span class="line">water,spider,xv=<span class="string">&quot;p&quot;</span>) <span class="comment"># pick the tree size</span></span><br><span class="line">\<span class="comment"># pick cv size and do PCA</span></span><br><span class="line">fit &lt;- mvpart(data.matrix(spider[,<span class="number">1</span>:<span class="number">12</span>])~herbs+reft+moss+sand+</span><br><span class="line">twigs+water,spider,xv=<span class="string">&quot;1se&quot;</span>,pca=<span class="literal">TRUE</span>)</span><br><span class="line">rpart.pca(fit,interact=<span class="literal">TRUE</span>,wgt.ave=<span class="literal">TRUE</span>) <span class="comment"># interactive PCA plot of saved multivariate tree</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2011/02/27/2011-2-27-mrt/" data-id="ckmq2gwqv002oq884hcxq74q9" data-title="什么是多元回归树？" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BB%9F%E8%AE%A1/" rel="tag">统计</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2011-02-11-snow" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2011/02/14/2011-02-11-snow/" class="article-date">
+  <time class="dt-published" datetime="2011-02-14T04:00:54.000Z" itemprop="datePublished">2011-02-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2011/02/14/2011-02-11-snow/">北京的春雪</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="北京的春雪"><a href="#北京的春雪" class="headerlink" title="北京的春雪"></a>北京的春雪</h1><p>2月13日北京大雪，上午在植物园拍雪</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2011/02/14/2011-02-11-snow/" data-id="ckmq2gwqm001xq884byiq5feb" data-title="北京的春雪" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" rel="tag">行摄匆匆</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2011-02-14-wineclipse" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2011/02/13/2011-02-14-wineclipse/" class="article-date">
+  <time class="dt-published" datetime="2011-02-13T12:27:54.000Z" itemprop="datePublished">2011-02-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2011/02/13/2011-02-14-wineclipse/">用WinEclipse 绘制日食的路线图</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>WinEclipse软件是奥地利物理学家和化学家，同时也是天文爱好者的Heinz Scsibrany（1965-2010）编写的一个软件，专门用来预测日月食，并绘制日食的路线图和月食的可见区域。日月食的贝塞尔根数都是根据内置的太阳月亮位置直接推算出来的，因此在精度上不及NASA的精确。但是近几百年的日月食预报已经达到了极高的精度。</p>
+<p>该软件可以绘制较为精美的日食路线图，并变换地图投影，甚至进行相应的动画演示。</p>
+<p>为了方便国内的天文爱好者使用该软件，我为其重新制作了安装文件，使其安装和卸载更为方便。</p>
+<p>安装文件的下载在附件中</p>
+<p><a target="_blank" rel="noopener" href="http://bbs.sciencenet.cn/home.php?mod=attachment&id=1206">WinEclipse 3.7 setup.rar</a></p>
+<p>该软件还可以在</p>
+<p><a target="_blank" rel="noopener" href="http://www.lcm.tuwien.ac.at/scs/">http://www.lcm.tuwien.ac.at/scs/</a><br>下载。</p>
+<p>2012年5月21日日环食.我国广东可见</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2011/02/13/2011-02-14-wineclipse/" data-id="ckmq2gwqp0027q8849soc8liv" data-title="用WinEclipse 绘制日食的路线图" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A9%E6%96%87/" rel="tag">天文</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2010-12-30-rintro2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2010/12/30/2010-12-30-rintro2/" class="article-date">
+  <time class="dt-published" datetime="2010-12-29T21:58:54.000Z" itemprop="datePublished">2010-12-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2010/12/30/2010-12-30-rintro2/">R语言初步——数据处理、绘图与编程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>R语言初步——数据处理、绘图与编程</p>
+<p>本文介绍的是一套幻灯片，共包括120张，较为详细的介绍了R语言，以及简单统计分析的实现，包括方差分析、回归，以及绘图、编写函数的方法。</p>
+<p>内容如下：</p>
+<ul>
+<li>一、R简介 </li>
+<li>二、函数与对象 </li>
+<li>三、脚本编程 </li>
+<li>四、R绘图 </li>
+<li>五、编写函数 </li>
+<li>六、数据保存<br>以下是幻灯片的内容，希望对感兴趣的读者能有促进作用。</li>
+</ul>
+<p>幻灯片下载:</p>
+<p><a target="_blank" rel="noopener" href="http://bbs.sciencenet.cn/home.php?mod=attachment&id=3271">R语言初步 统计绘图与编程.ppt</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2010/12/30/2010-12-30-rintro2/" data-id="ckmq2gwqd001bq884cr40a572" data-title="R语言初步——数据处理、绘图与编程" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/R%E7%BC%96%E7%A8%8B/" rel="tag">R编程</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/20/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><a class="page-number" href="/page/23/">23</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/22/">Next &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/R%E7%BC%96%E7%A8%8B/" rel="tag">R编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%BA%E7%89%A9/" rel="tag">人物</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%99%E4%BD%9C/" rel="tag">写作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" rel="tag">可视化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E4%B9%A6/" rel="tag">图书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" rel="tag">图像处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9C%B0%E7%90%86/" rel="tag">地理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A3%B0%E6%98%8E/" rel="tag">声明</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A9%E6%96%87/" rel="tag">天文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%AF%9D%E5%BD%95/" rel="tag">对话录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%83%E5%BE%97/" rel="tag">心得</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E5%91%8A/" rel="tag">报告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E7%89%88/" rel="tag">排版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%85%E4%B9%A1/" rel="tag">故乡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" rel="tag">标本馆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%88%86%E7%B1%BB/" rel="tag">植物分类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%90%8D/" rel="tag">植物学名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%82%E8%81%8C/" rel="tag">求职</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" rel="tag">版本控制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%80%81/" rel="tag">生态</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%80%81%E8%B5%84%E8%AE%AF/" rel="tag">生态资讯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%94%E7%A9%B6%E8%B5%84%E8%AE%AF/" rel="tag">研究资讯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B3%BB%E7%BB%9F%E5%8F%91%E8%82%B2/" rel="tag">系统发育</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%9F%E8%AE%A1/" rel="tag">统计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" rel="tag">行摄匆匆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%81%E9%97%BB%E5%BD%95/" rel="tag">见闻录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%97%E6%AD%8C/" rel="tag">诗歌</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E5%8C%96/" rel="tag">进化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E6%83%B3/" rel="tag">随想</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A9%B3%E8%AE%BA/" rel="tag">驳论</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/R%E7%BC%96%E7%A8%8B/" style="font-size: 18.75px;">R编程</a> <a href="/tags/%E4%BA%BA%E7%89%A9/" style="font-size: 11.88px;">人物</a> <a href="/tags/%E5%86%99%E4%BD%9C/" style="font-size: 13.13px;">写作</a> <a href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" style="font-size: 12.5px;">可视化</a> <a href="/tags/%E5%9B%BE%E4%B9%A6/" style="font-size: 10px;">图书</a> <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" style="font-size: 11.88px;">图像处理</a> <a href="/tags/%E5%9C%B0%E7%90%86/" style="font-size: 17.5px;">地理</a> <a href="/tags/%E5%A3%B0%E6%98%8E/" style="font-size: 10.63px;">声明</a> <a href="/tags/%E5%A4%A9%E6%96%87/" style="font-size: 16.25px;">天文</a> <a href="/tags/%E5%AF%B9%E8%AF%9D%E5%BD%95/" style="font-size: 10px;">对话录</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 10px;">心得</a> <a href="/tags/%E6%8A%A5%E5%91%8A/" style="font-size: 12.5px;">报告</a> <a href="/tags/%E6%8E%92%E7%89%88/" style="font-size: 13.75px;">排版</a> <a href="/tags/%E6%95%85%E4%B9%A1/" style="font-size: 10.63px;">故乡</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10.63px;">数据库</a> <a href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" style="font-size: 14.38px;">标本馆</a> <a href="/tags/%E6%A4%8D%E7%89%A9%E5%88%86%E7%B1%BB/" style="font-size: 10px;">植物分类</a> <a href="/tags/%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%90%8D/" style="font-size: 10px;">植物学名</a> <a href="/tags/%E6%B1%82%E8%81%8C/" style="font-size: 10px;">求职</a> <a href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" style="font-size: 11.25px;">版本控制</a> <a href="/tags/%E7%94%9F%E6%80%81/" style="font-size: 16.88px;">生态</a> <a href="/tags/%E7%94%9F%E6%80%81%E8%B5%84%E8%AE%AF/" style="font-size: 10px;">生态资讯</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E8%B5%84%E8%AE%AF/" style="font-size: 10px;">研究资讯</a> <a href="/tags/%E7%B3%BB%E7%BB%9F%E5%8F%91%E8%82%B2/" style="font-size: 10px;">系统发育</a> <a href="/tags/%E7%BB%9F%E8%AE%A1/" style="font-size: 18.13px;">统计</a> <a href="/tags/%E7%BC%96%E7%A8%8B/" style="font-size: 10.63px;">编程</a> <a href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" style="font-size: 15px;">行摄匆匆</a> <a href="/tags/%E8%A7%81%E9%97%BB%E5%BD%95/" style="font-size: 10px;">见闻录</a> <a href="/tags/%E8%AF%97%E6%AD%8C/" style="font-size: 15.63px;">诗歌</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 19.38px;">软件</a> <a href="/tags/%E8%BF%9B%E5%8C%96/" style="font-size: 10.63px;">进化</a> <a href="/tags/%E9%9A%8F%E6%83%B3/" style="font-size: 11.25px;">随想</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 20px;">随笔</a> <a href="/tags/%E9%A9%B3%E8%AE%BA/" style="font-size: 10px;">驳论</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">January 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">December 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">October 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05/">May 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">May 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">December 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">August 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">March 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">April 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/01/">January 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/08/">August 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/07/">July 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/06/">June 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">May 2009</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/18/2021-03-18/">为什么《xxxx在XX研究中取得进展》这类文章很少有人转发？</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/16/2021-02-16/">如何恢复森林？– 从嘉道理农场的森林恢复样地说起</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/30/2020-12-30/">群落系统发育研究不能脱离理论框架</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/14/2020-12-14/">WGS84坐标和HK80坐标之间的相互转换</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 Jinlong Zhang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
