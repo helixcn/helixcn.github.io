@@ -18,7 +18,7 @@
 <meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/TmqE3hm8mvYhRDJjEiaq9QeayvNYz3ibkF98X5r9X5Cuspz3dFw2bnOibz4oCavSowEsOWfTvvRDYOK3l9jHG03gw/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
 <meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/TmqE3hm8mvYhRDJjEiaq9QeayvNYz3ibkFhSGQqgDNM0zvmaCcu3CAdAmUs3pJuiaooorDIZAr3TYGW539Y37lYmA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
 <meta property="article:published_time" content="2019-10-20T16:32:00.000Z">
-<meta property="article:modified_time" content="2021-03-26T06:49:33.173Z">
+<meta property="article:modified_time" content="2021-03-26T06:49:34.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="随笔">
 <meta name="twitter:card" content="summary">
@@ -117,85 +117,8 @@
 <p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/TmqE3hm8mvYhRDJjEiaq9QeayvNYz3ibkFhSGQqgDNM0zvmaCcu3CAdAmUs3pJuiaooorDIZAr3TYGW539Y37lYmA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
 <p>图3 物种数累计曲线：标本采集完整的县斜率小，标本采集不完整的县斜率大</p>
 <p>R脚本</p>
-<pre><code>setwd(&quot;C:/Users/helixcn/Desktop/completeness&quot;)
-library(openxlsx)
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">setwd(&quot;C:&#x2F;Users&#x2F;helixcn&#x2F;Desktop&#x2F;completeness&quot;)</span><br><span class="line">library(openxlsx)</span><br><span class="line"></span><br><span class="line"># 获得某个文件夹的所有xlsx文件字符串向量</span><br><span class="line">all_files &lt;- list.files()</span><br><span class="line">excel_files &lt;- all_files[grepl(&quot;.xlsx&quot;, all_files)]</span><br><span class="line"></span><br><span class="line"># 针对每个标本数量，例如从30000个标本中，随机抽26000个标本，这里要随机抽取100次， nperm就是控制随机抽取的数量</span><br><span class="line">nperm &#x3D; 100</span><br><span class="line"></span><br><span class="line">slope_90_100 &lt;- NA # 初始化, slope_90_100 保存每个文件（也就是每个地点的slope值）</span><br><span class="line"></span><br><span class="line"># k为excel文件的数量</span><br><span class="line">for(k in 1:length(excel_files))&#123;</span><br><span class="line">    </span><br><span class="line">    # 读取一个excel文件</span><br><span class="line">    specimen_names &lt;- read.xlsx(excel_files[k])[,1]</span><br><span class="line">    </span><br><span class="line">    # 求物种数</span><br><span class="line">    nspecies &lt;- length(unique(specimen_names))</span><br><span class="line">    </span><br><span class="line">    # 物种数不能少于10</span><br><span class="line">    if(nspecies &lt; 10)&#123;</span><br><span class="line">        stop(&quot;Number of species should be more than 10&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    # 标本数不能少于50</span><br><span class="line">    if(length(specimen_names) &lt; 50)&#123;</span><br><span class="line">        stop(&quot;Number of specimens should be more than 50&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    # 90%的物种数</span><br><span class="line">    nspecies_90 &lt;- nspecies * 0.9</span><br><span class="line">    </span><br><span class="line">    ## 为了减少计算量，这里只计算物种数达到90%以后的物种累计曲线</span><br><span class="line">    ## 因此，先要计算在标本达到总标本数的多少时（求一个比例ratio），物种数不超过90%</span><br><span class="line"></span><br><span class="line">    ratio &#x3D; 1.0 # 设定ratio的初始值，然后猜100次，一直到标本数刚刚少于90%的物种数为止。每一步递减0.01，猜100次（nguess），足以覆盖所有的情况</span><br><span class="line">    nguess &#x3D; 100</span><br><span class="line">    for(m in 1:nguess)&#123;</span><br><span class="line">        if(length(unique(sample(specimen_names, ceiling(length(specimen_names) * ratio)))) &gt; nspecies_90) &#123;</span><br><span class="line">             ratio &lt;- ratio - 0.01</span><br><span class="line">         &#125; else &#123;</span><br><span class="line">             ratio &lt;- ratio</span><br><span class="line">         &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    n_species_90_to_100 &lt;- NA</span><br><span class="line">    # 从能达到90%物种数的标本比例开始计算随标本数增加的物种累计曲线</span><br><span class="line">    for (j in floor(length(specimen_names) * ratio):length(specimen_names))&#123;</span><br><span class="line">        n_species_90_to_100_i &lt;- NA # 初始化随机抽取100次的平均物种数</span><br><span class="line">        for (i in 1:nperm)&#123;</span><br><span class="line">            n_species_90_to_100_i &lt;- c(n_species_90_to_100_i, length(unique(sample(specimen_names, size &#x3D; j))))</span><br><span class="line">        &#125;</span><br><span class="line">        n_species_90_to_100 &lt;- c(n_species_90_to_100, mean(na.omit(n_species_90_to_100_i)))  #</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # 初始化的时候，NA要去掉</span><br><span class="line">    n_species_90_to_100_clean &lt;- na.omit(n_species_90_to_100)</span><br><span class="line"></span><br><span class="line">    # 只取物种数大于百分之九十物种数时的情况</span><br><span class="line">    n_species_90_to_100_clean &lt;- n_species_90_to_100_clean[n_species_90_to_100_clean &gt; nspecies_90]</span><br><span class="line"></span><br><span class="line">    # 为了求得每增加一份标本，平均增加多少种，要将所得结果错位，然后相减</span><br><span class="line">    par1 &lt;- c(NA, n_species_90_to_100_clean)</span><br><span class="line">    par2 &lt;- c(n_species_90_to_100_clean, NA)</span><br><span class="line"></span><br><span class="line">    # 相减之前，要先去掉NA，否则平均值也是NA</span><br><span class="line">    # slope_90_100为一个向量，从NA开始，长度不断增加，注意slope_90_100在循环外面已经定义了</span><br><span class="line">    # mean(na.omit(c(par2 - par1))) 就是从物种数达到90%之后，每增加一份标本，平均增加的物种数</span><br><span class="line"></span><br><span class="line">    slope_90_100 &lt;- c(slope_90_100, mean(na.omit(c(par2 - par1)))) # 求斜率，以总标本数为基准</span><br><span class="line"></span><br><span class="line">    # 显示每个文件，slope的值</span><br><span class="line">    print(paste(&quot;The average slope (90-100%) for file&quot;, excel_files[k] ,&quot;is:&quot;, mean(na.omit(c(par2 - par1)))))</span><br><span class="line">&#125;</span><br><span class="line"># 将所有文件的slope，保存到一个CSV中，同时提供文件名</span><br><span class="line">write.csv(data.frame(site &#x3D; excel_files, slope_90_100 &#x3D; na.omit(slope_90_100)), &quot;survey_completeness.csv&quot;)</span><br></pre></td></tr></table></figure>
 
-# 获得某个文件夹的所有xlsx文件字符串向量
-all_files &lt;- list.files()
-excel_files &lt;- all_files[grepl(&quot;.xlsx&quot;, all_files)]
-
-# 针对每个标本数量，例如从30000个标本中，随机抽26000个标本，这里要随机抽取100次， nperm就是控制随机抽取的数量
-nperm = 100
-
-slope_90_100 &lt;- NA # 初始化, slope_90_100 保存每个文件（也就是每个地点的slope值）
-
-# k为excel文件的数量
-for(k in 1:length(excel_files))&#123;
-    
-    # 读取一个excel文件
-    specimen_names &lt;- read.xlsx(excel_files[k])[,1]
-    
-    # 求物种数
-    nspecies &lt;- length(unique(specimen_names))
-    
-    # 物种数不能少于10
-    if(nspecies &lt; 10)&#123;
-        stop(&quot;Number of species should be more than 10&quot;)
-    &#125;
-    
-    # 标本数不能少于50
-    if(length(specimen_names) &lt; 50)&#123;
-        stop(&quot;Number of specimens should be more than 50&quot;)
-    &#125;
-    
-    # 90%的物种数
-    nspecies_90 &lt;- nspecies * 0.9
-    
-    ## 为了减少计算量，这里只计算物种数达到90%以后的物种累计曲线
-    ## 因此，先要计算在标本达到总标本数的多少时（求一个比例ratio），物种数不超过90%
-
-    ratio = 1.0 # 设定ratio的初始值，然后猜100次，一直到标本数刚刚少于90%的物种数为止。每一步递减0.01，猜100次（nguess），足以覆盖所有的情况
-    nguess = 100
-    for(m in 1:nguess)&#123;
-        if(length(unique(sample(specimen_names, ceiling(length(specimen_names) * ratio)))) &gt; nspecies_90) &#123;
-             ratio &lt;- ratio - 0.01
-         &#125; else &#123;
-             ratio &lt;- ratio
-         &#125;
-    &#125;
-
-    n_species_90_to_100 &lt;- NA
-    # 从能达到90%物种数的标本比例开始计算随标本数增加的物种累计曲线
-    for (j in floor(length(specimen_names) * ratio):length(specimen_names))&#123;
-        n_species_90_to_100_i &lt;- NA # 初始化随机抽取100次的平均物种数
-        for (i in 1:nperm)&#123;
-            n_species_90_to_100_i &lt;- c(n_species_90_to_100_i, length(unique(sample(specimen_names, size = j))))
-        &#125;
-        n_species_90_to_100 &lt;- c(n_species_90_to_100, mean(na.omit(n_species_90_to_100_i)))  #
-    &#125;
-
-    # 初始化的时候，NA要去掉
-    n_species_90_to_100_clean &lt;- na.omit(n_species_90_to_100)
-
-    # 只取物种数大于百分之九十物种数时的情况
-    n_species_90_to_100_clean &lt;- n_species_90_to_100_clean[n_species_90_to_100_clean &gt; nspecies_90]
-
-    # 为了求得每增加一份标本，平均增加多少种，要将所得结果错位，然后相减
-    par1 &lt;- c(NA, n_species_90_to_100_clean)
-    par2 &lt;- c(n_species_90_to_100_clean, NA)
-
-    # 相减之前，要先去掉NA，否则平均值也是NA
-    # slope_90_100为一个向量，从NA开始，长度不断增加，注意slope_90_100在循环外面已经定义了
-    # mean(na.omit(c(par2 - par1))) 就是从物种数达到90%之后，每增加一份标本，平均增加的物种数
-
-    slope_90_100 &lt;- c(slope_90_100, mean(na.omit(c(par2 - par1)))) # 求斜率，以总标本数为基准
-
-    # 显示每个文件，slope的值
-    print(paste(&quot;The average slope (90-100%) for file&quot;, excel_files[k] ,&quot;is:&quot;, mean(na.omit(c(par2 - par1)))))
-&#125;
-# 将所有文件的slope，保存到一个CSV中，同时提供文件名
-write.csv(data.frame(site = excel_files, slope_90_100 = na.omit(slope_90_100)), &quot;survey_completeness.csv&quot;)
-</code></pre>
 <h1 id="致谢"><a href="#致谢" class="headerlink" title="致谢"></a>致谢</h1><ul>
 <li>感谢中科院植物所刘慧圆老师一起讨论问题</li>
 </ul>
@@ -206,7 +129,7 @@ write.csv(data.frame(site = excel_files, slope_90_100 = na.omit(slope_90_100)), 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2019/10/21/2019-10-21/" data-id="ckmq42al100cl1k848bjg3ciq" data-title="怎样确定一个地区标本采集的完整程度" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2019/10/21/2019-10-21/" data-id="ckmt6y7q400djmgya1oybh29x" data-title="怎样确定一个地区标本采集的完整程度" class="article-share-link">Share</a>
       
       
       

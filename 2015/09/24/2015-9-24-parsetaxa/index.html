@@ -14,7 +14,7 @@
 <meta property="og:description" content="处理生物学名时经常需要将学名按照意义分成几个部分， 如  GENUS                         属名 SPECIES                       种加词 AUTHOR_OF_SPECIES             作者 INFRASPECIFIC_RANK            种下等级 INFRASPECIFIC_EPITHET         种下等级加词">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2015-09-23T20:44:00.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:34:24.567Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:26.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="植物学名">
 <meta name="twitter:card" content="summary">
@@ -129,28 +129,12 @@
 </ol>
 <p>herblabel (<a target="_blank" rel="noopener" href="https://github.com/helixcn/herblabel">https://github.com/helixcn/herblabel</a>  ) R 程序包提供了一个简单的生物学名处理的函数</p>
 <p>parse_taxa()， 经过测试，在以上提到的各种情况， 均工作正常。 由于 种下等级 f. 也常用于人名， 故本程序未加入处理f.的部分。 </p>
-<pre><code class="R">library(herblabel)
-###  Species
-parse_taxa(&quot;Acer&quot;)
-parse_taxa(&quot;Acer caudatifoliumHayata&quot;)
-parse_taxa(&quot;Acer caudatifolium&quot;)
-parse_taxa(&quot;Acer sp.&quot;)
-### variaty
-parse_taxa(&quot;Acer caudatum Wall. var.multiserratum (Maxim.) Rehd.&quot;)
-parse_taxa(&quot;Acer caudatum var.multiserratum (Maxim.) Rehd.&quot;)
-parse_taxa(&quot;Acer caudatum Wall. var.multiserratum&quot;)
-parse_taxa(&quot;Acer caudatum var. multiserratum&quot;)
-### subspecies
-parse_taxa(&quot;Acer caesium Wall. exBrandis subsp. giraldii (Pax) E. Murr.&quot;)
-parse_taxa(&quot;Acer caesium subsp.giraldii (Pax) E. Murr.&quot;)
-parse_taxa(&quot;Acer caesium Wall. exBrandis subsp. giraldii&quot;)
-parse_taxa(&quot;Acer caesium subsp.giraldii&quot;)
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">library(herblabel)</span><br><span class="line"><span class="comment">###  Species</span></span><br><span class="line">parse_taxa(<span class="string">&quot;Acer&quot;</span>)</span><br><span class="line">parse_taxa(<span class="string">&quot;Acer caudatifoliumHayata&quot;</span>)</span><br><span class="line">parse_taxa(<span class="string">&quot;Acer caudatifolium&quot;</span>)</span><br><span class="line">parse_taxa(<span class="string">&quot;Acer sp.&quot;</span>)</span><br><span class="line"><span class="comment">### variaty</span></span><br><span class="line">parse_taxa(<span class="string">&quot;Acer caudatum Wall. var.multiserratum (Maxim.) Rehd.&quot;</span>)</span><br><span class="line">parse_taxa(<span class="string">&quot;Acer caudatum var.multiserratum (Maxim.) Rehd.&quot;</span>)</span><br><span class="line">parse_taxa(<span class="string">&quot;Acer caudatum Wall. var.multiserratum&quot;</span>)</span><br><span class="line">parse_taxa(<span class="string">&quot;Acer caudatum var. multiserratum&quot;</span>)</span><br><span class="line"><span class="comment">### subspecies</span></span><br><span class="line">parse_taxa(<span class="string">&quot;Acer caesium Wall. exBrandis subsp. giraldii (Pax) E. Murr.&quot;</span>)</span><br><span class="line">parse_taxa(<span class="string">&quot;Acer caesium subsp.giraldii (Pax) E. Murr.&quot;</span>)</span><br><span class="line">parse_taxa(<span class="string">&quot;Acer caesium Wall. exBrandis subsp. giraldii&quot;</span>)</span><br><span class="line">parse_taxa(<span class="string">&quot;Acer caesium subsp.giraldii&quot;</span>)</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2015/09/24/2015-9-24-parsetaxa/" data-id="ckmq42ajb007l1k847iq0b415" data-title="一个简单的Taxon Parser：将输入的字符串按照属种作者分开" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2015/09/24/2015-9-24-parsetaxa/" data-id="ckmt6y7n9007vmgya3es9hqww" data-title="一个简单的Taxon Parser：将输入的字符串按照属种作者分开" class="article-share-link">Share</a>
       
       
       

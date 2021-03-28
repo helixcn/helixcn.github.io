@@ -104,13 +104,8 @@
 <li>去掉非ASCII字符，或者用近似的字母代替原来的字母。 </li>
 </ol>
 <p>StackOverFlow上Wickham提出的一个解决方案， 举例如下： </p>
-<pre><code class="R">x &lt;- c(&quot;Ekstru00f8m&quot;, &quot;Ju00f6reskog&quot;, &quot;biu00dfchen Zu00fcrcher&quot;)
-x
-#&gt; [1] &quot;Ekstrøm&quot;         &quot;Jöreskog&quot;        &quot;bißchen Zürcher&quot;
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">x &lt;- <span class="built_in">c</span>(<span class="string">&quot;Ekstru00f8m&quot;</span>, <span class="string">&quot;Ju00f6reskog&quot;</span>, <span class="string">&quot;biu00dfchen Zu00fcrcher&quot;</span>)</span><br><span class="line">x</span><br><span class="line"><span class="comment">#&gt; [1] &quot;Ekstrøm&quot;         &quot;Jöreskog&quot;        &quot;bißchen Zürcher&quot;</span></span><br><span class="line"></span><br><span class="line">stringi::stri_trans_general(x, <span class="string">&quot;latin-ascii&quot;</span>)</span><br><span class="line"><span class="comment">#&gt; [1] &quot;Ekstrom&quot;          &quot;Joreskog&quot;         &quot;bisschen Zurcher&quot;</span></span><br></pre></td></tr></table></figure>
 
-stringi::stri_trans_general(x, &quot;latin-ascii&quot;)
-#&gt; [1] &quot;Ekstrom&quot;          &quot;Joreskog&quot;         &quot;bisschen Zurcher&quot;
-</code></pre>
 <ol start="2">
 <li>用UTF编码的转义字符。<br>未能查到从GB2312或者GB18030转换为UTF8字符的算法。 但是有一种方式可以实现的。 那就是使用 openxlsx程序包先将字符以xlsx格式保存在Excel文件中， 保存后用read.xlsx读取， 生成了UTF8转义字符串。 经过转换后的字符串可以在R程序包中正常处理了。</li>
 </ol>
@@ -119,7 +114,7 @@ stringi::stri_trans_general(x, &quot;latin-ascii&quot;)
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2017/04/10/2017-4-11-plantlist/" data-id="ckmq42ajp008u1k842hux5ap4" data-title="plantlist程序包已经恢复从Rforge下载或安装" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2017/04/10/2017-4-11-plantlist/" data-id="ckmt6y7o1009amgya37o7072z" data-title="plantlist程序包已经恢复从Rforge下载或安装" class="article-share-link">Share</a>
       
       
       
@@ -178,7 +173,7 @@ stringi::stri_trans_general(x, &quot;latin-ascii&quot;)
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2017/04/02/2017-4-2-laogu/" data-id="ckmq42ajr00901k845mxr79wf" data-title="怀念老姑" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2017/04/02/2017-4-2-laogu/" data-id="ckmt6y7o2009emgyafy0k6rc1" data-title="怀念老姑" class="article-share-link">Share</a>
       
       
       
@@ -263,7 +258,7 @@ stringi::stri_trans_general(x, &quot;latin-ascii&quot;)
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2017/02/21/2017-2-21-tools3/" data-id="ckmq42ajp008s1k84atfjev7e" data-title="简短笔记一则：查找并删除重复文件" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2017/02/21/2017-2-21-tools3/" data-id="ckmt6y7ny0096mgya9xiiesk0" data-title="简短笔记一则：查找并删除重复文件" class="article-share-link">Share</a>
       
       
       
@@ -300,31 +295,14 @@ stringi::stri_trans_general(x, &quot;latin-ascii&quot;)
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>问题：现有全国范围内的样地分布地点，已知它们的WGS84经纬度，如何用R从植被分区图中提取每个点的植被分区信息？</p>
-<pre><code class="R">#### 植被图下载 https://xg1990.com/blog/archives/97
-#### R代码： 
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#### 植被图下载 https://xg1990.com/blog/archives/97</span></span><br><span class="line"><span class="comment">#### R代码： </span></span><br><span class="line"></span><br><span class="line">setwd(<span class="string">&quot;/working directory/&quot;</span>)</span><br><span class="line">library(openxlsx)</span><br><span class="line">library(maptools)</span><br><span class="line">library(sp)</span><br><span class="line">point_dat &lt;- read.xlsx(<span class="string">&quot;sites.xlsx&quot;</span>)</span><br><span class="line">coordinates(point_dat) &lt;- cbind(point_dat$longitude , point_dat$latitude)</span><br><span class="line"></span><br><span class="line"><span class="comment">##### 植被分区图下载地址</span></span><br><span class="line"><span class="comment">#####  http://xg1990.com/blog/wp-content/uploads/2012/09/%E4%B8%AD%E5%9B%BD%E6%A4%8D%E8%A2%AB%E5%8C%BA%E5%88%92.poly_.WGS84.zip</span></span><br><span class="line"></span><br><span class="line">county &lt;- readShapePoly(<span class="string">&quot;china_vegetation_polygon.WGS84&quot;</span>)</span><br><span class="line">plot(county)</span><br><span class="line">extracted = over(point_dat, county)</span><br><span class="line">res &lt;- data.frame(point_dat, extracted)</span><br><span class="line">write.xlsx(res, <span class="string">&quot;extracted_by_points.xlsx</span></span><br><span class="line"><span class="string"></span></span><br></pre></td></tr></table></figure>
 
-setwd(&quot;/working directory/&quot;)
-library(openxlsx)
-library(maptools)
-library(sp)
-point_dat &lt;- read.xlsx(&quot;sites.xlsx&quot;)
-coordinates(point_dat) &lt;- cbind(point_dat$longitude , point_dat$latitude)
-
-##### 植被分区图下载地址
-#####  http://xg1990.com/blog/wp-content/uploads/2012/09/%E4%B8%AD%E5%9B%BD%E6%A4%8D%E8%A2%AB%E5%8C%BA%E5%88%92.poly_.WGS84.zip
-
-county &lt;- readShapePoly(&quot;china_vegetation_polygon.WGS84&quot;)
-plot(county)
-extracted = over(point_dat, county)
-res &lt;- data.frame(point_dat, extracted)
-write.xlsx(res, &quot;extracted_by_points.xlsx
-</code></pre>
 <p>数据和代码的下载地址： <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=attachment&id=92589">extract value from polygon.zip</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2016/12/14/2016-12-14-map/" data-id="ckmq42ajf007x1k843u00cq0n" data-title="基于地理坐标提取地图中的属性信息" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2016/12/14/2016-12-14-map/" data-id="ckmt6y7nm008gmgyah4cq9ouo" data-title="基于地理坐标提取地图中的属性信息" class="article-share-link">Share</a>
       
       
       
@@ -398,7 +376,7 @@ write.xlsx(res, &quot;extracted_by_points.xlsx
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2016/11/25/2016-11-25-distributionmaps/" data-id="ckmq42aje007v1k845ptgfq37" data-title="通过数码照片以及GPS航迹绘制物种分布图" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2016/11/25/2016-11-25-distributionmaps/" data-id="ckmt6y7ne0085mgyae6m5ftng" data-title="通过数码照片以及GPS航迹绘制物种分布图" class="article-share-link">Share</a>
       
       
       
@@ -440,7 +418,7 @@ write.xlsx(res, &quot;extracted_by_points.xlsx
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2016/11/16/2016-11-16-hainan/" data-id="ckmq42ajd007s1k84hayzbyav" data-title="海南大学报告:什么是系统发育比较分析?" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2016/11/16/2016-11-16-hainan/" data-id="ckmt6y7nc0082mgya1fv03vxx" data-title="海南大学报告:什么是系统发育比较分析?" class="article-share-link">Share</a>
       
       
       
@@ -494,7 +472,7 @@ write.xlsx(res, &quot;extracted_by_points.xlsx
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2016/11/15/2016-11-15-herblabel/" data-id="ckmq42ajd007q1k84a2xtcj2m" data-title="用herblabel程序包打印不同风格的植物标本标签" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2016/11/15/2016-11-15-herblabel/" data-id="ckmt6y7nb0080mgya5mh03fk6" data-title="用herblabel程序包打印不同风格的植物标本标签" class="article-share-link">Share</a>
       
       
       
@@ -546,79 +524,25 @@ write.xlsx(res, &quot;extracted_by_points.xlsx
 <p>Rmarkdown的基本结构</p>
 <p>Rmarkdown需要以用YAML表头开始。YAML是一种计算机标记语言， 用来提供文档的基本信息。YAML需要缩进来体现各部分内容之间的逻辑关系。一般来说， Rmarkdown的YAML信息包括最基本的三项， 其中冒号前为关键字， 冒号后为参数， 以指明该文档的作者， 时间， 许可证， 通过什么软件编译，输出方式等。</p>
 <p>例如：</p>
-<pre><code class="YAML">title: &quot;Untitled&quot;
-author: &quot;Anonymous&quot;
-output: html_document
-</code></pre>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">title:</span> <span class="string">&quot;Untitled&quot;</span></span><br><span class="line"><span class="attr">author:</span> <span class="string">&quot;Anonymous&quot;</span></span><br><span class="line"><span class="attr">output:</span> <span class="string">html_document</span></span><br></pre></td></tr></table></figure>
+
 <p>正文内容与markdown的语法无异， markdown的正文中可以插入不同等级的标题，图片，表格，超链接，Latex的数学公式等等。Rstudio给出了参考卡片 （<a target="_blank" rel="noopener" href="https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-chinese.pdf%EF%BC%89">https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-chinese.pdf）</a></p>
 <p>如果要编译中文文档，特别是生成pdf文档， 则需要更改YAML说明的output部分。设定<br><code>- \usepackage&#123;ctex&#125;</code> 以及 <code>pdf_document: latex_engine: xelatex</code></p>
 <p>以下文档， 已经在Windows10 下已经编译成功：</p>
-<pre><code class="YAML">##### R Markdown文档开始 ###########
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##### R Markdown文档开始 ###########</span></span><br><span class="line"></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">&quot;用R绘制 Color Checker&quot;</span></span><br><span class="line"><span class="attr">author:</span> <span class="string">&quot;张金龙&quot;</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2016-09-21</span></span><br><span class="line"><span class="attr">header-includes:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">\usepackage&#123;ctex&#125;</span></span><br><span class="line"><span class="attr">output:</span></span><br><span class="line">  <span class="attr">pdf_document:</span></span><br><span class="line">  <span class="attr">latex_engine:</span> <span class="string">xelatex</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
 
----
-title: &quot;用R绘制 Color Checker&quot;
-author: &quot;张金龙&quot;
-date: 2016-09-21
-header-includes:
-  - \usepackage&#123;ctex&#125;
-output:
-  pdf_document:
-  latex_engine: xelatex
----
-</code></pre>
 <p>比色卡主要用于摄影时校正白平衡等， 在摄影，美术， 科学研究中有很广泛的应用。下面介绍用R如何绘制比色卡。</p>
 <p>首先Color Checker 所需的RGB颜色，来源于 <a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/ColorChecker">http://en.wikipedia.org/wiki/ColorChecker</a></p>
 <p>ColorChecker Colorimetric Data, archived from the original on 2012-04-17, retrieved 2012-04-17</p>
 <p>以下是R代码:</p>
-<pre><code class="R">## 比色卡RGB颜色
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 比色卡RGB颜色</span></span><br><span class="line"></span><br><span class="line">sRGB &lt;- <span class="built_in">c</span>( <span class="string">&quot;#735244&quot;</span>, <span class="string">&quot;#c29682&quot;</span>, <span class="string">&quot;#627a9d&quot;</span>, <span class="string">&quot;#576c43&quot;</span>, <span class="string">&quot;#8580b1&quot;</span>, <span class="string">&quot;#67bdaa&quot;</span>,</span><br><span class="line">           <span class="string">&quot;#d67e2c&quot;</span>, <span class="string">&quot;#505ba6&quot;</span>, <span class="string">&quot;#c15a63&quot;</span>, <span class="string">&quot;#5e3c6c&quot;</span>, <span class="string">&quot;#9dbc40&quot;</span>, <span class="string">&quot;#e0a32e&quot;</span>,</span><br><span class="line">           <span class="string">&quot;#383d96&quot;</span>, <span class="string">&quot;#469449&quot;</span>, <span class="string">&quot;#af363c&quot;</span>, <span class="string">&quot;#e7c71f&quot;</span>, <span class="string">&quot;#bb5695&quot;</span>, <span class="string">&quot;#0885a1&quot;</span>,</span><br><span class="line">           <span class="string">&quot;#f3f3f2&quot;</span>, <span class="string">&quot;#c8c8c8&quot;</span>, <span class="string">&quot;#a0a0a0&quot;</span>, <span class="string">&quot;#7a7a79&quot;</span>, <span class="string">&quot;#555555&quot;</span>, <span class="string">&quot;#343434&quot;</span>)</span><br><span class="line"></span><br><span class="line">x =<span class="number">1</span>:<span class="number">24</span></span><br><span class="line">y =<span class="number">1</span>:<span class="number">24</span></span><br><span class="line"><span class="built_in">dim</span>(x) &lt;- <span class="built_in">c</span>(<span class="number">4</span>, <span class="number">6</span>)</span><br><span class="line"><span class="built_in">dim</span>(y) &lt;- <span class="built_in">c</span>(<span class="number">4</span>, <span class="number">6</span>)</span><br><span class="line"></span><br><span class="line">x1 = <span class="number">2</span></span><br><span class="line">y1 = -<span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="number">6</span>)&#123;</span><br><span class="line">  <span class="keyword">for</span>(j <span class="keyword">in</span> <span class="number">1</span>:<span class="number">4</span>)&#123;</span><br><span class="line">    x[j, i]&lt;- x1 + i*(<span class="number">13.5</span>+<span class="number">2</span>)</span><br><span class="line">    y[j, i]&lt;- y1 - j*(<span class="number">13.5</span>+<span class="number">2</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">x2 &lt;- x -<span class="number">13.5</span></span><br><span class="line">y2 &lt;- y -<span class="number">13.5</span></span><br><span class="line"></span><br><span class="line">par(bg =<span class="string">&#x27;black&#x27;</span>, mar =<span class="built_in">c</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">.8</span>,<span class="number">0</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">#### 绘制背景</span></span><br><span class="line">plot(<span class="number">1</span>, xlim =<span class="built_in">c</span>(<span class="number">5</span>, <span class="number">94</span>), ylim =<span class="built_in">c</span>(-<span class="number">77</span>, -<span class="number">18</span>), pch =<span class="string">&quot;&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#### 绘制每种颜色的小方块</span></span><br><span class="line"></span><br><span class="line">k =<span class="number">1</span></span><br><span class="line"><span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="number">4</span>)&#123;</span><br><span class="line">  <span class="keyword">for</span>(j <span class="keyword">in</span> <span class="number">1</span>:<span class="number">6</span>)&#123;</span><br><span class="line">    rect(x[i,j],y[i,j],x2[i,j],y2[i,j], col= sRGB[k])</span><br><span class="line">    k = k +<span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">mtext(<span class="string">&quot;Colour Checker in RGB&quot;</span>,side =<span class="number">3</span>, line=<span class="number">.01</span>, col=<span class="string">&quot;white&quot;</span>, cex =<span class="number">0.6</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">##### R Markdown文档结束 ###########</span></span><br></pre></td></tr></table></figure>
 
-sRGB &lt;- c( &quot;#735244&quot;, &quot;#c29682&quot;, &quot;#627a9d&quot;, &quot;#576c43&quot;, &quot;#8580b1&quot;, &quot;#67bdaa&quot;,
-           &quot;#d67e2c&quot;, &quot;#505ba6&quot;, &quot;#c15a63&quot;, &quot;#5e3c6c&quot;, &quot;#9dbc40&quot;, &quot;#e0a32e&quot;,
-           &quot;#383d96&quot;, &quot;#469449&quot;, &quot;#af363c&quot;, &quot;#e7c71f&quot;, &quot;#bb5695&quot;, &quot;#0885a1&quot;,
-           &quot;#f3f3f2&quot;, &quot;#c8c8c8&quot;, &quot;#a0a0a0&quot;, &quot;#7a7a79&quot;, &quot;#555555&quot;, &quot;#343434&quot;)
-
-x =1:24
-y =1:24
-dim(x) &lt;- c(4, 6)
-dim(y) &lt;- c(4, 6)
-
-x1 = 2
-y1 = -2
-
-for(i in 1:6)&#123;
-  for(j in 1:4)&#123;
-    x[j, i]&lt;- x1 + i*(13.5+2)
-    y[j, i]&lt;- y1 - j*(13.5+2)
-  &#125;
-&#125;
-
-x2 &lt;- x -13.5
-y2 &lt;- y -13.5
-
-par(bg =&#39;black&#39;, mar =c(0,0,.8,0))
-
-#### 绘制背景
-plot(1, xlim =c(5, 94), ylim =c(-77, -18), pch =&quot;&quot;)
-
-#### 绘制每种颜色的小方块
-
-k =1
-for(i in 1:4)&#123;
-  for(j in 1:6)&#123;
-    rect(x[i,j],y[i,j],x2[i,j],y2[i,j], col= sRGB[k])
-    k = k +1
-  &#125;
-&#125;
-mtext(&quot;Colour Checker in RGB&quot;,side =3, line=.01, col=&quot;white&quot;, cex =0.6)
-
-##### R Markdown文档结束 ###########
-</code></pre>
 <p>将以上内容保存为.Rmd文件，并用Rstudio打开， 点击标题栏的Knit 即可编译为PDF。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2016/09/21/2016-9-21-rmd/" data-id="ckmq42ajk008d1k84emyn01w0" data-title="Rmarkdown与R的动态统计报告 (2019-02-19)" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2016/09/21/2016-9-21-rmd/" data-id="ckmt6y7nr008pmgya1q243n0k" data-title="Rmarkdown与R的动态统计报告 (2019-02-19)" class="article-share-link">Share</a>
       
       
       
@@ -694,7 +618,7 @@ mtext(&quot;Colour Checker in RGB&quot;,side =3, line=.01, col=&quot;white&quot;
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2016/06/06/2016-6-7-EcoEvoLinks/" data-id="ckmq42ajj008b1k847ccn5fhr" data-title="生态学和进化的重要链接EcoEvoLinks" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2016/06/06/2016-6-7-EcoEvoLinks/" data-id="ckmt6y7np008nmgya1jmifkkb" data-title="生态学和进化的重要链接EcoEvoLinks" class="article-share-link">Share</a>
       
       
       
@@ -739,7 +663,7 @@ mtext(&quot;Colour Checker in RGB&quot;,side =3, line=.01, col=&quot;white&quot;
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2016/05/29/2016-5-30-phyloref/" data-id="ckmq42aji00861k84b7oae36s" data-title="R系统发育比较分析快速参考V1.0.1" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2016/05/29/2016-5-30-phyloref/" data-id="ckmt6y7nn008imgya6ema5cd2" data-title="R系统发育比较分析快速参考V1.0.1" class="article-share-link">Share</a>
       
       
       

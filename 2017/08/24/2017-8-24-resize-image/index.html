@@ -6,15 +6,15 @@
   
   <title>ImageMagick批量调整多个文件夹下照片的尺寸 | Jinlong Zhang&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Install ImageMagick https:&#x2F;&#x2F;www.imagemagick.org&#x2F;script&#x2F;index.php  安装 ImageMagick    Make sure the command mogrify could be called from CMD  安装时选择添加路径，以便mogrify组建能够从CMD调用。 #### Run the following R co">
+  <meta name="description" content="Install ImageMagick https:&#x2F;&#x2F;www.imagemagick.org&#x2F;script&#x2F;index.php  安装 ImageMagick    Make sure the command mogrify could be called from CMD  安装时选择添加路径，以便mogrify组建能够从CMD调用。 12345678910111213141516####">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ImageMagick批量调整多个文件夹下照片的尺寸">
 <meta property="og:url" content="https://helixcn.github.io/2017/08/24/2017-8-24-resize-image/index.html">
 <meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
-<meta property="og:description" content="Install ImageMagick https:&#x2F;&#x2F;www.imagemagick.org&#x2F;script&#x2F;index.php  安装 ImageMagick    Make sure the command mogrify could be called from CMD  安装时选择添加路径，以便mogrify组建能够从CMD调用。 #### Run the following R co">
+<meta property="og:description" content="Install ImageMagick https:&#x2F;&#x2F;www.imagemagick.org&#x2F;script&#x2F;index.php  安装 ImageMagick    Make sure the command mogrify could be called from CMD  安装时选择添加路径，以便mogrify组建能够从CMD调用。 12345678910111213141516####">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2017-08-23T18:50:54.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:34:24.591Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:26.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="图像处理">
 <meta name="twitter:card" content="summary">
@@ -106,28 +106,14 @@
 <li> Make sure the command mogrify could be called from CMD</li>
 </ol>
 <p>安装时选择添加路径，以便mogrify组建能够从CMD调用。</p>
-<pre><code class="R">#### Run the following R code
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#### Run the following R code</span></span><br><span class="line"></span><br><span class="line">运行以下R代码。location为照片所保存的文件夹。 </span><br><span class="line"></span><br><span class="line">location =<span class="string">&quot;D:/photos&quot;</span></span><br><span class="line">setwd(location)</span><br><span class="line"></span><br><span class="line">dirs &lt;- list.dirs(path = location, full.names =<span class="literal">TRUE</span>, recursive =<span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(dirs))&#123;</span><br><span class="line">   temp &lt;- dirs[i]</span><br><span class="line">   setwd(temp)</span><br><span class="line">   system(<span class="string">&quot;mogrify -resize 2909x4000 -density 72 *.jpg&quot;</span>)</span><br><span class="line">   print(paste(<span class="string">&quot;Resizing&quot;</span>,temp))</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-运行以下R代码。location为照片所保存的文件夹。 
-
-location =&quot;D:/photos&quot;
-setwd(location)
-
-dirs &lt;- list.dirs(path = location, full.names =TRUE, recursive =TRUE)
-
-for(i in 1:length(dirs))&#123;
-   temp &lt;- dirs[i]
-   setwd(temp)
-   system(&quot;mogrify -resize 2909x4000 -density 72 *.jpg&quot;)
-   print(paste(&quot;Resizing&quot;,temp))
-&#125;
-</code></pre>
 <p>更多选项参见 mogrify的帮助。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2017/08/24/2017-8-24-resize-image/" data-id="ckmq42ajt00981k842g95e31t" data-title="ImageMagick批量调整多个文件夹下照片的尺寸" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2017/08/24/2017-8-24-resize-image/" data-id="ckmt6y7o5009kmgyagg5lgyo6" data-title="ImageMagick批量调整多个文件夹下照片的尺寸" class="article-share-link">Share</a>
       
       
       

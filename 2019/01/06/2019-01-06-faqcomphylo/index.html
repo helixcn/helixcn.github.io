@@ -14,7 +14,7 @@
 <meta property="og:description" content="PDF：群落系统发育常见问题合集 张金龙.pdf R Markdown 源代码  https:&#x2F;&#x2F;github.com&#x2F;helixcn&#x2F;comphylo_faq 入门群落系统发育入门资料提问： 能不能介绍些phylogenetic方面的入门资料及其在生态学方面的应用呢？ 回复： 系统发育分析入门最好的教材，我觉得是 The phylogenetic handbook。 另外，我觉得先学习几个软件的">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2019-01-06T00:16:54.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:34:24.622Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:26.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="生态">
 <meta name="twitter:card" content="summary">
@@ -134,8 +134,8 @@
 <p><strong>回复</strong>：</p>
 <p>请参考下面的意见。 </p>
 <p>现在通过Phylomatic可以直接生成有枝长的进化树， 无需再用BLADJ。我帮你建好了进化树，但是有两个分类单元没有找到：</p>
-<pre><code>[NOTE: 2 taxa not matched: Pinaceae/Abies/Abies_chensiensis, Pinaceae/Larix/Larix_principis-rupprechtii, ];
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[NOTE: 2 taxa not matched: Pinaceae&#x2F;Abies&#x2F;Abies_chensiensis, Pinaceae&#x2F;Larix&#x2F;Larix_principis-rupprechtii, ];</span><br></pre></td></tr></table></figure>
+
 <p>有几点需要留意：</p>
 <ol>
 <li>物种名在数据分析阶段不要包括命名人</li>
@@ -166,11 +166,11 @@
 <ol>
 <li>对数据phylo.txt，在使用Phylomatic建树，网页出现下面提示：</li>
 </ol>
-<pre><code>Server error!The server encountered an internal error and was unable to complete your request.Error message: End of script output before headers: pmwsIf you think this is a server error, please contact the webmaster.
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Server error!The server encountered an internal error and was unable to complete your request.Error message: End of script output before headers: pmwsIf you think this is a server error, please contact the webmaster.</span><br></pre></td></tr></table></figure>
+
 <p>2.对数据res.sp.smt.txt，读树时，出现下面错误：</p>
-<pre><code>&gt; tree.jgs &lt;- read.tree(&quot;phylo.txt&quot;)Error in read.tree(&quot;phylo.txt&quot;) : The tree has apparently singleton node(s): cannot read tree file.Reading Newick file aborted at tree no. 1
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; tree.jgs &lt;- read.tree(&quot;phylo.txt&quot;)Error in read.tree(&quot;phylo.txt&quot;) : The tree has apparently singleton node(s): cannot read tree file.Reading Newick file aborted at tree no. 1</span><br></pre></td></tr></table></figure>
+
 <p><strong>回复</strong>：</p>
 <p>您的进化树中物种名含有很多空格，而且物种名还包含命名人， 这在R读取中会遇到困难。 在提交物种名单到Phylomatic时，就应该保证学名只包括英文字母以及“<code>_</code>”， 不要包含任何其他的字符，否则即便生成了进化树， 在R或者其他进化树处理软件中，后续数据分析会很困难。 特别是命名人中还有英文括号， 例如 <code>Padus_racemosa_(Lam._)_Gilib.， Swida_macrophylla_(Wall.)_Soj¨￠k</code> 等， 会影响进化树的读取。英文括号在newick文件中是用来定义进化树拓扑结构相关的，所以物种名中不要包含括号。</p>
 <h2 id="为什么要用Zanne2014进化树骨架？"><a href="#为什么要用Zanne2014进化树骨架？" class="headerlink" title="为什么要用Zanne2014进化树骨架？"></a>为什么要用Zanne2014进化树骨架？</h2><p><strong>提问</strong>：</p>
@@ -194,17 +194,17 @@
 <p>我看您输出的进化树后面有7个taxa无法匹配，是否是因为APG Ⅲ里面还没将这些科分开（当然里面有5个是棕榈科，是否APG Ⅲ不含单子叶的？）还是科名与APG Ⅲ里的不匹配，虽然这些科名是从The Plant List获取的？之前听植物所刘冰博士介绍APG Ⅲ已经将科之间的关系已经区分清楚了，我比较纳闷怎么还有双子叶科（例如其中的五桠果科）不能匹配？</p>
 <p><strong>回复</strong>：</p>
 <p>棕榈科的名称有两个Palmae 和 Arecaceae</p>
-<pre><code>Palmae= ArecaceaeGramineae= PoaceaeLeguminosae= FabaceaeGuttiferae= ClusiaceaeCruciferae= BrassicaceaeLabiatae= LamiaceaeCompositae= AsteraceaeUmbelliferae= Apiaceae
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Palmae&#x3D; ArecaceaeGramineae&#x3D; PoaceaeLeguminosae&#x3D; FabaceaeGuttiferae&#x3D; ClusiaceaeCruciferae&#x3D; BrassicaceaeLabiatae&#x3D; LamiaceaeCompositae&#x3D; AsteraceaeUmbelliferae&#x3D; Apiaceae</span><br></pre></td></tr></table></figure>
+
 <p>我在校对plantlist程序包时, 已经将Palmae改为 Arecaceae, 但是如果Phylomatic网站所存储的Zanne2014进化树中用的是Palmae这个科名, 就会出现不匹配的情况。此时可以尝试更改科名为 Palmae。</p>
 <p>若Zanne2014的进化树中, 不包含Dilleniaceae, 或者Dilleniaceae的名称拼写错误, 也会出现不匹配的情况. 因为涉及到网站编程, 如awk语言等, 我也不是很清楚。</p>
 <h2 id="Phylomatic只用科名可以建立进化树吗？"><a href="#Phylomatic只用科名可以建立进化树吗？" class="headerlink" title="Phylomatic只用科名可以建立进化树吗？"></a>Phylomatic只用科名可以建立进化树吗？</h2><p><strong>提问</strong>：</p>
 <p>我最近正在使用 Phylocom和Phylomatic进行群落系统进化分析，在进行分析的过程中出现一个问题，举例说明如下：物种名录（已通过R package （plantlist）进行科属的查询）：</p>
-<pre><code>Salicaceae/Ahernia/Ahernia_glandulosaBegoniaceae/Begonia/Begonia_cathayanaPentaphylacaceae/Adinandra/Adinandra_epunctataMyrtaceae/Decaspermum/Decaspermum_gracilentum
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Salicaceae&#x2F;Ahernia&#x2F;Ahernia_glandulosaBegoniaceae&#x2F;Begonia&#x2F;Begonia_cathayanaPentaphylacaceae&#x2F;Adinandra&#x2F;Adinandra_epunctataMyrtaceae&#x2F;Decaspermum&#x2F;Decaspermum_gracilentum</span><br></pre></td></tr></table></figure>
+
 <p>然后只将科名放入Phylomatic建树得到结果如下：</p>
-<pre><code>((((((((((((((((((((((((((begoniaceae)))))cucurbitales))),((((((salicaceae))))malpighiales))celastrales_to_malpighiales))fabids))rosids),(((((((((pentaphylacaceae))))ericales)ericales_to_asterales)asterids)))))core_eudicots)trochodendrales_to_asterales)sabiales_to_asterales)eudicots)ceratophyllales_and_eudicots)poales_to_asterales)magnoliales_to_asterales)austrobaileyales_to_asterales)nymphaeales_to_asterales)angiosperms)seedplants)euphyllophyte;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">((((((((((((((((((((((((((begoniaceae)))))cucurbitales))),((((((salicaceae))))malpighiales))celastrales_to_malpighiales))fabids))rosids),(((((((((pentaphylacaceae))))ericales)ericales_to_asterales)asterids)))))core_eudicots)trochodendrales_to_asterales)sabiales_to_asterales)eudicots)ceratophyllales_and_eudicots)poales_to_asterales)magnoliales_to_asterales)austrobaileyales_to_asterales)nymphaeales_to_asterales)angiosperms)seedplants)euphyllophyte;</span><br></pre></td></tr></table></figure>
+
 <p>再使用Phylocom软件用bladj为进化树拟合枝长，得到进化树如下：</p>
 <p>(图从略)</p>
 <p>结果仅显示了三个科的进化树，还有一个科（Myrtaceae）在树种并未显示。我所分析的全部数据总共有187个科，其中有12科为在进化树中显示。请问出现这样的结果是我的操作上出现了问题，还是Phylomatic系统中就没有这些未显示科的信息。我应该怎么处理这个问题？</p>
@@ -257,8 +257,8 @@
 <p>有些植物虽然是被子植物为什么不能匹配，最后输出的Newick中没有该物种（family/genus/species输入）或者该科（仅family输入）？</p>
 </blockquote>
 <p>被子植物的科名，有若干通用名，包括: </p>
-<pre><code>Palmae= ArecaceaeGramineae= PoaceaeLeguminosae= FabaceaeGuttiferae= ClusiaceaeCruciferae= BrassicaceaeLabiatae= LamiaceaeCompositae= AsteraceaeUmbelliferae= Apiaceae
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Palmae&#x3D; ArecaceaeGramineae&#x3D; PoaceaeLeguminosae&#x3D; FabaceaeGuttiferae&#x3D; ClusiaceaeCruciferae&#x3D; BrassicaceaeLabiatae&#x3D; LamiaceaeCompositae&#x3D; AsteraceaeUmbelliferae&#x3D; Apiaceae</span><br></pre></td></tr></table></figure>
+
 <p>若所属物种是上述几个科的， 可能存在名称不匹配的情况， 则请换成Phylomatic能识别的科名。部分科，如葡萄科，目前的版本，由于Zanne2014进化树的限制，还不能识别。暂时没有更好的办法。</p>
 <blockquote>
 <p>我现在提取枝长是通过修改txt文件中的格式，再导入excel得到枝长，在R中提取枝长的函数是什么？</p>
@@ -279,8 +279,8 @@
 <h2 id="为什么Phylomatic软件中有些植物的科名不匹配？"><a href="#为什么Phylomatic软件中有些植物的科名不匹配？" class="headerlink" title="为什么Phylomatic软件中有些植物的科名不匹配？"></a>为什么Phylomatic软件中有些植物的科名不匹配？</h2><p><strong>提问</strong>：</p>
 <p>我将名录用在线Phylomatic计算后，返回的结果中有些物种not matched。这些植物都是经过你的plantlist软件包检测的，我用在线工具plantminer也是可以查询到并显示Accepted的。我发现这些 not matched物种全部是葡萄科植物。另外，我在您微博中的读者留言区也看到有人也遇到这种问题，其中提到的崖爬藤也属于葡萄科。难道葡萄科都有问题？不知道为什么会这样，想听听您的建议。</p>
 <p>匹配不了的物种名如下：</p>
-<pre><code>Parthenocissus dalzieliiVitis pseudoreticulataAmpelopsis glandulosaCayratia japonica
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Parthenocissus dalzieliiVitis pseudoreticulataAmpelopsis glandulosaCayratia japonica</span><br></pre></td></tr></table></figure>
+
 <p><strong>回复</strong>：</p>
 <p>Phylomatic并不检测物种名是否为接受命， 它只根据科名（部分属也许参考属名，请参考最新的Phylomatic文档）来建立进化树。我之前也遇到葡萄科植物不能匹配的情况，这应该是Phylocom网站本身的问题。具体我觉得还是要咨询Cam Webb博士。 好像棕榈科也是不能匹配的。 </p>
 <h2 id="Phylomatic能够为哪些种建立进化树？"><a href="#Phylomatic能够为哪些种建立进化树？" class="headerlink" title="Phylomatic能够为哪些种建立进化树？"></a>Phylomatic能够为哪些种建立进化树？</h2><p><strong>提问</strong>：</p>
@@ -418,16 +418,16 @@
 <p>您的sample文件是xls文件？ sample文件必须是纯文本文件，并按照Phylocom的要求准备。</p>
 <p>Phylocom计算所需要的进化树必须是Ultrametric进化树。我在Figtree中查看了一下您传给我的进化树，发现并不是UltraMetric的，所以必须要经过转换。但是您传给我的可能是Bootstrap之后，经过合并的，这样对计算结果影响很不好。我一般是用RAxML建立ML的进化树，而且只建立一棵，不进行bootstrap运算以及合并等。</p>
 <p>我用如下命令，将您传给我的进化树转换成了Ultrametric Tree，这在r8s等软件中可以实现。</p>
-<pre><code>library(ape)setwd(&quot;C:/&quot;)tre &lt;- read.tree(&quot;phylo&quot;)tre2 &lt;- chronoMPL(multi2div(tre))write.tree(tre2, &quot;new.tre&quot;)
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">library(ape)setwd(&quot;C:&#x2F;&quot;)tre &lt;- read.tree(&quot;phylo&quot;)tre2 &lt;- chronoMPL(multi2div(tre))write.tree(tre2, &quot;new.tre&quot;)</span><br></pre></td></tr></table></figure>
+
 <p>可以试试以上几句R的命令， 不知是否能解决您的问题</p>
 <h2 id="怎样去掉PD里面物种丰富度的影响？"><a href="#怎样去掉PD里面物种丰富度的影响？" class="headerlink" title="怎样去掉PD里面物种丰富度的影响？"></a>怎样去掉PD里面物种丰富度的影响？</h2><p><strong>提问</strong>：</p>
 <p>想问一下怎么把 phylogenetic diversity(Pd) 中消除Species richness 的影响？有什么指标代替标准化的pd 吗？</p>
 <p><strong>回复</strong>：</p>
 <p>SES PD 我们应该是用picante程序包的 ses.pd直接计算出来的。 </p>
 <p>请参考</p>
-<pre><code>library(picante)?ses.pd&gt; data(Phylocom)&gt; ses.pd(Phylocom$sample, Phylocom$phylo, null.model=&quot;taxa.labels&quot;, runs=99)    ntaxa pd.obs pd.rand.mean pd.rand.sd pd.obs.rank  pd.obs.z pd.obs.p runsclump1    8   16   26.31313  1.607676     1.0    -6.4149319  0.010  99clump2a   8   17   26.17172  1.708564     1.0    -5.3680843  0.010  99clump2b   8   18   26.27273  1.608765     1.0    -5.1422831  0.010  99clump4    8   22   26.58586  1.498367     1.0    -3.0605707  0.010  99even      8   30   26.50505  1.567357     100.0   2.2298368  1.000  99random    8   27   26.64646  1.416471     58.5    0.2495888  0.585  99&gt;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">library(picante)?ses.pd&gt; data(Phylocom)&gt; ses.pd(Phylocom$sample, Phylocom$phylo, null.model&#x3D;&quot;taxa.labels&quot;, runs&#x3D;99)    ntaxa pd.obs pd.rand.mean pd.rand.sd pd.obs.rank  pd.obs.z pd.obs.p runsclump1    8   16   26.31313  1.607676     1.0    -6.4149319  0.010  99clump2a   8   17   26.17172  1.708564     1.0    -5.3680843  0.010  99clump2b   8   18   26.27273  1.608765     1.0    -5.1422831  0.010  99clump4    8   22   26.58586  1.498367     1.0    -3.0605707  0.010  99even      8   30   26.50505  1.567357     100.0   2.2298368  1.000  99random    8   27   26.64646  1.416471     58.5    0.2495888  0.585  99&gt;</span><br></pre></td></tr></table></figure>
+
 <h2 id="为什么PD跟纬度负相关，而SES-PD和纬度正相关？"><a href="#为什么PD跟纬度负相关，而SES-PD和纬度正相关？" class="headerlink" title="为什么PD跟纬度负相关，而SES.PD和纬度正相关？"></a>为什么PD跟纬度负相关，而SES.PD和纬度正相关？</h2><p><strong>提问</strong>：</p>
 <p>谢谢您的回复！我还有个问题，前面算过 <code>ses.pd</code> ，但本来PD跟纬度负相关，但算出来的ses.pd发现跟纬度正相关，这个应该怎么理解？谢谢！</p>
 <p><strong>回复</strong>：</p>
@@ -436,8 +436,8 @@
 <h2 id="没有枝长的进化树，能计算PD吗？"><a href="#没有枝长的进化树，能计算PD吗？" class="headerlink" title="没有枝长的进化树，能计算PD吗？"></a>没有枝长的进化树，能计算PD吗？</h2><p><strong>提问</strong>：</p>
 <p>我用Phylomatic生成了一棵树，后面用Phylocom可以算出pd，但是放在R里面算时，提示说<code>Tree has no branch lengths, cannot compute pd</code>。Phylomatic生成的树不是应该带枝长的吗，是怎么回事呢？</p>
 <p>下面是我用的命令代码：</p>
-<pre><code>install.packages(c(&quot;picante&quot;))setwd(&quot;C:/tree&quot;)library(ape)library(picante)phylo &lt;- read.tree(&quot;phylo.txt&quot;)sample &lt;- read.table(&quot;sample.txt&quot;)pd &lt;- ses.pd(sample, phylo, null.model=&quot;taxa.labels&quot;,run=999,iterations=1000)write.csv(pd, file=&quot;SES.PD.csv&quot;)
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(c(&quot;picante&quot;))setwd(&quot;C:&#x2F;tree&quot;)library(ape)library(picante)phylo &lt;- read.tree(&quot;phylo.txt&quot;)sample &lt;- read.table(&quot;sample.txt&quot;)pd &lt;- ses.pd(sample, phylo, null.model&#x3D;&quot;taxa.labels&quot;,run&#x3D;999,iterations&#x3D;1000)write.csv(pd, file&#x3D;&quot;SES.PD.csv&quot;)</span><br></pre></td></tr></table></figure>
+
 <p><strong>回复</strong>：</p>
 <p>计算PD用的进化树， 是需要有枝长的。否则在计算一个种到另一个种的系统发育距离时，只能计算节点的数量了， 但是节点数直接加减其实并没有多大的意义。</p>
 <p>您的脚本，我发现两个问题： </p>
@@ -446,8 +446,8 @@
 <li>Phylocom sample文件不能在picante中直接使用， 而是要先转换为matrix， 用 sample2matrix函数可以进行相应转换。 </li>
 </ol>
 <p> 修改后的R脚本如下。 </p>
-<pre><code>#### install.packages(c(&quot;picante&quot;))setwd(&quot;C:\\Users\\jlzhang\\Desktop\\attachments&quot;)library(picante)phylo &lt;- read.tree(&quot;phylo.txt&quot;)phylosamp&lt;- read.table(&quot;sample.txt&quot;)mat &lt;- sample2matrix(samp)pd&lt;- ses.pd(mat, phylo, null.model = &quot;taxa.labels&quot;,run = 999,iterations = 1000)write.csv(pd, file=&quot;SES.PD.csv&quot;)
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#### install.packages(c(&quot;picante&quot;))setwd(&quot;C:\\Users\\jlzhang\\Desktop\\attachments&quot;)library(picante)phylo &lt;- read.tree(&quot;phylo.txt&quot;)phylosamp&lt;- read.table(&quot;sample.txt&quot;)mat &lt;- sample2matrix(samp)pd&lt;- ses.pd(mat, phylo, null.model &#x3D; &quot;taxa.labels&quot;,run &#x3D; 999,iterations &#x3D; 1000)write.csv(pd, file&#x3D;&quot;SES.PD.csv&quot;)</span><br></pre></td></tr></table></figure>
+
 <h2 id="怎样计算PD系统发育多样性计算？"><a href="#怎样计算PD系统发育多样性计算？" class="headerlink" title="怎样计算PD系统发育多样性计算？"></a>怎样计算PD系统发育多样性计算？</h2><p><strong>提问</strong>：</p>
 <p>我基于ITS序列构建了系统发育树（Mega软件）。接下来我想计算每个群落内物种的谱系多样性。不知道怎么计算？能用R吗？您方便能指点一下吗？</p>
 <p><strong>回复</strong>：</p>
@@ -486,8 +486,8 @@
 <p>我看很多文献中，在不考虑系统发育的情况下，可直接计算一个样地alpha或者两个样地beta的多样性；这样的话直接同自己用R构建的null model比较，计算效应值（均值差/sd）；想问下我如果想用R构建样地的null model要怎么做？您能否给我一个模板文档？还有关于两个样地差异的null model同一个样地内的物种随机，R程序是否存在很大差别？</p>
 <p><strong>回复</strong>：</p>
 <p>请参考如下命令</p>
-<pre><code>library(picante)dat &lt;- read.table(&quot;sample&quot;, header = FALSE)datmat &lt;- sample2matrix(dat)###### By Site rndr_datmat &lt;- datmat[sample(1:nrow(datmat)),]###### By Specierndc_datmat &lt;- datmat[,sample(1:col(datmat))]
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">library(picante)dat &lt;- read.table(&quot;sample&quot;, header &#x3D; FALSE)datmat &lt;- sample2matrix(dat)###### By Site rndr_datmat &lt;- datmat[sample(1:nrow(datmat)),]###### By Specierndc_datmat &lt;- datmat[,sample(1:col(datmat))]</span><br></pre></td></tr></table></figure>
+
 <h2 id="什么时候要考虑零模型？"><a href="#什么时候要考虑零模型？" class="headerlink" title="什么时候要考虑零模型？"></a>什么时候要考虑零模型？</h2><p><strong>提问</strong>：</p>
 <ol>
 <li>在看到很多文章中提到NRI的提取是用Phylocom软件或者R语言，而大多数文章中没有提到零模型的问题。您认为什么时候该考虑零模型假设的问题，什么时候不必考虑呢？</li>
@@ -557,8 +557,8 @@
 <p>您的sample文件有问题，个体数为0的物种应该全部删除。所有的其他指数都是以PD为基础的， PD计算得不准确， 其他指数也就不可能准确。 更多指数计算，请参考 picante程序包 <a target="_blank" rel="noopener" href="http://bbs.sciencenet.cn/home.php?mod=space&uid=255662&do=blog&id=1116212">http://blog.sciencenet.cn/home.php?mod=space&amp;uid=255662&amp;do=blog&amp;id=1116212</a></p>
 <h2 id="sample文件时可不可以用科或者属名来当样方名、直接用1来当所有的物种数呢？"><a href="#sample文件时可不可以用科或者属名来当样方名、直接用1来当所有的物种数呢？" class="headerlink" title="sample文件时可不可以用科或者属名来当样方名、直接用1来当所有的物种数呢？"></a>sample文件时可不可以用科或者属名来当样方名、直接用1来当所有的物种数呢？</h2><p><strong>提问</strong>：</p>
 <p>我正在尝试用Phylocom计算我的系谱树中的NRI和NTI，应该需要用到comtruct，但是不太清楚怎样构建sample文件……我手头只有一个dated tree，没有样方和物种数相关的资料，这样的情况下请问制作sample文件时是不是用科或者属名来当样方名、直接用1来当所有的物种数呢？还有，请问您博客中提到的</p>
-<pre><code>phylodist &lt;- as.dist(cophenetic.phylo(tr))
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">phylodist &lt;- as.dist(cophenetic.phylo(tr))</span><br></pre></td></tr></table></figure>
+
 <p>是否就是计算mean pairwise distance呢？</p>
 <p><strong>回复</strong>：</p>
 <p> sample文件， 应该按照Phylocom的要求构建。sample文件是物种在某个样方出现情况的纪录。 </p>
@@ -700,8 +700,8 @@
 <p>我用Phylocom计算betaNTI时出现了空文件，之前已经算出alphaNTI了，这就说明phylo和sample文件是争取的，我想请问您，是否可以帮我算一下betaNTI？谢谢！</p>
 <p><strong>回复</strong>：</p>
 <p>使用以下命令就可以计算出betaNTI和betaNRI了。</p>
-<pre><code>Phylocom comdist -f=phylo -s=sample&gt;res_beta_nri.txtPhylocom comdistnt -f=phylo -s=sample&gt;res_beta_nti.txt
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Phylocom comdist -f&#x3D;phylo -s&#x3D;sample&gt;res_beta_nri.txtPhylocom comdistnt -f&#x3D;phylo -s&#x3D;sample&gt;res_beta_nti.txt</span><br></pre></td></tr></table></figure>
+
 <h2 id="物种数太多时，怎样计算系统发育beta多样性？"><a href="#物种数太多时，怎样计算系统发育beta多样性？" class="headerlink" title="物种数太多时，怎样计算系统发育beta多样性？"></a>物种数太多时，怎样计算系统发育beta多样性？</h2><p><strong>提问</strong>：</p>
 <p>物种数太多，如何计算phylogenetic beta diversity？</p>
 <p><strong>回复</strong>：</p>
@@ -711,8 +711,8 @@
 <p>我在使用Phylocom软件计算betaNTI时，发现数据结果的并不是对角矩阵，是不是要把矩阵的对角全部替换成0，在以此基础进行？</p>
 <p>我用model 中的数据<code>Phylocom comdistnt –s sample -f phylo -m 0 -r 999 -a -n&gt;nti.txt</code>同时我在很多文献中讨论中也没有具体说群落betaNTI值的是否存考虑权重 -a?</p>
 <p>在计算效应值时，构建的零模型是否要考虑限制和非限制的区别？:</p>
-<pre><code>$ Phylocom comstruct -m 0 -r 9999 -a ：
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ Phylocom comstruct -m 0 -r 9999 -a ：</span><br></pre></td></tr></table></figure>
+
 <p>选择随机shuff( 重排系统发育关系和样地物种，这两个有什么偏好选择？)</p>
 <p><code>$ Phylocom comstruct -m 3 -w 100 -r 999 :</code> NTI comdist: 主要是对角值是否要替换成0？进入下一步计算？</p>
 <p>附件是我用模型数据做的betaNTI结果。 其中是不是betaNTI的显著水平确认是不是只有绝对值小于2的情况才是中性过程？</p>
@@ -747,8 +747,8 @@
 <p>③使用R中的FD、picante程序包具体进行NRI和Rao二次熵两个参数的计算？</p>
 </blockquote>
 <p>picante程序包不能用来计算NRI。我没有用过FD程序包， 所以并不清楚如何用它计算Rao。在picante程序包中，Rao’s Quadratic Entropy 可以通过函数 raoD 计算，示例如下：</p>
-<pre><code>data(Phylocom)raoD(Phylocom$sample)raoD(Phylocom$sample, Phylocom$phylo)
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data(Phylocom)raoD(Phylocom$sample)raoD(Phylocom$sample, Phylocom$phylo)</span><br></pre></td></tr></table></figure>
+
 <p><strong>提问</strong>：</p>
 <p>我想用Rao二次熵功能多样性指数分析一下群落构建，请问计算Rao coefficient的函数用哪个，dbFD ()？还是divc()？。如果要进行随机抽样计算预期值，您有没有现成的R脚本可供参考？</p>
 <p><strong>回复</strong>：</p>
@@ -762,8 +762,8 @@
 <li>independen swap (关于该模型的意义， 本人保持怀疑)</li>
 </ol>
 <p>下面这个函数， 可以用来将性状矩阵的物种名， 随机重排， 生成一次null community, 将该过程重复多次，每次都计算Rao’ D, 即可得到 Rao’s D的零分布。 </p>
-<pre><code>library(FD)dummy$abunnull.community &lt;- function(x)&#123;    x.name &lt;- rownames(x)    x.name2 &lt;- sample(x.name)    rownames(x) &lt;- x.name2    return(x)&#125;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">library(FD)dummy$abunnull.community &lt;- function(x)&#123;    x.name &lt;- rownames(x)    x.name2 &lt;- sample(x.name)    rownames(x) &lt;- x.name2    return(x)&#125;</span><br></pre></td></tr></table></figure>
+
 <p>以上是个人理解， 与您探讨。 </p>
 <h1 id="进化树上的孤立节点Singletons"><a href="#进化树上的孤立节点Singletons" class="headerlink" title="进化树上的孤立节点Singletons"></a>进化树上的孤立节点Singletons</h1><h2 id="为什么Phylocom-BLADJ生成的有枝长进化树用Figtree打不开？"><a href="#为什么Phylocom-BLADJ生成的有枝长进化树用Figtree打不开？" class="headerlink" title="为什么Phylocom BLADJ生成的有枝长进化树用Figtree打不开？"></a>为什么Phylocom BLADJ生成的有枝长进化树用Figtree打不开？</h2><p><strong>提问</strong>：</p>
 <p>我用Phylocom软件创立工作路径时这样是对的吗？然后我用bladj为进化树拟合枝长时得到之后用Figtree打开这个文件时没看见进化树，是怎么回事啊？谢谢</p>
@@ -773,11 +773,11 @@
 <p>参见Phylocom 的例子， Phylocom-4.1\example_data ，里面有详细的说明。</p>
 <h2 id="为什么R不能读取Phylomatic生成的进化树？"><a href="#为什么R不能读取Phylomatic生成的进化树？" class="headerlink" title="为什么R不能读取Phylomatic生成的进化树？"></a>为什么R不能读取Phylomatic生成的进化树？</h2><p><strong>提问</strong>：</p>
 <p>我在用R读用Phylocom拟好的带枝长的进化树out.tre的时候出现错误如下：</p>
-<pre><code>&gt; tr &lt;- read.tree(&quot;out.tre&quot;)错误于read.tree(&quot;out.tre&quot;) : The tree has apparently singleton node(s): cannot read tree file.Reading Newick file aborted at tree no. 1
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; tr &lt;- read.tree(&quot;out.tre&quot;)错误于read.tree(&quot;out.tre&quot;) : The tree has apparently singleton node(s): cannot read tree file.Reading Newick file aborted at tree no. 1</span><br></pre></td></tr></table></figure>
+
 <p>在网上没有查到对应的解决办法，于是尝试去掉最外层括号和euphyllophyte，仍然提示相同错误。后来我用在线Phylomatic和davis带枝长的newick文件直接拟合出带枝长的进化树Phylomatic_newick.txt，改文件名后缀为.tre，用R读取时又提示相同错误：</p>
-<pre><code>&gt;tr &lt;- read.tree(&quot;Phylomatic_newick.tre&quot;)错误于read.tree(&quot;Phylomatic_newick.tre&quot;) : The tree has apparently singleton node(s): cannot read tree file.Reading Newick file aborted at tree no. 1
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;tr &lt;- read.tree(&quot;Phylomatic_newick.tre&quot;)错误于read.tree(&quot;Phylomatic_newick.tre&quot;) : The tree has apparently singleton node(s): cannot read tree file.Reading Newick file aborted at tree no. 1</span><br></pre></td></tr></table></figure>
+
 <p>我现在不知道该怎么办了。你能帮我看下是什么问题么？</p>
 <p><strong>回复</strong>：</p>
 <p>ape程序包是不能读取含有singleton节点的进化树的。一般来说，进化树内的任何一个节点，都应该至少有两个分支。而 Phylomatic软件生成的进化树，如果在建树时没有选择clean，就会出现在很多一个节点下， 只有一个子节点的情况。 带有singletons的newick进化树，很多软件都是不能处理的，常见的包括ape， FigTree， MEGA等。</p>
@@ -817,8 +817,8 @@
 <p>Phylocom 和 Phylomatic建立的进化树是不能用来估计同一个科内部的物种系统发育距离的。 这是因为其给出的年龄为科的起源时间，而科下各属、种均没有足够的时间信息， 所以Phylocom的BLADJ算法自动将科以下的时间三等分。 这种算法在进化树覆盖很多距离很远的分类单元时可以近似认为是合理的。 但是在物种很少，且系统发育关系很近时则是非常不合理的。 </p>
 <p>你提到的三个种分科如下：木荷（<em>Schima superba</em>, Theaceae）、小叶青冈（<em>Cyclobalanopsis myrsinaefoli</em>a, Fagaceae）、栲树（<em>Castanopsis fargesii</em>, Fagaceae）已经包含在 David C. Tank等人的进化树中。 该树的枝长为分化时间。可以用R获取。</p>
 <p>附件中是相应的R脚本， 数据文件和结果。供参考。 </p>
-<pre><code>library(ape)tree &lt;- read.tree(&quot;Vascular_Plants_rooted.dated.tre&quot;)#### https://github.com/ropensci/rgbif_mcglinn/blob/master/PhylogeneticResources/Vascular_Plants_rooted.dated.tretips &lt;- tree$tip.labeltips.to.delete &lt;- tips[!tips %in% c(&quot;Schima_superba&quot;, &quot;Quercus_myrsinifolia&quot;, &quot;Castanopsis_fargesii&quot;)]tree2 &lt;- drop.tip(tree, tips.to.delete)plot(tree2)taxa.dist &lt;- cophenetic(tree2)write.csv(taxa.dist, &quot;taxa.distance.csv&quot;)write.tree(tree2, &quot;tree2.tre&quot;)
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">library(ape)tree &lt;- read.tree(&quot;Vascular_Plants_rooted.dated.tre&quot;)#### https:&#x2F;&#x2F;github.com&#x2F;ropensci&#x2F;rgbif_mcglinn&#x2F;blob&#x2F;master&#x2F;PhylogeneticResources&#x2F;Vascular_Plants_rooted.dated.tretips &lt;- tree$tip.labeltips.to.delete &lt;- tips[!tips %in% c(&quot;Schima_superba&quot;, &quot;Quercus_myrsinifolia&quot;, &quot;Castanopsis_fargesii&quot;)]tree2 &lt;- drop.tip(tree, tips.to.delete)plot(tree2)taxa.dist &lt;- cophenetic(tree2)write.csv(taxa.dist, &quot;taxa.distance.csv&quot;)write.tree(tree2, &quot;tree2.tre&quot;)</span><br></pre></td></tr></table></figure>
+
 <h2 id="根据已有的大型进化树，能够获得只有部分分类单元的进化树？"><a href="#根据已有的大型进化树，能够获得只有部分分类单元的进化树？" class="headerlink" title="根据已有的大型进化树，能够获得只有部分分类单元的进化树？"></a>根据已有的大型进化树，能够获得只有部分分类单元的进化树？</h2><p><strong>提问</strong>：</p>
 <p>比较大的系统发育树里能否挑选出部分物种，重新构建系统发育树呢？新构建的系统发育树能否通过Phylocom软件计算其多样性等相关变量呢？</p>
 <p><strong>回复</strong>：</p>
@@ -827,12 +827,12 @@
 <h2 id="R怎样调用Phylocom？"><a href="#R怎样调用Phylocom？" class="headerlink" title="R怎样调用Phylocom？"></a>R怎样调用Phylocom？</h2><p><strong>提问</strong>：</p>
 <p>想问下R调用Phylocom要大概如何做？sandel的包是不是PhyloMeasures包？但是我在文件夹中test.Phylocom.R文件中，不知道具体求betaMNTD和MNTD函数格式是什么？</p>
 <p>我在里面原始文件是不是用</p>
-<pre><code>source(&quot;Phylocom.R&quot;)par(ask=TRUE)a &lt;- readsample(&quot;sample&quot;)library(picante)p &lt;- read.tree(&quot;pruned.tre0&quot;)#或者用 /p &lt;- readphylo(&quot;pruned.tre0&quot;)
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source(&quot;Phylocom.R&quot;)par(ask&#x3D;TRUE)a &lt;- readsample(&quot;sample&quot;)library(picante)p &lt;- read.tree(&quot;pruned.tre0&quot;)#或者用 &#x2F;p &lt;- readphylo(&quot;pruned.tre0&quot;)</span><br></pre></td></tr></table></figure>
+
 <p><strong>回复</strong>：</p>
 <p>可以直接使用 </p>
-<pre><code>system(&quot;Phylocom pd -s sample3 -f pruned.tre0 -m 0 -r 9999 -a&gt;pd.output.txt&quot;)system(&quot;Phylocom pd -s sample3 -f pruned.tre0 &gt;pd.txt&quot;) system(&quot;Phylocom comstruct –s sample3 -f pruned.tre0 -m 0 -r 9999 -a&gt;mpd.output.txt&quot;)system(&quot;Phylocom comstruct –s sample3 -f pruned.tre0 -m 0 -r 9999 -a -v&gt;mpd.output.txt&quot;) system(&quot;Phylocom comdist –s sample3 -f pruned.tre0 -m 0 -r 9999 -a -n&gt;ses.betampd.output.txt&quot;)system(&quot;Phylocom comdistnt –s sample3 -f pruned.tre0 -m 0 -r 9999 -a -n&gt;ses.betamntd.output.txt&quot;)
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">system(&quot;Phylocom pd -s sample3 -f pruned.tre0 -m 0 -r 9999 -a&gt;pd.output.txt&quot;)system(&quot;Phylocom pd -s sample3 -f pruned.tre0 &gt;pd.txt&quot;) system(&quot;Phylocom comstruct –s sample3 -f pruned.tre0 -m 0 -r 9999 -a&gt;mpd.output.txt&quot;)system(&quot;Phylocom comstruct –s sample3 -f pruned.tre0 -m 0 -r 9999 -a -v&gt;mpd.output.txt&quot;) system(&quot;Phylocom comdist –s sample3 -f pruned.tre0 -m 0 -r 9999 -a -n&gt;ses.betampd.output.txt&quot;)system(&quot;Phylocom comdistnt –s sample3 -f pruned.tre0 -m 0 -r 9999 -a -n&gt;ses.betamntd.output.txt&quot;)</span><br></pre></td></tr></table></figure>
+
 <p>但是如果直接运行Phylocom的内存不够， 在R中调用Phylocom仍然会内存不足的问题。 如果用picante或者PhyloMeasures程序包，请一定要按照函数的说明准备输入的数据。</p>
 <h2 id="怎样将进化树导入R？怎样使用Phylocom？"><a href="#怎样将进化树导入R？怎样使用Phylocom？" class="headerlink" title="怎样将进化树导入R？怎样使用Phylocom？"></a>怎样将进化树导入R？怎样使用Phylocom？</h2><p><strong>提问</strong>：</p>
 <p>我将树以newick的形式导进去后无法进行后面的分析，我也不清楚像样方数据怎么输到R中。说明文件中的例子我操作了一次，也成功了，但Phylocom是如何输入进去的我不清楚。您能否教我使用这个程序包，举一个三、五个样方的例子？</p>
@@ -846,12 +846,12 @@
 <p>如何一次性地读入多个.tre或.nex格式的文件到R的一个list中？</p>
 <p><strong>回复</strong>：</p>
 <p>ape的read.tree返回值是list，可以读取多棵进化树，可参考如下命令：</p>
-<pre><code>read.tree(file = &quot;&quot;, text = NULL, tree.names = NULL, skip = 0, comment.char = &quot;#&quot;, keep.multi = FALSE, ...)
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">read.tree(file &#x3D; &quot;&quot;, text &#x3D; NULL, tree.names &#x3D; NULL, skip &#x3D; 0, comment.char &#x3D; &quot;#&quot;, keep.multi &#x3D; FALSE, ...)</span><br></pre></td></tr></table></figure>
+
 <h2 id="R中的距离矩阵怎样转换为data-frame？"><a href="#R中的距离矩阵怎样转换为data-frame？" class="headerlink" title="R中的距离矩阵怎样转换为data.frame？"></a>R中的距离矩阵怎样转换为data.frame？</h2><p><strong>提问</strong>：</p>
 <p>我这边有两个100×100的对角矩阵，一个是betaNTI值，同时我想和样点间pH的差值比较，<code>dist(data$ph)</code>，以一个散点图的形式呈现，但是我不知如何通过R把他们的所有距离一一对应起来？我对循环不熟<code>df &lt;- data.frame()</code>不知道如何能把这个distz转换成一列向量啊？大概应该有5050值吧？</p>
-<pre><code>for (i in 1:99)&#123;    t &lt;- ntinew[((i+1):100),i];    df &lt;- rbind(t[i])&#125;df
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for (i in 1:99)&#123;    t &lt;- ntinew[((i+1):100),i];    df &lt;- rbind(t[i])&#125;df</span><br></pre></td></tr></table></figure>
+
 <p><strong>回复</strong>： 可以先将对角线的值设为0，然后转换成dist类型的距离矩阵，最后用simba程序包的liste函数，将其转换为data.frame即可。</p>
 <h1 id="picante"><a href="#picante" class="headerlink" title="picante"></a>picante</h1><h2 id="运行picante下标出界"><a href="#运行picante下标出界" class="headerlink" title="运行picante下标出界"></a>运行picante下标出界</h2><p><strong>提问</strong>：</p>
 <p>我建立了一个树Phylo2.txt；同时有一个群落data2.txt。我计算能得到PD，但是我计算MPD或者MNTD时，却显示是下标出界，我好久都找不出原因。我现在把所有的东西都简化了，还是找不出原因，不知您能不能给帮忙解答一下！</p>
@@ -870,21 +870,21 @@
 <p>我最近在学习R的程序包picante分析PSV。我用lm.str（）打开R自带的sample和tree以后，仍然不太明白可以用R进行分析的sample和tree的具体格式。我原来的sample格式都是对应Phylocom软件建的。</p>
 <p><strong>回复</strong>：</p>
 <p>sample 的格式， 参见</p>
-<pre><code>data(Phylocom)Phylocom$samplePhylocom$phylo
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data(Phylocom)Phylocom$samplePhylocom$phylo</span><br></pre></td></tr></table></figure>
+
 <p>sample可以由 picante程序包的 sample2matrix() 函数户获得， phylo可以由 ape程序包的 read.tree() 获得。</p>
 <h2 id="picante计算PD以及SES-PD"><a href="#picante计算PD以及SES-PD" class="headerlink" title="picante计算PD以及SES.PD"></a>picante计算PD以及SES.PD</h2><p><strong>提问</strong>：</p>
 <p>我尝试着用R软件使用您的代码分析我的野外调查数据时，当运行到代码</p>
-<pre><code>pd_red &lt;- pd(samp = mat, tree = tree, include.root=TRUE)
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pd_red &lt;- pd(samp &#x3D; mat, tree &#x3D; tree, include.root&#x3D;TRUE)</span><br></pre></td></tr></table></figure>
+
 <p>时，发生以下错误:</p>
-<pre><code>“Error in phy$edge[sndcol, 2] &lt;- newNb[phy$edge[sndcol, 2]] &lt;- (n + 2):(n +: number of items to replace is not a multiple of replacement lengthIn addition: Warning message:In newNb[phy$edge[sndcol, 2]] &lt;- (n + 2):(n + phy$Nnode) :number of items to replace is not a multiple of replacement length”
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">“Error in phy$edge[sndcol, 2] &lt;- newNb[phy$edge[sndcol, 2]] &lt;- (n + 2):(n +: number of items to replace is not a multiple of replacement lengthIn addition: Warning message:In newNb[phy$edge[sndcol, 2]] &lt;- (n + 2):(n + phy$Nnode) :number of items to replace is not a multiple of replacement length”</span><br></pre></td></tr></table></figure>
+
 <p>不知道您在使用过是是否有这样的情况，一般是什么原因引起这样的错误呢，我应该怎么排除啊。</p>
 <p><strong>回复</strong>：</p>
 <p>我的电脑上运行没有问题。 我的是 64bit, Win10.  脚本和结果参见附件。</p>
-<pre><code>setwd(&quot;C:\\Users\\jlzhang\\Desktop\\experiment0310&quot;)library(picante)dat &lt;- read.table(&quot;sample&quot;, header = FALSE)mat &lt;- sample2matrix(dat)tree &lt;- read.tree(&quot;phylo&quot;)#### Compare the tip labels wpd_red &lt;- pd(samp = mat, tree = tree, include.root=TRUE)ses.mpd(samp = mat, dis = cophenetic(tree), null.model=&quot;taxa.labels&quot; )
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setwd(&quot;C:\\Users\\jlzhang\\Desktop\\experiment0310&quot;)library(picante)dat &lt;- read.table(&quot;sample&quot;, header &#x3D; FALSE)mat &lt;- sample2matrix(dat)tree &lt;- read.tree(&quot;phylo&quot;)#### Compare the tip labels wpd_red &lt;- pd(samp &#x3D; mat, tree &#x3D; tree, include.root&#x3D;TRUE)ses.mpd(samp &#x3D; mat, dis &#x3D; cophenetic(tree), null.model&#x3D;&quot;taxa.labels&quot; )</span><br></pre></td></tr></table></figure>
+
 <h2 id="为什么picante的ses-mpd和Phylocom的NRI符号相反？"><a href="#为什么picante的ses-mpd和Phylocom的NRI符号相反？" class="headerlink" title="为什么picante的ses.mpd和Phylocom的NRI符号相反？"></a>为什么picante的ses.mpd和Phylocom的NRI符号相反？</h2><p><strong>提问</strong>：</p>
 <p>我随机选的物种和随机放置不同的样方中所进行的练习，用picante包计算它们的谱系结构。然后软件求得的RNI值，跟我用公式计算的值数值是一样的，但是公式求得值是负数呀，我想问下这两个结果都是一样的吗？</p>
 <p><strong>回复</strong>：</p>
@@ -897,7 +897,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2019/01/06/2019-01-06-faqcomphylo/" data-id="ckmq42amh00et1k8456fa8hi9" data-title="群落系统发育分析常见问题合集" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2019/01/06/2019-01-06-faqcomphylo/" data-id="ckmt6y7po00ckmgyahl533euo" data-title="群落系统发育分析常见问题合集" class="article-share-link">Share</a>
       
       
       

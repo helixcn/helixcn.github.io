@@ -14,7 +14,7 @@
 <meta property="og:description" content="最近收到几位同学求助， 咨询如何通过全站仪测得的海拔数据绘制大样地的地形图以及计算地形因子，本文作简要说明。本文中，“样方”是大样地中边长为20m的样方。前面的博文 （http:&#x2F;&#x2F;blog.sciencenet.cn&#x2F;blog-255662-1081363.html   ）简要介绍了大样地中样方的命名方法以及物种调查数据的整理过程，可供参考。 大样地研究除了收集物种分布数据，还需要获得每个样方对">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2018-04-24T04:11:54.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:34:24.615Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:26.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="生态">
 <meta name="twitter:card" content="summary">
@@ -104,128 +104,14 @@
 <p>为什么不全都用全站仪在每个20m样方的中心点直接测量呢？ 这是由于全站仪在打点时一般都是测量各样方顶点的海拔。有些样方的顶点正好位于深沟内或巨石上，难以获得，此时只能在附近的点测量。因此大多数情况下，全站仪所测得的数据并总不出现在样方顶点。所以第二种处理方式就很常见了。</p>
 <p>有些研究中，样方的海拔没有经过克里格插值之后再提取中心点，而是直接用四个顶点海拔的平均值，这也是一种近似的处理方法。仍然是上述原因，相应条件不容易满足。</p>
 <p>下面以西双版纳补蚌大样地的海拔数据为例， 介绍海拔数据读取，克里格插值，并提取20m中心点的海拔。获得样方中心点海拔之后，即可计算出坡度、坡向和凹凸度等（<a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/blog-255662-690600.html">http://blog.sciencenet.cn/blog-255662-690600.html</a> ）</p>
-<pre><code class="R">setwd(&quot;C:/Users/jlzhang/Desktop/bubeng plot&quot;)
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;C:/Users/jlzhang/Desktop/bubeng plot&quot;</span>)</span><br><span class="line"></span><br><span class="line">library(gstat)</span><br><span class="line"></span><br><span class="line">library(sp)</span><br><span class="line"></span><br><span class="line">library(raster)</span><br><span class="line"></span><br><span class="line">library(openxlsx)</span><br><span class="line"></span><br><span class="line">library(lattice)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">#### 边长为20m米的点阵</span></span><br><span class="line"></span><br><span class="line">bubeng.grid &lt;- expand.grid(x = seq(<span class="number">0</span>, <span class="number">400</span>, <span class="number">20</span>), y = seq(<span class="number">0</span>, <span class="number">500</span>, <span class="number">20</span>))</span><br><span class="line"></span><br><span class="line">coordinates(bubeng.grid) &lt;- ~ x + y</span><br><span class="line"></span><br><span class="line">gridded(bubeng.grid) &lt;- <span class="literal">TRUE</span></span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">## 数据来源 https://doi.org/10.1371/journal.pone.0108450.s008</span></span><br><span class="line"></span><br><span class="line">bubeng.topo20160318 &lt;- read.xlsx(<span class="string">&quot;bubeng_topo.xlsx&quot;</span>)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">## 指定横纵坐标</span></span><br><span class="line"></span><br><span class="line">coordinates(bubeng.topo20160318) = ~ x + y</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">## 变异函数</span></span><br><span class="line"></span><br><span class="line">bubeng_variogram &lt;- variogram(alt ~ <span class="number">1</span>, data = bubeng.topo20160318)</span><br><span class="line"></span><br><span class="line">plot(bubeng_variogram)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">### 拟合高斯模型， 初始值选择参见 （How Kriging works—Help）</span></span><br><span class="line"></span><br><span class="line">bubeng_variogram.fit = fit.variogram(bubeng_variogram, model = vgm(psill = <span class="number">10</span>, <span class="string">&quot;Gau&quot;</span>, <span class="built_in">range</span> = <span class="number">200</span>, nugget = <span class="number">.1</span>))</span><br><span class="line"></span><br><span class="line">plot(bubeng_variogram, bubeng_variogram.fit)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">### 进行克里格插值</span></span><br><span class="line"></span><br><span class="line">bubeng.krig &lt;- krige(alt ~ <span class="number">1</span>, bubeng.topo20160318, bubeng.grid, model = bubeng_variogram.fit)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">### 绘图</span></span><br><span class="line"></span><br><span class="line">levelplot(bubeng.krig$var1.pred ~ bubeng.krig$x+bubeng.krig$y, cuts = <span class="number">50</span>,</span><br><span class="line"></span><br><span class="line">          main=<span class="string">&quot;Ordinary kriging predictions&quot;</span>,contour = <span class="literal">TRUE</span>,</span><br><span class="line"></span><br><span class="line">          labels = <span class="literal">TRUE</span>, col.regions = terrain.colors(<span class="number">255</span>),  pretty = <span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">## 三维图</span></span><br><span class="line"></span><br><span class="line">wireframe(bubeng.krig$var1.pred ~ bubeng.krig$x+bubeng.krig$y,</span><br><span class="line"></span><br><span class="line">          main=<span class="string">&quot;Ordinary kriging predictions&quot;</span>,</span><br><span class="line"></span><br><span class="line">          labels = <span class="literal">TRUE</span>, col.regions = terrain.colors(<span class="number">255</span>),  pretty = <span class="literal">TRUE</span>, drape = <span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">## 转换为raster</span></span><br><span class="line"></span><br><span class="line">dat &lt;- data.frame(bubeng.krig$var1.pred, bubeng.krig$x, bubeng.krig$y)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">### Convert the object x to a raster object.</span></span><br><span class="line"></span><br><span class="line">rdat &lt;- raster(bubeng.krig)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">### plot the raster</span></span><br><span class="line"></span><br><span class="line">plot(rdat, col = terrain.colors(<span class="number">255</span>))</span><br><span class="line"></span><br><span class="line">contour(rdat, add = <span class="literal">TRUE</span>, nlevel = <span class="number">15</span>)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">### 获得每个20m样方的中心点</span></span><br><span class="line"></span><br><span class="line">x10 &lt;- seq(<span class="number">10</span>, <span class="number">400</span>-<span class="number">10</span>, by = <span class="number">20</span>)</span><br><span class="line"></span><br><span class="line">y10 &lt;- seq(<span class="number">10</span>, <span class="number">500</span>-<span class="number">10</span>, by = <span class="number">20</span>)</span><br><span class="line"></span><br><span class="line">grids10 &lt;- expand.grid(x10, y10)</span><br><span class="line"></span><br><span class="line">plot(Var2 ~ Var1, data = grids10)</span><br><span class="line"></span><br><span class="line">coordinates(grids10) &lt;- <span class="built_in">c</span>(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">###从raster图层中提取海拔</span></span><br><span class="line"></span><br><span class="line">alt_center &lt;- extract(x = rdat, y = grids10)</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"><span class="comment">### 20m样方的中心点海拔数据</span></span><br><span class="line"></span><br><span class="line">res_alt_center &lt;- data.frame(grids10, alt_center)</span><br></pre></td></tr></table></figure>
 
-library(gstat)
 
-library(sp)
 
-library(raster)
 
-library(openxlsx)
 
-library(lattice)
 
- 
 
-#### 边长为20m米的点阵
-
-bubeng.grid &lt;- expand.grid(x = seq(0, 400, 20), y = seq(0, 500, 20))
-
-coordinates(bubeng.grid) &lt;- ~ x + y
-
-gridded(bubeng.grid) &lt;- TRUE
-
- 
-
-## 数据来源 https://doi.org/10.1371/journal.pone.0108450.s008
-
-bubeng.topo20160318 &lt;- read.xlsx(&quot;bubeng_topo.xlsx&quot;)
-
- 
-
-## 指定横纵坐标
-
-coordinates(bubeng.topo20160318) = ~ x + y
-
- 
-
-## 变异函数
-
-bubeng_variogram &lt;- variogram(alt ~ 1, data = bubeng.topo20160318)
-
-plot(bubeng_variogram)
-
- 
-
-### 拟合高斯模型， 初始值选择参见 （How Kriging works—Help）
-
-bubeng_variogram.fit = fit.variogram(bubeng_variogram, model = vgm(psill = 10, &quot;Gau&quot;, range = 200, nugget = .1))
-
-plot(bubeng_variogram, bubeng_variogram.fit)
-
- 
-
-### 进行克里格插值
-
-bubeng.krig &lt;- krige(alt ~ 1, bubeng.topo20160318, bubeng.grid, model = bubeng_variogram.fit)
-
- 
-
-### 绘图
-
-levelplot(bubeng.krig$var1.pred ~ bubeng.krig$x+bubeng.krig$y, cuts = 50,
-
-          main=&quot;Ordinary kriging predictions&quot;,contour = TRUE,
-
-          labels = TRUE, col.regions = terrain.colors(255),  pretty = TRUE)
-
- 
-
-## 三维图
-
-wireframe(bubeng.krig$var1.pred ~ bubeng.krig$x+bubeng.krig$y,
-
-          main=&quot;Ordinary kriging predictions&quot;,
-
-          labels = TRUE, col.regions = terrain.colors(255),  pretty = TRUE, drape = TRUE)
-
- 
-
-## 转换为raster
-
-dat &lt;- data.frame(bubeng.krig$var1.pred, bubeng.krig$x, bubeng.krig$y)
-
- 
-
-### Convert the object x to a raster object.
-
-rdat &lt;- raster(bubeng.krig)
-
- 
-
-### plot the raster
-
-plot(rdat, col = terrain.colors(255))
-
-contour(rdat, add = TRUE, nlevel = 15)
-
- 
-
-### 获得每个20m样方的中心点
-
-x10 &lt;- seq(10, 400-10, by = 20)
-
-y10 &lt;- seq(10, 500-10, by = 20)
-
-grids10 &lt;- expand.grid(x10, y10)
-
-plot(Var2 ~ Var1, data = grids10)
-
-coordinates(grids10) &lt;- c(1, 2)
-
- 
-
-###从raster图层中提取海拔
-
-alt_center &lt;- extract(x = rdat, y = grids10)
-
- 
-
-### 20m样方的中心点海拔数据
-
-res_alt_center &lt;- data.frame(grids10, alt_center)
-</code></pre>
 <p>参考文献</p>
 <p>How Kriging works—Help | ArcGIS for Desktop. (2018). Available at: <a target="_blank" rel="noopener" href="http://desktop.arcgis.com/en/arcmap/10.3/tools/3d-analyst-toolbox/how-kriging-works.htm">http://desktop.arcgis.com/en/arcmap/10.3/tools/3d-analyst-toolbox/how-kriging-works.htm</a>. Last accessed 24 April 2018.</p>
 <p>Hu, Y.-H., Kitching, R.L., Lan, G.-Y., Zhang, J.-L., Sha, L.-Q. &amp; Cao, M. (2014). Size-Class Effect Contributes to Tree Species Assembly through Influencing Dispersal in Tropical Forests. PLoS ONE, 9, e108450.</p>
@@ -233,7 +119,7 @@ res_alt_center &lt;- data.frame(grids10, alt_center)
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/04/24/2018-4-24-fdp/" data-id="ckmq42akj00ba1k846g9w411e" data-title="大样地海拔数据的克里格插值与地形图绘制" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/04/24/2018-4-24-fdp/" data-id="ckmt6y7p900bwmgya7lgvhbuq" data-title="大样地海拔数据的克里格插值与地形图绘制" class="article-share-link">Share</a>
       
       
       

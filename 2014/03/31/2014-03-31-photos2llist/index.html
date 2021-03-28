@@ -14,7 +14,7 @@
 <meta property="og:description" content="在生物多样性调查中， 数码照片是快速记录物种信息的手段之一。 调查人员如果对一个地点的植物已经足够熟悉， 无需将所有植物踏查结果写到记录本上， 而是对见到的每种植物拍照， 可回到办公室再进行鉴定和整理。 这样既提高了野外工作的效率， 也提高了鉴定的准确性。 植物照片， 作为的一广义的标本，若有疑问， 可以供专家进一步研究和分析， 并且， 实在有必要， 可以回到野外， 采集标本。  拍摄的照片， 一">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2014-03-31T01:39:54.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:34:24.547Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:26.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="标本馆">
 <meta name="twitter:card" content="summary">
@@ -104,40 +104,13 @@
 <p>有了重命名的照片， 可以用以下方法，快速生成植物名录。这里仍然用本人比较熟悉的R软件：</p>
 <p>（注意： 本功能已经置于 R 程序包 plantlist中, <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=space&uid=255662&do=blog&id=813796">http://blog.sciencenet.cn/home.php?mod=space&amp;uid=255662&amp;do=blog&amp;id=813796</a>  ， 用户只需给出路径， 即可获得结果， 该结果同时包括APGIII系统的分科）</p>
 <p>以下代码仅供参考， 请使用最新版（Ver 0.0.4）的 tpllist<br>定义一个R函数：</p>
-<pre><code class="R">cnplist &lt;- function(path)&#123;
-   setwd(path)
-   temp.photo.list &lt;- list.files()
-   photo.list &lt;- temp.photo.list[grepl(&quot;.JPG&quot;, temp.photo.list)]
-   list.res &lt;- list()
-   sp.list.cn &lt;- unique(gsub(&quot;.JPG&quot;,&quot;&quot;,gsub(&quot;[0-9]&quot;,&quot;&quot;,gsub(&quot;DSC&quot;, &quot;&quot;, gsub(pattern = &quot;DSCN&quot;, &quot;&quot;, gsub(pattern = &quot;IMG_&quot;, replacement = &quot;&quot;, x = photo.list))))))
-   sp.list.cn &lt;- sp.list.cn[!sp.list.cn == &quot;&quot;]
-   sp.list.cn.data.frame &lt;- as.data.frame(sp.list.cn)
-   res &lt;- merge(x = sp.list.cn.data.frame,  y = spdat, by.x = &quot;sp.list.cn&quot;, by.y = &quot;NAME_CN&quot;, all.x = TRUE )
-   write.csv(res, paste(&quot;checklist.csv&quot;, sep = &quot;&quot;))
-   return(res)
-&#125;
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">cnplist &lt;- <span class="keyword">function</span>(path)&#123;</span><br><span class="line">   setwd(path)</span><br><span class="line">   temp.photo.list &lt;- list.files()</span><br><span class="line">   photo.list &lt;- temp.photo.list[grepl(<span class="string">&quot;.JPG&quot;</span>, temp.photo.list)]</span><br><span class="line">   list.res &lt;- <span class="built_in">list</span>()</span><br><span class="line">   sp.list.cn &lt;- unique(gsub(<span class="string">&quot;.JPG&quot;</span>,<span class="string">&quot;&quot;</span>,gsub(<span class="string">&quot;[0-9]&quot;</span>,<span class="string">&quot;&quot;</span>,gsub(<span class="string">&quot;DSC&quot;</span>, <span class="string">&quot;&quot;</span>, gsub(pattern = <span class="string">&quot;DSCN&quot;</span>, <span class="string">&quot;&quot;</span>, gsub(pattern = <span class="string">&quot;IMG_&quot;</span>, replacement = <span class="string">&quot;&quot;</span>, x = photo.list))))))</span><br><span class="line">   sp.list.cn &lt;- sp.list.cn[!sp.list.cn == <span class="string">&quot;&quot;</span>]</span><br><span class="line">   sp.list.cn.data.frame &lt;- as.data.frame(sp.list.cn)</span><br><span class="line">   res &lt;- merge(x = sp.list.cn.data.frame,  y = spdat, by.x = <span class="string">&quot;sp.list.cn&quot;</span>, by.y = <span class="string">&quot;NAME_CN&quot;</span>, all.x = <span class="literal">TRUE</span> )</span><br><span class="line">   write.csv(res, paste(<span class="string">&quot;checklist.csv&quot;</span>, sep = <span class="string">&quot;&quot;</span>))</span><br><span class="line">   <span class="built_in">return</span>(res)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>读取中文名学名对照表（参见本文附件 <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=attachment&id=51735">plantnames.csv</a> ）：</p>
-<pre><code class="R">spdat &lt;- read.csv(&quot;plantnames.csv&quot;, header = TRUE)
-
-#### 函数的使用方法举例
-#### 列出梧桐寨瀑布文件夹下， 所有物种的名录
-cnplist(&quot;C:\Plant photos database\2014\20140120梧桐寨瀑布&quot;)
-
-
-#### 列出2014目录下，每个文件夹中包括的物种名：
-
-dirs &lt;- &quot;C:\Plant photos database\2014&quot;
-aaa &lt;- list.dirs(dirs)
-for(i in 1:length(aaa))&#123;
-   cnplist(aaa[i])
-&#125;
-</code></pre>
-
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">spdat &lt;- read.csv(<span class="string">&quot;plantnames.csv&quot;</span>, header = <span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#### 函数的使用方法举例</span></span><br><span class="line"><span class="comment">#### 列出梧桐寨瀑布文件夹下， 所有物种的名录</span></span><br><span class="line">cnplist(<span class="string">&quot;C:\Plant photos database\2014\20140120梧桐寨瀑布&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#### 列出2014目录下，每个文件夹中包括的物种名：</span></span><br><span class="line"></span><br><span class="line">dirs &lt;- <span class="string">&quot;C:\Plant photos database\2014&quot;</span></span><br><span class="line">aaa &lt;- list.dirs(dirs)</span><br><span class="line"><span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(aaa))&#123;</span><br><span class="line">   cnplist(aaa[i])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/03/31/2014-03-31-photos2llist/" data-id="ckmq42aim005a1k848lnxeqta" data-title="通过重命名的照片整理植物名录" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/03/31/2014-03-31-photos2llist/" data-id="ckmt6y7m5005hmgya53hsd7l8" data-title="通过重命名的照片整理植物名录" class="article-share-link">Share</a>
       
       
       

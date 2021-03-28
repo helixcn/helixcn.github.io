@@ -108,7 +108,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2015/02/20/2015-2-20-tiefeng/" data-id="ckmq42aj3006z1k84b28u9bqz" data-title="忆铁峰" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2015/02/20/2015-2-20-tiefeng/" data-id="ckmt6y7mx0078mgya27zza404" data-title="忆铁峰" class="article-share-link">Share</a>
       
       
       
@@ -154,71 +154,11 @@
 <li><p>在R中， 用以下函数， 读取kml文件的坐标， 并拟合航迹的开始时间以及最后的时间。</p>
 </li>
 </ol>
-<pre><code class="R">library(maptools)  ###导入需要maptools程序包
-kml2timetag &lt;- function(kmlfile = &quot;ttt.kml&quot;,
-                start.time = &quot;2015-02-04 21:39:36&quot;,
-                 end.time =  &quot;2015-02-05 23:40:50&quot;,
-                 csv.file = NULL)
-#### kml2timetag 函数读取kml文件中的经纬度坐标
-#### kml2timetag 函数， 用来读取kml文件， 拟定航迹上每个点的时间
-#### 该函数假设每个点对应的时间均匀流逝。
-#### 返回值为 data.frame, 共四列
-#### (1) &quot;longitude&quot; (2) &quot;latitude&quot; (3) &quot;altitude&quot; (4)&quot;time&quot;
-#### 并可以保存为csv文件， 在必要的情况下， 在excel中进行编辑。
-&#123;
- require(&quot;maptools&quot;)
- Sys.setlocale(&quot;LC_TIME&quot;, &quot;English&quot;)
- dat &lt;- getKMLcoordinates(kmlfile = kmlfile, ignoreAltitude=FALSE)
- start.time &lt;- as.POSIXlt(start.time)
- end.time &lt;- as.POSIXlt(end.time)
- time.zone = 8
- points.time &lt;-  seq(start.time, end.time, length.out = nrow(dat[[1]]))
- points.time2 &lt;- format(points.time, &quot;%Y-%m-%dT%H:%M:%SZ&quot;)
- dat &lt;- cbind(dat[[1]], points.time2)
- colnames(dat) &lt;- c(&quot;longitude&quot;, &quot;latitude&quot;, &quot;altitude&quot;, &quot;time&quot;)
- if(!is.null(csv.file))&#123;
-     write.csv(dat, csv.file)
- &#125;
- return(as.data.frame(dat))
-&#125;
-
-tagkml2gpx &lt;- function(dat, output = &quot;res.gpx&quot;)&#123;
- #### tagkml2gpx 用来转换data.frame到
- #### dat，为data.frame， 共四列， 列名必须为
- #### (1) &quot;longitude&quot; (2) &quot;latitude&quot; (3) &quot;altitude&quot; (4)&quot;time&quot;
- #### 即函数kml2timetag的返回值， 作为本函数的输入值
- #### 输出值为gpx函数。
- res &lt;- c(                  
- &quot;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot; ?&gt;&quot;,
- &quot;&lt;gpx&gt;&quot;,
- &quot;  &lt;trk&gt;&quot;,
- &quot;    &lt;name&gt;Track written by tagkml2gpx&lt;/name&gt;&quot;,
- &quot;    &lt;trkseg&gt;&quot;)
- for(i in 1:nrow(dat))&#123;
-    res &lt;- c(res,
-       paste(&quot;     &lt;trkpt lat=&quot;&quot;,dat$latitude[i], &quot;\&quot; lon=\&quot;&quot;,
-         dat$longitude[i], &quot;\&quot;&gt;&quot;, collapse = &quot;&quot;, sep = &quot;&quot;),
-       paste(&quot;     &lt;ele&gt;&quot;, dat$altitude[i], &quot;&lt;/ele&gt;&quot;, sep = &quot;&quot;),
-       paste(&quot;     &lt;time&gt;&quot;, dat$time[i], &quot;&lt;/time&gt;&quot;, sep = &quot;&quot;),
-      &quot;     &lt;/trkpt&gt;&quot;)
- &#125;
- res &lt;- c(res,
- &quot;    &lt;/trkseg&gt;&quot;,
- &quot;  &lt;/trk&gt;&quot;,
- &quot;&lt;/gpx&gt;&quot;)
- writeLines(res, output)
-&#125;
-
-dat2 &lt;- kml2timetag(kmlfile = &quot;ttt.kml&quot;,
-               start.time = &quot;2015-02-04 21:39:36&quot;,
-               end.time =  &quot;2015-02-05 23:40:50&quot;)
-tagkml2gpx(dat2, output = &quot;res.gpx&quot;)
-</code></pre>
-
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">library(maptools)  <span class="comment">###导入需要maptools程序包</span></span><br><span class="line">kml2timetag &lt;- <span class="keyword">function</span>(kmlfile = <span class="string">&quot;ttt.kml&quot;</span>,</span><br><span class="line">                start.time = <span class="string">&quot;2015-02-04 21:39:36&quot;</span>,</span><br><span class="line">                 end.time =  <span class="string">&quot;2015-02-05 23:40:50&quot;</span>,</span><br><span class="line">                 csv.file = <span class="literal">NULL</span>)</span><br><span class="line"><span class="comment">#### kml2timetag 函数读取kml文件中的经纬度坐标</span></span><br><span class="line"><span class="comment">#### kml2timetag 函数， 用来读取kml文件， 拟定航迹上每个点的时间</span></span><br><span class="line"><span class="comment">#### 该函数假设每个点对应的时间均匀流逝。</span></span><br><span class="line"><span class="comment">#### 返回值为 data.frame, 共四列</span></span><br><span class="line"><span class="comment">#### (1) &quot;longitude&quot; (2) &quot;latitude&quot; (3) &quot;altitude&quot; (4)&quot;time&quot;</span></span><br><span class="line"><span class="comment">#### 并可以保存为csv文件， 在必要的情况下， 在excel中进行编辑。</span></span><br><span class="line">&#123;</span><br><span class="line"> require(<span class="string">&quot;maptools&quot;</span>)</span><br><span class="line"> Sys.setlocale(<span class="string">&quot;LC_TIME&quot;</span>, <span class="string">&quot;English&quot;</span>)</span><br><span class="line"> dat &lt;- getKMLcoordinates(kmlfile = kmlfile, ignoreAltitude=<span class="literal">FALSE</span>)</span><br><span class="line"> start.time &lt;- as.POSIXlt(start.time)</span><br><span class="line"> end.time &lt;- as.POSIXlt(end.time)</span><br><span class="line"> time.zone = <span class="number">8</span></span><br><span class="line"> points.time &lt;-  seq(start.time, end.time, length.out = nrow(dat[[<span class="number">1</span>]]))</span><br><span class="line"> points.time2 &lt;- format(points.time, <span class="string">&quot;%Y-%m-%dT%H:%M:%SZ&quot;</span>)</span><br><span class="line"> dat &lt;- cbind(dat[[<span class="number">1</span>]], points.time2)</span><br><span class="line"> colnames(dat) &lt;- <span class="built_in">c</span>(<span class="string">&quot;longitude&quot;</span>, <span class="string">&quot;latitude&quot;</span>, <span class="string">&quot;altitude&quot;</span>, <span class="string">&quot;time&quot;</span>)</span><br><span class="line"> <span class="keyword">if</span>(!<span class="built_in">is.null</span>(csv.file))&#123;</span><br><span class="line">     write.csv(dat, csv.file)</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="built_in">return</span>(as.data.frame(dat))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">tagkml2gpx &lt;- <span class="keyword">function</span>(dat, output = <span class="string">&quot;res.gpx&quot;</span>)&#123;</span><br><span class="line"> <span class="comment">#### tagkml2gpx 用来转换data.frame到</span></span><br><span class="line"> <span class="comment">#### dat，为data.frame， 共四列， 列名必须为</span></span><br><span class="line"> <span class="comment">#### (1) &quot;longitude&quot; (2) &quot;latitude&quot; (3) &quot;altitude&quot; (4)&quot;time&quot;</span></span><br><span class="line"> <span class="comment">#### 即函数kml2timetag的返回值， 作为本函数的输入值</span></span><br><span class="line"> <span class="comment">#### 输出值为gpx函数。</span></span><br><span class="line"> res &lt;- <span class="built_in">c</span>(                  </span><br><span class="line"> <span class="string">&quot;&lt;?xml version=&quot;</span>1.0<span class="string">&quot; encoding=&quot;</span>UTF-<span class="number">8</span><span class="string">&quot; standalone=&quot;</span>no<span class="string">&quot; ?&gt;&quot;</span>,</span><br><span class="line"> <span class="string">&quot;&lt;gpx&gt;&quot;</span>,</span><br><span class="line"> <span class="string">&quot;  &lt;trk&gt;&quot;</span>,</span><br><span class="line"> <span class="string">&quot;    &lt;name&gt;Track written by tagkml2gpx&lt;/name&gt;&quot;</span>,</span><br><span class="line"> <span class="string">&quot;    &lt;trkseg&gt;&quot;</span>)</span><br><span class="line"> <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:nrow(dat))&#123;</span><br><span class="line">    res &lt;- <span class="built_in">c</span>(res,</span><br><span class="line">       paste(<span class="string">&quot;     &lt;trkpt lat=&quot;</span><span class="string">&quot;,dat$latitude[i], &quot;</span>\<span class="string">&quot; lon=\&quot;&quot;</span>,</span><br><span class="line">         dat$longitude[i], <span class="string">&quot;\&quot;&gt;&quot;</span>, collapse = <span class="string">&quot;&quot;</span>, sep = <span class="string">&quot;&quot;</span>),</span><br><span class="line">       paste(<span class="string">&quot;     &lt;ele&gt;&quot;</span>, dat$altitude[i], <span class="string">&quot;&lt;/ele&gt;&quot;</span>, sep = <span class="string">&quot;&quot;</span>),</span><br><span class="line">       paste(<span class="string">&quot;     &lt;time&gt;&quot;</span>, dat$time[i], <span class="string">&quot;&lt;/time&gt;&quot;</span>, sep = <span class="string">&quot;&quot;</span>),</span><br><span class="line">      <span class="string">&quot;     &lt;/trkpt&gt;&quot;</span>)</span><br><span class="line"> &#125;</span><br><span class="line"> res &lt;- <span class="built_in">c</span>(res,</span><br><span class="line"> <span class="string">&quot;    &lt;/trkseg&gt;&quot;</span>,</span><br><span class="line"> <span class="string">&quot;  &lt;/trk&gt;&quot;</span>,</span><br><span class="line"> <span class="string">&quot;&lt;/gpx&gt;&quot;</span>)</span><br><span class="line"> writeLines(res, output)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dat2 &lt;- kml2timetag(kmlfile = <span class="string">&quot;ttt.kml&quot;</span>,</span><br><span class="line">               start.time = <span class="string">&quot;2015-02-04 21:39:36&quot;</span>,</span><br><span class="line">               end.time =  <span class="string">&quot;2015-02-05 23:40:50&quot;</span>)</span><br><span class="line">tagkml2gpx(dat2, output = <span class="string">&quot;res.gpx&quot;</span>)</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2015/02/04/2015-2-5-gpx/" data-id="ckmq42aj400711k846b8ucdcy" data-title="为kml文件添加时间并转存为gpx航迹" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2015/02/04/2015-2-5-gpx/" data-id="ckmt6y7mz007bmgya3c5oacx2" data-title="为kml文件添加时间并转存为gpx航迹" class="article-share-link">Share</a>
       
       
       
@@ -270,15 +210,9 @@ tagkml2gpx(dat2, output = &quot;res.gpx&quot;)
 <p>该文件为csv文件的模板， 用于之后从每张照片的exif文件中导出经纬度。</p>
 <ol start="5">
 <li><p>创建一个纯文本文件， 命名为 run_exiftool_geotaging.bat，内容为：</p>
-<pre><code class="bat">exiftool -geotag=track20150131.gpx ./
-pause
-</code></pre>
-</li>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">exiftool -geotag=track20150131.gpx ./</span><br><span class="line"><span class="built_in">pause</span></span><br></pre></td></tr></table></figure></li>
 <li><p>创建一个纯文本文件， 命名为 run_exiftool_creat_csv.bat，内容为</p>
-<pre><code class="bat">exiftool -p csv.mft ./&gt;test.csv
-pause
-</code></pre>
-</li>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">exiftool -p csv.mft ./&gt;test.csv</span><br><span class="line"><span class="built_in">pause</span></span><br></pre></td></tr></table></figure></li>
 <li><p>双击run_exiftool_geotaging.bat文件， exiftool从航迹提取信息， 并为该文件夹下对应时间的照片添加经纬度和海拔。</p>
 </li>
 <li><p>双击 run_exiftool_creat_csv.bat 文件， exiftool读取每张照片的经纬度和海拔， 并保存到相应.csv文件中。</p>
@@ -291,7 +225,7 @@ pause
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2015/01/30/2015-1-31-exiftools/" data-id="ckmq42aj1006p1k84g1ogh6um" data-title="用exiftool为照片添加经纬度并生成照片经纬度列表" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2015/01/30/2015-1-31-exiftools/" data-id="ckmt6y7mr006wmgya4g6dhoj8" data-title="用exiftool为照片添加经纬度并生成照片经纬度列表" class="article-share-link">Share</a>
       
       
       
@@ -338,7 +272,7 @@ pause
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2015/01/27/2015-1-27-errickson/" data-id="ckmq42aj0006n1k84c65xgcsz" data-title="世上再无Stefan" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2015/01/27/2015-1-27-errickson/" data-id="ckmt6y7mr006umgyabdgm6hgv" data-title="世上再无Stefan" class="article-share-link">Share</a>
       
       
       
@@ -374,34 +308,11 @@ pause
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <pre><code class="python">import math
-a,b,c = input(&quot;Input the length of sides separated by comma:&quot;)
-if a + b &gt; c and a + c &gt; b and b + c &gt; a:
-   p = (a + b + c)/2.0
-   temp = p * (p - a) * (p - b) * (p - c)
-   area = math.sqrt(temp)
-   if a == b or b == a or c == a: 
-       if a == b == c:
-           res = &quot;equilateral triangle&quot;
-       elif math.fabs(a**2 + b**2 - c**2) &lt; 1e-6 or math.fabs(b**2 + c**2 - a**2) &lt; 1e-6 or math.fabs(c**2 + a**2 - b**2) &lt; 1e-6:
-           res = &quot;isosceles triangle&quot;
-       elif math.fabs(a**2 + b **2 - c**2) &lt; 1e-6 or (b**2 + c **2 - a**2) &lt; 1e-6  or (c**2 + a **2 - b**2) &lt; 1e-6:
-           res = &quot;rightangled triangle&quot;
-   else: 
-       res = &quot;Common triangle&quot;
-else: 
-   res = &quot;Not triangle&quot;
-if res != &quot;Not triangle&quot;:
-   print(&quot;Area for this triangle is&quot;, area)
-   print(&quot;It is a&quot;, res)
-else:
-   print(&quot;Not a triangle&quot;)
-</code></pre>
-
+        <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line">a,b,c = <span class="built_in">input</span>(<span class="string">&quot;Input the length of sides separated by comma:&quot;</span>)</span><br><span class="line"><span class="keyword">if</span> a + b &gt; c <span class="keyword">and</span> a + c &gt; b <span class="keyword">and</span> b + c &gt; a:</span><br><span class="line">   p = (a + b + c)/<span class="number">2.0</span></span><br><span class="line">   temp = p * (p - a) * (p - b) * (p - c)</span><br><span class="line">   area = math.sqrt(temp)</span><br><span class="line">   <span class="keyword">if</span> a == b <span class="keyword">or</span> b == a <span class="keyword">or</span> c == a: </span><br><span class="line">       <span class="keyword">if</span> a == b == c:</span><br><span class="line">           res = <span class="string">&quot;equilateral triangle&quot;</span></span><br><span class="line">       <span class="keyword">elif</span> math.fabs(a**<span class="number">2</span> + b**<span class="number">2</span> - c**<span class="number">2</span>) &lt; <span class="number">1e-6</span> <span class="keyword">or</span> math.fabs(b**<span class="number">2</span> + c**<span class="number">2</span> - a**<span class="number">2</span>) &lt; <span class="number">1e-6</span> <span class="keyword">or</span> math.fabs(c**<span class="number">2</span> + a**<span class="number">2</span> - b**<span class="number">2</span>) &lt; <span class="number">1e-6</span>:</span><br><span class="line">           res = <span class="string">&quot;isosceles triangle&quot;</span></span><br><span class="line">       <span class="keyword">elif</span> math.fabs(a**<span class="number">2</span> + b **<span class="number">2</span> - c**<span class="number">2</span>) &lt; <span class="number">1e-6</span> <span class="keyword">or</span> (b**<span class="number">2</span> + c **<span class="number">2</span> - a**<span class="number">2</span>) &lt; <span class="number">1e-6</span>  <span class="keyword">or</span> (c**<span class="number">2</span> + a **<span class="number">2</span> - b**<span class="number">2</span>) &lt; <span class="number">1e-6</span>:</span><br><span class="line">           res = <span class="string">&quot;rightangled triangle&quot;</span></span><br><span class="line">   <span class="keyword">else</span>: </span><br><span class="line">       res = <span class="string">&quot;Common triangle&quot;</span></span><br><span class="line"><span class="keyword">else</span>: </span><br><span class="line">   res = <span class="string">&quot;Not triangle&quot;</span></span><br><span class="line"><span class="keyword">if</span> res != <span class="string">&quot;Not triangle&quot;</span>:</span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;Area for this triangle is&quot;</span>, area)</span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;It is a&quot;</span>, res)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;Not a triangle&quot;</span>)</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2015/01/04/2015-1-4-python-program/" data-id="ckmq42aj9007g1k840v45dm22" data-title="Python举例： 输入三角形边长，判断所生成三角形和面积" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2015/01/04/2015-1-4-python-program/" data-id="ckmt6y7ms006zmgyah00i69jg" data-title="Python举例： 输入三角形边长，判断所生成三角形和面积" class="article-share-link">Share</a>
       
       
       
@@ -464,7 +375,7 @@ else:
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/12/18/2014-12-18-qgis/" data-id="ckmq42ait005y1k84a7tz5t5o" data-title="用QGIS生成地图一副完整地图" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/12/18/2014-12-18-qgis/" data-id="ckmt6y7mh0065mgyaa4baeuvq" data-title="用QGIS生成地图一副完整地图" class="article-share-link">Share</a>
       
       
       
@@ -514,17 +425,12 @@ else:
 <li> 安装devtools程序包</li>
 </ol>
 <p>在R的命令行中，输入：</p>
-<pre><code class="R">install.packages(&quot;devtools&quot;)
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">&quot;devtools&quot;</span>)</span><br></pre></td></tr></table></figure>
 <ol start="4">
 <li><p>从 github 安装 herblabel</p>
-<pre><code class="R">library(devtools)
-install_github(&quot;helixcn/plantlist&quot;)
-</code></pre>
-</li>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">library(devtools)</span><br><span class="line">install_github(<span class="string">&quot;helixcn/plantlist&quot;</span>)</span><br></pre></td></tr></table></figure></li>
 <li><p>安装openxlsx程序包, 用于读取内置的xlsx模板</p>
-<pre><code class="R">install.packages(&quot;openxlsx&quot;)
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">&quot;openxlsx&quot;</span>)</span><br></pre></td></tr></table></figure>
 <p>至此, herblabel及其相关的程序包安装完成.</p>
 </li>
 <li><p>herblabel程序包的更新</p>
@@ -532,9 +438,8 @@ install_github(&quot;helixcn/plantlist&quot;)
 </ol>
 <p>Herblabel程序包会根据用户反馈的意见, 进行修改, 或者增加相应的功能, 因此每隔一段时间, 就发布发新版本.</p>
 <p>更新该程序包, 请用如下R命令从github重新安装:</p>
-<pre><code class="R">library(devtools)
-install_github(&quot;helixcn/herblabel&quot;)
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">library(devtools)</span><br><span class="line">install_github(<span class="string">&quot;helixcn/herblabel&quot;</span>)</span><br></pre></td></tr></table></figure>
+
 <p>打印标本标签以及鉴定标签</p>
 <p>标本标签以及鉴定标签所用的数据均保存在Excel模板中. 主要步骤如下:</p>
 <ol>
@@ -595,16 +500,7 @@ install_github(&quot;helixcn/herblabel&quot;)
 <li>DATE_IDENTIFIED(重要):鉴定的日期, 最好也是2015-8-6类似的格式</li>
 <li>TYPE_STATUS:该标本是否为模式标本</li>
 <li>PROCESSED_BY:本条记录的录入人</li>
-<li>DATE_LASTMODIFIED:本条记录上次更改的日期<br>假设 DARWIN_CORE_HERBARIUM_RECORDS.xlsx 保存在 D:/herbarium/, 则输入以下命令， 即可生成rtf标签：<pre><code class="R">setwd(&quot;D:/herbarium/&quot;) ## 注意斜杠要向右
-library(herblabel)
-library(openxlsx)
-dat &lt;- read.xlsx(&quot;DARWIN_CORE_HERBARIUM_RECORDS.xlsx&quot;)
-### 检查拼写等
-herbarium_label(dat, outfile = &quot;herbarium_labels.rtf&quot;)
-### 不进行检查
-herbarium_label(dat, spellcheck = FALSE, outfile = &quot;herbarium_labels_no_checking.rtf&quot;)
-</code></pre>
-</li>
+<li>DATE_LASTMODIFIED:本条记录上次更改的日期<br>假设 DARWIN_CORE_HERBARIUM_RECORDS.xlsx 保存在 D:/herbarium/, 则输入以下命令， 即可生成rtf标签：<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;D:/herbarium/&quot;</span>) <span class="comment">## 注意斜杠要向右</span></span><br><span class="line">library(herblabel)</span><br><span class="line">library(openxlsx)</span><br><span class="line">dat &lt;- read.xlsx(<span class="string">&quot;DARWIN_CORE_HERBARIUM_RECORDS.xlsx&quot;</span>)</span><br><span class="line"><span class="comment">### 检查拼写等</span></span><br><span class="line">herbarium_label(dat, outfile = <span class="string">&quot;herbarium_labels.rtf&quot;</span>)</span><br><span class="line"><span class="comment">### 不进行检查</span></span><br><span class="line">herbarium_label(dat, spellcheck = <span class="literal">FALSE</span>, outfile = <span class="string">&quot;herbarium_labels_no_checking.rtf&quot;</span>)</span><br></pre></td></tr></table></figure></li>
 </ul>
 <p>默认情况下， spellcheck = TRUE, 此时herbarium_label函数将进行（1） 物种有效性的检查 ， 即是否是The Plantlist 网站上的接受名 （2）属的拼写检查 （3） 科的拼写检查 （4） 科属对应关系的检查。 在Remarks这一列中， 如有列出伴生种， 则拉丁文部分会自动转换为斜体。 如果未能转换成斜体， 则需要检查其拼写。 这些信息会在生成的RTF文件中给出提示。</p>
 <ol>
@@ -634,24 +530,15 @@ herbarium_label(dat, spellcheck = FALSE, outfile = &quot;herbarium_labels_no_che
 <p>打印鉴定标签:</p>
 <p>将该ANNOTATION_TEMPLATE.xlsx 拷贝到 D:/herbarium/</p>
 <p>填好相应的鉴定信息后, 在Rgui中运行如下命令:</p>
-<pre><code class="R">  setwd(&quot;D:/herbarium&quot;)
-  library(herblabel)
-  library(openxlsx)
-  dat &lt;- read.xlsx(&quot;ANNOTATION_TEMPLATE.xlsx&quot;)                    
-  annotation_label(dat)
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;D:/herbarium&quot;</span>)</span><br><span class="line">library(herblabel)</span><br><span class="line">library(openxlsx)</span><br><span class="line">dat &lt;- read.xlsx(<span class="string">&quot;ANNOTATION_TEMPLATE.xlsx&quot;</span>)                    </span><br><span class="line">annotation_label(dat)</span><br></pre></td></tr></table></figure>
+
 <p>由herbarium_label函数和annotation_label生成的rtf文件， 可以用Microsoft Word打开， 进行进一步的调整 （如某些物种的斜体，或者间距的调整）。</p>
 <p>3.从中文名匹配并填写学名,命名人和科属等信息</p>
 <p>在打印标签时, 人们希望尽量输入少的数据,因为输入的内容越多,出错的几率也越大, 特别是植物的学名, 不少人对拉丁文的拼写并不熟悉, 很容易在输入时出现错误. 此外, 命名人的缩写有不同的格式, 稍有不慎, 拼写就会出问题. 此外, 将一个完整学名按照科, 属, 种加词, 命名人, 种下等级, 种下等级加词, 种下等级命名人填写, 也相当费时费力. 为此, herblabel程序包中提供了fill_dwc函数, 目的是, 依照模板中出现的中文名, 在herblabel内置的数据库内找到对应的学名, 并且查找该种对应的apgiii科, 并填写到模板中, 随后将学名按照属, 种加词, 命名人, 种下等级, 种下等级加词, 种下等级命名人等自动填写到模板中.</p>
 <p>使用方法</p>
 <p>在Excel模板DARWIN_CORE_HERBARIUM_RECORDS.xlsx中, 将中国植物志接受的中文名,或者plantlist给出的完整的拉丁名拷贝到对应Excel模板的 LOCAL_NAME 一列, 之后运行如下命令即可:</p>
-<pre><code class="R">setwd(&quot;D:/herbarium/&quot;) ## 注意斜杠要向右
-library(herblabel)
-library(openxlsx)
-dat &lt;- read.xlsx(&quot;DARWIN_CORE_HERBARIUM_RECORDS.xlsx&quot;)
-dwc_filled &lt;- fill_dwc(dat) ### 检查拼写等
-herbarium_label(dwc_filled, outfile = &quot;herbarium_labels.rtf&quot;)
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;D:/herbarium/&quot;</span>) <span class="comment">## 注意斜杠要向右</span></span><br><span class="line">library(herblabel)</span><br><span class="line">library(openxlsx)</span><br><span class="line">dat &lt;- read.xlsx(<span class="string">&quot;DARWIN_CORE_HERBARIUM_RECORDS.xlsx&quot;</span>)</span><br><span class="line">dwc_filled &lt;- fill_dwc(dat) <span class="comment">### 检查拼写等</span></span><br><span class="line">herbarium_label(dwc_filled, outfile = <span class="string">&quot;herbarium_labels.rtf&quot;</span>)</span><br></pre></td></tr></table></figure>
+
 <p>4.模板信息的保存与更新, 以及生成RTF文件的自动保存</p>
 <p>如果用户不希望一次性打印Excel模板中所有的记录, 则应该用subset函数进行筛选 (参考 <a target="_blank" rel="noopener" href="http://www.statmethods.net/management/subset.html">http://www.statmethods.net/management/subset.html</a>). 但是更多人希望将每次打印的标本记录自动更新到一个完整的Excel记录中, 并且完整保存每次运行的Excel模板, 以及生成的RTF文件. 实际上笔者已经提供了运行herblabel程序包的R脚本 run_herblabel (<a target="_blank" rel="noopener" href="https://github.com/helixcn/run_herblabel">https://github.com/helixcn/run_herblabel</a>) .</p>
 <p>使用方法如下:</p>
@@ -677,12 +564,12 @@ herbarium_label(dwc_filled, outfile = &quot;herbarium_labels.rtf&quot;)
 <p>Jinlong Zhang (2016). herblabel: Making Labels for Herbarium</p>
 <p> Specimens in RTF and More. R package version 0.4.4.</p>
 <p> <a target="_blank" rel="noopener" href="https://github.com/helixcn/herblabel">https://github.com/helixcn/herblabel</a></p>
-<p>如果您对herblabel程序包有任何意见或建议， 请联系 <a href="mailto:&#106;&#105;&#x6e;&#108;&#111;&#110;&#103;&#122;&#104;&#x61;&#110;&#x67;&#48;&#x31;&#64;&#x67;&#x6d;&#x61;&#105;&#108;&#46;&#99;&#x6f;&#109;">&#106;&#105;&#x6e;&#108;&#111;&#110;&#103;&#122;&#104;&#x61;&#110;&#x67;&#48;&#x31;&#64;&#x67;&#x6d;&#x61;&#105;&#108;&#46;&#99;&#x6f;&#109;</a> 或 本人的qq 85168042</p>
+<p>如果您对herblabel程序包有任何意见或建议， 请联系 <a href="mailto:&#106;&#x69;&#x6e;&#x6c;&#111;&#110;&#x67;&#122;&#x68;&#x61;&#110;&#103;&#48;&#x31;&#x40;&#x67;&#109;&#97;&#105;&#x6c;&#x2e;&#x63;&#111;&#109;">&#106;&#x69;&#x6e;&#x6c;&#111;&#110;&#x67;&#122;&#x68;&#x61;&#110;&#103;&#48;&#x31;&#x40;&#x67;&#109;&#97;&#105;&#x6c;&#x2e;&#x63;&#111;&#109;</a> 或 本人的qq 85168042</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/12/10/2014-12-10-herblabel2/" data-id="ckmq42ais005w1k84f1hof0o9" data-title="herblabel R程序包打印植物标本标签 (2017年1月9日更新)" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/12/10/2014-12-10-herblabel2/" data-id="ckmt6y7mf0063mgyadf765znk" data-title="herblabel R程序包打印植物标本标签 (2017年1月9日更新)" class="article-share-link">Share</a>
       
       
       
@@ -723,43 +610,14 @@ herbarium_label(dwc_filled, outfile = &quot;herbarium_labels.rtf&quot;)
 <p>在分析中，如果一件事情已经发生，在计算其Likelihood时，就是将理论上的各种状态相乘，获得联合概率密度。求该联合概率密度，在参数取什么值时， 保证联合概率密度最大， 就是极大似然估计。</p>
 <p>例如： 假设从一个袋子里，随机抽取白球和黑球，每一次抽完， 都放回到袋子里，共抽取了100次， 得到80个黑球， 20个白球， 求袋子中， 黑球与白球的比例是多大时， 最有可能得到当前的结果？</p>
 <p>分析： 袋子里的球， 非黑即白， 可以简化为， 二项分布， 即一件事情发生还是不发生的概率。 假设抽到黑球的概率为p， 那么抽到白球的概率为1-p。在本例子中，抽取100次， 抽到了80个黑球， 其概率为p^80, 而抽到白球的概率为 1-p, 发生了20次， 因此概率为 (1 - p)^20。 因此， 产生抽样结果的概率为p^80*(1 - p)^20，这就是联合概率密度。为了便于批量计算， 这里写成了R函数。</p>
-<pre><code class="R">### Likelihood函数， 用来计算在p取值不同时， 当前结果（即80个黑球， 20个白球）发生的可能性。 
-likelihood &lt;- function(p) &#123;p^80*(1 - p)^20&#125; 
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### Likelihood函数， 用来计算在p取值不同时， 当前结果（即80个黑球， 20个白球）发生的可能性。 </span></span><br><span class="line">likelihood &lt;- <span class="keyword">function</span>(p) &#123;p^<span class="number">80</span>*(<span class="number">1</span> - p)^<span class="number">20</span>&#125; </span><br><span class="line"></span><br><span class="line"><span class="comment">###生成p的取值序列，p值取0.01， 意思是 100个白球里面， 有1个黑球， 99个黑球。</span></span><br><span class="line"><span class="comment">### 不难想象， 这种情况下， 抽取100次， 抽到80个黑球的可能性一定很小。 </span></span><br><span class="line">p &lt;- seq(<span class="number">0.01</span>, <span class="number">0.99</span>, by = <span class="number">0.001</span>) </span><br><span class="line"> </span><br><span class="line"><span class="comment">### 计算p不同取值时， 抽取到80个黑球， 20个白球的可能性（likelihood）。</span></span><br><span class="line">res.like &lt;- likelihood(p) </span><br><span class="line"></span><br><span class="line"><span class="comment">### 绘图</span></span><br><span class="line">plot(res.like, type = <span class="string">&quot;l&quot;</span>, col = <span class="string">&quot;red&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">### 由于likelihood是概率的乘机， 一般都很小， 所以在取自然对数之后，更加方便计算机处理， 所以一般都取自然对数。</span></span><br><span class="line"><span class="comment">### 这就是loglikelihood。</span></span><br><span class="line">loglikelihood &lt;- <span class="keyword">function</span>(p) &#123;<span class="built_in">log</span>(p^<span class="number">80</span>*(<span class="number">1</span> - p)^<span class="number">20</span>)&#125; </span><br><span class="line"></span><br><span class="line"><span class="comment">### 计算log likelihoodres.loglike &lt;- loglikelihood(p)</span></span><br><span class="line"><span class="comment">### 绘图， 可查看loglikelihood与参数p的关系</span></span><br><span class="line">plot(res.loglike, type = <span class="string">&quot;l&quot;</span>, col = <span class="string">&quot;red&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">### 用optimize可以通过数值方法，求函数的极值。</span></span><br><span class="line">optimize(loglikelihood, interval = <span class="built_in">c</span>(<span class="number">0</span>, <span class="number">1</span>),maximum = <span class="literal">TRUE</span>)</span><br><span class="line"><span class="comment">## $maximum</span></span><br><span class="line"><span class="comment">## [1] 0.7999832</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $objective</span></span><br><span class="line"><span class="comment">## [1] -50.04024</span></span><br></pre></td></tr></table></figure>
 
-###生成p的取值序列，p值取0.01， 意思是 100个白球里面， 有1个黑球， 99个黑球。
-### 不难想象， 这种情况下， 抽取100次， 抽到80个黑球的可能性一定很小。 
-p &lt;- seq(0.01, 0.99, by = 0.001) 
- 
-### 计算p不同取值时， 抽取到80个黑球， 20个白球的可能性（likelihood）。
-res.like &lt;- likelihood(p) 
-
-### 绘图
-plot(res.like, type = &quot;l&quot;, col = &quot;red&quot;)
-
-
-### 由于likelihood是概率的乘机， 一般都很小， 所以在取自然对数之后，更加方便计算机处理， 所以一般都取自然对数。
-### 这就是loglikelihood。
-loglikelihood &lt;- function(p) &#123;log(p^80*(1 - p)^20)&#125; 
-
-### 计算log likelihoodres.loglike &lt;- loglikelihood(p)
-### 绘图， 可查看loglikelihood与参数p的关系
-plot(res.loglike, type = &quot;l&quot;, col = &quot;red&quot;)
-
-
-### 用optimize可以通过数值方法，求函数的极值。
-optimize(loglikelihood, interval = c(0, 1),maximum = TRUE)
-## $maximum
-## [1] 0.7999832
-## 
-## $objective
-## [1] -50.04024
-</code></pre>
 <p>由于获得likelihood的最大值的解析解常常十分困难， 实际情况在求maximum likelihood时， 大部分会用到数值方法。而且也不一定是求最大值， 而是求函数的最小值。 具体可参考R软件的 optim, nlm等函数的帮助文档。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/12/05/2014-12-5-maximumlikelihood/" data-id="ckmq42ait00601k8483px3o5k" data-title="从黑球、白球到极大似然估计" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/12/05/2014-12-5-maximumlikelihood/" data-id="ckmt6y7mh0067mgya9q1z7rio" data-title="从黑球、白球到极大似然估计" class="article-share-link">Share</a>
       
       
       
@@ -872,83 +730,39 @@ optimize(loglikelihood, interval = c(0, 1),maximum = TRUE)
 <p>Rtools安装完成后可以通过以下方式检查是否安装成功:</p>
 <p>图5.在控制台中输入zip,如图所示，若未提示错误，则Rtools安装和配置成功</p>
 <h2 id="安装openxlsx程序包"><a href="#安装openxlsx程序包" class="headerlink" title="安装openxlsx程序包"></a>安装openxlsx程序包</h2><p>openxlsx程序包用来读取和保存带有植物名录的xlsx模板，在Rconsole中输入：</p>
-<pre><code class="R">install.packages(&quot;openxlsx&quot;)
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">&quot;openxlsx&quot;</span>)</span><br></pre></td></tr></table></figure>
+
 <p>然后，在弹出的窗口选择距离较近的CRAN镜像，openxlsx程序包会自动下载并安装好。部分地区由于网络限制，不一定能打开r-project网站的云服务，以致报错。此时可以用以下命令从指定的CRAN镜像网站安装:</p>
-<pre><code class="R">install.packages(&quot;ctv&quot;, repos = &quot;http://cran.R-project.org&quot;)
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">&quot;ctv&quot;</span>, repos = <span class="string">&quot;http://cran.R-project.org&quot;</span>)</span><br></pre></td></tr></table></figure>
+
 <p>其中 <a target="_blank" rel="noopener" href="http://cran.r-project.org/">http://cran.R-project.org</a> 可替换为任何CRAN镜像名。CRAN镜像列表见以下网址：<a target="_blank" rel="noopener" href="https://cran.r-project.org/mirrors.html">https://cran.r-project.org/mirrors.html</a></p>
 <p>图6.通过<code>install.packages</code>命令安装openxlsx程序包</p>
 <h2 id="安装plantlist程序包"><a href="#安装plantlist程序包" class="headerlink" title="安装plantlist程序包"></a>安装plantlist程序包</h2><p>由于plantlist程序包内置的数据约20M,不便提交到CRAN。稳定版本在R-Forge(<a target="_blank" rel="noopener" href="https://r-forge.r-project.org/R/?group_id=2052),%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC%E7%9A%84%E6%BA%90%E4%BB%A3%E7%A0%81%E4%BF%9D%E5%AD%98%E5%9C%A8github%E3%80%82">https://r-forge.r-project.org/R/?group_id=2052),最新版本的源代码保存在github。</a></p>
 <p>图7.Rforge网站上plantlist的页面</p>
 <h3 id="从R-Forge下载安装"><a href="#从R-Forge下载安装" class="headerlink" title="从R-Forge下载安装"></a>从R-Forge下载安装</h3><p>命令是:</p>
-<pre><code class="R">install.packages(&quot;plantlist&quot;, repos=&quot;http://R-Forge.R-project.org&quot;)
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">&quot;plantlist&quot;</span>, repos=<span class="string">&quot;http://R-Forge.R-project.org&quot;</span>)</span><br></pre></td></tr></table></figure>
+
 <h3 id="从github下载和安装"><a href="#从github下载和安装" class="headerlink" title="从github下载和安装"></a>从github下载和安装</h3><p>plantlist的github网址是(<a target="_blank" rel="noopener" href="https://www.github.com/helixcn/plantlist)%E3%80%82%E5%8F%AF%E4%BD%BF%E7%94%A8%E5%A6%82%E4%B8%8B%E5%91%BD%E4%BB%A4%E5%AE%89%E8%A3%85%EF%BC%9A">https://www.github.com/helixcn/plantlist)。可使用如下命令安装：</a></p>
-<pre><code class="R">devtools::install_github(&quot;helixcn/plantlist&quot;)
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">devtools::install_github(<span class="string">&quot;helixcn/plantlist&quot;</span>)</span><br></pre></td></tr></table></figure>
+
 <p>若尚未安装devtools程序包,需要输入以下命令安装:</p>
-<pre><code class="R">install.packages(&quot;devtools&quot;)
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">&quot;devtools&quot;</span>)</span><br></pre></td></tr></table></figure>
+
 <p>至此，plantlist及其依赖的程序包都安装好了。</p>
 <h1 id="plantlist各函数的用法"><a href="#plantlist各函数的用法" class="headerlink" title="plantlist各函数的用法"></a>plantlist各函数的用法</h1><p>在使用plantlist之前，必须用<code>library(plantlist)</code> 加载plantlist。查询每个函数的使用方法，请输入<code>?``函数名</code>，例如：<code>?TPL</code>即可查看TPL函数的帮助界面。</p>
 <h2 id="CTPL-用中文名查询科、属、分布、海拔、IUCN等级数据"><a href="#CTPL-用中文名查询科、属、分布、海拔、IUCN等级数据" class="headerlink" title="CTPL() 用中文名查询科、属、分布、海拔、IUCN等级数据"></a><code>CTPL()</code> 用中文名查询科、属、分布、海拔、IUCN等级数据</h2><p>调用方式和参数如下： <code>CTPL(taxa= NULL, print_as_list = TRUE)</code></p>
 <p>其中taxa是植物的中文名， <code>print_as_list</code> 只是打印方式的选项，如果为TRUE，则用列表的方式打印。</p>
 <p><strong>注意：用列表的方式打印，只是为了显示的方便，本函数返回值为****data.frame,</strong> <code>print_as_list</code><strong>参数并不会改变返回值的数据类型。</strong></p>
 <p>示例代码如下：</p>
-<pre><code class="R">library(plantlist)
-CTPL(c(&quot;杨梅&quot;, &quot;多花泡花树&quot;))
-CTPL(c(&quot;网脉实蕨&quot;, &quot;江南星蕨&quot;))
-# 将结果保存到Excel文件中
-library(openxlsx)
-rrr &lt;- CTPL(c(&quot;侧金盏花&quot;,               
-              &quot;多花泡花树&quot;,               
-              &quot;网脉山龙眼&quot;,               
-              &quot;绿樟&quot;,               
-              &quot;网脉实蕨&quot;))
-write.xlsx(rrr, &quot;results.xlsx&quot;)# 纯文本文件的读写
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">library(plantlist)</span><br><span class="line">CTPL(<span class="built_in">c</span>(<span class="string">&quot;杨梅&quot;</span>, <span class="string">&quot;多花泡花树&quot;</span>))</span><br><span class="line">CTPL(<span class="built_in">c</span>(<span class="string">&quot;网脉实蕨&quot;</span>, <span class="string">&quot;江南星蕨&quot;</span>))</span><br><span class="line"><span class="comment"># 将结果保存到Excel文件中</span></span><br><span class="line">library(openxlsx)</span><br><span class="line">rrr &lt;- CTPL(<span class="built_in">c</span>(<span class="string">&quot;侧金盏花&quot;</span>,               </span><br><span class="line">              <span class="string">&quot;多花泡花树&quot;</span>,               </span><br><span class="line">              <span class="string">&quot;网脉山龙眼&quot;</span>,               </span><br><span class="line">              <span class="string">&quot;绿樟&quot;</span>,               </span><br><span class="line">              <span class="string">&quot;网脉实蕨&quot;</span>))</span><br><span class="line">write.xlsx(rrr, <span class="string">&quot;results.xlsx&quot;</span>)<span class="comment"># 纯文本文件的读写</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Save to UTF-8</span></span><br><span class="line"></span><br><span class="line">writeLines(text = <span class="built_in">c</span>(<span class="string">&quot;桃儿七&quot;</span>, <span class="string">&quot;连香树&quot;</span>,<span class="string">&quot;水青树&quot;</span>,<span class="string">&quot;绿樟&quot;</span>,<span class="string">&quot;网脉实蕨&quot;</span>),     </span><br><span class="line">con = <span class="string">&quot;test_species.txt&quot;</span>,     </span><br><span class="line">useBytes = <span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line">sp &lt;- readLines(<span class="string">&quot;test_species.txt&quot;</span>, encoding = <span class="string">&quot;UTF-8&quot;</span>)</span><br><span class="line"></span><br><span class="line">CTPL(sp)</span><br></pre></td></tr></table></figure>
 
-# Save to UTF-8
 
-writeLines(text = c(&quot;桃儿七&quot;, &quot;连香树&quot;,&quot;水青树&quot;,&quot;绿樟&quot;,&quot;网脉实蕨&quot;),     
-con = &quot;test_species.txt&quot;,     
-useBytes = TRUE)
-
-sp &lt;- readLines(&quot;test_species.txt&quot;, encoding = &quot;UTF-8&quot;)
-
-CTPL(sp)
-</code></pre>
 <p>图8.CTPL的查询结果</p>
 <h2 id="CTPL2-用中文名查询科、属、分布、海拔、IUCN等级数据"><a href="#CTPL2-用中文名查询科、属、分布、海拔、IUCN等级数据" class="headerlink" title="CTPL2() 用中文名查询科、属、分布、海拔、IUCN等级数据"></a><code>CTPL2()</code> 用中文名查询科、属、分布、海拔、IUCN等级数据</h2><p><code>CTPL2</code>可直接读取Excel文件第一列的数据，并以此和内置的<code>cnplants_dat</code>数据匹配，结果保存在自动生成的xlsx文件中。</p>
 <p>示例代码如下：</p>
-<pre><code class="R"># Example of CTPL2
-library(plantlist)
-library(openxlsx)
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Example of CTPL2</span></span><br><span class="line">library(plantlist)</span><br><span class="line">library(openxlsx)</span><br><span class="line"></span><br><span class="line">species &lt;- data.frame(plants = <span class="built_in">c</span>(<span class="string">&quot;侧金盏花&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;多花泡花树&quot;</span>,                                  </span><br><span class="line"><span class="string">&quot;网脉山龙眼&quot;</span>,                                  </span><br><span class="line"><span class="string">&quot;绿樟&quot;</span>,                                  </span><br><span class="line"><span class="string">&quot;网脉实蕨&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;无根藤&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;黄樟&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;香叶树&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;山鸡椒&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;潺槁木姜子&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;豺皮樟&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;浙江润楠&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;广东润楠&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;广寄生&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;两广梭罗&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;假苹婆&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;地桃花&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;白背黄花稔&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;通泉草&quot;</span>,                                 </span><br><span class="line"><span class="string">&quot;野牡丹&quot;</span>))</span><br><span class="line"></span><br><span class="line">write.xlsx(species, <span class="string">&quot;species_to_search.xlsx&quot;</span>)</span><br><span class="line">CTPL2(<span class="string">&quot;species_to_search.xlsx&quot;</span>)</span><br></pre></td></tr></table></figure>
 
-species &lt;- data.frame(plants = c(&quot;侧金盏花&quot;,                                 
-&quot;多花泡花树&quot;,                                  
-&quot;网脉山龙眼&quot;,                                  
-&quot;绿樟&quot;,                                  
-&quot;网脉实蕨&quot;,                                 
-&quot;无根藤&quot;,                                 
-&quot;黄樟&quot;,                                 
-&quot;香叶树&quot;,                                 
-&quot;山鸡椒&quot;,                                 
-&quot;潺槁木姜子&quot;,                                 
-&quot;豺皮樟&quot;,                                 
-&quot;浙江润楠&quot;,                                 
-&quot;广东润楠&quot;,                                 
-&quot;广寄生&quot;,                                 
-&quot;两广梭罗&quot;,                                 
-&quot;假苹婆&quot;,                                 
-&quot;地桃花&quot;,                                 
-&quot;白背黄花稔&quot;,                                 
-&quot;通泉草&quot;,                                 
-&quot;野牡丹&quot;))
 
-write.xlsx(species, &quot;species_to_search.xlsx&quot;)
-CTPL2(&quot;species_to_search.xlsx&quot;)
-</code></pre>
 <p>图9.CTPL2的查询结果。</p>
 <h2 id="status-查询每个学名在ThePlant-List-1-1-的接受状态"><a href="#status-查询每个学名在ThePlant-List-1-1-的接受状态" class="headerlink" title="status() 查询每个学名在ThePlant List 1.1 的接受状态"></a><code>status()</code> 查询每个学名在ThePlant List 1.1 的接受状态</h2><p>函数的参数 <code>status(species=NA, exact =TRUE, spell_error_max =NULL)</code></p>
 <ul>
@@ -967,78 +781,14 @@ CTPL2(&quot;species_to_search.xlsx&quot;)
 </ul>
 <p><code>status</code>函数可以查询变种var.亚种subsp.以及变型f.是否接受等信息.</p>
 <p>示例代码：</p>
-<pre><code class="R">library(plantlist)
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">library(plantlist)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 建立物种名单</span></span><br><span class="line">sp &lt;-<span class="built_in">c</span>(<span class="string">&quot;Elaeocarpus decipiens&quot;</span>,       </span><br><span class="line">       <span class="string">&quot;Syzygium buxifolium&quot;</span>,       </span><br><span class="line">       <span class="string">&quot;Daphniphyllum oldhamii&quot;</span>,       </span><br><span class="line">       <span class="string">&quot;Loropetalum chinense&quot;</span>,       </span><br><span class="line">       <span class="string">&quot;Rhododendron latoucheae&quot;</span>,       </span><br><span class="line">       <span class="string">&quot;Rhododendron ovatum&quot;</span>,       </span><br><span class="line">       <span class="string">&quot;Vaccinium carlesii&quot;</span>,       </span><br><span class="line">       <span class="string">&quot;Schima superba&quot;</span>)</span><br><span class="line">       </span><br><span class="line"><span class="comment">### 检查名单内每个种的接受情况以及接受名</span></span><br><span class="line">status(sp)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 检查一个种的接受情况</span></span><br><span class="line">status(<span class="string">&quot;Myrica rubra&quot;</span>)              <span class="comment">## 杨梅</span></span><br><span class="line">status(<span class="string">&quot;Adinandra millettii&quot;</span>)       <span class="comment">## 杨桐</span></span><br><span class="line">status(<span class="string">&quot;cyclobalanopsis neglecta &quot;</span>) <span class="comment">## 竹叶青冈</span></span><br><span class="line">status(<span class="string">&quot;Lirianthe henryi&quot;</span>)          <span class="comment">## 大叶木兰</span></span><br><span class="line"><span class="comment">#### 同时检查几个学名的状态</span></span><br><span class="line">status(<span class="built_in">c</span>(<span class="string">&quot;Myrica rubra&quot;</span>,          </span><br><span class="line">         <span class="string">&quot;Adinandra millettii&quot;</span>,         </span><br><span class="line">         <span class="string">&quot;Machilus thunbergii&quot;</span>,         </span><br><span class="line">         <span class="string">&quot;Ranunculus japonicus&quot;</span>,         </span><br><span class="line">         <span class="string">&quot;Cyclobalanopsis neglecta&quot;</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">### Check the statusof a scientific name (with or without authorship)</span></span><br><span class="line"><span class="comment">### 查询学名是否接受</span></span><br><span class="line">status(<span class="string">&quot;Hypoxis filifolia&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### Subspecies (withor without authorship)</span></span><br><span class="line"><span class="comment">### 查询亚种是否接受</span></span><br><span class="line">status(<span class="string">&quot;Hypoxis kilimanjarica subsp. kilimanjarica&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### Variaty (with orwithout authorship)</span></span><br><span class="line"><span class="comment">### 查询变种是否接受</span></span><br><span class="line">status(<span class="string">&quot;Hypoxis erecta var. aestivalis&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### Form (with orwithout authorship)</span></span><br><span class="line"><span class="comment">### 查询变型是否接受</span></span><br><span class="line">status(<span class="string">&quot;Hypoxis hirsuta f. villosissima&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 重要提示： 由于表示变型的 f. 有时也用于命名人中，</span></span><br><span class="line"><span class="comment">### 因此，用status函数在查询变型时， 请勿为种添加命名人，</span></span><br><span class="line"><span class="comment">### 但是变型的命名人可以提供或者不提供，具体为:</span></span><br><span class="line"><span class="string">&quot;Hypoxis hirsuta (L.)Coville f. vollosissima Fernald&quot;</span><span class="comment">#  （不能处理）</span></span><br><span class="line"><span class="string">&quot;Hypoxis hirsuta f. vollosissima Fernald&quot;</span><span class="comment">#（能处理）</span></span><br><span class="line"><span class="string">&quot;Hypoxis hirsuta f. vollosissima&quot;</span><span class="comment">#（能处理）</span></span><br></pre></td></tr></table></figure>
 
-## 建立物种名单
-sp &lt;-c(&quot;Elaeocarpus decipiens&quot;,       
-       &quot;Syzygium buxifolium&quot;,       
-       &quot;Daphniphyllum oldhamii&quot;,       
-       &quot;Loropetalum chinense&quot;,       
-       &quot;Rhododendron latoucheae&quot;,       
-       &quot;Rhododendron ovatum&quot;,       
-       &quot;Vaccinium carlesii&quot;,       
-       &quot;Schima superba&quot;)
-       
-### 检查名单内每个种的接受情况以及接受名
-status(sp)
-
-### 检查一个种的接受情况
-status(&quot;Myrica rubra&quot;)              ## 杨梅
-status(&quot;Adinandra millettii&quot;)       ## 杨桐
-status(&quot;cyclobalanopsis neglecta &quot;) ## 竹叶青冈
-status(&quot;Lirianthe henryi&quot;)          ## 大叶木兰
-#### 同时检查几个学名的状态
-status(c(&quot;Myrica rubra&quot;,          
-         &quot;Adinandra millettii&quot;,         
-         &quot;Machilus thunbergii&quot;,         
-         &quot;Ranunculus japonicus&quot;,         
-         &quot;Cyclobalanopsis neglecta&quot;))
-
-### Check the statusof a scientific name (with or without authorship)
-### 查询学名是否接受
-status(&quot;Hypoxis filifolia&quot;)
-
-### Subspecies (withor without authorship)
-### 查询亚种是否接受
-status(&quot;Hypoxis kilimanjarica subsp. kilimanjarica&quot;)
-
-### Variaty (with orwithout authorship)
-### 查询变种是否接受
-status(&quot;Hypoxis erecta var. aestivalis&quot;)
-
-### Form (with orwithout authorship)
-### 查询变型是否接受
-status(&quot;Hypoxis hirsuta f. villosissima&quot;)
-
-### 重要提示： 由于表示变型的 f. 有时也用于命名人中，
-### 因此，用status函数在查询变型时， 请勿为种添加命名人，
-### 但是变型的命名人可以提供或者不提供，具体为:
-&quot;Hypoxis hirsuta (L.)Coville f. vollosissima Fernald&quot;#  （不能处理）
-&quot;Hypoxis hirsuta f. vollosissima Fernald&quot;#（能处理）
-&quot;Hypoxis hirsuta f. vollosissima&quot;#（能处理）
-</code></pre>
 <h2 id="taxa-table-基于TPL查询结果制作科属种列表"><a href="#taxa-table-基于TPL查询结果制作科属种列表" class="headerlink" title="taxa.table() 基于TPL查询结果制作科属种列表"></a><code>taxa.table()</code> 基于TPL查询结果制作科属种列表</h2><p>查询结果多用于在Phylomatic软件中构建进化树。示例代码如下：</p>
-<pre><code class="R">sp &lt;- c( &quot;Ranunculus japonicus&quot;,
-         &quot;Anemone udensis&quot;,         
-         &quot;Ranunculus repens&quot;,         
-         &quot;Ranunculus chinensis&quot;,         
-         &quot;Solanum nigrum&quot;,         
-         &quot;Punica sp.&quot; )
-res &lt;- TPL(sp)taxa.table(res)
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sp &lt;- <span class="built_in">c</span>( <span class="string">&quot;Ranunculus japonicus&quot;</span>,</span><br><span class="line">         <span class="string">&quot;Anemone udensis&quot;</span>,         </span><br><span class="line">         <span class="string">&quot;Ranunculus repens&quot;</span>,         </span><br><span class="line">         <span class="string">&quot;Ranunculus chinensis&quot;</span>,         </span><br><span class="line">         <span class="string">&quot;Solanum nigrum&quot;</span>,         </span><br><span class="line">         <span class="string">&quot;Punica sp.&quot;</span> )</span><br><span class="line">res &lt;- TPL(sp)taxa.table(res)</span><br></pre></td></tr></table></figure>
+
 <h2 id="TPL-根据拉丁名，查询目、科、属、以及科的编号"><a href="#TPL-根据拉丁名，查询目、科、属、以及科的编号" class="headerlink" title="TPL()根据拉丁名，查询目、科、属、以及科的编号"></a><code>TPL()</code>根据拉丁名，查询目、科、属、以及科的编号</h2><p>TPL函数输入的数据必须是字符串格式的向量。可以查询科、属、种的相应信息，但是并不会提示学名是否为接受名。查询学名是否有效，请用<code>status</code>函数。</p>
-<pre><code class="R">TPL(&quot;Carex&quot;) # 
-查询薹草属
-TPL(&quot;Apple&quot;) 
-# 查询苹果的英文名
-splist &lt;- c(&quot;Ranunculus japonicus&quot;,
-             &quot;Solanum nigrum&quot;,
-             &quot;Punica sp.&quot;,
-             &quot;Machilus&quot;,
-             &quot;Today&quot;,
-             &quot;####&quot; ) ### 查询多个种
-res &lt;- TPL(splist)
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">TPL(<span class="string">&quot;Carex&quot;</span>) <span class="comment"># </span></span><br><span class="line">查询薹草属</span><br><span class="line">TPL(<span class="string">&quot;Apple&quot;</span>) </span><br><span class="line"><span class="comment"># 查询苹果的英文名</span></span><br><span class="line">splist &lt;- <span class="built_in">c</span>(<span class="string">&quot;Ranunculus japonicus&quot;</span>,</span><br><span class="line">             <span class="string">&quot;Solanum nigrum&quot;</span>,</span><br><span class="line">             <span class="string">&quot;Punica sp.&quot;</span>,</span><br><span class="line">             <span class="string">&quot;Machilus&quot;</span>,</span><br><span class="line">             <span class="string">&quot;Today&quot;</span>,</span><br><span class="line">             <span class="string">&quot;####&quot;</span> ) <span class="comment">### 查询多个种</span></span><br><span class="line">res &lt;- TPL(splist)</span><br></pre></td></tr></table></figure>
+
 <h1 id="引用plantlist程序包"><a href="#引用plantlist程序包" class="headerlink" title="引用plantlist程序包"></a>引用plantlist程序包</h1><p>如果您使用了plantlist程序包，请通过以下方式引用：</p>
 <p>JinlongZhang (2018). plantlist: Looking Up the Status of Plant ScientificNames based on The Plant List Database. R package version0.5.3. <a target="_blank" rel="noopener" href="https://github.com/helixcn/plantlist/">https://github.com/helixcn/plantlist/</a></p>
 <h1 id="致谢"><a href="#致谢" class="headerlink" title="致谢"></a>致谢</h1><p>感谢高芳銮、李嵘、张健、朱慧玲、刘冰、胡晓丽、冯嘉恩、黄世芳、俞筱押、胡海花、李家湘、刘水银、鲍志贵、张美霞、葛斌杰、孔德良、刘振稳、龙文兴、金建军、夏尚文、李霞、陶旺兰、李秋萍、易逸瑜、张璋、骆争荣、彭舜磊、郭文永、贾蕙君等各位老师同学提出宝贵意见和建议。</p>
@@ -1063,7 +813,7 @@ res &lt;- TPL(splist)
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/11/27/2014-11-27-plantlist/" data-id="ckmq42air005s1k84e51l7ei1" data-title="用R程序包plantlist查询和处理植物学名" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/11/27/2014-11-27-plantlist/" data-id="ckmt6y7me005zmgya2nau95wo" data-title="用R程序包plantlist查询和处理植物学名" class="article-share-link">Share</a>
       
       
       
@@ -1123,129 +873,8 @@ res &lt;- TPL(splist)
 <p>（5）若当前点不能被接受，则继续在满足参数概率分布的前提下，继续生成随机数，作为新的参数组合，直到参数组合能够被接受为止。</p>
 <p>更详细的理论介绍， 请参阅 <a target="_blank" rel="noopener" href="http://cos.name/2013/01/lda-math-mcmc-and-gibbs-sampling/">http://cos.name/2013/01/lda-math-mcmc-and-gibbs-sampling/</a></p>
 <p>以下用实例， 即用MCMC （基于Metropolis Hastings 抽样）估计线性回归模型的参数</p>
-<pre><code class="R">
-### 第一步 首先生成要拟合的数据
-set.seed(12345)     ### 设定随机数种子
-x = 1:60            ### 生成x数据， 共60个点
-beta0_actual = 20   ### beta0真实值为20
-beta1_actual = 5    ### beta1真实值为5
-sigma_actual = 15   ### sigma真实值为15
-y = x*5 + 20 + rnorm(60, 0, 15) ## 生成y数据， 这里假设已知 beta1 = 5， beta0 = 20， mu = 0, sd = 15
-plot(y ~ x)         ### 绘图
-# 本套模拟数据所应的 beta0, beta1
-linmod &lt;- lm(y ~ x)
-summary(linmod)
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">### 第一步 首先生成要拟合的数据</span></span><br><span class="line">set.seed(<span class="number">12345</span>)     <span class="comment">### 设定随机数种子</span></span><br><span class="line">x = <span class="number">1</span>:<span class="number">60</span>            <span class="comment">### 生成x数据， 共60个点</span></span><br><span class="line">beta0_actual = <span class="number">20</span>   <span class="comment">### beta0真实值为20</span></span><br><span class="line">beta1_actual = <span class="number">5</span>    <span class="comment">### beta1真实值为5</span></span><br><span class="line">sigma_actual = <span class="number">15</span>   <span class="comment">### sigma真实值为15</span></span><br><span class="line">y = x*<span class="number">5</span> + <span class="number">20</span> + rnorm(<span class="number">60</span>, <span class="number">0</span>, <span class="number">15</span>) <span class="comment">## 生成y数据， 这里假设已知 beta1 = 5， beta0 = 20， mu = 0, sd = 15</span></span><br><span class="line">plot(y ~ x)         <span class="comment">### 绘图</span></span><br><span class="line"><span class="comment"># 本套模拟数据所应的 beta0, beta1</span></span><br><span class="line">linmod &lt;- lm(y ~ x)</span><br><span class="line">summary(linmod)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 第二步， 写出 似然函数， 因线性回归一般模式均可写成</span></span><br><span class="line"><span class="comment">### y = beta1*x + beta0 + error,</span></span><br><span class="line"><span class="comment">### 而error符合 N(0, sigma)</span></span><br><span class="line"><span class="comment">### 所有error的概率乘积， 即联合概率密度， 称为Likelihood</span></span><br><span class="line"><span class="comment">### 因为Likelihood数值往往很小，在计算机中为了便于计算， 一般都取自然对数，</span></span><br><span class="line"><span class="comment">### 因此此时dnorm()之外是相加sum()</span></span><br><span class="line">LogLikelihood &lt;- <span class="keyword">function</span>(beta0, beta1, sigma)&#123;</span><br><span class="line">  R = y - x*beta1 - beta0  </span><br><span class="line">  <span class="built_in">sum</span>(dnorm(R, mean = <span class="number">0</span>, sigma, <span class="built_in">log</span> = <span class="literal">TRUE</span>))</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">#### LogLikelihood(50, 6, 1)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#### 第三步给出先验分布</span></span><br><span class="line"><span class="comment">#### beta0， beta1， sigma等所要估计参数的先验分布， 先验分布与取值以及概率密度与统计分布无关。</span></span><br><span class="line"><span class="comment">#### 这里为了演示方便beta0prior，beta1prior 取自均匀分布。prior三者同时发生， 因此取联合概率密度。</span></span><br><span class="line"><span class="comment">#### min，max的范围，也是根据参数的可能取值范围而估计。</span></span><br><span class="line">prior &lt;- <span class="keyword">function</span>(beta0, beta1, sigma)&#123;</span><br><span class="line">   beta0prior  = dunif(beta0, <span class="built_in">min</span>=-<span class="number">100</span>, <span class="built_in">max</span>=<span class="number">100</span>, <span class="built_in">log</span> = <span class="literal">TRUE</span>)</span><br><span class="line">   beta1prior  = dunif(beta1, <span class="built_in">min</span>=-<span class="number">100</span>, <span class="built_in">max</span>=<span class="number">100</span>, <span class="built_in">log</span> = <span class="literal">TRUE</span>)</span><br><span class="line">   sigmaprior  = dnorm(sigma, mean = <span class="number">0</span>, sd = <span class="number">10</span>, <span class="built_in">log</span> = <span class="literal">TRUE</span>)</span><br><span class="line">   <span class="built_in">return</span>(beta0prior + beta1prior + sigmaprior)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">### prior(5,5,1)</span></span><br><span class="line"><span class="comment">### 写出Proposalfunction， 控制马尔科夫链状态变化的强弱， 即每一次变化， 数值的大小。  Proposalfunction一般取对称分布的概率密度，一般取正态分布，这是决定坐标点（beta0, beta1, sigma）在空间移动快慢的函数， 其中sd的取值， 决定了链的冷热程度。</span></span><br><span class="line">proposalfunction &lt;- <span class="keyword">function</span>(beta0, beta1, sigma)&#123;</span><br><span class="line">   <span class="built_in">return</span>(rnorm(<span class="number">3</span>, mean = <span class="built_in">c</span>(beta0, beta1, sigma), sd= <span class="built_in">c</span>(<span class="number">0.1</span>, <span class="number">0.5</span>, <span class="number">0.3</span>)))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">### 后验分布函数， 后验分布。 因为概率密度均已经取log， 所以这里概率相乘用加法即可。  </span></span><br><span class="line">posterior &lt;- <span class="keyword">function</span>(beta0, beta1, sigma)&#123;</span><br><span class="line">  <span class="built_in">return</span> (LogLikelihood(beta0, beta1, sigma) + prior(beta0, beta1, sigma))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">MCMC &lt;- <span class="keyword">function</span>(intialvalue, generations)&#123;</span><br><span class="line">   chain = matrix(<span class="built_in">rep</span>(<span class="literal">NA</span>, ((generations+<span class="number">1</span>) * <span class="number">3</span>)), ncol = <span class="number">3</span>)  <span class="comment">## 为马尔科夫链准备一个矩阵， 三列， 分别放置beta0, beta1, sigma的值</span></span><br><span class="line">   colnames(chain) &lt;- <span class="built_in">c</span>(<span class="string">&quot;beta0&quot;</span>, <span class="string">&quot;beta1&quot;</span>, <span class="string">&quot;sigma&quot;</span>)            <span class="comment">## 为列命名</span></span><br><span class="line">   chain[<span class="number">1</span>,] = intialvalue                                     <span class="comment">## 读取初始值</span></span><br><span class="line">   <span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1</span>:generations)&#123;                                  <span class="comment">## 开始循环， 循环次数按照代数而定</span></span><br><span class="line">       proposal = proposalfunction(chain[i,<span class="number">1</span>], chain[i,<span class="number">2</span>], chain[i,<span class="number">3</span>])  <span class="comment">### 围绕当前状态， 生成一套新的参数， 即让状态变化一次</span></span><br><span class="line">       probab = <span class="built_in">exp</span>(posterior(proposal[<span class="number">1</span>], proposal[<span class="number">2</span>], proposal[<span class="number">3</span>]) - posterior(chain[i,<span class="number">1</span>], chain[i,<span class="number">2</span>], chain[i,<span class="number">3</span>]))   <span class="comment">### 计算新状态与旧状态概率的比值， 因为概率之前都已经取对数， 因此这里取减号。</span></span><br><span class="line">       <span class="keyword">if</span> (runif(<span class="number">1</span>) &lt; probab)&#123;  <span class="comment">## 生成一个0到1之间的随机数，如果该随机数小于新旧状态的比值， 则从记录下新的状态， 作为下一个时刻的起始状态。</span></span><br><span class="line">           chain[i+<span class="number">1</span>,] = proposal</span><br><span class="line">       &#125;<span class="keyword">else</span>&#123;  <span class="comment">### 否则， 状态不变， 代数加1</span></span><br><span class="line">           chain[i+<span class="number">1</span>,] = chain[i,]</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="built_in">return</span>(chain)</span><br><span class="line">&#125;</span><br><span class="line">res.chain1 &lt;- MCMC(intialvalue = <span class="built_in">c</span>(<span class="number">4</span>,<span class="number">20</span>,<span class="number">1</span>), generations = <span class="number">100000</span>) <span class="comment">###初始值设定为 beta0 = 4, beta1 = 20, sigma = 1, 运行第一个马尔科夫链</span></span><br><span class="line">res.chain2 &lt;- MCMC(intialvalue = <span class="built_in">c</span>(<span class="number">4</span>,<span class="number">20</span>,<span class="number">1</span>), generations = <span class="number">100000</span>) <span class="comment">###初始值设定为 beta0 = 4, beta1 = 20, sigma = 1, 运行第二个马尔科夫链</span></span><br><span class="line"></span><br><span class="line"><span class="comment">####</span></span><br><span class="line">par(mfrow = <span class="built_in">c</span>(<span class="number">1</span>, <span class="number">3</span>))</span><br><span class="line">plot(res.chain1[,<span class="number">1</span>], res.chain1[,<span class="number">2</span>], type = <span class="string">&quot;l&quot;</span>)  <span class="comment">### 可以清楚得看出， 随机取值点逐渐偏离初始值， 最后稳定在一个值附近</span></span><br><span class="line">plot(res.chain1[,<span class="number">1</span>], res.chain1[,<span class="number">3</span>], type = <span class="string">&quot;l&quot;</span>)</span><br><span class="line">plot(res.chain1[,<span class="number">2</span>], res.chain1[,<span class="number">3</span>], type = <span class="string">&quot;l&quot;</span>)</span><br><span class="line">图<span class="number">1</span> 估计的参数的Burning In及马尔可夫链收敛后的变化</span><br><span class="line"></span><br><span class="line"><span class="comment">######################################################</span></span><br><span class="line"><span class="comment">############ 用coda程序包分析马尔可夫链 ##############</span></span><br><span class="line">library(coda)</span><br><span class="line">mcmc.res &lt;- mcmc(res.chain1)</span><br><span class="line">summary(mcmc.res)</span><br><span class="line">plot(mcmc.res)</span><br><span class="line"></span><br><span class="line"><span class="comment">#### 马尔可夫链是否收敛， 进入平稳状态？ #############</span></span><br><span class="line"><span class="comment">#### 以下几个判别标准可以帮我们诊断， 读者可以参阅相应函数的说明</span></span><br><span class="line">mcmcchains = mcmc.list(mcmc(res.chain1), mcmc(res.chain2))</span><br><span class="line">plot(mcmcchains)</span><br><span class="line">图<span class="number">2</span> trace plot以及概率密度分布</span><br><span class="line">gelman.diag(mcmcchains)</span><br><span class="line">gelman.plot(mcmcchains)</span><br><span class="line">geweke.plot(mcmcchains)</span><br><span class="line">geweke.diag(mcmcchains)</span><br><span class="line">图<span class="number">3</span> 用gelman.plot检验马尔可夫链是否收敛</span><br><span class="line"></span><br><span class="line"><span class="comment">#### 查看Densityplot图， 显示所求参数的概率分布情况</span></span><br><span class="line">autocorr.plot(mcmc(res.chain1))</span><br><span class="line">densityplot(mcmcchains)</span><br><span class="line">par(mfrow = <span class="built_in">c</span>(<span class="number">1</span>, <span class="number">3</span>))</span><br><span class="line">densplot(mcmcchains)</span><br><span class="line">par(mfrow = <span class="built_in">c</span>(<span class="number">1</span>, <span class="number">3</span>))</span><br><span class="line">traceplot(mcmc(res.chain1))</span><br><span class="line">xyplot(mcmc(res.chain1))</span><br><span class="line"></span><br><span class="line"><span class="comment">###################################################</span></span><br><span class="line"><span class="comment">#### 当然， 从初始值开始， 一直到马尔可夫链到达平稳状态之前，这部分的结果是不能用的， 要去除的代数，常常约定俗成，如运行100万代， 500万代，舍去之前的10%。 为了减少抽象中自相关的影响， 还会每隔多少代取一个状态等。 这些内容， 绝大部分贝叶斯软件都有现成的函数。</span></span><br><span class="line">beta0_actual = <span class="number">20</span>   <span class="comment">### beta0真实值为 20</span></span><br><span class="line">beta1_actual = <span class="number">5</span>    <span class="comment">### beta1真实值为5</span></span><br><span class="line">sigma_actual = <span class="number">15</span>   <span class="comment">### sigma真实值为15</span></span><br><span class="line">burnIn = <span class="number">20000</span></span><br><span class="line">acceptance = <span class="number">1</span> - mean(duplicated(res.chain1[-(<span class="number">1</span>:burnIn),]))</span><br><span class="line">par(mfrow = <span class="built_in">c</span>(<span class="number">2</span>,<span class="number">3</span>))</span><br><span class="line">hist(res.chain1[-(<span class="number">1</span>:burnIn),<span class="number">1</span>],nclass=<span class="number">50</span>, , main=<span class="string">&quot;Posterior of beta0&quot;</span>, xlab=<span class="string">&quot;True value = red line&quot;</span> )</span><br><span class="line">abline(v = mean(res.chain1[-(<span class="number">1</span>:burnIn),<span class="number">1</span>]), col = <span class="string">&quot;blue&quot;</span>)</span><br><span class="line">abline(v = linmod$coefficients[<span class="number">1</span>], col=<span class="string">&quot;red&quot;</span> )</span><br><span class="line">hist(res.chain1[-(<span class="number">1</span>:burnIn),<span class="number">2</span>],nclass=<span class="number">50</span>, main=<span class="string">&quot;Posterior of beta1&quot;</span>, xlab=<span class="string">&quot;True value = red line&quot;</span>)</span><br><span class="line">abline(v = mean(res.chain1[-(<span class="number">1</span>:burnIn),<span class="number">2</span>]), col = <span class="string">&quot;blue&quot;</span>)</span><br><span class="line">abline(v = linmod$coefficients[<span class="number">2</span>], col=<span class="string">&quot;red&quot;</span> )</span><br><span class="line">hist(res.chain1[-(<span class="number">1</span>:burnIn),<span class="number">3</span>],nclass=<span class="number">50</span>, main=<span class="string">&quot;Posterior of sigma&quot;</span>, xlab=<span class="string">&quot;True value = red line&quot;</span>)</span><br><span class="line">abline(v = mean(res.chain1[-(<span class="number">1</span>:burnIn),<span class="number">3</span>]) , col = <span class="string">&quot;blue&quot;</span>)</span><br><span class="line">abline(v = sigma_actual, col=<span class="string">&quot;red&quot;</span> ) <span class="comment">## 注意这里用到的sigma并非来自数据本身。</span></span><br><span class="line">plot(res.chain1[-(<span class="number">1</span>:burnIn),<span class="number">1</span>], type = <span class="string">&quot;l&quot;</span>, xlab=<span class="string">&quot;Generations&quot;</span> , ylab = <span class="string">&quot;Beta0&quot;</span>, main = <span class="string">&quot;Chain values of beta0&quot;</span>, )</span><br><span class="line">abline(h = linmod$coefficients[<span class="number">1</span>], col=<span class="string">&quot;red&quot;</span> )</span><br><span class="line">plot(res.chain1[-(<span class="number">1</span>:burnIn),<span class="number">2</span>], type = <span class="string">&quot;l&quot;</span>, xlab=<span class="string">&quot;Generations&quot;</span> , ylab = <span class="string">&quot;Beta1&quot;</span>, main = <span class="string">&quot;Chain values of beta1&quot;</span>, )</span><br><span class="line">abline(h = linmod$coefficients[<span class="number">2</span>], col=<span class="string">&quot;red&quot;</span> )</span><br><span class="line">plot(res.chain1[-(<span class="number">1</span>:burnIn),<span class="number">3</span>], type = <span class="string">&quot;l&quot;</span>, xlab=<span class="string">&quot;Generations&quot;</span> , ylab = <span class="string">&quot;Sigma&quot;</span>, main = <span class="string">&quot;Chain values of sd&quot;</span>, )</span><br><span class="line">abline(h = sigma_actual, col=<span class="string">&quot;red&quot;</span> ) <span class="comment">## 注意这里用到的sigma并非来自数据本身。</span></span><br></pre></td></tr></table></figure>
 
-### 第二步， 写出 似然函数， 因线性回归一般模式均可写成
-### y = beta1*x + beta0 + error,
-### 而error符合 N(0, sigma)
-### 所有error的概率乘积， 即联合概率密度， 称为Likelihood
-### 因为Likelihood数值往往很小，在计算机中为了便于计算， 一般都取自然对数，
-### 因此此时dnorm()之外是相加sum()
-LogLikelihood &lt;- function(beta0, beta1, sigma)&#123;
-  R = y - x*beta1 - beta0  
-  sum(dnorm(R, mean = 0, sigma, log = TRUE))
-&#125;
-#### LogLikelihood(50, 6, 1)
-
-#### 第三步给出先验分布
-#### beta0， beta1， sigma等所要估计参数的先验分布， 先验分布与取值以及概率密度与统计分布无关。
-#### 这里为了演示方便beta0prior，beta1prior 取自均匀分布。prior三者同时发生， 因此取联合概率密度。
-#### min，max的范围，也是根据参数的可能取值范围而估计。
-prior &lt;- function(beta0, beta1, sigma)&#123;
-   beta0prior  = dunif(beta0, min=-100, max=100, log = TRUE)
-   beta1prior  = dunif(beta1, min=-100, max=100, log = TRUE)
-   sigmaprior  = dnorm(sigma, mean = 0, sd = 10, log = TRUE)
-   return(beta0prior + beta1prior + sigmaprior)
-&#125;
-
-### prior(5,5,1)
-### 写出Proposalfunction， 控制马尔科夫链状态变化的强弱， 即每一次变化， 数值的大小。  Proposalfunction一般取对称分布的概率密度，一般取正态分布，这是决定坐标点（beta0, beta1, sigma）在空间移动快慢的函数， 其中sd的取值， 决定了链的冷热程度。
-proposalfunction &lt;- function(beta0, beta1, sigma)&#123;
-   return(rnorm(3, mean = c(beta0, beta1, sigma), sd= c(0.1, 0.5, 0.3)))
-&#125;
-
-### 后验分布函数， 后验分布。 因为概率密度均已经取log， 所以这里概率相乘用加法即可。  
-posterior &lt;- function(beta0, beta1, sigma)&#123;
-  return (LogLikelihood(beta0, beta1, sigma) + prior(beta0, beta1, sigma))
-&#125;
-
-MCMC &lt;- function(intialvalue, generations)&#123;
-   chain = matrix(rep(NA, ((generations+1) * 3)), ncol = 3)  ## 为马尔科夫链准备一个矩阵， 三列， 分别放置beta0, beta1, sigma的值
-   colnames(chain) &lt;- c(&quot;beta0&quot;, &quot;beta1&quot;, &quot;sigma&quot;)            ## 为列命名
-   chain[1,] = intialvalue                                     ## 读取初始值
-   for (i in 1:generations)&#123;                                  ## 开始循环， 循环次数按照代数而定
-       proposal = proposalfunction(chain[i,1], chain[i,2], chain[i,3])  ### 围绕当前状态， 生成一套新的参数， 即让状态变化一次
-       probab = exp(posterior(proposal[1], proposal[2], proposal[3]) - posterior(chain[i,1], chain[i,2], chain[i,3]))   ### 计算新状态与旧状态概率的比值， 因为概率之前都已经取对数， 因此这里取减号。
-       if (runif(1) &lt; probab)&#123;  ## 生成一个0到1之间的随机数，如果该随机数小于新旧状态的比值， 则从记录下新的状态， 作为下一个时刻的起始状态。
-           chain[i+1,] = proposal
-       &#125;else&#123;  ### 否则， 状态不变， 代数加1
-           chain[i+1,] = chain[i,]
-       &#125;
-   &#125;
-   return(chain)
-&#125;
-res.chain1 &lt;- MCMC(intialvalue = c(4,20,1), generations = 100000) ###初始值设定为 beta0 = 4, beta1 = 20, sigma = 1, 运行第一个马尔科夫链
-res.chain2 &lt;- MCMC(intialvalue = c(4,20,1), generations = 100000) ###初始值设定为 beta0 = 4, beta1 = 20, sigma = 1, 运行第二个马尔科夫链
-
-####
-par(mfrow = c(1, 3))
-plot(res.chain1[,1], res.chain1[,2], type = &quot;l&quot;)  ### 可以清楚得看出， 随机取值点逐渐偏离初始值， 最后稳定在一个值附近
-plot(res.chain1[,1], res.chain1[,3], type = &quot;l&quot;)
-plot(res.chain1[,2], res.chain1[,3], type = &quot;l&quot;)
-图1 估计的参数的Burning In及马尔可夫链收敛后的变化
-
-######################################################
-############ 用coda程序包分析马尔可夫链 ##############
-library(coda)
-mcmc.res &lt;- mcmc(res.chain1)
-summary(mcmc.res)
-plot(mcmc.res)
-
-#### 马尔可夫链是否收敛， 进入平稳状态？ #############
-#### 以下几个判别标准可以帮我们诊断， 读者可以参阅相应函数的说明
-mcmcchains = mcmc.list(mcmc(res.chain1), mcmc(res.chain2))
-plot(mcmcchains)
-图2 trace plot以及概率密度分布
-gelman.diag(mcmcchains)
-gelman.plot(mcmcchains)
-geweke.plot(mcmcchains)
-geweke.diag(mcmcchains)
-图3 用gelman.plot检验马尔可夫链是否收敛
-
-#### 查看Densityplot图， 显示所求参数的概率分布情况
-autocorr.plot(mcmc(res.chain1))
-densityplot(mcmcchains)
-par(mfrow = c(1, 3))
-densplot(mcmcchains)
-par(mfrow = c(1, 3))
-traceplot(mcmc(res.chain1))
-xyplot(mcmc(res.chain1))
-
-###################################################
-#### 当然， 从初始值开始， 一直到马尔可夫链到达平稳状态之前，这部分的结果是不能用的， 要去除的代数，常常约定俗成，如运行100万代， 500万代，舍去之前的10%。 为了减少抽象中自相关的影响， 还会每隔多少代取一个状态等。 这些内容， 绝大部分贝叶斯软件都有现成的函数。
-beta0_actual = 20   ### beta0真实值为 20
-beta1_actual = 5    ### beta1真实值为5
-sigma_actual = 15   ### sigma真实值为15
-burnIn = 20000
-acceptance = 1 - mean(duplicated(res.chain1[-(1:burnIn),]))
-par(mfrow = c(2,3))
-hist(res.chain1[-(1:burnIn),1],nclass=50, , main=&quot;Posterior of beta0&quot;, xlab=&quot;True value = red line&quot; )
-abline(v = mean(res.chain1[-(1:burnIn),1]), col = &quot;blue&quot;)
-abline(v = linmod$coefficients[1], col=&quot;red&quot; )
-hist(res.chain1[-(1:burnIn),2],nclass=50, main=&quot;Posterior of beta1&quot;, xlab=&quot;True value = red line&quot;)
-abline(v = mean(res.chain1[-(1:burnIn),2]), col = &quot;blue&quot;)
-abline(v = linmod$coefficients[2], col=&quot;red&quot; )
-hist(res.chain1[-(1:burnIn),3],nclass=50, main=&quot;Posterior of sigma&quot;, xlab=&quot;True value = red line&quot;)
-abline(v = mean(res.chain1[-(1:burnIn),3]) , col = &quot;blue&quot;)
-abline(v = sigma_actual, col=&quot;red&quot; ) ## 注意这里用到的sigma并非来自数据本身。
-plot(res.chain1[-(1:burnIn),1], type = &quot;l&quot;, xlab=&quot;Generations&quot; , ylab = &quot;Beta0&quot;, main = &quot;Chain values of beta0&quot;, )
-abline(h = linmod$coefficients[1], col=&quot;red&quot; )
-plot(res.chain1[-(1:burnIn),2], type = &quot;l&quot;, xlab=&quot;Generations&quot; , ylab = &quot;Beta1&quot;, main = &quot;Chain values of beta1&quot;, )
-abline(h = linmod$coefficients[2], col=&quot;red&quot; )
-plot(res.chain1[-(1:burnIn),3], type = &quot;l&quot;, xlab=&quot;Generations&quot; , ylab = &quot;Sigma&quot;, main = &quot;Chain values of sd&quot;, )
-abline(h = sigma_actual, col=&quot;red&quot; ) ## 注意这里用到的sigma并非来自数据本身。
-</code></pre>
 <p>图 4 参数的Bayes估计值与真实值的比较</p>
 <h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><ul>
 <li>Florian Hartig / December 9, 2011 MCMC chain analysis and convergence diagnostics with coda in R <a target="_blank" rel="noopener" href="https://theoreticalecology.wordpress.com/2011/12/09/mcmc-chain-analysis-and-convergence-diagnostics-with-coda-in-r/">https://theoreticalecology.wordpress.com/2011/12/09/mcmc-chain-analysis-and-convergence-diagnostics-with-coda-in-r/</a></li>
@@ -1254,7 +883,7 @@ abline(h = sigma_actual, col=&quot;red&quot; ) ## 注意这里用到的sigma并�
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/11/12/2014-11-13-bayesian/" data-id="ckmq42aiq005q1k84bqq2832h" data-title="基于贝叶斯法的线性模型参数估计" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/11/12/2014-11-13-bayesian/" data-id="ckmt6y7mc005xmgyae0ny5cfd" data-title="基于贝叶斯法的线性模型参数估计" class="article-share-link">Share</a>
       
       
       

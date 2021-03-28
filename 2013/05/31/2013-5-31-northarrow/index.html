@@ -6,17 +6,17 @@
   
   <title>两个可以自由调整的指北针 | Jinlong Zhang&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="用R绘制地图，或者三维图时， 有时候需要添加指北针， 但是很多时候很难进行角度调整等。 这里提供了两个绘制指北针的函数。 可以调整中心点坐标， 指北针的大小，以及旋转的角度， 分别用于二维平面作图和三维作图。  \### 可以调整大小，以及旋转的指北针 \### location 设置指北针中心点， 的x, y, z坐标。 \### size 为指北针大小的控制变量，单位为3D图形中的1， \##">
+  <meta name="description" content="用R绘制地图，或者三维图时， 有时候需要添加指北针， 但是很多时候很难进行角度调整等。 这里提供了两个绘制指北针的函数。 可以调整中心点坐标， 指北针的大小，以及旋转的角度， 分别用于二维平面作图和三维作图。  1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515">
 <meta property="og:type" content="article">
 <meta property="og:title" content="两个可以自由调整的指北针">
 <meta property="og:url" content="https://helixcn.github.io/2013/05/31/2013-5-31-northarrow/index.html">
 <meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
-<meta property="og:description" content="用R绘制地图，或者三维图时， 有时候需要添加指北针， 但是很多时候很难进行角度调整等。 这里提供了两个绘制指北针的函数。 可以调整中心点坐标， 指北针的大小，以及旋转的角度， 分别用于二维平面作图和三维作图。  \### 可以调整大小，以及旋转的指北针 \### location 设置指北针中心点， 的x, y, z坐标。 \### size 为指北针大小的控制变量，单位为3D图形中的1， \##">
+<meta property="og:description" content="用R绘制地图，或者三维图时， 有时候需要添加指北针， 但是很多时候很难进行角度调整等。 这里提供了两个绘制指北针的函数。 可以调整中心点坐标， 指北针的大小，以及旋转的角度， 分别用于二维平面作图和三维作图。  1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://blog.sciencenet.cn/static/js/grey.gif">
 <meta property="og:image" content="http://blog.sciencenet.cn/static/js/grey.gif">
 <meta property="article:published_time" content="2013-05-30T19:47:54.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:34:24.546Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:26.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="可视化">
 <meta name="twitter:card" content="summary">
@@ -102,73 +102,14 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>用R绘制地图，或者三维图时， 有时候需要添加指北针， 但是很多时候很难进行角度调整等。 这里提供了两个绘制指北针的函数。 可以调整中心点坐标， 指北针的大小，以及旋转的角度， 分别用于二维平面作图和三维作图。 </p>
-<pre><code class="R">\### 可以调整大小，以及旋转的指北针
-\### location 设置指北针中心点， 的x, y, z坐标。
-\### size 为指北针大小的控制变量，单位为3D图形中的1，
-\### rotation为指北针指向的控制变量， 单位为弧度。
-northarrow &lt;-function(location =c(0,0), size =1, rotation =0)&#123;
-   nnn &lt;-par(&quot;cin&quot;)
-   x1 =(c(-2,0,0)*size+location[1])
-   y1 =c(-3.5, -2, 3.5)*size+location[2]
-   xx1 &lt;-(x1-location[1])*cos(rotation)-   (y1 - location[2])*sin(rotation)+ location[1];  
-   yy1   =(x1-location[1])*sin(rotation)+   (y1 - location[2])*cos(rotation)  +  location[2];  
-   polygon(xx1, yy1, col=1)
-   x2 =c(2,0,0)*size+location[1]
-   y2 =c(-3.5, -2, 3.5)*size+location[2]
-   xx2 &lt;-(x2-location[1])*cos(rotation)-   (y2 - location[2])*sin(rotation)+ location[1];  
-   yy2   =(x2-location[1])*sin(rotation)+   (y2 - location[2])*cos(rotation)  +  location[2];  
-   polygon(xx2, yy2, col=0, border =1)
-   return(invisible(list(xx1, yy1, xx2, yy2)))
-&#125;
-plot(0:100, 0:100, pch =&quot;&quot;)
-north &lt;- northarrow(location =c(10,10),            rotation =(pi/180)*45)
-north &lt;- northarrow(location =c(25,25),size =2,   rotation =(pi/180)*90)
-north &lt;- northarrow(location =c(50,50),size =0.5,rotation =(pi/180)*180)
-north &lt;- northarrow(location =c(75,75),size =2.5,rotation =(pi/180)*270)
-\######################################
-# northarrow.3D 可以用在三维图中。
-\### location 设置指北针中心点， 的x, y, z坐标。
-\### pmat为persp的坐标矩阵。
-\### size 为指北针大小的控制变量，单位为3D图形中的1，
-\### rotation为指北针指向的控制变量， 单位为弧度。
-northarrow.3D &lt;-function(location =c(80, 60, 260), pmat, size =5, rotation =0)&#123;
-   x1 =(c(-2,0,0)*size+location[1])
-   y1 =c(-3.5, -2, 3.5)*size+location[2]
-   xx1 &lt;-(x1-location[1])*cos(rotation)-   (y1 - location[2])*sin(rotation)+ location[1];  
-   yy1   =(x1-location[1])*sin(rotation)+   (y1 - location[2])*cos(rotation)  +  location[2];  
-   north.res1 &lt;- trans3d(x = xx1, y = yy1, z = location[3], pmat)
-   polygon(north.res1[[1]], north.res1[[2]], col=1)
-   x2 =c(2,0,0)*size+location[1]
-   y2 =c(-3.5, -2, 3.5)*size+location[2]
-   xx2 &lt;-(x2-location[1])*cos(rotation)-   (y2 - location[2])*sin(rotation)+ location[1];  
-   yy2   =(x2-location[1])*sin(rotation)+   (y2 - location[2])*cos(rotation)  +  location[2];  
-   north.res2 &lt;- trans3d(x = xx2, y = yy2, z = location[3], pmat)
-   polygon(north.res2[[1]], north.res2[[2]], col=0)
-   return(invisible(list(north.res1, north.res2)))
-&#125;
-\###########################################
-\########### 举例###########
-x &lt;-seq(-10, 10, length=30)
-y &lt;-seq(-10, 10, length=30)
-f &lt;-function(x, y)&#123; r &lt;-sqrt(x^2+y^2); 10*sin(r)/r &#125;
-z &lt;-outer(x, y, f)
-z[is.na(z)]&lt;-1
-op &lt;-par(bg =&quot;white&quot;)
-res &lt;-persp(x, y, z, theta =30, phi =35, expand =0.5, col=&quot;grey&quot;,
-​     ltheta =120,ticktype =&quot;detailed&quot;,
-​     xlab =&quot;X&quot;, ylab =&quot;Y&quot;, zlab =&quot;Sinc( r )&quot;)
-\###
-northarrow.3D(location =c(5, 5, 10), pmat = res, size =0.5,rotation =(pi/180)*45)
-northarrow.3D(location =c(-5, 5, 10), pmat = res, size =0.8,rotation =(pi/180)*90)
-northarrow.3D(location =c(5, -5, 10), pmat = res, size =0.7, rotation =(pi/180)*180)
-northarrow.3D(location =c(-5, -5, 10), pmat = res, size =0.6, rotation =(pi/180)*270)
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">\<span class="comment">### 可以调整大小，以及旋转的指北针</span></span><br><span class="line">\<span class="comment">### location 设置指北针中心点， 的x, y, z坐标。</span></span><br><span class="line">\<span class="comment">### size 为指北针大小的控制变量，单位为3D图形中的1，</span></span><br><span class="line">\<span class="comment">### rotation为指北针指向的控制变量， 单位为弧度。</span></span><br><span class="line">northarrow &lt;-<span class="keyword">function</span>(location =<span class="built_in">c</span>(<span class="number">0</span>,<span class="number">0</span>), size =<span class="number">1</span>, rotation =<span class="number">0</span>)&#123;</span><br><span class="line">   nnn &lt;-par(<span class="string">&quot;cin&quot;</span>)</span><br><span class="line">   x1 =(<span class="built_in">c</span>(-<span class="number">2</span>,<span class="number">0</span>,<span class="number">0</span>)*size+location[<span class="number">1</span>])</span><br><span class="line">   y1 =<span class="built_in">c</span>(-<span class="number">3.5</span>, -<span class="number">2</span>, <span class="number">3.5</span>)*size+location[<span class="number">2</span>]</span><br><span class="line">   xx1 &lt;-(x1-location[<span class="number">1</span>])*<span class="built_in">cos</span>(rotation)-   (y1 - location[<span class="number">2</span>])*<span class="built_in">sin</span>(rotation)+ location[<span class="number">1</span>];  </span><br><span class="line">   yy1   =(x1-location[<span class="number">1</span>])*<span class="built_in">sin</span>(rotation)+   (y1 - location[<span class="number">2</span>])*<span class="built_in">cos</span>(rotation)  +  location[<span class="number">2</span>];  </span><br><span class="line">   polygon(xx1, yy1, col=<span class="number">1</span>)</span><br><span class="line">   x2 =<span class="built_in">c</span>(<span class="number">2</span>,<span class="number">0</span>,<span class="number">0</span>)*size+location[<span class="number">1</span>]</span><br><span class="line">   y2 =<span class="built_in">c</span>(-<span class="number">3.5</span>, -<span class="number">2</span>, <span class="number">3.5</span>)*size+location[<span class="number">2</span>]</span><br><span class="line">   xx2 &lt;-(x2-location[<span class="number">1</span>])*<span class="built_in">cos</span>(rotation)-   (y2 - location[<span class="number">2</span>])*<span class="built_in">sin</span>(rotation)+ location[<span class="number">1</span>];  </span><br><span class="line">   yy2   =(x2-location[<span class="number">1</span>])*<span class="built_in">sin</span>(rotation)+   (y2 - location[<span class="number">2</span>])*<span class="built_in">cos</span>(rotation)  +  location[<span class="number">2</span>];  </span><br><span class="line">   polygon(xx2, yy2, col=<span class="number">0</span>, border =<span class="number">1</span>)</span><br><span class="line">   <span class="built_in">return</span>(<span class="built_in">invisible</span>(<span class="built_in">list</span>(xx1, yy1, xx2, yy2)))</span><br><span class="line">&#125;</span><br><span class="line">plot(<span class="number">0</span>:<span class="number">100</span>, <span class="number">0</span>:<span class="number">100</span>, pch =<span class="string">&quot;&quot;</span>)</span><br><span class="line">north &lt;- northarrow(location =<span class="built_in">c</span>(<span class="number">10</span>,<span class="number">10</span>),            rotation =(<span class="built_in">pi</span>/<span class="number">180</span>)*<span class="number">45</span>)</span><br><span class="line">north &lt;- northarrow(location =<span class="built_in">c</span>(<span class="number">25</span>,<span class="number">25</span>),size =<span class="number">2</span>,   rotation =(<span class="built_in">pi</span>/<span class="number">180</span>)*<span class="number">90</span>)</span><br><span class="line">north &lt;- northarrow(location =<span class="built_in">c</span>(<span class="number">50</span>,<span class="number">50</span>),size =<span class="number">0.5</span>,rotation =(<span class="built_in">pi</span>/<span class="number">180</span>)*<span class="number">180</span>)</span><br><span class="line">north &lt;- northarrow(location =<span class="built_in">c</span>(<span class="number">75</span>,<span class="number">75</span>),size =<span class="number">2.5</span>,rotation =(<span class="built_in">pi</span>/<span class="number">180</span>)*<span class="number">270</span>)</span><br><span class="line">\<span class="comment">######################################</span></span><br><span class="line"><span class="comment"># northarrow.3D 可以用在三维图中。</span></span><br><span class="line">\<span class="comment">### location 设置指北针中心点， 的x, y, z坐标。</span></span><br><span class="line">\<span class="comment">### pmat为persp的坐标矩阵。</span></span><br><span class="line">\<span class="comment">### size 为指北针大小的控制变量，单位为3D图形中的1，</span></span><br><span class="line">\<span class="comment">### rotation为指北针指向的控制变量， 单位为弧度。</span></span><br><span class="line">northarrow.3D &lt;-<span class="keyword">function</span>(location =<span class="built_in">c</span>(<span class="number">80</span>, <span class="number">60</span>, <span class="number">260</span>), pmat, size =<span class="number">5</span>, rotation =<span class="number">0</span>)&#123;</span><br><span class="line">   x1 =(<span class="built_in">c</span>(-<span class="number">2</span>,<span class="number">0</span>,<span class="number">0</span>)*size+location[<span class="number">1</span>])</span><br><span class="line">   y1 =<span class="built_in">c</span>(-<span class="number">3.5</span>, -<span class="number">2</span>, <span class="number">3.5</span>)*size+location[<span class="number">2</span>]</span><br><span class="line">   xx1 &lt;-(x1-location[<span class="number">1</span>])*<span class="built_in">cos</span>(rotation)-   (y1 - location[<span class="number">2</span>])*<span class="built_in">sin</span>(rotation)+ location[<span class="number">1</span>];  </span><br><span class="line">   yy1   =(x1-location[<span class="number">1</span>])*<span class="built_in">sin</span>(rotation)+   (y1 - location[<span class="number">2</span>])*<span class="built_in">cos</span>(rotation)  +  location[<span class="number">2</span>];  </span><br><span class="line">   north.res1 &lt;- trans3d(x = xx1, y = yy1, z = location[<span class="number">3</span>], pmat)</span><br><span class="line">   polygon(north.res1[[<span class="number">1</span>]], north.res1[[<span class="number">2</span>]], col=<span class="number">1</span>)</span><br><span class="line">   x2 =<span class="built_in">c</span>(<span class="number">2</span>,<span class="number">0</span>,<span class="number">0</span>)*size+location[<span class="number">1</span>]</span><br><span class="line">   y2 =<span class="built_in">c</span>(-<span class="number">3.5</span>, -<span class="number">2</span>, <span class="number">3.5</span>)*size+location[<span class="number">2</span>]</span><br><span class="line">   xx2 &lt;-(x2-location[<span class="number">1</span>])*<span class="built_in">cos</span>(rotation)-   (y2 - location[<span class="number">2</span>])*<span class="built_in">sin</span>(rotation)+ location[<span class="number">1</span>];  </span><br><span class="line">   yy2   =(x2-location[<span class="number">1</span>])*<span class="built_in">sin</span>(rotation)+   (y2 - location[<span class="number">2</span>])*<span class="built_in">cos</span>(rotation)  +  location[<span class="number">2</span>];  </span><br><span class="line">   north.res2 &lt;- trans3d(x = xx2, y = yy2, z = location[<span class="number">3</span>], pmat)</span><br><span class="line">   polygon(north.res2[[<span class="number">1</span>]], north.res2[[<span class="number">2</span>]], col=<span class="number">0</span>)</span><br><span class="line">   <span class="built_in">return</span>(<span class="built_in">invisible</span>(<span class="built_in">list</span>(north.res1, north.res2)))</span><br><span class="line">&#125;</span><br><span class="line">\<span class="comment">###########################################</span></span><br><span class="line">\<span class="comment">########### 举例###########</span></span><br><span class="line">x &lt;-seq(-<span class="number">10</span>, <span class="number">10</span>, <span class="built_in">length</span>=<span class="number">30</span>)</span><br><span class="line">y &lt;-seq(-<span class="number">10</span>, <span class="number">10</span>, <span class="built_in">length</span>=<span class="number">30</span>)</span><br><span class="line">f &lt;-<span class="keyword">function</span>(x, y)&#123; r &lt;-<span class="built_in">sqrt</span>(x^<span class="number">2</span>+y^<span class="number">2</span>); <span class="number">10</span>*<span class="built_in">sin</span>(r)/r &#125;</span><br><span class="line">z &lt;-outer(x, y, f)</span><br><span class="line">z[<span class="built_in">is.na</span>(z)]&lt;-<span class="number">1</span></span><br><span class="line">op &lt;-par(bg =<span class="string">&quot;white&quot;</span>)</span><br><span class="line">res &lt;-persp(x, y, z, theta =<span class="number">30</span>, phi =<span class="number">35</span>, expand =<span class="number">0.5</span>, col=<span class="string">&quot;grey&quot;</span>,</span><br><span class="line">​     ltheta =<span class="number">120</span>,ticktype =<span class="string">&quot;detailed&quot;</span>,</span><br><span class="line">​     xlab =<span class="string">&quot;X&quot;</span>, ylab =<span class="string">&quot;Y&quot;</span>, zlab =<span class="string">&quot;Sinc( r )&quot;</span>)</span><br><span class="line">\<span class="comment">###</span></span><br><span class="line">northarrow.3D(location =<span class="built_in">c</span>(<span class="number">5</span>, <span class="number">5</span>, <span class="number">10</span>), pmat = res, size =<span class="number">0.5</span>,rotation =(<span class="built_in">pi</span>/<span class="number">180</span>)*<span class="number">45</span>)</span><br><span class="line">northarrow.3D(location =<span class="built_in">c</span>(-<span class="number">5</span>, <span class="number">5</span>, <span class="number">10</span>), pmat = res, size =<span class="number">0.8</span>,rotation =(<span class="built_in">pi</span>/<span class="number">180</span>)*<span class="number">90</span>)</span><br><span class="line">northarrow.3D(location =<span class="built_in">c</span>(<span class="number">5</span>, -<span class="number">5</span>, <span class="number">10</span>), pmat = res, size =<span class="number">0.7</span>, rotation =(<span class="built_in">pi</span>/<span class="number">180</span>)*<span class="number">180</span>)</span><br><span class="line">northarrow.3D(location =<span class="built_in">c</span>(-<span class="number">5</span>, -<span class="number">5</span>, <span class="number">10</span>), pmat = res, size =<span class="number">0.6</span>, rotation =(<span class="built_in">pi</span>/<span class="number">180</span>)*<span class="number">270</span>)</span><br></pre></td></tr></table></figure>
+
 <p><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"><br><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2013/05/31/2013-5-31-northarrow/" data-id="ckmq42ail00561k84gyf1hfod" data-title="两个可以自由调整的指北针" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2013/05/31/2013-5-31-northarrow/" data-id="ckmt6y7m3005dmgya1jss6ik9" data-title="两个可以自由调整的指北针" class="article-share-link">Share</a>
       
       
       

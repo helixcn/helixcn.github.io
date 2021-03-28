@@ -14,7 +14,7 @@
 <meta property="og:description" content="PartitionFinder2是用来在建立进化树时筛选最优进化模型以及分区（分隔）方案的软件，是用Python2语言编写的。 核苷酸序列在不同位点有不同的突变速率。核苷酸序列又分为编码基因和非编码基因。编码基因中，密码子第一、二位往往较为稳定，第三位往往变异速率较高。非编码基因因为受到的选择压力一般较小，所以往往可保留更多突变。不同基因以及不同位点的突变速率不同，可能对所推断进化树的稳定性有很大">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2017-08-04T19:14:54.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:34:24.593Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:26.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="软件">
 <meta name="twitter:card" content="summary">
@@ -176,24 +176,21 @@
 <p>图6 partitionFinder的运行结果</p>
 <h1 id="4-cfg配置文件"><a href="#4-cfg配置文件" class="headerlink" title="4. cfg配置文件"></a>4. cfg配置文件</h1><p>数据类型不同的PHYLIP文件，需要在partition_finder.cfg文件中设置不同的参数。</p>
 <h2 id="4-1-cfg文件的参数"><a href="#4-1-cfg文件的参数" class="headerlink" title="4.1 cfg文件的参数"></a>4.1 cfg文件的参数</h2><h3 id="4-1-1-alignment"><a href="#4-1-1-alignment" class="headerlink" title="4.1.1 alignment"></a>4.1.1 alignment</h3><p>指出phylip的文件名</p>
-<pre><code>alignment = test.phy;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alignment &#x3D; test.phy;</span><br></pre></td></tr></table></figure>
+
 <h3 id="4-1-2-branchlengths"><a href="#4-1-2-branchlengths" class="headerlink" title="4.1.2 branchlengths"></a>4.1.2 branchlengths</h3><p>在优化进化树枝长用于Likelihood计算时，是否各枝长一起优化。</p>
-<pre><code>branchlengths = linked;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">branchlengths &#x3D; linked;</span><br></pre></td></tr></table></figure>
+
 <h3 id="4-1-3-models"><a href="#4-1-3-models" class="headerlink" title="4.1.3 models"></a>4.1.3 models</h3><p>models指定模型筛选的范围</p>
-<pre><code>models = all;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">models &#x3D; all;</span><br></pre></td></tr></table></figure>
+
 <h3 id="4-1-4-model-selection"><a href="#4-1-4-model-selection" class="headerlink" title="4.1.4 model_selection"></a>4.1.4 model_selection</h3><p>model_selection模型筛选的标准，一般用aicc</p>
-<pre><code>model_selection = aicc;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model_selection &#x3D; aicc;</span><br></pre></td></tr></table></figure>
+
 <p>4.1.5 data_blocks</p>
 <p>datablocks 设定数据分区，例如：</p>
-<pre><code>[data_blocks]
-Gene1_pos1 = 1-789\3;
-Gene1_pos2 = 2-789\3;
-Gene1_pos3 = 3-789\3;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[data_blocks]</span><br><span class="line">Gene1_pos1 &#x3D; 1-789\3;</span><br><span class="line">Gene1_pos2 &#x3D; 2-789\3;</span><br><span class="line">Gene1_pos3 &#x3D; 3-789\3;</span><br></pre></td></tr></table></figure>
+
 <h3 id="4-1-6-search"><a href="#4-1-6-search" class="headerlink" title="4.1.6 search"></a>4.1.6 search</h3><p>模型筛选的算法 <code>search = greedy;</code></p>
 <h2 id="4-2-部分参数详解"><a href="#4-2-部分参数详解" class="headerlink" title="4.2 部分参数详解"></a>4.2 部分参数详解</h2><h3 id="4-2-1-branchlengths"><a href="#4-2-1-branchlengths" class="headerlink" title="4.2.1 branchlengths"></a>4.2.1 branchlengths</h3><p>枝长是否相互关联，即是否对每个分隔模式独立估计进化树的枝长（目前只有BEAST、MrBayes、RAxML支持独立估算枝长）</p>
 <h4 id="4-2-2-不同数据类型模型筛选的范围"><a href="#4-2-2-不同数据类型模型筛选的范围" class="headerlink" title="4.2.2 不同数据类型模型筛选的范围"></a>4.2.2 不同数据类型模型筛选的范围</h4><p>默认情况下<code>models=all</code>；如果用户需要使用更多模型，可设定<code>models=allx</code>，但应尽量避免，这是因为对少数几个模型进行优化要耗费很多时间。</p>
@@ -211,32 +208,26 @@ Gene1_pos3 = 3-789\3;
 <li> 如果后续用mrbayes或者beast做分析，则需要设定models为 <code>models = mrbayes;</code>或 <code>models = beast;</code>，以便只从这两个软件中有的模型中筛选。</li>
 <li> 用户也可设定PartitionFinder只考虑有Gamma或Gamma+I的相关的模型</li>
 </ol>
-<pre><code>models = gamma;
-models = gammai;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">models &#x3D; gamma;</span><br><span class="line">models &#x3D; gammai;</span><br></pre></td></tr></table></figure>
+
 <ol>
 <li> 或直接指定DNA模型的筛选范围:</li>
 </ol>
-<pre><code>models = JC, JC+G, HKY, HKY+G, GTR, GTR+G;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">models &#x3D; JC, JC+G, HKY, HKY+G, GTR, GTR+G;</span><br></pre></td></tr></table></figure>
+
 <ol>
 <li> 指定氨基酸模型的筛选范围</li>
 </ol>
-<pre><code>models = LG, LG+G, LG+G+F, WAG, WAG+G, WAG+G+F;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">models &#x3D; LG, LG+G, LG+G+F, WAG, WAG+G, WAG+G+F;</span><br></pre></td></tr></table></figure>
+
 <ol>
 <li> 指定模型选择的标准，作者推荐使用corrected AIC, 即AICc</li>
 </ol>
-<pre><code># model_selection: AIC | AICc | BIC
-model_selection = aic;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># model_selection: AIC | AICc | BIC</span><br><span class="line">model_selection &#x3D; aic;</span><br></pre></td></tr></table></figure>
+
 <h3 id="4-2-3-设定分区"><a href="#4-2-3-设定分区" class="headerlink" title="4.2.3 设定分区"></a>4.2.3 设定分区</h3><p>分区模块需要用<code>[data_blocks]</code>标记。</p>
-<pre><code>[data_blocks]
-Gene1_codon1 = 1-1000\3; 
-Gene1_codon2 = 2-1000\3;
-Gene1_codon3 = 3-1000\3;
-intron = 1001-2000;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[data_blocks]</span><br><span class="line">Gene1_codon1 &#x3D; 1-1000\3; </span><br><span class="line">Gene1_codon2 &#x3D; 2-1000\3;</span><br><span class="line">Gene1_codon3 &#x3D; 3-1000\3;</span><br><span class="line">intron &#x3D; 1001-2000;</span><br></pre></td></tr></table></figure>
+
 <p><code>[data_blocks]</code> 后紧跟基因以及位点的名称。如上面代码所示： 数据包括Gene1以及intron两部分。对于编码基因Gene1，由于密码子的1、2、3位的进化速率可能不同，因此可将1-1000位点的1、2、3碱基分开，分别作为单独的分区。</p>
 <p>上述命令中：</p>
 <p><code>Gene1_codon1 = 1-1000\3;</code> 表示：在第1-1000位点，从第1个碱基开始，步长为3的所有碱基</p>
@@ -244,14 +235,11 @@ intron = 1001-2000;
 <p><code>Gene1_codon3 = 3-1000\3;</code> 表示：在第3-1000位点，从第3个碱基开始，步长为3的所有碱基</p>
 <p><code>intron = 1001-2000;</code> 表示：从第1001-2000位点。由于是内含子，没有编码功能，所以不用将1、2、3位碱基分开。</p>
 <p>如果是为MrBayes筛选分区模型，可在每行前增加charset关键词。</p>
-<pre><code>charset Gene1_codon1 = 1-1000\3;
-charset Gene1_codon2 = 2-1000\3;
-charset Gene1_codon3 = 3-1000\3;
-charset intron = 1001-2000;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">charset Gene1_codon1 &#x3D; 1-1000\3;</span><br><span class="line">charset Gene1_codon2 &#x3D; 2-1000\3;</span><br><span class="line">charset Gene1_codon3 &#x3D; 3-1000\3;</span><br><span class="line">charset intron &#x3D; 1001-2000;</span><br></pre></td></tr></table></figure>
+
 <h3 id="4-2-4-搜寻策略"><a href="#4-2-4-搜寻策略" class="headerlink" title="4.2.4 搜寻策略"></a>4.2.4 搜寻策略</h3><p>根据数据量以及要筛选的分区组合的数目，PartitionFinder的搜索策略，要通过修改<code>search</code>参数做相应调整。</p>
-<pre><code>search: all | greedy | rcluster | rclusterf | hcluster | kmeans | user
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">search: all | greedy | rcluster | rclusterf | hcluster | kmeans | user</span><br></pre></td></tr></table></figure>
+
 <p>其中:</p>
 <ul>
 <li> <code>search = all</code> 一般用于12个分区以下；</li>
@@ -261,16 +249,10 @@ charset intron = 1001-2000;
 <li> <code>search = hcluster</code> 在研究中不推荐使用，仅为了开发而保留；</li>
 <li> <code>search = user</code> 如果用户要对上述定义的分区组合，按照指定的方式筛选， 则可在<code>search = user</code>命令之后，指定搜索的策略。同一对括号中的基因表示将作为一个整体进行分析（参见英文版说明书第21页）</li>
 </ul>
-<pre><code>together= (Gene1_codon1, Gene1_codon2, Gene1_codon3, intron); 
-intron_123  = (Gene1_codon1, Gene1_codon2, Gene1_codon3) (intron); 
-intron_12_3 = (Gene1_codon1, Gene1_codon2) (Gene1_codon3) (intron); 
-separate= (Gene1_codon1) (Gene1_codon2) (Gene1_codon3) (intron);
-</code></pre>
-<h3 id="4-2-5-搜寻策略调整举例"><a href="#4-2-5-搜寻策略调整举例" class="headerlink" title="4.2.5 搜寻策略调整举例"></a>4.2.5 搜寻策略调整举例</h3><h4 id="4-2-5-1-少于12个分区"><a href="#4-2-5-1-少于12个分区" class="headerlink" title="4.2.5.1 少于12个分区"></a>4.2.5.1 少于12个分区</h4><pre><code>branchlengths = linked;
-models = all;
-model_selection = aicc;
-search = all;
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">together&#x3D; (Gene1_codon1, Gene1_codon2, Gene1_codon3, intron); </span><br><span class="line">intron_123  &#x3D; (Gene1_codon1, Gene1_codon2, Gene1_codon3) (intron); </span><br><span class="line">intron_12_3 &#x3D; (Gene1_codon1, Gene1_codon2) (Gene1_codon3) (intron); </span><br><span class="line">separate&#x3D; (Gene1_codon1) (Gene1_codon2) (Gene1_codon3) (intron);</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-5-搜寻策略调整举例"><a href="#4-2-5-搜寻策略调整举例" class="headerlink" title="4.2.5 搜寻策略调整举例"></a>4.2.5 搜寻策略调整举例</h3><h4 id="4-2-5-1-少于12个分区"><a href="#4-2-5-1-少于12个分区" class="headerlink" title="4.2.5.1 少于12个分区"></a>4.2.5.1 少于12个分区</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">branchlengths &#x3D; linked;</span><br><span class="line">models &#x3D; all;</span><br><span class="line">model_selection &#x3D; aicc;</span><br><span class="line">search &#x3D; all;</span><br></pre></td></tr></table></figure>
+
 <h4 id="4-2-5-2-对10-100个分区进行筛选"><a href="#4-2-5-2-对10-100个分区进行筛选" class="headerlink" title="4.2.5.2 对10-100个分区进行筛选"></a>4.2.5.2 对10-100个分区进行筛选</h4><p>超过100个等位基因的序列，需要用贪婪算法，基本步骤如下：</p>
 <ol>
 <li> 设定每个基因的起始位点以及结束位点，编码位置（1，2，3）等</li>
@@ -287,16 +269,14 @@ search = all;
 <li> 更改.cfg文件，设定 <code>search = rcluster</code></li>
 <li> 在cmd中运行PartitionFinder:</li>
 </ol>
-<pre><code>python PartitionFinder.py InputFoldername --raxml
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python PartitionFinder.py InputFoldername --raxml</span><br></pre></td></tr></table></figure>
+
 <p>如仍然过慢，则更改recluster-max 参数:</p>
-<pre><code>python PartitionFinder.py InputFoldername --raxml --rcluster-max 100
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python PartitionFinder.py InputFoldername --raxml --rcluster-max 100</span><br></pre></td></tr></table></figure>
+
 <h3 id="4-2-6-用户自定义进化树"><a href="#4-2-6-用户自定义进化树" class="headerlink" title="4.2.6 用户自定义进化树"></a>4.2.6 用户自定义进化树</h3><p>在模拟研究中，可能会假设已知进化树的结构，探讨能否筛选到最优分区模型。此时可指定一棵进化树，在后续的分析中，该进化树的拓扑结构将被保留，但是枝长会根据GTR+I+GAMMA模型重新估计。指定进化树的命令如下：</p>
-<pre><code>ALIGNMENT FILE # 
-alignment = test.phy; 
-user_tree_topology = tree.phy
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ALIGNMENT FILE # </span><br><span class="line">alignment &#x3D; test.phy; </span><br><span class="line">user_tree_topology &#x3D; tree.phy</span><br></pre></td></tr></table></figure>
+
 <h1 id="5-输出结果"><a href="#5-输出结果" class="headerlink" title="5.输出结果"></a>5.输出结果</h1><p>生成的结果位于同一文件夹下的analysis文件夹中，该文件夹包含以下文件：</p>
 <ol>
 <li> <code>best_schemes.txt</code>纯文本文件，包括所筛选到的最优化分隔模型划分方案以及每个区块对应的最优模型以及RAxML和Nexus的分隔模型。</li>
@@ -317,11 +297,8 @@ user_tree_topology = tree.phy
 <li> <code>--save-phylofiles</code> 保存数据分析过程中生成的进化树，主要用来纠错。</li>
 <li> <code>--weights &quot;W_rate , W_base , W_model , W_alpha&quot;</code> 只用于<code>--raxml</code>或<code>hcluster or rcluster</code>选项开启时，分别表示几个参数的权重（参考说明书第26页）:</li>
 </ul>
-<pre><code>1. the overall rate for a subset
-2. the base/amino acid frequencies
-3. the model parameters
-4. the alpha parameter (which describes  gamma distributed rates across sites)
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1. the overall rate for a subset</span><br><span class="line">2. the base&#x2F;amino acid frequencies</span><br><span class="line">3. the model parameters</span><br><span class="line">4. the alpha parameter (which describes  gamma distributed rates across sites)</span><br></pre></td></tr></table></figure>
+
 <h1 id="进一步阅读"><a href="#进一步阅读" class="headerlink" title="进一步阅读"></a>进一步阅读</h1><ul>
 <li> Lanfear, R., Calcott, B., Ho, S. Y., &amp; Guindon, S. (2012). PartitionFinder: combined selection of partitioning schemes and substitution models for phylogenetic analyses. Molecular biology and evolution, 29(6), 1695-1701.</li>
 </ul>
@@ -345,7 +322,7 @@ user_tree_topology = tree.phy
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2017/08/05/2017-8-5-partitionfinder/" data-id="ckmq42alw00e61k84d5vofgln" data-title="用PartitionFinder2 筛选系统发育分析分隔模型" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2017/08/05/2017-8-5-partitionfinder/" data-id="ckmt6y7oc009ymgyaeipf6mpi" data-title="用PartitionFinder2 筛选系统发育分析分隔模型" class="article-share-link">Share</a>
       
       
       

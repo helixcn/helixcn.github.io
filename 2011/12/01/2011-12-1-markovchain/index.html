@@ -14,7 +14,7 @@
 <meta property="og:description" content="在一个随机过程中，如果事件发生概率在t时刻所处的状态为已知时，它在t + 1时刻只与t时刻的状态有关，而与之前所处的状态无关，则称该过程具有马尔可夫性。 时间和状态都是离散的马尔可夫过程称为马尔可夫链。马尔可夫链在经济学，社会学，生命科学领域有着广泛的应用。这里举例说明。 例子： 姜华平、陈海泳对某城市2002年居民出行方式所占比例进行了调查。结果如下:公交车bus,自行车Bicycle,步行wa">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2011-11-30T23:04:54.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:34:24.513Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:26.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="统计">
 <meta name="twitter:card" content="summary">
@@ -109,54 +109,14 @@
 <li>经历足够长的时间，求出行方式的比例是多少？</li>
 </ol>
 <p>解：</p>
-<pre><code class="R">## 分析：这是一个时间齐次马尔科夫过程，可根据转移矩阵的初始定义进行推断
-## 第一问
-## 根据题目写出转移矩阵
-T &lt;- matrix(c(90, 4 , 2 , 4 ,
-              7 , 86, 1 , 6 ,
-              8 , 7 , 80, 5 ,
-              10, 2 , 3 , 85 )/100,
-              nrow = 4, ncol = 4, byrow = TRUE)
-# 初始矩阵
-p &lt;- matrix(c(19, 14, 56, 11)/100, nrow = 1, ncol = 4, byrow = TRUE)
-## 下一年的概率应该为当年分配概率和转移矩阵的乘积
-## 2003
-p1 &lt;- p%*%T
-## 2004
-p2 &lt;- p1%*%T
-## 2005
-p3 &lt;- p2%*%T
-## 2006
-p4 &lt;- p3%*%T
-## 2006年乘坐公交车出行的总人数应为
-res &lt;- 468 * p4[1]
-
-## 第二问，用计算机模拟的方法，通过对转移矩阵的平衡状态近似求解
-## 初始化一个空向量
-s &lt;- c()
-## 假设一个人在初始时刻选择1公交车出行
-s[1] &lt;- 1
-## 则其在t1时刻选择任何一种出行方式的概率如下
-T[s[j-1],]
-## 但是他选择的出行方式可以是随机的，故用sample按照前一个状态的概率，随机抽取一次
- res &lt;- sample(1:4, size = 1, prob = T[s[j-1],])
-## 抽取的结果，就是t1时的状态
-## 而 t2时的状态只受到t1时状态的影响，因此又回到T[s[j-1],]，至此完成一次模拟
-## 每一次抽样都是只受到前一次抽样的影响
-for (j in 2:50000)
-   s[j] &lt;- sample(1:4, size = 1, prob = T[s[j-1],])
-## 在进行多次模拟后，马尔可夫链逐渐收敛。
-### 模拟50000代的概率分配如下
-res &lt;- table(s[1:50000])/50000
-names(res) &lt;- c(&quot;bus&quot;, &quot;bicycle&quot;, &quot;walk&quot;, &quot;other&quot;)
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 分析：这是一个时间齐次马尔科夫过程，可根据转移矩阵的初始定义进行推断</span></span><br><span class="line"><span class="comment">## 第一问</span></span><br><span class="line"><span class="comment">## 根据题目写出转移矩阵</span></span><br><span class="line">T &lt;- matrix(<span class="built_in">c</span>(<span class="number">90</span>, <span class="number">4</span> , <span class="number">2</span> , <span class="number">4</span> ,</span><br><span class="line">              <span class="number">7</span> , <span class="number">86</span>, <span class="number">1</span> , <span class="number">6</span> ,</span><br><span class="line">              <span class="number">8</span> , <span class="number">7</span> , <span class="number">80</span>, <span class="number">5</span> ,</span><br><span class="line">              <span class="number">10</span>, <span class="number">2</span> , <span class="number">3</span> , <span class="number">85</span> )/<span class="number">100</span>,</span><br><span class="line">              nrow = <span class="number">4</span>, ncol = <span class="number">4</span>, byrow = <span class="literal">TRUE</span>)</span><br><span class="line"><span class="comment"># 初始矩阵</span></span><br><span class="line">p &lt;- matrix(<span class="built_in">c</span>(<span class="number">19</span>, <span class="number">14</span>, <span class="number">56</span>, <span class="number">11</span>)/<span class="number">100</span>, nrow = <span class="number">1</span>, ncol = <span class="number">4</span>, byrow = <span class="literal">TRUE</span>)</span><br><span class="line"><span class="comment">## 下一年的概率应该为当年分配概率和转移矩阵的乘积</span></span><br><span class="line"><span class="comment">## 2003</span></span><br><span class="line">p1 &lt;- p%*%<span class="built_in">T</span></span><br><span class="line"><span class="comment">## 2004</span></span><br><span class="line">p2 &lt;- p1%*%<span class="built_in">T</span></span><br><span class="line"><span class="comment">## 2005</span></span><br><span class="line">p3 &lt;- p2%*%<span class="built_in">T</span></span><br><span class="line"><span class="comment">## 2006</span></span><br><span class="line">p4 &lt;- p3%*%<span class="built_in">T</span></span><br><span class="line"><span class="comment">## 2006年乘坐公交车出行的总人数应为</span></span><br><span class="line">res &lt;- 468 * p4[<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">## 第二问，用计算机模拟的方法，通过对转移矩阵的平衡状态近似求解</span></span><br><span class="line"><span class="comment">## 初始化一个空向量</span></span><br><span class="line">s &lt;- <span class="built_in">c</span>()</span><br><span class="line"><span class="comment">## 假设一个人在初始时刻选择1公交车出行</span></span><br><span class="line">s[<span class="number">1</span>] &lt;- <span class="number">1</span></span><br><span class="line"><span class="comment">## 则其在t1时刻选择任何一种出行方式的概率如下</span></span><br><span class="line"><span class="built_in">T</span>[s[j-<span class="number">1</span>],]</span><br><span class="line"><span class="comment">## 但是他选择的出行方式可以是随机的，故用sample按照前一个状态的概率，随机抽取一次</span></span><br><span class="line"> res &lt;- sample(<span class="number">1</span>:<span class="number">4</span>, size = <span class="number">1</span>, prob = <span class="built_in">T</span>[s[j-<span class="number">1</span>],])</span><br><span class="line"><span class="comment">## 抽取的结果，就是t1时的状态</span></span><br><span class="line"><span class="comment">## 而 t2时的状态只受到t1时状态的影响，因此又回到T[s[j-1],]，至此完成一次模拟</span></span><br><span class="line"><span class="comment">## 每一次抽样都是只受到前一次抽样的影响</span></span><br><span class="line"><span class="keyword">for</span> (j <span class="keyword">in</span> <span class="number">2</span>:<span class="number">50000</span>)</span><br><span class="line">   s[j] &lt;- sample(<span class="number">1</span>:<span class="number">4</span>, size = <span class="number">1</span>, prob = <span class="built_in">T</span>[s[j-<span class="number">1</span>],])</span><br><span class="line"><span class="comment">## 在进行多次模拟后，马尔可夫链逐渐收敛。</span></span><br><span class="line"><span class="comment">### 模拟50000代的概率分配如下</span></span><br><span class="line">res &lt;- table(s[<span class="number">1</span>:<span class="number">50000</span>])/<span class="number">50000</span></span><br><span class="line"><span class="built_in">names</span>(res) &lt;- <span class="built_in">c</span>(<span class="string">&quot;bus&quot;</span>, <span class="string">&quot;bicycle&quot;</span>, <span class="string">&quot;walk&quot;</span>, <span class="string">&quot;other&quot;</span>)</span><br></pre></td></tr></table></figure>
 <h2 id="题外"><a href="#题外" class="headerlink" title="题外"></a>题外</h2><p>无论假设s[1] = 1,2,3 还是4，进行多次模拟后，所得的结果是非常接近的。这也表明，马尔可夫过程的平衡状态与初始值无关。</p>
 <h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>待添加</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2011/12/01/2011-12-1-markovchain/" data-id="ckmq42ahp002r1k842p5j3d8t" data-title="一个简单的马尔可夫链" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2011/12/01/2011-12-1-markovchain/" data-id="ckmt6y7ky002vmgya26xuce8i" data-title="一个简单的马尔可夫链" class="article-share-link">Share</a>
       
       
       

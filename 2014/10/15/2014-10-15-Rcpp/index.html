@@ -14,7 +14,7 @@
 <meta property="og:description" content="R语言轻巧简洁，便于开发新算法。但是R函数运行速度较慢， 在进行迭代计算或者跑蒙特卡罗马尔科夫链时，常常不能满足要求。 此外， 由于用C或者C++已经有很多算法库，人们希望能直接调用这些库中的函数。Rcpp正是为了让R开发者更方便地运用C++函数生的。 本文简要介绍如何编写一个含有C++函数的R程序包。 要在Windows下创建R程序包，首先要安装：  R软件 http:&#x2F;&#x2F;cran.r-proj">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2014-10-15T05:00:00.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:34:24.550Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:26.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="软件">
 <meta name="twitter:card" content="summary">
@@ -109,20 +109,11 @@
 <p>并配置好启动 路径， 即将所需要的任何exe文件的路径， 拷贝到 电脑&gt;属性&gt;高级系统设置&gt;高级&gt;环境变量&gt;系统变量&gt;路径 中 如:</p>
 <p>此外， 这里假设读者使用文本编辑器 Notepad++ 。</p>
 <p>Rcpp程序包已经提供了多种C++的类模板， 可以让C++函数返回多种R对象。假设现有一个C++函数， 名叫Eccentricity，该函数用于计算某天体的轨道偏心率随时间的变化，输入参数为儒略日（日期的某种记录方法）, 在正常的C++语法中， 该函数定义如下：</p>
-<pre><code class="cpp">double Eccentricity(double JD)
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">Eccentricity</span><span class="params">(<span class="keyword">double</span> JD)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">double</span> JD3  = JD;</span><br><span class="line"><span class="keyword">double</span> T = (JD3 - <span class="number">2451545.0</span>) / <span class="number">36525.0</span>;</span><br><span class="line"><span class="keyword">double</span> Tsquared = T*T;</span><br><span class="line"><span class="keyword">return</span> ((<span class="number">1</span> - <span class="number">0.002516</span>*T - <span class="number">0.0000074</span>*Tsquared));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-&#123;
-double JD3  = JD;
-double T = (JD3 - 2451545.0) / 36525.0;
-double Tsquared = T*T;
-return ((1 - 0.002516*T - 0.0000074*Tsquared));
-&#125;
-</code></pre>
 <p>现在我们需要有一个Rcpp形成的包骨架(package skeleton)，假设名叫 skycalc。在R中运行如下命令生成基于Rcpp的R包骨架:</p>
-<pre><code class="R">library(Rcpp)
-Rcpp.package.skeleton(&quot;skycalc&quot;)
-getwd()
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">library(Rcpp)</span><br><span class="line">Rcpp.package.skeleton(<span class="string">&quot;skycalc&quot;</span>)</span><br><span class="line">getwd()</span><br></pre></td></tr></table></figure>
+
 <p>skycalc保存在getwd()所示的文件夹下， 有 man、R、src三个文件夹以及DESCRIPTION、NAMESPACE 以及 Read-and-delete-me三个文本文件，这个三个文件没有任何扩展名。</p>
 <ul>
 <li>man文件夹保存的是所有R函数以及R程序包的帮助文件文件，遵循是Latex格式，需要逐项填写。</li>
@@ -137,67 +128,36 @@ getwd()
 </ul>
 <p>这些示例文件在本例中均可以删除。</p>
 <p>我们的目标是：将Eccentricity函数，放在C++源代码中。假设函数保存在名为Eccentricity.cpp的纯文本文件， 为了能够在R中直接调用该函数， 需要将其参数数据类型以及返回值的数据类型更改为R能够识别的格式。因为R只能识别一种称为SEXP的数据类型， 所以这里做如下更改：</p>
-<pre><code class="cpp">RcppExport SEXP Eccentricity(SEXP JD)
-&#123;
-double JD3  = Rcpp::as&lt;double&gt;(JD);
-double T = (JD3 - 2451545.0) / 36525.0;
-double Tsquared = T*T;
-return (wrap(1 - 0.002516*T - 0.0000074*Tsquared));
-&#125;
-</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">RcppExport SEXP <span class="title">Eccentricity</span><span class="params">(SEXP JD)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">double</span> JD3  = Rcpp::as&lt;<span class="keyword">double</span>&gt;(JD);</span><br><span class="line"><span class="keyword">double</span> T = (JD3 - <span class="number">2451545.0</span>) / <span class="number">36525.0</span>;</span><br><span class="line"><span class="keyword">double</span> Tsquared = T*T;</span><br><span class="line"><span class="keyword">return</span> (<span class="built_in">wrap</span>(<span class="number">1</span> - <span class="number">0.002516</span>*T - <span class="number">0.0000074</span>*Tsquared));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>在类型前，更加上RcppExport，返回值return里面，先套用wrap函数，以便返回为R能识别的SEXP数据类型。</p>
 <p>为在Eccentricity.cpp文件中加上引用的头文件：</p>
-<pre><code class="cpp">#include &lt;Rcpp.h&gt;
-using namespace Rcpp;
-using namespace std;
-</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Rcpp.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> Rcpp;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br></pre></td></tr></table></figure>
 <p>此时， Eccentricity.cpp文件内容如下：</p>
-<pre><code class="cpp">///////////////cpp文件开始//////////////////////
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">///////////////cpp文件开始//////////////////////</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Rcpp.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> Rcpp;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function">RcppExport SEXP <span class="title">Eccentricity</span><span class="params">(SEXP JD)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">double</span> JD3  = Rcpp::as&lt;<span class="keyword">double</span>&gt;(JD);</span><br><span class="line"><span class="keyword">double</span> T = (JD3 - <span class="number">2451545.0</span>) / <span class="number">36525.0</span>;</span><br><span class="line"><span class="keyword">double</span> Tsquared = T*T;</span><br><span class="line"><span class="keyword">return</span> (<span class="built_in">wrap</span>(<span class="number">1</span> - <span class="number">0.002516</span>*T - <span class="number">0.0000074</span>*Tsquared));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">///////////////cpp文件结束//////////////////////</span></span><br></pre></td></tr></table></figure>
 
-#include &lt;Rcpp.h&gt;
-using namespace Rcpp;
-using namespace std;
-RcppExport SEXP Eccentricity(SEXP JD)
-&#123;
-double JD3  = Rcpp::as&lt;double&gt;(JD);
-double T = (JD3 - 2451545.0) / 36525.0;
-double Tsquared = T*T;
-return (wrap(1 - 0.002516*T - 0.0000074*Tsquared));
-&#125;
-
-///////////////cpp文件结束//////////////////////
-</code></pre>
 <p>这样 Eccentricity.cpp 文件就准备好了，将其保存在src文件夹中。</p>
 <p>为了能够在R中调用编译后的C++函数，可使用R的.Call()函数调用dll库（cpp文件经过编译后， 在Windows中编译为dll文件）。但为了更为方便地使用这些函数，一般为编写一个与C++函数形式上类似的R函数，该R函数的名称和各参数最好能与C++函数对应。为此，我们可以写一个R函数EccentricityR， 该R函数可定义如下：</p>
-<pre><code class="R">EccentricityR &lt;- function(JD) &#123;
-   .Call(&#39;Eccentricity&#39;, JD, PACKAGE = &#39;skycalc&#39;)
-&#125;
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">EccentricityR &lt;- <span class="keyword">function</span>(JD) &#123;</span><br><span class="line">   .Call(<span class="string">&#x27;Eccentricity&#x27;</span>, JD, PACKAGE = <span class="string">&#x27;skycalc&#x27;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>其中JD为该R函数的参数， 直接通过.Call传递给DLL中的Eccentricity。</p>
 <p>在Notepad++中，拷贝以上R函数， 并且另存为 EccentricityR.R 文件， 放在skycalc程序包下的R文件夹下。</p>
 <p>为了生成该EccentricityR函数的帮助文件，需要将该函数粘贴到Rconsole中， 之后运行R命令 prompt(EccentricityR)，所形成的EccentricityR.Rd 文件需要进一步根据参数的意义填写和编辑。之后放到man文件夹下。</p>
 <p>编辑和填写DESCRIPTION以及NAMESPACE两个文本文件 (参考 <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/blog-255662-247614.html">http://blog.sciencenet.cn/blog-255662-247614.html</a> )。删除 Read-and-delete-me文件。这样，程序包的源文件就做好了。</p>
 <p>下面准备编译或安装R程序包的Window批处理文件，bat文件</p>
 <h2 id="R包的检查的bat文件"><a href="#R包的检查的bat文件" class="headerlink" title="R包的检查的bat文件"></a>R包的检查的bat文件</h2><p>新建一个纯文本文件，并将扩展名txt更改为.bat，将以下内容拷贝到该文件夹中：</p>
-<pre><code class="bat">Rcmd check skycalc
-PAUSE
-</code></pre>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Rcmd check skycalc</span><br><span class="line"><span class="built_in">PAUSE</span></span><br></pre></td></tr></table></figure>
+
 <p>将该文件命名为 check skycalc package.bat， 双击该bat文件， 可以对skycalc程序包中的错误进行检查。 如果要提交程序包到CRAN，检查过程中不能有任何错误或者warning。</p>
 <h2 id="建立Windows版本的安装包的bat文件"><a href="#建立Windows版本的安装包的bat文件" class="headerlink" title="建立Windows版本的安装包的bat文件"></a>建立Windows版本的安装包的bat文件</h2><p>(2)新建一个纯文本文件，并将扩展名txt更改为.bat</p>
 <p>将以下内容拷贝到该文件夹中</p>
-<pre><code class="bat">Rcmd INSTALL --build skycalc
-PAUSE
-</code></pre>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Rcmd INSTALL --build skycalc</span><br><span class="line"><span class="built_in">PAUSE</span></span><br></pre></td></tr></table></figure>
 <p>将该文件命名为 build skycalc package Windows Binary.bat， 双击该文件， 可以建立Windows系统下的R程序包。</p>
 <h2 id="创建源代码包的bat文件"><a href="#创建源代码包的bat文件" class="headerlink" title="创建源代码包的bat文件"></a>创建源代码包的bat文件</h2><p>新建一个纯文本文件，并将扩展名txt更改为.bat，将以下内容拷贝到该文件夹中</p>
-<pre><code class="bat">Rcmd build skycalc
-pause
-</code></pre>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Rcmd build skycalc</span><br><span class="line"><span class="built_in">pause</span></span><br></pre></td></tr></table></figure>
+
 <p>将该文件命名为 build skycalc package Linux Source Code.bat， 双击该文件，可以建立Linux系统下的安装包，其实是源文件。</p>
 <h2 id="直接安装程序包的bat文件"><a href="#直接安装程序包的bat文件" class="headerlink" title="直接安装程序包的bat文件"></a>直接安装程序包的bat文件</h2><p>新建一个纯文本文件，并将扩展名txt更改为.bat，将以下内容拷贝到该文件夹中：</p>
-<pre><code class="bat">Rcmd INSTALL skycalc
-PAUSE
-</code></pre>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Rcmd INSTALL skycalc</span><br><span class="line"><span class="built_in">PAUSE</span></span><br></pre></td></tr></table></figure>
 <p>将该文件命名为 install skycalc package.bat， 双击该文件， 可以安装skycalc到当前的R中。</p>
 <h1 id="运行批处理命令"><a href="#运行批处理命令" class="headerlink" title="运行批处理命令"></a>运行批处理命令</h1><p>将以上四个.bat文件， 放置到skycalc文件夹所在的文件夹（例如， skycalc所 在的文件夹为study， 则bat文件需要放置在study文件夹下）</p>
 <p>双击文件， 即可完成程序包的编译和检查等。</p>
@@ -212,7 +172,7 @@ PAUSE
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/10/15/2014-10-15-Rcpp/" data-id="ckmq42aip005m1k84exle8nrc" data-title="R程序包整合C++：Rcpp使用简明指南" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/10/15/2014-10-15-Rcpp/" data-id="ckmt6y7ma005tmgya7fkt02os" data-title="R程序包整合C++：Rcpp使用简明指南" class="article-share-link">Share</a>
       
       
       

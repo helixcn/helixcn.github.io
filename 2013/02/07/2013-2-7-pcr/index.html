@@ -14,7 +14,7 @@
 <meta property="og:description" content="以下是在瑞典的实验记录, 之前, 操作都是靠口授心传, 加上自己操作. 我将这些步骤详细记录下来. 共分为: DNA提取(离心柱法), 浓度测定, DNA提取的电泳检验, PCR, PCR产物的凝胶电泳检验,毛细管电泳, 96孔板进行DNA提取以及检验等。全部内容, 均根据自己所做实验整理而成.  实验一  用试剂盒提取植物的全DNA目的：从针叶或种子提取裸子植物全DNA，用于SSR，Barcod">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2013-02-07T06:30:54.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:34:24.542Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:26.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="随笔">
 <meta name="twitter:card" content="summary">
@@ -152,73 +152,25 @@
 <li>取9个1.5mL的ep管，分别按照顺序，添加表1中除DNA模板外的组分。 </li>
 </ol>
 <p>表1 16uL  PCR反应体系</p>
-<pre><code>order    Constituents    Storage    Volume Per PCR Tube    ×
-1    ddH2O    RT                    11.85uL    uL
-2    PCR buffer 10×    4℃                      1.6uL    uL
-3    dNTP (25mM/uL)    4℃    0.1uL    (0.156mM)    uL  
-4    Ordinary Primer (10uM)    4℃    0.2uL     (0.125uM)    uL
-5    With Dye Primer (10uM)    4℃    0.2uL     (0.125uM)    uL
-6    TopTaq (5 Unit/uL)    －20℃    0.05uL     (0.25unit)    uL
-    分装到各ep管，每管14uL            
-7    DNA template         2uL       (10-20ng)    每个样品吸取2uL 模板DNA
-     Total        16uL    
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">order    Constituents    Storage    Volume Per PCR Tube    ×</span><br><span class="line">1    ddH2O    RT                    11.85uL    uL</span><br><span class="line">2    PCR buffer 10×    4℃                      1.6uL    uL</span><br><span class="line">3    dNTP (25mM&#x2F;uL)    4℃    0.1uL    (0.156mM)    uL  </span><br><span class="line">4    Ordinary Primer (10uM)    4℃    0.2uL     (0.125uM)    uL</span><br><span class="line">5    With Dye Primer (10uM)    4℃    0.2uL     (0.125uM)    uL</span><br><span class="line">6    TopTaq (5 Unit&#x2F;uL)    －20℃    0.05uL     (0.25unit)    uL</span><br><span class="line">    分装到各ep管，每管14uL            </span><br><span class="line">7    DNA template         2uL       (10-20ng)    每个样品吸取2uL 模板DNA</span><br><span class="line">     Total        16uL    </span><br></pre></td></tr></table></figure>
+
 <ol start="5">
 <li>将混合好的体系，按照行，分装到同一排管的小ep管中，每个14uL。</li>
 <li>从稀释过的DNA（约10ng/uL），吸取2uL，按照列，添加到排管的小ep管中。</li>
 <li>手动混合反应体系，离心。 按照所需退火温度不同，分成三组： <br>    1. 第一组 LOP1和SsrPt_ctg4363，touch down 温度为 64 – 54℃<br>    2. 第二组 PtTx3107和PtTX4001，touch down 温度为55－45℃<br>    3. 第三组PtTX2146，PtTX3025，PtTX3116，SsrPt_ctg1376, SPAC12.5，touch down为60－50℃。</li>
 <li>每个PCR反应耗时约2－2.5h。注意，PCR仪在最后的延伸完成后，会降到15℃，应该尽快将产物转移到4℃冰箱中， 并尽快检测。</li>
 </ol>
-<pre><code>Table 2. Primers and PCR conditions for each locus (Part I) version 0.3
-ID    1    2    3    4    5
-Locus    LOP1    PtTX2146    PtTX3025    PtTX3107    PtTX3116
-Dye    Cy5.5 green    D2 Black    D2 Black    D2 Black    Cy5 Blue
-Forward(5-3)    GGCTAATGGCCGGCCAGTGCT    CCTGGGGATTTGGATTGGGTATTTG    CACGCTGTATAATAACAATCTA    AAACAAGCCCACATCGTCAATC    CCTCCCAAAGCCTAAAGAAT
-Reverse(5-3)    GCGATTACAGGGTTGCAGCCT    ATATTTTCCTTGCCCCTTCCAGACA    TTCTATATTCGCTTTTAGTTTC    TCCCCTGGATCTGAGGA    CATACAAGGCCTTATCTTACAGAA
-Ta    Touch down 64-54°C    Touch down 60-50°C    Touch down 60-50°C    Touch down 55-45°C    Touch down 60-50°C
-size range    153-189    176-264    211-305    150-174    115-169
-PCR Conditions                         
-1    94 °C 3min initial denaturation    94 °C 3min initial denaturation    94 °C 3min initial denaturation    94 °C 3min initial denaturation    94 °C 3min initial denaturation
-18 cycles    2    94 °C  30s    94 °C  30s    94 °C  30s    94 °C  30s    94 °C  30s
-    3    30 S from 64 °C to 54 °C  decrease 0.6 per cycle    30 S from 60 °C to 50 °C  decrease 0.6 per cycle    30 S from 60 °C to 50 °C  decrease 0.6 per cycle    30 S from 55°C to 45 °C  decrease 0.6 per cycle    30 S from 60 °C to 50 °C  decrease 0.6 per cycle
-    4    72 °C 30S      72 °C 30S      72 °C 30S      72 °C 30S      72 °C 30S  
-                          
-25
-cycles    5    94 °C 30s     94 °C 30s     94 °C 30s     94 °C 30s     94 °C 30s 
-    6    54 °C 30s    50 °C 30s    50 °C 30s    45 °C 30s    50 °C 30s
-    7    72 °C 30s    72 °C 30s    72 °C 30s    72 °C 30s    72 °C 30s
-                          
-Final   extention  8    72°C 10 min    72°C 10 min    72°C 10 min    72°C 10 min    72°C 10 min
-Preservation    15°C --    15°C --    15°C --    15°C --    15°C --
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Table 2. Primers and PCR conditions for each locus (Part I) version 0.3</span><br><span class="line">ID    1    2    3    4    5</span><br><span class="line">Locus    LOP1    PtTX2146    PtTX3025    PtTX3107    PtTX3116</span><br><span class="line">Dye    Cy5.5 green    D2 Black    D2 Black    D2 Black    Cy5 Blue</span><br><span class="line">Forward(5-3)    GGCTAATGGCCGGCCAGTGCT    CCTGGGGATTTGGATTGGGTATTTG    CACGCTGTATAATAACAATCTA    AAACAAGCCCACATCGTCAATC    CCTCCCAAAGCCTAAAGAAT</span><br><span class="line">Reverse(5-3)    GCGATTACAGGGTTGCAGCCT    ATATTTTCCTTGCCCCTTCCAGACA    TTCTATATTCGCTTTTAGTTTC    TCCCCTGGATCTGAGGA    CATACAAGGCCTTATCTTACAGAA</span><br><span class="line">Ta    Touch down 64-54°C    Touch down 60-50°C    Touch down 60-50°C    Touch down 55-45°C    Touch down 60-50°C</span><br><span class="line">size range    153-189    176-264    211-305    150-174    115-169</span><br><span class="line">PCR Conditions                         </span><br><span class="line">1    94 °C 3min initial denaturation    94 °C 3min initial denaturation    94 °C 3min initial denaturation    94 °C 3min initial denaturation    94 °C 3min initial denaturation</span><br><span class="line">18 cycles    2    94 °C  30s    94 °C  30s    94 °C  30s    94 °C  30s    94 °C  30s</span><br><span class="line">    3    30 S from 64 °C to 54 °C  decrease 0.6 per cycle    30 S from 60 °C to 50 °C  decrease 0.6 per cycle    30 S from 60 °C to 50 °C  decrease 0.6 per cycle    30 S from 55°C to 45 °C  decrease 0.6 per cycle    30 S from 60 °C to 50 °C  decrease 0.6 per cycle</span><br><span class="line">    4    72 °C 30S      72 °C 30S      72 °C 30S      72 °C 30S      72 °C 30S  </span><br><span class="line">                          </span><br><span class="line">25</span><br><span class="line">cycles    5    94 °C 30s     94 °C 30s     94 °C 30s     94 °C 30s     94 °C 30s </span><br><span class="line">    6    54 °C 30s    50 °C 30s    50 °C 30s    45 °C 30s    50 °C 30s</span><br><span class="line">    7    72 °C 30s    72 °C 30s    72 °C 30s    72 °C 30s    72 °C 30s</span><br><span class="line">                          </span><br><span class="line">Final   extention  8    72°C 10 min    72°C 10 min    72°C 10 min    72°C 10 min    72°C 10 min</span><br><span class="line">Preservation    15°C --    15°C --    15°C --    15°C --    15°C --</span><br></pre></td></tr></table></figure>
+
+
+
 <p>                    Date: 2012-3-13<br>       Jinlong
                     
                     
                     
                     </p>
-<pre><code>Table 2. Primers and PCR conditions for each locus (Part II) version 0.3
-ID    6    7    8    9
-Locus    PtTX4001    SsrPt_ctg1376    SsrPt_ctg4363    SPAC12.5
-Dye    Cy5  Blue    Cy5.5 Green    Cy5  Blue    Cy5.5 Green
-Forward(5-3)    CTATTTGAGTTAAGAAGGGAGTC    CGATATTATGGATTTTGCTTGTGA    TAATAATTCAAGCCACCCCG    CTTCTTCACTAGTTTCCTTTGG
-Reverse(5-3)    CTGTGGGTAGCATCATC    AAATGCATGCCAAACTTAAATAC    AGCAGGCTAATAACAACACGC    TTGGTTATAGGCATAGATTGC
-Ta    Touch down 55-45°C    Touch down 60-50°C    Touch down 64-54°C    Touch down 60-50°C
-size range    198-229    88-124    95-106    118-184
-PCR Conditions                    
-1    94 °C 3min initial denaturation    94 °C 3min initial denaturation    94 °C 3min initial denaturation    94 °C 3min initial denaturation
-18 cycles    2    94 °C  30s     94 °C  30s     94 °C  30s     94 °C  30s 
-    3    30 S from 55°C to 45 °C decrease 0.6 per cycle    30 S from 60 °C to 50 °C  decrease 0.6 per cycle    30 S from 64 °C to 54 °C  decrease 0.6 per cycle    30 S from 60 °C to 50 °C  decrease 0.6 per cycle
-    4    72 °C 30S      72 °C 30S      72 °C 30S      72 °C 30S  
-                     
-25
-cycles    5    94 °C 30s     94 °C 30s     94 °C 30s     94 °C 30s 
-    6    45 °C 30s    50 °C 30s    54 °C 30s    50 °C 30s
-    7    72 °C 30s    72 °C 30s    72 °C 30s    72 °C 30s
-                     
-Final 
-extention       8    72°C 10 min    72°C 10 min    72°C 10 min    72°C 10 min
-Preservation    15°C --    15°C --    15°C --    15°C --
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">Table 2. Primers and PCR conditions for each locus (Part II) version 0.3</span><br><span class="line">ID    6    7    8    9</span><br><span class="line">Locus    PtTX4001    SsrPt_ctg1376    SsrPt_ctg4363    SPAC12.5</span><br><span class="line">Dye    Cy5  Blue    Cy5.5 Green    Cy5  Blue    Cy5.5 Green</span><br><span class="line">Forward(5-3)    CTATTTGAGTTAAGAAGGGAGTC    CGATATTATGGATTTTGCTTGTGA    TAATAATTCAAGCCACCCCG    CTTCTTCACTAGTTTCCTTTGG</span><br><span class="line">Reverse(5-3)    CTGTGGGTAGCATCATC    AAATGCATGCCAAACTTAAATAC    AGCAGGCTAATAACAACACGC    TTGGTTATAGGCATAGATTGC</span><br><span class="line">Ta    Touch down 55-45°C    Touch down 60-50°C    Touch down 64-54°C    Touch down 60-50°C</span><br><span class="line">size range    198-229    88-124    95-106    118-184</span><br><span class="line">PCR Conditions                    </span><br><span class="line">1    94 °C 3min initial denaturation    94 °C 3min initial denaturation    94 °C 3min initial denaturation    94 °C 3min initial denaturation</span><br><span class="line">18 cycles    2    94 °C  30s     94 °C  30s     94 °C  30s     94 °C  30s </span><br><span class="line">    3    30 S from 55°C to 45 °C decrease 0.6 per cycle    30 S from 60 °C to 50 °C  decrease 0.6 per cycle    30 S from 64 °C to 54 °C  decrease 0.6 per cycle    30 S from 60 °C to 50 °C  decrease 0.6 per cycle</span><br><span class="line">    4    72 °C 30S      72 °C 30S      72 °C 30S      72 °C 30S  </span><br><span class="line">                     </span><br><span class="line">25</span><br><span class="line">cycles    5    94 °C 30s     94 °C 30s     94 °C 30s     94 °C 30s </span><br><span class="line">    6    45 °C 30s    50 °C 30s    54 °C 30s    50 °C 30s</span><br><span class="line">    7    72 °C 30s    72 °C 30s    72 °C 30s    72 °C 30s</span><br><span class="line">                     </span><br><span class="line">Final </span><br><span class="line">extention       8    72°C 10 min    72°C 10 min    72°C 10 min    72°C 10 min</span><br><span class="line">Preservation    15°C --    15°C --    15°C --    15°C --</span><br></pre></td></tr></table></figure>
+
 <p>                                             Date: 2012-3-13<br>                                                  Jinlong</p>
 <p>                                                  </p>
 <h1 id="实验五-PCR产物的检测"><a href="#实验五-PCR产物的检测" class="headerlink" title="实验五 PCR产物的检测"></a>实验五 PCR产物的检测</h1><h1 id="步骤：-1"><a href="#步骤：-1" class="headerlink" title="步骤："></a>步骤：</h1><h2 id="一-治胶"><a href="#一-治胶" class="headerlink" title="一 治胶"></a>一 治胶</h2><ol>
@@ -261,25 +213,12 @@ Preservation    15°C --    15°C --    15°C --    15°C --
 <li>稀释模板DNA<br>        将提取到的总 DNA 吸取到96孔板上，根据Nanodrop对DNA的测量结果，用ddH2O稀释到10-20ng/uL，需要根据PCR的次数和每次DNA样品量确定要吸 取的DNA量，保证取样量至少多15uL以上。作为模板DNA，写清楚模板DNA的序号，日期，标签如下 Plate-I，放在4°C保存。</li>
 <li>准备模板标签<br>     对于96孔板，每一格填写如下信息： 1 序号（1-96，一般按照列保存）  2 DNA序列号（如E4218） 3 树编号 （UID，即每棵树所取的哪颗种子  如 81-8，表示81号树的第8颗种子）。</li>
 <li>模板DNA取样<br>    用排枪取2μL的模板DNA，加入到到96孔板管底部。由于不带有荧光，模板DNA的枪头可收集起来，可以作为毛细管电泳时混合样品用的枪头，但是要做好标记。</li>
-<li>混合反应体系 Master Mix<pre><code>No.    Conponent    Volume per tube    Concentration    ×25    Storage
-1    ddH2O     10.95    -    273.75    RT
-2    10×PCR buffer    1.6    -    40    -4°C
-3    2.5mM dNTP    1    0.15625    25    -4°C
-4    Forward Primer    0.2    0.125    5    -4°C
-5    Reverse Primer    0.2    0.125    5    -4°C
-6    Top Taq    0.05    2.5U    1.25    -20°C
-</code></pre>
+<li>混合反应体系 Master Mix<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">No.    Conponent    Volume per tube    Concentration    ×25    Storage</span><br><span class="line">1    ddH2O     10.95    -    273.75    RT</span><br><span class="line">2    10×PCR buffer    1.6    -    40    -4°C</span><br><span class="line">3    2.5mM dNTP    1    0.15625    25    -4°C</span><br><span class="line">4    Forward Primer    0.2    0.125    5    -4°C</span><br><span class="line">5    Reverse Primer    0.2    0.125    5    -4°C</span><br><span class="line">6    Top Taq    0.05    2.5U    1.25    -20°C</span><br></pre></td></tr></table></figure>
 对于任意一板的PCR反应，需要准备4个1.5mL的ep管，先放在冰盒上，按照1-6的顺序添加各组分到ep管中。盖好盖子，短离心，涡旋，短离心，确保体系混合均匀。</li>
 <li>用电子移液器（该移液器每次可吸取100μL，由于需要加入的反应体系是14μL，因此只能加7次，注意第一次吸取的液体要打掉，长音表明是最后一次），吸取反应体系，每管加入14μL。</li>
 <li>在96孔板的边缘标记好Plate号，引物名称等，之后贴Bio-Rad的PCR厚膜，用手柄压实，确保每一管的封口都严密。</li>
 <li>在振荡器上涡旋4-5下，确保反应体系和模板DNA充分混合。短离心，达到2000rpm以上。</li>
-<li>按照如下条件，设定touch down PCR:<pre><code>Tab.1 LOP1          TD 64 to 54       Tab. 2 PtTX2146        TD 60 to 50
-Tab.3 PtTX3025      TD 55 to 45       Tab. 4 PtTX3107        TD 55 to 45
-Tab.5 PtTX3116      TD 60 to 50       Tab. 6 PtTX4001        TD 60 to 50
-Tab.7 SsrPt_ctg1376 TD 60 to 50       Tab. 8 SsrPt_ctg4363   TD 64 to 54
-Tab.9 SPAC12.5      TD 55 to 45 
-</code></pre>
-</li>
+<li>按照如下条件，设定touch down PCR:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Tab.1 LOP1          TD 64 to 54       Tab. 2 PtTX2146        TD 60 to 50</span><br><span class="line">Tab.3 PtTX3025      TD 55 to 45       Tab. 4 PtTX3107        TD 55 to 45</span><br><span class="line">Tab.5 PtTX3116      TD 60 to 50       Tab. 6 PtTX4001        TD 60 to 50</span><br><span class="line">Tab.7 SsrPt_ctg1376 TD 60 to 50       Tab. 8 SsrPt_ctg4363   TD 64 to 54</span><br><span class="line">Tab.9 SPAC12.5      TD 55 to 45 </span><br></pre></td></tr></table></figure></li>
 <li>每个PCR需要耗时2.5h左右。反应结束后，将产物放到4°C冰箱中保存。</li>
 <li> 对产物进行琼脂糖凝胶电泳检测，一般每板随机抽检16个样品，点样的量一般为： <br>      Loading Buffer     2.5 μL<br>      PCR产物              3μL<br>      Ladder DNA         5μL</li>
 </ol>
@@ -289,14 +228,7 @@ Tab.9 SPAC12.5      TD 55 to 45 
 <li>模板DNA取样<br>    用排枪取2μL的模板DNA，加入到到96孔板管底部。由于不带有荧光，模板DNA的枪头可收集起来，可以作为毛细管电泳时混合样品用的枪头，但是要做好标记。</li>
 <li>混合反应体系 Master Mix</li>
 </ol>
-<pre><code>No.    Conponent    Volume per tube    Concentration    ×25    Storage
-1    ddH2O     10.95    -    273.75    RT
-2    10×PCR buffer    1.6    -    40    -4°C
-3    2.5mM dNTP    1    0.15625    25    -4°C
-4    Forward Primer    0.2    0.125    5    -4°C
-5    Reverse Primer    0.2    0.125    5    -4°C
-6    Top Taq    0.05    2.5U    1.25    -20°C
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">No.    Conponent    Volume per tube    Concentration    ×25    Storage</span><br><span class="line">1    ddH2O     10.95    -    273.75    RT</span><br><span class="line">2    10×PCR buffer    1.6    -    40    -4°C</span><br><span class="line">3    2.5mM dNTP    1    0.15625    25    -4°C</span><br><span class="line">4    Forward Primer    0.2    0.125    5    -4°C</span><br><span class="line">5    Reverse Primer    0.2    0.125    5    -4°C</span><br><span class="line">6    Top Taq    0.05    2.5U    1.25    -20°C</span><br></pre></td></tr></table></figure>
 <p>         对于任意一板的PCR反应，需要准备4个1.5mL的ep管，先放在冰盒上，按照1-6的顺序添加各组分到ep管中。盖好盖子，短离心，涡旋，短离心，确保体系混合均匀。</p>
 <ol>
 <li><p>用电子移液器（该移液器每次可吸取100μL，由于需要加入的反应体系是14μL，因此只能加7次，注意第一次吸取的液体要打掉，长音表明是最后一次），吸取反应体系，每管加入14μL。</p>
@@ -306,47 +238,20 @@ Tab.9 SPAC12.5      TD 55 to 45 
 <li><p>在振荡器上涡旋4-5下，确保反应体系和模板DNA充分混合。短离心，达到2000rpm以上。</p>
 </li>
 <li><p>按照如下条件，设定touch down PCR:</p>
-<pre><code>Tab.1 LOP1          TD 64 to 54       Tab. 2 PtTX2146        TD 60 to 50
-Tab.3 PtTX3025      TD 55 to 45       Tab. 4 PtTX3107        TD 55 to 45
-Tab.5 PtTX3116      TD 60 to 50       Tab. 6 PtTX4001        TD 60 to 50
-Tab.7 SsrPt_ctg1376 TD 60 to 50       Tab. 8 SsrPt_ctg4363   TD 64 to 54
-Tab.9 SPAC12.5      TD 55 to 45 
-</code></pre>
-</li>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Tab.1 LOP1          TD 64 to 54       Tab. 2 PtTX2146        TD 60 to 50</span><br><span class="line">Tab.3 PtTX3025      TD 55 to 45       Tab. 4 PtTX3107        TD 55 to 45</span><br><span class="line">Tab.5 PtTX3116      TD 60 to 50       Tab. 6 PtTX4001        TD 60 to 50</span><br><span class="line">Tab.7 SsrPt_ctg1376 TD 60 to 50       Tab. 8 SsrPt_ctg4363   TD 64 to 54</span><br><span class="line">Tab.9 SPAC12.5      TD 55 to 45 </span><br></pre></td></tr></table></figure></li>
 <li><p>每个PCR需要耗时2.5h左右。反应结束后，将产物放到4°C冰箱中保存。</p>
 </li>
 <li><p> 对产物进行琼脂糖凝胶电泳检测，一般每板随机抽检16个样品，点样的量一般为： <br>      Loading Buffer     2.5 μL<br>      PCR产物              3μL<br>      Ladder DNA         5μL</p>
 </li>
 </ol>
 <h1 id="实验八-在CEQ-8000上进行毛细管电泳"><a href="#实验八-在CEQ-8000上进行毛细管电泳" class="headerlink" title="实验八 在CEQ 8000上进行毛细管电泳"></a>实验八 在CEQ 8000上进行毛细管电泳</h1><p>一   准备Excel 作为样品的Label<br>每一板混合样的侧面，应该用记号笔标注清楚 ，例如2012-03-29-Plate-I-a<br>标签 文件，应该保存在Excel中，待毛细管电泳时，直接拷贝到CEQ8000的界面中。<br>表 2 96孔板标签的排列</p>
-<pre><code>     1    2    3    4    5    6    7    8    9    10    11    12
-A    69-1-a    69-2-a    69-3-a    69-4-a    69-5-a    69-6-a    69-7-a    69-8-a    69-9-a    69-10-a    69-11-a    143-4-a
-B    71-1-a    71-2-a    71-3-a    71-4-a    143-1-a    143-2-a    71-7-a    71-8-a    143-3-a    71-10-a    71-11-a    71-12-a
-C    73-1-a    73-2-a    73-3-a    73-4-a    73-5-a    73-6-a    73-7-a    73-8-a    73-9-a    73-10-a    73-11-a    73-12-a
-D    74-1-a    74-2-a    74-3-a    74-4-a    74-5-a    74-6-a    74-7-a    74-8-a    74-9-a    74-10-a    74-11-a    74-12-a
-E    81-1-a    81-2-a    81-3-a    81-4-a    81-5-a    81-6-a    81-7-a    81-8-a    81-9-a    81-10-a    81-11-a    81-12-a
-F    82-1-a    82-2-a    82-3-a    82-4-a    82-5-a    82-6-a    82-7-a    82-8-a    82-9-a    82-10-a    82-11-a    82-12-a
-G    84-1-a    84-2-a    84-3-a    84-4-a    84-5-a    84-6-a    84-7-a    84-8-a    84-9-a    84-10-a    84-11-a    84-12-a
-H    86-1-a    86-2-a    86-3-a    86-4-a    86-5-a    86-6-a    86-7-a    86-8-a    86-9-a    86-10-a    86-11-a    86-12-a
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">     1    2    3    4    5    6    7    8    9    10    11    12</span><br><span class="line">A    69-1-a    69-2-a    69-3-a    69-4-a    69-5-a    69-6-a    69-7-a    69-8-a    69-9-a    69-10-a    69-11-a    143-4-a</span><br><span class="line">B    71-1-a    71-2-a    71-3-a    71-4-a    143-1-a    143-2-a    71-7-a    71-8-a    143-3-a    71-10-a    71-11-a    71-12-a</span><br><span class="line">C    73-1-a    73-2-a    73-3-a    73-4-a    73-5-a    73-6-a    73-7-a    73-8-a    73-9-a    73-10-a    73-11-a    73-12-a</span><br><span class="line">D    74-1-a    74-2-a    74-3-a    74-4-a    74-5-a    74-6-a    74-7-a    74-8-a    74-9-a    74-10-a    74-11-a    74-12-a</span><br><span class="line">E    81-1-a    81-2-a    81-3-a    81-4-a    81-5-a    81-6-a    81-7-a    81-8-a    81-9-a    81-10-a    81-11-a    81-12-a</span><br><span class="line">F    82-1-a    82-2-a    82-3-a    82-4-a    82-5-a    82-6-a    82-7-a    82-8-a    82-9-a    82-10-a    82-11-a    82-12-a</span><br><span class="line">G    84-1-a    84-2-a    84-3-a    84-4-a    84-5-a    84-6-a    84-7-a    84-8-a    84-9-a    84-10-a    84-11-a    84-12-a</span><br><span class="line">H    86-1-a    86-2-a    86-3-a    86-4-a    86-5-a    86-6-a    86-7-a    86-8-a    86-9-a    86-10-a    86-11-a    86-12-a</span><br></pre></td></tr></table></figure>
 <h2 id="二-待检-样品的混合"><a href="#二-待检-样品的混合" class="headerlink" title="二 待检 样品的混合"></a>二 待检 样品的混合</h2><ol>
 <li>取96孔上样板和PCR中吸取过DNA的10μL枪头。</li>
 <li>按照顺序排好PCR产物，按照以下量, 用10uL排枪分组添加如下产物到管底部。 注意，每个上样板都由三种产物混合，每次DNA吸取后，都要换枪头。</li>
 </ol>
-<pre><code> Table 1 Information for the labeld primers
-Primer    Label    PCR frag length    Color    Group    Volume (uL)
-SsrPt_ctg1376    Cy5.5    88-124    Green    1 a    2
-PtTX4001    Cy5    198-229    Blue    1 a    0.5
-PtTX3107    D2    150-174    Black    1 a    4.5
-                    
-SPAC12.5    Cy5.5    118-184    Green    2 b    2
-SsrPt?_ctg4363    Cy5    95-106    Blue    2 b    0.5
-PtTX3025    D2    211-305    Black    2 b    4.5
-                    
-LOP1    Cy5.5    153-189    Green    3 c    2
-PtTX3116    Cy5    115-169    Blue    3 c    0.5
-PtTX2146    D2    176-264    Black    3 c    4.5
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"> Table 1 Information for the labeld primers</span><br><span class="line">Primer    Label    PCR frag length    Color    Group    Volume (uL)</span><br><span class="line">SsrPt_ctg1376    Cy5.5    88-124    Green    1 a    2</span><br><span class="line">PtTX4001    Cy5    198-229    Blue    1 a    0.5</span><br><span class="line">PtTX3107    D2    150-174    Black    1 a    4.5</span><br><span class="line">                    </span><br><span class="line">SPAC12.5    Cy5.5    118-184    Green    2 b    2</span><br><span class="line">SsrPt?_ctg4363    Cy5    95-106    Blue    2 b    0.5</span><br><span class="line">PtTX3025    D2    211-305    Black    2 b    4.5</span><br><span class="line">                    </span><br><span class="line">LOP1    Cy5.5    153-189    Green    3 c    2</span><br><span class="line">PtTX3116    Cy5    115-169    Blue    3 c    0.5</span><br><span class="line">PtTX2146    D2    176-264    Black    3 c    4.5</span><br></pre></td></tr></table></figure>
+
 <ol>
 <li>取塑料纸盒，一般每板需要两个2mL ep管的HD，倒入纸盒内。取黄色枪头，每一管，加入30uL 已经混合好的Hi-Di (HD)，无需换枪头。</li>
 <li>用新的黄枪头，将每一列孔的样品反复吸放几次，以混合均匀。 贴96孔板塑料膜。</li>
@@ -380,7 +285,7 @@ PtTX2146    D2    176-264    Black    3 c    4.5
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2013/02/07/2013-2-7-pcr/" data-id="ckmq42alo00dy1k847tky1ljt" data-title="瑞典纪事: 实验记录DNA提取/PCR/毛细管电泳" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2013/02/07/2013-2-7-pcr/" data-id="ckmt6y7lw0051mgyaf73gbgfu" data-title="瑞典纪事: 实验记录DNA提取/PCR/毛细管电泳" class="article-share-link">Share</a>
       
       
       

@@ -128,90 +128,29 @@
 <li><p>在R console 中运行 library(Rcpp) ， 之后调用 Rcpp.package.skeleton函数，</p>
 </li>
 </ol>
-<pre><code class="R">Rcpp.package.skeleton( &quot;test&quot; )
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Rcpp.package.skeleton( <span class="string">&quot;test&quot;</span> )</span><br></pre></td></tr></table></figure>
+
 <p>在生成的R包 skeleton中， 可以找到rcpp_hello_world.cpp文件， 可以尝试添加几个函数， 修改成如下样式 （注意以下代码为C++文件,扩展名为cpp):</p>
-<pre><code class="cpp">////////////////////// C++文件开始//////////////////
-#include &quot;rcpp_hello_world.h&quot;
-#include &lt;Rcpp.h&gt;
-using namespace Rcpp;
-using namespace std;
-// 注意 #include &lt;Rcpp.h&gt; 是调用Rcpp的必要条件
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">////////////////////// C++文件开始//////////////////</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;rcpp_hello_world.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Rcpp.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> Rcpp;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="comment">// 注意 #include &lt;Rcpp.h&gt; 是调用Rcpp的必要条件</span></span><br><span class="line"></span><br><span class="line"><span class="function">RcppExport SEXP <span class="title">intVec1a</span><span class="params">(SEXP vec)</span> </span>&#123;</span><br><span class="line">   <span class="function">Rcpp::NumericVector <span class="title">vec2</span><span class="params">(vec)</span></span>;</span><br><span class="line">   <span class="keyword">int</span> prod = <span class="number">1</span>;</span><br><span class="line">   <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;vec2.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">       prod *= vec2[i];</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">return</span> (<span class="built_in">wrap</span>(prod));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// RcppExport 是为了在载入R包后， 在Namespace内内能够找到这个C++的函数</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//第一个SEXP声明返回值的类型</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//第二个SEXP， 声明vec变量为SEXP的类型，也就是说， 它可以是从R直接传入</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Rcpp::NumericVector vec2(vec); 意思 是将 vec转换为 vec2， 从SEXP转换为 NumericVector， NumericVector是Rcpp下的一个类， 在C++的函数中可以识别和调用。 后面的代码就和普通的C++没有什么分别了。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//return (wrap(prod)); 由于我们希望在R中直接可以得到该函数的运行结果， 因此， 返回值也需要转换为SEXP类型。 wrap函数提供了一种便捷的方式。 简单的类型， 如int， double等， 只需要直接调用wrap即可。 </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function">RcppExport SEXP <span class="title">Eccentricity</span><span class="params">(SEXP JD)</span></span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line"> <span class="keyword">double</span> JD3  = Rcpp::as&lt;<span class="keyword">double</span>&gt;(JD);</span><br><span class="line"> <span class="keyword">double</span> T = (JD3 - <span class="number">2451545.0</span>) / <span class="number">36525.0</span>;</span><br><span class="line"> <span class="keyword">double</span> Tsquared = T*T;</span><br><span class="line"> <span class="keyword">return</span> (<span class="built_in">wrap</span>(<span class="number">1</span> - <span class="number">0.002516</span>*T - <span class="number">0.0000074</span>*Tsquared));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Rcpp::as&lt;double&gt;(JD); 表示调用Rcpp内的方法， 将类型为SEXP的JD， 转换为double类型， 并赋值給double JD3</span></span><br><span class="line"></span><br><span class="line"><span class="function">RcppExport SEXP <span class="title">expfun</span><span class="params">(SEXP x)</span></span>&#123;</span><br><span class="line">    <span class="keyword">double</span> x2 = Rcpp::as&lt;<span class="keyword">double</span>&gt;(x);</span><br><span class="line">    <span class="keyword">double</span> ans=<span class="number">1.0</span>, term=<span class="number">1.0</span>, eps=<span class="number">1e-16</span>;</span><br><span class="line">    <span class="keyword">int</span> n=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (<span class="built_in">fabs</span>(term)&gt;eps)&#123;</span><br><span class="line">       n++;</span><br><span class="line">       term = term * x2 / n;</span><br><span class="line">       ans = ans + term;</span><br><span class="line">    &#125;</span><br><span class="line">      <span class="keyword">return</span>(<span class="built_in">wrap</span>(ans));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//  C++文件结束//</span></span><br></pre></td></tr></table></figure>
 
-RcppExport SEXP intVec1a(SEXP vec) &#123;
-   Rcpp::NumericVector vec2(vec);
-   int prod = 1;
-   for (int i=0; i&lt;vec2.size(); i++) &#123;
-       prod *= vec2[i];
-   &#125;
-   return (wrap(prod));
-&#125;
-
-// RcppExport 是为了在载入R包后， 在Namespace内内能够找到这个C++的函数
-
-//第一个SEXP声明返回值的类型
-
-//第二个SEXP， 声明vec变量为SEXP的类型，也就是说， 它可以是从R直接传入
-
-// Rcpp::NumericVector vec2(vec); 意思 是将 vec转换为 vec2， 从SEXP转换为 NumericVector， NumericVector是Rcpp下的一个类， 在C++的函数中可以识别和调用。 后面的代码就和普通的C++没有什么分别了。
-
-//return (wrap(prod)); 由于我们希望在R中直接可以得到该函数的运行结果， 因此， 返回值也需要转换为SEXP类型。 wrap函数提供了一种便捷的方式。 简单的类型， 如int， double等， 只需要直接调用wrap即可。 
-
-
-RcppExport SEXP Eccentricity(SEXP JD)
-&#123; 
- double JD3  = Rcpp::as&lt;double&gt;(JD);
- double T = (JD3 - 2451545.0) / 36525.0;
- double Tsquared = T*T;
- return (wrap(1 - 0.002516*T - 0.0000074*Tsquared));
-&#125;
-// Rcpp::as&lt;double&gt;(JD); 表示调用Rcpp内的方法， 将类型为SEXP的JD， 转换为double类型， 并赋值給double JD3
-
-RcppExport SEXP expfun(SEXP x)&#123;
-    double x2 = Rcpp::as&lt;double&gt;(x);
-    double ans=1.0, term=1.0, eps=1e-16;
-    int n=0;
-    while (fabs(term)&gt;eps)&#123;
-       n++;
-       term = term * x2 / n;
-       ans = ans + term;
-    &#125;
-      return(wrap(ans));
-&#125;
-//  C++文件结束//
-</code></pre>
 <p>对R程序包test的骨架进行修改后， 即可开始安装，</p>
 <p>在windows下， 在 开始， cmd， 输入 Rcmd INSTALL test, 安装test程序包</p>
 <p>之后转入 R console， library(test)</p>
 <p>即可加载响应的动态链接库dll文件。 只是此时调用dll中的文件， 还稍微有些不方便。 此时调用dll中函数的方法如下</p>
-<pre><code class="R">.Call(&#39;Eccentricity&#39;, JD= 2314543)
-.Call(&#39;intVec1a&#39;, vec= c(3, 4, 5))
-.Call(&#39;expfun&#39;, x=3)
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.Call(<span class="string">&#x27;Eccentricity&#x27;</span>, JD= <span class="number">2314543</span>)</span><br><span class="line">.Call(<span class="string">&#x27;intVec1a&#x27;</span>, vec= <span class="built_in">c</span>(<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>))</span><br><span class="line">.Call(<span class="string">&#x27;expfun&#x27;</span>, x=<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+
 <p>不过每次使用.Call函数， 仍然让人觉得不太满意。为了需要写一个R的wrapper function例如</p>
-<pre><code class="R">expfunR &lt;- function(x)&#123;
-   return( .Call(&#39;expfun&#39;, x= x))
-&#125;
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">expfunR &lt;- <span class="keyword">function</span>(x)&#123;</span><br><span class="line">   <span class="built_in">return</span>( .Call(<span class="string">&#x27;expfun&#x27;</span>, x= x))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">EccentricityR &lt;- <span class="keyword">function</span>(JD)&#123;</span><br><span class="line">   <span class="built_in">return</span>( .Call(<span class="string">&#x27;Eccentricity&#x27;</span>, JD= JD))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">intVecR &lt;- <span class="keyword">function</span>(x)&#123;</span><br><span class="line">   <span class="built_in">return</span>(.Call(<span class="string">&#x27;intVec1a&#x27;</span>, vec= x))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-EccentricityR &lt;- function(JD)&#123;
-   return( .Call(&#39;Eccentricity&#39;, JD= JD))
-&#125;
-
-intVecR &lt;- function(x)&#123;
-   return(.Call(&#39;intVec1a&#39;, vec= x))
-&#125;
-</code></pre>
 <p>调用方式同R函数，</p>
-<pre><code class="R">expfunR(2)
-EccentricityR(2314543)
-intVecR(c(2,3,4))
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">expfunR(<span class="number">2</span>)</span><br><span class="line">EccentricityR(<span class="number">2314543</span>)</span><br><span class="line">intVecR(<span class="built_in">c</span>(<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>))</span><br></pre></td></tr></table></figure>
+
 <p>这时候就和一般的R函数没有区别了。 </p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2013/10/27/2013-10-27-rcpp2/" data-id="ckmq42aic004r1k8457uu0sgz" data-title="Rcpp简明指南: R调用C++" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2013/10/27/2013-10-27-rcpp2/" data-id="ckmt6y7lu004wmgya1isqftke" data-title="Rcpp简明指南: R调用C++" class="article-share-link">Share</a>
       
       
       
@@ -248,73 +187,14 @@ intVecR(c(2,3,4))
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>用R绘制地图，或者三维图时， 有时候需要添加指北针， 但是很多时候很难进行角度调整等。 这里提供了两个绘制指北针的函数。 可以调整中心点坐标， 指北针的大小，以及旋转的角度， 分别用于二维平面作图和三维作图。 </p>
-<pre><code class="R">\### 可以调整大小，以及旋转的指北针
-\### location 设置指北针中心点， 的x, y, z坐标。
-\### size 为指北针大小的控制变量，单位为3D图形中的1，
-\### rotation为指北针指向的控制变量， 单位为弧度。
-northarrow &lt;-function(location =c(0,0), size =1, rotation =0)&#123;
-   nnn &lt;-par(&quot;cin&quot;)
-   x1 =(c(-2,0,0)*size+location[1])
-   y1 =c(-3.5, -2, 3.5)*size+location[2]
-   xx1 &lt;-(x1-location[1])*cos(rotation)-   (y1 - location[2])*sin(rotation)+ location[1];  
-   yy1   =(x1-location[1])*sin(rotation)+   (y1 - location[2])*cos(rotation)  +  location[2];  
-   polygon(xx1, yy1, col=1)
-   x2 =c(2,0,0)*size+location[1]
-   y2 =c(-3.5, -2, 3.5)*size+location[2]
-   xx2 &lt;-(x2-location[1])*cos(rotation)-   (y2 - location[2])*sin(rotation)+ location[1];  
-   yy2   =(x2-location[1])*sin(rotation)+   (y2 - location[2])*cos(rotation)  +  location[2];  
-   polygon(xx2, yy2, col=0, border =1)
-   return(invisible(list(xx1, yy1, xx2, yy2)))
-&#125;
-plot(0:100, 0:100, pch =&quot;&quot;)
-north &lt;- northarrow(location =c(10,10),            rotation =(pi/180)*45)
-north &lt;- northarrow(location =c(25,25),size =2,   rotation =(pi/180)*90)
-north &lt;- northarrow(location =c(50,50),size =0.5,rotation =(pi/180)*180)
-north &lt;- northarrow(location =c(75,75),size =2.5,rotation =(pi/180)*270)
-\######################################
-# northarrow.3D 可以用在三维图中。
-\### location 设置指北针中心点， 的x, y, z坐标。
-\### pmat为persp的坐标矩阵。
-\### size 为指北针大小的控制变量，单位为3D图形中的1，
-\### rotation为指北针指向的控制变量， 单位为弧度。
-northarrow.3D &lt;-function(location =c(80, 60, 260), pmat, size =5, rotation =0)&#123;
-   x1 =(c(-2,0,0)*size+location[1])
-   y1 =c(-3.5, -2, 3.5)*size+location[2]
-   xx1 &lt;-(x1-location[1])*cos(rotation)-   (y1 - location[2])*sin(rotation)+ location[1];  
-   yy1   =(x1-location[1])*sin(rotation)+   (y1 - location[2])*cos(rotation)  +  location[2];  
-   north.res1 &lt;- trans3d(x = xx1, y = yy1, z = location[3], pmat)
-   polygon(north.res1[[1]], north.res1[[2]], col=1)
-   x2 =c(2,0,0)*size+location[1]
-   y2 =c(-3.5, -2, 3.5)*size+location[2]
-   xx2 &lt;-(x2-location[1])*cos(rotation)-   (y2 - location[2])*sin(rotation)+ location[1];  
-   yy2   =(x2-location[1])*sin(rotation)+   (y2 - location[2])*cos(rotation)  +  location[2];  
-   north.res2 &lt;- trans3d(x = xx2, y = yy2, z = location[3], pmat)
-   polygon(north.res2[[1]], north.res2[[2]], col=0)
-   return(invisible(list(north.res1, north.res2)))
-&#125;
-\###########################################
-\########### 举例###########
-x &lt;-seq(-10, 10, length=30)
-y &lt;-seq(-10, 10, length=30)
-f &lt;-function(x, y)&#123; r &lt;-sqrt(x^2+y^2); 10*sin(r)/r &#125;
-z &lt;-outer(x, y, f)
-z[is.na(z)]&lt;-1
-op &lt;-par(bg =&quot;white&quot;)
-res &lt;-persp(x, y, z, theta =30, phi =35, expand =0.5, col=&quot;grey&quot;,
-​     ltheta =120,ticktype =&quot;detailed&quot;,
-​     xlab =&quot;X&quot;, ylab =&quot;Y&quot;, zlab =&quot;Sinc( r )&quot;)
-\###
-northarrow.3D(location =c(5, 5, 10), pmat = res, size =0.5,rotation =(pi/180)*45)
-northarrow.3D(location =c(-5, 5, 10), pmat = res, size =0.8,rotation =(pi/180)*90)
-northarrow.3D(location =c(5, -5, 10), pmat = res, size =0.7, rotation =(pi/180)*180)
-northarrow.3D(location =c(-5, -5, 10), pmat = res, size =0.6, rotation =(pi/180)*270)
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">\<span class="comment">### 可以调整大小，以及旋转的指北针</span></span><br><span class="line">\<span class="comment">### location 设置指北针中心点， 的x, y, z坐标。</span></span><br><span class="line">\<span class="comment">### size 为指北针大小的控制变量，单位为3D图形中的1，</span></span><br><span class="line">\<span class="comment">### rotation为指北针指向的控制变量， 单位为弧度。</span></span><br><span class="line">northarrow &lt;-<span class="keyword">function</span>(location =<span class="built_in">c</span>(<span class="number">0</span>,<span class="number">0</span>), size =<span class="number">1</span>, rotation =<span class="number">0</span>)&#123;</span><br><span class="line">   nnn &lt;-par(<span class="string">&quot;cin&quot;</span>)</span><br><span class="line">   x1 =(<span class="built_in">c</span>(-<span class="number">2</span>,<span class="number">0</span>,<span class="number">0</span>)*size+location[<span class="number">1</span>])</span><br><span class="line">   y1 =<span class="built_in">c</span>(-<span class="number">3.5</span>, -<span class="number">2</span>, <span class="number">3.5</span>)*size+location[<span class="number">2</span>]</span><br><span class="line">   xx1 &lt;-(x1-location[<span class="number">1</span>])*<span class="built_in">cos</span>(rotation)-   (y1 - location[<span class="number">2</span>])*<span class="built_in">sin</span>(rotation)+ location[<span class="number">1</span>];  </span><br><span class="line">   yy1   =(x1-location[<span class="number">1</span>])*<span class="built_in">sin</span>(rotation)+   (y1 - location[<span class="number">2</span>])*<span class="built_in">cos</span>(rotation)  +  location[<span class="number">2</span>];  </span><br><span class="line">   polygon(xx1, yy1, col=<span class="number">1</span>)</span><br><span class="line">   x2 =<span class="built_in">c</span>(<span class="number">2</span>,<span class="number">0</span>,<span class="number">0</span>)*size+location[<span class="number">1</span>]</span><br><span class="line">   y2 =<span class="built_in">c</span>(-<span class="number">3.5</span>, -<span class="number">2</span>, <span class="number">3.5</span>)*size+location[<span class="number">2</span>]</span><br><span class="line">   xx2 &lt;-(x2-location[<span class="number">1</span>])*<span class="built_in">cos</span>(rotation)-   (y2 - location[<span class="number">2</span>])*<span class="built_in">sin</span>(rotation)+ location[<span class="number">1</span>];  </span><br><span class="line">   yy2   =(x2-location[<span class="number">1</span>])*<span class="built_in">sin</span>(rotation)+   (y2 - location[<span class="number">2</span>])*<span class="built_in">cos</span>(rotation)  +  location[<span class="number">2</span>];  </span><br><span class="line">   polygon(xx2, yy2, col=<span class="number">0</span>, border =<span class="number">1</span>)</span><br><span class="line">   <span class="built_in">return</span>(<span class="built_in">invisible</span>(<span class="built_in">list</span>(xx1, yy1, xx2, yy2)))</span><br><span class="line">&#125;</span><br><span class="line">plot(<span class="number">0</span>:<span class="number">100</span>, <span class="number">0</span>:<span class="number">100</span>, pch =<span class="string">&quot;&quot;</span>)</span><br><span class="line">north &lt;- northarrow(location =<span class="built_in">c</span>(<span class="number">10</span>,<span class="number">10</span>),            rotation =(<span class="built_in">pi</span>/<span class="number">180</span>)*<span class="number">45</span>)</span><br><span class="line">north &lt;- northarrow(location =<span class="built_in">c</span>(<span class="number">25</span>,<span class="number">25</span>),size =<span class="number">2</span>,   rotation =(<span class="built_in">pi</span>/<span class="number">180</span>)*<span class="number">90</span>)</span><br><span class="line">north &lt;- northarrow(location =<span class="built_in">c</span>(<span class="number">50</span>,<span class="number">50</span>),size =<span class="number">0.5</span>,rotation =(<span class="built_in">pi</span>/<span class="number">180</span>)*<span class="number">180</span>)</span><br><span class="line">north &lt;- northarrow(location =<span class="built_in">c</span>(<span class="number">75</span>,<span class="number">75</span>),size =<span class="number">2.5</span>,rotation =(<span class="built_in">pi</span>/<span class="number">180</span>)*<span class="number">270</span>)</span><br><span class="line">\<span class="comment">######################################</span></span><br><span class="line"><span class="comment"># northarrow.3D 可以用在三维图中。</span></span><br><span class="line">\<span class="comment">### location 设置指北针中心点， 的x, y, z坐标。</span></span><br><span class="line">\<span class="comment">### pmat为persp的坐标矩阵。</span></span><br><span class="line">\<span class="comment">### size 为指北针大小的控制变量，单位为3D图形中的1，</span></span><br><span class="line">\<span class="comment">### rotation为指北针指向的控制变量， 单位为弧度。</span></span><br><span class="line">northarrow.3D &lt;-<span class="keyword">function</span>(location =<span class="built_in">c</span>(<span class="number">80</span>, <span class="number">60</span>, <span class="number">260</span>), pmat, size =<span class="number">5</span>, rotation =<span class="number">0</span>)&#123;</span><br><span class="line">   x1 =(<span class="built_in">c</span>(-<span class="number">2</span>,<span class="number">0</span>,<span class="number">0</span>)*size+location[<span class="number">1</span>])</span><br><span class="line">   y1 =<span class="built_in">c</span>(-<span class="number">3.5</span>, -<span class="number">2</span>, <span class="number">3.5</span>)*size+location[<span class="number">2</span>]</span><br><span class="line">   xx1 &lt;-(x1-location[<span class="number">1</span>])*<span class="built_in">cos</span>(rotation)-   (y1 - location[<span class="number">2</span>])*<span class="built_in">sin</span>(rotation)+ location[<span class="number">1</span>];  </span><br><span class="line">   yy1   =(x1-location[<span class="number">1</span>])*<span class="built_in">sin</span>(rotation)+   (y1 - location[<span class="number">2</span>])*<span class="built_in">cos</span>(rotation)  +  location[<span class="number">2</span>];  </span><br><span class="line">   north.res1 &lt;- trans3d(x = xx1, y = yy1, z = location[<span class="number">3</span>], pmat)</span><br><span class="line">   polygon(north.res1[[<span class="number">1</span>]], north.res1[[<span class="number">2</span>]], col=<span class="number">1</span>)</span><br><span class="line">   x2 =<span class="built_in">c</span>(<span class="number">2</span>,<span class="number">0</span>,<span class="number">0</span>)*size+location[<span class="number">1</span>]</span><br><span class="line">   y2 =<span class="built_in">c</span>(-<span class="number">3.5</span>, -<span class="number">2</span>, <span class="number">3.5</span>)*size+location[<span class="number">2</span>]</span><br><span class="line">   xx2 &lt;-(x2-location[<span class="number">1</span>])*<span class="built_in">cos</span>(rotation)-   (y2 - location[<span class="number">2</span>])*<span class="built_in">sin</span>(rotation)+ location[<span class="number">1</span>];  </span><br><span class="line">   yy2   =(x2-location[<span class="number">1</span>])*<span class="built_in">sin</span>(rotation)+   (y2 - location[<span class="number">2</span>])*<span class="built_in">cos</span>(rotation)  +  location[<span class="number">2</span>];  </span><br><span class="line">   north.res2 &lt;- trans3d(x = xx2, y = yy2, z = location[<span class="number">3</span>], pmat)</span><br><span class="line">   polygon(north.res2[[<span class="number">1</span>]], north.res2[[<span class="number">2</span>]], col=<span class="number">0</span>)</span><br><span class="line">   <span class="built_in">return</span>(<span class="built_in">invisible</span>(<span class="built_in">list</span>(north.res1, north.res2)))</span><br><span class="line">&#125;</span><br><span class="line">\<span class="comment">###########################################</span></span><br><span class="line">\<span class="comment">########### 举例###########</span></span><br><span class="line">x &lt;-seq(-<span class="number">10</span>, <span class="number">10</span>, <span class="built_in">length</span>=<span class="number">30</span>)</span><br><span class="line">y &lt;-seq(-<span class="number">10</span>, <span class="number">10</span>, <span class="built_in">length</span>=<span class="number">30</span>)</span><br><span class="line">f &lt;-<span class="keyword">function</span>(x, y)&#123; r &lt;-<span class="built_in">sqrt</span>(x^<span class="number">2</span>+y^<span class="number">2</span>); <span class="number">10</span>*<span class="built_in">sin</span>(r)/r &#125;</span><br><span class="line">z &lt;-outer(x, y, f)</span><br><span class="line">z[<span class="built_in">is.na</span>(z)]&lt;-<span class="number">1</span></span><br><span class="line">op &lt;-par(bg =<span class="string">&quot;white&quot;</span>)</span><br><span class="line">res &lt;-persp(x, y, z, theta =<span class="number">30</span>, phi =<span class="number">35</span>, expand =<span class="number">0.5</span>, col=<span class="string">&quot;grey&quot;</span>,</span><br><span class="line">​     ltheta =<span class="number">120</span>,ticktype =<span class="string">&quot;detailed&quot;</span>,</span><br><span class="line">​     xlab =<span class="string">&quot;X&quot;</span>, ylab =<span class="string">&quot;Y&quot;</span>, zlab =<span class="string">&quot;Sinc( r )&quot;</span>)</span><br><span class="line">\<span class="comment">###</span></span><br><span class="line">northarrow.3D(location =<span class="built_in">c</span>(<span class="number">5</span>, <span class="number">5</span>, <span class="number">10</span>), pmat = res, size =<span class="number">0.5</span>,rotation =(<span class="built_in">pi</span>/<span class="number">180</span>)*<span class="number">45</span>)</span><br><span class="line">northarrow.3D(location =<span class="built_in">c</span>(-<span class="number">5</span>, <span class="number">5</span>, <span class="number">10</span>), pmat = res, size =<span class="number">0.8</span>,rotation =(<span class="built_in">pi</span>/<span class="number">180</span>)*<span class="number">90</span>)</span><br><span class="line">northarrow.3D(location =<span class="built_in">c</span>(<span class="number">5</span>, -<span class="number">5</span>, <span class="number">10</span>), pmat = res, size =<span class="number">0.7</span>, rotation =(<span class="built_in">pi</span>/<span class="number">180</span>)*<span class="number">180</span>)</span><br><span class="line">northarrow.3D(location =<span class="built_in">c</span>(-<span class="number">5</span>, -<span class="number">5</span>, <span class="number">10</span>), pmat = res, size =<span class="number">0.6</span>, rotation =(<span class="built_in">pi</span>/<span class="number">180</span>)*<span class="number">270</span>)</span><br></pre></td></tr></table></figure>
+
 <p><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"><br><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2013/05/31/2013-5-31-northarrow/" data-id="ckmq42ail00561k84gyf1hfod" data-title="两个可以自由调整的指北针" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2013/05/31/2013-5-31-northarrow/" data-id="ckmt6y7m3005dmgya1jss6ik9" data-title="两个可以自由调整的指北针" class="article-share-link">Share</a>
       
       
       
@@ -351,136 +231,11 @@ northarrow.3D(location =c(-5, -5, 10), pmat = res, size =0.6, rotation =(pi/180)
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>以下函数， 用来计算森林监测样地每个小样方的坡度和坡向以及凹凸度。 这里用到的是Arcgis中的计算方法。<br>各函数都假设，原点位于西南方向， x向东增加， y向北增加。 函数都已经经过演算， 结果与示例结果相同。</p>
-<pre><code class="R">## Calculating theslopes for each grid in a forest dynamic plot
-## Provide thematrix of altitudes
-## Provide thecell_size, the altitudes and cell_size must be in the same unit.
-## Algorithms couldbe found at ##
-##http://webhelp.esri.com/arcgiSDEsktop/9.3/body.cfm?tocVisable=1&amp;ID=-1&amp;TopicName=How%20Slope%20works
-## Value: a matrixrepresenting the degrees of each grid.
-get_slope &lt;-function(z.mat,cell_size =5)&#123;
-​    ###Extent the z.mat matrix using the value from the border, so that the slope forthe out most cells could be calculated.
-​    z.mat.colbind &lt;-cbind(z.mat[,1], z.mat,z.mat[,ncol(z.mat)])
-​    z.mat.rbind &lt;-rbind(c(z.mat[1,1], z.mat[1,], z.mat[1,ncol(z.mat)]),z.mat.colbind,
-​                         c(z.mat[nrow(z.mat),1], z.mat[nrow(z.mat),], z.mat[nrow(z.mat), ncol(z.mat)]))
-​    z.mat.ext &lt;- z.mat.rbind
-​    nrz &lt;-nrow(z.mat.ext)
-​    ncz &lt;-ncol(z.mat.ext)
-​    slope.mat &lt;-rep(NA, nrz*ncz)
-​    dim(slope.mat)&lt;-c(nrz, ncz)  ##Create a Null matrix used in loop
-​    for(m in2:(nrz-1))&#123;
-​       for(n in2:(ncz-1))&#123;
-​           a = z.mat.ext[m-1,n-1]
-​           b = z.mat.ext[m-1,n]
-​           c=z.mat.ext[m-1,n+1]
-​           d = z.mat.ext[m,n-1]
-​           e = z.mat.ext[m,n]
-​           f = z.mat.ext[m,n+1]
-​           g = z.mat.ext[m+1,n-1]
-​           h = z.mat.ext[m+1,n]
-​           i = z.mat.ext[m+1,n+1]
-​           
-​           dz_dx =((c+2*f + i)-(a +2*d + g))/(8*cell_size)
-​           dz_dy =((g +2*h + i)-(a +2*b +c))/(8*cell_size)
-​           slope.mat[m,n]&lt;-atan(sqrt( dz_dx^2+ dz_dy^2))*(180/pi)  
-​       &#125;
-   &#125;
-​    return(slope.mat[c(-1, -nrow(slope.mat)),c(-1, -ncol(slope.mat))])
-&#125;
-####
-#### test.dat2 &lt;-c(50, 30, 8, 45, 30, 10, 50, 30, 10)
-#### test.dat.slope2&lt;- matrix(test.dat2, nrow = 3, byrow = FALSE)
-#### test.dat.slope2
-####get_slope(test.dat.slope2, cell_size = 5)
-###################################################################
-## Calculating theaspect of each cell within a forest dynamic plot
-## Adopted from ESRIhttp://webhelp.esri.com/arcgisdesktop/9.3/body.cfm?tocVisable=1&amp;ID=-1&amp;TopicName=how%20aspect%20works
-## the z.mat is anumerical matrix representing the altitude for each cell
-## the output is anumerical matrix representing the degree of aspect. Starting from the north,
-## This functionassums that The direction of the column, from greater to smaller columns pointsto the north.
-get_aspect &lt;-function(z.mat)&#123;
-​    z.mat.colbind &lt;-cbind(z.mat[,1], z.mat,z.mat[,ncol(z.mat)])
-​    z.mat.rbind &lt;-rbind(c(z.mat[1,1], z.mat[1,], z.mat[1,ncol(z.mat)]),z.mat.colbind,
-​                         c(z.mat[nrow(z.mat),1], z.mat[nrow(z.mat),], z.mat[nrow(z.mat), ncol(z.mat)]))
-​    z.mat.ext &lt;- z.mat.rbind
-​    nrz &lt;-nrow(z.mat.ext)
-​    ncz &lt;-ncol(z.mat.ext)
-​    aspect.mat &lt;-rep(NA, nrz*ncz)
-​    dim(aspect.mat)&lt;-c(nrz, ncz)
-​    for(m in2:(nrz-1))&#123;
-​       for(n in2:(ncz-1))&#123;
-​           a = z.mat.ext[m-1,n-1]
-​           b = z.mat.ext[m-1,n]
-​           c=z.mat.ext[m-1,n+1]
-​           d = z.mat.ext[m,n-1]
-​           e = z.mat.ext[m,n]
-​           f = z.mat.ext[m,n+1]
-​           g = z.mat.ext[m+1,n-1]
-​           h = z.mat.ext[m+1,n]
-​           i = z.mat.ext[m+1,n+1]
-​           dz_dx =((c+2*f + i)-(a +2*d + g))/8
-​           dz_dy =((g +2*h + i)-(a +2*b +c))/8
-​           aspect.mat[m, n]=(180/pi)* atan2(dz_dy, -dz_dx)
-​       &#125;
-   &#125;
-​       format.aspect &lt;-function(aspect)&#123;
-​          cell = aspect
-​          for(i in1:length(aspect))&#123;
-​          if(aspect[i]&lt;0)&#123;        
-​             cell[i]=90.0- aspect[i]        
-​             &#125;        
-​          elseif(aspect[i]&gt;90.0)&#123;        
-​             cell[i]=360.0- aspect[i]+90.0        
-​             &#125;        
-​          else&#123;        
-​             cell[i]=90.0- aspect[i]        
-​             &#125;        
-​          &#125;
-​          return(cell)        
-​       &#125;
-   aspect.mat &lt;- aspect.mat[c(-1, -nrow(aspect.mat)),c(-1, -ncol(aspect.mat))]
-   return(format.aspect(aspect.mat))
-&#125;
-############################################################################
-#### test.dat.aspect&lt;- c(101, 101, 101, 92, 92, 91, 85, 85, 84)
-####dim(test.dat.aspect) &lt;- c(3, 3)
-####image(test.dat.aspect)
-#### test.dat.aspect
-####get_aspect(test.dat.aspect)
-########################Calculating  Convexity###################
-get_convexity &lt;-function(z.mat)&#123;
-​    z.mat.colbind &lt;-cbind(rep(NA, nrow(z.mat)), z.mat, rep(NA, nrow(z.mat)))
-​    z.mat.rbind &lt;-rbind(rep(NA, ncol(z.mat)+2), z.mat.colbind, rep(NA, ncol(z.mat)+2))
-​    z.mat.ext &lt;- z.mat.rbind
-​    nrz &lt;-nrow(z.mat.ext)
-​    ncz &lt;-ncol(z.mat.ext)
-​    convexity.mat &lt;-rep(NA, nrz*ncz)
-​    dim(convexity.mat)&lt;-c(nrz, ncz)
-​    for(m in2:(nrz-1))&#123;
-​       for(n in2:(ncz-1))&#123;
-​           a = z.mat.ext[m-1,n-1]
-​           b = z.mat.ext[m-1,n]
-​           c=z.mat.ext[m-1,n+1]
-​           d = z.mat.ext[m,n-1]
-​           e = z.mat.ext[m,n]
-​           f = z.mat.ext[m,n+1]
-​           g = z.mat.ext[m+1,n-1]
-​           h = z.mat.ext[m+1,n]
-​           i = z.mat.ext[m+1,n+1]
-​           #### Ifna.....
-​           all.neighbour &lt;-c(a, b, c, d, f, g, h, i)
-​           mean.neighbour &lt;-mean(na.omit(all.neighbour))
-​           convexity.mat[m,n]&lt;-(e - mean.neighbour)
-​       &#125;
-   &#125;
-   convexity.mat &lt;- convexity.mat[c(-1, -nrow(convexity.mat)),c(-1, -ncol(convexity.mat))]
-   return(convexity.mat)
-&#125;
-</code></pre>
-
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## Calculating theslopes for each grid in a forest dynamic plot</span></span><br><span class="line"><span class="comment">## Provide thematrix of altitudes</span></span><br><span class="line"><span class="comment">## Provide thecell_size, the altitudes and cell_size must be in the same unit.</span></span><br><span class="line"><span class="comment">## Algorithms couldbe found at ##</span></span><br><span class="line"><span class="comment">##http://webhelp.esri.com/arcgiSDEsktop/9.3/body.cfm?tocVisable=1&amp;ID=-1&amp;TopicName=How%20Slope%20works</span></span><br><span class="line"><span class="comment">## Value: a matrixrepresenting the degrees of each grid.</span></span><br><span class="line">get_slope &lt;-<span class="keyword">function</span>(z.mat,cell_size =<span class="number">5</span>)&#123;</span><br><span class="line">​    <span class="comment">###Extent the z.mat matrix using the value from the border, so that the slope forthe out most cells could be calculated.</span></span><br><span class="line">​    z.mat.colbind &lt;-cbind(z.mat[,<span class="number">1</span>], z.mat,z.mat[,ncol(z.mat)])</span><br><span class="line">​    z.mat.rbind &lt;-rbind(<span class="built_in">c</span>(z.mat[<span class="number">1</span>,<span class="number">1</span>], z.mat[<span class="number">1</span>,], z.mat[<span class="number">1</span>,ncol(z.mat)]),z.mat.colbind,</span><br><span class="line">​                         <span class="built_in">c</span>(z.mat[nrow(z.mat),<span class="number">1</span>], z.mat[nrow(z.mat),], z.mat[nrow(z.mat), ncol(z.mat)]))</span><br><span class="line">​    z.mat.ext &lt;- z.mat.rbind</span><br><span class="line">​    nrz &lt;-nrow(z.mat.ext)</span><br><span class="line">​    ncz &lt;-ncol(z.mat.ext)</span><br><span class="line">​    slope.mat &lt;-<span class="built_in">rep</span>(<span class="literal">NA</span>, nrz*ncz)</span><br><span class="line">​    <span class="built_in">dim</span>(slope.mat)&lt;-<span class="built_in">c</span>(nrz, ncz)  <span class="comment">##Create a Null matrix used in loop</span></span><br><span class="line">​    <span class="keyword">for</span>(m in2:(nrz-<span class="number">1</span>))&#123;</span><br><span class="line">​       <span class="keyword">for</span>(n in2:(ncz-<span class="number">1</span>))&#123;</span><br><span class="line">​           a = z.mat.ext[m-<span class="number">1</span>,n-<span class="number">1</span>]</span><br><span class="line">​           b = z.mat.ext[m-<span class="number">1</span>,n]</span><br><span class="line">​           <span class="built_in">c</span>=z.mat.ext[m-<span class="number">1</span>,n+<span class="number">1</span>]</span><br><span class="line">​           d = z.mat.ext[m,n-<span class="number">1</span>]</span><br><span class="line">​           e = z.mat.ext[m,n]</span><br><span class="line">​           f = z.mat.ext[m,n+<span class="number">1</span>]</span><br><span class="line">​           g = z.mat.ext[m+<span class="number">1</span>,n-<span class="number">1</span>]</span><br><span class="line">​           h = z.mat.ext[m+<span class="number">1</span>,n]</span><br><span class="line">​           i = z.mat.ext[m+<span class="number">1</span>,n+<span class="number">1</span>]</span><br><span class="line">​           </span><br><span class="line">​           dz_dx =((<span class="built_in">c</span>+<span class="number">2</span>*f + i)-(a +<span class="number">2</span>*d + g))/(<span class="number">8</span>*cell_size)</span><br><span class="line">​           dz_dy =((g +<span class="number">2</span>*h + i)-(a +<span class="number">2</span>*b +<span class="built_in">c</span>))/(<span class="number">8</span>*cell_size)</span><br><span class="line">​           slope.mat[m,n]&lt;-<span class="built_in">atan</span>(<span class="built_in">sqrt</span>( dz_dx^<span class="number">2</span>+ dz_dy^<span class="number">2</span>))*(<span class="number">180</span>/<span class="built_in">pi</span>)  </span><br><span class="line">​       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">​    <span class="built_in">return</span>(slope.mat[<span class="built_in">c</span>(-<span class="number">1</span>, -nrow(slope.mat)),<span class="built_in">c</span>(-<span class="number">1</span>, -ncol(slope.mat))])</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">####</span></span><br><span class="line"><span class="comment">#### test.dat2 &lt;-c(50, 30, 8, 45, 30, 10, 50, 30, 10)</span></span><br><span class="line"><span class="comment">#### test.dat.slope2&lt;- matrix(test.dat2, nrow = 3, byrow = FALSE)</span></span><br><span class="line"><span class="comment">#### test.dat.slope2</span></span><br><span class="line"><span class="comment">####get_slope(test.dat.slope2, cell_size = 5)</span></span><br><span class="line"><span class="comment">###################################################################</span></span><br><span class="line"><span class="comment">## Calculating theaspect of each cell within a forest dynamic plot</span></span><br><span class="line"><span class="comment">## Adopted from ESRIhttp://webhelp.esri.com/arcgisdesktop/9.3/body.cfm?tocVisable=1&amp;ID=-1&amp;TopicName=how%20aspect%20works</span></span><br><span class="line"><span class="comment">## the z.mat is anumerical matrix representing the altitude for each cell</span></span><br><span class="line"><span class="comment">## the output is anumerical matrix representing the degree of aspect. Starting from the north,</span></span><br><span class="line"><span class="comment">## This functionassums that The direction of the column, from greater to smaller columns pointsto the north.</span></span><br><span class="line">get_aspect &lt;-<span class="keyword">function</span>(z.mat)&#123;</span><br><span class="line">​    z.mat.colbind &lt;-cbind(z.mat[,<span class="number">1</span>], z.mat,z.mat[,ncol(z.mat)])</span><br><span class="line">​    z.mat.rbind &lt;-rbind(<span class="built_in">c</span>(z.mat[<span class="number">1</span>,<span class="number">1</span>], z.mat[<span class="number">1</span>,], z.mat[<span class="number">1</span>,ncol(z.mat)]),z.mat.colbind,</span><br><span class="line">​                         <span class="built_in">c</span>(z.mat[nrow(z.mat),<span class="number">1</span>], z.mat[nrow(z.mat),], z.mat[nrow(z.mat), ncol(z.mat)]))</span><br><span class="line">​    z.mat.ext &lt;- z.mat.rbind</span><br><span class="line">​    nrz &lt;-nrow(z.mat.ext)</span><br><span class="line">​    ncz &lt;-ncol(z.mat.ext)</span><br><span class="line">​    aspect.mat &lt;-<span class="built_in">rep</span>(<span class="literal">NA</span>, nrz*ncz)</span><br><span class="line">​    <span class="built_in">dim</span>(aspect.mat)&lt;-<span class="built_in">c</span>(nrz, ncz)</span><br><span class="line">​    <span class="keyword">for</span>(m in2:(nrz-<span class="number">1</span>))&#123;</span><br><span class="line">​       <span class="keyword">for</span>(n in2:(ncz-<span class="number">1</span>))&#123;</span><br><span class="line">​           a = z.mat.ext[m-<span class="number">1</span>,n-<span class="number">1</span>]</span><br><span class="line">​           b = z.mat.ext[m-<span class="number">1</span>,n]</span><br><span class="line">​           <span class="built_in">c</span>=z.mat.ext[m-<span class="number">1</span>,n+<span class="number">1</span>]</span><br><span class="line">​           d = z.mat.ext[m,n-<span class="number">1</span>]</span><br><span class="line">​           e = z.mat.ext[m,n]</span><br><span class="line">​           f = z.mat.ext[m,n+<span class="number">1</span>]</span><br><span class="line">​           g = z.mat.ext[m+<span class="number">1</span>,n-<span class="number">1</span>]</span><br><span class="line">​           h = z.mat.ext[m+<span class="number">1</span>,n]</span><br><span class="line">​           i = z.mat.ext[m+<span class="number">1</span>,n+<span class="number">1</span>]</span><br><span class="line">​           dz_dx =((<span class="built_in">c</span>+<span class="number">2</span>*f + i)-(a +<span class="number">2</span>*d + g))/<span class="number">8</span></span><br><span class="line">​           dz_dy =((g +<span class="number">2</span>*h + i)-(a +<span class="number">2</span>*b +<span class="built_in">c</span>))/<span class="number">8</span></span><br><span class="line">​           aspect.mat[m, n]=(<span class="number">180</span>/<span class="built_in">pi</span>)* atan2(dz_dy, -dz_dx)</span><br><span class="line">​       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">​       format.aspect &lt;-<span class="keyword">function</span>(aspect)&#123;</span><br><span class="line">​          cell = aspect</span><br><span class="line">​          <span class="keyword">for</span>(i in1:<span class="built_in">length</span>(aspect))&#123;</span><br><span class="line">​          <span class="keyword">if</span>(aspect[i]&lt;<span class="number">0</span>)&#123;        </span><br><span class="line">​             cell[i]=<span class="number">90.0</span>- aspect[i]        </span><br><span class="line">​             &#125;        </span><br><span class="line">​          elseif(aspect[i]&gt;<span class="number">90.0</span>)&#123;        </span><br><span class="line">​             cell[i]=<span class="number">360.0</span>- aspect[i]+<span class="number">90.0</span>        </span><br><span class="line">​             &#125;        </span><br><span class="line">​          <span class="keyword">else</span>&#123;        </span><br><span class="line">​             cell[i]=<span class="number">90.0</span>- aspect[i]        </span><br><span class="line">​             &#125;        </span><br><span class="line">​          &#125;</span><br><span class="line">​          <span class="built_in">return</span>(cell)        </span><br><span class="line">​       &#125;</span><br><span class="line">   aspect.mat &lt;- aspect.mat[<span class="built_in">c</span>(-<span class="number">1</span>, -nrow(aspect.mat)),<span class="built_in">c</span>(-<span class="number">1</span>, -ncol(aspect.mat))]</span><br><span class="line">   <span class="built_in">return</span>(format.aspect(aspect.mat))</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">############################################################################</span></span><br><span class="line"><span class="comment">#### test.dat.aspect&lt;- c(101, 101, 101, 92, 92, 91, 85, 85, 84)</span></span><br><span class="line"><span class="comment">####dim(test.dat.aspect) &lt;- c(3, 3)</span></span><br><span class="line"><span class="comment">####image(test.dat.aspect)</span></span><br><span class="line"><span class="comment">#### test.dat.aspect</span></span><br><span class="line"><span class="comment">####get_aspect(test.dat.aspect)</span></span><br><span class="line"><span class="comment">########################Calculating  Convexity###################</span></span><br><span class="line">get_convexity &lt;-<span class="keyword">function</span>(z.mat)&#123;</span><br><span class="line">​    z.mat.colbind &lt;-cbind(<span class="built_in">rep</span>(<span class="literal">NA</span>, nrow(z.mat)), z.mat, <span class="built_in">rep</span>(<span class="literal">NA</span>, nrow(z.mat)))</span><br><span class="line">​    z.mat.rbind &lt;-rbind(<span class="built_in">rep</span>(<span class="literal">NA</span>, ncol(z.mat)+<span class="number">2</span>), z.mat.colbind, <span class="built_in">rep</span>(<span class="literal">NA</span>, ncol(z.mat)+<span class="number">2</span>))</span><br><span class="line">​    z.mat.ext &lt;- z.mat.rbind</span><br><span class="line">​    nrz &lt;-nrow(z.mat.ext)</span><br><span class="line">​    ncz &lt;-ncol(z.mat.ext)</span><br><span class="line">​    convexity.mat &lt;-<span class="built_in">rep</span>(<span class="literal">NA</span>, nrz*ncz)</span><br><span class="line">​    <span class="built_in">dim</span>(convexity.mat)&lt;-<span class="built_in">c</span>(nrz, ncz)</span><br><span class="line">​    <span class="keyword">for</span>(m in2:(nrz-<span class="number">1</span>))&#123;</span><br><span class="line">​       <span class="keyword">for</span>(n in2:(ncz-<span class="number">1</span>))&#123;</span><br><span class="line">​           a = z.mat.ext[m-<span class="number">1</span>,n-<span class="number">1</span>]</span><br><span class="line">​           b = z.mat.ext[m-<span class="number">1</span>,n]</span><br><span class="line">​           <span class="built_in">c</span>=z.mat.ext[m-<span class="number">1</span>,n+<span class="number">1</span>]</span><br><span class="line">​           d = z.mat.ext[m,n-<span class="number">1</span>]</span><br><span class="line">​           e = z.mat.ext[m,n]</span><br><span class="line">​           f = z.mat.ext[m,n+<span class="number">1</span>]</span><br><span class="line">​           g = z.mat.ext[m+<span class="number">1</span>,n-<span class="number">1</span>]</span><br><span class="line">​           h = z.mat.ext[m+<span class="number">1</span>,n]</span><br><span class="line">​           i = z.mat.ext[m+<span class="number">1</span>,n+<span class="number">1</span>]</span><br><span class="line">​           <span class="comment">#### Ifna.....</span></span><br><span class="line">​           all.neighbour &lt;-<span class="built_in">c</span>(a, b, <span class="built_in">c</span>, d, f, g, h, i)</span><br><span class="line">​           mean.neighbour &lt;-mean(na.omit(all.neighbour))</span><br><span class="line">​           convexity.mat[m,n]&lt;-(e - mean.neighbour)</span><br><span class="line">​       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   convexity.mat &lt;- convexity.mat[<span class="built_in">c</span>(-<span class="number">1</span>, -nrow(convexity.mat)),<span class="built_in">c</span>(-<span class="number">1</span>, -ncol(convexity.mat))]</span><br><span class="line">   <span class="built_in">return</span>(convexity.mat)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2013/05/16/2013-5-16-convexity/" data-id="ckmq42aik00541k843nzk4d7p" data-title="样地数据从海拔计算坡度、坡向和凹凸度" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2013/05/16/2013-5-16-convexity/" data-id="ckmt6y7m2005bmgyabghxf6ky" data-title="样地数据从海拔计算坡度、坡向和凹凸度" class="article-share-link">Share</a>
       
       
       
@@ -517,85 +272,17 @@ get_convexity &lt;-function(z.mat)&#123;
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>模板如下：</p>
-<pre><code class="latex">\documentclass[11pt,a4paper]&#123;article&#125;
-\usepackage&#123;dichokey&#125;
-\usepackage&#123;CJK&#125;
-\pagestyle&#123;empty&#125;
-\begin&#123;document&#125;
-\begin&#123;CJK*&#125;&#123;UTF8&#125;&#123;song&#125;
-\noindenttextbf&#123;large 香港藤黄科分属检索表&#125;\
-\(根据《香港植物志》 (2011)卷I 196页)\
-\vspace&#123;2ex&#125;
-\begin&#123;Key&#125;&#123;&#125;
-\alter 浆果或者核果
-\alter 侧脉平行而不分叉， 核果 name&#123;胡桐属Calophyllum&#125;
-\alter 侧脉分叉， 浆果name&#123;山竹子属Garcinia&#125;
-\alter 蒴果
-\alter 灌木或乔木， 叶片无腺点，种子具翅 name&#123;黄牛木属 Cratoxylum&#125; 
-\alter 草本，叶片具腺点， 果无翅 name&#123;金丝桃属 Hypericum&#125;
-\end&#123;Key&#125;
-\end&#123;CJK*&#125;
-\end&#123;document&#125;
-</code></pre>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\documentclass</span>[11pt,a4paper]&#123;article&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;dichokey&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;CJK&#125;</span><br><span class="line"><span class="keyword">\pagestyle</span>&#123;empty&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;CJK*&#125;&#123;UTF8&#125;&#123;song&#125;</span><br><span class="line"><span class="keyword">\noindenttextbf</span>&#123;large 香港藤黄科分属检索表&#125;<span class="keyword">\</span></span><br><span class="line"><span class="keyword"></span><span class="keyword">\(</span>根据《香港植物志》 (2011)卷I 196页)<span class="keyword">\</span></span><br><span class="line"><span class="keyword"></span><span class="keyword">\vspace</span>&#123;2ex&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;Key&#125;&#123;&#125;</span><br><span class="line"><span class="keyword">\alter</span> 浆果或者核果</span><br><span class="line"><span class="keyword">\alter</span> 侧脉平行而不分叉， 核果 name&#123;胡桐属Calophyllum&#125;</span><br><span class="line"><span class="keyword">\alter</span> 侧脉分叉， 浆果name&#123;山竹子属Garcinia&#125;</span><br><span class="line"><span class="keyword">\alter</span> 蒴果</span><br><span class="line"><span class="keyword">\alter</span> 灌木或乔木， 叶片无腺点，种子具翅 name&#123;黄牛木属 Cratoxylum&#125; </span><br><span class="line"><span class="keyword">\alter</span> 草本，叶片具腺点， 果无翅 name&#123;金丝桃属 Hypericum&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;Key&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;CJK*&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br></pre></td></tr></table></figure>
 <p>用pdfLaTeX编译， 编译后的效果如图<br><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></p>
 <p>例2</p>
-<pre><code class="latex">\documentclass[15px,a4paper]&#123;article&#125;
-\usepackage&#123;dichokey&#125;
-\usepackage&#123;CJK&#125;
-\linespread&#123;1.2&#125;
-\begin&#123;document&#125;
-\begin&#123;CJK*&#125;&#123;UTF8&#125;&#123;song&#125;
-\noindenttextbf&#123;Largecenterline&#123;广州地区大戟科分属检索表&#125;&#125;\
-\centerline&#123;(根据邢福武教授主编《广州野生植物》(2007) 111页)&#125;\
-\begin&#123;Key&#125;&#123;&#125;
-\alter 三出复叶name&#123;重阳木属&#125;
-\alter 单叶
-\alter 子房每室有2胚珠，叶柄顶部和叶片基部无腺体
-\alter 具花瓣name&#123;土蜜树属&#125;
-\alter 无花瓣
-\alter 雌花具有花盘和腺体
-\alter 子房1-2室，稀3室；核果name&#123;五月茶属&#125;
-\alter 子房3-15室，蒴果或浆果状
-\alter 雄花有不育雄蕊name&#123;白饭树属&#125;
-\alter 雄花无不育雄蕊name&#123;叶下珠属&#125;
-\alter 雌花无花盘或腺体
-\alter 叶在小枝上不呈两列name&#123;银柴属&#125;
-\alter 叶在小枝上排成两列
-\alter 雄蕊（3）4-8，花药合生，子房通常4-15室，花柱顶端具裂缝或者小裂齿name&#123;算盘子属&#125;
-\alter 雄蕊3，花药通常分离，子房3室，花柱2裂
-\alter 花药离生或6深裂，宿存花萼通常陀螺状name&#123;守宫木属&#125;
-\alter 花萼6浅裂，宿存花萼盘状 name&#123;黑面神属&#125;
-\alter 子房每室具有1枚胚珠，叶柄顶部和叶片基部常有各式腺体
-\alter 多为草本
-\alter 叶对生，少数为互生，植株具乳汁name&#123;大戟属&#125;
-\alter 叶互生，无乳汁
-\alter 花序穗状或总状，腋生name&#123;铁苋菜属&#125;
-\alter 圆锥花序顶生name&#123;蓖麻属&#125;
-\alter 乔木或灌木
-\alter 雄花与雌花具花瓣，稀雌花无花瓣
-\alter 花丝在花蕾顶部内弯，基部被绵毛name&#123;巴豆属&#125;
-\alter 花丝在花蕾顶部不内弯，基部无绵毛name&#123;油桐属&#125;
-\alter 雄花与雌花均无花瓣
-\alter 雄花簇生于苞腋，再排成穗状花序或者总状花序；花蕾时雄蕊已经伸出
-\alter 花雌雄同株，稀雌雄异株，穗状花序顶生name&#123;乌桕属&#125;
-\alter 花雌雄异株，总状花序腋生name&#123;白桐树属&#125;
-\alter 雄花密集成团伞花序或者簇生，再排成穗状、总状或者圆锥花序，花蕾时雄蕊内藏
-\alter 雄花的萼片或者花萼裂片覆瓦状排列name&#123;黄桐属&#125;
-\alter 雄花的萼片或者花萼裂片镊合状排列
-\alter 叶对生，花雌雄异株name&#123;野桐属&#125;
-\alter 叶互生，花雌雄异株或同株
-\alter 叶下面和蒴果被散生或密生的颗粒状腺体name&#123;血桐属&#125;
-\alter 叶两面和果均无颗粒状腺体name&#123;山麻杆属&#125;
-\end&#123;Key&#125;
-\end&#123;CJK*&#125;
-\end&#123;document&#125;
-</code></pre>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\documentclass</span>[15px,a4paper]&#123;article&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;dichokey&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;CJK&#125;</span><br><span class="line"><span class="keyword">\linespread</span>&#123;1.2&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;CJK*&#125;&#123;UTF8&#125;&#123;song&#125;</span><br><span class="line"><span class="keyword">\noindenttextbf</span>&#123;Largecenterline&#123;广州地区大戟科分属检索表&#125;&#125;<span class="keyword">\</span></span><br><span class="line"><span class="keyword"></span><span class="keyword">\centerline</span>&#123;(根据邢福武教授主编《广州野生植物》(2007) 111页)&#125;<span class="keyword">\</span></span><br><span class="line"><span class="keyword"></span><span class="keyword">\begin</span>&#123;Key&#125;&#123;&#125;</span><br><span class="line"><span class="keyword">\alter</span> 三出复叶name&#123;重阳木属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 单叶</span><br><span class="line"><span class="keyword">\alter</span> 子房每室有2胚珠，叶柄顶部和叶片基部无腺体</span><br><span class="line"><span class="keyword">\alter</span> 具花瓣name&#123;土蜜树属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 无花瓣</span><br><span class="line"><span class="keyword">\alter</span> 雌花具有花盘和腺体</span><br><span class="line"><span class="keyword">\alter</span> 子房1-2室，稀3室；核果name&#123;五月茶属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 子房3-15室，蒴果或浆果状</span><br><span class="line"><span class="keyword">\alter</span> 雄花有不育雄蕊name&#123;白饭树属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 雄花无不育雄蕊name&#123;叶下珠属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 雌花无花盘或腺体</span><br><span class="line"><span class="keyword">\alter</span> 叶在小枝上不呈两列name&#123;银柴属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 叶在小枝上排成两列</span><br><span class="line"><span class="keyword">\alter</span> 雄蕊（3）4-8，花药合生，子房通常4-15室，花柱顶端具裂缝或者小裂齿name&#123;算盘子属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 雄蕊3，花药通常分离，子房3室，花柱2裂</span><br><span class="line"><span class="keyword">\alter</span> 花药离生或6深裂，宿存花萼通常陀螺状name&#123;守宫木属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 花萼6浅裂，宿存花萼盘状 name&#123;黑面神属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 子房每室具有1枚胚珠，叶柄顶部和叶片基部常有各式腺体</span><br><span class="line"><span class="keyword">\alter</span> 多为草本</span><br><span class="line"><span class="keyword">\alter</span> 叶对生，少数为互生，植株具乳汁name&#123;大戟属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 叶互生，无乳汁</span><br><span class="line"><span class="keyword">\alter</span> 花序穗状或总状，腋生name&#123;铁苋菜属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 圆锥花序顶生name&#123;蓖麻属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 乔木或灌木</span><br><span class="line"><span class="keyword">\alter</span> 雄花与雌花具花瓣，稀雌花无花瓣</span><br><span class="line"><span class="keyword">\alter</span> 花丝在花蕾顶部内弯，基部被绵毛name&#123;巴豆属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 花丝在花蕾顶部不内弯，基部无绵毛name&#123;油桐属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 雄花与雌花均无花瓣</span><br><span class="line"><span class="keyword">\alter</span> 雄花簇生于苞腋，再排成穗状花序或者总状花序；花蕾时雄蕊已经伸出</span><br><span class="line"><span class="keyword">\alter</span> 花雌雄同株，稀雌雄异株，穗状花序顶生name&#123;乌桕属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 花雌雄异株，总状花序腋生name&#123;白桐树属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 雄花密集成团伞花序或者簇生，再排成穗状、总状或者圆锥花序，花蕾时雄蕊内藏</span><br><span class="line"><span class="keyword">\alter</span> 雄花的萼片或者花萼裂片覆瓦状排列name&#123;黄桐属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 雄花的萼片或者花萼裂片镊合状排列</span><br><span class="line"><span class="keyword">\alter</span> 叶对生，花雌雄异株name&#123;野桐属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 叶互生，花雌雄异株或同株</span><br><span class="line"><span class="keyword">\alter</span> 叶下面和蒴果被散生或密生的颗粒状腺体name&#123;血桐属&#125;</span><br><span class="line"><span class="keyword">\alter</span> 叶两面和果均无颗粒状腺体name&#123;山麻杆属&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;Key&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;CJK*&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br></pre></td></tr></table></figure>
+
 <p><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2013/05/14/2013-5-14-latexkeys/" data-id="ckmq42aik00521k8400qse8dw" data-title="利用LaTeX编写植物检索表" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2013/05/14/2013-5-14-latexkeys/" data-id="ckmt6y7m10059mgya3w8b36fe" data-title="利用LaTeX编写植物检索表" class="article-share-link">Share</a>
       
       
       
@@ -655,7 +342,7 @@ get_convexity &lt;-function(z.mat)&#123;
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2013/04/11/2013-4-11-diva/" data-id="ckmq42aii00501k84fw3w9d0v" data-title="用DIVA-GIS提取温度降水等气候信息" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2013/04/11/2013-4-11-diva/" data-id="ckmt6y7lz0057mgyafwq84a4j" data-title="用DIVA-GIS提取温度降水等气候信息" class="article-share-link">Share</a>
       
       
       
@@ -735,7 +422,7 @@ get_convexity &lt;-function(z.mat)&#123;
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2013/04/02/2013-04-03-plantid/" data-id="ckmq42aia004j1k84dk5t6z3x" data-title="漫谈如何认植物" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2013/04/02/2013-04-03-plantid/" data-id="ckmt6y7ls004omgya56f67661" data-title="漫谈如何认植物" class="article-share-link">Share</a>
       
       
       
@@ -771,73 +458,14 @@ get_convexity &lt;-function(z.mat)&#123;
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <pre><code class="R">sorted.boxplot &lt;- function(x , factor.levels,  groups = NULL, ...)&#123;
-    res &lt;- tapply(x , factor.levels, FUN = mean)
-    res.order &lt;- as.character(10 * rank(res))    
-    if(any(nchar(res.order)) &gt; 3) &#123;        
-    stop(&quot;There are too many levels to sort!&quot;)
+        <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">sorted.boxplot &lt;- <span class="keyword">function</span>(x , factor.levels,  groups = <span class="literal">NULL</span>, ...)&#123;</span><br><span class="line">    res &lt;- tapply(x , factor.levels, FUN = mean)</span><br><span class="line">    res.order &lt;- <span class="built_in">as.character</span>(<span class="number">10</span> * rank(res))    </span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">any</span>(nchar(res.order)) &gt; <span class="number">3</span>) &#123;        </span><br><span class="line">    stop(<span class="string">&quot;There are too many levels to sort!&quot;</span>)</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    label3 &lt;- label1 &lt;- <span class="built_in">names</span>(res)    </span><br><span class="line">    <span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(res.order))&#123;        </span><br><span class="line">    <span class="keyword">if</span>( nchar(res.order[i]) == <span class="number">2</span>) &#123;</span><br><span class="line">          label3[i]  &lt;- paste(<span class="string">&quot;0&quot;</span>, res.order[i], sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">        &#125;    </span><br><span class="line">        <span class="keyword">if</span>( nchar(res.order[i]) == <span class="number">3</span>) &#123;</span><br><span class="line">          label3[i] &lt;- paste(res.order[i], sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    lab.ref &lt;- data.frame(label1, label3)</span><br><span class="line">    label2 &lt;- <span class="built_in">as.character</span>(factor.levels)</span><br><span class="line">    tab2 &lt;- data.frame(label2)</span><br><span class="line">    colnames(tab2) &lt;- <span class="built_in">c</span>(<span class="string">&quot;species&quot;</span>)</span><br><span class="line">    dat2 &lt;- data.frame(x, factor.levels)</span><br><span class="line">    colnames(dat2) &lt;- <span class="built_in">c</span>(<span class="string">&quot;Metric&quot;</span>, <span class="string">&quot;species&quot;</span>)</span><br><span class="line">    res.tab &lt;- merge(x = dat2, y = lab.ref, </span><br><span class="line">        by.x = <span class="string">&quot;species&quot;</span>, by.y = <span class="string">&quot;label1&quot;</span> , <span class="built_in">all</span> = <span class="literal">TRUE</span>)</span><br><span class="line">    res.tab$factors  &lt;- paste(substring(<span class="built_in">as.character</span>(res.tab$label3), <span class="number">1</span>, <span class="number">2</span>), </span><br><span class="line">                    res.tab$species, sep = <span class="string">&quot; &quot;</span>)    </span><br><span class="line">        <span class="keyword">if</span>(!<span class="built_in">is.null</span>(groups))&#123;</span><br><span class="line">        xxx &lt;- sort(unique(res.tab$factors))</span><br><span class="line">        tab.col &lt;- data.frame(xxx, substring(xxx, <span class="number">4</span>, nchar(xxx)))</span><br><span class="line">        colnames(tab.col) &lt;- <span class="built_in">c</span>(<span class="string">&quot;Sorted&quot;</span>, <span class="string">&quot;species&quot;</span>)</span><br><span class="line">        col.groups &lt;- unique(data.frame(factor.levels,  groups))</span><br><span class="line">        xxx2 &lt;- merge(x = tab.col, y = col.groups, by.x = <span class="string">&quot;species&quot;</span>, by.y = <span class="string">&quot;factor.levels&quot;</span>)</span><br><span class="line">        ressss &lt;- xxx2[order(xxx2$Sorted), ]</span><br><span class="line">        ressss$cols &lt;- <span class="built_in">as.numeric</span>(ressss$groups)</span><br><span class="line"></span><br><span class="line">        colors.n &lt;- topo.colors(<span class="built_in">length</span>(unique(ressss$cols)))</span><br><span class="line">        col.res &lt;- data.frame(unique(ressss$cols), colors.n)</span><br><span class="line">        colnames(col.res) &lt;- <span class="built_in">c</span>(<span class="string">&quot;level&quot;</span>, <span class="string">&quot;color&quot;</span>)</span><br><span class="line">        xxx3 &lt;- merge(x = ressss, y = col.res, by.x = <span class="string">&quot;cols&quot;</span>, by.y = <span class="string">&quot;level&quot;</span>)</span><br><span class="line">        xxx3 &lt;- xxx3[order(xxx3$Sorted), ]</span><br><span class="line">        boxplot(Metric ~ factors,  data = res.tab, col =  <span class="built_in">as.character</span>(xxx3$color), ...)</span><br><span class="line">        legend.dat &lt;- unique(data.frame(xxx3$groups, xxx3$color))</span><br><span class="line">        legend.label &lt;- <span class="built_in">as.character</span>(legend.dat[,<span class="number">1</span>])</span><br><span class="line">        legend.col &lt;- <span class="built_in">as.character</span>(legend.dat[,<span class="number">2</span>])</span><br><span class="line">        legend(<span class="built_in">length</span>(xxx)/<span class="number">100</span>, <span class="built_in">max</span>(x), legend = legend.label, pch = <span class="number">15</span>, col = legend.col)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        boxplot(Metric ~ factors,  data = res.tab, ...)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    &#125;
-    label3 &lt;- label1 &lt;- names(res)    
-    for (i in 1:length(res.order))&#123;        
-    if( nchar(res.order[i]) == 2) &#123;
-          label3[i]  &lt;- paste(&quot;0&quot;, res.order[i], sep = &quot;&quot;)
-        &#125;    
-        if( nchar(res.order[i]) == 3) &#123;
-          label3[i] &lt;- paste(res.order[i], sep = &quot;&quot;)
-        &#125;
-    &#125;
-    lab.ref &lt;- data.frame(label1, label3)
-    label2 &lt;- as.character(factor.levels)
-    tab2 &lt;- data.frame(label2)
-    colnames(tab2) &lt;- c(&quot;species&quot;)
-    dat2 &lt;- data.frame(x, factor.levels)
-    colnames(dat2) &lt;- c(&quot;Metric&quot;, &quot;species&quot;)
-    res.tab &lt;- merge(x = dat2, y = lab.ref, 
-        by.x = &quot;species&quot;, by.y = &quot;label1&quot; , all = TRUE)
-    res.tab$factors  &lt;- paste(substring(as.character(res.tab$label3), 1, 2), 
-                    res.tab$species, sep = &quot; &quot;)    
-        if(!is.null(groups))&#123;
-        xxx &lt;- sort(unique(res.tab$factors))
-        tab.col &lt;- data.frame(xxx, substring(xxx, 4, nchar(xxx)))
-        colnames(tab.col) &lt;- c(&quot;Sorted&quot;, &quot;species&quot;)
-        col.groups &lt;- unique(data.frame(factor.levels,  groups))
-        xxx2 &lt;- merge(x = tab.col, y = col.groups, by.x = &quot;species&quot;, by.y = &quot;factor.levels&quot;)
-        ressss &lt;- xxx2[order(xxx2$Sorted), ]
-        ressss$cols &lt;- as.numeric(ressss$groups)
-
-        colors.n &lt;- topo.colors(length(unique(ressss$cols)))
-        col.res &lt;- data.frame(unique(ressss$cols), colors.n)
-        colnames(col.res) &lt;- c(&quot;level&quot;, &quot;color&quot;)
-        xxx3 &lt;- merge(x = ressss, y = col.res, by.x = &quot;cols&quot;, by.y = &quot;level&quot;)
-        xxx3 &lt;- xxx3[order(xxx3$Sorted), ]
-        boxplot(Metric ~ factors,  data = res.tab, col =  as.character(xxx3$color), ...)
-        legend.dat &lt;- unique(data.frame(xxx3$groups, xxx3$color))
-        legend.label &lt;- as.character(legend.dat[,1])
-        legend.col &lt;- as.character(legend.dat[,2])
-        legend(length(xxx)/100, max(x), legend = legend.label, pch = 15, col = legend.col)
-    &#125; else &#123;
-        boxplot(Metric ~ factors,  data = res.tab, ...)
-    &#125;
-&#125;
-</code></pre>
 <p>函数的使用方法</p>
-<pre><code class="R">a.value &lt;- runif(100)  
-## Generate Levels
-a.levels &lt;- sort(sample( LETTERS, 100, replace = TRUE)) 
-## The levels for a factor
-a.groups &lt;- sort(sample(c(&quot;group1&quot;,&quot;group2&quot;,&quot;group3&quot;,&quot;group4&quot;),100, replace = TRUE))  
-## Group colors
-par(las = 3, mar = c(10, 5, 5, 5))   
-## Set the parameters for ploting device
-sorted.boxplot(x = a.value , factor.levels = a.levels, 
-    groups = a.groups, ylab = &quot;Values&quot;, xlab = &quot;Levels&quot;, main = &quot;A sorted box plot&quot;)
-</code></pre>
-
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">a.value &lt;- runif(<span class="number">100</span>)  </span><br><span class="line"><span class="comment">## Generate Levels</span></span><br><span class="line">a.levels &lt;- sort(sample( <span class="built_in">LETTERS</span>, <span class="number">100</span>, replace = <span class="literal">TRUE</span>)) </span><br><span class="line"><span class="comment">## The levels for a factor</span></span><br><span class="line">a.groups &lt;- sort(sample(<span class="built_in">c</span>(<span class="string">&quot;group1&quot;</span>,<span class="string">&quot;group2&quot;</span>,<span class="string">&quot;group3&quot;</span>,<span class="string">&quot;group4&quot;</span>),<span class="number">100</span>, replace = <span class="literal">TRUE</span>))  </span><br><span class="line"><span class="comment">## Group colors</span></span><br><span class="line">par(las = <span class="number">3</span>, mar = <span class="built_in">c</span>(<span class="number">10</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>))   </span><br><span class="line"><span class="comment">## Set the parameters for ploting device</span></span><br><span class="line">sorted.boxplot(x = a.value , factor.levels = a.levels, </span><br><span class="line">    groups = a.groups, ylab = <span class="string">&quot;Values&quot;</span>, xlab = <span class="string">&quot;Levels&quot;</span>, main = <span class="string">&quot;A sorted box plot&quot;</span>)</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2013/03/08/2013-3-8-box2/" data-id="ckmq42aif004y1k84gffl715u" data-title="A Sorted Box Plot" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2013/03/08/2013-3-8-box2/" data-id="ckmt6y7ly0055mgyab4nj1i3c" data-title="A Sorted Box Plot" class="article-share-link">Share</a>
       
       
       
@@ -874,76 +502,12 @@ sorted.boxplot(x = a.value , factor.levels = a.levels,
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>物种按照数量性状聚类并且保存为树状图</p>
-<pre><code class="R">######### Generate a simulated data set ##########
-
-trait1 &lt;- runif(30)*8 + 15
-
-trait2 &lt;- runif(30)*500 + 2300
-
-trait3 &lt;- runif(30)*120 + 450
-
-dat &lt;- data.frame(trait1, trait2, trait3)
-
-rownames(dat) &lt;- paste(&quot;SP&quot;, 1:30, sep = &quot;&quot;)
-
-##############################
-
-###################
-### Rescale (standarization and centralization) all the columns
-scaled.dat &lt;- scale(dat)
-
-## Euclidean Distance matrix for Trait1 
-dist.trait1 &lt;- dist(scaled.dat[,1])
-dist.trait2 &lt;- dist(scaled.dat[,2])
-dist.trait3 &lt;- dist(scaled.dat[,2])
-dist.traits &lt;- dist(scaled.dat)
-## Hierachical clustering of the distance matrices, using UPGMA
-
-hclust.trait1 &lt;- hclust(dist.trait1, method = &quot;average&quot;)
-hclust.trait2 &lt;- hclust(dist.trait2, method = &quot;average&quot;)
-hclust.trait3 &lt;- hclust(dist.trait3, method = &quot;average&quot;)
-hclust.traits &lt;- hclust(dist.traits, method = &quot;average&quot;)
-
-#### May not be displayed properly
-par(mfrow = c(2, 2))
-plot(hclust.trait1 )
-plot(hclust.trait2 )
-plot(hclust.trait3 )
-plot(hclust.traits )
-
-
-## Convert the hclust into dendrograms
-dendro.trait1 &lt;- as.dendrogram(hclust.trait1)
-dendro.trait2 &lt;- as.dendrogram(hclust.trait2)
-dendro.trait3 &lt;- as.dendrogram(hclust.trait3)
-dendro.traits &lt;- as.dendrogram(hclust.traits)
-
-#### Plot the dendrogram #########
-plot(dendro.trait1, horiz = TRUE)
-plot(dendro.trait2, horiz = TRUE)
-plot(dendro.trait3, horiz = TRUE)
-plot(dendro.traits, horiz = TRUE)
-
-
-#### Using APE package to convert the dendrograms to phylo, so that the &quot;phylo&quot; objects can be saved as newick tree files for subsequent analysis.
-library(ape)
-tree.trait1 &lt;- as.phylo(hclust.trait1)
-tree.trait2 &lt;- as.phylo(hclust.trait2)
-tree.trait3 &lt;- as.phylo(hclust.trait3)
-tree.trait4 &lt;- as.phylo(hclust.traits)
-
-
-#### Save the phylogenies to disk
-write.tree(tree.trait1, &quot;tree.trait1.tre&quot;)
-write.tree(tree.trait2, &quot;tree.trait2.tre&quot;)
-write.tree(tree.trait3, &quot;tree.trait3.tre&quot;)
-write.tree(tree.trait4, &quot;tree.trait4.tre&quot;)
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">######### Generate a simulated data set ##########</span></span><br><span class="line"></span><br><span class="line">trait1 &lt;- runif(<span class="number">30</span>)*<span class="number">8</span> + <span class="number">15</span></span><br><span class="line"></span><br><span class="line">trait2 &lt;- runif(<span class="number">30</span>)*<span class="number">500</span> + <span class="number">2300</span></span><br><span class="line"></span><br><span class="line">trait3 &lt;- runif(<span class="number">30</span>)*<span class="number">120</span> + <span class="number">450</span></span><br><span class="line"></span><br><span class="line">dat &lt;- data.frame(trait1, trait2, trait3)</span><br><span class="line"></span><br><span class="line">rownames(dat) &lt;- paste(<span class="string">&quot;SP&quot;</span>, <span class="number">1</span>:<span class="number">30</span>, sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">##############################</span></span><br><span class="line"></span><br><span class="line"><span class="comment">###################</span></span><br><span class="line"><span class="comment">### Rescale (standarization and centralization) all the columns</span></span><br><span class="line">scaled.dat &lt;- scale(dat)</span><br><span class="line"></span><br><span class="line"><span class="comment">## Euclidean Distance matrix for Trait1 </span></span><br><span class="line">dist.trait1 &lt;- dist(scaled.dat[,<span class="number">1</span>])</span><br><span class="line">dist.trait2 &lt;- dist(scaled.dat[,<span class="number">2</span>])</span><br><span class="line">dist.trait3 &lt;- dist(scaled.dat[,<span class="number">2</span>])</span><br><span class="line">dist.traits &lt;- dist(scaled.dat)</span><br><span class="line"><span class="comment">## Hierachical clustering of the distance matrices, using UPGMA</span></span><br><span class="line"></span><br><span class="line">hclust.trait1 &lt;- hclust(dist.trait1, method = <span class="string">&quot;average&quot;</span>)</span><br><span class="line">hclust.trait2 &lt;- hclust(dist.trait2, method = <span class="string">&quot;average&quot;</span>)</span><br><span class="line">hclust.trait3 &lt;- hclust(dist.trait3, method = <span class="string">&quot;average&quot;</span>)</span><br><span class="line">hclust.traits &lt;- hclust(dist.traits, method = <span class="string">&quot;average&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#### May not be displayed properly</span></span><br><span class="line">par(mfrow = <span class="built_in">c</span>(<span class="number">2</span>, <span class="number">2</span>))</span><br><span class="line">plot(hclust.trait1 )</span><br><span class="line">plot(hclust.trait2 )</span><br><span class="line">plot(hclust.trait3 )</span><br><span class="line">plot(hclust.traits )</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">## Convert the hclust into dendrograms</span></span><br><span class="line">dendro.trait1 &lt;- as.dendrogram(hclust.trait1)</span><br><span class="line">dendro.trait2 &lt;- as.dendrogram(hclust.trait2)</span><br><span class="line">dendro.trait3 &lt;- as.dendrogram(hclust.trait3)</span><br><span class="line">dendro.traits &lt;- as.dendrogram(hclust.traits)</span><br><span class="line"></span><br><span class="line"><span class="comment">#### Plot the dendrogram #########</span></span><br><span class="line">plot(dendro.trait1, horiz = <span class="literal">TRUE</span>)</span><br><span class="line">plot(dendro.trait2, horiz = <span class="literal">TRUE</span>)</span><br><span class="line">plot(dendro.trait3, horiz = <span class="literal">TRUE</span>)</span><br><span class="line">plot(dendro.traits, horiz = <span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#### Using APE package to convert the dendrograms to phylo, so that the &quot;phylo&quot; objects can be saved as newick tree files for subsequent analysis.</span></span><br><span class="line">library(ape)</span><br><span class="line">tree.trait1 &lt;- as.phylo(hclust.trait1)</span><br><span class="line">tree.trait2 &lt;- as.phylo(hclust.trait2)</span><br><span class="line">tree.trait3 &lt;- as.phylo(hclust.trait3)</span><br><span class="line">tree.trait4 &lt;- as.phylo(hclust.traits)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#### Save the phylogenies to disk</span></span><br><span class="line">write.tree(tree.trait1, <span class="string">&quot;tree.trait1.tre&quot;</span>)</span><br><span class="line">write.tree(tree.trait2, <span class="string">&quot;tree.trait2.tre&quot;</span>)</span><br><span class="line">write.tree(tree.trait3, <span class="string">&quot;tree.trait3.tre&quot;</span>)</span><br><span class="line">write.tree(tree.trait4, <span class="string">&quot;tree.trait4.tre&quot;</span>)</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2013/03/07/2013-3-7-clustering/" data-id="ckmq42aif004w1k84577wg7ut" data-title="物种按照数量性状聚类并且保存为树状图" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2013/03/07/2013-3-7-clustering/" data-id="ckmt6y7lx0053mgya5yvog32q" data-title="物种按照数量性状聚类并且保存为树状图" class="article-share-link">Share</a>
       
       
       
@@ -1033,73 +597,25 @@ write.tree(tree.trait4, &quot;tree.trait4.tre&quot;)
 <li>取9个1.5mL的ep管，分别按照顺序，添加表1中除DNA模板外的组分。 </li>
 </ol>
 <p>表1 16uL  PCR反应体系</p>
-<pre><code>order    Constituents    Storage    Volume Per PCR Tube    ×
-1    ddH2O    RT                    11.85uL    uL
-2    PCR buffer 10×    4℃                      1.6uL    uL
-3    dNTP (25mM/uL)    4℃    0.1uL    (0.156mM)    uL  
-4    Ordinary Primer (10uM)    4℃    0.2uL     (0.125uM)    uL
-5    With Dye Primer (10uM)    4℃    0.2uL     (0.125uM)    uL
-6    TopTaq (5 Unit/uL)    －20℃    0.05uL     (0.25unit)    uL
-    分装到各ep管，每管14uL            
-7    DNA template         2uL       (10-20ng)    每个样品吸取2uL 模板DNA
-     Total        16uL    
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">order    Constituents    Storage    Volume Per PCR Tube    ×</span><br><span class="line">1    ddH2O    RT                    11.85uL    uL</span><br><span class="line">2    PCR buffer 10×    4℃                      1.6uL    uL</span><br><span class="line">3    dNTP (25mM&#x2F;uL)    4℃    0.1uL    (0.156mM)    uL  </span><br><span class="line">4    Ordinary Primer (10uM)    4℃    0.2uL     (0.125uM)    uL</span><br><span class="line">5    With Dye Primer (10uM)    4℃    0.2uL     (0.125uM)    uL</span><br><span class="line">6    TopTaq (5 Unit&#x2F;uL)    －20℃    0.05uL     (0.25unit)    uL</span><br><span class="line">    分装到各ep管，每管14uL            </span><br><span class="line">7    DNA template         2uL       (10-20ng)    每个样品吸取2uL 模板DNA</span><br><span class="line">     Total        16uL    </span><br></pre></td></tr></table></figure>
+
 <ol start="5">
 <li>将混合好的体系，按照行，分装到同一排管的小ep管中，每个14uL。</li>
 <li>从稀释过的DNA（约10ng/uL），吸取2uL，按照列，添加到排管的小ep管中。</li>
 <li>手动混合反应体系，离心。 按照所需退火温度不同，分成三组： <br>    1. 第一组 LOP1和SsrPt_ctg4363，touch down 温度为 64 – 54℃<br>    2. 第二组 PtTx3107和PtTX4001，touch down 温度为55－45℃<br>    3. 第三组PtTX2146，PtTX3025，PtTX3116，SsrPt_ctg1376, SPAC12.5，touch down为60－50℃。</li>
 <li>每个PCR反应耗时约2－2.5h。注意，PCR仪在最后的延伸完成后，会降到15℃，应该尽快将产物转移到4℃冰箱中， 并尽快检测。</li>
 </ol>
-<pre><code>Table 2. Primers and PCR conditions for each locus (Part I) version 0.3
-ID    1    2    3    4    5
-Locus    LOP1    PtTX2146    PtTX3025    PtTX3107    PtTX3116
-Dye    Cy5.5 green    D2 Black    D2 Black    D2 Black    Cy5 Blue
-Forward(5-3)    GGCTAATGGCCGGCCAGTGCT    CCTGGGGATTTGGATTGGGTATTTG    CACGCTGTATAATAACAATCTA    AAACAAGCCCACATCGTCAATC    CCTCCCAAAGCCTAAAGAAT
-Reverse(5-3)    GCGATTACAGGGTTGCAGCCT    ATATTTTCCTTGCCCCTTCCAGACA    TTCTATATTCGCTTTTAGTTTC    TCCCCTGGATCTGAGGA    CATACAAGGCCTTATCTTACAGAA
-Ta    Touch down 64-54°C    Touch down 60-50°C    Touch down 60-50°C    Touch down 55-45°C    Touch down 60-50°C
-size range    153-189    176-264    211-305    150-174    115-169
-PCR Conditions                         
-1    94 °C 3min initial denaturation    94 °C 3min initial denaturation    94 °C 3min initial denaturation    94 °C 3min initial denaturation    94 °C 3min initial denaturation
-18 cycles    2    94 °C  30s    94 °C  30s    94 °C  30s    94 °C  30s    94 °C  30s
-    3    30 S from 64 °C to 54 °C  decrease 0.6 per cycle    30 S from 60 °C to 50 °C  decrease 0.6 per cycle    30 S from 60 °C to 50 °C  decrease 0.6 per cycle    30 S from 55°C to 45 °C  decrease 0.6 per cycle    30 S from 60 °C to 50 °C  decrease 0.6 per cycle
-    4    72 °C 30S      72 °C 30S      72 °C 30S      72 °C 30S      72 °C 30S  
-                          
-25
-cycles    5    94 °C 30s     94 °C 30s     94 °C 30s     94 °C 30s     94 °C 30s 
-    6    54 °C 30s    50 °C 30s    50 °C 30s    45 °C 30s    50 °C 30s
-    7    72 °C 30s    72 °C 30s    72 °C 30s    72 °C 30s    72 °C 30s
-                          
-Final   extention  8    72°C 10 min    72°C 10 min    72°C 10 min    72°C 10 min    72°C 10 min
-Preservation    15°C --    15°C --    15°C --    15°C --    15°C --
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Table 2. Primers and PCR conditions for each locus (Part I) version 0.3</span><br><span class="line">ID    1    2    3    4    5</span><br><span class="line">Locus    LOP1    PtTX2146    PtTX3025    PtTX3107    PtTX3116</span><br><span class="line">Dye    Cy5.5 green    D2 Black    D2 Black    D2 Black    Cy5 Blue</span><br><span class="line">Forward(5-3)    GGCTAATGGCCGGCCAGTGCT    CCTGGGGATTTGGATTGGGTATTTG    CACGCTGTATAATAACAATCTA    AAACAAGCCCACATCGTCAATC    CCTCCCAAAGCCTAAAGAAT</span><br><span class="line">Reverse(5-3)    GCGATTACAGGGTTGCAGCCT    ATATTTTCCTTGCCCCTTCCAGACA    TTCTATATTCGCTTTTAGTTTC    TCCCCTGGATCTGAGGA    CATACAAGGCCTTATCTTACAGAA</span><br><span class="line">Ta    Touch down 64-54°C    Touch down 60-50°C    Touch down 60-50°C    Touch down 55-45°C    Touch down 60-50°C</span><br><span class="line">size range    153-189    176-264    211-305    150-174    115-169</span><br><span class="line">PCR Conditions                         </span><br><span class="line">1    94 °C 3min initial denaturation    94 °C 3min initial denaturation    94 °C 3min initial denaturation    94 °C 3min initial denaturation    94 °C 3min initial denaturation</span><br><span class="line">18 cycles    2    94 °C  30s    94 °C  30s    94 °C  30s    94 °C  30s    94 °C  30s</span><br><span class="line">    3    30 S from 64 °C to 54 °C  decrease 0.6 per cycle    30 S from 60 °C to 50 °C  decrease 0.6 per cycle    30 S from 60 °C to 50 °C  decrease 0.6 per cycle    30 S from 55°C to 45 °C  decrease 0.6 per cycle    30 S from 60 °C to 50 °C  decrease 0.6 per cycle</span><br><span class="line">    4    72 °C 30S      72 °C 30S      72 °C 30S      72 °C 30S      72 °C 30S  </span><br><span class="line">                          </span><br><span class="line">25</span><br><span class="line">cycles    5    94 °C 30s     94 °C 30s     94 °C 30s     94 °C 30s     94 °C 30s </span><br><span class="line">    6    54 °C 30s    50 °C 30s    50 °C 30s    45 °C 30s    50 °C 30s</span><br><span class="line">    7    72 °C 30s    72 °C 30s    72 °C 30s    72 °C 30s    72 °C 30s</span><br><span class="line">                          </span><br><span class="line">Final   extention  8    72°C 10 min    72°C 10 min    72°C 10 min    72°C 10 min    72°C 10 min</span><br><span class="line">Preservation    15°C --    15°C --    15°C --    15°C --    15°C --</span><br></pre></td></tr></table></figure>
+
+
+
 <p>                    Date: 2012-3-13<br>       Jinlong
                     
                     
                     
                     </p>
-<pre><code>Table 2. Primers and PCR conditions for each locus (Part II) version 0.3
-ID    6    7    8    9
-Locus    PtTX4001    SsrPt_ctg1376    SsrPt_ctg4363    SPAC12.5
-Dye    Cy5  Blue    Cy5.5 Green    Cy5  Blue    Cy5.5 Green
-Forward(5-3)    CTATTTGAGTTAAGAAGGGAGTC    CGATATTATGGATTTTGCTTGTGA    TAATAATTCAAGCCACCCCG    CTTCTTCACTAGTTTCCTTTGG
-Reverse(5-3)    CTGTGGGTAGCATCATC    AAATGCATGCCAAACTTAAATAC    AGCAGGCTAATAACAACACGC    TTGGTTATAGGCATAGATTGC
-Ta    Touch down 55-45°C    Touch down 60-50°C    Touch down 64-54°C    Touch down 60-50°C
-size range    198-229    88-124    95-106    118-184
-PCR Conditions                    
-1    94 °C 3min initial denaturation    94 °C 3min initial denaturation    94 °C 3min initial denaturation    94 °C 3min initial denaturation
-18 cycles    2    94 °C  30s     94 °C  30s     94 °C  30s     94 °C  30s 
-    3    30 S from 55°C to 45 °C decrease 0.6 per cycle    30 S from 60 °C to 50 °C  decrease 0.6 per cycle    30 S from 64 °C to 54 °C  decrease 0.6 per cycle    30 S from 60 °C to 50 °C  decrease 0.6 per cycle
-    4    72 °C 30S      72 °C 30S      72 °C 30S      72 °C 30S  
-                     
-25
-cycles    5    94 °C 30s     94 °C 30s     94 °C 30s     94 °C 30s 
-    6    45 °C 30s    50 °C 30s    54 °C 30s    50 °C 30s
-    7    72 °C 30s    72 °C 30s    72 °C 30s    72 °C 30s
-                     
-Final 
-extention       8    72°C 10 min    72°C 10 min    72°C 10 min    72°C 10 min
-Preservation    15°C --    15°C --    15°C --    15°C --
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">Table 2. Primers and PCR conditions for each locus (Part II) version 0.3</span><br><span class="line">ID    6    7    8    9</span><br><span class="line">Locus    PtTX4001    SsrPt_ctg1376    SsrPt_ctg4363    SPAC12.5</span><br><span class="line">Dye    Cy5  Blue    Cy5.5 Green    Cy5  Blue    Cy5.5 Green</span><br><span class="line">Forward(5-3)    CTATTTGAGTTAAGAAGGGAGTC    CGATATTATGGATTTTGCTTGTGA    TAATAATTCAAGCCACCCCG    CTTCTTCACTAGTTTCCTTTGG</span><br><span class="line">Reverse(5-3)    CTGTGGGTAGCATCATC    AAATGCATGCCAAACTTAAATAC    AGCAGGCTAATAACAACACGC    TTGGTTATAGGCATAGATTGC</span><br><span class="line">Ta    Touch down 55-45°C    Touch down 60-50°C    Touch down 64-54°C    Touch down 60-50°C</span><br><span class="line">size range    198-229    88-124    95-106    118-184</span><br><span class="line">PCR Conditions                    </span><br><span class="line">1    94 °C 3min initial denaturation    94 °C 3min initial denaturation    94 °C 3min initial denaturation    94 °C 3min initial denaturation</span><br><span class="line">18 cycles    2    94 °C  30s     94 °C  30s     94 °C  30s     94 °C  30s </span><br><span class="line">    3    30 S from 55°C to 45 °C decrease 0.6 per cycle    30 S from 60 °C to 50 °C  decrease 0.6 per cycle    30 S from 64 °C to 54 °C  decrease 0.6 per cycle    30 S from 60 °C to 50 °C  decrease 0.6 per cycle</span><br><span class="line">    4    72 °C 30S      72 °C 30S      72 °C 30S      72 °C 30S  </span><br><span class="line">                     </span><br><span class="line">25</span><br><span class="line">cycles    5    94 °C 30s     94 °C 30s     94 °C 30s     94 °C 30s </span><br><span class="line">    6    45 °C 30s    50 °C 30s    54 °C 30s    50 °C 30s</span><br><span class="line">    7    72 °C 30s    72 °C 30s    72 °C 30s    72 °C 30s</span><br><span class="line">                     </span><br><span class="line">Final </span><br><span class="line">extention       8    72°C 10 min    72°C 10 min    72°C 10 min    72°C 10 min</span><br><span class="line">Preservation    15°C --    15°C --    15°C --    15°C --</span><br></pre></td></tr></table></figure>
+
 <p>                                             Date: 2012-3-13<br>                                                  Jinlong</p>
 <p>                                                  </p>
 <h1 id="实验五-PCR产物的检测"><a href="#实验五-PCR产物的检测" class="headerlink" title="实验五 PCR产物的检测"></a>实验五 PCR产物的检测</h1><h1 id="步骤：-1"><a href="#步骤：-1" class="headerlink" title="步骤："></a>步骤：</h1><h2 id="一-治胶"><a href="#一-治胶" class="headerlink" title="一 治胶"></a>一 治胶</h2><ol>
@@ -1142,25 +658,12 @@ Preservation    15°C --    15°C --    15°C --    15°C --
 <li>稀释模板DNA<br>        将提取到的总 DNA 吸取到96孔板上，根据Nanodrop对DNA的测量结果，用ddH2O稀释到10-20ng/uL，需要根据PCR的次数和每次DNA样品量确定要吸 取的DNA量，保证取样量至少多15uL以上。作为模板DNA，写清楚模板DNA的序号，日期，标签如下 Plate-I，放在4°C保存。</li>
 <li>准备模板标签<br>     对于96孔板，每一格填写如下信息： 1 序号（1-96，一般按照列保存）  2 DNA序列号（如E4218） 3 树编号 （UID，即每棵树所取的哪颗种子  如 81-8，表示81号树的第8颗种子）。</li>
 <li>模板DNA取样<br>    用排枪取2μL的模板DNA，加入到到96孔板管底部。由于不带有荧光，模板DNA的枪头可收集起来，可以作为毛细管电泳时混合样品用的枪头，但是要做好标记。</li>
-<li>混合反应体系 Master Mix<pre><code>No.    Conponent    Volume per tube    Concentration    ×25    Storage
-1    ddH2O     10.95    -    273.75    RT
-2    10×PCR buffer    1.6    -    40    -4°C
-3    2.5mM dNTP    1    0.15625    25    -4°C
-4    Forward Primer    0.2    0.125    5    -4°C
-5    Reverse Primer    0.2    0.125    5    -4°C
-6    Top Taq    0.05    2.5U    1.25    -20°C
-</code></pre>
+<li>混合反应体系 Master Mix<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">No.    Conponent    Volume per tube    Concentration    ×25    Storage</span><br><span class="line">1    ddH2O     10.95    -    273.75    RT</span><br><span class="line">2    10×PCR buffer    1.6    -    40    -4°C</span><br><span class="line">3    2.5mM dNTP    1    0.15625    25    -4°C</span><br><span class="line">4    Forward Primer    0.2    0.125    5    -4°C</span><br><span class="line">5    Reverse Primer    0.2    0.125    5    -4°C</span><br><span class="line">6    Top Taq    0.05    2.5U    1.25    -20°C</span><br></pre></td></tr></table></figure>
 对于任意一板的PCR反应，需要准备4个1.5mL的ep管，先放在冰盒上，按照1-6的顺序添加各组分到ep管中。盖好盖子，短离心，涡旋，短离心，确保体系混合均匀。</li>
 <li>用电子移液器（该移液器每次可吸取100μL，由于需要加入的反应体系是14μL，因此只能加7次，注意第一次吸取的液体要打掉，长音表明是最后一次），吸取反应体系，每管加入14μL。</li>
 <li>在96孔板的边缘标记好Plate号，引物名称等，之后贴Bio-Rad的PCR厚膜，用手柄压实，确保每一管的封口都严密。</li>
 <li>在振荡器上涡旋4-5下，确保反应体系和模板DNA充分混合。短离心，达到2000rpm以上。</li>
-<li>按照如下条件，设定touch down PCR:<pre><code>Tab.1 LOP1          TD 64 to 54       Tab. 2 PtTX2146        TD 60 to 50
-Tab.3 PtTX3025      TD 55 to 45       Tab. 4 PtTX3107        TD 55 to 45
-Tab.5 PtTX3116      TD 60 to 50       Tab. 6 PtTX4001        TD 60 to 50
-Tab.7 SsrPt_ctg1376 TD 60 to 50       Tab. 8 SsrPt_ctg4363   TD 64 to 54
-Tab.9 SPAC12.5      TD 55 to 45 
-</code></pre>
-</li>
+<li>按照如下条件，设定touch down PCR:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Tab.1 LOP1          TD 64 to 54       Tab. 2 PtTX2146        TD 60 to 50</span><br><span class="line">Tab.3 PtTX3025      TD 55 to 45       Tab. 4 PtTX3107        TD 55 to 45</span><br><span class="line">Tab.5 PtTX3116      TD 60 to 50       Tab. 6 PtTX4001        TD 60 to 50</span><br><span class="line">Tab.7 SsrPt_ctg1376 TD 60 to 50       Tab. 8 SsrPt_ctg4363   TD 64 to 54</span><br><span class="line">Tab.9 SPAC12.5      TD 55 to 45 </span><br></pre></td></tr></table></figure></li>
 <li>每个PCR需要耗时2.5h左右。反应结束后，将产物放到4°C冰箱中保存。</li>
 <li> 对产物进行琼脂糖凝胶电泳检测，一般每板随机抽检16个样品，点样的量一般为： <br>      Loading Buffer     2.5 μL<br>      PCR产物              3μL<br>      Ladder DNA         5μL</li>
 </ol>
@@ -1170,14 +673,7 @@ Tab.9 SPAC12.5      TD 55 to 45 
 <li>模板DNA取样<br>    用排枪取2μL的模板DNA，加入到到96孔板管底部。由于不带有荧光，模板DNA的枪头可收集起来，可以作为毛细管电泳时混合样品用的枪头，但是要做好标记。</li>
 <li>混合反应体系 Master Mix</li>
 </ol>
-<pre><code>No.    Conponent    Volume per tube    Concentration    ×25    Storage
-1    ddH2O     10.95    -    273.75    RT
-2    10×PCR buffer    1.6    -    40    -4°C
-3    2.5mM dNTP    1    0.15625    25    -4°C
-4    Forward Primer    0.2    0.125    5    -4°C
-5    Reverse Primer    0.2    0.125    5    -4°C
-6    Top Taq    0.05    2.5U    1.25    -20°C
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">No.    Conponent    Volume per tube    Concentration    ×25    Storage</span><br><span class="line">1    ddH2O     10.95    -    273.75    RT</span><br><span class="line">2    10×PCR buffer    1.6    -    40    -4°C</span><br><span class="line">3    2.5mM dNTP    1    0.15625    25    -4°C</span><br><span class="line">4    Forward Primer    0.2    0.125    5    -4°C</span><br><span class="line">5    Reverse Primer    0.2    0.125    5    -4°C</span><br><span class="line">6    Top Taq    0.05    2.5U    1.25    -20°C</span><br></pre></td></tr></table></figure>
 <p>         对于任意一板的PCR反应，需要准备4个1.5mL的ep管，先放在冰盒上，按照1-6的顺序添加各组分到ep管中。盖好盖子，短离心，涡旋，短离心，确保体系混合均匀。</p>
 <ol>
 <li><p>用电子移液器（该移液器每次可吸取100μL，由于需要加入的反应体系是14μL，因此只能加7次，注意第一次吸取的液体要打掉，长音表明是最后一次），吸取反应体系，每管加入14μL。</p>
@@ -1187,47 +683,20 @@ Tab.9 SPAC12.5      TD 55 to 45 
 <li><p>在振荡器上涡旋4-5下，确保反应体系和模板DNA充分混合。短离心，达到2000rpm以上。</p>
 </li>
 <li><p>按照如下条件，设定touch down PCR:</p>
-<pre><code>Tab.1 LOP1          TD 64 to 54       Tab. 2 PtTX2146        TD 60 to 50
-Tab.3 PtTX3025      TD 55 to 45       Tab. 4 PtTX3107        TD 55 to 45
-Tab.5 PtTX3116      TD 60 to 50       Tab. 6 PtTX4001        TD 60 to 50
-Tab.7 SsrPt_ctg1376 TD 60 to 50       Tab. 8 SsrPt_ctg4363   TD 64 to 54
-Tab.9 SPAC12.5      TD 55 to 45 
-</code></pre>
-</li>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Tab.1 LOP1          TD 64 to 54       Tab. 2 PtTX2146        TD 60 to 50</span><br><span class="line">Tab.3 PtTX3025      TD 55 to 45       Tab. 4 PtTX3107        TD 55 to 45</span><br><span class="line">Tab.5 PtTX3116      TD 60 to 50       Tab. 6 PtTX4001        TD 60 to 50</span><br><span class="line">Tab.7 SsrPt_ctg1376 TD 60 to 50       Tab. 8 SsrPt_ctg4363   TD 64 to 54</span><br><span class="line">Tab.9 SPAC12.5      TD 55 to 45 </span><br></pre></td></tr></table></figure></li>
 <li><p>每个PCR需要耗时2.5h左右。反应结束后，将产物放到4°C冰箱中保存。</p>
 </li>
 <li><p> 对产物进行琼脂糖凝胶电泳检测，一般每板随机抽检16个样品，点样的量一般为： <br>      Loading Buffer     2.5 μL<br>      PCR产物              3μL<br>      Ladder DNA         5μL</p>
 </li>
 </ol>
 <h1 id="实验八-在CEQ-8000上进行毛细管电泳"><a href="#实验八-在CEQ-8000上进行毛细管电泳" class="headerlink" title="实验八 在CEQ 8000上进行毛细管电泳"></a>实验八 在CEQ 8000上进行毛细管电泳</h1><p>一   准备Excel 作为样品的Label<br>每一板混合样的侧面，应该用记号笔标注清楚 ，例如2012-03-29-Plate-I-a<br>标签 文件，应该保存在Excel中，待毛细管电泳时，直接拷贝到CEQ8000的界面中。<br>表 2 96孔板标签的排列</p>
-<pre><code>     1    2    3    4    5    6    7    8    9    10    11    12
-A    69-1-a    69-2-a    69-3-a    69-4-a    69-5-a    69-6-a    69-7-a    69-8-a    69-9-a    69-10-a    69-11-a    143-4-a
-B    71-1-a    71-2-a    71-3-a    71-4-a    143-1-a    143-2-a    71-7-a    71-8-a    143-3-a    71-10-a    71-11-a    71-12-a
-C    73-1-a    73-2-a    73-3-a    73-4-a    73-5-a    73-6-a    73-7-a    73-8-a    73-9-a    73-10-a    73-11-a    73-12-a
-D    74-1-a    74-2-a    74-3-a    74-4-a    74-5-a    74-6-a    74-7-a    74-8-a    74-9-a    74-10-a    74-11-a    74-12-a
-E    81-1-a    81-2-a    81-3-a    81-4-a    81-5-a    81-6-a    81-7-a    81-8-a    81-9-a    81-10-a    81-11-a    81-12-a
-F    82-1-a    82-2-a    82-3-a    82-4-a    82-5-a    82-6-a    82-7-a    82-8-a    82-9-a    82-10-a    82-11-a    82-12-a
-G    84-1-a    84-2-a    84-3-a    84-4-a    84-5-a    84-6-a    84-7-a    84-8-a    84-9-a    84-10-a    84-11-a    84-12-a
-H    86-1-a    86-2-a    86-3-a    86-4-a    86-5-a    86-6-a    86-7-a    86-8-a    86-9-a    86-10-a    86-11-a    86-12-a
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">     1    2    3    4    5    6    7    8    9    10    11    12</span><br><span class="line">A    69-1-a    69-2-a    69-3-a    69-4-a    69-5-a    69-6-a    69-7-a    69-8-a    69-9-a    69-10-a    69-11-a    143-4-a</span><br><span class="line">B    71-1-a    71-2-a    71-3-a    71-4-a    143-1-a    143-2-a    71-7-a    71-8-a    143-3-a    71-10-a    71-11-a    71-12-a</span><br><span class="line">C    73-1-a    73-2-a    73-3-a    73-4-a    73-5-a    73-6-a    73-7-a    73-8-a    73-9-a    73-10-a    73-11-a    73-12-a</span><br><span class="line">D    74-1-a    74-2-a    74-3-a    74-4-a    74-5-a    74-6-a    74-7-a    74-8-a    74-9-a    74-10-a    74-11-a    74-12-a</span><br><span class="line">E    81-1-a    81-2-a    81-3-a    81-4-a    81-5-a    81-6-a    81-7-a    81-8-a    81-9-a    81-10-a    81-11-a    81-12-a</span><br><span class="line">F    82-1-a    82-2-a    82-3-a    82-4-a    82-5-a    82-6-a    82-7-a    82-8-a    82-9-a    82-10-a    82-11-a    82-12-a</span><br><span class="line">G    84-1-a    84-2-a    84-3-a    84-4-a    84-5-a    84-6-a    84-7-a    84-8-a    84-9-a    84-10-a    84-11-a    84-12-a</span><br><span class="line">H    86-1-a    86-2-a    86-3-a    86-4-a    86-5-a    86-6-a    86-7-a    86-8-a    86-9-a    86-10-a    86-11-a    86-12-a</span><br></pre></td></tr></table></figure>
 <h2 id="二-待检-样品的混合"><a href="#二-待检-样品的混合" class="headerlink" title="二 待检 样品的混合"></a>二 待检 样品的混合</h2><ol>
 <li>取96孔上样板和PCR中吸取过DNA的10μL枪头。</li>
 <li>按照顺序排好PCR产物，按照以下量, 用10uL排枪分组添加如下产物到管底部。 注意，每个上样板都由三种产物混合，每次DNA吸取后，都要换枪头。</li>
 </ol>
-<pre><code> Table 1 Information for the labeld primers
-Primer    Label    PCR frag length    Color    Group    Volume (uL)
-SsrPt_ctg1376    Cy5.5    88-124    Green    1 a    2
-PtTX4001    Cy5    198-229    Blue    1 a    0.5
-PtTX3107    D2    150-174    Black    1 a    4.5
-                    
-SPAC12.5    Cy5.5    118-184    Green    2 b    2
-SsrPt?_ctg4363    Cy5    95-106    Blue    2 b    0.5
-PtTX3025    D2    211-305    Black    2 b    4.5
-                    
-LOP1    Cy5.5    153-189    Green    3 c    2
-PtTX3116    Cy5    115-169    Blue    3 c    0.5
-PtTX2146    D2    176-264    Black    3 c    4.5
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"> Table 1 Information for the labeld primers</span><br><span class="line">Primer    Label    PCR frag length    Color    Group    Volume (uL)</span><br><span class="line">SsrPt_ctg1376    Cy5.5    88-124    Green    1 a    2</span><br><span class="line">PtTX4001    Cy5    198-229    Blue    1 a    0.5</span><br><span class="line">PtTX3107    D2    150-174    Black    1 a    4.5</span><br><span class="line">                    </span><br><span class="line">SPAC12.5    Cy5.5    118-184    Green    2 b    2</span><br><span class="line">SsrPt?_ctg4363    Cy5    95-106    Blue    2 b    0.5</span><br><span class="line">PtTX3025    D2    211-305    Black    2 b    4.5</span><br><span class="line">                    </span><br><span class="line">LOP1    Cy5.5    153-189    Green    3 c    2</span><br><span class="line">PtTX3116    Cy5    115-169    Blue    3 c    0.5</span><br><span class="line">PtTX2146    D2    176-264    Black    3 c    4.5</span><br></pre></td></tr></table></figure>
+
 <ol>
 <li>取塑料纸盒，一般每板需要两个2mL ep管的HD，倒入纸盒内。取黄色枪头，每一管，加入30uL 已经混合好的Hi-Di (HD)，无需换枪头。</li>
 <li>用新的黄枪头，将每一列孔的样品反复吸放几次，以混合均匀。 贴96孔板塑料膜。</li>
@@ -1261,7 +730,7 @@ PtTX2146    D2    176-264    Black    3 c    4.5
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2013/02/07/2013-2-7-pcr/" data-id="ckmq42alo00dy1k847tky1ljt" data-title="瑞典纪事: 实验记录DNA提取/PCR/毛细管电泳" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2013/02/07/2013-2-7-pcr/" data-id="ckmt6y7lw0051mgyaf73gbgfu" data-title="瑞典纪事: 实验记录DNA提取/PCR/毛细管电泳" class="article-share-link">Share</a>
       
       
       
@@ -1305,174 +774,12 @@ PtTX2146    D2    176-264    Black    3 c    4.5
 <p>进入嘉道理农场工作以来， 我的工作包括采集标本。 从采集记录快速生成采集标签的需求又一次摆在我面前。 但是陈彬博士提供的excel程序各部分都是中文， 但是我需要输入英文， 标签的格式也要进行相应的调整。 基于他提供的VBA程序， 我对VBA的源代码进行了修改， 调整了输出标签的格式，以及字体， 每一行的大小， 以及插入分隔符的位置等。 </p>
 <p>实现的功能<br>输入 在sheet1中按照要求相应的采集信息， 执行本命令， 例如用按钮关联，在sheet2中就可以生成固定的标签。 </p>
 <p>以下是Excel VBA中的源代码。 供感兴趣的读者参考， 并欢迎提出宝贵意见。</p>
-<pre><code class="vb"> &#39;&#39;#########################################################################
-&#39;&#39;########## This macro was developed Dr. JinlongZhang  base on ##########
-&#39;&#39;################# a  VBA macro by Dr.  Bin Chen #########################
-&#39;&#39;################# Email : jinlongzhang01@gmail.com ####################
-&#39;&#39;#########################  30/01/2013 ###################################
-&#39;&#39;#########################################################################
-Dim a, b, c, d,e, f, g As Integer  &#39;Definition of the variables
-&#39;Maximum Number of labels can be created
-&#39;b
-Sheet2.Columns.Clear
-Sheet2.ResetAllPageBreaks
-Sheet2.DisplayPageBreaks = False
-c = 1                               &#39;
-d = 0
-For a = 2 To 50000
-   If Sheet1.Cells(a, 1) = &quot;&quot; Then
-      MsgBox &quot;Please find the labels in Sheet 2&quot;
-       Exit For
-   Else
-       g =Sheet1.Cells(a, 16)   &#39; Numberof copies for one collection number
-       For b = 1 To g
-            If d &gt; 1 And (d Mod 8 = 0 Or d Mod 8 = 1) Then &#39;A justing the margins, and number of labels per page.
-              f = 13
-            Else
-              f = 14
-            End If
-        If d &gt; 1 And (d Mod 2 = 0) Then
-           c = c + f
-       End If
-           e = (d + 1) Mod 2
-If e = 1 Then
-  Sheet2.Cells(c, 1) = TextBox1.Text
-  Sheet2.Cells(c + 1, 1) = TextBox2.Text
-  Sheet2.Cells(c + 2, 1) = Sheet1.Cells(a, 4) &#39;&quot;Species: &quot;
-  Sheet2.Cells(c + 3, 1) = Sheet1.Cells(a, 5) &#39; &quot;Infraspecies: &quot;
-  Sheet2.Cells(c + 4, 1) = &quot;Family: &quot; +Sheet1.Cells(a, 8)
-  Sheet2.Cells(c + 5, 1) = &quot;Local Name: &quot; +Sheet1.Cells(a, 6)
-  Sheet2.Cells(c + 6, 1) = &quot;Field Note: &quot; +Sheet1.Cells(a, 9)
-  Sheet2.Cells(c + 7, 1) = &quot;Locality: &quot; +Sheet1.Cells(a, 17)
-  Sheet2.Cells(c + 8, 1) = &quot;Lon/Lat/Alt: &quot; +Sheet1.Cells(a, 18) + &quot;/&quot; +Sheet1.Cells(a, 19) + &quot;/&quot; +Sheet1.Cells(a, 20) + &quot;m&quot;
-  Sheet2.Cells(c + 9, 1) = &quot;Col. &amp; Num: &quot; + Sheet1.Cells(a, 2) + &quot; &quot; +Sheet1.Cells(a, 1)
-  Sheet2.Cells(c + 10, 1) = &quot;Date Col.: &quot; +Sheet1.Cells(a, 3)
-  Sheet2.Cells(c + 11, 1) = &quot;Det. &amp; Date: &quot; + Sheet1.Cells(a, 24) + &quot;/&quot; +Sheet1.Cells(a, 25)
-  Sheet2.Cells(c + 12, 1) = &quot;Note: &quot; +Sheet1.Cells(a, 13)
-   With Sheet2  &#39;applicaton    &#39; Adjusting the display of the text
-       &#39;Set height for rows
-       .Range(.Cells(c,1), .Cells(c+ 12, 1)).RowHeight = 12
-       &#39;Set width for columns
-       .Range(.Cells(c,1), .Cells(c+ 12, 1)).ColumnWidth = 42
-       .Range(.Cells(c,1), .Cells(c+ 12, 1)).Font.Name = &quot;Arial&quot;
-       .Range(.Cells(c,1), .Cells(c+ 12, 1)).Font.Size = 11       &#39;Size
-       .Range(.Cells(c,1), .Cells(c+ 12, 1)).HorizontalAlignment = xlGeneral
-       .Range(.Cells(c,1), .Cells(c+ 12, 1)).VerticalAlignment = xlCenter
-       .Range(.Cells(c,1), .Cells(c+ 12, 1)).WrapText = False
-       .Range(.Cells(c,1), .Cells(c+ 12, 1)).Orientation = 0
-       .Range(.Cells(c,1), .Cells(c+ 12, 1)).AddIndent = False
-       .Range(.Cells(c,1), .Cells(c+ 12, 1)).IndentLevel = 0
-       .Range(.Cells(c,1), .Cells(c+ 12, 1)).ShrinkToFit = True
-       .Range(.Cells(c,1), .Cells(c+ 12, 1)).ReadingOrder = xlContext
-       .Range(.Cells(c,1), .Cells(c+ 12, 1)).MergeCells = False
-   End With
-   With Sheet2.Cells(c, 1)  &#39;Adjusting the Title, right
-       .Font.Name= &quot;Arial&quot; &#39;Font
-       .Font.Size= 12     &#39;Size
-       .Font.Bold= True   &#39;Alignment
-       .HorizontalAlignment= xlCenter
-       .VerticalAlignment= xlCenter
-       .WrapText= False
-       .Orientation= 0
-       .AddIndent= False
-       .IndentLevel= 0
-       .ShrinkToFit= True
-       .ReadingOrder= xlContext
-       .MergeCells= False
-   End With
-   With Sheet2.Cells(c + 1, 1)   &#39; Formatthe subtitle
-       .HorizontalAlignment= xlCenter
-       .VerticalAlignment= xlCenter
-       .Font.Name= &quot;Times New Roman&quot; &#39;Font
-       .Font.Size= 12     &#39;Size
-   End With
-ElseIf e = 0 Then
-  Sheet2.Cells(c, 2) = TextBox1.Text          &#39;Title
-  Sheet2.Cells(c + 1, 2) = TextBox2.Text      &#39;Subtitle
-  Sheet2.Cells(c + 2, 2) = Sheet1.Cells(a, 4) &#39;&quot;Species: &quot;
-  Sheet2.Cells(c + 3, 2) = Sheet1.Cells(a, 5) &#39; &quot;Infraspecies: &quot;
-  Sheet2.Cells(c + 4, 2) = &quot;Family: &quot; +Sheet1.Cells(a, 8)
-  Sheet2.Cells(c + 5, 2) = &quot;Local Name: &quot; +Sheet1.Cells(a, 6)
-  Sheet2.Cells(c + 6, 2) = &quot;Field Note: &quot; +Sheet1.Cells(a, 9)
-  Sheet2.Cells(c + 7, 2) = &quot;Locality: &quot; +Sheet1.Cells(a, 17)
-  Sheet2.Cells(c + 8, 2) = &quot;Lon/Lat/Alt: &quot; +Sheet1.Cells(a, 18) + &quot;/&quot; +Sheet1.Cells(a, 19) + &quot;/&quot; +Sheet1.Cells(a, 20) + &quot;m&quot;
-  Sheet2.Cells(c + 9, 2) = &quot;Col. &amp; Num: &quot; + Sheet1.Cells(a, 2) + &quot; &quot; +Sheet1.Cells(a, 1)
-  Sheet2.Cells(c + 10, 2) = &quot;Date Col.: &quot; +Sheet1.Cells(a, 3)
-  Sheet2.Cells(c + 11, 2) = &quot;Det. &amp; Date: &quot; + Sheet1.Cells(a, 24) + &quot;/&quot; +Sheet1.Cells(a, 25)
-  Sheet2.Cells(c + 12, 2) = &quot;Note: &quot; +Sheet1.Cells(a, 13)
-   With Sheet2  &#39;applicaton
-       .Range(.Cells(c,2), .Cells(c+ 12, 2)).RowHeight = 12         &#39;Setheight for rows
-       .Range(.Cells(c,2), .Cells(c+ 12, 2)).ColumnWidth = 42       &#39;Setwidth for columns
-       .Range(.Cells(c,2), .Cells(c+ 12, 2)).Font.Name = &quot;Arial&quot;
-       .Range(.Cells(c,2), .Cells(c+ 12, 2)).Font.Size = 11          &#39;Size
-       .Range(.Cells(c,2), .Cells(c+ 12, 2)).HorizontalAlignment = xlGeneral
-       .Range(.Cells(c,2), .Cells(c+ 12, 2)).VerticalAlignment = xlCenter
-       .Range(.Cells(c,2), .Cells(c+ 12, 2)).WrapText = False
-       .Range(.Cells(c,2), .Cells(c+ 12, 2)).Orientation = 0
-       .Range(.Cells(c,2), .Cells(c+ 12, 2)).AddIndent = False
-       .Range(.Cells(c,2), .Cells(c+ 12, 2)).IndentLevel = 0
-       .Range(.Cells(c,2), .Cells(c+ 12, 2)).ShrinkToFit = True
-       .Range(.Cells(c,2), .Cells(c+ 12, 2)).ReadingOrder = xlContext
-       .Range(.Cells(c,2), .Cells(c+ 12, 2)).MergeCells = False
-   End With
-   With Sheet2.Cells(c, 2)  &#39;Adjusting the label, right
-       .Font.Name= &quot;Arial&quot; &#39;Font
-       .Font.Size= 12     &#39;Size
-       .Font.Bold= True   &#39;Alignment
-       .HorizontalAlignment= xlCenter
-       .VerticalAlignment= xlCenter
-       .WrapText= False
-       .Orientation= 0
-       .AddIndent= False
-       .IndentLevel= 0
-       .ShrinkToFit= True
-       .ReadingOrder= xlContext
-       .MergeCells= False
-   End With
-   With Sheet2.Cells(c + 1, 2)            &#39;Formatthe subtitle
-       .HorizontalAlignment= xlCenter
-       .VerticalAlignment= xlCenter
-       .Font.Name= &quot;Times New Roman&quot;   &#39;Font
-       .Font.Size= 12                  &#39;Size
-   End With
-  End If
- d =d + 1
- Next b
-   If f = 13 And c &gt; 1 Then
-                      Sheet2.HPageBreaks.AddBefore:=Sheet2.Cells(c, 1)
-   End If
- End If
-Next a
-   With Sheet2.PageSetup
-       .LeftMargin= Application.InchesToPoints(0.5)
-       .RightMargin= Application.InchesToPoints(0.5)
-       .TopMargin= Application.InchesToPoints(0.5)
-       .BottomMargin= Application.InchesToPoints(0.5)
-       .HeaderMargin= Application.InchesToPoints(0.5)
-       .FooterMargin= Application.InchesToPoints(0.5)
-       .PrintHeadings = False
-       .PrintGridlines= False
-       .PrintNotes= False
-       .CenterHorizontally= False
-       .CenterVertically= False
-       .Orientation= xlPortrait
-       .Draft= False
-       .PaperSize= xlPaperA4                  &#39; xlPaperA4:A4
-       .FirstPageNumber= xlAutomatic
-       .Order= xlDownThenOver
-       .BlackAndWhite= False
-       .Zoom= 100
-       .FitToPagesWide= 1
-       .FitToPagesTall= 1
-       .PrintErrors= xlPrintErrorsDisplayed
-       End With
-Sheet2.PrintPreview
-</code></pre>
+<figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">&#x27;&#x27;#########################################################################</span></span><br><span class="line"><span class="comment">&#x27;&#x27;########## This macro was developed Dr. JinlongZhang  base on ##########</span></span><br><span class="line"><span class="comment">&#x27;&#x27;################# a  VBA macro by Dr.  Bin Chen #########################</span></span><br><span class="line"><span class="comment">&#x27;&#x27;################# Email : jinlongzhang01@gmail.com ####################</span></span><br><span class="line"><span class="comment">&#x27;&#x27;#########################  30/01/2013 ###################################</span></span><br><span class="line"><span class="comment">&#x27;&#x27;#########################################################################</span></span><br><span class="line"><span class="keyword">Dim</span> a, b, c, d,e, f, g <span class="keyword">As</span> <span class="type">Integer</span>  <span class="comment">&#x27;Definition of the variables</span></span><br><span class="line"><span class="comment">&#x27;Maximum Number of labels can be created</span></span><br><span class="line"><span class="comment">&#x27;b</span></span><br><span class="line">Sheet2.Columns.Clear</span><br><span class="line">Sheet2.ResetAllPageBreaks</span><br><span class="line">Sheet2.DisplayPageBreaks = <span class="literal">False</span></span><br><span class="line">c = <span class="number">1</span>                               <span class="comment">&#x27;</span></span><br><span class="line">d = <span class="number">0</span></span><br><span class="line"><span class="keyword">For</span> a = <span class="number">2</span> <span class="keyword">To</span> <span class="number">50000</span></span><br><span class="line">   <span class="keyword">If</span> Sheet1.Cells(a, <span class="number">1</span>) = <span class="string">&quot;&quot;</span> <span class="keyword">Then</span></span><br><span class="line">      MsgBox <span class="string">&quot;Please find the labels in Sheet 2&quot;</span></span><br><span class="line">       <span class="keyword">Exit</span> <span class="keyword">For</span></span><br><span class="line">   <span class="keyword">Else</span></span><br><span class="line">       g =Sheet1.Cells(a, <span class="number">16</span>)   <span class="comment">&#x27; Numberof copies for one collection number</span></span><br><span class="line">       <span class="keyword">For</span> b = <span class="number">1</span> <span class="keyword">To</span> g</span><br><span class="line">            <span class="keyword">If</span> d &gt; <span class="number">1</span> <span class="built_in">And</span> (d <span class="built_in">Mod</span> <span class="number">8</span> = <span class="number">0</span> <span class="built_in">Or</span> d <span class="built_in">Mod</span> <span class="number">8</span> = <span class="number">1</span>) <span class="keyword">Then</span> <span class="comment">&#x27;A justing the margins, and number of labels per page.</span></span><br><span class="line">              f = <span class="number">13</span></span><br><span class="line">            <span class="keyword">Else</span></span><br><span class="line">              f = <span class="number">14</span></span><br><span class="line">            <span class="keyword">End</span> <span class="keyword">If</span></span><br><span class="line">        <span class="keyword">If</span> d &gt; <span class="number">1</span> <span class="built_in">And</span> (d <span class="built_in">Mod</span> <span class="number">2</span> = <span class="number">0</span>) <span class="keyword">Then</span></span><br><span class="line">           c = c + f</span><br><span class="line">       <span class="keyword">End</span> <span class="keyword">If</span></span><br><span class="line">           e = (d + <span class="number">1</span>) <span class="built_in">Mod</span> <span class="number">2</span></span><br><span class="line"><span class="keyword">If</span> e = <span class="number">1</span> <span class="keyword">Then</span></span><br><span class="line">  Sheet2.Cells(c, <span class="number">1</span>) = TextBox1.<span class="keyword">Text</span></span><br><span class="line">  Sheet2.Cells(c + <span class="number">1</span>, <span class="number">1</span>) = TextBox2.<span class="keyword">Text</span></span><br><span class="line">  Sheet2.Cells(c + <span class="number">2</span>, <span class="number">1</span>) = Sheet1.Cells(a, <span class="number">4</span>) <span class="comment">&#x27;&quot;Species: &quot;</span></span><br><span class="line">  Sheet2.Cells(c + <span class="number">3</span>, <span class="number">1</span>) = Sheet1.Cells(a, <span class="number">5</span>) <span class="comment">&#x27; &quot;Infraspecies: &quot;</span></span><br><span class="line">  Sheet2.Cells(c + <span class="number">4</span>, <span class="number">1</span>) = <span class="string">&quot;Family: &quot;</span> +Sheet1.Cells(a, <span class="number">8</span>)</span><br><span class="line">  Sheet2.Cells(c + <span class="number">5</span>, <span class="number">1</span>) = <span class="string">&quot;Local Name: &quot;</span> +Sheet1.Cells(a, <span class="number">6</span>)</span><br><span class="line">  Sheet2.Cells(c + <span class="number">6</span>, <span class="number">1</span>) = <span class="string">&quot;Field Note: &quot;</span> +Sheet1.Cells(a, <span class="number">9</span>)</span><br><span class="line">  Sheet2.Cells(c + <span class="number">7</span>, <span class="number">1</span>) = <span class="string">&quot;Locality: &quot;</span> +Sheet1.Cells(a, <span class="number">17</span>)</span><br><span class="line">  Sheet2.Cells(c + <span class="number">8</span>, <span class="number">1</span>) = <span class="string">&quot;Lon/Lat/Alt: &quot;</span> +Sheet1.Cells(a, <span class="number">18</span>) + <span class="string">&quot;/&quot;</span> +Sheet1.Cells(a, <span class="number">19</span>) + <span class="string">&quot;/&quot;</span> +Sheet1.Cells(a, <span class="number">20</span>) + <span class="string">&quot;m&quot;</span></span><br><span class="line">  Sheet2.Cells(c + <span class="number">9</span>, <span class="number">1</span>) = <span class="string">&quot;Col. &amp; Num: &quot;</span> + Sheet1.Cells(a, <span class="number">2</span>) + <span class="string">&quot; &quot;</span> +Sheet1.Cells(a, <span class="number">1</span>)</span><br><span class="line">  Sheet2.Cells(c + <span class="number">10</span>, <span class="number">1</span>) = <span class="string">&quot;Date Col.: &quot;</span> +Sheet1.Cells(a, <span class="number">3</span>)</span><br><span class="line">  Sheet2.Cells(c + <span class="number">11</span>, <span class="number">1</span>) = <span class="string">&quot;Det. &amp; Date: &quot;</span> + Sheet1.Cells(a, <span class="number">24</span>) + <span class="string">&quot;/&quot;</span> +Sheet1.Cells(a, <span class="number">25</span>)</span><br><span class="line">  Sheet2.Cells(c + <span class="number">12</span>, <span class="number">1</span>) = <span class="string">&quot;Note: &quot;</span> +Sheet1.Cells(a, <span class="number">13</span>)</span><br><span class="line">   <span class="keyword">With</span> Sheet2  <span class="comment">&#x27;applicaton    &#x27; Adjusting the display of the text</span></span><br><span class="line">       <span class="comment">&#x27;Set height for rows</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">1</span>), .Cells(c+ <span class="number">12</span>, <span class="number">1</span>)).RowHeight = <span class="number">12</span></span><br><span class="line">       <span class="comment">&#x27;Set width for columns</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">1</span>), .Cells(c+ <span class="number">12</span>, <span class="number">1</span>)).ColumnWidth = <span class="number">42</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">1</span>), .Cells(c+ <span class="number">12</span>, <span class="number">1</span>)).Font.Name = <span class="string">&quot;Arial&quot;</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">1</span>), .Cells(c+ <span class="number">12</span>, <span class="number">1</span>)).Font.Size = <span class="number">11</span>       <span class="comment">&#x27;Size</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">1</span>), .Cells(c+ <span class="number">12</span>, <span class="number">1</span>)).HorizontalAlignment = xlGeneral</span><br><span class="line">       .Range(.Cells(c,<span class="number">1</span>), .Cells(c+ <span class="number">12</span>, <span class="number">1</span>)).VerticalAlignment = xlCenter</span><br><span class="line">       .Range(.Cells(c,<span class="number">1</span>), .Cells(c+ <span class="number">12</span>, <span class="number">1</span>)).WrapText = <span class="literal">False</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">1</span>), .Cells(c+ <span class="number">12</span>, <span class="number">1</span>)).Orientation = <span class="number">0</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">1</span>), .Cells(c+ <span class="number">12</span>, <span class="number">1</span>)).AddIndent = <span class="literal">False</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">1</span>), .Cells(c+ <span class="number">12</span>, <span class="number">1</span>)).IndentLevel = <span class="number">0</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">1</span>), .Cells(c+ <span class="number">12</span>, <span class="number">1</span>)).ShrinkToFit = <span class="literal">True</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">1</span>), .Cells(c+ <span class="number">12</span>, <span class="number">1</span>)).ReadingOrder = xlContext</span><br><span class="line">       .Range(.Cells(c,<span class="number">1</span>), .Cells(c+ <span class="number">12</span>, <span class="number">1</span>)).MergeCells = <span class="literal">False</span></span><br><span class="line">   <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line">   <span class="keyword">With</span> Sheet2.Cells(c, <span class="number">1</span>)  <span class="comment">&#x27;Adjusting the Title, right</span></span><br><span class="line">       .Font.Name= <span class="string">&quot;Arial&quot;</span> <span class="comment">&#x27;Font</span></span><br><span class="line">       .Font.Size= <span class="number">12</span>     <span class="comment">&#x27;Size</span></span><br><span class="line">       .Font.Bold= <span class="literal">True</span>   <span class="comment">&#x27;Alignment</span></span><br><span class="line">       .HorizontalAlignment= xlCenter</span><br><span class="line">       .VerticalAlignment= xlCenter</span><br><span class="line">       .WrapText= <span class="literal">False</span></span><br><span class="line">       .Orientation= <span class="number">0</span></span><br><span class="line">       .AddIndent= <span class="literal">False</span></span><br><span class="line">       .IndentLevel= <span class="number">0</span></span><br><span class="line">       .ShrinkToFit= <span class="literal">True</span></span><br><span class="line">       .ReadingOrder= xlContext</span><br><span class="line">       .MergeCells= <span class="literal">False</span></span><br><span class="line">   <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line">   <span class="keyword">With</span> Sheet2.Cells(c + <span class="number">1</span>, <span class="number">1</span>)   <span class="comment">&#x27; Formatthe subtitle</span></span><br><span class="line">       .HorizontalAlignment= xlCenter</span><br><span class="line">       .VerticalAlignment= xlCenter</span><br><span class="line">       .Font.Name= <span class="string">&quot;Times New Roman&quot;</span> <span class="comment">&#x27;Font</span></span><br><span class="line">       .Font.Size= <span class="number">12</span>     <span class="comment">&#x27;Size</span></span><br><span class="line">   <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line"><span class="keyword">ElseIf</span> e = <span class="number">0</span> <span class="keyword">Then</span></span><br><span class="line">  Sheet2.Cells(c, <span class="number">2</span>) = TextBox1.<span class="keyword">Text</span>          <span class="comment">&#x27;Title</span></span><br><span class="line">  Sheet2.Cells(c + <span class="number">1</span>, <span class="number">2</span>) = TextBox2.<span class="keyword">Text</span>      <span class="comment">&#x27;Subtitle</span></span><br><span class="line">  Sheet2.Cells(c + <span class="number">2</span>, <span class="number">2</span>) = Sheet1.Cells(a, <span class="number">4</span>) <span class="comment">&#x27;&quot;Species: &quot;</span></span><br><span class="line">  Sheet2.Cells(c + <span class="number">3</span>, <span class="number">2</span>) = Sheet1.Cells(a, <span class="number">5</span>) <span class="comment">&#x27; &quot;Infraspecies: &quot;</span></span><br><span class="line">  Sheet2.Cells(c + <span class="number">4</span>, <span class="number">2</span>) = <span class="string">&quot;Family: &quot;</span> +Sheet1.Cells(a, <span class="number">8</span>)</span><br><span class="line">  Sheet2.Cells(c + <span class="number">5</span>, <span class="number">2</span>) = <span class="string">&quot;Local Name: &quot;</span> +Sheet1.Cells(a, <span class="number">6</span>)</span><br><span class="line">  Sheet2.Cells(c + <span class="number">6</span>, <span class="number">2</span>) = <span class="string">&quot;Field Note: &quot;</span> +Sheet1.Cells(a, <span class="number">9</span>)</span><br><span class="line">  Sheet2.Cells(c + <span class="number">7</span>, <span class="number">2</span>) = <span class="string">&quot;Locality: &quot;</span> +Sheet1.Cells(a, <span class="number">17</span>)</span><br><span class="line">  Sheet2.Cells(c + <span class="number">8</span>, <span class="number">2</span>) = <span class="string">&quot;Lon/Lat/Alt: &quot;</span> +Sheet1.Cells(a, <span class="number">18</span>) + <span class="string">&quot;/&quot;</span> +Sheet1.Cells(a, <span class="number">19</span>) + <span class="string">&quot;/&quot;</span> +Sheet1.Cells(a, <span class="number">20</span>) + <span class="string">&quot;m&quot;</span></span><br><span class="line">  Sheet2.Cells(c + <span class="number">9</span>, <span class="number">2</span>) = <span class="string">&quot;Col. &amp; Num: &quot;</span> + Sheet1.Cells(a, <span class="number">2</span>) + <span class="string">&quot; &quot;</span> +Sheet1.Cells(a, <span class="number">1</span>)</span><br><span class="line">  Sheet2.Cells(c + <span class="number">10</span>, <span class="number">2</span>) = <span class="string">&quot;Date Col.: &quot;</span> +Sheet1.Cells(a, <span class="number">3</span>)</span><br><span class="line">  Sheet2.Cells(c + <span class="number">11</span>, <span class="number">2</span>) = <span class="string">&quot;Det. &amp; Date: &quot;</span> + Sheet1.Cells(a, <span class="number">24</span>) + <span class="string">&quot;/&quot;</span> +Sheet1.Cells(a, <span class="number">25</span>)</span><br><span class="line">  Sheet2.Cells(c + <span class="number">12</span>, <span class="number">2</span>) = <span class="string">&quot;Note: &quot;</span> +Sheet1.Cells(a, <span class="number">13</span>)</span><br><span class="line">   <span class="keyword">With</span> Sheet2  <span class="comment">&#x27;applicaton</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">2</span>), .Cells(c+ <span class="number">12</span>, <span class="number">2</span>)).RowHeight = <span class="number">12</span>         <span class="comment">&#x27;Setheight for rows</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">2</span>), .Cells(c+ <span class="number">12</span>, <span class="number">2</span>)).ColumnWidth = <span class="number">42</span>       <span class="comment">&#x27;Setwidth for columns</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">2</span>), .Cells(c+ <span class="number">12</span>, <span class="number">2</span>)).Font.Name = <span class="string">&quot;Arial&quot;</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">2</span>), .Cells(c+ <span class="number">12</span>, <span class="number">2</span>)).Font.Size = <span class="number">11</span>          <span class="comment">&#x27;Size</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">2</span>), .Cells(c+ <span class="number">12</span>, <span class="number">2</span>)).HorizontalAlignment = xlGeneral</span><br><span class="line">       .Range(.Cells(c,<span class="number">2</span>), .Cells(c+ <span class="number">12</span>, <span class="number">2</span>)).VerticalAlignment = xlCenter</span><br><span class="line">       .Range(.Cells(c,<span class="number">2</span>), .Cells(c+ <span class="number">12</span>, <span class="number">2</span>)).WrapText = <span class="literal">False</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">2</span>), .Cells(c+ <span class="number">12</span>, <span class="number">2</span>)).Orientation = <span class="number">0</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">2</span>), .Cells(c+ <span class="number">12</span>, <span class="number">2</span>)).AddIndent = <span class="literal">False</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">2</span>), .Cells(c+ <span class="number">12</span>, <span class="number">2</span>)).IndentLevel = <span class="number">0</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">2</span>), .Cells(c+ <span class="number">12</span>, <span class="number">2</span>)).ShrinkToFit = <span class="literal">True</span></span><br><span class="line">       .Range(.Cells(c,<span class="number">2</span>), .Cells(c+ <span class="number">12</span>, <span class="number">2</span>)).ReadingOrder = xlContext</span><br><span class="line">       .Range(.Cells(c,<span class="number">2</span>), .Cells(c+ <span class="number">12</span>, <span class="number">2</span>)).MergeCells = <span class="literal">False</span></span><br><span class="line">   <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line">   <span class="keyword">With</span> Sheet2.Cells(c, <span class="number">2</span>)  <span class="comment">&#x27;Adjusting the label, right</span></span><br><span class="line">       .Font.Name= <span class="string">&quot;Arial&quot;</span> <span class="comment">&#x27;Font</span></span><br><span class="line">       .Font.Size= <span class="number">12</span>     <span class="comment">&#x27;Size</span></span><br><span class="line">       .Font.Bold= <span class="literal">True</span>   <span class="comment">&#x27;Alignment</span></span><br><span class="line">       .HorizontalAlignment= xlCenter</span><br><span class="line">       .VerticalAlignment= xlCenter</span><br><span class="line">       .WrapText= <span class="literal">False</span></span><br><span class="line">       .Orientation= <span class="number">0</span></span><br><span class="line">       .AddIndent= <span class="literal">False</span></span><br><span class="line">       .IndentLevel= <span class="number">0</span></span><br><span class="line">       .ShrinkToFit= <span class="literal">True</span></span><br><span class="line">       .ReadingOrder= xlContext</span><br><span class="line">       .MergeCells= <span class="literal">False</span></span><br><span class="line">   <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line">   <span class="keyword">With</span> Sheet2.Cells(c + <span class="number">1</span>, <span class="number">2</span>)            <span class="comment">&#x27;Formatthe subtitle</span></span><br><span class="line">       .HorizontalAlignment= xlCenter</span><br><span class="line">       .VerticalAlignment= xlCenter</span><br><span class="line">       .Font.Name= <span class="string">&quot;Times New Roman&quot;</span>   <span class="comment">&#x27;Font</span></span><br><span class="line">       .Font.Size= <span class="number">12</span>                  <span class="comment">&#x27;Size</span></span><br><span class="line">   <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line">  <span class="keyword">End</span> <span class="keyword">If</span></span><br><span class="line"> d =d + <span class="number">1</span></span><br><span class="line"> <span class="keyword">Next</span> b</span><br><span class="line">   <span class="keyword">If</span> f = <span class="number">13</span> <span class="built_in">And</span> c &gt; <span class="number">1</span> <span class="keyword">Then</span></span><br><span class="line">                      Sheet2.HPageBreaks.AddBefore:=Sheet2.Cells(c, <span class="number">1</span>)</span><br><span class="line">   <span class="keyword">End</span> <span class="keyword">If</span></span><br><span class="line"> <span class="keyword">End</span> <span class="keyword">If</span></span><br><span class="line"><span class="keyword">Next</span> a</span><br><span class="line">   <span class="keyword">With</span> Sheet2.PageSetup</span><br><span class="line">       .LeftMargin= Application.InchesToPoints(<span class="number">0.5</span>)</span><br><span class="line">       .RightMargin= Application.InchesToPoints(<span class="number">0.5</span>)</span><br><span class="line">       .TopMargin= Application.InchesToPoints(<span class="number">0.5</span>)</span><br><span class="line">       .BottomMargin= Application.InchesToPoints(<span class="number">0.5</span>)</span><br><span class="line">       .HeaderMargin= Application.InchesToPoints(<span class="number">0.5</span>)</span><br><span class="line">       .FooterMargin= Application.InchesToPoints(<span class="number">0.5</span>)</span><br><span class="line">       .PrintHeadings = <span class="literal">False</span></span><br><span class="line">       .PrintGridlines= <span class="literal">False</span></span><br><span class="line">       .PrintNotes= <span class="literal">False</span></span><br><span class="line">       .CenterHorizontally= <span class="literal">False</span></span><br><span class="line">       .CenterVertically= <span class="literal">False</span></span><br><span class="line">       .Orientation= xlPortrait</span><br><span class="line">       .Draft= <span class="literal">False</span></span><br><span class="line">       .PaperSize= xlPaperA4                  <span class="comment">&#x27; xlPaperA4:A4</span></span><br><span class="line">       .FirstPageNumber= xlAutomatic</span><br><span class="line">       .<span class="keyword">Order</span>= xlDownThenOver</span><br><span class="line">       .BlackAndWhite= <span class="literal">False</span></span><br><span class="line">       .Zoom= <span class="number">100</span></span><br><span class="line">       .FitToPagesWide= <span class="number">1</span></span><br><span class="line">       .FitToPagesTall= <span class="number">1</span></span><br><span class="line">       .PrintErrors= xlPrintErrorsDisplayed</span><br><span class="line">       <span class="keyword">End</span> <span class="keyword">With</span></span><br><span class="line">Sheet2.PrintPreview</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2013/01/31/2013-1-31-label/" data-id="ckmq42aib004m1k842f9paurx" data-title="从植物采集记录生成标本记录标签" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2013/01/31/2013-1-31-label/" data-id="ckmt6y7lt004rmgyagloc59zw" data-title="从植物采集记录生成标本记录标签" class="article-share-link">Share</a>
       
       
       

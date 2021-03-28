@@ -14,7 +14,7 @@
 <meta property="og:description" content="plantlist包简介plantlist是用来查询和处理植物学名的R程序包，自2013年发布以来，受到很多老师和同学的关注。 plantlist的主要功能 批量查询植物科属，内置的数据主要来源于The Plant List网站 ( www.theplantlist.org&#x2F; )，其中被子植物采用APGIII分类系统，同时提供维管植物每个科的编号，可用于植物标本管理，方便编纂植物名录等。 直接生成">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-05-10T20:36:00.000Z">
-<meta property="article:modified_time" content="2021-03-26T07:18:39.347Z">
+<meta property="article:modified_time" content="2021-03-26T07:18:40.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="随笔">
 <meta name="twitter:card" content="summary">
@@ -141,47 +141,17 @@
 </ul>
 <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>由于plantlist最新版本的源代码保存在github (<a target="_blank" rel="noopener" href="https://www.github.com/helixcn/plantlist)%E3%80%82">https://www.github.com/helixcn/plantlist)。</a></p>
 <p>安装命令如下：</p>
-<pre><code class="R">install.packages(&quot;remotes&quot;)
-remotes::install_github(&quot;helixcn/plantlist&quot;, build_vignettes = TRUE)
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">&quot;remotes&quot;</span>)</span><br><span class="line">remotes::install_github(<span class="string">&quot;helixcn/plantlist&quot;</span>, build_vignettes = <span class="literal">TRUE</span>)</span><br></pre></td></tr></table></figure>
+
 <h1 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h1><h2 id="TPL-根据拉丁名，查询目、科、属及科的编号"><a href="#TPL-根据拉丁名，查询目、科、属及科的编号" class="headerlink" title="TPL():根据拉丁名，查询目、科、属及科的编号"></a><code>TPL()</code>:根据拉丁名，查询目、科、属及科的编号</h2><p><code>TPL</code>函数输入的数据必须是字符串向量。可以查询科、属、种的相应信息，但并不会提示学名是否为接受名。要查询学名是否为接受名，请用<code>status()</code>函数。</p>
-<pre><code class="R">library(plantlist)
-## This is plantlist 0.6.5.
-TPL(&quot;Carex&quot;) # 薹草属
-##   YOUR_SEARCH POSSIBLE_GENUS     FAMILY FAMILY_NUMBER  ORDER       GROUP
-## 1       Carex          Carex Cyperaceae    APGIII_099 Poales Angiosperms
-TPL(&quot;Apple&quot;) # 苹果
-##   YOUR_SEARCH POSSIBLE_GENUS FAMILY FAMILY_NUMBER ORDER GROUP
-## 1       Apple          Apple   &lt;NA&gt;          &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;
-splist &lt;- c(&quot;Ranunculus japonicus&quot;, 
-            &quot;Solanum nigrum&quot;,            
-            &quot;Punica sp.&quot;, 
-            &quot;Machilus&quot;, 
-            &quot;Today&quot;, 
-            &quot;####&quot; )            
-            ### 查询多个种
-res &lt;- TPL(splist)
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">library(plantlist)</span><br><span class="line"><span class="comment">## This is plantlist 0.6.5.</span></span><br><span class="line">TPL(<span class="string">&quot;Carex&quot;</span>) <span class="comment"># 薹草属</span></span><br><span class="line"><span class="comment">##   YOUR_SEARCH POSSIBLE_GENUS     FAMILY FAMILY_NUMBER  ORDER       GROUP</span></span><br><span class="line"><span class="comment">## 1       Carex          Carex Cyperaceae    APGIII_099 Poales Angiosperms</span></span><br><span class="line">TPL(<span class="string">&quot;Apple&quot;</span>) <span class="comment"># 苹果</span></span><br><span class="line"><span class="comment">##   YOUR_SEARCH POSSIBLE_GENUS FAMILY FAMILY_NUMBER ORDER GROUP</span></span><br><span class="line"><span class="comment">## 1       Apple          Apple   &lt;NA&gt;          &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;</span></span><br><span class="line">splist &lt;- <span class="built_in">c</span>(<span class="string">&quot;Ranunculus japonicus&quot;</span>, </span><br><span class="line">            <span class="string">&quot;Solanum nigrum&quot;</span>,            </span><br><span class="line">            <span class="string">&quot;Punica sp.&quot;</span>, </span><br><span class="line">            <span class="string">&quot;Machilus&quot;</span>, </span><br><span class="line">            <span class="string">&quot;Today&quot;</span>, </span><br><span class="line">            <span class="string">&quot;####&quot;</span> )            </span><br><span class="line">            <span class="comment">### 查询多个种</span></span><br><span class="line">res &lt;- TPL(splist)</span><br></pre></td></tr></table></figure>
+
 <h2 id="taxa-table-基于TPL查询结果制作科、属、种列表"><a href="#taxa-table-基于TPL查询结果制作科、属、种列表" class="headerlink" title="taxa.table() :基于TPL查询结果制作科、属、种列表"></a><code>taxa.table()</code> :基于<code>TPL</code>查询结果制作科、属、种列表</h2><p>查询结果多用于Phylomatic或V.PhyloMaker等软件构建进化树。示例代码如下：</p>
-<pre><code class="R">library(plantlist)
-sp &lt;- c( &quot;Ranunculus japonicus&quot;, 
-         &quot;Anemone udensis&quot;,         
-         &quot;Ranunculus repens&quot;,         
-         &quot;Ranunculus chinensis&quot;,         
-         &quot;Solanum nigrum&quot;,         
-         &quot;Punica sp.&quot; )
-res &lt;- TPL(sp)
-taxa.table(res)
-## [1] &quot;Ranunculaceae/Ranunculus/Ranunculus_japonicus&quot;
-## [2] &quot;Ranunculaceae/Ranunculus/Ranunculus_repens&quot;   
-## [3] &quot;Ranunculaceae/Ranunculus/Ranunculus_chinensis&quot;
-## [4] &quot;Ranunculaceae/Anemone/Anemone_udensis&quot;        
-## [5] &quot;Solanaceae/Solanum/Solanum_nigrum&quot;            
-## [6] &quot;Lythraceae/Punica/Punica_sp.&quot;
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">library(plantlist)</span><br><span class="line">sp &lt;- <span class="built_in">c</span>( <span class="string">&quot;Ranunculus japonicus&quot;</span>, </span><br><span class="line">         <span class="string">&quot;Anemone udensis&quot;</span>,         </span><br><span class="line">         <span class="string">&quot;Ranunculus repens&quot;</span>,         </span><br><span class="line">         <span class="string">&quot;Ranunculus chinensis&quot;</span>,         </span><br><span class="line">         <span class="string">&quot;Solanum nigrum&quot;</span>,         </span><br><span class="line">         <span class="string">&quot;Punica sp.&quot;</span> )</span><br><span class="line">res &lt;- TPL(sp)</span><br><span class="line">taxa.table(res)</span><br><span class="line"><span class="comment">## [1] &quot;Ranunculaceae/Ranunculus/Ranunculus_japonicus&quot;</span></span><br><span class="line"><span class="comment">## [2] &quot;Ranunculaceae/Ranunculus/Ranunculus_repens&quot;   </span></span><br><span class="line"><span class="comment">## [3] &quot;Ranunculaceae/Ranunculus/Ranunculus_chinensis&quot;</span></span><br><span class="line"><span class="comment">## [4] &quot;Ranunculaceae/Anemone/Anemone_udensis&quot;        </span></span><br><span class="line"><span class="comment">## [5] &quot;Solanaceae/Solanum/Solanum_nigrum&quot;            </span></span><br><span class="line"><span class="comment">## [6] &quot;Lythraceae/Punica/Punica_sp.&quot;</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="status-查询每个学名在The-Plant-List-1-1-本程序包内置数据-的接受状态"><a href="#status-查询每个学名在The-Plant-List-1-1-本程序包内置数据-的接受状态" class="headerlink" title="status() :查询每个学名在The Plant List 1.1 (本程序包内置数据) 的接受状态"></a><code>status()</code> :查询每个学名在The Plant List 1.1 (本程序包内置数据) 的接受状态</h2><p>函数参数:</p>
-<pre><code class="R">status(species =NA, exact =TRUE, spell_error_max =NULL)
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">status(species =<span class="literal">NA</span>, exact =<span class="literal">TRUE</span>, spell_error_max =<span class="literal">NULL</span>)</span><br></pre></td></tr></table></figure>
+
 <p><code>status</code>函数可以查询变种var.、亚种 subsp.以及变型f.是否接受等信息</p>
 <ul>
 <li><code>species</code>为输入的字符串向量</li>
@@ -190,40 +160,11 @@ taxa.table(res)
 </ul>
 <p><code>status</code>函数对输入的物种名大小写不敏感，物种名的前后以及中间允许有多个空格，species可以包括或者不包括命名人（变型f.之前的命名人除外）</p>
 <p>示例：</p>
-<pre><code class="R">library(plantlist)
-#### 查询一个名称
-status(&quot;Myrica rubra&quot;)
-## [1] &quot;1 name(s) to process.&quot;
-##   SCIENTIFIC_NAME                  AUTHOR   STATUS     FAMILY ACCEPTED_SPECIES
-## 1    Myrica rubra (Lour.) Siebold &amp; Zucc. Accepted Myricaceae     Myrica rubra
-##           ACCEPTED_AUTHOR
-## 1 (Lour.) Siebold &amp; Zucc.
-#### 查询多个名称
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">library(plantlist)</span><br><span class="line"><span class="comment">#### 查询一个名称</span></span><br><span class="line">status(<span class="string">&quot;Myrica rubra&quot;</span>)</span><br><span class="line"><span class="comment">## [1] &quot;1 name(s) to process.&quot;</span></span><br><span class="line"><span class="comment">##   SCIENTIFIC_NAME                  AUTHOR   STATUS     FAMILY ACCEPTED_SPECIES</span></span><br><span class="line"><span class="comment">## 1    Myrica rubra (Lour.) Siebold &amp; Zucc. Accepted Myricaceae     Myrica rubra</span></span><br><span class="line"><span class="comment">##           ACCEPTED_AUTHOR</span></span><br><span class="line"><span class="comment">## 1 (Lour.) Siebold &amp; Zucc.</span></span><br><span class="line"><span class="comment">#### 查询多个名称</span></span><br><span class="line"></span><br><span class="line">status(<span class="built_in">c</span>(<span class="string">&quot;Myrica rubra&quot;</span>, </span><br><span class="line">         <span class="string">&quot;Adinandra millettii&quot;</span>,         </span><br><span class="line">         <span class="string">&quot;Machilus thunbergii&quot;</span>,         </span><br><span class="line">         <span class="string">&quot;Ranunculus japonicus&quot;</span>,         </span><br><span class="line">         <span class="string">&quot;Cyclobalanopsis neglecta&quot;</span>))</span><br><span class="line"><span class="comment">## [1] &quot;5 name(s) to process.&quot;</span></span><br><span class="line"><span class="comment">##            SCIENTIFIC_NAME                  AUTHOR   STATUS        FAMILY</span></span><br><span class="line"><span class="comment">## 1             Myrica rubra (Lour.) Siebold &amp; Zucc. Accepted    Myricaceae</span></span><br><span class="line"><span class="comment">## 2      Adinandra millettii                    &lt;NA&gt;     &lt;NA&gt;          &lt;NA&gt;</span></span><br><span class="line"><span class="comment">## 3      Machilus thunbergii         Siebold &amp; Zucc. Accepted     Lauraceae</span></span><br><span class="line"><span class="comment">## 4     Ranunculus japonicus                  Thunb. Accepted Ranunculaceae</span></span><br><span class="line"><span class="comment">## 5 Cyclobalanopsis neglecta                Schottky  Synonym      Fagaceae</span></span><br><span class="line"><span class="comment">##       ACCEPTED_SPECIES         ACCEPTED_AUTHOR</span></span><br><span class="line"><span class="comment">## 1         Myrica rubra (Lour.) Siebold &amp; Zucc.</span></span><br><span class="line"><span class="comment">## 2                 &lt;NA&gt;                    &lt;NA&gt;</span></span><br><span class="line"><span class="comment">## 3  Machilus thunbergii         Siebold &amp; Zucc.</span></span><br><span class="line"><span class="comment">## 4 Ranunculus japonicus                  Thunb.</span></span><br><span class="line"><span class="comment">## 5 Quercus myrsinifolia                   Blume</span></span><br></pre></td></tr></table></figure>
 
-status(c(&quot;Myrica rubra&quot;, 
-         &quot;Adinandra millettii&quot;,         
-         &quot;Machilus thunbergii&quot;,         
-         &quot;Ranunculus japonicus&quot;,         
-         &quot;Cyclobalanopsis neglecta&quot;))
-## [1] &quot;5 name(s) to process.&quot;
-##            SCIENTIFIC_NAME                  AUTHOR   STATUS        FAMILY
-## 1             Myrica rubra (Lour.) Siebold &amp; Zucc. Accepted    Myricaceae
-## 2      Adinandra millettii                    &lt;NA&gt;     &lt;NA&gt;          &lt;NA&gt;
-## 3      Machilus thunbergii         Siebold &amp; Zucc. Accepted     Lauraceae
-## 4     Ranunculus japonicus                  Thunb. Accepted Ranunculaceae
-## 5 Cyclobalanopsis neglecta                Schottky  Synonym      Fagaceae
-##       ACCEPTED_SPECIES         ACCEPTED_AUTHOR
-## 1         Myrica rubra (Lour.) Siebold &amp; Zucc.
-## 2                 &lt;NA&gt;                    &lt;NA&gt;
-## 3  Machilus thunbergii         Siebold &amp; Zucc.
-## 4 Ranunculus japonicus                  Thunb.
-## 5 Quercus myrsinifolia                   Blume
-</code></pre>
 <p><strong>重要提示：</strong> 由于表示变型的 f. 有时也用于命名人中，因此，用<code>status</code>函数在查询变型时， 请勿为种添加命名人，但是变型的命名人可以提供或者不提供，具体为:</p>
-<pre><code class="R">&quot;Hypoxis hirsuta (L.)Coville f. vollosissima Fernald&quot;#  （不能处理）
-&quot;Hypoxis hirsuta f. vollosissima Fernald&quot;#（能处理）
-&quot;Hypoxis hirsuta f. vollosissima&quot;#（能处理）
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;Hypoxis hirsuta (L.)Coville f. vollosissima Fernald&quot;</span><span class="comment">#  （不能处理）</span></span><br><span class="line"><span class="string">&quot;Hypoxis hirsuta f. vollosissima Fernald&quot;</span><span class="comment">#（能处理）</span></span><br><span class="line"><span class="string">&quot;Hypoxis hirsuta f. vollosissima&quot;</span><span class="comment">#（能处理）</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="CTPL-用中文名查询科、属、分布、海拔、IUCN等级数据"><a href="#CTPL-用中文名查询科、属、分布、海拔、IUCN等级数据" class="headerlink" title="CTPL() :用中文名查询科、属、分布、海拔、IUCN等级数据"></a><code>CTPL()</code> :用中文名查询科、属、分布、海拔、IUCN等级数据</h2><p>调用方式： <code>CTPL(taxa = NULL, print_as_list = TRUE)</code></p>
 <p>其中，<code>taxa</code>是植物的中文名向量， <code>print_as_list</code> 只是打印方式的选项，如果为TRUE， 则用列表的方式打印。</p>
 <p><strong>注意</strong>：</p>
@@ -233,70 +174,11 @@ status(c(&quot;Myrica rubra&quot;,
 </ul>
 <h2 id="count-taxa-统计CTPL结果的科、属、种数量"><a href="#count-taxa-统计CTPL结果的科、属、种数量" class="headerlink" title="count_taxa() :统计CTPL结果的科、属、种数量"></a><code>count_taxa()</code> :统计CTPL结果的科、属、种数量</h2><p>调用方式： <code>count_taxa(checklist_dat)</code></p>
 <p><code>checklist_dat</code> 为<code>CTPL()</code>函数返回的结果，<code>CTPL</code>结果中没有信息的行，将会被忽略。</p>
-<pre><code class="R">library(plantlist)
-res_CTPL &lt;- CTPL(c(&quot;桃儿七&quot;, 
-                   &quot;连香树&quot;, 
-                   &quot;水青树&quot;, 
-                   &quot;绿樟&quot;, 
-                   &quot;网脉实蕨&quot;, 
-                   &quot;Magnolia coco&quot;, 
-                   &quot;Punica&quot;), 
-                   print_as_list = FALSE)
-count_taxa(res_CTPL)
-## Warning in count_taxa(res_CTPL): Taxa &#39;绿樟, Punica&#39; does not have full scientific name, ignored
-## $NO_OF_FAMILIES
-## [1] 5
-## 
-## $NO_OF_GENERA
-## [1] 5
-## 
-## $NO_OF_SPECIES
-## [1] 5
-## 
-## $NO_OF_FAMILIES_BY_GROUP
-##                    group no_of_families
-## 1 2 Ferns and lycophytes              1
-## 2          4 Angiosperms              4
-## 
-## $NO_OF_GENERA_BY_GROUP
-##                    group no_of_genera
-## 1 2 Ferns and lycophytes            1
-## 2          4 Angiosperms            4
-## 
-## $NO_OF_SPECIES_BY_GROUP
-##                    group no_of_species
-## 1 2 Ferns and lycophytes             1
-## 2          4 Angiosperms             4
-## 
-## $NO_OF_GENERA_BY_FAMILY
-##              family no_of_genera
-## 1     Berberidaceae            1
-## 2 Cercidiphyllaceae            1
-## 3   Dryopteridaceae            1
-## 4      Magnoliaceae            1
-## 5  Trochodendraceae            1
-## 
-## $NO_OF_SPECIES_BY_FAMILY
-##              family no_of_species
-## 1     Berberidaceae             1
-## 2 Cercidiphyllaceae             1
-## 3   Dryopteridaceae             1
-## 4      Magnoliaceae             1
-## 5  Trochodendraceae             1
-## 
-## $NO_OF_SPECIES_BY_GENUS
-##             genus no_of_species
-## 1        Bolbitis             1
-## 2  Cercidiphyllum             1
-## 3        Magnolia             1
-## 4 Sinopodophyllum             1
-## 5    Tetracentron             1
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">library(plantlist)</span><br><span class="line">res_CTPL &lt;- CTPL(<span class="built_in">c</span>(<span class="string">&quot;桃儿七&quot;</span>, </span><br><span class="line">                   <span class="string">&quot;连香树&quot;</span>, </span><br><span class="line">                   <span class="string">&quot;水青树&quot;</span>, </span><br><span class="line">                   <span class="string">&quot;绿樟&quot;</span>, </span><br><span class="line">                   <span class="string">&quot;网脉实蕨&quot;</span>, </span><br><span class="line">                   <span class="string">&quot;Magnolia coco&quot;</span>, </span><br><span class="line">                   <span class="string">&quot;Punica&quot;</span>), </span><br><span class="line">                   print_as_list = <span class="literal">FALSE</span>)</span><br><span class="line">count_taxa(res_CTPL)</span><br><span class="line"><span class="comment">## Warning in count_taxa(res_CTPL): Taxa &#x27;绿樟, Punica&#x27; does not have full scientific name, ignored</span></span><br><span class="line"><span class="comment">## $NO_OF_FAMILIES</span></span><br><span class="line"><span class="comment">## [1] 5</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $NO_OF_GENERA</span></span><br><span class="line"><span class="comment">## [1] 5</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $NO_OF_SPECIES</span></span><br><span class="line"><span class="comment">## [1] 5</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $NO_OF_FAMILIES_BY_GROUP</span></span><br><span class="line"><span class="comment">##                    group no_of_families</span></span><br><span class="line"><span class="comment">## 1 2 Ferns and lycophytes              1</span></span><br><span class="line"><span class="comment">## 2          4 Angiosperms              4</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $NO_OF_GENERA_BY_GROUP</span></span><br><span class="line"><span class="comment">##                    group no_of_genera</span></span><br><span class="line"><span class="comment">## 1 2 Ferns and lycophytes            1</span></span><br><span class="line"><span class="comment">## 2          4 Angiosperms            4</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $NO_OF_SPECIES_BY_GROUP</span></span><br><span class="line"><span class="comment">##                    group no_of_species</span></span><br><span class="line"><span class="comment">## 1 2 Ferns and lycophytes             1</span></span><br><span class="line"><span class="comment">## 2          4 Angiosperms             4</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $NO_OF_GENERA_BY_FAMILY</span></span><br><span class="line"><span class="comment">##              family no_of_genera</span></span><br><span class="line"><span class="comment">## 1     Berberidaceae            1</span></span><br><span class="line"><span class="comment">## 2 Cercidiphyllaceae            1</span></span><br><span class="line"><span class="comment">## 3   Dryopteridaceae            1</span></span><br><span class="line"><span class="comment">## 4      Magnoliaceae            1</span></span><br><span class="line"><span class="comment">## 5  Trochodendraceae            1</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $NO_OF_SPECIES_BY_FAMILY</span></span><br><span class="line"><span class="comment">##              family no_of_species</span></span><br><span class="line"><span class="comment">## 1     Berberidaceae             1</span></span><br><span class="line"><span class="comment">## 2 Cercidiphyllaceae             1</span></span><br><span class="line"><span class="comment">## 3   Dryopteridaceae             1</span></span><br><span class="line"><span class="comment">## 4      Magnoliaceae             1</span></span><br><span class="line"><span class="comment">## 5  Trochodendraceae             1</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $NO_OF_SPECIES_BY_GENUS</span></span><br><span class="line"><span class="comment">##             genus no_of_species</span></span><br><span class="line"><span class="comment">## 1        Bolbitis             1</span></span><br><span class="line"><span class="comment">## 2  Cercidiphyllum             1</span></span><br><span class="line"><span class="comment">## 3        Magnolia             1</span></span><br><span class="line"><span class="comment">## 4 Sinopodophyllum             1</span></span><br><span class="line"><span class="comment">## 5    Tetracentron             1</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="make-checklist-制作markdown格式的植物名录-（按照系统发育顺序排列）"><a href="#make-checklist-制作markdown格式的植物名录-（按照系统发育顺序排列）" class="headerlink" title="make_checklist() :制作markdown格式的植物名录 （按照系统发育顺序排列）"></a><code>make_checklist()</code> :制作markdown格式的植物名录 （按照系统发育顺序排列）</h2><p>调用：</p>
-<pre><code class="R">make_checklist(checklist_dat = NULL, 
-                outfile = &quot;output_make_checklist.md&quot;, 
-                theme = c(&quot;complex&quot;, &quot;simple&quot;, &quot;minimal&quot;))
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">make_checklist(checklist_dat = <span class="literal">NULL</span>, </span><br><span class="line">                outfile = <span class="string">&quot;output_make_checklist.md&quot;</span>, </span><br><span class="line">                theme = <span class="built_in">c</span>(<span class="string">&quot;complex&quot;</span>, <span class="string">&quot;simple&quot;</span>, <span class="string">&quot;minimal&quot;</span>))</span><br></pre></td></tr></table></figure>
+
 <p>参数：</p>
 <ul>
 <li><p><code>checklist_dat = NULL</code>: 为CTPL函数返回的结果</p>
@@ -313,19 +195,8 @@ count_taxa(res_CTPL)
 </li>
 </ul>
 <p>关于分类单元的排列顺序：在大类群上按照苔藓、蕨类、裸子植物、被子植物的顺序；每个类群下，按照科的顺序号；科以下，属按照字母排列；属下各种按照分类单元的拉丁名排列。如有提供标本引证，则在CTPL返回的数据框上添加名为<code>SPECIMENS</code>的列即可。</p>
-<pre><code class="R">library(plantlist)
-res_CTPL &lt;- CTPL(c(&quot;桃儿七&quot;, 
-                   &quot;连香树&quot;, 
-                   &quot;水青树&quot;, 
-                   &quot;绿樟&quot;, 
-                   &quot;网脉实蕨&quot;, 
-                   &quot;Magnolia coco&quot;, 
-                   &quot;Punica&quot;), print_as_list = FALSE)
-make_checklist(res_CTPL)
-## Warning in make_checklist(res_CTPL): Taxa 绿樟, Punica does not have full scientific name, ignored
-## File output_make_checklist.md has been saved to:
-##  C:/Users/jlzhang/Desktop
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">library(plantlist)</span><br><span class="line">res_CTPL &lt;- CTPL(<span class="built_in">c</span>(<span class="string">&quot;桃儿七&quot;</span>, </span><br><span class="line">                   <span class="string">&quot;连香树&quot;</span>, </span><br><span class="line">                   <span class="string">&quot;水青树&quot;</span>, </span><br><span class="line">                   <span class="string">&quot;绿樟&quot;</span>, </span><br><span class="line">                   <span class="string">&quot;网脉实蕨&quot;</span>, </span><br><span class="line">                   <span class="string">&quot;Magnolia coco&quot;</span>, </span><br><span class="line">                   <span class="string">&quot;Punica&quot;</span>), print_as_list = <span class="literal">FALSE</span>)</span><br><span class="line">make_checklist(res_CTPL)</span><br><span class="line"><span class="comment">## Warning in make_checklist(res_CTPL): Taxa 绿樟, Punica does not have full scientific name, ignored</span></span><br><span class="line"><span class="comment">## File output_make_checklist.md has been saved to:</span></span><br><span class="line"><span class="comment">##  C:/Users/jlzhang/Desktop</span></span><br></pre></td></tr></table></figure>
+
 <h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><p>如果您使用了plantlist程序包，请通过以下方式引用（请根据版本和日期做相应修改）：</p>
 <ul>
 <li>Jinlong Zhang (2020). plantlist: Looking Up the Status of Plant Scientific Names based on The Plant List Database. R package version 0.6.5. <a target="_blank" rel="noopener" href="https://github.com/helixcn/plantlist/">https://github.com/helixcn/plantlist/</a></li>
@@ -345,7 +216,7 @@ make_checklist(res_CTPL)
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2020/05/11/2020-05-11/" data-id="ckmq42al900d51k840fv9c9hg" data-title="用plantlist程序包查询和处理植物学名 (plantlist 0.6.5)" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2020/05/11/2020-05-11/" data-id="ckmt6y7qd00e3mgya2u04difg" data-title="用plantlist程序包查询和处理植物学名 (plantlist 0.6.5)" class="article-share-link">Share</a>
       
       
       

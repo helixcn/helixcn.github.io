@@ -14,7 +14,7 @@
 <meta property="og:description" content="1 问题已知巴黎的地理坐标为东经2°20’14’’，北纬48°50’11’’，华盛顿的地理坐标为西经 77°03’56’’，北纬 38°55’17’’，求两城间的距离（单位千米）。 2 分析：已知经纬度，求两点间的地理距离，不能直接用经纬度求平面距离，而是要计算球面距离（Great Circle Distance）。 如果对精度要求不高，可以用低精度公式，计算过程相对简单。如果对经度要求较高， 则">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2019-09-20T22:52:54.000Z">
-<meta property="article:modified_time" content="2021-03-26T08:07:47.353Z">
+<meta property="article:modified_time" content="2021-03-26T08:07:48.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="地理">
 <meta name="twitter:card" content="summary">
@@ -103,101 +103,24 @@
 <p>如果对精度要求不高，可以用低精度公式，计算过程相对简单。如果对经度要求较高， 则要用高精度公式。高精度公式一般用于天文计算、大地测量等。在距离较远的城市之间， 两种方法所得结果可相差几十千米。</p>
 <p>当然，现在全部通过计算机程序计算，都是直接使用高精度方法了。本文参考比利时天文学家Jean Meeus (1991)的《天文算法》81-86页的公式，给出相应的R代码。</p>
 <h2 id="2-1-将经纬度的度、分、秒转换为十进制"><a href="#2-1-将经纬度的度、分、秒转换为十进制" class="headerlink" title="2.1 将经纬度的度、分、秒转换为十进制"></a>2.1 将经纬度的度、分、秒转换为十进制</h2><p>定义函数deg2dec完成这一转换:</p>
-<pre><code class="R">deg2dec &lt;- function(h,m,s)&#123;   
-   if(h &lt; 0)&#123;
-       m = - m
-       s = -s
-   &#125;
-   res = h + m/60 + s/3600
-   return(res)
-&#125;
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">deg2dec &lt;- <span class="keyword">function</span>(h,m,s)&#123;   </span><br><span class="line">   <span class="keyword">if</span>(h &lt; <span class="number">0</span>)&#123;</span><br><span class="line">       m = - m</span><br><span class="line">       s = -s</span><br><span class="line">   &#125;</span><br><span class="line">   res = h + m/<span class="number">60</span> + s/<span class="number">3600</span></span><br><span class="line">   <span class="built_in">return</span>(res)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">## 巴黎</span></span><br><span class="line">L1 = deg2dec(-<span class="number">2</span>,<span class="number">20</span>,<span class="number">14</span>)</span><br><span class="line">phi1 = deg2dec(<span class="number">48</span>, <span class="number">50</span>, <span class="number">11</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 华盛顿</span></span><br><span class="line">L2 = deg2dec(<span class="number">77</span>,<span class="number">03</span>,<span class="number">56</span>)</span><br><span class="line">phi2 = deg2dec(<span class="number">38</span>,<span class="number">55</span>,<span class="number">17</span>)</span><br></pre></td></tr></table></figure>
 
-## 巴黎
-L1 = deg2dec(-2,20,14)
-phi1 = deg2dec(48, 50, 11)
-
-## 华盛顿
-L2 = deg2dec(77,03,56)
-phi2 = deg2dec(38,55,17)
-</code></pre>
 <h2 id="2-2-低精度公式"><a href="#2-2-低精度公式" class="headerlink" title="2.2 低精度公式"></a>2.2 低精度公式</h2><p>由于地球的扁率较小，可近似看作球体，利用球面三角公式即可求出距离，R代码如下:</p>
-<pre><code class="R">geodist &lt;- function(L1, phi1, L2, phi2)&#123;
-    Ri = 6371
-    d = (Ri * acos(sin(phi1 * (pi / 180)) *
-                      sin(phi2 * (pi / 180)) +
-                      cos(phi1 * (pi / 180)) *
-                      cos(phi2 * (pi / 180)) *
-                      cos((L1 - L2) * (pi / 180))))
-    res &lt;- round(d, 3)    
-    return(res)
-&#125;
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">geodist &lt;- <span class="keyword">function</span>(L1, phi1, L2, phi2)&#123;</span><br><span class="line">    Ri = <span class="number">6371</span></span><br><span class="line">    d = (Ri * <span class="built_in">acos</span>(<span class="built_in">sin</span>(phi1 * (<span class="built_in">pi</span> / <span class="number">180</span>)) *</span><br><span class="line">                      <span class="built_in">sin</span>(phi2 * (<span class="built_in">pi</span> / <span class="number">180</span>)) +</span><br><span class="line">                      <span class="built_in">cos</span>(phi1 * (<span class="built_in">pi</span> / <span class="number">180</span>)) *</span><br><span class="line">                      <span class="built_in">cos</span>(phi2 * (<span class="built_in">pi</span> / <span class="number">180</span>)) *</span><br><span class="line">                      <span class="built_in">cos</span>((L1 - L2) * (<span class="built_in">pi</span> / <span class="number">180</span>))))</span><br><span class="line">    res &lt;- <span class="built_in">round</span>(d, <span class="number">3</span>)    </span><br><span class="line">    <span class="built_in">return</span>(res)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">geodist(L1, phi1, L2, phi2)</span><br><span class="line"><span class="comment">## [1] 6165.597</span></span><br></pre></td></tr></table></figure>
 
-geodist(L1, phi1, L2, phi2)
-## [1] 6165.597
-</code></pre>
 <p>因此，如果假设地球是球体，华盛顿和巴黎之间的距离是6165.597km</p>
 <h2 id="2-3-高精度公式"><a href="#2-3-高精度公式" class="headerlink" title="2.3 高精度公式"></a>2.3 高精度公式</h2><p>假设地球是椭球，a是长轴，f是扁率，公式如下：</p>
-<pre><code class="R">hageodist &lt;- function(L1, phi1, L2, phi2)&#123;
-   a = 6378.14
-   f = 1/298.257
-   F = (phi1 + phi2)/2
-   G = (phi1 - phi2)/2
-   ramda &lt;- (L1 - L2)/2
-   S = (sin(G * pi / 180)^2)*(cos(ramda * pi / 180)^2) + 
-       (cos(F * pi / 180)^2)*(sin(ramda * pi / 180)^2) 
-   C = (cos(G * pi / 180)^2)*(cos(ramda * pi / 180)^2) + 
-       (sin(F * pi / 180)^2)*(sin(ramda * pi / 180)^2) 
-   omega = atan(sqrt(S / C))
-   R = sqrt(S * C)/omega
-   D = 2 * omega * a
-   H1 = (3 * R - 1)/(2 * C)
-   H2 = (3 * R + 1)/(2 * S)
-   res = D * (1 + f * H1 * (sin(F * pi / 180)^2)*
-               (cos(G * pi / 180)^2) -
-               f * H2 * (cos(F * pi/180)^2)*
-               (sin(G * pi / 180)^2))   
-   return(round(res, 3))
-&#125;
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">hageodist &lt;- <span class="keyword">function</span>(L1, phi1, L2, phi2)&#123;</span><br><span class="line">   a = <span class="number">6378.14</span></span><br><span class="line">   f = <span class="number">1</span>/<span class="number">298.257</span></span><br><span class="line">   <span class="built_in">F</span> = (phi1 + phi2)/<span class="number">2</span></span><br><span class="line">   G = (phi1 - phi2)/<span class="number">2</span></span><br><span class="line">   ramda &lt;- (L1 - L2)/<span class="number">2</span></span><br><span class="line">   S = (<span class="built_in">sin</span>(G * <span class="built_in">pi</span> / <span class="number">180</span>)^<span class="number">2</span>)*(<span class="built_in">cos</span>(ramda * <span class="built_in">pi</span> / <span class="number">180</span>)^<span class="number">2</span>) + </span><br><span class="line">       (<span class="built_in">cos</span>(<span class="built_in">F</span> * <span class="built_in">pi</span> / <span class="number">180</span>)^<span class="number">2</span>)*(<span class="built_in">sin</span>(ramda * <span class="built_in">pi</span> / <span class="number">180</span>)^<span class="number">2</span>) </span><br><span class="line">   C = (<span class="built_in">cos</span>(G * <span class="built_in">pi</span> / <span class="number">180</span>)^<span class="number">2</span>)*(<span class="built_in">cos</span>(ramda * <span class="built_in">pi</span> / <span class="number">180</span>)^<span class="number">2</span>) + </span><br><span class="line">       (<span class="built_in">sin</span>(<span class="built_in">F</span> * <span class="built_in">pi</span> / <span class="number">180</span>)^<span class="number">2</span>)*(<span class="built_in">sin</span>(ramda * <span class="built_in">pi</span> / <span class="number">180</span>)^<span class="number">2</span>) </span><br><span class="line">   omega = <span class="built_in">atan</span>(<span class="built_in">sqrt</span>(S / C))</span><br><span class="line">   R = <span class="built_in">sqrt</span>(S * C)/omega</span><br><span class="line">   D = <span class="number">2</span> * omega * a</span><br><span class="line">   H1 = (<span class="number">3</span> * R - <span class="number">1</span>)/(<span class="number">2</span> * C)</span><br><span class="line">   H2 = (<span class="number">3</span> * R + <span class="number">1</span>)/(<span class="number">2</span> * S)</span><br><span class="line">   res = D * (<span class="number">1</span> + f * H1 * (<span class="built_in">sin</span>(<span class="built_in">F</span> * <span class="built_in">pi</span> / <span class="number">180</span>)^<span class="number">2</span>)*</span><br><span class="line">               (<span class="built_in">cos</span>(G * <span class="built_in">pi</span> / <span class="number">180</span>)^<span class="number">2</span>) -</span><br><span class="line">               f * H2 * (<span class="built_in">cos</span>(<span class="built_in">F</span> * <span class="built_in">pi</span>/<span class="number">180</span>)^<span class="number">2</span>)*</span><br><span class="line">               (<span class="built_in">sin</span>(G * <span class="built_in">pi</span> / <span class="number">180</span>)^<span class="number">2</span>))   </span><br><span class="line">   <span class="built_in">return</span>(<span class="built_in">round</span>(res, <span class="number">3</span>))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">hageodist(L1, phi1, L2, phi2)</span><br><span class="line"><span class="comment">## [1] 6181.628</span></span><br></pre></td></tr></table></figure>
 
-hageodist(L1, phi1, L2, phi2)
-## [1] 6181.628
-</code></pre>
 <p>因此，华盛顿和巴黎之间的距离是6181.628km。高精度和低精度公式的结果相差16km。</p>
 <h2 id="2-4-注意事项"><a href="#2-4-注意事项" class="headerlink" title="2.4 注意事项"></a>2.4 注意事项</h2><p>Meeus这本书中，东经为负，西经为正，公式采用国际天文学联合会IAU1976规定的相关参数，其坐标系未指定。</p>
 <p>注意，Meeus的算法中，经度与常用的WGS84坐标系正好相反。在WGS84坐标系中，东经为正，西经为负。现在通常所说的经纬度是用GPS获得的WGS84经纬度，所以最保险的方法是以下R脚本计算：</p>
-<h1 id="3-推荐的R程序包和脚本"><a href="#3-推荐的R程序包和脚本" class="headerlink" title="3 推荐的R程序包和脚本"></a>3 推荐的R程序包和脚本</h1><h2 id="3-1-sp包"><a href="#3-1-sp包" class="headerlink" title="3.1 sp包"></a>3.1 sp包</h2><pre><code class="R">library(sp)
-longitude &lt;- as.numeric(c(L1, L2))
-latitude  &lt;- as.numeric(c(phi1, phi2))
-cities &lt;- c(&quot;Paris&quot;, &quot;Washington&quot;)
-location &lt;- cbind(longitude = -longitude, latitude)
-row.names(location) &lt;- cities
-location &lt;- data.frame(location)
-coordinates(location) &lt;- ~longitude+latitude
-proj4string(location) &lt;- CRS(&quot;+proj=longlat +datum=WGS84&quot;) # 明确使用WGS84坐标系
-spDists(location)
-##          [,1]     [,2]
-## [1,]    0.000 6181.626
-## [2,] 6181.626    0.000
-</code></pre>
-<h2 id="3-2-geosphere包"><a href="#3-2-geosphere包" class="headerlink" title="3.2 geosphere包"></a>3.2 geosphere包</h2><pre><code class="R">xy &lt;- rbind(paris =c(-L1, phi1), washington =c(-L2, phi2))
-library(geosphere)
-distm(xy)
-##         [,1]    [,2]
-## [1,]       0 6181632
-## [2,] 6181632       0
-</code></pre>
-<h1 id="4-在地图上绘制Great-Circle-Distance"><a href="#4-在地图上绘制Great-Circle-Distance" class="headerlink" title="4 在地图上绘制Great Circle Distance"></a>4 在地图上绘制Great Circle Distance</h1><pre><code class="R">library(maps)
-library(geosphere)
-map(&#39;world&#39;,col=&quot;grey&quot;, fill=FALSE, bg=&quot;white&quot;, lwd=0.05,interior = FALSE)
-points(x = -L1, y = phi1, pch = 19)
-points(x = -L2, y = phi2, pch = 19)
-text(x = -L1, y = phi1 + 5, labels = &quot;Paris&quot;, col = &quot;blue&quot;)
-text(x = -L2, y = phi2 + 5, labels = &quot;Washington&quot;, col = &quot;blue&quot;)
+<h1 id="3-推荐的R程序包和脚本"><a href="#3-推荐的R程序包和脚本" class="headerlink" title="3 推荐的R程序包和脚本"></a>3 推荐的R程序包和脚本</h1><h2 id="3-1-sp包"><a href="#3-1-sp包" class="headerlink" title="3.1 sp包"></a>3.1 sp包</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">library(sp)</span><br><span class="line">longitude &lt;- <span class="built_in">as.numeric</span>(<span class="built_in">c</span>(L1, L2))</span><br><span class="line">latitude  &lt;- <span class="built_in">as.numeric</span>(<span class="built_in">c</span>(phi1, phi2))</span><br><span class="line">cities &lt;- <span class="built_in">c</span>(<span class="string">&quot;Paris&quot;</span>, <span class="string">&quot;Washington&quot;</span>)</span><br><span class="line">location &lt;- cbind(longitude = -longitude, latitude)</span><br><span class="line">row.names(location) &lt;- cities</span><br><span class="line">location &lt;- data.frame(location)</span><br><span class="line">coordinates(location) &lt;- ~longitude+latitude</span><br><span class="line">proj4string(location) &lt;- CRS(<span class="string">&quot;+proj=longlat +datum=WGS84&quot;</span>) <span class="comment"># 明确使用WGS84坐标系</span></span><br><span class="line">spDists(location)</span><br><span class="line"><span class="comment">##          [,1]     [,2]</span></span><br><span class="line"><span class="comment">## [1,]    0.000 6181.626</span></span><br><span class="line"><span class="comment">## [2,] 6181.626    0.000</span></span><br></pre></td></tr></table></figure>
 
-connection &lt;- gcIntermediate(c(-L1, phi1), c(-L2, phi2), 
-    n=100, addStartEnd = TRUE, breakAtDateLine=FALSE)             
-lines(connection, col=&quot;red&quot;, lwd=2)
-</code></pre>
+<h2 id="3-2-geosphere包"><a href="#3-2-geosphere包" class="headerlink" title="3.2 geosphere包"></a>3.2 geosphere包</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">xy &lt;- rbind(paris =<span class="built_in">c</span>(-L1, phi1), washington =<span class="built_in">c</span>(-L2, phi2))</span><br><span class="line">library(geosphere)</span><br><span class="line">distm(xy)</span><br><span class="line"><span class="comment">##         [,1]    [,2]</span></span><br><span class="line"><span class="comment">## [1,]       0 6181632</span></span><br><span class="line"><span class="comment">## [2,] 6181632       0</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="4-在地图上绘制Great-Circle-Distance"><a href="#4-在地图上绘制Great-Circle-Distance" class="headerlink" title="4 在地图上绘制Great Circle Distance"></a>4 在地图上绘制Great Circle Distance</h1><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">library(maps)</span><br><span class="line">library(geosphere)</span><br><span class="line">map(<span class="string">&#x27;world&#x27;</span>,col=<span class="string">&quot;grey&quot;</span>, fill=<span class="literal">FALSE</span>, bg=<span class="string">&quot;white&quot;</span>, lwd=<span class="number">0.05</span>,interior = <span class="literal">FALSE</span>)</span><br><span class="line">points(x = -L1, y = phi1, pch = <span class="number">19</span>)</span><br><span class="line">points(x = -L2, y = phi2, pch = <span class="number">19</span>)</span><br><span class="line">text(x = -L1, y = phi1 + <span class="number">5</span>, labels = <span class="string">&quot;Paris&quot;</span>, col = <span class="string">&quot;blue&quot;</span>)</span><br><span class="line">text(x = -L2, y = phi2 + <span class="number">5</span>, labels = <span class="string">&quot;Washington&quot;</span>, col = <span class="string">&quot;blue&quot;</span>)</span><br><span class="line"></span><br><span class="line">connection &lt;- gcIntermediate(<span class="built_in">c</span>(-L1, phi1), <span class="built_in">c</span>(-L2, phi2), </span><br><span class="line">    n=<span class="number">100</span>, addStartEnd = <span class="literal">TRUE</span>, breakAtDateLine=<span class="literal">FALSE</span>)             </span><br><span class="line">lines(connection, col=<span class="string">&quot;red&quot;</span>, lwd=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
 <h1 id="5-参考"><a href="#5-参考" class="headerlink" title="5 参考"></a>5 参考</h1><ul>
 <li><a target="_blank" rel="noopener" href="https://www.r-graph-gallery.com/how-to-draw-connecting-routes-on-map-with-r-and-great-circles/">https://www.r-graph-gallery.com/how-to-draw-connecting-routes-on-map-with-r-and-great-circles/</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.jessesadler.com/post/great-circles-sp-sf/">https://www.jessesadler.com/post/great-circles-sp-sf/</a></li>
@@ -206,7 +129,7 @@ lines(connection, col=&quot;red&quot;, lwd=2)
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2019/09/21/2019-09-21-greatcircle/" data-id="ckmq42al000ch1k84eijdc6uy" data-title="已知经纬度计算两点间地理距离" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2019/09/21/2019-09-21-greatcircle/" data-id="ckmt6y7q300dfmgya8nl8e3zk" data-title="已知经纬度计算两点间地理距离" class="article-share-link">Share</a>
       
       
       

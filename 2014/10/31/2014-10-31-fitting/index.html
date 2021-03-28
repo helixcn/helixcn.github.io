@@ -14,7 +14,7 @@
 <meta property="og:description" content="R拟合统计分布并绘制曲线在统计分析中， 经常会用到统计分布拟合， 这里介绍MASS程序包的 fitdistr(), 该函数可以用来拟合  &quot;beta&quot;, &quot;cauchy&quot;, &quot;chi-squared&quot;, &quot;exponential&quot;, &quot;f&quot;, &quot;gamma&quot;, &quot;geo">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2014-10-30T20:41:54.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:34:24.550Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:26.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="统计">
 <meta name="twitter:card" content="summary">
@@ -99,140 +99,11 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <h1 id="R拟合统计分布并绘制曲线"><a href="#R拟合统计分布并绘制曲线" class="headerlink" title="R拟合统计分布并绘制曲线"></a>R拟合统计分布并绘制曲线</h1><p>在统计分析中， 经常会用到统计分布拟合， 这里介绍MASS程序包的 <code>fitdistr()</code>, 该函数可以用来拟合  <code>&quot;beta&quot;, &quot;cauchy&quot;, &quot;chi-squared&quot;, &quot;exponential&quot;, &quot;f&quot;, &quot;gamma&quot;, &quot;geometric&quot;, &quot;log-normal&quot;, &quot;lognormal&quot;, &quot;logistic&quot;, &quot;negative binomial&quot;, &quot;normal&quot;, &quot;Poisson&quot;, &quot;t&quot;</code> 以及 <code>&quot;weibull&quot;</code> 的概率密度分布， 现举例如下：</p>
-<pre><code class="R">library(MASS)
-
-#### Gammadistribution
-x &lt;-rgamma(100, shape =5, rate =0.1)
-res &lt;- fitdistr(x, &quot;gamma&quot;)
-h &lt;-hist(x)
-xfit &lt;-seq(min(x), max(x), by=(max(x)-min(x))/100)
-yfit &lt;-dgamma(xfit,res[[1]][1],res[[1]][2])
-yfit &lt;- yfit*diff(h$mids[1:2])*length(xfit)
-lines(xfit, yfit, col=&quot;blue&quot;, lwd=2)
-
-####&quot;beta&quot;                
-x &lt;-rbeta(100, shape1 =5, shape2 =2)
-res &lt;- fitdistr(x, &quot;beta&quot;, start=list(shape1 =4, shape2 =1))
-h &lt;-hist(x)
-xfit &lt;-seq(min(x), max(x), by=(max(x)-min(x))/100)
-yfit &lt;-dbeta(xfit,res[[1]][1],res[[1]][2])
-yfit &lt;- yfit*diff(h$mids[1:2])*length(xfit)
-lines(xfit, yfit, col=&quot;blue&quot;, lwd=2)
-
-####&quot;cauchy&quot;,            
-&quot;cauchy&quot;,
-x &lt;-rcauchy(100, location =200, scale=300)
-res &lt;- fitdistr(x, &quot;cauchy&quot;)
-h &lt;-hist(x)
-xfit &lt;-seq(min(x), max(x), by=(max(x)-min(x))/100)
-yfit &lt;-dcauchy(xfit,res[[1]][1],res[[1]][2])
-yfit &lt;- yfit*diff(h$mids[1:2])*length(xfit)
-lines(xfit, yfit, col=&quot;blue&quot;, lwd=2)
-
-####&quot;chi-squared&quot;,        
-&quot;chi-squared&quot;,
-x &lt;-rchisq(100, df=5, ncp =2)
-res &lt;- fitdistr(x, &quot;chi-squared&quot;, start=list(df=2, ncp =1))
-h &lt;-hist(x)
-xfit &lt;-seq(min(x), max(x), by=(max(x)-min(x))/100)
-yfit &lt;-dchisq(xfit,res[[1]][1],res[[1]][2])
-yfit &lt;- yfit*diff(h$mids[1:2])*length(xfit)
-lines(xfit, yfit, col=&quot;blue&quot;, lwd=2)
-
-####&quot;exponential&quot;,        
-&quot;exponential&quot;
-x &lt;-rexp(100, rate =10)
-res &lt;- fitdistr(x, &quot;exponential&quot;)
-h &lt;-hist(x)
-xfit &lt;-seq(min(x), max(x), by=(max(x)-min(x))/100)
-yfit &lt;-dexp(xfit,res[[1]][1])
-yfit &lt;- yfit*diff(h$mids[1:2])*length(xfit)
-lines(xfit, yfit, col=&quot;blue&quot;, lwd=2)
-
-####&quot;f&quot;,                  
-&quot;f&quot;
-x &lt;-rf(100, df1 =60, df2 =50)
-res &lt;- fitdistr(x, &quot;f&quot;, start=list(df1 =10, df2 =2))
-h &lt;-hist(x)
-xfit &lt;-seq(min(x), max(x), by=(max(x)-min(x))/100)
-yfit &lt;-df(xfit,res[[1]][1], res[[1]][2])
-yfit &lt;- yfit*diff(h$mids[1:2])*length(xfit)
-lines(xfit, yfit, col=&quot;blue&quot;, lwd=2)
-
-####&quot;lognormal&quot;,          
-&quot;lognormal&quot;
-x &lt;-rlnorm(100, meanlog =5, sdlog =1.5)
-res &lt;- fitdistr(x, &quot;lognormal&quot;)
-h &lt;-hist(x)
-xfit &lt;-seq(min(x), max(x), by=(max(x)-min(x))/100)
-yfit &lt;-dlnorm(xfit,res[[1]][1], res[[1]][2])
-yfit &lt;- yfit*diff(h$mids[1:2])*length(xfit)
-lines(xfit, yfit, col=&quot;blue&quot;, lwd=2)
-
-####&quot;logistic&quot;,          
-&quot;logistic&quot;,
-x &lt;-rlogis(100, location =5, scale=2)
-res &lt;- fitdistr(x, &quot;logistic&quot;, start=list(location=5, scale=2))
-h &lt;-hist(x)
-xfit &lt;-seq(min(x), max(x), by=(max(x)-min(x))/100)
-yfit &lt;-dlogis(xfit,res[[1]][1], res[[1]][2])
-yfit &lt;- yfit*diff(h$mids[1:2])*length(xfit)
-lines(xfit, yfit, col=&quot;blue&quot;, lwd=2)
-
-#### &quot;negativebinomial&quot;,  
-&quot;negative binomial&quot;,
-x &lt;-rnbinom(100, size =300, prob =.3)
-res &lt;- fitdistr(x, &quot;negative binomial&quot;)
-h &lt;-hist(x)
-xfit &lt;-floor(seq(min(x), max(x), by=(max(x)-min(x))/100))
-yfit &lt;-dnbinom(xfit,size = res[[1]][1], mu = res[[1]][2])
-yfit &lt;- yfit*diff(h$mids[1:2])*length(xfit)
-lines(xfit, yfit, col=&quot;blue&quot;, lwd=2)
-####&quot;normal&quot;,            
-&quot;normal&quot;
-x &lt;-rnorm(100, mean=15, sd=2)
-res &lt;- fitdistr(x, &quot;normal&quot;)
-h &lt;-hist(x)
-xfit &lt;-seq(min(x), max(x), by=(max(x)-min(x))/100)
-yfit &lt;-dnorm(xfit, mean= res[[1]][1], sd= res[[1]][2])
-yfit &lt;- yfit*diff(h$mids[1:2])*length(xfit)
-lines(xfit, yfit, col=&quot;blue&quot;, lwd=2)
-
-####&quot;Poisson&quot;,            
-&quot;Poisson&quot;,
-x &lt;-rpois(100, lambda =400)
-res &lt;- fitdistr(x, &quot;Poisson&quot;)
-h &lt;-hist(x)
-xfit &lt;-floor(seq(min(x), max(x), by=(max(x)-min(x))/100))
-yfit &lt;-dpois(xfit,res[[1]][1])
-yfit &lt;- yfit*diff(h$mids[1:2])*length(xfit)
-lines(xfit, yfit, col=&quot;blue&quot;, lwd=2)
-
-####&quot;t&quot;                  
-&quot;t&quot;
-x &lt;-rt(100, df=5)
-res &lt;- fitdistr(x, &quot;t&quot;)
-h &lt;-hist(x)
-xfit &lt;-seq(min(x), max(x), by=(max(x)-min(x))/100)
-yfit &lt;-dt(xfit,res[[1]][3])  
-yfit &lt;- yfit*diff(h$mids[1:2])*length(xfit)
-lines(xfit, yfit, col=&quot;blue&quot;, lwd=2)
-
-####&quot;weibull&quot;            
-&quot;weibull&quot;
-x &lt;-rweibull(100, shape =5, scale=9)
-res &lt;- fitdistr(x, &quot;weibull&quot;, start=list(shape =1, scale=1))
-h &lt;-hist(x)
-xfit &lt;-seq(min(x), max(x), by=(max(x)-min(x))/100)
-yfit &lt;-dweibull(xfit,res[[1]][1], res[[1]][2])
-yfit &lt;- yfit*diff(h$mids[1:2])*length(xfit)
-lines(xfit, yfit, col=&quot;blue&quot;, lwd=2)
-</code></pre>
-
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br></pre></td><td class="code"><pre><span class="line">library(MASS)</span><br><span class="line"></span><br><span class="line"><span class="comment">#### Gammadistribution</span></span><br><span class="line">x &lt;-rgamma(<span class="number">100</span>, shape =<span class="number">5</span>, rate =<span class="number">0.1</span>)</span><br><span class="line">res &lt;- fitdistr(x, <span class="string">&quot;gamma&quot;</span>)</span><br><span class="line">h &lt;-hist(x)</span><br><span class="line">xfit &lt;-seq(<span class="built_in">min</span>(x), <span class="built_in">max</span>(x), by=(<span class="built_in">max</span>(x)-<span class="built_in">min</span>(x))/<span class="number">100</span>)</span><br><span class="line">yfit &lt;-dgamma(xfit,res[[<span class="number">1</span>]][<span class="number">1</span>],res[[<span class="number">1</span>]][<span class="number">2</span>])</span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(xfit)</span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">####&quot;beta&quot;                </span></span><br><span class="line">x &lt;-rbeta(<span class="number">100</span>, shape1 =<span class="number">5</span>, shape2 =<span class="number">2</span>)</span><br><span class="line">res &lt;- fitdistr(x, <span class="string">&quot;beta&quot;</span>, start=<span class="built_in">list</span>(shape1 =<span class="number">4</span>, shape2 =<span class="number">1</span>))</span><br><span class="line">h &lt;-hist(x)</span><br><span class="line">xfit &lt;-seq(<span class="built_in">min</span>(x), <span class="built_in">max</span>(x), by=(<span class="built_in">max</span>(x)-<span class="built_in">min</span>(x))/<span class="number">100</span>)</span><br><span class="line">yfit &lt;-dbeta(xfit,res[[<span class="number">1</span>]][<span class="number">1</span>],res[[<span class="number">1</span>]][<span class="number">2</span>])</span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(xfit)</span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">####&quot;cauchy&quot;,            </span></span><br><span class="line"><span class="string">&quot;cauchy&quot;</span>,</span><br><span class="line">x &lt;-rcauchy(<span class="number">100</span>, location =<span class="number">200</span>, scale=<span class="number">300</span>)</span><br><span class="line">res &lt;- fitdistr(x, <span class="string">&quot;cauchy&quot;</span>)</span><br><span class="line">h &lt;-hist(x)</span><br><span class="line">xfit &lt;-seq(<span class="built_in">min</span>(x), <span class="built_in">max</span>(x), by=(<span class="built_in">max</span>(x)-<span class="built_in">min</span>(x))/<span class="number">100</span>)</span><br><span class="line">yfit &lt;-dcauchy(xfit,res[[<span class="number">1</span>]][<span class="number">1</span>],res[[<span class="number">1</span>]][<span class="number">2</span>])</span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(xfit)</span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">####&quot;chi-squared&quot;,        </span></span><br><span class="line"><span class="string">&quot;chi-squared&quot;</span>,</span><br><span class="line">x &lt;-rchisq(<span class="number">100</span>, df=<span class="number">5</span>, ncp =<span class="number">2</span>)</span><br><span class="line">res &lt;- fitdistr(x, <span class="string">&quot;chi-squared&quot;</span>, start=<span class="built_in">list</span>(df=<span class="number">2</span>, ncp =<span class="number">1</span>))</span><br><span class="line">h &lt;-hist(x)</span><br><span class="line">xfit &lt;-seq(<span class="built_in">min</span>(x), <span class="built_in">max</span>(x), by=(<span class="built_in">max</span>(x)-<span class="built_in">min</span>(x))/<span class="number">100</span>)</span><br><span class="line">yfit &lt;-dchisq(xfit,res[[<span class="number">1</span>]][<span class="number">1</span>],res[[<span class="number">1</span>]][<span class="number">2</span>])</span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(xfit)</span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">####&quot;exponential&quot;,        </span></span><br><span class="line"><span class="string">&quot;exponential&quot;</span></span><br><span class="line">x &lt;-rexp(<span class="number">100</span>, rate =<span class="number">10</span>)</span><br><span class="line">res &lt;- fitdistr(x, <span class="string">&quot;exponential&quot;</span>)</span><br><span class="line">h &lt;-hist(x)</span><br><span class="line">xfit &lt;-seq(<span class="built_in">min</span>(x), <span class="built_in">max</span>(x), by=(<span class="built_in">max</span>(x)-<span class="built_in">min</span>(x))/<span class="number">100</span>)</span><br><span class="line">yfit &lt;-dexp(xfit,res[[<span class="number">1</span>]][<span class="number">1</span>])</span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(xfit)</span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">####&quot;f&quot;,                  </span></span><br><span class="line"><span class="string">&quot;f&quot;</span></span><br><span class="line">x &lt;-rf(<span class="number">100</span>, df1 =<span class="number">60</span>, df2 =<span class="number">50</span>)</span><br><span class="line">res &lt;- fitdistr(x, <span class="string">&quot;f&quot;</span>, start=<span class="built_in">list</span>(df1 =<span class="number">10</span>, df2 =<span class="number">2</span>))</span><br><span class="line">h &lt;-hist(x)</span><br><span class="line">xfit &lt;-seq(<span class="built_in">min</span>(x), <span class="built_in">max</span>(x), by=(<span class="built_in">max</span>(x)-<span class="built_in">min</span>(x))/<span class="number">100</span>)</span><br><span class="line">yfit &lt;-df(xfit,res[[<span class="number">1</span>]][<span class="number">1</span>], res[[<span class="number">1</span>]][<span class="number">2</span>])</span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(xfit)</span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">####&quot;lognormal&quot;,          </span></span><br><span class="line"><span class="string">&quot;lognormal&quot;</span></span><br><span class="line">x &lt;-rlnorm(<span class="number">100</span>, meanlog =<span class="number">5</span>, sdlog =<span class="number">1.5</span>)</span><br><span class="line">res &lt;- fitdistr(x, <span class="string">&quot;lognormal&quot;</span>)</span><br><span class="line">h &lt;-hist(x)</span><br><span class="line">xfit &lt;-seq(<span class="built_in">min</span>(x), <span class="built_in">max</span>(x), by=(<span class="built_in">max</span>(x)-<span class="built_in">min</span>(x))/<span class="number">100</span>)</span><br><span class="line">yfit &lt;-dlnorm(xfit,res[[<span class="number">1</span>]][<span class="number">1</span>], res[[<span class="number">1</span>]][<span class="number">2</span>])</span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(xfit)</span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">####&quot;logistic&quot;,          </span></span><br><span class="line"><span class="string">&quot;logistic&quot;</span>,</span><br><span class="line">x &lt;-rlogis(<span class="number">100</span>, location =<span class="number">5</span>, scale=<span class="number">2</span>)</span><br><span class="line">res &lt;- fitdistr(x, <span class="string">&quot;logistic&quot;</span>, start=<span class="built_in">list</span>(location=<span class="number">5</span>, scale=<span class="number">2</span>))</span><br><span class="line">h &lt;-hist(x)</span><br><span class="line">xfit &lt;-seq(<span class="built_in">min</span>(x), <span class="built_in">max</span>(x), by=(<span class="built_in">max</span>(x)-<span class="built_in">min</span>(x))/<span class="number">100</span>)</span><br><span class="line">yfit &lt;-dlogis(xfit,res[[<span class="number">1</span>]][<span class="number">1</span>], res[[<span class="number">1</span>]][<span class="number">2</span>])</span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(xfit)</span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#### &quot;negativebinomial&quot;,  </span></span><br><span class="line"><span class="string">&quot;negative binomial&quot;</span>,</span><br><span class="line">x &lt;-rnbinom(<span class="number">100</span>, size =<span class="number">300</span>, prob =<span class="number">.3</span>)</span><br><span class="line">res &lt;- fitdistr(x, <span class="string">&quot;negative binomial&quot;</span>)</span><br><span class="line">h &lt;-hist(x)</span><br><span class="line">xfit &lt;-<span class="built_in">floor</span>(seq(<span class="built_in">min</span>(x), <span class="built_in">max</span>(x), by=(<span class="built_in">max</span>(x)-<span class="built_in">min</span>(x))/<span class="number">100</span>))</span><br><span class="line">yfit &lt;-dnbinom(xfit,size = res[[<span class="number">1</span>]][<span class="number">1</span>], mu = res[[<span class="number">1</span>]][<span class="number">2</span>])</span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(xfit)</span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>)</span><br><span class="line"><span class="comment">####&quot;normal&quot;,            </span></span><br><span class="line"><span class="string">&quot;normal&quot;</span></span><br><span class="line">x &lt;-rnorm(<span class="number">100</span>, mean=<span class="number">15</span>, sd=<span class="number">2</span>)</span><br><span class="line">res &lt;- fitdistr(x, <span class="string">&quot;normal&quot;</span>)</span><br><span class="line">h &lt;-hist(x)</span><br><span class="line">xfit &lt;-seq(<span class="built_in">min</span>(x), <span class="built_in">max</span>(x), by=(<span class="built_in">max</span>(x)-<span class="built_in">min</span>(x))/<span class="number">100</span>)</span><br><span class="line">yfit &lt;-dnorm(xfit, mean= res[[<span class="number">1</span>]][<span class="number">1</span>], sd= res[[<span class="number">1</span>]][<span class="number">2</span>])</span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(xfit)</span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">####&quot;Poisson&quot;,            </span></span><br><span class="line"><span class="string">&quot;Poisson&quot;</span>,</span><br><span class="line">x &lt;-rpois(<span class="number">100</span>, lambda =<span class="number">400</span>)</span><br><span class="line">res &lt;- fitdistr(x, <span class="string">&quot;Poisson&quot;</span>)</span><br><span class="line">h &lt;-hist(x)</span><br><span class="line">xfit &lt;-<span class="built_in">floor</span>(seq(<span class="built_in">min</span>(x), <span class="built_in">max</span>(x), by=(<span class="built_in">max</span>(x)-<span class="built_in">min</span>(x))/<span class="number">100</span>))</span><br><span class="line">yfit &lt;-dpois(xfit,res[[<span class="number">1</span>]][<span class="number">1</span>])</span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(xfit)</span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">####&quot;t&quot;                  </span></span><br><span class="line"><span class="string">&quot;t&quot;</span></span><br><span class="line">x &lt;-rt(<span class="number">100</span>, df=<span class="number">5</span>)</span><br><span class="line">res &lt;- fitdistr(x, <span class="string">&quot;t&quot;</span>)</span><br><span class="line">h &lt;-hist(x)</span><br><span class="line">xfit &lt;-seq(<span class="built_in">min</span>(x), <span class="built_in">max</span>(x), by=(<span class="built_in">max</span>(x)-<span class="built_in">min</span>(x))/<span class="number">100</span>)</span><br><span class="line">yfit &lt;-dt(xfit,res[[<span class="number">1</span>]][<span class="number">3</span>])  </span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(xfit)</span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">####&quot;weibull&quot;            </span></span><br><span class="line"><span class="string">&quot;weibull&quot;</span></span><br><span class="line">x &lt;-rweibull(<span class="number">100</span>, shape =<span class="number">5</span>, scale=<span class="number">9</span>)</span><br><span class="line">res &lt;- fitdistr(x, <span class="string">&quot;weibull&quot;</span>, start=<span class="built_in">list</span>(shape =<span class="number">1</span>, scale=<span class="number">1</span>))</span><br><span class="line">h &lt;-hist(x)</span><br><span class="line">xfit &lt;-seq(<span class="built_in">min</span>(x), <span class="built_in">max</span>(x), by=(<span class="built_in">max</span>(x)-<span class="built_in">min</span>(x))/<span class="number">100</span>)</span><br><span class="line">yfit &lt;-dweibull(xfit,res[[<span class="number">1</span>]][<span class="number">1</span>], res[[<span class="number">1</span>]][<span class="number">2</span>])</span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(xfit)</span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/10/31/2014-10-31-fitting/" data-id="ckmq42aiq005o1k849ip820fd" data-title="R拟合统计分布并绘制曲线" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/10/31/2014-10-31-fitting/" data-id="ckmt6y7mb005vmgya2aerdbbw" data-title="R拟合统计分布并绘制曲线" class="article-share-link">Share</a>
       
       
       

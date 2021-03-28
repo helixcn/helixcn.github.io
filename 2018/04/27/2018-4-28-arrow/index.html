@@ -14,7 +14,7 @@
 <meta property="og:description" content="用R绘制采样点地图——带指北针、比例尺、图例已有 4286 次阅读 2018-4-28 01:03 |系统分类:科研笔记    推荐到群组   本例子中的代码已经不推荐使用，tmap版本的地图示例参见 http:&#x2F;&#x2F;blog.sciencenet.cn&#x2F;blog-255662-1144743.html  如果所示： 用R绘制的采样点地图——带指北针、比例尺、图例等  更多请参考 https:&#x2F;&#x2F;n">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2018-04-27T09:03:54.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:34:24.616Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:26.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="地理">
 <meta name="twitter:card" content="summary">
@@ -103,96 +103,11 @@
 <p>如果所示： 用R绘制的采样点地图——带指北针、比例尺、图例等 </p>
 <p>更多请参考 <a target="_blank" rel="noopener" href="https://news-at.zhihu.com/story/9275383">https://news-at.zhihu.com/story/9275383</a></p>
 <p>源代码和数据下载 <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=attachment&id=194129">用R绘制采样点地图.zip</a></p>
-<pre><code class="R">setwd(&quot;/Users/jinlong/world map&quot;)
-
-library(maps)     ## 提供绘制世界地图的函数
-
-library(mapdata)  ## 提供世界地图
-
-library(openxlsx) ## 读取xlsx文件
-
-library(ggplot2)  ## 绘图核心函数
-
-library(ggsn)     ## 提供指北针
-
-library(legendMap) ## 提供比例尺
-
-\### devtools::install_github(&quot;3wen/legendMap&quot;)
-
-library(maptools) ## 提供readShapePoly函数， 读取中国多边形数据
-
-
-
-\### Download https://simplemaps.com/static/data/world-cities/basic/simplemaps-worldcities-basic.csv
-
-
-
-china0   &lt;-readShapePoly(&quot;bou1_4p&quot;) ## 读取中国地图
-
-china_df &lt;-fortify(china0) ## 将list转换为ggplot可以使用的dataframe
-
-
-
-\##读取数据https://simplemaps.com/static/data/world-cities/basic/simplemaps-worldcities-basic.csv
-
-cities &lt;-read.csv(&quot;simplemaps-worldcities-basic.csv&quot;)
-
-cities &lt;-cities[sample(1:nrow(cities),size =200), ] ## 元数据有7000条， 这里随机选出100条
-
-
-
-pdf(file =&quot;sampling sites location.pdf&quot;,width =11.5,height =5.8)
-
-\### tiff(filename = &quot;sampling sites location.tiff&quot;,
-
-\###      width = 7200, height = 3600, res = 600,
-
-\###      compression = &quot;lzw&quot;)  ## 如果输出tiff文件，600dpi，宽度7200像素，高度3600像素
-
-rrr &lt;-ggplot()+
-
-borders(colour=&#39;darkgrey&#39;)+                 ##添加世界地图
-
-geom_polygon(data =china_df,
-
- aes(x =long, y =lat, group =group), colour =&quot;darkgrey&quot;,
-
- fill =&quot;white&quot;)+                          ##添加中国地图
-
-geom_point(data =cities,
-
- aes(x=lng,y=lat,colour=pop),size =2)+ ##点的颜色代表人口
-
- theme_bw()+                               ##简约风格主题
-
- ggtitle(&quot;Population of World Cities&quot;)+    ##标题
-
- scale_bar(lon =100,lat =-60,
-
-​           distance_lon =1000,distance_lat =200,
-
-​           distance_legend =500,dist_unit =&quot;km&quot;,
-
-​           arrow_length =0,arrow_distance =0,
-
-​           arrow_north_size =0)+    ##比例尺
-
- xlab(&quot;Longitude (Degree)&quot;)+         ##横坐标
-
- ylab(&quot;Latitude (Degree)&quot;)+          ##纵坐标
-
- scale_colour_gradientn(colours=c(&quot;green&quot;,&quot;yellow&quot;,&quot;orange&quot;,&quot;red&quot;))
-
-
-north2(rrr,.82,.88)                   ## 数字是指定指北针的位置
-
-dev.off()
-</code></pre>
-
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;/Users/jinlong/world map&quot;</span>)</span><br><span class="line"></span><br><span class="line">library(maps)     <span class="comment">## 提供绘制世界地图的函数</span></span><br><span class="line"></span><br><span class="line">library(mapdata)  <span class="comment">## 提供世界地图</span></span><br><span class="line"></span><br><span class="line">library(openxlsx) <span class="comment">## 读取xlsx文件</span></span><br><span class="line"></span><br><span class="line">library(ggplot2)  <span class="comment">## 绘图核心函数</span></span><br><span class="line"></span><br><span class="line">library(ggsn)     <span class="comment">## 提供指北针</span></span><br><span class="line"></span><br><span class="line">library(legendMap) <span class="comment">## 提供比例尺</span></span><br><span class="line"></span><br><span class="line">\<span class="comment">### devtools::install_github(&quot;3wen/legendMap&quot;)</span></span><br><span class="line"></span><br><span class="line">library(maptools) <span class="comment">## 提供readShapePoly函数， 读取中国多边形数据</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">\<span class="comment">### Download https://simplemaps.com/static/data/world-cities/basic/simplemaps-worldcities-basic.csv</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">china0   &lt;-readShapePoly(<span class="string">&quot;bou1_4p&quot;</span>) <span class="comment">## 读取中国地图</span></span><br><span class="line"></span><br><span class="line">china_df &lt;-fortify(china0) <span class="comment">## 将list转换为ggplot可以使用的dataframe</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">\<span class="comment">##读取数据https://simplemaps.com/static/data/world-cities/basic/simplemaps-worldcities-basic.csv</span></span><br><span class="line"></span><br><span class="line">cities &lt;-read.csv(<span class="string">&quot;simplemaps-worldcities-basic.csv&quot;</span>)</span><br><span class="line"></span><br><span class="line">cities &lt;-cities[sample(<span class="number">1</span>:nrow(cities),size =<span class="number">200</span>), ] <span class="comment">## 元数据有7000条， 这里随机选出100条</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pdf(file =<span class="string">&quot;sampling sites location.pdf&quot;</span>,width =<span class="number">11.5</span>,height =<span class="number">5.8</span>)</span><br><span class="line"></span><br><span class="line">\<span class="comment">### tiff(filename = &quot;sampling sites location.tiff&quot;,</span></span><br><span class="line"></span><br><span class="line">\<span class="comment">###      width = 7200, height = 3600, res = 600,</span></span><br><span class="line"></span><br><span class="line">\<span class="comment">###      compression = &quot;lzw&quot;)  ## 如果输出tiff文件，600dpi，宽度7200像素，高度3600像素</span></span><br><span class="line"></span><br><span class="line">rrr &lt;-ggplot()+</span><br><span class="line"></span><br><span class="line">borders(colour=<span class="string">&#x27;darkgrey&#x27;</span>)+                 <span class="comment">##添加世界地图</span></span><br><span class="line"></span><br><span class="line">geom_polygon(data =china_df,</span><br><span class="line"></span><br><span class="line"> aes(x =long, y =lat, group =group), colour =<span class="string">&quot;darkgrey&quot;</span>,</span><br><span class="line"></span><br><span class="line"> fill =<span class="string">&quot;white&quot;</span>)+                          <span class="comment">##添加中国地图</span></span><br><span class="line"></span><br><span class="line">geom_point(data =cities,</span><br><span class="line"></span><br><span class="line"> aes(x=lng,y=lat,colour=pop),size =<span class="number">2</span>)+ <span class="comment">##点的颜色代表人口</span></span><br><span class="line"></span><br><span class="line"> theme_bw()+                               <span class="comment">##简约风格主题</span></span><br><span class="line"></span><br><span class="line"> ggtitle(<span class="string">&quot;Population of World Cities&quot;</span>)+    <span class="comment">##标题</span></span><br><span class="line"></span><br><span class="line"> scale_bar(lon =<span class="number">100</span>,lat =-<span class="number">60</span>,</span><br><span class="line"></span><br><span class="line">​           distance_lon =<span class="number">1000</span>,distance_lat =<span class="number">200</span>,</span><br><span class="line"></span><br><span class="line">​           distance_legend =<span class="number">500</span>,dist_unit =<span class="string">&quot;km&quot;</span>,</span><br><span class="line"></span><br><span class="line">​           arrow_length =<span class="number">0</span>,arrow_distance =<span class="number">0</span>,</span><br><span class="line"></span><br><span class="line">​           arrow_north_size =<span class="number">0</span>)+    <span class="comment">##比例尺</span></span><br><span class="line"></span><br><span class="line"> xlab(<span class="string">&quot;Longitude (Degree)&quot;</span>)+         <span class="comment">##横坐标</span></span><br><span class="line"></span><br><span class="line"> ylab(<span class="string">&quot;Latitude (Degree)&quot;</span>)+          <span class="comment">##纵坐标</span></span><br><span class="line"></span><br><span class="line"> scale_colour_gradientn(colours=<span class="built_in">c</span>(<span class="string">&quot;green&quot;</span>,<span class="string">&quot;yellow&quot;</span>,<span class="string">&quot;orange&quot;</span>,<span class="string">&quot;red&quot;</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">north2(rrr,<span class="number">.82</span>,<span class="number">.88</span>)                   <span class="comment">## 数字是指定指北针的位置</span></span><br><span class="line"></span><br><span class="line">dev.off()</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/04/27/2018-4-28-arrow/" data-id="ckmq42akj00bc1k84gk1rc30e" data-title="用R绘制采样点地图——带指北针、比例尺、图例" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/04/27/2018-4-28-arrow/" data-id="ckmt6y7pa00bymgya7xrgggtg" data-title="用R绘制采样点地图——带指北针、比例尺、图例" class="article-share-link">Share</a>
       
       
       

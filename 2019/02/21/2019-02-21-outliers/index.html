@@ -6,17 +6,17 @@
   
   <title>数据整理中怎样去掉各组的异常值？ | Jinlong Zhang&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="假设500人中有男女若干，现要比较饭前(before)和饭后(after)某生理指标的变化。由于数据誊写错误，测量指标中出现了一些异常值(outlier)。 问，如果按照性别以及饭前饭后分组，怎样去掉各组内的异常值？ 思路：先定义识别和转换异常值的函数, 将一个向量中的异常值转换为NA。再用dplyr程序包将该函数应用于各组数据。 解答： library(ggplot2) library(dply">
+  <meta name="description" content="假设500人中有男女若干，现要比较饭前(before)和饭后(after)某生理指标的变化。由于数据誊写错误，测量指标中出现了一些异常值(outlier)。 问，如果按照性别以及饭前饭后分组，怎样去掉各组内的异常值？ 思路：先定义识别和转换异常值的函数, 将一个向量中的异常值转换为NA。再用dplyr程序包将该函数应用于各组数据。 解答： 12345678910111213141516171819">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数据整理中怎样去掉各组的异常值？">
 <meta property="og:url" content="https://helixcn.github.io/2019/02/21/2019-02-21-outliers/index.html">
 <meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
-<meta property="og:description" content="假设500人中有男女若干，现要比较饭前(before)和饭后(after)某生理指标的变化。由于数据誊写错误，测量指标中出现了一些异常值(outlier)。 问，如果按照性别以及饭前饭后分组，怎样去掉各组内的异常值？ 思路：先定义识别和转换异常值的函数, 将一个向量中的异常值转换为NA。再用dplyr程序包将该函数应用于各组数据。 解答： library(ggplot2) library(dply">
+<meta property="og:description" content="假设500人中有男女若干，现要比较饭前(before)和饭后(after)某生理指标的变化。由于数据誊写错误，测量指标中出现了一些异常值(outlier)。 问，如果按照性别以及饭前饭后分组，怎样去掉各组内的异常值？ 思路：先定义识别和转换异常值的函数, 将一个向量中的异常值转换为NA。再用dplyr程序包将该函数应用于各组数据。 解答： 12345678910111213141516171819">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://blog.sciencenet.cn/data/attachment/ueditor/upload/scrawl/201902/21/1550715408193293.png">
 <meta property="og:image" content="http://blog.sciencenet.cn/data/attachment/ueditor/upload/scrawl/201902/21/1550715408350021.png">
 <meta property="article:published_time" content="2019-02-20T18:18:54.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:34:24.624Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:26.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="R编程">
 <meta name="twitter:card" content="summary">
@@ -104,67 +104,17 @@
         <p>假设500人中有男女若干，现要比较饭前(before)和饭后(after)某生理指标的变化。由于数据誊写错误，测量指标中出现了一些异常值(outlier)。 问，如果按照性别以及饭前饭后分组，怎样去掉各组内的异常值？</p>
 <p>思路：先定义识别和转换异常值的函数, 将一个向量中的异常值转换为NA。再用dplyr程序包将该函数应用于各组数据。</p>
 <p>解答：</p>
-<pre><code class="R">library(ggplot2)
-library(dplyr)
-## 
-## Attaching package: &#39;dplyr&#39;
-## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     filter, lag
-## The following objects are masked from &#39;package:base&#39;:
-## 
-##     intersect, setdiff, setequal, union
-## 参考  https://stackoverflow.com/questions/49982794/remove-outliers-by-group-in-r
-## 对于一个向量x, 先计算其上下四分位数
-## 若任何值超过上四分位数的1.5倍，或低于下四分位数的1.5倍，一般认为是异常值
-## 下面的函数将异常值转换为NA
-remove_outliers &lt;- function(x, na.rm = TRUE, ...) &#123;
-    qnt &lt;- quantile(x, probs=c(.25, .75), na.rm = na.rm, ...)
-    H &lt;- 1.5 * IQR(x, na.rm = na.rm)
-    y &lt;- x
-    y[x &lt; (qnt[1] - H)] &lt;- NA
-    y[x &gt; (qnt[2] + H)] &lt;- NA
-    y
-&#125;
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">library(ggplot2)</span><br><span class="line">library(dplyr)</span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## Attaching package: &#x27;dplyr&#x27;</span></span><br><span class="line"><span class="comment">## The following objects are masked from &#x27;package:stats&#x27;:</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">##     filter, lag</span></span><br><span class="line"><span class="comment">## The following objects are masked from &#x27;package:base&#x27;:</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">##     intersect, setdiff, setequal, union</span></span><br><span class="line"><span class="comment">## 参考  https://stackoverflow.com/questions/49982794/remove-outliers-by-group-in-r</span></span><br><span class="line"><span class="comment">## 对于一个向量x, 先计算其上下四分位数</span></span><br><span class="line"><span class="comment">## 若任何值超过上四分位数的1.5倍，或低于下四分位数的1.5倍，一般认为是异常值</span></span><br><span class="line"><span class="comment">## 下面的函数将异常值转换为NA</span></span><br><span class="line">remove_outliers &lt;- <span class="keyword">function</span>(x, na.rm = <span class="literal">TRUE</span>, ...) &#123;</span><br><span class="line">    qnt &lt;- quantile(x, probs=<span class="built_in">c</span>(<span class="number">.25</span>, <span class="number">.75</span>), na.rm = na.rm, ...)</span><br><span class="line">    H &lt;- 1.5 * IQR(x, na.rm = na.rm)</span><br><span class="line">    y &lt;- x</span><br><span class="line">    y[x &lt; (qnt[<span class="number">1</span>] - H)] &lt;- <span class="literal">NA</span></span><br><span class="line">    y[x &gt; (qnt[<span class="number">2</span>] + H)] &lt;- <span class="literal">NA</span></span><br><span class="line">    y</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">## 生成一套随机数据</span></span><br><span class="line"></span><br><span class="line">test_dat &lt;- data.frame(</span><br><span class="line">    ID = <span class="built_in">c</span>(<span class="number">1</span>:<span class="number">500</span>,<span class="number">1</span>:<span class="number">500</span>), </span><br><span class="line">    age = <span class="built_in">rep</span>(sample(<span class="number">18</span>:<span class="number">70</span>, <span class="number">500</span>, replace = <span class="literal">TRUE</span>), <span class="number">2</span>) ,</span><br><span class="line">    gender = gl(<span class="number">2</span>, <span class="number">500</span>, labels = <span class="built_in">c</span>(<span class="string">&quot;male&quot;</span>, <span class="string">&quot;female&quot;</span>)), </span><br><span class="line">    meal = gl(<span class="number">2</span>, <span class="number">500</span>, labels = <span class="built_in">c</span>(<span class="string">&quot;before&quot;</span>, <span class="string">&quot;after&quot;</span>))[sample(<span class="number">1</span>:<span class="number">1000</span>)],</span><br><span class="line">    value = <span class="built_in">c</span>(<span class="built_in">c</span>(rnorm(<span class="number">490</span>), rnorm(<span class="number">10</span>)*<span class="number">5</span>),  <span class="built_in">c</span>(rnorm(<span class="number">490</span>), rnorm(<span class="number">10</span>)*<span class="number">5</span>) + <span class="number">3</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">head(test_dat)</span><br><span class="line"><span class="comment">##   ID age gender  meal        value</span></span><br><span class="line"><span class="comment">## 1  1  25   male after -1.233542780</span></span><br><span class="line"><span class="comment">## 2  2  25   male after -0.003499835</span></span><br><span class="line"><span class="comment">## 3  3  54   male after -0.265865215</span></span><br><span class="line"><span class="comment">## 4  4  24   male after  1.281983039</span></span><br><span class="line"><span class="comment">## 5  5  21   male after -0.114771555</span></span><br><span class="line"><span class="comment">## 6  6  41   male after  0.763784322</span></span><br><span class="line">ggplot(test_dat, aes(x = gender, y = value, fill = meal)) + </span><br><span class="line">    geom_boxplot() + </span><br><span class="line">    ggtitle(<span class="string">&quot;Original&quot;</span>)</span><br></pre></td></tr></table></figure>
 
-## 生成一套随机数据
-
-test_dat &lt;- data.frame(
-    ID = c(1:500,1:500), 
-    age = rep(sample(18:70, 500, replace = TRUE), 2) ,
-    gender = gl(2, 500, labels = c(&quot;male&quot;, &quot;female&quot;)), 
-    meal = gl(2, 500, labels = c(&quot;before&quot;, &quot;after&quot;))[sample(1:1000)],
-    value = c(c(rnorm(490), rnorm(10)*5),  c(rnorm(490), rnorm(10)*5) + 3)
-)
-
-head(test_dat)
-##   ID age gender  meal        value
-## 1  1  25   male after -1.233542780
-## 2  2  25   male after -0.003499835
-## 3  3  54   male after -0.265865215
-## 4  4  24   male after  1.281983039
-## 5  5  21   male after -0.114771555
-## 6  6  41   male after  0.763784322
-ggplot(test_dat, aes(x = gender, y = value, fill = meal)) + 
-    geom_boxplot() + 
-    ggtitle(&quot;Original&quot;)
-</code></pre>
 <p><img src="http://blog.sciencenet.cn/data/attachment/ueditor/upload/scrawl/201902/21/1550715408193293.png" alt="img"></p>
-<pre><code>test_dat2 &lt;- test_dat %&gt;%
-    group_by_at(.vars = c(&quot;meal&quot;, &quot;gender&quot;)) %&gt;% 
-    mutate(value_new = case_when(TRUE ~ remove_outliers(value), TRUE ~ value))
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">test_dat2 &lt;- test_dat %&gt;%</span><br><span class="line">    group_by_at(.vars &#x3D; c(&quot;meal&quot;, &quot;gender&quot;)) %&gt;% </span><br><span class="line">    mutate(value_new &#x3D; case_when(TRUE ~ remove_outliers(value), TRUE ~ value))</span><br><span class="line"></span><br><span class="line">ggplot(test_dat2, aes(x &#x3D; gender, y &#x3D; value_new, fill &#x3D; meal)) + </span><br><span class="line">    geom_boxplot() + </span><br><span class="line">    ggtitle(&quot;Outlier Removed&quot;)</span><br><span class="line">## Warning: Removed 18 rows containing non-finite values (stat_boxplot).</span><br></pre></td></tr></table></figure>
 
-ggplot(test_dat2, aes(x = gender, y = value_new, fill = meal)) + 
-    geom_boxplot() + 
-    ggtitle(&quot;Outlier Removed&quot;)
-## Warning: Removed 18 rows containing non-finite values (stat_boxplot).
-</code></pre>
 <p><img src="http://blog.sciencenet.cn/data/attachment/ueditor/upload/scrawl/201902/21/1550715408350021.png" alt="img"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2019/02/21/2019-02-21-outliers/" data-id="ckmq42akq00bw1k846h088z1o" data-title="数据整理中怎样去掉各组的异常值？" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2019/02/21/2019-02-21-outliers/" data-id="ckmt6y7pq00cmmgyaaqr034v0" data-title="数据整理中怎样去掉各组的异常值？" class="article-share-link">Share</a>
       
       
       

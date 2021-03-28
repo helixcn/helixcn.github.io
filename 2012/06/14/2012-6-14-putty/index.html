@@ -14,7 +14,7 @@
 <meta property="og:description" content="Putty远程登录Linux，在putty会话窗口关闭后， 远程的命令也停止了执行， 如果想要命令继续执行， 则需要用screen程序。  方法如下：   用Putty登录服务器;用户名， 密码 输入screen, 给出帮助提示， 按空格跳过 此时， 程序又回到命令提示符， 但是操作都将在screen中记录。 运行程序（可能需要长时间）。 按住Ctrl + a + d， 此时， 窗口程序与Putt">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2012-06-13T18:33:54.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:34:24.530Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:26.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="软件">
 <meta name="twitter:card" content="summary">
@@ -104,8 +104,7 @@
 <li>用Putty登录服务器;用户名， 密码</li>
 <li>输入screen, 给出帮助提示， 按空格跳过</li>
 <li>此时， 程序又回到命令提示符， 但是操作都将在screen中记录。 运行程序（可能需要长时间）。 按住Ctrl + a + d， 此时， 窗口程序与Putty的会话断开， 并提示： </li>
-<li>```<br>There is a screen on:</li>
-<li>ttt-uuu (06/14/2012 10:10:58 AM) (Detached)<br>1 Socket in /var/run/screen/S-helixcn.<br>```</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">There is a screen on:</span><br><span class="line">27469.ttt-uuu (06&#x2F;14&#x2F;2012 10:10:58 AM) (Detached)</span><br><span class="line">1 Socket in &#x2F;var&#x2F;run&#x2F;screen&#x2F;S-helixcn.</span><br></pre></td></tr></table></figure></li>
 </ol>
 <p>此时关闭putty的窗口对运算结果将没有影响。</p>
 <ol>
@@ -116,7 +115,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2012/06/14/2012-6-14-putty/" data-id="ckmq42ai300401k84awgwgchx" data-title="Putty退出后保持背景程序运行" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2012/06/14/2012-6-14-putty/" data-id="ckmt6y7lk0047mgya3d1g8exn" data-title="Putty退出后保持背景程序运行" class="article-share-link">Share</a>
       
       
       

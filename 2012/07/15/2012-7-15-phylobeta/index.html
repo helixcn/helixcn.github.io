@@ -6,15 +6,15 @@
   
   <title>How to compute phylobeta diversity indices? | Jinlong Zhang&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="## Files required  ## phylocom.exe ## phylomatic.exe ## davies_dated.new  ## species.table.csv Format shown below:  Family    Genus    Species Actinidiaceae    Actinidia    1 Actinidiaceae    Actinidi">
+  <meta name="description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697989910010110210">
 <meta property="og:type" content="article">
 <meta property="og:title" content="How to compute phylobeta diversity indices?">
 <meta property="og:url" content="https://helixcn.github.io/2012/07/15/2012-7-15-phylobeta/index.html">
 <meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
-<meta property="og:description" content="## Files required  ## phylocom.exe ## phylomatic.exe ## davies_dated.new  ## species.table.csv Format shown below:  Family    Genus    Species Actinidiaceae    Actinidia    1 Actinidiaceae    Actinidi">
+<meta property="og:description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697989910010110210">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2012-07-14T17:47:54.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:34:24.532Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:26.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="生态">
 <meta name="twitter:card" content="summary">
@@ -98,116 +98,11 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <pre><code class="R">## Files required
-
-## phylocom.exe
-## phylomatic.exe
-## davies_dated.new 
-## species.table.csv Format shown below: 
-Family    Genus    Species
-Actinidiaceae    Actinidia    1
-Actinidiaceae    Actinidia    2
-Apiaceae    Aegopodium    6
-... 
-
-## sample.csv
-01 1 sp1
-01 1 sp2
-01 1 sp6
-01 1 sp10
-01 1 sp12
-01 1 sp13
-...
-
-
-
-setwd(&quot;C:/Jinlong/phylobeta&quot;)
-library(picante)
-library(simba)
-library(hydroTSM)
-
-taxatab &lt;- read.csv(&quot;species.table.csv&quot;, header = TRUE)
-
-taxatab$SPECIES &lt;- paste(&quot;sp&quot;, taxatab$SPECIES, sep = &quot;&quot;)
-taxatab$GENUS &lt;- tolower(taxatab$GENUS)
-taxatab$DAVIES_Family &lt;- tolower(taxatab$DAVIES_Family)
-write.table(unique(taxatab), &quot;taxatable.txt&quot;, row.names = FALSE, col.names = FALSE, quote = FALSE, sep = &quot;/&quot;)
-
-shell(&quot;phylomatic -f davies_dated.new -t taxatable.txt&gt;phylo.to.modify&quot;)
-## Delete the outer most edge
-dat &lt;- read.csv(&quot;sample.csv&quot;, header = TRUE)
-if(any(nchar(dat$PLOT) == 1))&#123;
-   dat$PLOT[nchar(dat$PLOT) == 1]  &lt;- paste(&quot;0&quot;, dat$PLOT[nchar(dat$PLOT) == 1], sep = &quot;&quot;)
-&#125;
-dat$PLOT &lt;- paste(dat$PLOT)
-dat$SPECIES &lt;- paste(&quot;sp&quot;, dat$SPECIES, sep = &quot;&quot;)
-dat$Abund &lt;- rep(1, nrow(dat))
-write.table(dat[,c(1, 3, 2)], &quot;sample&quot;, quote = FALSE, row.names = FALSE, col.names = FALSE)
-
-
-## Calculating Diversity metrics using picante
-test.tree   &lt;- read.tree(&quot;phylo&quot;)
-test.sample &lt;- sample2matrix(dat[,c(1, 3, 2)])
-
-##  PhyloSor ## Not available from Phylocom
-test.phylosor &lt;- phylosor(samp =test.sample, tree =test.tree) 
-
-##  UniFrac  ## Not available from Phylocom
-test.unifrac &lt;- unifrac(comm =test.sample, tree = test.tree)
-
-##  Dnn   COMDIST
-test.comdist &lt;- comdist(comm =test.sample, dis = cophenetictest.tree))
-
-##  Dpw   comdistnt
-test.comdistnt &lt;- comdistnt(comm =test.sample, dis = cophenetictest.tree))
-
-##  Rao D and Rao H
-test.rao &lt;- raoD(comm =test.sample,  phy =test.tree) 
-
-## raoD.Dkl  (&quot;US.species.raoD.Dkl.pairlist.ver2.csv &quot;) is rao&#39;s D 
-test.raoD &lt;- as.dist(test.rao$Dkl)
-
-# and &quot;US.species.raoD.H.pairlist.ver2.csv&quot; is Rao&#39;s H.
-test.raoH &lt;- as.dist(test.rao$H)
-
-test.phylosor.list   &lt;- liste(test.phylosor)
-test.unifrac.list    &lt;- liste(test.unifrac)
-test.comdist.list    &lt;- liste(test.comdist)
-test.comdistnt.list  &lt;- liste(test.comdistnt)
-test.rao.D.list      &lt;- liste(test.raoD )
-test.rao.H.list      &lt;- liste(test.raoH)
-
-
-result &lt;- data.frame(test.phylosor.list[,3], test.unifrac.list[,3], 
-                    test.comdist.list[,3], test.comdistnt.list[,3], 
-test.rao.D.list[,3], test.rao.H.list[,3])
-
-colnames(result) &lt;- c(&quot;phylosor&quot;, &quot;unifrac&quot;, &quot;Dpw&quot;, &quot;Dnn&quot;, &quot;raoD&quot;, &quot;raoH&quot;)
-
-pdf(&quot;phylo.beta.pairs.pdf&quot;, width = 10, height = 10)
-hydropairs(result)
-dev.off()
-
-result2 &lt;- data.frame(test.phylosor.list, test.unifrac.list[,3], 
-                    test.comdist.list[,3], test.comdistnt.list[,3], 
-test.rao.D.list[,3], test.rao.H.list[,3])
-colnames(result2) &lt;- c(&quot;PlotI&quot;,&quot;PlotII&quot;, &quot;phylosor&quot;, &quot;unifrac&quot;, &quot;comdist&quot;, &quot;comdistnt&quot;, &quot;raoD&quot;, &quot;raoH&quot;)
-
-write.csv(result2, &quot;phylobeta.result.csv&quot;)
-
-
-write.csv(test.phylosor.list   ,&quot;test.phylosor.list.csv&quot; , row.names = FALSE)
-write.csv(test.unifrac.list    ,&quot;test.unifrac.list.csv&quot;  , row.names = FALSE)
-write.csv(test.comdist.list    ,&quot;test.Dpw.list.csv&quot;      , row.names = FALSE)
-write.csv(test.comdistnt.list  ,&quot;test.Dnn.list.csv&quot;      , row.names = FALSE)
-write.csv(test.rao.D.list      ,&quot;test.rao.D.list.csv&quot;    , row.names = FALSE)
-write.csv(test.rao.H.list      ,&quot;test.rao.H.list.csv&quot;    , row.names = FALSE)
-</code></pre>
-
+        <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## Files required</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## phylocom.exe</span></span><br><span class="line"><span class="comment">## phylomatic.exe</span></span><br><span class="line"><span class="comment">## davies_dated.new </span></span><br><span class="line"><span class="comment">## species.table.csv Format shown below: </span></span><br><span class="line">Family	Genus	Species</span><br><span class="line">Actinidiaceae	Actinidia	<span class="number">1</span></span><br><span class="line">Actinidiaceae	Actinidia	<span class="number">2</span></span><br><span class="line">Apiaceae	Aegopodium	<span class="number">6</span></span><br><span class="line">... </span><br><span class="line"></span><br><span class="line"><span class="comment">## sample.csv</span></span><br><span class="line">01 <span class="number">1</span> sp1</span><br><span class="line">01 <span class="number">1</span> sp2</span><br><span class="line">01 <span class="number">1</span> sp6</span><br><span class="line">01 <span class="number">1</span> sp10</span><br><span class="line">01 <span class="number">1</span> sp12</span><br><span class="line">01 <span class="number">1</span> sp13</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">setwd(<span class="string">&quot;C:/Jinlong/phylobeta&quot;</span>)</span><br><span class="line">library(picante)</span><br><span class="line">library(simba)</span><br><span class="line">library(hydroTSM)</span><br><span class="line"></span><br><span class="line">taxatab &lt;- read.csv(<span class="string">&quot;species.table.csv&quot;</span>, header = <span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line">taxatab$SPECIES &lt;- paste(<span class="string">&quot;sp&quot;</span>, taxatab$SPECIES, sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">taxatab$GENUS &lt;- tolower(taxatab$GENUS)</span><br><span class="line">taxatab$DAVIES_Family &lt;- tolower(taxatab$DAVIES_Family)</span><br><span class="line">write.table(unique(taxatab), <span class="string">&quot;taxatable.txt&quot;</span>, row.names = <span class="literal">FALSE</span>, col.names = <span class="literal">FALSE</span>, <span class="built_in">quote</span> = <span class="literal">FALSE</span>, sep = <span class="string">&quot;/&quot;</span>)</span><br><span class="line"></span><br><span class="line">shell(<span class="string">&quot;phylomatic -f davies_dated.new -t taxatable.txt&gt;phylo.to.modify&quot;</span>)</span><br><span class="line"><span class="comment">## Delete the outer most edge</span></span><br><span class="line">dat &lt;- read.csv(<span class="string">&quot;sample.csv&quot;</span>, header = <span class="literal">TRUE</span>)</span><br><span class="line"><span class="keyword">if</span>(<span class="built_in">any</span>(nchar(dat$PLOT) == <span class="number">1</span>))&#123;</span><br><span class="line">   dat$PLOT[nchar(dat$PLOT) == <span class="number">1</span>]  &lt;- paste(<span class="string">&quot;0&quot;</span>, dat$PLOT[nchar(dat$PLOT) == <span class="number">1</span>], sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line">dat$PLOT &lt;- paste(dat$PLOT)</span><br><span class="line">dat$SPECIES &lt;- paste(<span class="string">&quot;sp&quot;</span>, dat$SPECIES, sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">dat$Abund &lt;- <span class="built_in">rep</span>(<span class="number">1</span>, nrow(dat))</span><br><span class="line">write.table(dat[,<span class="built_in">c</span>(<span class="number">1</span>, <span class="number">3</span>, <span class="number">2</span>)], <span class="string">&quot;sample&quot;</span>, <span class="built_in">quote</span> = <span class="literal">FALSE</span>, row.names = <span class="literal">FALSE</span>, col.names = <span class="literal">FALSE</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">## Calculating Diversity metrics using picante</span></span><br><span class="line">test.tree   &lt;- read.tree(<span class="string">&quot;phylo&quot;</span>)</span><br><span class="line">test.sample &lt;- sample2matrix(dat[,<span class="built_in">c</span>(<span class="number">1</span>, <span class="number">3</span>, <span class="number">2</span>)])</span><br><span class="line"></span><br><span class="line"><span class="comment">##  PhyloSor ## Not available from Phylocom</span></span><br><span class="line">test.phylosor &lt;- phylosor(samp =test.sample, tree =test.tree) </span><br><span class="line"></span><br><span class="line"><span class="comment">##  UniFrac  ## Not available from Phylocom</span></span><br><span class="line">test.unifrac &lt;- unifrac(comm =test.sample, tree = test.tree)</span><br><span class="line"></span><br><span class="line"><span class="comment">##  Dnn   COMDIST</span></span><br><span class="line">test.comdist &lt;- comdist(comm =test.sample, dis = cophenetictest.tree))</span><br><span class="line"></span><br><span class="line"><span class="comment">##  Dpw   comdistnt</span></span><br><span class="line">test.comdistnt &lt;- comdistnt(comm =test.sample, dis = cophenetictest.tree))</span><br><span class="line"></span><br><span class="line"><span class="comment">##  Rao D and Rao H</span></span><br><span class="line">test.rao &lt;- raoD(comm =test.sample,  phy =test.tree) </span><br><span class="line"></span><br><span class="line"><span class="comment">## raoD.Dkl  (&quot;US.species.raoD.Dkl.pairlist.ver2.csv &quot;) is rao&#x27;s D </span></span><br><span class="line">test.raoD &lt;- as.dist(test.rao$Dkl)</span><br><span class="line"></span><br><span class="line"><span class="comment"># and &quot;US.species.raoD.H.pairlist.ver2.csv&quot; is Rao&#x27;s H.</span></span><br><span class="line">test.raoH &lt;- as.dist(test.rao$H)</span><br><span class="line"></span><br><span class="line">test.phylosor.list   &lt;- liste(test.phylosor)</span><br><span class="line">test.unifrac.list    &lt;- liste(test.unifrac)</span><br><span class="line">test.comdist.list    &lt;- liste(test.comdist)</span><br><span class="line">test.comdistnt.list  &lt;- liste(test.comdistnt)</span><br><span class="line">test.rao.D.list      &lt;- liste(test.raoD )</span><br><span class="line">test.rao.H.list      &lt;- liste(test.raoH)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">result &lt;- data.frame(test.phylosor.list[,<span class="number">3</span>], test.unifrac.list[,<span class="number">3</span>], </span><br><span class="line">                    test.comdist.list[,<span class="number">3</span>], test.comdistnt.list[,<span class="number">3</span>], </span><br><span class="line">test.rao.D.list[,<span class="number">3</span>], test.rao.H.list[,<span class="number">3</span>])</span><br><span class="line"></span><br><span class="line">colnames(result) &lt;- <span class="built_in">c</span>(<span class="string">&quot;phylosor&quot;</span>, <span class="string">&quot;unifrac&quot;</span>, <span class="string">&quot;Dpw&quot;</span>, <span class="string">&quot;Dnn&quot;</span>, <span class="string">&quot;raoD&quot;</span>, <span class="string">&quot;raoH&quot;</span>)</span><br><span class="line"></span><br><span class="line">pdf(<span class="string">&quot;phylo.beta.pairs.pdf&quot;</span>, width = <span class="number">10</span>, height = <span class="number">10</span>)</span><br><span class="line">hydropairs(result)</span><br><span class="line">dev.off()</span><br><span class="line"></span><br><span class="line">result2 &lt;- data.frame(test.phylosor.list, test.unifrac.list[,<span class="number">3</span>], </span><br><span class="line">                    test.comdist.list[,<span class="number">3</span>], test.comdistnt.list[,<span class="number">3</span>], </span><br><span class="line">test.rao.D.list[,<span class="number">3</span>], test.rao.H.list[,<span class="number">3</span>])</span><br><span class="line">colnames(result2) &lt;- <span class="built_in">c</span>(<span class="string">&quot;PlotI&quot;</span>,<span class="string">&quot;PlotII&quot;</span>, <span class="string">&quot;phylosor&quot;</span>, <span class="string">&quot;unifrac&quot;</span>, <span class="string">&quot;comdist&quot;</span>, <span class="string">&quot;comdistnt&quot;</span>, <span class="string">&quot;raoD&quot;</span>, <span class="string">&quot;raoH&quot;</span>)</span><br><span class="line"></span><br><span class="line">write.csv(result2, <span class="string">&quot;phylobeta.result.csv&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">write.csv(test.phylosor.list   ,<span class="string">&quot;test.phylosor.list.csv&quot;</span> , row.names = <span class="literal">FALSE</span>)</span><br><span class="line">write.csv(test.unifrac.list    ,<span class="string">&quot;test.unifrac.list.csv&quot;</span>  , row.names = <span class="literal">FALSE</span>)</span><br><span class="line">write.csv(test.comdist.list    ,<span class="string">&quot;test.Dpw.list.csv&quot;</span>      , row.names = <span class="literal">FALSE</span>)</span><br><span class="line">write.csv(test.comdistnt.list  ,<span class="string">&quot;test.Dnn.list.csv&quot;</span>      , row.names = <span class="literal">FALSE</span>)</span><br><span class="line">write.csv(test.rao.D.list      ,<span class="string">&quot;test.rao.D.list.csv&quot;</span>    , row.names = <span class="literal">FALSE</span>)</span><br><span class="line">write.csv(test.rao.H.list      ,<span class="string">&quot;test.rao.H.list.csv&quot;</span>    , row.names = <span class="literal">FALSE</span>)</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2012/07/15/2012-7-15-phylobeta/" data-id="ckmq42ai500461k8492xw47f9" data-title="How to compute phylobeta diversity indices?" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2012/07/15/2012-7-15-phylobeta/" data-id="ckmt6y7ll004bmgyacr4ggnwo" data-title="How to compute phylobeta diversity indices?" class="article-share-link">Share</a>
       
       
       

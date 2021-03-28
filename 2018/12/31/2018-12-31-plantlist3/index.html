@@ -14,7 +14,7 @@
 <meta property="og:description" content="1 背景 考察报告中，植物名录是很重要的，而编写植物名录，统计植物的科、属、种等虽然并不复杂，但是非常繁琐，有时野外考察可能只用一两天，而编辑和校对植物名录可能需要数天时间。  plantlist程序包的count_taxa()函数可十分方便地统计科、属、种的数目，而make_checklist()函数可按照一定要求生成markdown格式的植物名录，该文件可用Rstudio或者pandoc等软件">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2018-12-30T19:57:54.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:34:24.611Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:26.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="软件">
 <meta name="twitter:card" content="summary">
@@ -146,121 +146,12 @@
 </ol>
 <h1 id="2-代码"><a href="#2-代码" class="headerlink" title="2 代码"></a>2 代码</h1><h2 id="2-1-安装plantlist程序包"><a href="#2-1-安装plantlist程序包" class="headerlink" title="2.1 安装plantlist程序包"></a>2.1 安装plantlist程序包</h2><p> 本文介绍的两个函数是plantlist程序包在0.6.0以后增加的，因此使用旧版本plantlist的用户也需要更新。</p>
 <p> 注意plantlist的最新版本只保存在github (<a target="_blank" rel="noopener" href="https://github.com/helixcn/plantlist">https://github.com/helixcn/plantlist</a>), 请用以下命令安装。</p>
-<pre><code>## 安装plantlist## 版本 &gt; 0.6.1## 
-devtools::install_github(&quot;helixcn/plantlist&quot;)
-</code></pre>
-<h2 id="2-2-加载程序包"><a href="#2-2-加载程序包" class="headerlink" title="2.2 加载程序包"></a>2.2 加载程序包</h2><pre><code>setwd(&quot;/Users/jinlong/compile_checklist/&quot;) 
-library(plantlist)library(rmarkdown)
-rm(list = ls())
-</code></pre>
-<h2 id="2-3-用count-taxa-统计科属数目"><a href="#2-3-用count-taxa-统计科属数目" class="headerlink" title="2.3 用count_taxa()统计科属数目"></a>2.3 用count_taxa()统计科属数目</h2><pre><code># 植物名species_names &lt;- c(&quot;西康玉兰&quot;, 
-&quot;肥肉草&quot;, 
-&quot;野牡丹&quot;, 
-&quot;厚朴&quot;, 
-&quot;金缕梅&quot;, 
-&quot;黑水银莲花&quot;, 
-&quot;连香树&quot;,    
-&quot;牛膝菊&quot;, 
-&quot;三国演义&quot;, 
-&quot;华南紫萁22&quot;, 
-&quot;槲蕨&quot;, 
-&quot;江南卷柏&quot;, 
-&quot;马尾松&quot;, 
-&quot;白发藓&quot;, 
-&quot;提灯藓&quot;,    
-&quot;红豆杉&quot;, 
-&quot;野牡丹&quot;,    
-&quot;毛稔&quot;,&quot;阴香&quot;,    
-&quot;赤楠&quot;,&quot;红鳞蒲桃&quot;,    
-&quot;山蒲桃&quot;,&quot;卫矛叶蒲桃&quot;,    
-&quot;黑壳楠&quot;,&quot;红果山胡椒&quot;,    
-&quot;黄樟&quot;,&quot;乌药&quot;)
-count_taxa(CTPL(species_names, print_as_list = FALSE))
-## Duplicated taxa names have been removed:
-##  野牡丹
-## Warning in CTPL(species_names, print_as_list = FALSE): Taxa: 三国演义, 华南紫萁22, 毛稔
-##  could not be recognized.
-## $NO_OF_FAMILIES## [1] 14
-## 
-## $NO_OF_GENERA
-## [1] 16
-## 
-## $NO_OF_SPECIES
-## [1] 23
-## 
-## $NO_OF_FAMILIES_BY_GROUP
-##                    group no_of_families
-## 1                                     2
-## 2 2 Ferns and lycophytes              2
-## 3          3 Gymnosperms              2
-## 4          4 Angiosperms              8
-## 
-## $NO_OF_GENERA_BY_GROUP
-##                    group no_of_genera
-## 1                                   2
-## 2 2 Ferns and lycophytes            2
-## 3          3 Gymnosperms            2
-## 4          4 Angiosperms           10
-## 
-## $NO_OF_SPECIES_BY_GROUP
-##                    group no_of_species
-## 1                                    2
-## 2 2 Ferns and lycophytes             2
-## 3          3 Gymnosperms             2
-## 4          4 Angiosperms            17
-## ## $NO_OF_GENERA_BY_FAMILY
-##               family no_of_genera
-## 1         Asteraceae            1
-## 2  Cercidiphyllaceae            1
-## 3        Dicranaceae            1
-## 4     Hamamelidaceae            1
-## 5          Lauraceae            2
-## 6       Magnoliaceae            1
-## 7    Melastomataceae            2
-## 8           Mniaceae            1
-## 9          Myrtaceae            1
-## 10          Pinaceae            1
-## 11     Polypodiaceae            1
-## 12     Ranunculaceae            1
-## 13   Selaginellaceae            1
-## 14          Taxaceae            1
-## 
-## $NO_OF_SPECIES_BY_FAMILY
-##               family no_of_species
-## 1         Asteraceae             1
-## 2  Cercidiphyllaceae             1
-## 3        Dicranaceae             1
-## 4     Hamamelidaceae             1
-## 5          Lauraceae             5
-## 6       Magnoliaceae             2
-## 7    Melastomataceae             2
-## 8           Mniaceae             1
-## 9          Myrtaceae             4
-## 10          Pinaceae             1
-## 11     Polypodiaceae             1
-## 12     Ranunculaceae             1
-## 13   Selaginellaceae             1
-## 14          Taxaceae             1
-## 
-## $NO_OF_SPECIES_BY_GENUS
-##             genus no_of_species
-## 1         Anemone             1
-## 2  Cercidiphyllum             1
-## 3      Cinnamomum             2
-## 4        Drynaria             1
-## 5    Fordiophyton             1
-## 6       Galinsoga             1
-## 7       Hamamelis             1
-## 8      Leucobryum             1
-## 9         Lindera             3
-## 10       Magnolia             2
-## 11      Melastoma             1
-## 12          Mnium             1
-## 13          Pinus             1
-## 14    Selaginella             1
-## 15       Syzygium             4
-## 16          Taxus             1
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">## 安装plantlist## 版本 &gt; 0.6.1## </span><br><span class="line">devtools::install_github(&quot;helixcn&#x2F;plantlist&quot;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-2-加载程序包"><a href="#2-2-加载程序包" class="headerlink" title="2.2 加载程序包"></a>2.2 加载程序包</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setwd(&quot;&#x2F;Users&#x2F;jinlong&#x2F;compile_checklist&#x2F;&quot;) </span><br><span class="line">library(plantlist)library(rmarkdown)</span><br><span class="line">rm(list &#x3D; ls())</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-3-用count-taxa-统计科属数目"><a href="#2-3-用count-taxa-统计科属数目" class="headerlink" title="2.3 用count_taxa()统计科属数目"></a>2.3 用count_taxa()统计科属数目</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line"># 植物名species_names &lt;- c(&quot;西康玉兰&quot;, </span><br><span class="line">&quot;肥肉草&quot;, </span><br><span class="line">&quot;野牡丹&quot;, </span><br><span class="line">&quot;厚朴&quot;, </span><br><span class="line">&quot;金缕梅&quot;, </span><br><span class="line">&quot;黑水银莲花&quot;, </span><br><span class="line">&quot;连香树&quot;,    </span><br><span class="line">&quot;牛膝菊&quot;, </span><br><span class="line">&quot;三国演义&quot;, </span><br><span class="line">&quot;华南紫萁22&quot;, </span><br><span class="line">&quot;槲蕨&quot;, </span><br><span class="line">&quot;江南卷柏&quot;, </span><br><span class="line">&quot;马尾松&quot;, </span><br><span class="line">&quot;白发藓&quot;, </span><br><span class="line">&quot;提灯藓&quot;,    </span><br><span class="line">&quot;红豆杉&quot;, </span><br><span class="line">&quot;野牡丹&quot;,    </span><br><span class="line">&quot;毛稔&quot;,&quot;阴香&quot;,    </span><br><span class="line">&quot;赤楠&quot;,&quot;红鳞蒲桃&quot;,    </span><br><span class="line">&quot;山蒲桃&quot;,&quot;卫矛叶蒲桃&quot;,    </span><br><span class="line">&quot;黑壳楠&quot;,&quot;红果山胡椒&quot;,    </span><br><span class="line">&quot;黄樟&quot;,&quot;乌药&quot;)</span><br><span class="line">count_taxa(CTPL(species_names, print_as_list &#x3D; FALSE))</span><br><span class="line">## Duplicated taxa names have been removed:</span><br><span class="line">##  野牡丹</span><br><span class="line">## Warning in CTPL(species_names, print_as_list &#x3D; FALSE): Taxa: 三国演义, 华南紫萁22, 毛稔</span><br><span class="line">##  could not be recognized.</span><br><span class="line">## $NO_OF_FAMILIES## [1] 14</span><br><span class="line">## </span><br><span class="line">## $NO_OF_GENERA</span><br><span class="line">## [1] 16</span><br><span class="line">## </span><br><span class="line">## $NO_OF_SPECIES</span><br><span class="line">## [1] 23</span><br><span class="line">## </span><br><span class="line">## $NO_OF_FAMILIES_BY_GROUP</span><br><span class="line">##                    group no_of_families</span><br><span class="line">## 1                                     2</span><br><span class="line">## 2 2 Ferns and lycophytes              2</span><br><span class="line">## 3          3 Gymnosperms              2</span><br><span class="line">## 4          4 Angiosperms              8</span><br><span class="line">## </span><br><span class="line">## $NO_OF_GENERA_BY_GROUP</span><br><span class="line">##                    group no_of_genera</span><br><span class="line">## 1                                   2</span><br><span class="line">## 2 2 Ferns and lycophytes            2</span><br><span class="line">## 3          3 Gymnosperms            2</span><br><span class="line">## 4          4 Angiosperms           10</span><br><span class="line">## </span><br><span class="line">## $NO_OF_SPECIES_BY_GROUP</span><br><span class="line">##                    group no_of_species</span><br><span class="line">## 1                                    2</span><br><span class="line">## 2 2 Ferns and lycophytes             2</span><br><span class="line">## 3          3 Gymnosperms             2</span><br><span class="line">## 4          4 Angiosperms            17</span><br><span class="line">## ## $NO_OF_GENERA_BY_FAMILY</span><br><span class="line">##               family no_of_genera</span><br><span class="line">## 1         Asteraceae            1</span><br><span class="line">## 2  Cercidiphyllaceae            1</span><br><span class="line">## 3        Dicranaceae            1</span><br><span class="line">## 4     Hamamelidaceae            1</span><br><span class="line">## 5          Lauraceae            2</span><br><span class="line">## 6       Magnoliaceae            1</span><br><span class="line">## 7    Melastomataceae            2</span><br><span class="line">## 8           Mniaceae            1</span><br><span class="line">## 9          Myrtaceae            1</span><br><span class="line">## 10          Pinaceae            1</span><br><span class="line">## 11     Polypodiaceae            1</span><br><span class="line">## 12     Ranunculaceae            1</span><br><span class="line">## 13   Selaginellaceae            1</span><br><span class="line">## 14          Taxaceae            1</span><br><span class="line">## </span><br><span class="line">## $NO_OF_SPECIES_BY_FAMILY</span><br><span class="line">##               family no_of_species</span><br><span class="line">## 1         Asteraceae             1</span><br><span class="line">## 2  Cercidiphyllaceae             1</span><br><span class="line">## 3        Dicranaceae             1</span><br><span class="line">## 4     Hamamelidaceae             1</span><br><span class="line">## 5          Lauraceae             5</span><br><span class="line">## 6       Magnoliaceae             2</span><br><span class="line">## 7    Melastomataceae             2</span><br><span class="line">## 8           Mniaceae             1</span><br><span class="line">## 9          Myrtaceae             4</span><br><span class="line">## 10          Pinaceae             1</span><br><span class="line">## 11     Polypodiaceae             1</span><br><span class="line">## 12     Ranunculaceae             1</span><br><span class="line">## 13   Selaginellaceae             1</span><br><span class="line">## 14          Taxaceae             1</span><br><span class="line">## </span><br><span class="line">## $NO_OF_SPECIES_BY_GENUS</span><br><span class="line">##             genus no_of_species</span><br><span class="line">## 1         Anemone             1</span><br><span class="line">## 2  Cercidiphyllum             1</span><br><span class="line">## 3      Cinnamomum             2</span><br><span class="line">## 4        Drynaria             1</span><br><span class="line">## 5    Fordiophyton             1</span><br><span class="line">## 6       Galinsoga             1</span><br><span class="line">## 7       Hamamelis             1</span><br><span class="line">## 8      Leucobryum             1</span><br><span class="line">## 9         Lindera             3</span><br><span class="line">## 10       Magnolia             2</span><br><span class="line">## 11      Melastoma             1</span><br><span class="line">## 12          Mnium             1</span><br><span class="line">## 13          Pinus             1</span><br><span class="line">## 14    Selaginella             1</span><br><span class="line">## 15       Syzygium             4</span><br><span class="line">## 16          Taxus             1</span><br></pre></td></tr></table></figure>
+
 <h2 id="2-4-用make-checklist生成植物名录"><a href="#2-4-用make-checklist生成植物名录" class="headerlink" title="2.4 用make_checklist生成植物名录"></a>2.4 用make_checklist生成植物名录</h2><p> 生成的文件为markdown格式，请参考</p>
 <ul>
 <li><pre><code> https://rmarkdown.rstudio.com/index.html
@@ -270,30 +161,24 @@ count_taxa(CTPL(species_names, print_as_list = FALSE))
 </code></pre>
 </li>
 </ul>
-<pre><code>checklist_dat2 &lt;- CTPL(species_names, print_as_list = FALSE)
-</code></pre>
-<h3 id="2-4-1-简洁版，只列出引证的标本"><a href="#2-4-1-简洁版，只列出引证的标本" class="headerlink" title="2.4.1 简洁版，只列出引证的标本"></a>2.4.1 简洁版，只列出引证的标本</h3><pre><code>make_checklist(checklist_dat2, 
-  outfile = &quot;checklist_simple.md&quot;,  
-  theme = &quot;simple&quot;)
-</code></pre>
-<h3 id="2-4-2-复杂版，尽量列出数据库已经有的信息"><a href="#2-4-2-复杂版，尽量列出数据库已经有的信息" class="headerlink" title="2.4.2 复杂版，尽量列出数据库已经有的信息"></a>2.4.2 复杂版，尽量列出数据库已经有的信息</h3><pre><code>make_checklist(checklist_dat2, 
-  outfile = &quot;checklist_complex.md&quot;, 
-  theme = &quot;complex&quot;)
-</code></pre>
-<h3 id="2-4-3-极简版，只列出中文名和拉丁名"><a href="#2-4-3-极简版，只列出中文名和拉丁名" class="headerlink" title="2.4.3 极简版，只列出中文名和拉丁名"></a>2.4.3 极简版，只列出中文名和拉丁名</h3><pre><code>make_checklist(checklist_dat2, 
-  outfile = &quot;checklist_minimal.md&quot;, 
-  theme = &quot;minimal&quot;)
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">checklist_dat2 &lt;- CTPL(species_names, print_as_list &#x3D; FALSE)</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-4-1-简洁版，只列出引证的标本"><a href="#2-4-1-简洁版，只列出引证的标本" class="headerlink" title="2.4.1 简洁版，只列出引证的标本"></a>2.4.1 简洁版，只列出引证的标本</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">make_checklist(checklist_dat2, </span><br><span class="line">  outfile &#x3D; &quot;checklist_simple.md&quot;,  </span><br><span class="line">  theme &#x3D; &quot;simple&quot;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-4-2-复杂版，尽量列出数据库已经有的信息"><a href="#2-4-2-复杂版，尽量列出数据库已经有的信息" class="headerlink" title="2.4.2 复杂版，尽量列出数据库已经有的信息"></a>2.4.2 复杂版，尽量列出数据库已经有的信息</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">make_checklist(checklist_dat2, </span><br><span class="line">  outfile &#x3D; &quot;checklist_complex.md&quot;, </span><br><span class="line">  theme &#x3D; &quot;complex&quot;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-4-3-极简版，只列出中文名和拉丁名"><a href="#2-4-3-极简版，只列出中文名和拉丁名" class="headerlink" title="2.4.3 极简版，只列出中文名和拉丁名"></a>2.4.3 极简版，只列出中文名和拉丁名</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">make_checklist(checklist_dat2, </span><br><span class="line">  outfile &#x3D; &quot;checklist_minimal.md&quot;, </span><br><span class="line">  theme &#x3D; &quot;minimal&quot;)</span><br></pre></td></tr></table></figure>
+
 <h2 id="2-5-markdown源代码"><a href="#2-5-markdown源代码" class="headerlink" title="2.5 markdown源代码"></a>2.5 markdown源代码</h2><p> 图1. 植物名录的Markdown源代码</p>
 <h2 id="2-6-用rmarkdown程序包编译md文件，生成名录"><a href="#2-6-用rmarkdown程序包编译md文件，生成名录" class="headerlink" title="2.6 用rmarkdown程序包编译md文件，生成名录"></a>2.6 用rmarkdown程序包编译md文件，生成名录</h2><p> markdown文档既可以用rmarkdown程序包编译为html格式，也可以用pandoc转换为docx、pdf等。</p>
-<h3 id="2-6-1-只显示标本引证的Simple主题"><a href="#2-6-1-只显示标本引证的Simple主题" class="headerlink" title="2.6.1 只显示标本引证的Simple主题"></a>2.6.1 只显示标本引证的Simple主题</h3><pre><code>rmarkdown::render(&quot;checklist_simple.md&quot;, encoding = &quot;UTF-8&quot;)
-</code></pre>
+<h3 id="2-6-1-只显示标本引证的Simple主题"><a href="#2-6-1-只显示标本引证的Simple主题" class="headerlink" title="2.6.1 只显示标本引证的Simple主题"></a>2.6.1 只显示标本引证的Simple主题</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rmarkdown::render(&quot;checklist_simple.md&quot;, encoding &#x3D; &quot;UTF-8&quot;)</span><br></pre></td></tr></table></figure>
+
 <p> 图2. Simple主题</p>
-<h3 id="2-6-2-尽量信息物种信息的Complex主题"><a href="#2-6-2-尽量信息物种信息的Complex主题" class="headerlink" title="2.6.2 尽量信息物种信息的Complex主题"></a>2.6.2 尽量信息物种信息的Complex主题</h3><pre><code>rmarkdown::render(&quot;checklist_complex.md&quot;, encoding = &quot;UTF-8&quot;)
-</code></pre>
+<h3 id="2-6-2-尽量信息物种信息的Complex主题"><a href="#2-6-2-尽量信息物种信息的Complex主题" class="headerlink" title="2.6.2 尽量信息物种信息的Complex主题"></a>2.6.2 尽量信息物种信息的Complex主题</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rmarkdown::render(&quot;checklist_complex.md&quot;, encoding &#x3D; &quot;UTF-8&quot;)</span><br></pre></td></tr></table></figure>
+
 <p> 图3. Complex主题</p>
-<h3 id="2-6-3-只显示中文名和学名的Minimal主题"><a href="#2-6-3-只显示中文名和学名的Minimal主题" class="headerlink" title="2.6.3 只显示中文名和学名的Minimal主题"></a>2.6.3 只显示中文名和学名的Minimal主题</h3><pre><code>rmarkdown::render(&quot;checklist_minimal.md&quot;, encoding = &quot;UTF-8&quot;)
-</code></pre>
+<h3 id="2-6-3-只显示中文名和学名的Minimal主题"><a href="#2-6-3-只显示中文名和学名的Minimal主题" class="headerlink" title="2.6.3 只显示中文名和学名的Minimal主题"></a>2.6.3 只显示中文名和学名的Minimal主题</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rmarkdown::render(&quot;checklist_minimal.md&quot;, encoding &#x3D; &quot;UTF-8&quot;)</span><br></pre></td></tr></table></figure>
+
 <p> 图4. Minimal主题</p>
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
 <li><pre><code> THE     ANGIOSPERM PHYLOGENY GROUP. 2009. “An Update of the Angiosperm     Phylogeny Group Classification for the Orders and Families of     Flowering Plants: APG III.” Botanical Journal of the Linnean     Society 161 (2): 105–21.
@@ -316,7 +201,7 @@ count_taxa(CTPL(species_names, print_as_list = FALSE))
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/12/31/2018-12-31-plantlist3/" data-id="ckmq42akc00aw1k8458wd6ly1" data-title="用plantlist程序包统计科、属、种数目与生成植物名录" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/12/31/2018-12-31-plantlist3/" data-id="ckmt6y7p200bimgya3a9pgto4" data-title="用plantlist程序包统计科、属、种数目与生成植物名录" class="article-share-link">Share</a>
       
       
       

@@ -14,7 +14,7 @@
 <meta property="og:description" content="exiftool是为数码照片管理exif信息的软件，虽然只有命令行，但使用起来十分方便。下面就介绍如何用exiftool和GPS航迹文件，为数码照片添加经纬度和海拔，同时介绍如何从照片中批量导出经纬度。 操作系统 Windows 10, 64bitExiftool: version 11.25, 2019-01-15  在野外， 将GPS和相机设定为相同时间，野外工作完成后保存航迹。野外工作结束，">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2015-01-30T08:45:54.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:34:24.559Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:26.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="图像处理">
 <meta name="twitter:card" content="summary">
@@ -114,15 +114,9 @@
 <p>该文件为csv文件的模板， 用于之后从每张照片的exif文件中导出经纬度。</p>
 <ol start="5">
 <li><p>创建一个纯文本文件， 命名为 run_exiftool_geotaging.bat，内容为：</p>
-<pre><code class="bat">exiftool -geotag=track20150131.gpx ./
-pause
-</code></pre>
-</li>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">exiftool -geotag=track20150131.gpx ./</span><br><span class="line"><span class="built_in">pause</span></span><br></pre></td></tr></table></figure></li>
 <li><p>创建一个纯文本文件， 命名为 run_exiftool_creat_csv.bat，内容为</p>
-<pre><code class="bat">exiftool -p csv.mft ./&gt;test.csv
-pause
-</code></pre>
-</li>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">exiftool -p csv.mft ./&gt;test.csv</span><br><span class="line"><span class="built_in">pause</span></span><br></pre></td></tr></table></figure></li>
 <li><p>双击run_exiftool_geotaging.bat文件， exiftool从航迹提取信息， 并为该文件夹下对应时间的照片添加经纬度和海拔。</p>
 </li>
 <li><p>双击 run_exiftool_creat_csv.bat 文件， exiftool读取每张照片的经纬度和海拔， 并保存到相应.csv文件中。</p>
@@ -135,7 +129,7 @@ pause
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2015/01/30/2015-1-31-exiftools/" data-id="ckmq42aj1006p1k84g1ogh6um" data-title="用exiftool为照片添加经纬度并生成照片经纬度列表" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2015/01/30/2015-1-31-exiftools/" data-id="ckmt6y7mr006wmgya4g6dhoj8" data-title="用exiftool为照片添加经纬度并生成照片经纬度列表" class="article-share-link">Share</a>
       
       
       

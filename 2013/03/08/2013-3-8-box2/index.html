@@ -6,15 +6,15 @@
   
   <title>A Sorted Box Plot | Jinlong Zhang&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="sorted.boxplot &lt;- function(x , factor.levels,  groups &#x3D; NULL, ...)&amp;#123;     res &lt;- tapply(x , factor.levels, FUN &#x3D; mean)     res.order &lt;- as.character(10 * rank(res))         if(any(nchar(re">
+  <meta name="description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849sorted.boxplot &lt;- function(x , factor.levels,  groups &#x3D; NULL, ...)&amp;#123;    res &lt;- tapply(x , factor.leve">
 <meta property="og:type" content="article">
 <meta property="og:title" content="A Sorted Box Plot">
 <meta property="og:url" content="https://helixcn.github.io/2013/03/08/2013-3-8-box2/index.html">
 <meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
-<meta property="og:description" content="sorted.boxplot &lt;- function(x , factor.levels,  groups &#x3D; NULL, ...)&amp;#123;     res &lt;- tapply(x , factor.levels, FUN &#x3D; mean)     res.order &lt;- as.character(10 * rank(res))         if(any(nchar(re">
+<meta property="og:description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849sorted.boxplot &lt;- function(x , factor.levels,  groups &#x3D; NULL, ...)&amp;#123;    res &lt;- tapply(x , factor.leve">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2013-03-07T22:23:54.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:34:24.544Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:26.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="R编程">
 <meta name="twitter:card" content="summary">
@@ -98,73 +98,14 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <pre><code class="R">sorted.boxplot &lt;- function(x , factor.levels,  groups = NULL, ...)&#123;
-    res &lt;- tapply(x , factor.levels, FUN = mean)
-    res.order &lt;- as.character(10 * rank(res))    
-    if(any(nchar(res.order)) &gt; 3) &#123;        
-    stop(&quot;There are too many levels to sort!&quot;)
+        <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">sorted.boxplot &lt;- <span class="keyword">function</span>(x , factor.levels,  groups = <span class="literal">NULL</span>, ...)&#123;</span><br><span class="line">    res &lt;- tapply(x , factor.levels, FUN = mean)</span><br><span class="line">    res.order &lt;- <span class="built_in">as.character</span>(<span class="number">10</span> * rank(res))    </span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">any</span>(nchar(res.order)) &gt; <span class="number">3</span>) &#123;        </span><br><span class="line">    stop(<span class="string">&quot;There are too many levels to sort!&quot;</span>)</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    label3 &lt;- label1 &lt;- <span class="built_in">names</span>(res)    </span><br><span class="line">    <span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(res.order))&#123;        </span><br><span class="line">    <span class="keyword">if</span>( nchar(res.order[i]) == <span class="number">2</span>) &#123;</span><br><span class="line">          label3[i]  &lt;- paste(<span class="string">&quot;0&quot;</span>, res.order[i], sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">        &#125;    </span><br><span class="line">        <span class="keyword">if</span>( nchar(res.order[i]) == <span class="number">3</span>) &#123;</span><br><span class="line">          label3[i] &lt;- paste(res.order[i], sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    lab.ref &lt;- data.frame(label1, label3)</span><br><span class="line">    label2 &lt;- <span class="built_in">as.character</span>(factor.levels)</span><br><span class="line">    tab2 &lt;- data.frame(label2)</span><br><span class="line">    colnames(tab2) &lt;- <span class="built_in">c</span>(<span class="string">&quot;species&quot;</span>)</span><br><span class="line">    dat2 &lt;- data.frame(x, factor.levels)</span><br><span class="line">    colnames(dat2) &lt;- <span class="built_in">c</span>(<span class="string">&quot;Metric&quot;</span>, <span class="string">&quot;species&quot;</span>)</span><br><span class="line">    res.tab &lt;- merge(x = dat2, y = lab.ref, </span><br><span class="line">        by.x = <span class="string">&quot;species&quot;</span>, by.y = <span class="string">&quot;label1&quot;</span> , <span class="built_in">all</span> = <span class="literal">TRUE</span>)</span><br><span class="line">    res.tab$factors  &lt;- paste(substring(<span class="built_in">as.character</span>(res.tab$label3), <span class="number">1</span>, <span class="number">2</span>), </span><br><span class="line">                    res.tab$species, sep = <span class="string">&quot; &quot;</span>)    </span><br><span class="line">        <span class="keyword">if</span>(!<span class="built_in">is.null</span>(groups))&#123;</span><br><span class="line">        xxx &lt;- sort(unique(res.tab$factors))</span><br><span class="line">        tab.col &lt;- data.frame(xxx, substring(xxx, <span class="number">4</span>, nchar(xxx)))</span><br><span class="line">        colnames(tab.col) &lt;- <span class="built_in">c</span>(<span class="string">&quot;Sorted&quot;</span>, <span class="string">&quot;species&quot;</span>)</span><br><span class="line">        col.groups &lt;- unique(data.frame(factor.levels,  groups))</span><br><span class="line">        xxx2 &lt;- merge(x = tab.col, y = col.groups, by.x = <span class="string">&quot;species&quot;</span>, by.y = <span class="string">&quot;factor.levels&quot;</span>)</span><br><span class="line">        ressss &lt;- xxx2[order(xxx2$Sorted), ]</span><br><span class="line">        ressss$cols &lt;- <span class="built_in">as.numeric</span>(ressss$groups)</span><br><span class="line"></span><br><span class="line">        colors.n &lt;- topo.colors(<span class="built_in">length</span>(unique(ressss$cols)))</span><br><span class="line">        col.res &lt;- data.frame(unique(ressss$cols), colors.n)</span><br><span class="line">        colnames(col.res) &lt;- <span class="built_in">c</span>(<span class="string">&quot;level&quot;</span>, <span class="string">&quot;color&quot;</span>)</span><br><span class="line">        xxx3 &lt;- merge(x = ressss, y = col.res, by.x = <span class="string">&quot;cols&quot;</span>, by.y = <span class="string">&quot;level&quot;</span>)</span><br><span class="line">        xxx3 &lt;- xxx3[order(xxx3$Sorted), ]</span><br><span class="line">        boxplot(Metric ~ factors,  data = res.tab, col =  <span class="built_in">as.character</span>(xxx3$color), ...)</span><br><span class="line">        legend.dat &lt;- unique(data.frame(xxx3$groups, xxx3$color))</span><br><span class="line">        legend.label &lt;- <span class="built_in">as.character</span>(legend.dat[,<span class="number">1</span>])</span><br><span class="line">        legend.col &lt;- <span class="built_in">as.character</span>(legend.dat[,<span class="number">2</span>])</span><br><span class="line">        legend(<span class="built_in">length</span>(xxx)/<span class="number">100</span>, <span class="built_in">max</span>(x), legend = legend.label, pch = <span class="number">15</span>, col = legend.col)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        boxplot(Metric ~ factors,  data = res.tab, ...)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    &#125;
-    label3 &lt;- label1 &lt;- names(res)    
-    for (i in 1:length(res.order))&#123;        
-    if( nchar(res.order[i]) == 2) &#123;
-          label3[i]  &lt;- paste(&quot;0&quot;, res.order[i], sep = &quot;&quot;)
-        &#125;    
-        if( nchar(res.order[i]) == 3) &#123;
-          label3[i] &lt;- paste(res.order[i], sep = &quot;&quot;)
-        &#125;
-    &#125;
-    lab.ref &lt;- data.frame(label1, label3)
-    label2 &lt;- as.character(factor.levels)
-    tab2 &lt;- data.frame(label2)
-    colnames(tab2) &lt;- c(&quot;species&quot;)
-    dat2 &lt;- data.frame(x, factor.levels)
-    colnames(dat2) &lt;- c(&quot;Metric&quot;, &quot;species&quot;)
-    res.tab &lt;- merge(x = dat2, y = lab.ref, 
-        by.x = &quot;species&quot;, by.y = &quot;label1&quot; , all = TRUE)
-    res.tab$factors  &lt;- paste(substring(as.character(res.tab$label3), 1, 2), 
-                    res.tab$species, sep = &quot; &quot;)    
-        if(!is.null(groups))&#123;
-        xxx &lt;- sort(unique(res.tab$factors))
-        tab.col &lt;- data.frame(xxx, substring(xxx, 4, nchar(xxx)))
-        colnames(tab.col) &lt;- c(&quot;Sorted&quot;, &quot;species&quot;)
-        col.groups &lt;- unique(data.frame(factor.levels,  groups))
-        xxx2 &lt;- merge(x = tab.col, y = col.groups, by.x = &quot;species&quot;, by.y = &quot;factor.levels&quot;)
-        ressss &lt;- xxx2[order(xxx2$Sorted), ]
-        ressss$cols &lt;- as.numeric(ressss$groups)
-
-        colors.n &lt;- topo.colors(length(unique(ressss$cols)))
-        col.res &lt;- data.frame(unique(ressss$cols), colors.n)
-        colnames(col.res) &lt;- c(&quot;level&quot;, &quot;color&quot;)
-        xxx3 &lt;- merge(x = ressss, y = col.res, by.x = &quot;cols&quot;, by.y = &quot;level&quot;)
-        xxx3 &lt;- xxx3[order(xxx3$Sorted), ]
-        boxplot(Metric ~ factors,  data = res.tab, col =  as.character(xxx3$color), ...)
-        legend.dat &lt;- unique(data.frame(xxx3$groups, xxx3$color))
-        legend.label &lt;- as.character(legend.dat[,1])
-        legend.col &lt;- as.character(legend.dat[,2])
-        legend(length(xxx)/100, max(x), legend = legend.label, pch = 15, col = legend.col)
-    &#125; else &#123;
-        boxplot(Metric ~ factors,  data = res.tab, ...)
-    &#125;
-&#125;
-</code></pre>
 <p>函数的使用方法</p>
-<pre><code class="R">a.value &lt;- runif(100)  
-## Generate Levels
-a.levels &lt;- sort(sample( LETTERS, 100, replace = TRUE)) 
-## The levels for a factor
-a.groups &lt;- sort(sample(c(&quot;group1&quot;,&quot;group2&quot;,&quot;group3&quot;,&quot;group4&quot;),100, replace = TRUE))  
-## Group colors
-par(las = 3, mar = c(10, 5, 5, 5))   
-## Set the parameters for ploting device
-sorted.boxplot(x = a.value , factor.levels = a.levels, 
-    groups = a.groups, ylab = &quot;Values&quot;, xlab = &quot;Levels&quot;, main = &quot;A sorted box plot&quot;)
-</code></pre>
-
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">a.value &lt;- runif(<span class="number">100</span>)  </span><br><span class="line"><span class="comment">## Generate Levels</span></span><br><span class="line">a.levels &lt;- sort(sample( <span class="built_in">LETTERS</span>, <span class="number">100</span>, replace = <span class="literal">TRUE</span>)) </span><br><span class="line"><span class="comment">## The levels for a factor</span></span><br><span class="line">a.groups &lt;- sort(sample(<span class="built_in">c</span>(<span class="string">&quot;group1&quot;</span>,<span class="string">&quot;group2&quot;</span>,<span class="string">&quot;group3&quot;</span>,<span class="string">&quot;group4&quot;</span>),<span class="number">100</span>, replace = <span class="literal">TRUE</span>))  </span><br><span class="line"><span class="comment">## Group colors</span></span><br><span class="line">par(las = <span class="number">3</span>, mar = <span class="built_in">c</span>(<span class="number">10</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>))   </span><br><span class="line"><span class="comment">## Set the parameters for ploting device</span></span><br><span class="line">sorted.boxplot(x = a.value , factor.levels = a.levels, </span><br><span class="line">    groups = a.groups, ylab = <span class="string">&quot;Values&quot;</span>, xlab = <span class="string">&quot;Levels&quot;</span>, main = <span class="string">&quot;A sorted box plot&quot;</span>)</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2013/03/08/2013-3-8-box2/" data-id="ckmq42aif004y1k84gffl715u" data-title="A Sorted Box Plot" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2013/03/08/2013-3-8-box2/" data-id="ckmt6y7ly0055mgyab4nj1i3c" data-title="A Sorted Box Plot" class="article-share-link">Share</a>
       
       
       

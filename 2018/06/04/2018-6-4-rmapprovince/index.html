@@ -6,16 +6,16 @@
   
   <title>R绘制中国地图：你去过哪些省份？ | Jinlong Zhang&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="最近，微信中去过哪些省份的小程序十分火爆，用户通过选择去过哪些省份和地级市， 提交之后后台就自动生成地图。其实该地图要绘制起来并不困难。 这里给出绘制去过哪些省份的R代码。供参考 代码和R脚本 map of china.zip setwd(&quot;C:\\Users\\jlzhang\\20180604&quot;) #### 导入所需要的程序包library(maptools) ## Loa">
+  <meta name="description" content="最近，微信中去过哪些省份的小程序十分火爆，用户通过选择去过哪些省份和地级市， 提交之后后台就自动生成地图。其实该地图要绘制起来并不困难。 这里给出绘制去过哪些省份的R代码。供参考 代码和R脚本 map of china.zip 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474">
 <meta property="og:type" content="article">
 <meta property="og:title" content="R绘制中国地图：你去过哪些省份？">
 <meta property="og:url" content="https://helixcn.github.io/2018/06/04/2018-6-4-rmapprovince/index.html">
 <meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
-<meta property="og:description" content="最近，微信中去过哪些省份的小程序十分火爆，用户通过选择去过哪些省份和地级市， 提交之后后台就自动生成地图。其实该地图要绘制起来并不困难。 这里给出绘制去过哪些省份的R代码。供参考 代码和R脚本 map of china.zip setwd(&quot;C:\\Users\\jlzhang\\20180604&quot;) #### 导入所需要的程序包library(maptools) ## Loa">
+<meta property="og:description" content="最近，微信中去过哪些省份的小程序十分火爆，用户通过选择去过哪些省份和地级市， 提交之后后台就自动生成地图。其实该地图要绘制起来并不困难。 这里给出绘制去过哪些省份的R代码。供参考 代码和R脚本 map of china.zip 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://image.sciencenet.cn/home/201806/04/174843oqqp6yavo4y4lol4.jpeg">
 <meta property="article:published_time" content="2018-06-04T01:47:54.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:34:24.620Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:26.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="地理">
 <meta name="twitter:card" content="summary">
@@ -102,108 +102,14 @@
       
         <p>最近，微信中去过哪些省份的小程序十分火爆，用户通过选择去过哪些省份和地级市， 提交之后后台就自动生成地图。其实该地图要绘制起来并不困难。 这里给出绘制去过哪些省份的R代码。供参考</p>
 <p>代码和R脚本 <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=attachment&id=208159">map of china.zip</a></p>
-<pre><code>setwd(&quot;C:\\Users\\jlzhang\\20180604&quot;)
-#### 导入所需要的程序包library(maptools)
-## Loading required package: sp
-## Checking rgeos availability: TRUE
-library(ggplot2)
-library(rgdal)
-## rgdal: version: 1.3-1, (SVN revision 747)
-##  Geospatial Data Abstraction Library extensions to R successfully loaded
-##  Loaded GDAL runtime: GDAL 2.2.3, released 2017/11/20
-##  Path to GDAL shared files: C:/Users/jlzhang/Documents/R/win-library/3.5/rgdal/gdal
-##  GDAL binary built with GEOS: TRUE 
-##  Loaded PROJ.4 runtime: Rel. 4.9.3, 15 August 2016, [PJ_VERSION: 493]
-##  Path to PROJ.4 shared files: C:/Users/jlzhang/Documents/R/win-library/3.5/rgdal/proj
-##  Linking to sp version: 1.2-7
-rm(list = ls())  ## 删除所有对象
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line">setwd(&quot;C:\\Users\\jlzhang\\20180604&quot;)</span><br><span class="line">#### 导入所需要的程序包library(maptools)</span><br><span class="line">## Loading required package: sp</span><br><span class="line">## Checking rgeos availability: TRUE</span><br><span class="line">library(ggplot2)</span><br><span class="line">library(rgdal)</span><br><span class="line">## rgdal: version: 1.3-1, (SVN revision 747)</span><br><span class="line">##  Geospatial Data Abstraction Library extensions to R successfully loaded</span><br><span class="line">##  Loaded GDAL runtime: GDAL 2.2.3, released 2017&#x2F;11&#x2F;20</span><br><span class="line">##  Path to GDAL shared files: C:&#x2F;Users&#x2F;jlzhang&#x2F;Documents&#x2F;R&#x2F;win-library&#x2F;3.5&#x2F;rgdal&#x2F;gdal</span><br><span class="line">##  GDAL binary built with GEOS: TRUE </span><br><span class="line">##  Loaded PROJ.4 runtime: Rel. 4.9.3, 15 August 2016, [PJ_VERSION: 493]</span><br><span class="line">##  Path to PROJ.4 shared files: C:&#x2F;Users&#x2F;jlzhang&#x2F;Documents&#x2F;R&#x2F;win-library&#x2F;3.5&#x2F;rgdal&#x2F;proj</span><br><span class="line">##  Linking to sp version: 1.2-7</span><br><span class="line">rm(list &#x3D; ls())  ## 删除所有对象</span><br><span class="line"></span><br><span class="line">## 去过的地方</span><br><span class="line">provinces_visited &lt;- c(&quot;Beijing&quot;, &quot;Hebei&quot;, &quot;Heilongjiang&quot;, </span><br><span class="line">               &quot;Liaoning&quot;, &quot;Jilin&quot;, &quot;Jiangxi&quot;, &quot;Hunan&quot;,</span><br><span class="line">               &quot;Zhejiang&quot;, &quot;Hubei&quot;, &quot;Chongqing&quot;, &quot;Sichuan&quot;,</span><br><span class="line">               &quot;Henan&quot;, &quot;Guangxi&quot;, &quot;Guangdong&quot;, &quot;Fujian&quot;,</span><br><span class="line">               &quot;Hainan&quot;, &quot;Yunnan&quot;, &quot;Guizhou&quot;)</span><br><span class="line">provinces_visited_df &lt;- data.frame(province_pinyin &#x3D; provinces_visited, </span><br><span class="line">                                   visited_status &#x3D; rep(&quot;Visited&quot;, length(provinces_visited)))</span><br><span class="line"></span><br><span class="line">## 读取地图</span><br><span class="line">country      &lt;- readOGR(&quot;bou1_4l.shp&quot;)</span><br><span class="line">## OGR data source with driver: ESRI Shapefile </span><br><span class="line">## Source: &quot;C:\Users\jlzhang\20180604\bou1_4l.shp&quot;, layer: &quot;bou1_4l&quot;</span><br><span class="line">## with 1382 features</span><br><span class="line">## It has 8 fields</span><br><span class="line">## Integer64 fields read as strings:  FNODE_ TNODE_ LPOLY_ RPOLY_ BOU1_4M_ BOU1_4M_ID</span><br><span class="line">province     &lt;- readOGR(&quot;province_polygon.shp&quot;)    ## 各省多边形</span><br><span class="line">## OGR data source with driver: ESRI Shapefile </span><br><span class="line">## Source: &quot;C:\Users\jlzhang\20180604\province_polygon.shp&quot;, layer: &quot;province_polygon&quot;</span><br><span class="line">## with 34 features</span><br><span class="line">## It has 10 fields</span><br><span class="line">province$ID  &lt;- as.character(province$ID) </span><br><span class="line"></span><br><span class="line">## 转换为ggplot2绘图用的data.frame</span><br><span class="line">country_df  &lt;- fortify(country)</span><br><span class="line">province_df &lt;- fortify(province)</span><br><span class="line">## Regions defined for each Polygons</span><br><span class="line">## 提取省级数据中的信息</span><br><span class="line">province_dat &lt;- province@data</span><br><span class="line"></span><br><span class="line">## 改正省级数据中关于香港和澳门的错误</span><br><span class="line">index_HK &lt;- which(province_dat$ID &#x3D;&#x3D; &quot;Xianggang&quot;)</span><br><span class="line">province_dat$X[index_HK] &lt;- 114.156121</span><br><span class="line">province_dat$Y[index_HK] &lt;-  22.37725</span><br><span class="line">province_dat$ID[index_HK] &lt;- &quot;Hong Kong&quot;</span><br><span class="line"></span><br><span class="line">index_MC &lt;- which(province_dat$ID &#x3D;&#x3D; &quot;Aomen&quot;)</span><br><span class="line">province_dat$X[index_MC] &lt;- 113.545681</span><br><span class="line">province_dat$Y[index_MC] &lt;-  20.197303</span><br><span class="line">province_dat$ID[index_MC] &lt;- &quot;Macau&quot;</span><br><span class="line"></span><br><span class="line">## id与province_df数据表中的省出现的顺序相同， 这里id都从0开始， 所以需要减去1，以便匹配</span><br><span class="line">province_dat$id &lt;- as.character(1:nrow(province_dat) - 1)</span><br><span class="line"></span><br><span class="line">## 增加省拼音</span><br><span class="line">province_dat2 &lt;- merge(province_dat, provinces_visited_df, by.x &#x3D; &quot;ID&quot;, </span><br><span class="line">                       by.y &#x3D; &quot;province_pinyin&quot;, all.x &#x3D; TRUE)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 由于visited status 默认是 factor 类型， 这里需要先转换为字符串， 再处理</span><br><span class="line">province_dat2$visited_status &lt;- as.character(province_dat2$visited_status)</span><br><span class="line"></span><br><span class="line">## 所有没有匹配上的省份都是没有去过的， 状态为 not yet</span><br><span class="line">province_dat2$visited_status[is.na(province_dat2$visited_status)] &lt;- &quot;Not Yet&quot;</span><br><span class="line">province_df_merged &lt;- merge(province_df, province_dat2, by &#x3D; &quot;id&quot;)</span><br><span class="line">                       </span><br><span class="line">## 绘图</span><br><span class="line">## 用geom_path绘制读取的polyline，因为国界线是polyline</span><br><span class="line">## 多圆锥投影 </span><br><span class="line">## http:&#x2F;&#x2F;desktop.arcgis.com&#x2F;zh-cn&#x2F;arcmap&#x2F;10.3&#x2F;guide-books&#x2F;map-projections&#x2F;polyconic.htm</span><br><span class="line"></span><br><span class="line">ggplot() + geom_path(data &#x3D; country_df, </span><br><span class="line">             aes(x &#x3D; long, y &#x3D; lat, group&#x3D;group), colour&#x3D;&quot;darkblue&quot;) +  </span><br><span class="line">coord_map(&quot;polyconic&quot;) +                                                </span><br><span class="line">geom_polygon(data &#x3D; province_df_merged, </span><br><span class="line">             aes(x &#x3D; long, y &#x3D; lat, group&#x3D;group, </span><br><span class="line">                 fill &#x3D; visited_status), colour&#x3D;&quot;grey&quot;) + </span><br><span class="line">geom_text(mapping &#x3D; aes(x &#x3D; X, y &#x3D; Y, label &#x3D; ID), </span><br><span class="line">          data &#x3D; province_dat, colour &#x3D; &#39;Black&#39;)+</span><br><span class="line">ggtitle(&quot;Provinces I have been to:&quot;) + </span><br><span class="line">xlab(&quot;Longitude&quot;) + </span><br><span class="line">ylab(&quot;Latitude&quot;) + </span><br><span class="line">theme(legend.position &#x3D; &quot;bottom&quot;) + </span><br><span class="line">scale_fill_discrete(name &#x3D; &quot;Province&quot;)</span><br></pre></td></tr></table></figure>
 
-## 去过的地方
-provinces_visited &lt;- c(&quot;Beijing&quot;, &quot;Hebei&quot;, &quot;Heilongjiang&quot;, 
-               &quot;Liaoning&quot;, &quot;Jilin&quot;, &quot;Jiangxi&quot;, &quot;Hunan&quot;,
-               &quot;Zhejiang&quot;, &quot;Hubei&quot;, &quot;Chongqing&quot;, &quot;Sichuan&quot;,
-               &quot;Henan&quot;, &quot;Guangxi&quot;, &quot;Guangdong&quot;, &quot;Fujian&quot;,
-               &quot;Hainan&quot;, &quot;Yunnan&quot;, &quot;Guizhou&quot;)
-provinces_visited_df &lt;- data.frame(province_pinyin = provinces_visited, 
-                                   visited_status = rep(&quot;Visited&quot;, length(provinces_visited)))
-
-## 读取地图
-country      &lt;- readOGR(&quot;bou1_4l.shp&quot;)
-## OGR data source with driver: ESRI Shapefile 
-## Source: &quot;C:\Users\jlzhang\20180604\bou1_4l.shp&quot;, layer: &quot;bou1_4l&quot;
-## with 1382 features
-## It has 8 fields
-## Integer64 fields read as strings:  FNODE_ TNODE_ LPOLY_ RPOLY_ BOU1_4M_ BOU1_4M_ID
-province     &lt;- readOGR(&quot;province_polygon.shp&quot;)    ## 各省多边形
-## OGR data source with driver: ESRI Shapefile 
-## Source: &quot;C:\Users\jlzhang\20180604\province_polygon.shp&quot;, layer: &quot;province_polygon&quot;
-## with 34 features
-## It has 10 fields
-province$ID  &lt;- as.character(province$ID) 
-
-## 转换为ggplot2绘图用的data.frame
-country_df  &lt;- fortify(country)
-province_df &lt;- fortify(province)
-## Regions defined for each Polygons
-## 提取省级数据中的信息
-province_dat &lt;- province@data
-
-## 改正省级数据中关于香港和澳门的错误
-index_HK &lt;- which(province_dat$ID == &quot;Xianggang&quot;)
-province_dat$X[index_HK] &lt;- 114.156121
-province_dat$Y[index_HK] &lt;-  22.37725
-province_dat$ID[index_HK] &lt;- &quot;Hong Kong&quot;
-
-index_MC &lt;- which(province_dat$ID == &quot;Aomen&quot;)
-province_dat$X[index_MC] &lt;- 113.545681
-province_dat$Y[index_MC] &lt;-  20.197303
-province_dat$ID[index_MC] &lt;- &quot;Macau&quot;
-
-## id与province_df数据表中的省出现的顺序相同， 这里id都从0开始， 所以需要减去1，以便匹配
-province_dat$id &lt;- as.character(1:nrow(province_dat) - 1)
-
-## 增加省拼音
-province_dat2 &lt;- merge(province_dat, provinces_visited_df, by.x = &quot;ID&quot;, 
-                       by.y = &quot;province_pinyin&quot;, all.x = TRUE)
-
-
-## 由于visited status 默认是 factor 类型， 这里需要先转换为字符串， 再处理
-province_dat2$visited_status &lt;- as.character(province_dat2$visited_status)
-
-## 所有没有匹配上的省份都是没有去过的， 状态为 not yet
-province_dat2$visited_status[is.na(province_dat2$visited_status)] &lt;- &quot;Not Yet&quot;
-province_df_merged &lt;- merge(province_df, province_dat2, by = &quot;id&quot;)
-                       
-## 绘图
-## 用geom_path绘制读取的polyline，因为国界线是polyline
-## 多圆锥投影 
-## http://desktop.arcgis.com/zh-cn/arcmap/10.3/guide-books/map-projections/polyconic.htm
-
-ggplot() + geom_path(data = country_df, 
-             aes(x = long, y = lat, group=group), colour=&quot;darkblue&quot;) +  
-coord_map(&quot;polyconic&quot;) +                                                
-geom_polygon(data = province_df_merged, 
-             aes(x = long, y = lat, group=group, 
-                 fill = visited_status), colour=&quot;grey&quot;) + 
-geom_text(mapping = aes(x = X, y = Y, label = ID), 
-          data = province_dat, colour = &#39;Black&#39;)+
-ggtitle(&quot;Provinces I have been to:&quot;) + 
-xlab(&quot;Longitude&quot;) + 
-ylab(&quot;Latitude&quot;) + 
-theme(legend.position = &quot;bottom&quot;) + 
-scale_fill_discrete(name = &quot;Province&quot;)
-</code></pre>
 <p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201806/04/174843oqqp6yavo4y4lol4.jpeg"><img src="http://image.sciencenet.cn/home/201806/04/174843oqqp6yavo4y4lol4.jpeg" alt="img"></a></p>
-<pre><code>参考
-## https://zhuanlan.zhihu.com/p/25231546 
-## http://eriqande.github.io/rep-res-web/lectures/making-maps-with-R.html 
-## http://www.statsoft.org/wp-content/uploads/2016/09/Lecture6_HKMapVis.html
-</code></pre>
-
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">参考</span><br><span class="line">## https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;25231546 </span><br><span class="line">## http:&#x2F;&#x2F;eriqande.github.io&#x2F;rep-res-web&#x2F;lectures&#x2F;making-maps-with-R.html </span><br><span class="line">## http:&#x2F;&#x2F;www.statsoft.org&#x2F;wp-content&#x2F;uploads&#x2F;2016&#x2F;09&#x2F;Lecture6_HKMapVis.html</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/06/04/2018-6-4-rmapprovince/" data-id="ckmq42ako00bo1k84erly4qjm" data-title="R绘制中国地图：你去过哪些省份？" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/06/04/2018-6-4-rmapprovince/" data-id="ckmt6y7pj00camgyafzyf838y" data-title="R绘制中国地图：你去过哪些省份？" class="article-share-link">Share</a>
       
       
       

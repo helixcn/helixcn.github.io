@@ -14,7 +14,7 @@
 <meta property="og:description" content="新版本参见 http:&#x2F;&#x2F;blog.sciencenet.cn&#x2F;home.php?mod&#x3D;space&amp;uid&#x3D;255662&amp;do&#x3D;blog&amp;id&#x3D;835970  注： 本文需要读者了解：  R函数的基本知识 编写R程序包 C++的基础知识， 包括 类， 以及namespace等。  为什么要用R调用C++函数？ 原因可能有以下几点：  R开发虽然很快， 涉及到一些循环的时候">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2013-10-27T04:39:54.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:34:24.540Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:26.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="R编程">
 <meta name="twitter:card" content="summary">
@@ -131,90 +131,29 @@
 <li><p>在R console 中运行 library(Rcpp) ， 之后调用 Rcpp.package.skeleton函数，</p>
 </li>
 </ol>
-<pre><code class="R">Rcpp.package.skeleton( &quot;test&quot; )
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Rcpp.package.skeleton( <span class="string">&quot;test&quot;</span> )</span><br></pre></td></tr></table></figure>
+
 <p>在生成的R包 skeleton中， 可以找到rcpp_hello_world.cpp文件， 可以尝试添加几个函数， 修改成如下样式 （注意以下代码为C++文件,扩展名为cpp):</p>
-<pre><code class="cpp">////////////////////// C++文件开始//////////////////
-#include &quot;rcpp_hello_world.h&quot;
-#include &lt;Rcpp.h&gt;
-using namespace Rcpp;
-using namespace std;
-// 注意 #include &lt;Rcpp.h&gt; 是调用Rcpp的必要条件
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">////////////////////// C++文件开始//////////////////</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;rcpp_hello_world.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Rcpp.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> Rcpp;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="comment">// 注意 #include &lt;Rcpp.h&gt; 是调用Rcpp的必要条件</span></span><br><span class="line"></span><br><span class="line"><span class="function">RcppExport SEXP <span class="title">intVec1a</span><span class="params">(SEXP vec)</span> </span>&#123;</span><br><span class="line">   <span class="function">Rcpp::NumericVector <span class="title">vec2</span><span class="params">(vec)</span></span>;</span><br><span class="line">   <span class="keyword">int</span> prod = <span class="number">1</span>;</span><br><span class="line">   <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;vec2.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">       prod *= vec2[i];</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">return</span> (<span class="built_in">wrap</span>(prod));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// RcppExport 是为了在载入R包后， 在Namespace内内能够找到这个C++的函数</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//第一个SEXP声明返回值的类型</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//第二个SEXP， 声明vec变量为SEXP的类型，也就是说， 它可以是从R直接传入</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Rcpp::NumericVector vec2(vec); 意思 是将 vec转换为 vec2， 从SEXP转换为 NumericVector， NumericVector是Rcpp下的一个类， 在C++的函数中可以识别和调用。 后面的代码就和普通的C++没有什么分别了。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//return (wrap(prod)); 由于我们希望在R中直接可以得到该函数的运行结果， 因此， 返回值也需要转换为SEXP类型。 wrap函数提供了一种便捷的方式。 简单的类型， 如int， double等， 只需要直接调用wrap即可。 </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function">RcppExport SEXP <span class="title">Eccentricity</span><span class="params">(SEXP JD)</span></span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line"> <span class="keyword">double</span> JD3  = Rcpp::as&lt;<span class="keyword">double</span>&gt;(JD);</span><br><span class="line"> <span class="keyword">double</span> T = (JD3 - <span class="number">2451545.0</span>) / <span class="number">36525.0</span>;</span><br><span class="line"> <span class="keyword">double</span> Tsquared = T*T;</span><br><span class="line"> <span class="keyword">return</span> (<span class="built_in">wrap</span>(<span class="number">1</span> - <span class="number">0.002516</span>*T - <span class="number">0.0000074</span>*Tsquared));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Rcpp::as&lt;double&gt;(JD); 表示调用Rcpp内的方法， 将类型为SEXP的JD， 转换为double类型， 并赋值給double JD3</span></span><br><span class="line"></span><br><span class="line"><span class="function">RcppExport SEXP <span class="title">expfun</span><span class="params">(SEXP x)</span></span>&#123;</span><br><span class="line">    <span class="keyword">double</span> x2 = Rcpp::as&lt;<span class="keyword">double</span>&gt;(x);</span><br><span class="line">    <span class="keyword">double</span> ans=<span class="number">1.0</span>, term=<span class="number">1.0</span>, eps=<span class="number">1e-16</span>;</span><br><span class="line">    <span class="keyword">int</span> n=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (<span class="built_in">fabs</span>(term)&gt;eps)&#123;</span><br><span class="line">       n++;</span><br><span class="line">       term = term * x2 / n;</span><br><span class="line">       ans = ans + term;</span><br><span class="line">    &#125;</span><br><span class="line">      <span class="keyword">return</span>(<span class="built_in">wrap</span>(ans));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//  C++文件结束//</span></span><br></pre></td></tr></table></figure>
 
-RcppExport SEXP intVec1a(SEXP vec) &#123;
-   Rcpp::NumericVector vec2(vec);
-   int prod = 1;
-   for (int i=0; i&lt;vec2.size(); i++) &#123;
-       prod *= vec2[i];
-   &#125;
-   return (wrap(prod));
-&#125;
-
-// RcppExport 是为了在载入R包后， 在Namespace内内能够找到这个C++的函数
-
-//第一个SEXP声明返回值的类型
-
-//第二个SEXP， 声明vec变量为SEXP的类型，也就是说， 它可以是从R直接传入
-
-// Rcpp::NumericVector vec2(vec); 意思 是将 vec转换为 vec2， 从SEXP转换为 NumericVector， NumericVector是Rcpp下的一个类， 在C++的函数中可以识别和调用。 后面的代码就和普通的C++没有什么分别了。
-
-//return (wrap(prod)); 由于我们希望在R中直接可以得到该函数的运行结果， 因此， 返回值也需要转换为SEXP类型。 wrap函数提供了一种便捷的方式。 简单的类型， 如int， double等， 只需要直接调用wrap即可。 
-
-
-RcppExport SEXP Eccentricity(SEXP JD)
-&#123; 
- double JD3  = Rcpp::as&lt;double&gt;(JD);
- double T = (JD3 - 2451545.0) / 36525.0;
- double Tsquared = T*T;
- return (wrap(1 - 0.002516*T - 0.0000074*Tsquared));
-&#125;
-// Rcpp::as&lt;double&gt;(JD); 表示调用Rcpp内的方法， 将类型为SEXP的JD， 转换为double类型， 并赋值給double JD3
-
-RcppExport SEXP expfun(SEXP x)&#123;
-    double x2 = Rcpp::as&lt;double&gt;(x);
-    double ans=1.0, term=1.0, eps=1e-16;
-    int n=0;
-    while (fabs(term)&gt;eps)&#123;
-       n++;
-       term = term * x2 / n;
-       ans = ans + term;
-    &#125;
-      return(wrap(ans));
-&#125;
-//  C++文件结束//
-</code></pre>
 <p>对R程序包test的骨架进行修改后， 即可开始安装，</p>
 <p>在windows下， 在 开始， cmd， 输入 Rcmd INSTALL test, 安装test程序包</p>
 <p>之后转入 R console， library(test)</p>
 <p>即可加载响应的动态链接库dll文件。 只是此时调用dll中的文件， 还稍微有些不方便。 此时调用dll中函数的方法如下</p>
-<pre><code class="R">.Call(&#39;Eccentricity&#39;, JD= 2314543)
-.Call(&#39;intVec1a&#39;, vec= c(3, 4, 5))
-.Call(&#39;expfun&#39;, x=3)
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.Call(<span class="string">&#x27;Eccentricity&#x27;</span>, JD= <span class="number">2314543</span>)</span><br><span class="line">.Call(<span class="string">&#x27;intVec1a&#x27;</span>, vec= <span class="built_in">c</span>(<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>))</span><br><span class="line">.Call(<span class="string">&#x27;expfun&#x27;</span>, x=<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+
 <p>不过每次使用.Call函数， 仍然让人觉得不太满意。为了需要写一个R的wrapper function例如</p>
-<pre><code class="R">expfunR &lt;- function(x)&#123;
-   return( .Call(&#39;expfun&#39;, x= x))
-&#125;
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">expfunR &lt;- <span class="keyword">function</span>(x)&#123;</span><br><span class="line">   <span class="built_in">return</span>( .Call(<span class="string">&#x27;expfun&#x27;</span>, x= x))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">EccentricityR &lt;- <span class="keyword">function</span>(JD)&#123;</span><br><span class="line">   <span class="built_in">return</span>( .Call(<span class="string">&#x27;Eccentricity&#x27;</span>, JD= JD))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">intVecR &lt;- <span class="keyword">function</span>(x)&#123;</span><br><span class="line">   <span class="built_in">return</span>(.Call(<span class="string">&#x27;intVec1a&#x27;</span>, vec= x))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-EccentricityR &lt;- function(JD)&#123;
-   return( .Call(&#39;Eccentricity&#39;, JD= JD))
-&#125;
-
-intVecR &lt;- function(x)&#123;
-   return(.Call(&#39;intVec1a&#39;, vec= x))
-&#125;
-</code></pre>
 <p>调用方式同R函数，</p>
-<pre><code class="R">expfunR(2)
-EccentricityR(2314543)
-intVecR(c(2,3,4))
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">expfunR(<span class="number">2</span>)</span><br><span class="line">EccentricityR(<span class="number">2314543</span>)</span><br><span class="line">intVecR(<span class="built_in">c</span>(<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>))</span><br></pre></td></tr></table></figure>
+
 <p>这时候就和一般的R函数没有区别了。 </p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2013/10/27/2013-10-27-rcpp2/" data-id="ckmq42aic004r1k8457uu0sgz" data-title="Rcpp简明指南: R调用C++" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2013/10/27/2013-10-27-rcpp2/" data-id="ckmt6y7lu004wmgya1isqftke" data-title="Rcpp简明指南: R调用C++" class="article-share-link">Share</a>
       
       
       

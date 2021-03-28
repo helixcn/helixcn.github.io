@@ -14,7 +14,7 @@
 <meta property="og:description" content="群落按照物种相似形组成进行聚类分析，可以用树状图较好的表现物种的组成关系。受到很多植被学家的重视。这里以R软件实现聚类分析为例。 如果按照物种组成的相似性做聚类分析，那么可以用Jaccard指数（经过转换的）。Jaccard指数只考虑物种在两个样方间是否重复出现，盖度在分析的过程中并不起什么作用。但是如果对乔木和灌木进行分析，就可以考虑个体的数量，计算样方物种组成的相似性的时候用Bray-Curt">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2010-04-07T21:55:54.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:34:24.498Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:26.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="生态">
 <meta name="twitter:card" content="summary">
@@ -101,53 +101,26 @@
         <p>群落按照物种相似形组成进行聚类分析，可以用树状图较好的表现物种的组成关系。受到很多植被学家的重视。这里以R软件实现聚类分析为例。</p>
 <p>如果按照物种组成的相似性做聚类分析，那么可以用Jaccard指数（经过转换的）。Jaccard指数只考虑物种在两个样方间是否重复出现，盖度在分析的过程中并不起什么作用。但是如果对乔木和灌木进行分析，就可以考虑个体的数量，计算样方物种组成的相似性的时候用Bray-Curtis指数。Jaccard指数和Bray-Curtis指数在众多生态学相关的程序包中都是可以计算的。下面说一下在R软件中，结合vegan程序包，对草本样方的物种组成进行聚类分析。 </p>
 <p>下面是在R中的具体操作过程：</p>
-<h2 id="第一步-矩阵的整理，建议先整理一下各样地的名录，成如下格式，再用R整理成物种矩阵。"><a href="#第一步-矩阵的整理，建议先整理一下各样地的名录，成如下格式，再用R整理成物种矩阵。" class="headerlink" title="第一步  矩阵的整理，建议先整理一下各样地的名录，成如下格式，再用R整理成物种矩阵。"></a>第一步  矩阵的整理，建议先整理一下各样地的名录，成如下格式，再用R整理成物种矩阵。</h2><pre><code>plotname species
-plot1 sp1
-plot1 sp2
-plot1 sp3
-plot1 sp4
-plot1 sp5
-plot2 sp1
-plot2 sp3
-plot3 sp4
-plot3 sp2
-plot3 sp6
-plot3 sp7
-.....
-</code></pre>
+<h2 id="第一步-矩阵的整理，建议先整理一下各样地的名录，成如下格式，再用R整理成物种矩阵。"><a href="#第一步-矩阵的整理，建议先整理一下各样地的名录，成如下格式，再用R整理成物种矩阵。" class="headerlink" title="第一步  矩阵的整理，建议先整理一下各样地的名录，成如下格式，再用R整理成物种矩阵。"></a>第一步  矩阵的整理，建议先整理一下各样地的名录，成如下格式，再用R整理成物种矩阵。</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">plotname species</span><br><span class="line">plot1 sp1</span><br><span class="line">plot1 sp2</span><br><span class="line">plot1 sp3</span><br><span class="line">plot1 sp4</span><br><span class="line">plot1 sp5</span><br><span class="line">plot2 sp1</span><br><span class="line">plot2 sp3</span><br><span class="line">plot3 sp4</span><br><span class="line">plot3 sp2</span><br><span class="line">plot3 sp6</span><br><span class="line">plot3 sp7</span><br><span class="line">.....</span><br></pre></td></tr></table></figure>
 <p>在Excel中，另存为csv格式，如存名称为 herbplots.csv。</p>
-<h2 id="第二步-读取文件"><a href="#第二步-读取文件" class="headerlink" title="第二步 读取文件"></a>第二步 读取文件</h2><pre><code class="R">herb.data&lt;- read.csv(&quot;D:/herb/herbplots.csv&quot;, header=T)
-</code></pre>
-<h2 id="第三步-转换为-矩阵"><a href="#第三步-转换为-矩阵" class="headerlink" title="第三步 转换为 矩阵"></a>第三步 转换为 矩阵</h2><pre><code class="R">pre.matrix &lt;- table(herb.data)
-</code></pre>
+<h2 id="第二步-读取文件"><a href="#第二步-读取文件" class="headerlink" title="第二步 读取文件"></a>第二步 读取文件</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">herb.data&lt;- read.csv(<span class="string">&quot;D:/herb/herbplots.csv&quot;</span>, header=<span class="built_in">T</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="第三步-转换为-矩阵"><a href="#第三步-转换为-矩阵" class="headerlink" title="第三步 转换为 矩阵"></a>第三步 转换为 矩阵</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pre.matrix &lt;- table(herb.data)</span><br></pre></td></tr></table></figure>
 <p>此时生成的矩阵，形式如下：</p>
-<pre><code>plotname sp1 sp2 sp3 sp4 sp5 sp6 sp7
-plot1 1 1 1 1 1 0 0
-plot2 1 0 1 0 0 0 0
-plot3 0 1 0 1 0 1 1
-</code></pre>
-<h2 id="第四步-计算各样方的Jaccard距离"><a href="#第四步-计算各样方的Jaccard距离" class="headerlink" title="第四步 计算各样方的Jaccard距离"></a>第四步 计算各样方的Jaccard距离</h2><pre><code class="R">plot.dist &lt;- vegdist(pre.matrix, method=&quot;jaccard&quot;)
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">plotname sp1 sp2 sp3 sp4 sp5 sp6 sp7</span><br><span class="line">plot1 1 1 1 1 1 0 0</span><br><span class="line">plot2 1 0 1 0 0 0 0</span><br><span class="line">plot3 0 1 0 1 0 1 1</span><br></pre></td></tr></table></figure>
+<h2 id="第四步-计算各样方的Jaccard距离"><a href="#第四步-计算各样方的Jaccard距离" class="headerlink" title="第四步 计算各样方的Jaccard距离"></a>第四步 计算各样方的Jaccard距离</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plot.dist &lt;- vegdist(pre.matrix, method=<span class="string">&quot;jaccard&quot;</span>)</span><br></pre></td></tr></table></figure>
 <p>距离矩阵为一个半矩阵，形式如下</p>
-<pre><code>plot1 plot2
-plot2 0.6000000
-plot3 0.7142857 1.0000000
-</code></pre>
-<h2 id="第五步-使用UPGMA方法或者Ward法，对群落进行聚类"><a href="#第五步-使用UPGMA方法或者Ward法，对群落进行聚类" class="headerlink" title="第五步 使用UPGMA方法或者Ward法，对群落进行聚类"></a>第五步 使用UPGMA方法或者Ward法，对群落进行聚类</h2><pre><code class="R">plot.hc &lt;- hclust(plot.dist , &quot;ave&quot;)
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">plot1 plot2</span><br><span class="line">plot2 0.6000000</span><br><span class="line">plot3 0.7142857 1.0000000</span><br></pre></td></tr></table></figure>
+
+<h2 id="第五步-使用UPGMA方法或者Ward法，对群落进行聚类"><a href="#第五步-使用UPGMA方法或者Ward法，对群落进行聚类" class="headerlink" title="第五步 使用UPGMA方法或者Ward法，对群落进行聚类"></a>第五步 使用UPGMA方法或者Ward法，对群落进行聚类</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plot.hc &lt;- hclust(plot.dist , <span class="string">&quot;ave&quot;</span>)</span><br></pre></td></tr></table></figure>
 <p>绘图</p>
-<pre><code class="R">plot(plot.hc)
-plot(plot.hc, hang=-1)
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">plot(plot.hc)</span><br><span class="line">plot(plot.hc, hang=-<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
 <p>转换为dendrogram之后绘图</p>
-<pre><code class="R">dendro.plot&lt;-as.dendrogram(plot.hc)
-plot(dendro.plot, horiz=T)
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dendro.plot&lt;-as.dendrogram(plot.hc)</span><br><span class="line">plot(dendro.plot, horiz=<span class="built_in">T</span>)</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2010/04/08/2010-4-8-clustering/" data-id="ckmq42ahb001g1k846w5n1ic2" data-title="R软件中如何进行群落聚类分析？" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2010/04/08/2010-4-8-clustering/" data-id="ckmt6y7kb001fmgya6llwfyy6" data-title="R软件中如何进行群落聚类分析？" class="article-share-link">Share</a>
       
       
       

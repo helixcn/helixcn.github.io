@@ -6,15 +6,15 @@
   
   <title>在频率直方图上添加拟合的曲线－以对数正态分布为例 | Jinlong Zhang&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="以下为R代码 \##### 第一个方案 \##### 拟合正态分布 x &lt;- log(rlnorm(1000))*500 ### 提取数据框 h &lt;- hist(x, ylim &#x3D; c(0, 300))  ## 绘制频率直方图 xfit &lt;- seq(min(x),max(x),length&#x3D;500) ### 取要计算的x值 yfit &lt;- dnorm(xfit, mean">
+  <meta name="description" content="以下为R代码 12345678910111213141516171819202122232425262728\##### 第一个方案\##### 拟合正态分布x &lt;- log(rlnorm(1000))*500 ### 提取数据框h &lt;- hist(x, ylim &#x3D; c(0, 300))  ## 绘制频率直方图xfit &lt;- seq(min(x),max(x),length&#x3D;5">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在频率直方图上添加拟合的曲线－以对数正态分布为例">
 <meta property="og:url" content="https://helixcn.github.io/2014/09/25/2014-9-25-fitting/index.html">
 <meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
-<meta property="og:description" content="以下为R代码 \##### 第一个方案 \##### 拟合正态分布 x &lt;- log(rlnorm(1000))*500 ### 提取数据框 h &lt;- hist(x, ylim &#x3D; c(0, 300))  ## 绘制频率直方图 xfit &lt;- seq(min(x),max(x),length&#x3D;500) ### 取要计算的x值 yfit &lt;- dnorm(xfit, mean">
+<meta property="og:description" content="以下为R代码 12345678910111213141516171819202122232425262728\##### 第一个方案\##### 拟合正态分布x &lt;- log(rlnorm(1000))*500 ### 提取数据框h &lt;- hist(x, ylim &#x3D; c(0, 300))  ## 绘制频率直方图xfit &lt;- seq(min(x),max(x),length&#x3D;5">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2014-09-25T07:03:54.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:34:24.557Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:26.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="统计">
 <meta name="twitter:card" content="summary">
@@ -99,40 +99,11 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>以下为R代码</p>
-<pre><code class="R">\##### 第一个方案
-\##### 拟合正态分布
-x &lt;- log(rlnorm(1000))*500 ### 提取数据框
-h &lt;- hist(x, ylim = c(0, 300))  ## 绘制频率直方图
-xfit &lt;- seq(min(x),max(x),length=500) ### 取要计算的x值
-yfit &lt;- dnorm(xfit, mean=mean(x), sd=sd(x)) ### 假设是正态分布， 则对应的概率密度为 yfit
-yfit &lt;- yfit*diff(h$mids[1:2])*length(x) ### 求x向量内每一个值与前面数值的差, 以确定在y方向上， 应该放大多少倍
-lines(xfit, yfit, col=&quot;blue&quot;, lwd=2)  ### 绘制曲线
-
-
-\##### 第二个方案
-\##### 拟合对数正态分布
-x &lt;- rlnorm(1000)*1000  ### 提取第一列
-h &lt;- hist(x, ylim = c(0, 1000), breaks = 25)  ## 绘制频率直方图
-xfit &lt;- seq(min(x),max(x),length=500) ### 取要绘图的x值取值范围
-yfit &lt;- dlnorm(xfit, meanlog=log(mean(x)), sdlog=sd(log(x))) ### 假设是对数正态分布， 则对应的概率密度为 yfit
-yfit &lt;- yfit*diff(h$mids[1:2])*length(x) ### 求x向量内每一个值与前面数值的差, 以确定在y方向上， 应该放大多少倍
-lines(xfit, yfit, col=&quot;blue&quot;, lwd=2) ### 绘制曲线
-
-
-\##### 第三个方案
-\##### 基于核密度估计
-x &lt;- rlnorm(1000)*1000   ### 提取第一列
-h &lt;- hist(x, breaks = 25)  ## 绘制频率直方图
-xfit &lt;- seq(min(x),max(x),length=500) ### 取要绘图的x值取值范围
-yfit &lt;- density(x, n = length(xfit))$y ### 假设是对数正态分布， 则对应的概率密度为 yfit
-yfit &lt;- yfit*diff(h$mids[1:2])*length(xfit) ### 求x向量内每一个值与前面数值的差, 以确定在y方向上， 应该放大多少倍
-lines(xfit, yfit, col=&quot;blue&quot;, lwd=2) ### 绘制曲线
-</code></pre>
-
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">\<span class="comment">##### 第一个方案</span></span><br><span class="line">\<span class="comment">##### 拟合正态分布</span></span><br><span class="line">x &lt;- <span class="built_in">log</span>(rlnorm(<span class="number">1000</span>))*<span class="number">500</span> <span class="comment">### 提取数据框</span></span><br><span class="line">h &lt;- hist(x, ylim = <span class="built_in">c</span>(<span class="number">0</span>, <span class="number">300</span>))  <span class="comment">## 绘制频率直方图</span></span><br><span class="line">xfit &lt;- seq(<span class="built_in">min</span>(x),<span class="built_in">max</span>(x),<span class="built_in">length</span>=<span class="number">500</span>) <span class="comment">### 取要计算的x值</span></span><br><span class="line">yfit &lt;- dnorm(xfit, mean=mean(x), sd=sd(x)) <span class="comment">### 假设是正态分布， 则对应的概率密度为 yfit</span></span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(x) <span class="comment">### 求x向量内每一个值与前面数值的差, 以确定在y方向上， 应该放大多少倍</span></span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>)  <span class="comment">### 绘制曲线</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">\<span class="comment">##### 第二个方案</span></span><br><span class="line">\<span class="comment">##### 拟合对数正态分布</span></span><br><span class="line">x &lt;- rlnorm(<span class="number">1000</span>)*<span class="number">1000</span>  <span class="comment">### 提取第一列</span></span><br><span class="line">h &lt;- hist(x, ylim = <span class="built_in">c</span>(<span class="number">0</span>, <span class="number">1000</span>), breaks = <span class="number">25</span>)  <span class="comment">## 绘制频率直方图</span></span><br><span class="line">xfit &lt;- seq(<span class="built_in">min</span>(x),<span class="built_in">max</span>(x),<span class="built_in">length</span>=<span class="number">500</span>) <span class="comment">### 取要绘图的x值取值范围</span></span><br><span class="line">yfit &lt;- dlnorm(xfit, meanlog=<span class="built_in">log</span>(mean(x)), sdlog=sd(<span class="built_in">log</span>(x))) <span class="comment">### 假设是对数正态分布， 则对应的概率密度为 yfit</span></span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(x) <span class="comment">### 求x向量内每一个值与前面数值的差, 以确定在y方向上， 应该放大多少倍</span></span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>) <span class="comment">### 绘制曲线</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">\<span class="comment">##### 第三个方案</span></span><br><span class="line">\<span class="comment">##### 基于核密度估计</span></span><br><span class="line">x &lt;- rlnorm(<span class="number">1000</span>)*<span class="number">1000</span>   <span class="comment">### 提取第一列</span></span><br><span class="line">h &lt;- hist(x, breaks = <span class="number">25</span>)  <span class="comment">## 绘制频率直方图</span></span><br><span class="line">xfit &lt;- seq(<span class="built_in">min</span>(x),<span class="built_in">max</span>(x),<span class="built_in">length</span>=<span class="number">500</span>) <span class="comment">### 取要绘图的x值取值范围</span></span><br><span class="line">yfit &lt;- density(x, n = <span class="built_in">length</span>(xfit))$y <span class="comment">### 假设是对数正态分布， 则对应的概率密度为 yfit</span></span><br><span class="line">yfit &lt;- yfit*diff(h$mids[<span class="number">1</span>:<span class="number">2</span>])*<span class="built_in">length</span>(xfit) <span class="comment">### 求x向量内每一个值与前面数值的差, 以确定在y方向上， 应该放大多少倍</span></span><br><span class="line">lines(xfit, yfit, col=<span class="string">&quot;blue&quot;</span>, lwd=<span class="number">2</span>) <span class="comment">### 绘制曲线</span></span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/09/25/2014-9-25-fitting/" data-id="ckmq42aiy006h1k8434fga79c" data-title="在频率直方图上添加拟合的曲线－以对数正态分布为例" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/09/25/2014-9-25-fitting/" data-id="ckmt6y7mo006omgya3b38bkew" data-title="在频率直方图上添加拟合的曲线－以对数正态分布为例" class="article-share-link">Share</a>
       
       
       

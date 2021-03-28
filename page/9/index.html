@@ -117,93 +117,16 @@
 </ol>
 <p>编译的方法是： 将代码部分保存到文本文件中， 用UTF-8编码。 之后用XeLaTeX编译即可生成中文文档。 虽然生成的图书效果值得商榷， 但是相信编译为书稿后， 再交给专业排版人员， 一定能省很多事。 最主要的是可以用Latex直接写公式。</p>
 <p>利用这个模板，编写植物名录、植物图集等会容易很多。可以借助其他脚本语言如Python或者R处理相应的数据库，生成tex代码，\include{}之后，再编译即可。</p>
-<pre><code class="tex">%%% Latex代码开始
-\documentclass[utf8]&#123;book&#125;
-\usepackage&#123;titletoc&#125;
-\usepackage&#123;titlesec&#125;
-\usepackage&#123;ctexcap&#125;
-\usepackage[b5paper,text=&#123;125mm,195mm&#125;,centering,left=1in,right=1in,top=1in,bottom=1in]&#123;geometry&#125;
-\usepackage[]&#123;geometry&#125;
-\usepackage&#123;imakeidx&#125;
-\usepackage&#123;multicol&#125;
-\usepackage&#123;hyperref&#125;
-\makeindex
-\bibliographystyle&#123;plain&#125;
-\begin&#123;document&#125;
-\title&#123;\heiti中国植物多样性地理图集&#125;
-\author&#123;\fangsong中国科学院植物研究所 编著&#125;
-\date&#123;2018年1月&#125;
-\frontmatter
-\maketitle
-\chapter&#123;序 I&#125;
-这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言
-\chapter&#123;序 II&#125;
-这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分
-\chapter&#123;前~言&#125;
-这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分
-这部分是前言
-\renewcommand\contentsname&#123;目~录&#125;
-\tableofcontents
-\mainmatter
-\part&#123;总论&#125;
-\chapter&#123;中国植物调查的历史&#125;
-\section&#123;一级节标题&#125;
-\subsection&#123;二级节标题&#125;
-\subsubsection&#123;三级节标题&#125;
-\begin&#123;multicols&#125;&#123;2&#125;
-清朝中期，外国人就开始中国采集植物标本。清朝中期， 外国人就开始中国采集植物标本。清朝中期， 外国人就开始中国采集植物标本。清朝中期， 外国人就开始中国采集植物标本。清朝中期，外国人就开始中国采集植物标本。清朝中期， 外国人就开始中国采集植物标本。
-\end&#123;multicols&#125;
-\chapter&#123;植物区系分区&#125;
-\section&#123;一级节标题&#125;
-\subsection&#123;二级节标题&#125;
-\subsubsection&#123;三级节标题&#125;
-\begin&#123;multicols&#125;&#123;2&#125;
-和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物\index&#123;调查&#125;和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集
-\end&#123;multicols&#125;
-\part&#123;植物多样性分区概述&#125;
-\chapter&#123;东北地区&#125;
-\begin&#123;multicols&#125;&#123;2&#125;
-Lorem ipsum dolor sit amet,consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore etdolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamcolaboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in \index&#123;reprehenderit&#125; in voluptate velit essecillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat nonproident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-\end&#123;multicols&#125;
-\chapter&#123;华北地区&#125;
-\begin&#123;multicols&#125;&#123;2&#125;
-Lorem ipsum dolor sit amet,consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore etdolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamcolaboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor inreprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officiadeserunt mollit anim id est laborum.
-\end&#123;multicols&#125;
-\include&#123;angiosperms&#125;
-\appendix
-\chapter&#123;APG分类系统的科名&#125;
-内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容文内容正文内容正文内容正文\index&#123;内容&#125;
-内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容正文内容正文\cite&#123;DK1&#125;.
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%%% Latex代码开始</span></span><br><span class="line"><span class="keyword">\documentclass</span>[utf8]&#123;book&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;titletoc&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;titlesec&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;ctexcap&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>[b5paper,text=&#123;125mm,195mm&#125;,centering,left=1in,right=1in,top=1in,bottom=1in]&#123;geometry&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>[]&#123;geometry&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;imakeidx&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;multicol&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;hyperref&#125;</span><br><span class="line"><span class="keyword">\makeindex</span></span><br><span class="line"><span class="keyword">\bibliographystyle</span>&#123;plain&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line"><span class="keyword">\title</span>&#123;<span class="keyword">\heiti</span>中国植物多样性地理图集&#125;</span><br><span class="line"><span class="keyword">\author</span>&#123;<span class="keyword">\fangsong</span>中国科学院植物研究所 编著&#125;</span><br><span class="line"><span class="keyword">\date</span>&#123;2018年1月&#125;</span><br><span class="line"><span class="keyword">\frontmatter</span></span><br><span class="line"><span class="keyword">\maketitle</span></span><br><span class="line"><span class="keyword">\chapter</span>&#123;序 I&#125;</span><br><span class="line">这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言</span><br><span class="line"><span class="keyword">\chapter</span>&#123;序 II&#125;</span><br><span class="line">这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分是序言这部分</span><br><span class="line"><span class="keyword">\chapter</span>&#123;前~言&#125;</span><br><span class="line">这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分是前言这部分</span><br><span class="line">这部分是前言</span><br><span class="line"><span class="keyword">\renewcommand</span><span class="keyword">\contentsname</span>&#123;目~录&#125;</span><br><span class="line"><span class="keyword">\tableofcontents</span></span><br><span class="line"><span class="keyword">\mainmatter</span></span><br><span class="line"><span class="keyword">\part</span>&#123;总论&#125;</span><br><span class="line"><span class="keyword">\chapter</span>&#123;中国植物调查的历史&#125;</span><br><span class="line"><span class="keyword">\section</span>&#123;一级节标题&#125;</span><br><span class="line"><span class="keyword">\subsection</span>&#123;二级节标题&#125;</span><br><span class="line"><span class="keyword">\subsubsection</span>&#123;三级节标题&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;multicols&#125;&#123;2&#125;</span><br><span class="line">清朝中期，外国人就开始中国采集植物标本。清朝中期， 外国人就开始中国采集植物标本。清朝中期， 外国人就开始中国采集植物标本。清朝中期， 外国人就开始中国采集植物标本。清朝中期，外国人就开始中国采集植物标本。清朝中期， 外国人就开始中国采集植物标本。</span><br><span class="line"><span class="keyword">\end</span>&#123;multicols&#125;</span><br><span class="line"><span class="keyword">\chapter</span>&#123;植物区系分区&#125;</span><br><span class="line"><span class="keyword">\section</span>&#123;一级节标题&#125;</span><br><span class="line"><span class="keyword">\subsection</span>&#123;二级节标题&#125;</span><br><span class="line"><span class="keyword">\subsubsection</span>&#123;三级节标题&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;multicols&#125;&#123;2&#125;</span><br><span class="line">和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集植物<span class="keyword">\index</span>&#123;调查&#125;和标本采集植物调查和标本采集植物调查和标本采集植物调查和标本采集</span><br><span class="line"><span class="keyword">\end</span>&#123;multicols&#125;</span><br><span class="line"><span class="keyword">\part</span>&#123;植物多样性分区概述&#125;</span><br><span class="line"><span class="keyword">\chapter</span>&#123;东北地区&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;multicols&#125;&#123;2&#125;</span><br><span class="line">Lorem ipsum dolor sit amet,consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore etdolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamcolaboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in <span class="keyword">\index</span>&#123;reprehenderit&#125; in voluptate velit essecillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat nonproident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span><br><span class="line"><span class="keyword">\end</span>&#123;multicols&#125;</span><br><span class="line"><span class="keyword">\chapter</span>&#123;华北地区&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;multicols&#125;&#123;2&#125;</span><br><span class="line">Lorem ipsum dolor sit amet,consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore etdolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamcolaboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor inreprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officiadeserunt mollit anim id est laborum.</span><br><span class="line"><span class="keyword">\end</span>&#123;multicols&#125;</span><br><span class="line"><span class="keyword">\include</span>&#123;angiosperms&#125;</span><br><span class="line"><span class="keyword">\appendix</span></span><br><span class="line"><span class="keyword">\chapter</span>&#123;APG分类系统的科名&#125;</span><br><span class="line">内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容文内容正文内容正文内容正文<span class="keyword">\index</span>&#123;内容&#125;</span><br><span class="line">内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容附录内容正文内容正文<span class="keyword">\cite</span>&#123;DK1&#125;.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">\renewcommand</span><span class="keyword">\indexname</span>&#123;索~~引&#125;</span><br><span class="line"><span class="keyword">\printindex</span></span><br><span class="line"><span class="keyword">\addcontentsline</span>&#123;toc&#125;&#123;chapter&#125;&#123;索~引&#125;</span><br><span class="line"><span class="keyword">\backmatter</span></span><br><span class="line"><span class="keyword">\addcontentsline</span>&#123;toc&#125;&#123;chapter&#125;&#123;参考文献&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;thebibliography&#125;&#123;参考文献&#125;</span><br><span class="line"><span class="keyword">\bibitem</span>[Knuth1 et al. 1997]&#123;DK1&#125; D. Knuth, T.A.O.C.P. , Vol.1, Addison-Wesley, 1997.</span><br><span class="line"><span class="keyword">\bibitem</span>[Knuth2]&#123;DK2&#125; D. Knuth, T.A.O.C.P. , Vol.2, Addison-Wesley, 1997.</span><br><span class="line"><span class="keyword">\bibitem</span>[TONG YH 2014]&#123;TONG&#125; TONG YH, PANG KS, XIAN NH,2014. Carpinus insularis(Betulaceae), A new species from HongKong [J]. J Trop Subtrop Bot, 22(2): 121-124. [童毅华， 彭权森，夏念和，2014.香港桦木科一新种——香港鹅耳枥 [J]. 热带亚热带植物学报，22(2):121-124.]</span><br><span class="line"><span class="keyword">\bibitem</span>[XIA NH 2008]&#123;XIA&#125; XIA NH, DENG YF, YIP KL,2008. Syzygium impressum (Myrtaceae), A new species from HongKong [J]. J Trop Subtrop Bot, 16(1):19-22. [夏念和，邓云飞，叶国梁，2008. 香港桃金娘科一新种-凹脉赤楠 [J].热带亚热带植物学报，16(1):19-22.]</span><br><span class="line"><span class="keyword">\end</span>&#123;thebibliography&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\chapter</span>&#123;后~~记&#125;</span><br><span class="line">后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容</span><br><span class="line"><span class="keyword">\begin</span>&#123;flushright&#125;</span><br><span class="line">作~~者~~~~~~~~~</span><br><span class="line">2018年1月~~~~~</span><br><span class="line"><span class="keyword">\end</span>&#123;flushright&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br><span class="line"><span class="comment">%% Latex代码结束</span></span><br></pre></td></tr></table></figure>
 
 
-\renewcommand\indexname&#123;索~~引&#125;
-\printindex
-\addcontentsline&#123;toc&#125;&#123;chapter&#125;&#123;索~引&#125;
-\backmatter
-\addcontentsline&#123;toc&#125;&#123;chapter&#125;&#123;参考文献&#125;
-\begin&#123;thebibliography&#125;&#123;参考文献&#125;
-\bibitem[Knuth1 et al. 1997]&#123;DK1&#125; D. Knuth, T.A.O.C.P. , Vol.1, Addison-Wesley, 1997.
-\bibitem[Knuth2]&#123;DK2&#125; D. Knuth, T.A.O.C.P. , Vol.2, Addison-Wesley, 1997.
-\bibitem[TONG YH 2014]&#123;TONG&#125; TONG YH, PANG KS, XIAN NH,2014. Carpinus insularis(Betulaceae), A new species from HongKong [J]. J Trop Subtrop Bot, 22(2): 121-124. [童毅华， 彭权森，夏念和，2014.香港桦木科一新种——香港鹅耳枥 [J]. 热带亚热带植物学报，22(2):121-124.]
-\bibitem[XIA NH 2008]&#123;XIA&#125; XIA NH, DENG YF, YIP KL,2008. Syzygium impressum (Myrtaceae), A new species from HongKong [J]. J Trop Subtrop Bot, 16(1):19-22. [夏念和，邓云飞，叶国梁，2008. 香港桃金娘科一新种-凹脉赤楠 [J].热带亚热带植物学报，16(1):19-22.]
-\end&#123;thebibliography&#125;
-
-\chapter&#123;后~~记&#125;
-后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容后记内容
-\begin&#123;flushright&#125;
-作~~者~~~~~~~~~
-2018年1月~~~~~
-\end&#123;flushright&#125;
-\end&#123;document&#125;
-%% Latex代码结束
-</code></pre>
 <p><a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=attachment&id=151326">中文图书模板.pdf</a></p>
 <p><a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=attachment&id=151327">中文图书模板.tex</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/01/17/2018-1-17-latexbook/" data-id="ckmq42ak100a21k848dwx23zr" data-title="一个较为完整的中文图书Latex模板" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/01/17/2018-1-17-latexbook/" data-id="ckmt6y7oo00ammgyabsbgfrbi" data-title="一个较为完整的中文图书Latex模板" class="article-share-link">Share</a>
       
       
       
@@ -248,54 +171,15 @@ Lorem ipsum dolor sit amet,consectetur adipisicing elit, sed do eiusmod tempor i
 <p><a target="_blank" rel="noopener" href="http://deic.uab.es/~iblanes/beamer_gallery/">http://deic.uab.es/~iblanes/beamer_gallery/</a></p>
 <p><a target="_blank" rel="noopener" href="https://hartwork.org/beamer-theme-matrix/">https://hartwork.org/beamer-theme-matrix/</a></p>
 <p><a target="_blank" rel="noopener" href="https://github.com/matze/mtheme">https://github.com/matze/mtheme</a></p>
-<pre><code class="tex">%%% TeX代码开始
-\documentclass[UTF8]&#123;ctexbeamer&#125;
-\usetheme&#123;Boadilla&#125;
-\usecolortheme&#123;beaver&#125;
-\usepackage&#123;graphicx&#125;
-\usepackage&#123;color&#125;
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%%% TeX代码开始</span></span><br><span class="line"><span class="keyword">\documentclass</span>[UTF8]&#123;ctexbeamer&#125;</span><br><span class="line"><span class="keyword">\usetheme</span>&#123;Boadilla&#125;</span><br><span class="line"><span class="keyword">\usecolortheme</span>&#123;beaver&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;graphicx&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;color&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line"><span class="keyword">\title</span>&#123;R编程与进化分析&#125;</span><br><span class="line"><span class="keyword">\subtitle</span>&#123;内容与目标&#125;</span><br><span class="line"><span class="keyword">\author</span>&#123;<span class="keyword">\songti</span> 张金龙&#125;</span><br><span class="line"><span class="keyword">\institute</span>&#123;jinlongzhang01@gmail.com&#125;</span><br><span class="line"><span class="keyword">\date</span>&#123;<span class="keyword">\today</span>&#125;</span><br><span class="line"><span class="keyword">\frame</span>&#123;<span class="keyword">\titlepage</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\begin</span>&#123;frame&#125;</span><br><span class="line"><span class="keyword">\frametitle</span>&#123;目录&#125;</span><br><span class="line"><span class="keyword">\tableofcontents</span></span><br><span class="line"><span class="keyword">\end</span>&#123;frame&#125;</span><br><span class="line"><span class="keyword">\section</span>&#123;进化树之后要回答的问题&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">% 如果需要目录，请去掉这张幻灯片的%</span></span><br><span class="line"><span class="comment">%\begin&#123;frame&#125;</span></span><br><span class="line"><span class="comment">%\frametitle&#123;目录&#125;</span></span><br><span class="line"><span class="comment">%\tableofcontents[currentsection]</span></span><br><span class="line"><span class="comment">%\end&#123;frame&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">\begin</span>&#123;frame&#125;</span><br><span class="line"><span class="keyword">\frametitle</span>&#123;进化树能帮我们回答哪些问题 I？&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;itemize&#125;</span><br><span class="line"><span class="keyword">\item</span> 1. 分类单元之间的系统发育关系</span><br><span class="line"><span class="keyword">\item</span> 2. 物种的形成速率受什么影响？ 如： 类群的古老程度， 类群的丰富度， 类群所处的纬度， 类群的特殊生境</span><br><span class="line"><span class="keyword">\item</span> 3. 物种形成速率和灭绝速率在历史上发生过哪些变化？</span><br><span class="line"><span class="keyword">\item</span> 4. 物种的进化历史越独特， 越应该受到保护吗？</span><br><span class="line"><span class="keyword">\item</span> 5. 相近的物种有相似的性状吗？ 有相似的习性吗？</span><br><span class="line"><span class="keyword">\end</span>&#123;itemize&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;frame&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br><span class="line"><span class="comment">%%% TeX代码结束。</span></span><br></pre></td></tr></table></figure>
 
-\begin&#123;document&#125;
-\title&#123;R编程与进化分析&#125;
-\subtitle&#123;内容与目标&#125;
-\author&#123;\songti 张金龙&#125;
-\institute&#123;jinlongzhang01@gmail.com&#125;
-\date&#123;\today&#125;
-\frame&#123;\titlepage&#125;
-
-\begin&#123;frame&#125;
-\frametitle&#123;目录&#125;
-\tableofcontents
-\end&#123;frame&#125;
-\section&#123;进化树之后要回答的问题&#125;
-
-% 如果需要目录，请去掉这张幻灯片的%
-%\begin&#123;frame&#125;
-%\frametitle&#123;目录&#125;
-%\tableofcontents[currentsection]
-%\end&#123;frame&#125;
-
-\begin&#123;frame&#125;
-\frametitle&#123;进化树能帮我们回答哪些问题 I？&#125;
-\begin&#123;itemize&#125;
-\item 1. 分类单元之间的系统发育关系
-\item 2. 物种的形成速率受什么影响？ 如： 类群的古老程度， 类群的丰富度， 类群所处的纬度， 类群的特殊生境
-\item 3. 物种形成速率和灭绝速率在历史上发生过哪些变化？
-\item 4. 物种的进化历史越独特， 越应该受到保护吗？
-\item 5. 相近的物种有相似的性状吗？ 有相似的习性吗？
-\end&#123;itemize&#125;
-\end&#123;frame&#125;
-
-\end&#123;document&#125;
-%%% TeX代码结束。
-</code></pre>
 <p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201801/18/235614sdudnvzdvuucurdc.png"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
 <p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201801/18/235520qfvbzcxxtt66cfvs.png"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/01/15/2018-1-15-beamer/" data-id="ckmq42ak0009z1k84dc0292yg" data-title="一个中文Latex幻灯片模版" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/01/15/2018-1-15-beamer/" data-id="ckmt6y7op00aomgya5izlf5e0" data-title="一个中文Latex幻灯片模版" class="article-share-link">Share</a>
       
       
       
@@ -347,7 +231,7 @@ Lorem ipsum dolor sit amet,consectetur adipisicing elit, sed do eiusmod tempor i
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/01/08/2018-1-9-learnpython/" data-id="ckmq42ak300a81k84b6fo01tp" data-title="为什么生态学家要学习Python或者R？" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/01/08/2018-1-9-learnpython/" data-id="ckmt6y7os00aumgyadadd3n89" data-title="为什么生态学家要学习Python或者R？" class="article-share-link">Share</a>
       
       
       
@@ -414,13 +298,13 @@ Lorem ipsum dolor sit amet,consectetur adipisicing elit, sed do eiusmod tempor i
 <p>由于数据量较大，在整理过程中，MS Excel还罢工几次：有时候整理到一万多条，不得不重新开始。吃了两次亏后，只能寄希望于随手按住Control+S了。经过多天的努力，数据终于整理干净了。</p>
 <p>全部数据之后压缩成R数据库二进制文件。增加一个版本号后，经过检测，CTPL2函数可正常使用。</p>
 <p>整理物种的学名以及相关信息，在植被多样性研究中是十分耗时的。真心希望plantlist程序包的CTPL2函数能帮大家节约时间。该程序包的下载地址是 <a target="_blank" rel="noopener" href="https://www.github.com/helixcn/plantlist">https://www.github.com/helixcn/plantlist</a>  </p>
-<p>如果有任何问题、意见或建议，请发email到<a href="mailto:&#106;&#105;&#x6e;&#x6c;&#x6f;&#x6e;&#103;&#122;&#x68;&#97;&#110;&#103;&#48;&#49;&#64;&#x67;&#109;&#97;&#105;&#x6c;&#46;&#99;&#111;&#x6d;">&#106;&#105;&#x6e;&#x6c;&#x6f;&#x6e;&#103;&#122;&#x68;&#97;&#110;&#103;&#48;&#49;&#64;&#x67;&#109;&#97;&#105;&#x6c;&#46;&#99;&#111;&#x6d;</a>。</p>
+<p>如果有任何问题、意见或建议，请发email到<a href="mailto:&#x6a;&#x69;&#110;&#108;&#x6f;&#x6e;&#x67;&#122;&#x68;&#97;&#x6e;&#103;&#48;&#49;&#64;&#103;&#109;&#x61;&#105;&#108;&#x2e;&#99;&#x6f;&#x6d;">&#x6a;&#x69;&#110;&#108;&#x6f;&#x6e;&#x67;&#122;&#x68;&#97;&#x6e;&#103;&#48;&#49;&#64;&#103;&#109;&#x61;&#105;&#108;&#x2e;&#99;&#x6f;&#x6d;</a>。</p>
 <p>安装 plantlist 请参考 <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/blog-255662-846673.html">http://blog.sciencenet.cn/blog-255662-846673.html</a>  </p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2017/11/07/2017-11-8-CTPL2/" data-id="ckmq42ajo008q1k840tw3eh9x" data-title="CTPL2通过中文名批量查询植物学名" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2017/11/07/2017-11-8-CTPL2/" data-id="ckmt6y7nx0094mgya23n3b4zv" data-title="CTPL2通过中文名批量查询植物学名" class="article-share-link">Share</a>
       
       
       
@@ -460,313 +344,8 @@ Lorem ipsum dolor sit amet,consectetur adipisicing elit, sed do eiusmod tempor i
 <p>检验同一物种以及不同物种之间的密度制约现象， 一般是用到幼苗的两次调查数据， 用广义线性混合模型去探讨各因子的相对贡献。 响应变量一般为幼苗在两次调查时的生存状态。 解释变量一般为同种和异种幼苗在任何一棵幼苗内的胸径截面积，幼苗胸径、高度等。并将样方号、物种等并不太关心的因子作为随机效应处理。 根据研究问题和研究尺度的不同，也可能也会考虑环境因子的贡献等， 不过由于很难直接获得每棵幼苗对应的环境因子，所以整合环境因子的密度制约分析还不多。</p>
 <p>在本文先随机生成一套样地数据， 然后给出一个函数compute_neighbour_area，该函数能计算指定半径下，每个个体相同种和不同树种的胸径截面积，生成的数据可以直接用来拟合广义线性混合模型，以探讨同种和不同种的竞争效应，探讨密度制约机制。</p>
 <p>模拟生成的练习数据要求如下，面积为5公顷，长250m， 宽200m， 有90个物种， 12700个个体， 详情参见下面的R代码和注释 。</p>
-<pre><code class="R">#### 假设样地有如下90个物种 （参考 陈云等 2017）
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#### 假设样地有如下90个物种 （参考 陈云等 2017）</span></span><br><span class="line"></span><br><span class="line">sp &lt;- <span class="built_in">c</span>(<span class="string">&quot;Abelia biflora&quot;</span>, </span><br><span class="line"><span class="string">&quot;Abelia uniflora&quot;</span>,<span class="string">&quot;Acer davidii&quot;</span>,<span class="string">&quot;Acer davidii subsp. grosseri&quot;</span>,<span class="string">&quot;Acer griseum&quot;</span>,</span><br><span class="line"><span class="string">&quot;Acer pictum subsp. mono&quot;</span>,<span class="string">&quot;Acer truncatum&quot;</span>,<span class="string">&quot;Ailanthus altissima&quot;</span>,<span class="string">&quot;Aralia elata&quot;</span>,</span><br><span class="line"><span class="string">&quot;Berberis circumserrata&quot;</span>,<span class="string">&quot;Berberis mitifolia&quot;</span>,<span class="string">&quot;Betula chinensis&quot;</span>,<span class="string">&quot;Betula luminifera&quot;</span>,</span><br><span class="line"><span class="string">&quot;Betula platyphylla&quot;</span>,<span class="string">&quot;Buckleya graebneriana&quot;</span>,<span class="string">&quot;Carpinus cordata&quot;</span>,<span class="string">&quot;Carpinus turczaninowii&quot;</span>,</span><br><span class="line"><span class="string">&quot;Cerasus clarofolia&quot;</span>,<span class="string">&quot;Cerasus polytricha&quot;</span>,<span class="string">&quot;Cerasus serrulata&quot;</span>,<span class="string">&quot;Cercidiphyllum japonicum&quot;</span>,</span><br><span class="line"><span class="string">&quot;Cornus controversa&quot;</span>,<span class="string">&quot;Cornus kousa subsp. chinensis&quot;</span>,<span class="string">&quot;Cornus macrophylla&quot;</span>,</span><br><span class="line"><span class="string">&quot;Cornus schindleri subsp. poliophylla&quot;</span>,<span class="string">&quot;Cornus walteri&quot;</span>,<span class="string">&quot;Corylus chinensis&quot;</span>,</span><br><span class="line"><span class="string">&quot;Corylus heterophylla&quot;</span>,<span class="string">&quot;Cotoneaster acutifolius&quot;</span>,<span class="string">&quot;Cotoneaster multiflorus&quot;</span>,</span><br><span class="line"><span class="string">&quot;Crataegus hupehensis&quot;</span>,<span class="string">&quot;Crataegus pinnatifida&quot;</span>,<span class="string">&quot;Deutzia parviflora&quot;</span>,</span><br><span class="line"><span class="string">&quot;Diospyros lotus&quot;</span>,<span class="string">&quot;Elaeagnus umbellata&quot;</span>,<span class="string">&quot;Euonymus maackii&quot;</span>,</span><br><span class="line"><span class="string">&quot;Euonymus phellomanus&quot;</span>,<span class="string">&quot;Euonymus schensianus&quot;</span>,<span class="string">&quot;Euptelea pleiosperma&quot;</span>,</span><br><span class="line"><span class="string">&quot;Evodia daniellii&quot;</span>,<span class="string">&quot;Evodia fargesii&quot;</span>,<span class="string">&quot;Forsythia suspensa&quot;</span>,<span class="string">&quot;Fraxinus chinensis&quot;</span>,</span><br><span class="line"><span class="string">&quot;Fraxinus mandshurica&quot;</span>,<span class="string">&quot;Fraxinus paxiana&quot;</span>,<span class="string">&quot;Juglans cathayensis&quot;</span>,</span><br><span class="line"><span class="string">&quot;Koelreuteria paniculata&quot;</span>,<span class="string">&quot;Lespedeza bicolor&quot;</span>,<span class="string">&quot;Lespedeza buergeri&quot;</span>,</span><br><span class="line"><span class="string">&quot;Lindera obtusiloba&quot;</span>,<span class="string">&quot;Litsea tsinlingensis&quot;</span>,<span class="string">&quot;Lonicera hispida&quot;</span>,</span><br><span class="line"><span class="string">&quot;Lonicera microphylla&quot;</span>,<span class="string">&quot;Lonicera tatarinowii&quot;</span>,<span class="string">&quot;Maddenia hypoleuca&quot;</span>,</span><br><span class="line"><span class="string">&quot;Malus baccata&quot;</span>,<span class="string">&quot;Malus honanensis&quot;</span>,<span class="string">&quot;Malus hupehensis&quot;</span>,<span class="string">&quot;Malus kansuensis&quot;</span>,</span><br><span class="line"><span class="string">&quot;Meliosma flexuosa&quot;</span>,<span class="string">&quot;Meliosma veitchiorum&quot;</span>,<span class="string">&quot;Ostrya japonica&quot;</span>,<span class="string">&quot;Padus buergeriana&quot;</span>,</span><br><span class="line"><span class="string">&quot;Philadelphus incanus&quot;</span>,<span class="string">&quot;Pinus armandii&quot;</span>,<span class="string">&quot;Pinus tabuliformis&quot;</span>,<span class="string">&quot;Populus davidiana&quot;</span>,</span><br><span class="line"><span class="string">&quot;Quercus aliena var. acutiserrata&quot;</span>,<span class="string">&quot;Quercus serrata var. brevipetiolata&quot;</span>,</span><br><span class="line"><span class="string">&quot;Quercus variabilis&quot;</span>,<span class="string">&quot;Rhododendron micranthum&quot;</span>,<span class="string">&quot;Ribes pachysandroides&quot;</span>,</span><br><span class="line"><span class="string">&quot;Salix floderusii&quot;</span>,<span class="string">&quot;Sambucus williamsii&quot;</span>,<span class="string">&quot;Sinowilsonia henryi&quot;</span>,</span><br><span class="line"><span class="string">&quot;Sorbaria sorbifolia&quot;</span>,<span class="string">&quot;Sorbus alnifolia&quot;</span>,<span class="string">&quot;Sorbus hupehensis&quot;</span>,<span class="string">&quot;Spiraea hirsuta&quot;</span>,</span><br><span class="line"><span class="string">&quot;Stachyurus chinensis&quot;</span>,<span class="string">&quot;Styrax hemsleyanus&quot;</span>,<span class="string">&quot;Styrax obassis&quot;</span>,<span class="string">&quot;Symplocos paniculata&quot;</span>,</span><br><span class="line"><span class="string">&quot;Tilia japonica&quot;</span>,<span class="string">&quot;Tilia paucicostata&quot;</span>,<span class="string">&quot;Toxicodendron vernicifluum&quot;</span>,<span class="string">&quot;Ulmus davidiana&quot;</span>,</span><br><span class="line"><span class="string">&quot;Viburnum betulifolium&quot;</span>,<span class="string">&quot;Viburnum opulus var. sargentii&quot;</span>,<span class="string">&quot;Yulania denudata&quot;</span>)</span><br><span class="line"></span><br><span class="line">set.seed(<span class="number">12345</span>)  <span class="comment">#### 设定随机数种子</span></span><br><span class="line">library(sads)    <span class="comment">#### 导入物种多度分布程序包</span></span><br><span class="line"><span class="comment">## Loading required package: bbmle</span></span><br><span class="line"><span class="comment">## Loading required package: stats4</span></span><br><span class="line">library(stringr) <span class="comment">#### 导入字符串处理程序包</span></span><br><span class="line">library(vegan)   <span class="comment">#### 导入物种名处理程序包</span></span><br><span class="line"><span class="comment">## Loading required package: permute</span></span><br><span class="line"><span class="comment">## Loading required package: lattice</span></span><br><span class="line"><span class="comment">## This is vegan 2.5-3</span></span><br><span class="line">library(coefplot)<span class="comment">#### 绘制参数图</span></span><br><span class="line"><span class="comment">## Loading required package: ggplot2</span></span><br><span class="line">library(knitr)</span><br><span class="line">library(lme4)</span><br><span class="line"><span class="comment">## Loading required package: Matrix</span></span><br><span class="line">library(broom)</span><br><span class="line"><span class="comment">#### 生成物种编码， 并全部转换为大写</span></span><br><span class="line">spcode &lt;- toupper(make.cepnames(sp))</span><br><span class="line"><span class="comment">### 物种数90</span></span><br><span class="line">nsp &lt;- <span class="built_in">length</span>(spcode)<span class="comment">### 个体数</span></span><br><span class="line">nind &lt;- 12700</span><br><span class="line"><span class="comment">### 假设多度服从以下分布</span></span><br><span class="line">temp &lt;- rls(n = nsp, N = <span class="number">10000</span>, alpha = <span class="number">6</span>)</span><br><span class="line"><span class="comment">#### 生成名称字符串向量</span></span><br><span class="line">sppool &lt;- <span class="built_in">rep</span>(spcode, temp)</span><br><span class="line"><span class="comment">#### 随机筛选出物种， 长度与样地的个体数相同</span></span><br><span class="line">species &lt;- sample(sppool, nind, replace = <span class="literal">TRUE</span>)</span><br><span class="line"><span class="comment">#### 查看每个种的个体数#### </span></span><br><span class="line">table(species)</span><br><span class="line"><span class="comment">#### 计算总的个体数</span></span><br><span class="line"><span class="built_in">sum</span>(table(species))</span><br><span class="line"><span class="comment">## [1] 12700</span></span><br><span class="line"><span class="comment">#### 样地长250m， 对应nind个x坐标，坐标的取值范围从0-250</span></span><br><span class="line">gx &lt;- <span class="built_in">round</span>(runif(nind)*<span class="number">250</span>, digits = <span class="number">2</span>)</span><br><span class="line"><span class="comment">#### 样地宽200m， 对应nind个y坐标，坐标的取值范围从0-250</span></span><br><span class="line">gy &lt;- <span class="built_in">round</span>(runif(nind)*<span class="number">200</span>, digits = <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">xlab20 &lt;- cut(gx, breaks = seq(<span class="number">0</span>, <span class="number">260</span>, by = <span class="number">20</span>), labels = <span class="number">1</span>:<span class="number">13</span>)</span><br><span class="line">ylab20 &lt;- cut(gy, breaks = seq(<span class="number">0</span>, <span class="number">220</span>, by = <span class="number">20</span>), labels = <span class="number">1</span>:<span class="number">11</span>)</span><br><span class="line"><span class="comment">#### check the quardrat name</span></span><br><span class="line">sort(unique(ylab20))</span><br><span class="line"><span class="comment">##  [1] 1  2  3  4  5  6  7  8  9  10</span></span><br><span class="line"><span class="comment">## Levels: 1 2 3 4 5 6 7 8 9 10 11</span></span><br><span class="line">sort(unique(xlab20))</span><br><span class="line"><span class="comment">##  [1] 1  2  3  4  5  6  7  8  9  10 11 12 13</span></span><br><span class="line"><span class="comment">## Levels: 1 2 3 4 5 6 7 8 9 10 11 12 13</span></span><br><span class="line"><span class="comment">#### generate quadrat name</span></span><br><span class="line">quadrat20 &lt;- paste(str_pad(xlab20, <span class="number">2</span>, pad =<span class="string">&quot;0&quot;</span>), </span><br><span class="line">                       str_pad(ylab20, <span class="number">2</span>, pad =<span class="string">&quot;0&quot;</span>), sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line"><span class="comment">##### table(quadrat20)</span></span><br><span class="line"><span class="comment">#### 假设dbh服从指数分布</span></span><br><span class="line">dbh = dbh &lt;-<span class="built_in">round</span>(rexp(nind,rate =<span class="number">2</span>)*<span class="number">50</span>+<span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line"><span class="comment">#### 假设样地名为白云山BYS （白云山物种名录参考 陈云等 2017）, 物种标牌</span></span><br><span class="line">tag &lt;- paste(<span class="string">&quot;BYS&quot;</span>, str_pad(<span class="number">1</span>:nind, <span class="number">6</span>, pad =<span class="string">&quot;0&quot;</span>), sep =<span class="string">&quot;&quot;</span>)</span><br><span class="line"><span class="comment">#### 物种的生存状态</span></span><br><span class="line">status &lt;- rbinom(nind, size = <span class="number">1</span>, prob = <span class="number">0.01</span>)</span><br><span class="line"><span class="comment">#### 合并到一个data.frame中</span></span><br><span class="line">bys &lt;- data.frame(tag, species, gx, gy, quadrat20, dbh, status)</span><br><span class="line"><span class="comment">#### 以上样地模拟数据生成。 请注意以上数据都是随机生成， 数据只供练习用，不宜用来做零模型或其他分析。 </span></span><br><span class="line"><span class="comment">#### 数据准备</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#### 首先，去除个体数少于30个的个体</span></span><br><span class="line"><span class="comment">####  每个种的个体数</span></span><br><span class="line">nindividual &lt;- table(bys$species)</span><br><span class="line"><span class="comment">#### 大于等于30个个体的物种名</span></span><br><span class="line">sp_to_select &lt;- <span class="built_in">names</span>(nindividual[nindividual &gt;= <span class="number">30</span>])</span><br><span class="line"><span class="comment">#### 仅保留名单中出现的物种</span></span><br><span class="line">sub_bys &lt;- subset(bys, subset = species %in% sp_to_select)</span><br><span class="line"><span class="comment">#### 提取一部分数据的前2000条， 用于检验下面的函数</span></span><br><span class="line">sub_bys_test &lt;- sub_bys[<span class="number">1</span>:<span class="number">2000</span>,]</span><br><span class="line"></span><br><span class="line"><span class="comment">#### 计算每一个个体， 在某一半径范围内同种和异种的胸径截面积</span></span><br><span class="line"><span class="comment">#### dat 为样地数据， 必须包括以下各列</span></span><br><span class="line"><span class="comment">#### gx 个体在样地内的x坐标， 单位为m</span></span><br><span class="line"><span class="comment">#### gy 个体在样地内的y坐标， 单位为m</span></span><br><span class="line"><span class="comment">#### species 个体的名称缩写</span></span><br><span class="line"><span class="comment">#### dbh 每个个体的胸径，单位为cm</span></span><br><span class="line"><span class="comment">#### r 从任何一个个体出发所画圆盘的半径</span></span><br><span class="line"></span><br><span class="line">compute_neighbour_area &lt;- <span class="keyword">function</span> (dat, r = <span class="literal">NULL</span>)</span><br><span class="line">&#123;   </span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">any</span>(<span class="built_in">is.na</span>(dat)))&#123;  </span><br><span class="line">    <span class="comment">### 如果出现NA缺失数据， 则需要先去除， 以免产生未知后果</span></span><br><span class="line">        dat &lt;- na.omit(dat)        </span><br><span class="line">        warning(<span class="string">&quot;NAs detected in the data and the entries </span></span><br><span class="line"><span class="string">                  containing NAs have been omitted.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    dat$ID &lt;- 1:nrow(dat)  </span><br><span class="line">    <span class="comment">### 为每一条物种记录增加一个ID</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">is.null</span>(dat$gx))&#123;   </span><br><span class="line">      <span class="comment">### 检查gx</span></span><br><span class="line">      stop(<span class="string">&quot;Column gx is missing&quot;</span>)</span><br><span class="line">    &#125; </span><br><span class="line">       </span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">is.null</span>(dat$gy))&#123;   </span><br><span class="line">      <span class="comment">### 检查gy</span></span><br><span class="line">      stop(<span class="string">&quot;Column gy is missing&quot;</span>)</span><br><span class="line">    &#125; </span><br><span class="line">       </span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">is.null</span>(dat$species))&#123;  </span><br><span class="line">      <span class="comment">### 检查物种名</span></span><br><span class="line">      stop(<span class="string">&quot;Column species is missing&quot;</span>)</span><br><span class="line">    &#125;    </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">is.null</span>(dat$dbh))&#123;   </span><br><span class="line">      <span class="comment">### 检查dbh</span></span><br><span class="line">      stop(<span class="string">&quot;Column species is missing&quot;</span>)</span><br><span class="line">    &#125;    </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">is.null</span>(r))&#123;  </span><br><span class="line">      <span class="comment">### 检查是否有提供r</span></span><br><span class="line">      stop(<span class="string">&quot;r is not specified&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    gx &lt;- dat$gx</span><br><span class="line">    gy &lt;- dat$gy</span><br><span class="line">    dat$species &lt;- <span class="built_in">as.character</span>(dat$species)  </span><br><span class="line">    <span class="comment">### 转换为字符串主要是为了方便后面进行物种筛选</span></span><br><span class="line">    species_each_id &lt;- dat$species   </span><br><span class="line">    <span class="comment">### 由于进行的循环数较多， 所以最好不要在循环中不断提取物种， 而是先生成一个字符串向量</span></span><br><span class="line">    area_of_neighbours_same_species &lt;- <span class="built_in">rep</span>(<span class="literal">NA</span>, nrow(dat))  </span><br><span class="line">    <span class="comment">### 生成空白数据</span></span><br><span class="line">    area_of_neighbours_diff_species &lt;- <span class="built_in">rep</span>(<span class="literal">NA</span>, nrow(dat))  </span><br><span class="line">    <span class="comment">### 生成空白数据</span></span><br><span class="line">    print(paste(nrow(dat), <span class="string">&quot;rows to process.&quot;</span>))   </span><br><span class="line">    <span class="comment">### 提示数据量</span></span><br><span class="line">    <span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1</span>:nrow(dat))&#123;        </span><br><span class="line">       <span class="keyword">if</span>(i %% <span class="number">100</span> == <span class="number">0</span> | i == <span class="number">1</span>)&#123;   </span><br><span class="line">    <span class="comment">### 每计算100个，打印正在计算哪条</span></span><br><span class="line">            print(paste(<span class="string">&quot;Computing neighbourhood area for row:&quot;</span>, i))</span><br><span class="line">        &#125;</span><br><span class="line">        x &lt;- gx[i]   <span class="comment">### 提取第i个</span></span><br><span class="line">        y &lt;- gy[i]        </span><br><span class="line">        <span class="comment">#### 先把数据量缩小到个体加减半径范围内的方块内， 这样能减少很多计算量</span></span><br><span class="line">        dat_sub &lt;- dat[(gx &lt; x + r) &amp; (gx &gt; x - r) &amp; (gy &lt; y + r) &amp; (gy &gt; y - r), ] </span><br><span class="line">        <span class="comment">### Select the area, reduce the computation of each loop</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">#### 计算相邻树木的胸径截面积需要将中心树种本身去除</span></span><br><span class="line">        <span class="comment">#### Exclude the focusing tree during the computation</span></span><br><span class="line">        dat_sub &lt;- dat_sub[dat_sub$ID != i, ]        </span><br><span class="line">        <span class="comment">#### 如果dat_sub 的行数大于0， 表明在缩小的方块内是有其他树种的</span></span><br><span class="line">        <span class="keyword">if</span>(nrow(dat_sub) &gt; <span class="number">0</span>)&#123;          </span><br><span class="line">            <span class="comment">#### 先生成一个空白的向量， 用来保存哪些记录是处在圆盘内的， 这里的下表是针对方块内的小数据的</span></span><br><span class="line">            sp &lt;- <span class="built_in">rep</span>(<span class="literal">NA</span>, nrow(dat_sub))  </span><br><span class="line">            <span class="comment">### empty vector, the index of the entries within the distance </span></span><br><span class="line">            <span class="comment">### r will be saved to sp.</span></span><br><span class="line">            <span class="keyword">for</span>(j <span class="keyword">in</span> <span class="number">1</span>:nrow(dat_sub))&#123; </span><br><span class="line">                <span class="comment">### 对方块内所有的物种计算欧氏距离，并做比较， 做j次 </span></span><br><span class="line">                mat &lt;- data.frame(<span class="built_in">c</span>(x, dat_sub$gx[j]), <span class="built_in">c</span>(y, dat_sub$gy[j]))</span><br><span class="line">                sp[j] &lt;- (dist(mat) &lt;= r)</span><br><span class="line">            &#125;            </span><br><span class="line">            <span class="comment">#### 所有个体的胸径截面积</span></span><br><span class="line">            area_of_neighbours &lt;- <span class="built_in">pi</span>*(dat_sub$dbh[sp]/<span class="number">2</span>)^<span class="number">2</span>  </span><br><span class="line">            <span class="comment">### Trunk Area at the breast height for all the neighbouring trees </span></span><br><span class="line">            <span class="comment">### in the subset dataset, within distance R</span></span><br><span class="line">            </span><br><span class="line">            <span class="comment">#### 如果同种的在圆盘内出现了，那么胸径截面积向量的长度肯定不是0，这时候就保存结果到第i个位置</span></span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">length</span>(area_of_neighbours[dat_sub$species[sp] %in% </span><br><span class="line">                  species_each_id[i]]) != <span class="number">0</span> )&#123;</span><br><span class="line">                area_of_neighbours_same_species[i] &lt;- </span><br><span class="line">                    <span class="built_in">sum</span>(area_of_neighbours[dat_sub$species[sp] %in% species_each_id[i]])  </span><br><span class="line">                    <span class="comment">### The trunk area at breast height of the same species</span></span><br><span class="line">            &#125;            </span><br><span class="line">            <span class="comment">#### 如果不同种在圆盘内出现了，那么胸径截面积向量的长度肯定不是0，这时候就保存结果到第i个位置</span></span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">length</span>(area_of_neighbours[!dat_sub$species[sp] %in% </span><br><span class="line">                species_each_id[i]]) != <span class="number">0</span>)&#123;</span><br><span class="line">                area_of_neighbours_diff_species[i] &lt;- </span><br><span class="line">                     <span class="built_in">sum</span>(area_of_neighbours[!dat_sub$species[sp] %in% </span><br><span class="line">                species_each_id[i]]) </span><br><span class="line">                <span class="comment">### The trunk area of breast height of different species</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; </span><br><span class="line">          <span class="comment">### If there is no tree within the distance r, return NA</span></span><br><span class="line">          <span class="comment">#### 如果没有出现任何树木，第i个胸径截面积都是NA</span></span><br><span class="line">            area_of_neighbours_same_species[i] &lt;- <span class="literal">NA</span></span><br><span class="line">            area_of_neighbours_diff_species[i] &lt;- <span class="literal">NA</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;    <span class="comment">#### 合并成data.frame</span></span><br><span class="line">    res &lt;- data.frame(area_of_neighbours_same_species, </span><br><span class="line">                      area_of_neighbours_diff_species)    </span><br><span class="line">    <span class="comment">#### 为了数据处理方便，在返回值的列名上增加半径 r的取值</span></span><br><span class="line">    colnames(res) &lt;- paste(<span class="built_in">c</span>(<span class="string">&quot;area_of_neighbours_same_species&quot;</span>, </span><br><span class="line">                           <span class="string">&quot;area_of_neighbours_diff_species&quot;</span>), </span><br><span class="line">                           <span class="string">&quot;_r_&quot;</span>, r, sep = <span class="string">&quot;&quot;</span>)    </span><br><span class="line">    </span><br><span class="line">    <span class="built_in">return</span>(res)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#### debug(compute_neighbour_area)</span></span><br><span class="line"></span><br><span class="line">neighbour_area_res10 &lt;- compute_neighbour_area(sub_bys_test, r = <span class="number">10</span>) </span><br><span class="line"><span class="comment">### 半径10m</span></span><br><span class="line"><span class="comment">## [1] &quot;2000 rows to process.&quot;</span></span><br><span class="line"><span class="comment">## [1] &quot;Computing neighbourhood area for row: 1&quot;</span></span><br><span class="line"><span class="comment">## [1] &quot;Computing neighbourhood area for row: 100&quot;</span></span><br><span class="line"><span class="comment">## [1] &quot;Computing neighbourhood area for row: 200&quot;</span></span><br><span class="line"><span class="comment">## [1] &quot;Computing neighbourhood area for row: 300&quot;</span></span><br><span class="line"><span class="comment">## [1] &quot;Computing neighbourhood area for row: 400&quot;</span></span><br><span class="line"><span class="comment">## [1] &quot;Computing neighbourhood area for row: 500&quot;</span></span><br><span class="line"><span class="comment">## [1] &quot;Computing neighbourhood area for row: 600&quot;</span></span><br><span class="line"><span class="comment">## [1] &quot;Computing neighbourhood area for row: 700&quot;</span></span><br><span class="line"><span class="comment">## [1] &quot;Computing neighbourhood area for row: 800&quot;</span></span><br><span class="line"><span class="comment">## [1] &quot;Computing neighbourhood area for row: 900&quot;</span></span><br><span class="line"><span class="comment">## [1] &quot;Computing neighbourhood area for row: 1000&quot;</span></span><br><span class="line"><span class="comment">## [1] &quot;Computing neighbourhood area for row: 1100&quot;</span></span><br><span class="line"><span class="comment">## [1] &quot;Computing neighbourhood area for row: 1200&quot;</span></span><br><span class="line"><span class="comment">## [1] &quot;Computing neighbourhood area for row: 1300&quot;</span></span><br><span class="line"><span class="comment">## [1] &quot;Computing neighbourhood area for row: 1400&quot;</span></span><br><span class="line"><span class="comment">## [1] &quot;Computing neighbourhood area for row: 1500&quot;</span></span><br><span class="line"><span class="comment">## [1] &quot;Computing neighbourhood area for row: 1600&quot;</span></span><br><span class="line"><span class="comment">## [1] &quot;Computing neighbourhood area for row: 1700&quot;</span></span><br><span class="line"><span class="comment">## [1] &quot;Computing neighbourhood area for row: 1800&quot;</span></span><br><span class="line"><span class="comment">## [1] &quot;Computing neighbourhood area for row: 1900&quot;</span></span><br><span class="line"><span class="comment">## [1] &quot;Computing neighbourhood area for row: 2000&quot;</span></span><br><span class="line"><span class="comment">#### 合并数据</span></span><br><span class="line">sub_bys_test &lt;- cbind(sub_bys_test, neighbour_area_res10)</span><br><span class="line"><span class="comment">#### </span></span><br><span class="line">head(sub_bys_test)</span><br><span class="line"><span class="comment">##         tag  species     gx    gy quadrat20   dbh status</span></span><br><span class="line"><span class="comment">## 1 BYS000001 SORBALNI  53.21 78.17      0304  54.7      0</span></span><br><span class="line"><span class="comment">## 2 BYS000002 POPUDAVI 115.82 79.36      0604  40.0      0</span></span><br><span class="line"><span class="comment">## 3 BYS000003 BERBCIRC  45.61  2.98      0301   6.4      0</span></span><br><span class="line"><span class="comment">## 4 BYS000004 PADUBUER  12.58  3.22      0101   6.5      0</span></span><br><span class="line"><span class="comment">## 5 BYS000005 PINUARMA 244.71 80.23      1305  44.2      0</span></span><br><span class="line"><span class="comment">## 6 BYS000006 LITSTSIN  20.92 68.87      0204 140.7      0</span></span><br><span class="line"><span class="comment">##   area_of_neighbours_same_species_r_10</span></span><br><span class="line"><span class="comment">## 1                           1899.35979</span></span><br><span class="line"><span class="comment">## 2                                   NA</span></span><br><span class="line"><span class="comment">## 3                            183.85386</span></span><br><span class="line"><span class="comment">## 4                             11.34115</span></span><br><span class="line"><span class="comment">## 5                           5242.44635</span></span><br><span class="line"><span class="comment">## 6                                   NA</span></span><br><span class="line"><span class="comment">##   area_of_neighbours_diff_species_r_10</span></span><br><span class="line"><span class="comment">## 1                            18553.107</span></span><br><span class="line"><span class="comment">## 2                            10102.828</span></span><br><span class="line"><span class="comment">## 3                            10170.050</span></span><br><span class="line"><span class="comment">## 4                             6330.403</span></span><br><span class="line"><span class="comment">## 5                             9277.956</span></span><br><span class="line"><span class="comment">## 6                             4614.992</span></span><br><span class="line"><span class="comment">#### 拟合广义线性混合模型</span></span><br><span class="line"><span class="comment">#### 各列数据标准化， 以便在参数图中进行比较相对重要性</span></span><br><span class="line">sub_bys_test$dbh  &lt;- scale(sub_bys_test$dbh)</span><br><span class="line">sub_bys_test$area_of_neighbours_same_species_r_10 &lt;- </span><br><span class="line">     scale( sub_bys_test$area_of_neighbours_same_species_r_10)</span><br><span class="line"></span><br><span class="line">sub_bys_test$area_of_neighbours_diff_species_r_10 &lt;- </span><br><span class="line">    scale (sub_bys_test$area_of_neighbours_diff_species_r_10)</span><br><span class="line">    <span class="comment">#### 设定广义线性混合模型</span></span><br><span class="line">    glmm_model_10m = glmer(status ~ dbh + </span><br><span class="line">                                    area_of_neighbours_same_species_r_10 + </span><br><span class="line">                                    area_of_neighbours_diff_species_r_10 + </span><br><span class="line">                                    (<span class="number">1</span>+dbh|species)+(<span class="number">1</span>|quadrat20),</span><br><span class="line">                                    data=sub_bys_test, </span><br><span class="line">                                    family = binomial(link=<span class="string">&quot;cloglog&quot;</span>))</span><br><span class="line"><span class="comment">## singular fit</span></span><br><span class="line">tidy(glmm_model_10m)</span><br><span class="line"><span class="comment">## Warning in bind_rows_(x, .id): binding factor and character vector,</span></span><br><span class="line"><span class="comment">## coercing into character vector</span></span><br><span class="line"><span class="comment">## Warning in bind_rows_(x, .id): binding character and factor vector,</span></span><br><span class="line"><span class="comment">## coercing into character vector</span></span><br><span class="line"><span class="comment">## # A tibble: 8 x 6</span></span><br><span class="line"><span class="comment">##   term                      estimate std.error statistic   p.value group  </span></span><br><span class="line"><span class="comment">##   &lt;chr&gt;                        &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  </span></span><br><span class="line"><span class="comment">## 1 (Intercept)               -4.62e+0     0.394   -11.7    9.18e-32 fixed  </span></span><br><span class="line"><span class="comment">## 2 dbh                       -1.23e-1     0.347    -0.354  7.24e- 1 fixed  </span></span><br><span class="line"><span class="comment">## 3 area_of_neighbours_sam…   -8.53e-1     0.777    -1.10   2.73e- 1 fixed  </span></span><br><span class="line"><span class="comment">## 4 area_of_neighbours_dif…    1.99e-1     0.280     0.712  4.76e- 1 fixed  </span></span><br><span class="line"><span class="comment">## 5 sd_(Intercept).quadrat…    2.29e-7    NA        NA     NA        quadra…</span></span><br><span class="line"><span class="comment">## 6 sd_(Intercept).species     0.         NA        NA     NA        species</span></span><br><span class="line"><span class="comment">## 7 sd_dbh.species             3.36e-8    NA        NA     NA        species</span></span><br><span class="line"><span class="comment">## 8 cor_(Intercept).dbh.sp…  NaN          NA        NA     NA        species</span></span><br><span class="line">glance(glmm_model_10m)</span><br><span class="line"><span class="comment">## # A tibble: 1 x 6</span></span><br><span class="line"><span class="comment">##   sigma logLik   AIC   BIC deviance df.residual</span></span><br><span class="line"><span class="comment">##   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;       &lt;int&gt;</span></span><br><span class="line"><span class="comment">## 1     1  -58.3  133.  171.     117.         918</span></span><br><span class="line">coefplot(glmm_model_10m)</span><br></pre></td></tr></table></figure>
 
-sp &lt;- c(&quot;Abelia biflora&quot;, 
-&quot;Abelia uniflora&quot;,&quot;Acer davidii&quot;,&quot;Acer davidii subsp. grosseri&quot;,&quot;Acer griseum&quot;,
-&quot;Acer pictum subsp. mono&quot;,&quot;Acer truncatum&quot;,&quot;Ailanthus altissima&quot;,&quot;Aralia elata&quot;,
-&quot;Berberis circumserrata&quot;,&quot;Berberis mitifolia&quot;,&quot;Betula chinensis&quot;,&quot;Betula luminifera&quot;,
-&quot;Betula platyphylla&quot;,&quot;Buckleya graebneriana&quot;,&quot;Carpinus cordata&quot;,&quot;Carpinus turczaninowii&quot;,
-&quot;Cerasus clarofolia&quot;,&quot;Cerasus polytricha&quot;,&quot;Cerasus serrulata&quot;,&quot;Cercidiphyllum japonicum&quot;,
-&quot;Cornus controversa&quot;,&quot;Cornus kousa subsp. chinensis&quot;,&quot;Cornus macrophylla&quot;,
-&quot;Cornus schindleri subsp. poliophylla&quot;,&quot;Cornus walteri&quot;,&quot;Corylus chinensis&quot;,
-&quot;Corylus heterophylla&quot;,&quot;Cotoneaster acutifolius&quot;,&quot;Cotoneaster multiflorus&quot;,
-&quot;Crataegus hupehensis&quot;,&quot;Crataegus pinnatifida&quot;,&quot;Deutzia parviflora&quot;,
-&quot;Diospyros lotus&quot;,&quot;Elaeagnus umbellata&quot;,&quot;Euonymus maackii&quot;,
-&quot;Euonymus phellomanus&quot;,&quot;Euonymus schensianus&quot;,&quot;Euptelea pleiosperma&quot;,
-&quot;Evodia daniellii&quot;,&quot;Evodia fargesii&quot;,&quot;Forsythia suspensa&quot;,&quot;Fraxinus chinensis&quot;,
-&quot;Fraxinus mandshurica&quot;,&quot;Fraxinus paxiana&quot;,&quot;Juglans cathayensis&quot;,
-&quot;Koelreuteria paniculata&quot;,&quot;Lespedeza bicolor&quot;,&quot;Lespedeza buergeri&quot;,
-&quot;Lindera obtusiloba&quot;,&quot;Litsea tsinlingensis&quot;,&quot;Lonicera hispida&quot;,
-&quot;Lonicera microphylla&quot;,&quot;Lonicera tatarinowii&quot;,&quot;Maddenia hypoleuca&quot;,
-&quot;Malus baccata&quot;,&quot;Malus honanensis&quot;,&quot;Malus hupehensis&quot;,&quot;Malus kansuensis&quot;,
-&quot;Meliosma flexuosa&quot;,&quot;Meliosma veitchiorum&quot;,&quot;Ostrya japonica&quot;,&quot;Padus buergeriana&quot;,
-&quot;Philadelphus incanus&quot;,&quot;Pinus armandii&quot;,&quot;Pinus tabuliformis&quot;,&quot;Populus davidiana&quot;,
-&quot;Quercus aliena var. acutiserrata&quot;,&quot;Quercus serrata var. brevipetiolata&quot;,
-&quot;Quercus variabilis&quot;,&quot;Rhododendron micranthum&quot;,&quot;Ribes pachysandroides&quot;,
-&quot;Salix floderusii&quot;,&quot;Sambucus williamsii&quot;,&quot;Sinowilsonia henryi&quot;,
-&quot;Sorbaria sorbifolia&quot;,&quot;Sorbus alnifolia&quot;,&quot;Sorbus hupehensis&quot;,&quot;Spiraea hirsuta&quot;,
-&quot;Stachyurus chinensis&quot;,&quot;Styrax hemsleyanus&quot;,&quot;Styrax obassis&quot;,&quot;Symplocos paniculata&quot;,
-&quot;Tilia japonica&quot;,&quot;Tilia paucicostata&quot;,&quot;Toxicodendron vernicifluum&quot;,&quot;Ulmus davidiana&quot;,
-&quot;Viburnum betulifolium&quot;,&quot;Viburnum opulus var. sargentii&quot;,&quot;Yulania denudata&quot;)
-
-set.seed(12345)  #### 设定随机数种子
-library(sads)    #### 导入物种多度分布程序包
-## Loading required package: bbmle
-## Loading required package: stats4
-library(stringr) #### 导入字符串处理程序包
-library(vegan)   #### 导入物种名处理程序包
-## Loading required package: permute
-## Loading required package: lattice
-## This is vegan 2.5-3
-library(coefplot)#### 绘制参数图
-## Loading required package: ggplot2
-library(knitr)
-library(lme4)
-## Loading required package: Matrix
-library(broom)
-#### 生成物种编码， 并全部转换为大写
-spcode &lt;- toupper(make.cepnames(sp))
-### 物种数90
-nsp &lt;- length(spcode)### 个体数
-nind &lt;- 12700
-### 假设多度服从以下分布
-temp &lt;- rls(n = nsp, N = 10000, alpha = 6)
-#### 生成名称字符串向量
-sppool &lt;- rep(spcode, temp)
-#### 随机筛选出物种， 长度与样地的个体数相同
-species &lt;- sample(sppool, nind, replace = TRUE)
-#### 查看每个种的个体数#### 
-table(species)
-#### 计算总的个体数
-sum(table(species))
-## [1] 12700
-#### 样地长250m， 对应nind个x坐标，坐标的取值范围从0-250
-gx &lt;- round(runif(nind)*250, digits = 2)
-#### 样地宽200m， 对应nind个y坐标，坐标的取值范围从0-250
-gy &lt;- round(runif(nind)*200, digits = 2)
-
-xlab20 &lt;- cut(gx, breaks = seq(0, 260, by = 20), labels = 1:13)
-ylab20 &lt;- cut(gy, breaks = seq(0, 220, by = 20), labels = 1:11)
-#### check the quardrat name
-sort(unique(ylab20))
-##  [1] 1  2  3  4  5  6  7  8  9  10
-## Levels: 1 2 3 4 5 6 7 8 9 10 11
-sort(unique(xlab20))
-##  [1] 1  2  3  4  5  6  7  8  9  10 11 12 13
-## Levels: 1 2 3 4 5 6 7 8 9 10 11 12 13
-#### generate quadrat name
-quadrat20 &lt;- paste(str_pad(xlab20, 2, pad =&quot;0&quot;), 
-                       str_pad(ylab20, 2, pad =&quot;0&quot;), sep = &quot;&quot;)
-##### table(quadrat20)
-#### 假设dbh服从指数分布
-dbh = dbh &lt;-round(rexp(nind,rate =2)*50+1, 1)
-#### 假设样地名为白云山BYS （白云山物种名录参考 陈云等 2017）, 物种标牌
-tag &lt;- paste(&quot;BYS&quot;, str_pad(1:nind, 6, pad =&quot;0&quot;), sep =&quot;&quot;)
-#### 物种的生存状态
-status &lt;- rbinom(nind, size = 1, prob = 0.01)
-#### 合并到一个data.frame中
-bys &lt;- data.frame(tag, species, gx, gy, quadrat20, dbh, status)
-#### 以上样地模拟数据生成。 请注意以上数据都是随机生成， 数据只供练习用，不宜用来做零模型或其他分析。 
-#### 数据准备
-
-#### 首先，去除个体数少于30个的个体
-####  每个种的个体数
-nindividual &lt;- table(bys$species)
-#### 大于等于30个个体的物种名
-sp_to_select &lt;- names(nindividual[nindividual &gt;= 30])
-#### 仅保留名单中出现的物种
-sub_bys &lt;- subset(bys, subset = species %in% sp_to_select)
-#### 提取一部分数据的前2000条， 用于检验下面的函数
-sub_bys_test &lt;- sub_bys[1:2000,]
-
-#### 计算每一个个体， 在某一半径范围内同种和异种的胸径截面积
-#### dat 为样地数据， 必须包括以下各列
-#### gx 个体在样地内的x坐标， 单位为m
-#### gy 个体在样地内的y坐标， 单位为m
-#### species 个体的名称缩写
-#### dbh 每个个体的胸径，单位为cm
-#### r 从任何一个个体出发所画圆盘的半径
-
-compute_neighbour_area &lt;- function (dat, r = NULL)
-&#123;   
-    if(any(is.na(dat)))&#123;  
-    ### 如果出现NA缺失数据， 则需要先去除， 以免产生未知后果
-        dat &lt;- na.omit(dat)        
-        warning(&quot;NAs detected in the data and the entries 
-                  containing NAs have been omitted.&quot;)
-    &#125;
-    dat$ID &lt;- 1:nrow(dat)  
-    ### 为每一条物种记录增加一个ID
-    
-    if(is.null(dat$gx))&#123;   
-      ### 检查gx
-      stop(&quot;Column gx is missing&quot;)
-    &#125; 
-       
-    if(is.null(dat$gy))&#123;   
-      ### 检查gy
-      stop(&quot;Column gy is missing&quot;)
-    &#125; 
-       
-    if(is.null(dat$species))&#123;  
-      ### 检查物种名
-      stop(&quot;Column species is missing&quot;)
-    &#125;    
-    
-    if(is.null(dat$dbh))&#123;   
-      ### 检查dbh
-      stop(&quot;Column species is missing&quot;)
-    &#125;    
-    
-    if(is.null(r))&#123;  
-      ### 检查是否有提供r
-      stop(&quot;r is not specified&quot;)
-    &#125;
-    gx &lt;- dat$gx
-    gy &lt;- dat$gy
-    dat$species &lt;- as.character(dat$species)  
-    ### 转换为字符串主要是为了方便后面进行物种筛选
-    species_each_id &lt;- dat$species   
-    ### 由于进行的循环数较多， 所以最好不要在循环中不断提取物种， 而是先生成一个字符串向量
-    area_of_neighbours_same_species &lt;- rep(NA, nrow(dat))  
-    ### 生成空白数据
-    area_of_neighbours_diff_species &lt;- rep(NA, nrow(dat))  
-    ### 生成空白数据
-    print(paste(nrow(dat), &quot;rows to process.&quot;))   
-    ### 提示数据量
-    for (i in 1:nrow(dat))&#123;        
-       if(i %% 100 == 0 | i == 1)&#123;   
-    ### 每计算100个，打印正在计算哪条
-            print(paste(&quot;Computing neighbourhood area for row:&quot;, i))
-        &#125;
-        x &lt;- gx[i]   ### 提取第i个
-        y &lt;- gy[i]        
-        #### 先把数据量缩小到个体加减半径范围内的方块内， 这样能减少很多计算量
-        dat_sub &lt;- dat[(gx &lt; x + r) &amp; (gx &gt; x - r) &amp; (gy &lt; y + r) &amp; (gy &gt; y - r), ] 
-        ### Select the area, reduce the computation of each loop
-        
-        #### 计算相邻树木的胸径截面积需要将中心树种本身去除
-        #### Exclude the focusing tree during the computation
-        dat_sub &lt;- dat_sub[dat_sub$ID != i, ]        
-        #### 如果dat_sub 的行数大于0， 表明在缩小的方块内是有其他树种的
-        if(nrow(dat_sub) &gt; 0)&#123;          
-            #### 先生成一个空白的向量， 用来保存哪些记录是处在圆盘内的， 这里的下表是针对方块内的小数据的
-            sp &lt;- rep(NA, nrow(dat_sub))  
-            ### empty vector, the index of the entries within the distance 
-            ### r will be saved to sp.
-            for(j in 1:nrow(dat_sub))&#123; 
-                ### 对方块内所有的物种计算欧氏距离，并做比较， 做j次 
-                mat &lt;- data.frame(c(x, dat_sub$gx[j]), c(y, dat_sub$gy[j]))
-                sp[j] &lt;- (dist(mat) &lt;= r)
-            &#125;            
-            #### 所有个体的胸径截面积
-            area_of_neighbours &lt;- pi*(dat_sub$dbh[sp]/2)^2  
-            ### Trunk Area at the breast height for all the neighbouring trees 
-            ### in the subset dataset, within distance R
-            
-            #### 如果同种的在圆盘内出现了，那么胸径截面积向量的长度肯定不是0，这时候就保存结果到第i个位置
-            if(length(area_of_neighbours[dat_sub$species[sp] %in% 
-                  species_each_id[i]]) != 0 )&#123;
-                area_of_neighbours_same_species[i] &lt;- 
-                    sum(area_of_neighbours[dat_sub$species[sp] %in% species_each_id[i]])  
-                    ### The trunk area at breast height of the same species
-            &#125;            
-            #### 如果不同种在圆盘内出现了，那么胸径截面积向量的长度肯定不是0，这时候就保存结果到第i个位置
-            if(length(area_of_neighbours[!dat_sub$species[sp] %in% 
-                species_each_id[i]]) != 0)&#123;
-                area_of_neighbours_diff_species[i] &lt;- 
-                     sum(area_of_neighbours[!dat_sub$species[sp] %in% 
-                species_each_id[i]]) 
-                ### The trunk area of breast height of different species
-            &#125;
-        &#125; else &#123; 
-          ### If there is no tree within the distance r, return NA
-          #### 如果没有出现任何树木，第i个胸径截面积都是NA
-            area_of_neighbours_same_species[i] &lt;- NA
-            area_of_neighbours_diff_species[i] &lt;- NA
-        &#125;
-    &#125;    #### 合并成data.frame
-    res &lt;- data.frame(area_of_neighbours_same_species, 
-                      area_of_neighbours_diff_species)    
-    #### 为了数据处理方便，在返回值的列名上增加半径 r的取值
-    colnames(res) &lt;- paste(c(&quot;area_of_neighbours_same_species&quot;, 
-                           &quot;area_of_neighbours_diff_species&quot;), 
-                           &quot;_r_&quot;, r, sep = &quot;&quot;)    
-    
-    return(res)
-&#125;
-
-#### debug(compute_neighbour_area)
-
-neighbour_area_res10 &lt;- compute_neighbour_area(sub_bys_test, r = 10) 
-### 半径10m
-## [1] &quot;2000 rows to process.&quot;
-## [1] &quot;Computing neighbourhood area for row: 1&quot;
-## [1] &quot;Computing neighbourhood area for row: 100&quot;
-## [1] &quot;Computing neighbourhood area for row: 200&quot;
-## [1] &quot;Computing neighbourhood area for row: 300&quot;
-## [1] &quot;Computing neighbourhood area for row: 400&quot;
-## [1] &quot;Computing neighbourhood area for row: 500&quot;
-## [1] &quot;Computing neighbourhood area for row: 600&quot;
-## [1] &quot;Computing neighbourhood area for row: 700&quot;
-## [1] &quot;Computing neighbourhood area for row: 800&quot;
-## [1] &quot;Computing neighbourhood area for row: 900&quot;
-## [1] &quot;Computing neighbourhood area for row: 1000&quot;
-## [1] &quot;Computing neighbourhood area for row: 1100&quot;
-## [1] &quot;Computing neighbourhood area for row: 1200&quot;
-## [1] &quot;Computing neighbourhood area for row: 1300&quot;
-## [1] &quot;Computing neighbourhood area for row: 1400&quot;
-## [1] &quot;Computing neighbourhood area for row: 1500&quot;
-## [1] &quot;Computing neighbourhood area for row: 1600&quot;
-## [1] &quot;Computing neighbourhood area for row: 1700&quot;
-## [1] &quot;Computing neighbourhood area for row: 1800&quot;
-## [1] &quot;Computing neighbourhood area for row: 1900&quot;
-## [1] &quot;Computing neighbourhood area for row: 2000&quot;
-#### 合并数据
-sub_bys_test &lt;- cbind(sub_bys_test, neighbour_area_res10)
-#### 
-head(sub_bys_test)
-##         tag  species     gx    gy quadrat20   dbh status
-## 1 BYS000001 SORBALNI  53.21 78.17      0304  54.7      0
-## 2 BYS000002 POPUDAVI 115.82 79.36      0604  40.0      0
-## 3 BYS000003 BERBCIRC  45.61  2.98      0301   6.4      0
-## 4 BYS000004 PADUBUER  12.58  3.22      0101   6.5      0
-## 5 BYS000005 PINUARMA 244.71 80.23      1305  44.2      0
-## 6 BYS000006 LITSTSIN  20.92 68.87      0204 140.7      0
-##   area_of_neighbours_same_species_r_10
-## 1                           1899.35979
-## 2                                   NA
-## 3                            183.85386
-## 4                             11.34115
-## 5                           5242.44635
-## 6                                   NA
-##   area_of_neighbours_diff_species_r_10
-## 1                            18553.107
-## 2                            10102.828
-## 3                            10170.050
-## 4                             6330.403
-## 5                             9277.956
-## 6                             4614.992
-#### 拟合广义线性混合模型
-#### 各列数据标准化， 以便在参数图中进行比较相对重要性
-sub_bys_test$dbh  &lt;- scale(sub_bys_test$dbh)
-sub_bys_test$area_of_neighbours_same_species_r_10 &lt;- 
-     scale( sub_bys_test$area_of_neighbours_same_species_r_10)
-
-sub_bys_test$area_of_neighbours_diff_species_r_10 &lt;- 
-    scale (sub_bys_test$area_of_neighbours_diff_species_r_10)
-    #### 设定广义线性混合模型
-    glmm_model_10m = glmer(status ~ dbh + 
-                                    area_of_neighbours_same_species_r_10 + 
-                                    area_of_neighbours_diff_species_r_10 + 
-                                    (1+dbh|species)+(1|quadrat20),
-                                    data=sub_bys_test, 
-                                    family = binomial(link=&quot;cloglog&quot;))
-## singular fit
-tidy(glmm_model_10m)
-## Warning in bind_rows_(x, .id): binding factor and character vector,
-## coercing into character vector
-## Warning in bind_rows_(x, .id): binding character and factor vector,
-## coercing into character vector
-## # A tibble: 8 x 6
-##   term                      estimate std.error statistic   p.value group  
-##   &lt;chr&gt;                        &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  
-## 1 (Intercept)               -4.62e+0     0.394   -11.7    9.18e-32 fixed  
-## 2 dbh                       -1.23e-1     0.347    -0.354  7.24e- 1 fixed  
-## 3 area_of_neighbours_sam…   -8.53e-1     0.777    -1.10   2.73e- 1 fixed  
-## 4 area_of_neighbours_dif…    1.99e-1     0.280     0.712  4.76e- 1 fixed  
-## 5 sd_(Intercept).quadrat…    2.29e-7    NA        NA     NA        quadra…
-## 6 sd_(Intercept).species     0.         NA        NA     NA        species
-## 7 sd_dbh.species             3.36e-8    NA        NA     NA        species
-## 8 cor_(Intercept).dbh.sp…  NaN          NA        NA     NA        species
-glance(glmm_model_10m)
-## # A tibble: 1 x 6
-##   sigma logLik   AIC   BIC deviance df.residual
-##   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;       &lt;int&gt;
-## 1     1  -58.3  133.  171.     117.         918
-coefplot(glmm_model_10m)
-</code></pre>
 <p>当然， 实际研究中， 最好能考虑每个个体调查时间的间隔 offset， 或者考虑更复杂的随机效应，特比是针对不同种， 在数据量允许的情况下， 计算各个种生存状态的影响因素等。</p>
 <h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><ol>
 <li>陈云,郭凌,姚成亮,韦博良,袁志良,叶永忠.暖温带⁃北亚热带过渡区落叶阔叶林群落特征.生态学报,2017,37(17):5602-5611.</li>
@@ -776,7 +355,7 @@ coefplot(glmm_model_10m)
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2017/10/27/2017-10-27-janzen/" data-id="ckmq42alu00e41k84dbmze59m" data-title="幼苗生存状态、负密度制约与Janzen Connell假说的检验" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2017/10/27/2017-10-27-janzen/" data-id="ckmt6y7nv0090mgya9rap07m5" data-title="幼苗生存状态、负密度制约与Janzen Connell假说的检验" class="article-share-link">Share</a>
       
       
       
@@ -1260,7 +839,7 @@ coefplot(glmm_model_10m)
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2017/10/21/2017-10-21-trees/" data-id="ckmq42ajn008m1k848ceb3n53" data-title="繁花满树 (十六首)" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2017/10/21/2017-10-21-trees/" data-id="ckmt6y7nv008ymgyaa93fetxr" data-title="繁花满树 (十六首)" class="article-share-link">Share</a>
       
       
       
@@ -1301,170 +880,15 @@ coefplot(glmm_model_10m)
 <p>Bliss的这篇论文主要以杂拟谷盗**(<strong>Tribolium confusum</strong>)**为例，系统介绍拟合存活比例曲线的方法。杂拟谷盗是一种粮食害虫。当时生物学家将481只杂拟谷盗分成8组，每一组分别在暴露在不同浓度的二硫化碳5小时，之后记录每个组有多少只甲虫死了。由于甲虫对二硫化碳的反应只有两种可能，要么存活，要么死亡，所以这个数据集是典型的二项分布数据。</p>
 <p>在这篇论文中，Bliss提出了一种连接函数，也就是事件发生与否，用转换以后的正态分布累计曲线去估算，称为Probit。实际上，二项分布线性模型的连接函数有三种，分别为logit, probit以及cloglog。 logit、probit以及cloglog都是统计变换，目的是将二项分布数据转换为一种形式，以便能用线性模型估计直接估计模型的参数。其中最常见的为logit，使用logit连接函数的二项分布回归称为逻辑斯蒂回归。logit是事件发生与是否发生的比例 （odds）的对数值，形为log**(<strong>y</strong>/(<strong>1</strong>-<strong>y</strong>))<strong>，称为log odds。cloglog是complementary log log的缩写，是将响应变量进行两次log变换， 公式为log</strong>(-<strong>log</strong>(<strong>1</strong>-<strong>y</strong>))**。 cloglog常用来拟合数据出现大量极端数值的数据， 例如，大样地的幼苗的负密度制约研究中，部分胸径等级的树苗只有很少一部分死亡，用cloglog能较准确捕捉到与树苗死亡相关性较强的环境因子， 如同种密度制约、光环境等。</p>
 <p>下面用R代码演示如何进行二项分布回归，分别用logit, probit以及cloglog三种连接函数。</p>
-<pre><code class="R">library(broom)
-####表格形式的数据
-####tabular form
-####数据来源www.stat.ualberta.ca/~kcarrier/STAT562/comp_log_log
-####beetle
-####   LOGDOSE     NUMBER_OF_BEETLES  NUMBER_KILLED  COMP_LOG_LOGPROBITLOGIT
-####1   1.691                59             6          5.7   3.4 35.0
-####2   1.724                60            13         11.3  10.7  9.8
-####3   1.755                62           18         20.9   23.422.4
-####4   1.784                56            28         30.3  33.8 33.9
-####5   1.811                63            52         47.7  49.6 50.0
-####6   1.837                59            53         54.2  53.4 53.3
-####7   1.861                62            61         61.1  59.7 59.2
-####8   1.884                60            60         59.9  59.2 58.8
-####&gt;
-####二硫化碳的浓度
-LOGDOSE          &lt;-c(1.691, 1.724, 1.755, 1.784, 1.811, 1.837, 1.861, 1.884 )
-####各小组杂拟谷盗的头数
-NUMBER_OF_BEETLES&lt;-c(59,    60,    62,    56,    63,    59,    62,    60    )    
-####杂拟谷盗经过二硫化碳熏蒸5小时后，死亡的个体数
-NUMBER_KILLED    &lt;-c(6,     13,    18,    28,    52,    53,    61,    60    )
-####合并成一个数据框
-beetle&lt;-data.frame(NUMBER_OF_BEETLES,NUMBER_KILLED, LOGDOSE)
-####第一种方法，数据表格式
-####调用glm函数，注意连接函数的选择
-mod_logit  &lt;-glm(cbind(NUMBER_KILLED, NUMBER_OF_BEETLES -NUMBER_KILLED)~LOGDOSE,data=beetle,  family=binomial(link=&quot;logit&quot;) )
-mod_probit &lt;-glm(cbind(NUMBER_KILLED, NUMBER_OF_BEETLES -NUMBER_KILLED)~LOGDOSE,data=beetle,  family=binomial(link=&quot;probit&quot;))
-mod_cloglog&lt;-glm(cbind(NUMBER_KILLED, NUMBER_OF_BEETLES -NUMBER_KILLED)~LOGDOSE,data=beetle,  family=binomial(link=&quot;cloglog&quot;))
-####Showing significance of the variables
-tidy(mod_logit )
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">library(broom)</span><br><span class="line"><span class="comment">####表格形式的数据</span></span><br><span class="line"><span class="comment">####tabular form</span></span><br><span class="line"><span class="comment">####数据来源www.stat.ualberta.ca/~kcarrier/STAT562/comp_log_log</span></span><br><span class="line"><span class="comment">####beetle</span></span><br><span class="line"><span class="comment">####   LOGDOSE     NUMBER_OF_BEETLES  NUMBER_KILLED  COMP_LOG_LOGPROBITLOGIT</span></span><br><span class="line"><span class="comment">####1   1.691                59             6          5.7   3.4 35.0</span></span><br><span class="line"><span class="comment">####2   1.724                60            13         11.3  10.7  9.8</span></span><br><span class="line"><span class="comment">####3   1.755                62           18         20.9   23.422.4</span></span><br><span class="line"><span class="comment">####4   1.784                56            28         30.3  33.8 33.9</span></span><br><span class="line"><span class="comment">####5   1.811                63            52         47.7  49.6 50.0</span></span><br><span class="line"><span class="comment">####6   1.837                59            53         54.2  53.4 53.3</span></span><br><span class="line"><span class="comment">####7   1.861                62            61         61.1  59.7 59.2</span></span><br><span class="line"><span class="comment">####8   1.884                60            60         59.9  59.2 58.8</span></span><br><span class="line"><span class="comment">####&gt;</span></span><br><span class="line"><span class="comment">####二硫化碳的浓度</span></span><br><span class="line">LOGDOSE          &lt;-<span class="built_in">c</span>(<span class="number">1.691</span>, <span class="number">1.724</span>, <span class="number">1.755</span>, <span class="number">1.784</span>, <span class="number">1.811</span>, <span class="number">1.837</span>, <span class="number">1.861</span>, <span class="number">1.884</span> )</span><br><span class="line"><span class="comment">####各小组杂拟谷盗的头数</span></span><br><span class="line">NUMBER_OF_BEETLES&lt;-<span class="built_in">c</span>(<span class="number">59</span>,    <span class="number">60</span>,    <span class="number">62</span>,    <span class="number">56</span>,    <span class="number">63</span>,    <span class="number">59</span>,    <span class="number">62</span>,    <span class="number">60</span>    )    </span><br><span class="line"><span class="comment">####杂拟谷盗经过二硫化碳熏蒸5小时后，死亡的个体数</span></span><br><span class="line">NUMBER_KILLED    &lt;-<span class="built_in">c</span>(<span class="number">6</span>,     <span class="number">13</span>,    <span class="number">18</span>,    <span class="number">28</span>,    <span class="number">52</span>,    <span class="number">53</span>,    <span class="number">61</span>,    <span class="number">60</span>    )</span><br><span class="line"><span class="comment">####合并成一个数据框</span></span><br><span class="line">beetle&lt;-data.frame(NUMBER_OF_BEETLES,NUMBER_KILLED, LOGDOSE)</span><br><span class="line"><span class="comment">####第一种方法，数据表格式</span></span><br><span class="line"><span class="comment">####调用glm函数，注意连接函数的选择</span></span><br><span class="line">mod_logit  &lt;-glm(cbind(NUMBER_KILLED, NUMBER_OF_BEETLES -NUMBER_KILLED)~LOGDOSE,data=beetle,  family=binomial(link=<span class="string">&quot;logit&quot;</span>) )</span><br><span class="line">mod_probit &lt;-glm(cbind(NUMBER_KILLED, NUMBER_OF_BEETLES -NUMBER_KILLED)~LOGDOSE,data=beetle,  family=binomial(link=<span class="string">&quot;probit&quot;</span>))</span><br><span class="line">mod_cloglog&lt;-glm(cbind(NUMBER_KILLED, NUMBER_OF_BEETLES -NUMBER_KILLED)~LOGDOSE,data=beetle,  family=binomial(link=<span class="string">&quot;cloglog&quot;</span>))</span><br><span class="line"><span class="comment">####Showing significance of the variables</span></span><br><span class="line">tidy(mod_logit )</span><br><span class="line"></span><br><span class="line">\<span class="comment">##         term  estimate std.error statistic      p.value</span></span><br><span class="line">\<span class="comment">##1 (Intercept) -60.74013  5.181870 -11.72166 9.871561e-32</span></span><br><span class="line">\<span class="comment">##2     LOGDOSE  34.28593  2.913213  11.76911 5.631446e-32</span></span><br><span class="line"></span><br><span class="line">tidy(mod_probit)</span><br><span class="line"></span><br><span class="line">\<span class="comment">##         term  estimate std.error statistic      p.value</span></span><br><span class="line">\<span class="comment">##1 (Intercept) -34.95614  2.648984 -13.19605 9.245343e-40</span></span><br><span class="line">\<span class="comment">##2     LOGDOSE  19.74103  1.488046  13.26640 3.625628e-40</span></span><br><span class="line"></span><br><span class="line">tidy(mod_cloglog)</span><br><span class="line"></span><br><span class="line">\<span class="comment">##         term  estimate std.error statistic      p.value</span></span><br><span class="line">\<span class="comment">##1 (Intercept) -39.52224  3.235649 -12.21463 2.596958e-34</span></span><br><span class="line">\<span class="comment">##2     LOGDOSE  22.01474  1.796996  12.25085 1.662370e-34</span></span><br><span class="line"></span><br><span class="line">\<span class="comment">####Showing AIC et al.</span></span><br><span class="line">glance(mod_logit )</span><br><span class="line"></span><br><span class="line">\<span class="comment">##  null.deviance df.null    logLik      AIC     BIC deviancedf.residual</span></span><br><span class="line">\<span class="comment">##1      284.2024       7 -18.65681 41.31361 41.4725 11.11558          6</span></span><br><span class="line"></span><br><span class="line">glance(mod_probit)</span><br><span class="line"></span><br><span class="line">\<span class="comment">##  null.deviance df.null   logLik      AIC      BIC deviancedf.residual</span></span><br><span class="line">\<span class="comment">##1      284.2024       7 -18.0925 40.18499 40.34388 9.986957          6</span></span><br><span class="line"></span><br><span class="line">glance(mod_cloglog)</span><br><span class="line"></span><br><span class="line">\<span class="comment">##  null.deviance df.null    logLik      AIC      BIC deviancedf.residual</span></span><br><span class="line">\<span class="comment">##1      284.2024       7 -14.85619 33.71237 33.87126 3.514334          6</span></span><br><span class="line"></span><br><span class="line">\<span class="comment">####绘图Visualisingthe results</span></span><br><span class="line">mortality_rate&lt;-beetle$NUMBER_KILLED/beetle$NUMBER_OF_BEETLES</span><br><span class="line">dose&lt;-beetle$LOGDOSE</span><br><span class="line">plot(mortality_rate~dose,xlab=<span class="string">&quot;Dose of Carbon Disulfide&quot;</span>,ylab=<span class="string">&quot;MortalityRate of Beetles&quot;</span>,main=<span class="string">&quot;BinomialRegression&quot;</span>)</span><br><span class="line">LOGDOSE_new=seq(<span class="built_in">min</span>(dose),<span class="built_in">max</span>(dose),length.out=<span class="number">200</span>)</span><br><span class="line">mod_logit_line   &lt;-predict(mod_logit,newdata=data.frame(LOGDOSE=LOGDOSE_new), type=<span class="string">&quot;response&quot;</span>)</span><br><span class="line">lines(mod_logit_line~LOGDOSE_new,col=<span class="string">&quot;blue&quot;</span>)</span><br><span class="line">mod_probit_line  &lt;-predict(mod_probit,newdata=data.frame(LOGDOSE=LOGDOSE_new), type=<span class="string">&quot;response&quot;</span>)</span><br><span class="line">lines(mod_probit_line~LOGDOSE_new,col=<span class="string">&quot;red&quot;</span>)</span><br><span class="line">mod_cloglog_line &lt;-predict(mod_cloglog,newdata=data.frame(LOGDOSE=LOGDOSE_new), type=<span class="string">&quot;response&quot;</span>)</span><br><span class="line">lines(mod_cloglog_line~LOGDOSE_new,col=<span class="string">&quot;green&quot;</span>)</span><br><span class="line">legend(<span class="string">&quot;bottomright&quot;</span>,title=<span class="string">&quot;Linkfunctions&quot;</span>,legend=<span class="built_in">c</span>(<span class="string">&quot;logit&quot;</span>,<span class="string">&quot;probit&quot;</span>,<span class="string">&quot;cloglog&quot;</span>),lty=<span class="built_in">c</span>(<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>),col=<span class="built_in">c</span>(<span class="string">&quot;blue&quot;</span>,<span class="string">&quot;red&quot;</span>,<span class="string">&quot;green&quot;</span>))</span><br></pre></td></tr></table></figure>
 
-\##         term  estimate std.error statistic      p.value
-\##1 (Intercept) -60.74013  5.181870 -11.72166 9.871561e-32
-\##2     LOGDOSE  34.28593  2.913213  11.76911 5.631446e-32
 
-tidy(mod_probit)
-
-\##         term  estimate std.error statistic      p.value
-\##1 (Intercept) -34.95614  2.648984 -13.19605 9.245343e-40
-\##2     LOGDOSE  19.74103  1.488046  13.26640 3.625628e-40
-
-tidy(mod_cloglog)
-
-\##         term  estimate std.error statistic      p.value
-\##1 (Intercept) -39.52224  3.235649 -12.21463 2.596958e-34
-\##2     LOGDOSE  22.01474  1.796996  12.25085 1.662370e-34
-
-\####Showing AIC et al.
-glance(mod_logit )
-
-\##  null.deviance df.null    logLik      AIC     BIC deviancedf.residual
-\##1      284.2024       7 -18.65681 41.31361 41.4725 11.11558          6
-
-glance(mod_probit)
-
-\##  null.deviance df.null   logLik      AIC      BIC deviancedf.residual
-\##1      284.2024       7 -18.0925 40.18499 40.34388 9.986957          6
-
-glance(mod_cloglog)
-
-\##  null.deviance df.null    logLik      AIC      BIC deviancedf.residual
-\##1      284.2024       7 -14.85619 33.71237 33.87126 3.514334          6
-
-\####绘图Visualisingthe results
-mortality_rate&lt;-beetle$NUMBER_KILLED/beetle$NUMBER_OF_BEETLES
-dose&lt;-beetle$LOGDOSE
-plot(mortality_rate~dose,xlab=&quot;Dose of Carbon Disulfide&quot;,ylab=&quot;MortalityRate of Beetles&quot;,main=&quot;BinomialRegression&quot;)
-LOGDOSE_new=seq(min(dose),max(dose),length.out=200)
-mod_logit_line   &lt;-predict(mod_logit,newdata=data.frame(LOGDOSE=LOGDOSE_new), type=&quot;response&quot;)
-lines(mod_logit_line~LOGDOSE_new,col=&quot;blue&quot;)
-mod_probit_line  &lt;-predict(mod_probit,newdata=data.frame(LOGDOSE=LOGDOSE_new), type=&quot;response&quot;)
-lines(mod_probit_line~LOGDOSE_new,col=&quot;red&quot;)
-mod_cloglog_line &lt;-predict(mod_cloglog,newdata=data.frame(LOGDOSE=LOGDOSE_new), type=&quot;response&quot;)
-lines(mod_cloglog_line~LOGDOSE_new,col=&quot;green&quot;)
-legend(&quot;bottomright&quot;,title=&quot;Linkfunctions&quot;,legend=c(&quot;logit&quot;,&quot;probit&quot;,&quot;cloglog&quot;),lty=c(1,1,1),col=c(&quot;blue&quot;,&quot;red&quot;,&quot;green&quot;))
-</code></pre>
 <p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201710/19/235751xnqz1qtzcz2annqp.jpeg"><img src="http://image.sciencenet.cn/home/201710/19/235751xnqz1qtzcz2annqp.jpeg" alt="img"></a></p>
-<pre><code class="R">\#####第二种方法，每个个体生存状态的长数据格式。glm是可以接受这种格式的。
-\#####按照个体来计
-dose_surived&lt;-
-c(rep(1.691,59-6),         
-rep(1.724,60-13),         
-rep(1.755,62-18),         
-rep(1.784,56-28),         
-rep(1.811,63-52),         
-rep(1.837,59-53),         
-rep(1.861,62-61),         
-rep(1.884,60-60))
-dose_dead&lt;-c(
-rep(1.691, 6),
-rep(1.724,13),
-rep(1.755,18),
-rep(1.784,28),
-rep(1.811,52),
-rep(1.837,53),
-rep(1.861,61),
-rep(1.884,60))
-status_survived&lt;-c(
-rep(&quot;alive&quot;,59-6),
-rep(&quot;alive&quot;,60-13),
-rep(&quot;alive&quot;,62-18),
-rep(&quot;alive&quot;,56-28),
-rep(&quot;alive&quot;,63-52),
-rep(&quot;alive&quot;,59-53),
-rep(&quot;alive&quot;,62-61),
-rep(&quot;alive&quot;,60-60))
-status_dead&lt;-c(
-rep(&quot;dead&quot;, 6),
-rep(&quot;dead&quot;,13),
-rep(&quot;dead&quot;,18),
-rep(&quot;dead&quot;,28),
-rep(&quot;dead&quot;,52),
-rep(&quot;dead&quot;,53),
-rep(&quot;dead&quot;,61),
-rep(&quot;dead&quot;,60)
-)
-
-dose_long&lt;-c(dose_dead,dose_surived)
-status   &lt;-as.factor(c(status_dead,status_survived))
-
-incidence_mod_logit  &lt;-glm(status~dose_long,family=binomial(link=&quot;logit&quot;))
-incidence_mod_probit &lt;-glm(status~dose_long,family=binomial(link=&quot;probit&quot;))
-incidence_mod_cloglog&lt;-glm(status~dose_long,family=binomial(link=&quot;cloglog&quot;))
-
-\####Showing significance of the variables
-tidy(incidence_mod_logit )
-
-\##         term  estimate std.error statistic      p.value
-\##1 (Intercept) -60.74013  5.181834 -11.72174 9.861985e-32
-\##2   dose_long  34.28593  2.913192  11.76920 5.625873e-32
-
-tidy(incidence_mod_probit)
-
-\##         term  estimate std.error statistic      p.value
-\##1 (Intercept) -34.95613  2.649010 -13.19592 9.261453e-40
-\##2   dose_long  19.74102  1.488061  13.26627 3.631968e-40
-
-tidy(incidence_mod_cloglog)
-
-\##         term  estimate std.error statistic      p.value
-\##1 (Intercept) -39.52224  3.235632 -12.21469 2.594819e-34
-\##2   dose_long  22.01474  1.796986  12.25092 1.660982e-34
-
-\####Showing AIC et al.
-glance(incidence_mod_logit )
-
-\##  null.deviance df.null    logLik      AIC      BIC deviancedf.residual
-\##1       645.441     480 -186.1771 376.3542 384.7059 372.3542        479
-
-glance(incidence_mod_probit)
-
-\##  null.deviance df.null    logLik      AIC      BIC deviancedf.residual
-\##1       645.441     480 -185.6128 375.2255 383.5773 371.2255        479
-
-glance(incidence_mod_cloglog)
-
-\##  null.deviance df.null    logLik      AIC      BIC deviancedf.residual
-\##1       645.441     480 -182.3765 368.7529 377.1046 364.7529        479
-</code></pre>
-
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line">\<span class="comment">#####第二种方法，每个个体生存状态的长数据格式。glm是可以接受这种格式的。</span></span><br><span class="line">\<span class="comment">#####按照个体来计</span></span><br><span class="line">dose_surived&lt;-</span><br><span class="line"><span class="built_in">c</span>(<span class="built_in">rep</span>(<span class="number">1.691</span>,<span class="number">59</span>-<span class="number">6</span>),         </span><br><span class="line"><span class="built_in">rep</span>(<span class="number">1.724</span>,<span class="number">60</span>-<span class="number">13</span>),         </span><br><span class="line"><span class="built_in">rep</span>(<span class="number">1.755</span>,<span class="number">62</span>-<span class="number">18</span>),         </span><br><span class="line"><span class="built_in">rep</span>(<span class="number">1.784</span>,<span class="number">56</span>-<span class="number">28</span>),         </span><br><span class="line"><span class="built_in">rep</span>(<span class="number">1.811</span>,<span class="number">63</span>-<span class="number">52</span>),         </span><br><span class="line"><span class="built_in">rep</span>(<span class="number">1.837</span>,<span class="number">59</span>-<span class="number">53</span>),         </span><br><span class="line"><span class="built_in">rep</span>(<span class="number">1.861</span>,<span class="number">62</span>-<span class="number">61</span>),         </span><br><span class="line"><span class="built_in">rep</span>(<span class="number">1.884</span>,<span class="number">60</span>-<span class="number">60</span>))</span><br><span class="line">dose_dead&lt;-<span class="built_in">c</span>(</span><br><span class="line"><span class="built_in">rep</span>(<span class="number">1.691</span>, <span class="number">6</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="number">1.724</span>,<span class="number">13</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="number">1.755</span>,<span class="number">18</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="number">1.784</span>,<span class="number">28</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="number">1.811</span>,<span class="number">52</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="number">1.837</span>,<span class="number">53</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="number">1.861</span>,<span class="number">61</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="number">1.884</span>,<span class="number">60</span>))</span><br><span class="line">status_survived&lt;-<span class="built_in">c</span>(</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;alive&quot;</span>,<span class="number">59</span>-<span class="number">6</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;alive&quot;</span>,<span class="number">60</span>-<span class="number">13</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;alive&quot;</span>,<span class="number">62</span>-<span class="number">18</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;alive&quot;</span>,<span class="number">56</span>-<span class="number">28</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;alive&quot;</span>,<span class="number">63</span>-<span class="number">52</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;alive&quot;</span>,<span class="number">59</span>-<span class="number">53</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;alive&quot;</span>,<span class="number">62</span>-<span class="number">61</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;alive&quot;</span>,<span class="number">60</span>-<span class="number">60</span>))</span><br><span class="line">status_dead&lt;-<span class="built_in">c</span>(</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;dead&quot;</span>, <span class="number">6</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;dead&quot;</span>,<span class="number">13</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;dead&quot;</span>,<span class="number">18</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;dead&quot;</span>,<span class="number">28</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;dead&quot;</span>,<span class="number">52</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;dead&quot;</span>,<span class="number">53</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;dead&quot;</span>,<span class="number">61</span>),</span><br><span class="line"><span class="built_in">rep</span>(<span class="string">&quot;dead&quot;</span>,<span class="number">60</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">dose_long&lt;-<span class="built_in">c</span>(dose_dead,dose_surived)</span><br><span class="line">status   &lt;-as.factor(<span class="built_in">c</span>(status_dead,status_survived))</span><br><span class="line"></span><br><span class="line">incidence_mod_logit  &lt;-glm(status~dose_long,family=binomial(link=<span class="string">&quot;logit&quot;</span>))</span><br><span class="line">incidence_mod_probit &lt;-glm(status~dose_long,family=binomial(link=<span class="string">&quot;probit&quot;</span>))</span><br><span class="line">incidence_mod_cloglog&lt;-glm(status~dose_long,family=binomial(link=<span class="string">&quot;cloglog&quot;</span>))</span><br><span class="line"></span><br><span class="line">\<span class="comment">####Showing significance of the variables</span></span><br><span class="line">tidy(incidence_mod_logit )</span><br><span class="line"></span><br><span class="line">\<span class="comment">##         term  estimate std.error statistic      p.value</span></span><br><span class="line">\<span class="comment">##1 (Intercept) -60.74013  5.181834 -11.72174 9.861985e-32</span></span><br><span class="line">\<span class="comment">##2   dose_long  34.28593  2.913192  11.76920 5.625873e-32</span></span><br><span class="line"></span><br><span class="line">tidy(incidence_mod_probit)</span><br><span class="line"></span><br><span class="line">\<span class="comment">##         term  estimate std.error statistic      p.value</span></span><br><span class="line">\<span class="comment">##1 (Intercept) -34.95613  2.649010 -13.19592 9.261453e-40</span></span><br><span class="line">\<span class="comment">##2   dose_long  19.74102  1.488061  13.26627 3.631968e-40</span></span><br><span class="line"></span><br><span class="line">tidy(incidence_mod_cloglog)</span><br><span class="line"></span><br><span class="line">\<span class="comment">##         term  estimate std.error statistic      p.value</span></span><br><span class="line">\<span class="comment">##1 (Intercept) -39.52224  3.235632 -12.21469 2.594819e-34</span></span><br><span class="line">\<span class="comment">##2   dose_long  22.01474  1.796986  12.25092 1.660982e-34</span></span><br><span class="line"></span><br><span class="line">\<span class="comment">####Showing AIC et al.</span></span><br><span class="line">glance(incidence_mod_logit )</span><br><span class="line"></span><br><span class="line">\<span class="comment">##  null.deviance df.null    logLik      AIC      BIC deviancedf.residual</span></span><br><span class="line">\<span class="comment">##1       645.441     480 -186.1771 376.3542 384.7059 372.3542        479</span></span><br><span class="line"></span><br><span class="line">glance(incidence_mod_probit)</span><br><span class="line"></span><br><span class="line">\<span class="comment">##  null.deviance df.null    logLik      AIC      BIC deviancedf.residual</span></span><br><span class="line">\<span class="comment">##1       645.441     480 -185.6128 375.2255 383.5773 371.2255        479</span></span><br><span class="line"></span><br><span class="line">glance(incidence_mod_cloglog)</span><br><span class="line"></span><br><span class="line">\<span class="comment">##  null.deviance df.null    logLik      AIC      BIC deviancedf.residual</span></span><br><span class="line">\<span class="comment">##1       645.441     480 -182.3765 368.7529 377.1046 364.7529        479</span></span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2017/10/19/2017-10-19-glm/" data-id="ckmq42ajm008k1k84cry3hnfj" data-title="广义线性模型中的逻辑斯蒂回归" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2017/10/19/2017-10-19-glm/" data-id="ckmt6y7nu008wmgya5xpt8oor" data-title="广义线性模型中的逻辑斯蒂回归" class="article-share-link">Share</a>
       
       
       
@@ -1516,95 +940,12 @@ glance(incidence_mod_cloglog)
 <li>subplot5：该个体所在的小样方名称，按照蛇形顺序命名，从1-16；</li>
 <li>dbh：该个体的胸径，单位为cm</li>
 </ol>
-<pre><code class="R">#### 以下代码先生成模拟的调查数据
-library(stringr)
-#### 生成模拟数据，假设整个样地有88325个个体
-nindividual &lt;-88325
-#### 生成树牌号
-tag &lt;-paste(&quot;BTM&quot;, str_pad(1:nindividual, 6, pad =&quot;0&quot;), sep =&quot;&quot;)
-#### 生成20m样地的名称
-plot20_x &lt;- str_pad(1:20, 2, pad =&quot;0&quot;)
-plot20_y &lt;- str_pad(1:25, 2, pad =&quot;0&quot;)
-names_temp &lt;- expand.grid(plot20_x, plot20_y)
-plot20_names &lt;-paste(names_temp[,1],names_temp[,2], sep =&quot;&quot;)
-survey_plot20_names &lt;-sample(plot20_names,nindividual, replace=TRUE)
-
-#### 随机生成5m样地内，调查个体的坐标
-g5x &lt;-round(runif(nindividual)*5, 2)
-g5y &lt;-round(runif(nindividual)*5, 2)
-#### 生成5m小样方的名称
-subplot5 &lt;-sample(1:16, nindividual, replace=TRUE)
-#### 模拟生成每棵树的胸径dbh, 假设服从指数分布
-dbh &lt;-round(rexp(nindividual,rate =2)*50+1, 1)
-#### 所有生成的数据合并到一个dataframe中
-btmdat &lt;- data.frame(tag, survey_plot20_names, subplot5, g5x, g5y, dbh)
-#### 做简单排序
-btmdat &lt;- btmdat[order(btmdat$survey_plot20_names, btmdat$subplot5),]
-
-############## 以上生成模拟数据结束 ####################
-#### 以下代码用于转换5m坐标到大样地尺度的平面直角坐标
-#######################################################
-
-
-#### 生成定义5m样方在20m样方x位置的中间变量
-btmdat$location5x &lt;-rep(NA, nrow(btmdat))
-btmdat$location5y &lt;-rep(NA, nrow(btmdat))
-#### 因为是蛇形调查顺序，所以5m的样方名要分别找出x轴和y轴的对应编号
-btmdat$location5x[btmdat$subplot5 ==1]&lt;-1
-btmdat$location5x[btmdat$subplot5 ==2]&lt;-2
-btmdat$location5x[btmdat$subplot5 ==3]&lt;-3
-btmdat$location5x[btmdat$subplot5 ==4]&lt;-4
-btmdat$location5x[btmdat$subplot5 ==5]&lt;-4
-btmdat$location5x[btmdat$subplot5 ==6]&lt;-3
-btmdat$location5x[btmdat$subplot5 ==7]&lt;-2
-btmdat$location5x[btmdat$subplot5 ==8]&lt;-1
-btmdat$location5x[btmdat$subplot5 ==9]&lt;-1
-btmdat$location5x[btmdat$subplot5 ==10]&lt;-2
-btmdat$location5x[btmdat$subplot5 ==11]&lt;-3
-btmdat$location5x[btmdat$subplot5 ==12]&lt;-4
-btmdat$location5x[btmdat$subplot5 ==13]&lt;-4
-btmdat$location5x[btmdat$subplot5 ==14]&lt;-3
-btmdat$location5x[btmdat$subplot5 ==15]&lt;-2
-btmdat$location5x[btmdat$subplot5 ==16]&lt;-1
-
-#### 生成定义5m样方在20m样方y位置的中间变量
-btmdat$location5y[btmdat$subplot5 ==1]&lt;-1
-btmdat$location5y[btmdat$subplot5 ==2]&lt;-1
-btmdat$location5y[btmdat$subplot5 ==3]&lt;-1
-btmdat$location5y[btmdat$subplot5 ==4]&lt;-1
-btmdat$location5y[btmdat$subplot5 ==5]&lt;-2
-btmdat$location5y[btmdat$subplot5 ==6]&lt;-2
-btmdat$location5y[btmdat$subplot5 ==7]&lt;-2
-btmdat$location5y[btmdat$subplot5 ==8]&lt;-2
-btmdat$location5y[btmdat$subplot5 ==9]&lt;-3
-btmdat$location5y[btmdat$subplot5 ==10]&lt;-3
-btmdat$location5y[btmdat$subplot5 ==11]&lt;-3
-btmdat$location5y[btmdat$subplot5 ==12]&lt;-3
-btmdat$location5y[btmdat$subplot5 ==13]&lt;-4
-btmdat$location5y[btmdat$subplot5 ==14]&lt;-4
-btmdat$location5y[btmdat$subplot5 ==15]&lt;-4
-btmdat$location5y[btmdat$subplot5 ==16]&lt;-4
-
-#### 将20m样方的名称补充完整为4位
-btmdat$survey_plot20_names &lt;- as.character(str_pad(btmdat$survey_plot20_names, 4, pad =&quot;0&quot;))
-#### 提取20m样方名的前两位，作为20m样方的x坐标
-x20 &lt;-substr(btmdat$survey_plot20_names,start=1, stop=2)
-#### 提取20m样方名的后两位，作为20m样方的y坐标
-y20 &lt;-substr(btmdat$survey_plot20_names,start=3, stop=4)
-#### 计算每个个体的以大样地原点为原点的坐标
-#### 无论是x轴，还是y轴，注意这里要-1
-btmdat$gx &lt;- g5x +(btmdat$location5x -1)*5+(as.numeric(x20)-1)*20
-btmdat$gy &lt;- g5y +(btmdat$location5y -1)*5+(as.numeric(y20)-1)*20
-#### 去掉不需要的中间变量
-final_btmdat &lt;-subset(btmdat, select =!colnames(btmdat)%in%c(&quot;location5x&quot;, &quot;location5y&quot;))
-head(final_btmdat)
-summary(final_btmdat)
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#### 以下代码先生成模拟的调查数据</span></span><br><span class="line">library(stringr)</span><br><span class="line"><span class="comment">#### 生成模拟数据，假设整个样地有88325个个体</span></span><br><span class="line">nindividual &lt;-<span class="number">88325</span></span><br><span class="line"><span class="comment">#### 生成树牌号</span></span><br><span class="line">tag &lt;-paste(<span class="string">&quot;BTM&quot;</span>, str_pad(<span class="number">1</span>:nindividual, <span class="number">6</span>, pad =<span class="string">&quot;0&quot;</span>), sep =<span class="string">&quot;&quot;</span>)</span><br><span class="line"><span class="comment">#### 生成20m样地的名称</span></span><br><span class="line">plot20_x &lt;- str_pad(<span class="number">1</span>:<span class="number">20</span>, <span class="number">2</span>, pad =<span class="string">&quot;0&quot;</span>)</span><br><span class="line">plot20_y &lt;- str_pad(<span class="number">1</span>:<span class="number">25</span>, <span class="number">2</span>, pad =<span class="string">&quot;0&quot;</span>)</span><br><span class="line">names_temp &lt;- expand.grid(plot20_x, plot20_y)</span><br><span class="line">plot20_names &lt;-paste(names_temp[,<span class="number">1</span>],names_temp[,<span class="number">2</span>], sep =<span class="string">&quot;&quot;</span>)</span><br><span class="line">survey_plot20_names &lt;-sample(plot20_names,nindividual, replace=<span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#### 随机生成5m样地内，调查个体的坐标</span></span><br><span class="line">g5x &lt;-<span class="built_in">round</span>(runif(nindividual)*<span class="number">5</span>, <span class="number">2</span>)</span><br><span class="line">g5y &lt;-<span class="built_in">round</span>(runif(nindividual)*<span class="number">5</span>, <span class="number">2</span>)</span><br><span class="line"><span class="comment">#### 生成5m小样方的名称</span></span><br><span class="line">subplot5 &lt;-sample(<span class="number">1</span>:<span class="number">16</span>, nindividual, replace=<span class="literal">TRUE</span>)</span><br><span class="line"><span class="comment">#### 模拟生成每棵树的胸径dbh, 假设服从指数分布</span></span><br><span class="line">dbh &lt;-<span class="built_in">round</span>(rexp(nindividual,rate =<span class="number">2</span>)*<span class="number">50</span>+<span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line"><span class="comment">#### 所有生成的数据合并到一个dataframe中</span></span><br><span class="line">btmdat &lt;- data.frame(tag, survey_plot20_names, subplot5, g5x, g5y, dbh)</span><br><span class="line"><span class="comment">#### 做简单排序</span></span><br><span class="line">btmdat &lt;- btmdat[order(btmdat$survey_plot20_names, btmdat$subplot5),]</span><br><span class="line"></span><br><span class="line"><span class="comment">############## 以上生成模拟数据结束 ####################</span></span><br><span class="line"><span class="comment">#### 以下代码用于转换5m坐标到大样地尺度的平面直角坐标</span></span><br><span class="line"><span class="comment">#######################################################</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#### 生成定义5m样方在20m样方x位置的中间变量</span></span><br><span class="line">btmdat$location5x &lt;-<span class="built_in">rep</span>(<span class="literal">NA</span>, nrow(btmdat))</span><br><span class="line">btmdat$location5y &lt;-<span class="built_in">rep</span>(<span class="literal">NA</span>, nrow(btmdat))</span><br><span class="line"><span class="comment">#### 因为是蛇形调查顺序，所以5m的样方名要分别找出x轴和y轴的对应编号</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">1</span>]&lt;-<span class="number">1</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">2</span>]&lt;-<span class="number">2</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">3</span>]&lt;-<span class="number">3</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">4</span>]&lt;-<span class="number">4</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">5</span>]&lt;-<span class="number">4</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">6</span>]&lt;-<span class="number">3</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">7</span>]&lt;-<span class="number">2</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">8</span>]&lt;-<span class="number">1</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">9</span>]&lt;-<span class="number">1</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">10</span>]&lt;-<span class="number">2</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">11</span>]&lt;-<span class="number">3</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">12</span>]&lt;-<span class="number">4</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">13</span>]&lt;-<span class="number">4</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">14</span>]&lt;-<span class="number">3</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">15</span>]&lt;-<span class="number">2</span></span><br><span class="line">btmdat$location5x[btmdat$subplot5 ==<span class="number">16</span>]&lt;-<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#### 生成定义5m样方在20m样方y位置的中间变量</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">1</span>]&lt;-<span class="number">1</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">2</span>]&lt;-<span class="number">1</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">3</span>]&lt;-<span class="number">1</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">4</span>]&lt;-<span class="number">1</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">5</span>]&lt;-<span class="number">2</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">6</span>]&lt;-<span class="number">2</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">7</span>]&lt;-<span class="number">2</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">8</span>]&lt;-<span class="number">2</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">9</span>]&lt;-<span class="number">3</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">10</span>]&lt;-<span class="number">3</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">11</span>]&lt;-<span class="number">3</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">12</span>]&lt;-<span class="number">3</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">13</span>]&lt;-<span class="number">4</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">14</span>]&lt;-<span class="number">4</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">15</span>]&lt;-<span class="number">4</span></span><br><span class="line">btmdat$location5y[btmdat$subplot5 ==<span class="number">16</span>]&lt;-<span class="number">4</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#### 将20m样方的名称补充完整为4位</span></span><br><span class="line">btmdat$survey_plot20_names &lt;- <span class="built_in">as.character</span>(str_pad(btmdat$survey_plot20_names, <span class="number">4</span>, pad =<span class="string">&quot;0&quot;</span>))</span><br><span class="line"><span class="comment">#### 提取20m样方名的前两位，作为20m样方的x坐标</span></span><br><span class="line">x20 &lt;-substr(btmdat$survey_plot20_names,start=<span class="number">1</span>, stop=<span class="number">2</span>)</span><br><span class="line"><span class="comment">#### 提取20m样方名的后两位，作为20m样方的y坐标</span></span><br><span class="line">y20 &lt;-substr(btmdat$survey_plot20_names,start=<span class="number">3</span>, stop=<span class="number">4</span>)</span><br><span class="line"><span class="comment">#### 计算每个个体的以大样地原点为原点的坐标</span></span><br><span class="line"><span class="comment">#### 无论是x轴，还是y轴，注意这里要-1</span></span><br><span class="line">btmdat$gx &lt;- g5x +(btmdat$location5x -<span class="number">1</span>)*<span class="number">5</span>+(<span class="built_in">as.numeric</span>(x20)-<span class="number">1</span>)*<span class="number">20</span></span><br><span class="line">btmdat$gy &lt;- g5y +(btmdat$location5y -<span class="number">1</span>)*<span class="number">5</span>+(<span class="built_in">as.numeric</span>(y20)-<span class="number">1</span>)*<span class="number">20</span></span><br><span class="line"><span class="comment">#### 去掉不需要的中间变量</span></span><br><span class="line">final_btmdat &lt;-subset(btmdat, select =!colnames(btmdat)%in%<span class="built_in">c</span>(<span class="string">&quot;location5x&quot;</span>, <span class="string">&quot;location5y&quot;</span>))</span><br><span class="line">head(final_btmdat)</span><br><span class="line">summary(final_btmdat)</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2017/10/18/2017-10-18-plotsinfdp/" data-id="ckmq42ajl008i1k84241b8a47" data-title="大型森林样地样方的命名与坐标转换" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2017/10/18/2017-10-18-plotsinfdp/" data-id="ckmt6y7nt008umgya8fixgn54" data-title="大型森林样地样方的命名与坐标转换" class="article-share-link">Share</a>
       
       
       
@@ -1673,7 +1014,7 @@ summary(final_btmdat)
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2017/10/07/2017-10-7-english/" data-id="ckmq42ajn008o1k840m6m4s1i" data-title="学英语记" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2017/10/07/2017-10-7-english/" data-id="ckmt6y7nw0092mgya875p6q4p" data-title="学英语记" class="article-share-link">Share</a>
       
       
       
@@ -1732,7 +1073,7 @@ summary(final_btmdat)
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2017/09/23/2017-9-24-england/" data-id="ckmq42ajv009e1k84hzzybmef" data-title="雪花飘落在英格兰" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2017/09/23/2017-9-24-england/" data-id="ckmt6y7o9009smgya8la7f3hl" data-title="雪花飘落在英格兰" class="article-share-link">Share</a>
       
       
       

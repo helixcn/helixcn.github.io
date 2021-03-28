@@ -14,7 +14,7 @@
 <meta property="og:description" content="Bootstrap又称自展法，是用小样本估计总体值的一种非参数方法，在进化和生态学研究中应用十分广泛。例如进化树分化节点的自展支持率等。 Bootstrap的思想，是生成一系列bootstrap伪样本，每个样本是初始数据有放回抽样。通过对伪样本的计算，获得统计量的分布。例如，要进行1000次bootstrap，求平均值的置信区间，可以对每个伪样本计算平均值。这样就获得了1000个平均值。对着100">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2011-12-29T08:00:54.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:34:24.514Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:26.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="统计">
 <meta name="twitter:card" content="summary">
@@ -102,34 +102,11 @@
 <p>Bootstrap的思想，是生成一系列bootstrap伪样本，每个样本是初始数据有放回抽样。通过对伪样本的计算，获得统计量的分布。例如，要进行1000次bootstrap，求平均值的置信区间，可以对每个伪样本计算平均值。这样就获得了1000个平均值。对着1000个平均值的分位数进行计算， 即可获得置信区间。已经证明，在初始样本足够大的情况下，bootstrap抽样能够无偏得接近总体的分布。</p>
 <p>下面是一个实例：</p>
 <p>例如，假设有一批产品，随机抽出30个，使用寿命（天数）如下，试用bootstrap的方法估计这批产品寿命95%的置信区间。</p>
-<pre><code class="R">dat &lt;- c(119,120,131,209,210,337,332,287,146,1
-       29,232,169,208,253,142,105,419,179,
-         324,287,115,132,308,356,286,221,204,
-         105,45,245)
-
-### 查看原始数据的频数直方图
-hist(dat, col = &quot;gray&quot;)
-#生成一个存储器
-boot.sample &lt;- list()
-## 循环1000次，有放回的抽样，每次生成的
-## 新样本存储在boot.sample中
-for(i in 1:1000)&#123;
-     boot.sample[[i]] &lt;- sample(dat,size = 30, replace = TRUE)
-&#125;
-## 求每个样本的mean,结果为1000个bootstrap样本的mean
-boot.mean &lt;- unlist(lapply(boot.sample, mean))
-## 频数直方图
-hist(boot.mean, col = &quot;gray&quot;)
-## 求95%的置信区间
-CI95 &lt;- quantile(boot.mean, probs = c(0.025, 0.975))
-## 在频数直方图上加置信区间
-abline(v = CI95, col = &quot;red&quot;)
-</code></pre>
-
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">dat &lt;- <span class="built_in">c</span>(<span class="number">119</span>,<span class="number">120</span>,<span class="number">131</span>,<span class="number">209</span>,<span class="number">210</span>,<span class="number">337</span>,<span class="number">332</span>,<span class="number">287</span>,<span class="number">146</span>,<span class="number">1</span></span><br><span class="line">       <span class="number">29</span>,<span class="number">232</span>,<span class="number">169</span>,<span class="number">208</span>,<span class="number">253</span>,<span class="number">142</span>,<span class="number">105</span>,<span class="number">419</span>,<span class="number">179</span>,</span><br><span class="line">         <span class="number">324</span>,<span class="number">287</span>,<span class="number">115</span>,<span class="number">132</span>,<span class="number">308</span>,<span class="number">356</span>,<span class="number">286</span>,<span class="number">221</span>,<span class="number">204</span>,</span><br><span class="line">         <span class="number">105</span>,<span class="number">45</span>,<span class="number">245</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 查看原始数据的频数直方图</span></span><br><span class="line">hist(dat, col = <span class="string">&quot;gray&quot;</span>)</span><br><span class="line"><span class="comment">#生成一个存储器</span></span><br><span class="line">boot.sample &lt;- <span class="built_in">list</span>()</span><br><span class="line"><span class="comment">## 循环1000次，有放回的抽样，每次生成的</span></span><br><span class="line"><span class="comment">## 新样本存储在boot.sample中</span></span><br><span class="line"><span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="number">1000</span>)&#123;</span><br><span class="line">     boot.sample[[i]] &lt;- sample(dat,size = <span class="number">30</span>, replace = <span class="literal">TRUE</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">## 求每个样本的mean,结果为1000个bootstrap样本的mean</span></span><br><span class="line">boot.mean &lt;- unlist(lapply(boot.sample, mean))</span><br><span class="line"><span class="comment">## 频数直方图</span></span><br><span class="line">hist(boot.mean, col = <span class="string">&quot;gray&quot;</span>)</span><br><span class="line"><span class="comment">## 求95%的置信区间</span></span><br><span class="line">CI95 &lt;- quantile(boot.mean, probs = <span class="built_in">c</span>(<span class="number">0.025</span>, <span class="number">0.975</span>))</span><br><span class="line"><span class="comment">## 在频数直方图上加置信区间</span></span><br><span class="line">abline(v = CI95, col = <span class="string">&quot;red&quot;</span>)</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2011/12/29/2011-12-30-bootstrap/" data-id="ckmq42ahq002u1k84g3vdfvml" data-title="什么是bootstrap？" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2011/12/29/2011-12-30-bootstrap/" data-id="ckmt6y7ky002xmgyae5ga0xfk" data-title="什么是bootstrap？" class="article-share-link">Share</a>
       
       
       

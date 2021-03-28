@@ -14,7 +14,7 @@
 <meta property="og:description" content="空间位置越接近的点，相应的变量也可能越相近，这种现象称为空间自相关。空间自相关能够改变人们对某些事物原因的判断。举例来说，一个地点物种数高，临近的点物种数也相应得会高些，但这并不一定是由于两个地点的环境条件都十分优越，而纯粹是由于两个地点之间在空间上更为接近。点与点之间空间关系的依赖性使得各点之间数据并不是独立的。 为此，需要从空间关系检验空间自相关是否存在。空间自相关的检验，用Moran’s I">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2011-05-24T10:57:54.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:34:24.520Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:26.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="统计">
 <meta name="twitter:card" content="summary">
@@ -102,148 +102,16 @@
 <p>为此，需要从空间关系检验空间自相关是否存在。空间自相关的检验，用Moran’s I 表示。 Moran’s I 与Pearson相关系数的算法类似，不过其计算时相关程度考虑的是点与点本身。在R的ape程序包中，有关于Moran’s I的详细的说明。为了检验Moran’s I的显著性，空间统计学家运动Randomization的方法，获得Moran’s I的零分布，继而求的各距离段中的Moran’s I是否显著偏离于零分布。</p>
 <p>为了尽量去除空间自相关的影响，统计学家开发出了空间自回归模型，SAR（Spatial Auto Regressive Model）,该模型在R的spdep中能够较为方便的实现。当然，也还有众多的程序包，如宏生态学数据分析的SAM程序包等。</p>
 <p>以下是在spdep程序包中如何计算和检验Moran’s I的详细过程，以及调用SAR模型，进行相应的统计推断等，供感兴趣的老师同学参考。</p>
-<pre><code class="R">library(spdep)
-## Loading required package: sp
-## Loading required package: Matrix
-## Loading required package: spData
-library(maps)
-library(mapproj)
-library(spdep)
-library(RANN)
-library(mapdata)
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">library(spdep)</span><br><span class="line"><span class="comment">## Loading required package: sp</span></span><br><span class="line"><span class="comment">## Loading required package: Matrix</span></span><br><span class="line"><span class="comment">## Loading required package: spData</span></span><br><span class="line">library(maps)</span><br><span class="line">library(mapproj)</span><br><span class="line">library(spdep)</span><br><span class="line">library(RANN)</span><br><span class="line">library(mapdata)</span><br><span class="line"></span><br><span class="line">map(<span class="string">&quot;china&quot;</span>, col = <span class="string">&quot;gray40&quot;</span>, ylim = <span class="built_in">c</span>(<span class="number">18</span>,<span class="number">54</span>), xlab =<span class="string">&quot;Longitude&quot;</span>, ylab</span><br><span class="line">=<span class="string">&quot;Latitude&quot;</span>, main =<span class="string">&quot;Sampling sites&quot;</span>)</span><br><span class="line"></span><br><span class="line">map.axes()</span><br><span class="line">map.scale()<span class="comment">## 为了检验nsp是否具有空间自相关</span></span><br><span class="line">lat &lt;-sort(runif(<span class="number">50</span>, <span class="built_in">min</span>=<span class="number">24</span>, <span class="built_in">max</span>=<span class="number">35</span>), decreasing =<span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line">long &lt;-runif(<span class="number">50</span>, <span class="built_in">min</span>=<span class="number">95</span>, <span class="built_in">max</span>=<span class="number">120</span>)</span><br><span class="line"></span><br><span class="line">nsp &lt;-sort(<span class="built_in">round</span>(rnorm(<span class="number">50</span>, <span class="number">800</span>, <span class="number">200</span>)))</span><br><span class="line"></span><br><span class="line">Pre &lt;-sort(rnorm(<span class="number">50</span>, <span class="number">1500</span>, <span class="number">300</span>))</span><br><span class="line"></span><br><span class="line">Elev &lt;-sort(rnorm(<span class="number">50</span>, <span class="number">1000</span>, <span class="number">200</span>), decreasing =<span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line">Time &lt;-factor(<span class="built_in">rep</span>(<span class="built_in">c</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>), <span class="built_in">c</span>(<span class="number">12</span>, <span class="number">18</span>, <span class="number">20</span>)))</span><br><span class="line"></span><br><span class="line">test0 &lt;- data.frame(long, lat, nsp, Pre,Elev, Time)</span><br><span class="line"></span><br><span class="line">points(long, lat, cex =<span class="built_in">exp</span>(nsp/mean(nsp)), col = <span class="string">&quot;red&quot;</span>)</span><br><span class="line"></span><br><span class="line">nsp &lt;- test0$nsp</span><br><span class="line"></span><br><span class="line"><span class="comment">## 将test数据集转换成Spatial格式</span></span><br><span class="line">test &lt;- test0[,<span class="built_in">c</span>(<span class="number">1</span>,<span class="number">2</span>)]</span><br><span class="line">sptest &lt;- SpatialPoints(test, proj4string = CRS(<span class="string">&quot;+proj=longlat +datum=WGS84&quot;</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">## 计算每个点最近的几个neighbour（这里k = 1,表示只计算一个的）</span></span><br><span class="line">nbk1 &lt;- knn2nb(knearneigh(sptest, k =<span class="number">5</span>, longlat =<span class="literal">TRUE</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">## 将nbk1转换成 spatial weight linkage object 对象</span></span><br><span class="line">snbk1 &lt;- make.sym.nb(nbk1)</span><br><span class="line"></span><br><span class="line"><span class="comment">### n.comp.nb() finds the number of disjoint connected subgraphs</span></span><br><span class="line"><span class="comment">### in the graphdepicted by nb.obj - a spatial neighbours list object.</span></span><br><span class="line"><span class="comment">### 查看每个点不相接的相邻点数量</span></span><br><span class="line">n.comp.nb(snbk1)$nc</span><br><span class="line"><span class="comment">## [1] 1</span></span><br><span class="line"><span class="comment">### 查看各点链接情况</span></span><br><span class="line">plot(nb2listw(snbk1), cbind(test$long, test$lat), add =<span class="literal">TRUE</span>)</span><br></pre></td></tr></table></figure>
 
-map(&quot;china&quot;, col = &quot;gray40&quot;, ylim = c(18,54), xlab =&quot;Longitude&quot;, ylab
-=&quot;Latitude&quot;, main =&quot;Sampling sites&quot;)
 
-map.axes()
-map.scale()## 为了检验nsp是否具有空间自相关
-lat &lt;-sort(runif(50, min=24, max=35), decreasing =TRUE)
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### Moran&#x27;s Test检验该数据集是否存在显著的空间自相关</span></span><br><span class="line"><span class="comment">### Moran&#x27;s I testunder randomisation</span></span><br><span class="line"></span><br><span class="line">moran.test(nsp, nb2listw(snbk1))</span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">##  Moran I test under randomisation</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## data:  nsp  </span></span><br><span class="line"><span class="comment">## weights: nb2listw(snbk1)    </span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## Moran I statistic standard deviate = 8.8677, p-value &lt; 2.2e-16</span></span><br><span class="line"><span class="comment">## alternative hypothesis: greater</span></span><br><span class="line"><span class="comment">## sample estimates:</span></span><br><span class="line"><span class="comment">## Moran I statistic       Expectation          Variance </span></span><br><span class="line"><span class="comment">##       0.671936139      -0.020408163       0.006095733</span></span><br><span class="line"><span class="comment">### Moran&#x27;s ICorrelograms</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### par(mfrow = c(1,3))</span></span><br><span class="line"></span><br><span class="line">nsp.Moron.I &lt;- sp.correlogram(snbk1, nsp, order=<span class="number">6</span>, method=<span class="string">&quot;I&quot;</span>, zero.policy =<span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line">plot(nsp.Moron.I)</span><br></pre></td></tr></table></figure>
 
-long &lt;-runif(50, min=95, max=120)
-
-nsp &lt;-sort(round(rnorm(50, 800, 200)))
-
-Pre &lt;-sort(rnorm(50, 1500, 300))
-
-Elev &lt;-sort(rnorm(50, 1000, 200), decreasing =TRUE)
-
-Time &lt;-factor(rep(c(1, 2, 3), c(12, 18, 20)))
-
-test0 &lt;- data.frame(long, lat, nsp, Pre,Elev, Time)
-
-points(long, lat, cex =exp(nsp/mean(nsp)), col = &quot;red&quot;)
-
-nsp &lt;- test0$nsp
-
-## 将test数据集转换成Spatial格式
-test &lt;- test0[,c(1,2)]
-sptest &lt;- SpatialPoints(test, proj4string = CRS(&quot;+proj=longlat +datum=WGS84&quot;))
-
-## 计算每个点最近的几个neighbour（这里k = 1,表示只计算一个的）
-nbk1 &lt;- knn2nb(knearneigh(sptest, k =5, longlat =TRUE))
-
-## 将nbk1转换成 spatial weight linkage object 对象
-snbk1 &lt;- make.sym.nb(nbk1)
-
-### n.comp.nb() finds the number of disjoint connected subgraphs
-### in the graphdepicted by nb.obj - a spatial neighbours list object.
-### 查看每个点不相接的相邻点数量
-n.comp.nb(snbk1)$nc
-## [1] 1
-### 查看各点链接情况
-plot(nb2listw(snbk1), cbind(test$long, test$lat), add =TRUE)
-</code></pre>
-<pre><code class="R">### Moran&#39;s Test检验该数据集是否存在显著的空间自相关
-### Moran&#39;s I testunder randomisation
-
-moran.test(nsp, nb2listw(snbk1))
-## 
-##  Moran I test under randomisation
-## 
-## data:  nsp  
-## weights: nb2listw(snbk1)    
-## 
-## Moran I statistic standard deviate = 8.8677, p-value &lt; 2.2e-16
-## alternative hypothesis: greater
-## sample estimates:
-## Moran I statistic       Expectation          Variance 
-##       0.671936139      -0.020408163       0.006095733
-### Moran&#39;s ICorrelograms
-
-### par(mfrow = c(1,3))
-
-nsp.Moron.I &lt;- sp.correlogram(snbk1, nsp, order=6, method=&quot;I&quot;, zero.policy =TRUE)
-
-plot(nsp.Moron.I)
-</code></pre>
-<pre><code class="R">### SAR model
-### Saddlepointapproximation for global Moran&#39;s I (Barndorff-Nielsen formula)
-lm.morantest.sad(lm(nsp~1),nb2listw(snbk1))
-## 
-##  Saddlepoint approximation for global Moran&#39;s I (Barndorff-Nielsen
-##  formula)
-## 
-## data:  
-## model:lm(formula = nsp ~ 1)
-## weights: nb2listw(snbk1)
-## 
-## Saddlepoint approximation = 6.7733, p-value = 6.292e-12
-## alternative hypothesis: greater
-## sample estimates:
-## Observed Moran I 
-##        0.6719361
-## sacsarlm
-COL.sacW.eig &lt;- sacsarlm(nsp ~ Pre + Elev +factor(Time), 
-                         data= test0, nb2listw(snbk1, style=&quot;W&quot;))
-
-summary(COL.sacW.eig,correlation=TRUE)
-## 
-## Call:sacsarlm(formula = nsp ~ Pre + Elev + factor(Time), data = test0, 
-##     listw = nb2listw(snbk1, style = &quot;W&quot;))
-## 
-## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -103.204  -18.260    2.159   19.739   52.779 
-## 
-## Type: sac 
-## Coefficients: (asymptotic standard errors) 
-##                Estimate Std. Error z value Pr(&gt;|z|)
-## (Intercept)   637.31705  298.77823  2.1331 0.032918
-## Pre             0.33743    0.10993  3.0697 0.002143
-## Elev           -0.43635    0.16205 -2.6927 0.007088
-## factor(Time)2 -23.80507   18.68448 -1.2741 0.202644
-## factor(Time)3  -8.52493   30.23387 -0.2820 0.777970
-## 
-## Rho: 0.16737
-## Asymptotic standard error: 0.06605
-##     z-value: 2.5339, p-value: 0.011279
-## Lambda: -0.12972
-## Asymptotic standard error: 0.26622
-##     z-value: -0.48726, p-value: 0.62607
-## 
-## LR test value: 5.9974, p-value: 0.049852
-## 
-## Log likelihood: -243.6922 for sac model
-## ML residual variance (sigma squared): 994.25, (sigma: 31.532)
-## Number of observations: 50 
-## Number of parameters estimated: 8 
-## AIC: 503.38, (AIC for lm: 505.38)
-## 
-##  Correlation of coefficients 
-##               sigma rho   lambda (Intercept) Pre   Elev  factor(Time)2
-## rho           -0.04                                                   
-## lambda         0.06 -0.29                                             
-## (Intercept)    0.00  0.04 -0.01                                       
-## Pre            0.01 -0.27  0.08  -0.94                                
-## Elev           0.00 -0.11  0.03  -0.99        0.92                    
-## factor(Time)2  0.01 -0.25  0.07   0.27       -0.37 -0.17              
-## factor(Time)3  0.01 -0.31  0.09   0.24       -0.36 -0.11  0.87
-</code></pre>
-
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### SAR model</span></span><br><span class="line"><span class="comment">### Saddlepointapproximation for global Moran&#x27;s I (Barndorff-Nielsen formula)</span></span><br><span class="line">lm.morantest.sad(lm(nsp~<span class="number">1</span>),nb2listw(snbk1))</span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">##  Saddlepoint approximation for global Moran&#x27;s I (Barndorff-Nielsen</span></span><br><span class="line"><span class="comment">##  formula)</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## data:  </span></span><br><span class="line"><span class="comment">## model:lm(formula = nsp ~ 1)</span></span><br><span class="line"><span class="comment">## weights: nb2listw(snbk1)</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## Saddlepoint approximation = 6.7733, p-value = 6.292e-12</span></span><br><span class="line"><span class="comment">## alternative hypothesis: greater</span></span><br><span class="line"><span class="comment">## sample estimates:</span></span><br><span class="line"><span class="comment">## Observed Moran I </span></span><br><span class="line"><span class="comment">##        0.6719361</span></span><br><span class="line"><span class="comment">## sacsarlm</span></span><br><span class="line">COL.sacW.eig &lt;- sacsarlm(nsp ~ Pre + Elev +factor(Time), </span><br><span class="line">                         data= test0, nb2listw(snbk1, style=<span class="string">&quot;W&quot;</span>))</span><br><span class="line"></span><br><span class="line">summary(COL.sacW.eig,correlation=<span class="literal">TRUE</span>)</span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## Call:sacsarlm(formula = nsp ~ Pre + Elev + factor(Time), data = test0, </span></span><br><span class="line"><span class="comment">##     listw = nb2listw(snbk1, style = &quot;W&quot;))</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## Residuals:</span></span><br><span class="line"><span class="comment">##      Min       1Q   Median       3Q      Max </span></span><br><span class="line"><span class="comment">## -103.204  -18.260    2.159   19.739   52.779 </span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## Type: sac </span></span><br><span class="line"><span class="comment">## Coefficients: (asymptotic standard errors) </span></span><br><span class="line"><span class="comment">##                Estimate Std. Error z value Pr(&gt;|z|)</span></span><br><span class="line"><span class="comment">## (Intercept)   637.31705  298.77823  2.1331 0.032918</span></span><br><span class="line"><span class="comment">## Pre             0.33743    0.10993  3.0697 0.002143</span></span><br><span class="line"><span class="comment">## Elev           -0.43635    0.16205 -2.6927 0.007088</span></span><br><span class="line"><span class="comment">## factor(Time)2 -23.80507   18.68448 -1.2741 0.202644</span></span><br><span class="line"><span class="comment">## factor(Time)3  -8.52493   30.23387 -0.2820 0.777970</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## Rho: 0.16737</span></span><br><span class="line"><span class="comment">## Asymptotic standard error: 0.06605</span></span><br><span class="line"><span class="comment">##     z-value: 2.5339, p-value: 0.011279</span></span><br><span class="line"><span class="comment">## Lambda: -0.12972</span></span><br><span class="line"><span class="comment">## Asymptotic standard error: 0.26622</span></span><br><span class="line"><span class="comment">##     z-value: -0.48726, p-value: 0.62607</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## LR test value: 5.9974, p-value: 0.049852</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## Log likelihood: -243.6922 for sac model</span></span><br><span class="line"><span class="comment">## ML residual variance (sigma squared): 994.25, (sigma: 31.532)</span></span><br><span class="line"><span class="comment">## Number of observations: 50 </span></span><br><span class="line"><span class="comment">## Number of parameters estimated: 8 </span></span><br><span class="line"><span class="comment">## AIC: 503.38, (AIC for lm: 505.38)</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">##  Correlation of coefficients </span></span><br><span class="line"><span class="comment">##               sigma rho   lambda (Intercept) Pre   Elev  factor(Time)2</span></span><br><span class="line"><span class="comment">## rho           -0.04                                                   </span></span><br><span class="line"><span class="comment">## lambda         0.06 -0.29                                             </span></span><br><span class="line"><span class="comment">## (Intercept)    0.00  0.04 -0.01                                       </span></span><br><span class="line"><span class="comment">## Pre            0.01 -0.27  0.08  -0.94                                </span></span><br><span class="line"><span class="comment">## Elev           0.00 -0.11  0.03  -0.99        0.92                    </span></span><br><span class="line"><span class="comment">## factor(Time)2  0.01 -0.25  0.07   0.27       -0.37 -0.17              </span></span><br><span class="line"><span class="comment">## factor(Time)3  0.01 -0.31  0.09   0.24       -0.36 -0.11  0.87</span></span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2011/05/24/2011-5-25-autocorrelation/" data-id="ckmq42aht00361k847w7u0voz" data-title="R语言检验空间自相关Moran&#39;s I和运行SAR模型" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2011/05/24/2011-5-25-autocorrelation/" data-id="ckmt6y7l9003dmgya3joud29b" data-title="R语言检验空间自相关Moran&#39;s I和运行SAR模型" class="article-share-link">Share</a>
       
       
       

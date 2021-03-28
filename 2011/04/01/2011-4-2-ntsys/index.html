@@ -15,7 +15,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://blog.sciencenet.cn/static/js/grey.gif">
 <meta property="article:published_time" content="2011-04-01T10:58:54.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:34:24.519Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:26.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="软件">
 <meta name="twitter:card" content="summary">
@@ -138,21 +138,8 @@
 <li>“r”为运行后的结果存储的文件<br>另有多种参数。 </li>
 </ul>
 <p>对数量性状进行聚类分析，采用UPGMA方法的批处理代码如下： </p>
-<pre><code>&quot; Standardize the variables 
-*stand o=data.nts r=sdata.nts 
-&quot; Compute a distance matrix 
-*simint o=sdata.nts r=dist.nts c=dist 
-&quot; Do a single-link cluster analysis of the distance matrix 
-*sahn o=dist.nts r=tree.nts 
-&quot; Compute cophenetic values 
-*coph o=tree.nts r=coph.nts 
-&quot; Compute the cophenetic correlation 
-*mxcomp x=coph.nts y=dist.nts 
-&quot; Display phenogram 
-*tree o=tree.nts 
-&quot; Display distance matrix 
-*output o=dist.nts 
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&quot; Standardize the variables </span><br><span class="line">*stand o&#x3D;data.nts r&#x3D;sdata.nts </span><br><span class="line">&quot; Compute a distance matrix </span><br><span class="line">*simint o&#x3D;sdata.nts r&#x3D;dist.nts c&#x3D;dist </span><br><span class="line">&quot; Do a single-link cluster analysis of the distance matrix </span><br><span class="line">*sahn o&#x3D;dist.nts r&#x3D;tree.nts </span><br><span class="line">&quot; Compute cophenetic values </span><br><span class="line">*coph o&#x3D;tree.nts r&#x3D;coph.nts </span><br><span class="line">&quot; Compute the cophenetic correlation </span><br><span class="line">*mxcomp x&#x3D;coph.nts y&#x3D;dist.nts </span><br><span class="line">&quot; Display phenogram </span><br><span class="line">*tree o&#x3D;tree.nts </span><br><span class="line">&quot; Display distance matrix </span><br><span class="line">*output o&#x3D;dist.nts </span><br></pre></td></tr></table></figure>
+
 <p>将以上脚本复制到记事本中，将扩展名改为.ntb文件，就可执行批处理命令了。</p>
 <p>下载相应的文档和软件</p>
 <ul>
@@ -165,30 +152,11 @@
 <p>聚类树状图 举例</p>
 <h1 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h1><p>NTsys进行主成分分析的脚本</p>
 <p>主成份分析的散点图<br><strong>ntsys</strong>目前可以绘制三维的散点图 </p>
-<pre><code>&quot; Standardize variables (rows) 
-*stand o=data.nts r=sdata.nts 
-&quot; Compute correlations among variables (rows) 
-*simint o=sdata.nts c=corr r=corr.nts d=row 
-&quot; Output the correlation matrix 
-*output o=corr.nts 
-&quot; Extract first 3 PCA axes from correlation matrix 
-*eigen o=corr.nts n=3 r=vect.nts val=val.nts 
-&quot; Output principal component axes 
-*output o=vect.nts 
-&quot; Project objects onto PCA axes 
-*proj o=sdata.nts d=col f=vect.nts r=proj.nts 
-&quot; Output projections 
-*output o=proj.nts 
-&quot; Display 3D plot of projection of objects 
-*mod3d o=proj.nts 
-&quot; Display 3D plot of variables defining the PCA axes 
-*mod3d o=vect.nts d=col
-</code></pre>
-
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&quot; Standardize variables (rows) </span><br><span class="line">*stand o&#x3D;data.nts r&#x3D;sdata.nts </span><br><span class="line">&quot; Compute correlations among variables (rows) </span><br><span class="line">*simint o&#x3D;sdata.nts c&#x3D;corr r&#x3D;corr.nts d&#x3D;row </span><br><span class="line">&quot; Output the correlation matrix </span><br><span class="line">*output o&#x3D;corr.nts </span><br><span class="line">&quot; Extract first 3 PCA axes from correlation matrix </span><br><span class="line">*eigen o&#x3D;corr.nts n&#x3D;3 r&#x3D;vect.nts val&#x3D;val.nts </span><br><span class="line">&quot; Output principal component axes </span><br><span class="line">*output o&#x3D;vect.nts </span><br><span class="line">&quot; Project objects onto PCA axes </span><br><span class="line">*proj o&#x3D;sdata.nts d&#x3D;col f&#x3D;vect.nts r&#x3D;proj.nts </span><br><span class="line">&quot; Output projections </span><br><span class="line">*output o&#x3D;proj.nts </span><br><span class="line">&quot; Display 3D plot of projection of objects </span><br><span class="line">*mod3d o&#x3D;proj.nts </span><br><span class="line">&quot; Display 3D plot of variables defining the PCA axes </span><br><span class="line">*mod3d o&#x3D;vect.nts d&#x3D;col</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2011/04/01/2011-4-2-ntsys/" data-id="ckmq42aht00331k84h99t1gb9" data-title="NTsys实现聚类分析及树状图的绘制" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2011/04/01/2011-4-2-ntsys/" data-id="ckmt6y7l70039mgya9u1me5lp" data-title="NTsys实现聚类分析及树状图的绘制" class="article-share-link">Share</a>
       
       
       

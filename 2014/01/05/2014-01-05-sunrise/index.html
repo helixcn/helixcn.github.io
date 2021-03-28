@@ -14,7 +14,7 @@
 <meta property="og:description" content="给定经纬度， 要计算某年某月某日该地点的日出日落时刻， 考虑的因素包括：  太阳在天球上的位置 （赤经,赤纬）： 一般要获得计算当日， 以及前一日， 后一日的太阳赤经赤纬， 通过插值的方法， 获得太阳在日出日落时刻的准确位置  城市所在的时区 （天文学上的习惯是， 在格林尼治子午圈以东为负， 以西为正） ，以便将计算获得的世界时转换为当地时区的时间。   这里介绍用skycalc程序包如何计算一个">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2014-01-04T22:47:54.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:34:24.547Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:26.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="天文">
 <meta name="twitter:card" content="summary">
@@ -107,127 +107,14 @@
 </ol>
 <p>这里介绍用skycalc程序包如何计算一个地点， 给定日期的日出日落时刻。</p>
 <p>R代码如下： </p>
-<pre><code class="R">library(skycalc)
-### 儒略日转换为年月日时分秒的函数
-Julian2Date &lt;-function(jd)&#123;
-int2 &lt;-
-function(v)&#123;
-  return(floor(v));
-&#125;
-   r =list();
-  D = int2(jd+0.5);
-  F= jd+0.5-D #取得日数的整数部份A及小数部分F
-  if(D &gt;=2299161)&#123;
-       c= int2((D-1867216.25)/36524.25);
-       D= D +1+c- int2(c/4);
-   &#125;
-  D  = D +1524;              
-  r$Y = int2((D -122.1)/365.25);#年数
-  D  = D - int2(365.25*r$Y);  
-  r$M = int2(D/30.601); #月数
-  D  = D - int2(30.601*r$M);
-  r$D = D; #日数
-  if(r$M&gt;13)&#123;
-      r$M = r$M -13;
-      r$Y = r$Y -4715;
-   &#125;else&#123;
-      r$M = r$M -  1;
-      r$Y = r$Y -4716;
-   &#125;
-  #日的小数转为时分秒
-  F = F *24;
-  r$h=int2(F);
-  F = F - r$h;
-  F = F *60;
-  r$m=int2(F);
-  F = F -r$m;
-  F = F *60;
-  r$s=F;
-  return(r);
-&#125;
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">library(skycalc)</span><br><span class="line"><span class="comment">### 儒略日转换为年月日时分秒的函数</span></span><br><span class="line">Julian2Date &lt;-<span class="keyword">function</span>(jd)&#123;</span><br><span class="line">int2 &lt;-</span><br><span class="line"><span class="keyword">function</span>(v)&#123;</span><br><span class="line">  <span class="built_in">return</span>(<span class="built_in">floor</span>(v));</span><br><span class="line">&#125;</span><br><span class="line">   r =<span class="built_in">list</span>();</span><br><span class="line">  D = int2(jd+<span class="number">0.5</span>);</span><br><span class="line">  <span class="built_in">F</span>= jd+<span class="number">0.5</span>-D <span class="comment">#取得日数的整数部份A及小数部分F</span></span><br><span class="line">  <span class="keyword">if</span>(D &gt;=<span class="number">2299161</span>)&#123;</span><br><span class="line">       <span class="built_in">c</span>= int2((D-<span class="number">1867216.25</span>)/<span class="number">36524.25</span>);</span><br><span class="line">       D= D +<span class="number">1</span>+<span class="built_in">c</span>- int2(<span class="built_in">c</span>/<span class="number">4</span>);</span><br><span class="line">   &#125;</span><br><span class="line">  D  = D +<span class="number">1524</span>;              </span><br><span class="line">  r$Y = int2((D -<span class="number">122.1</span>)/<span class="number">365.25</span>);<span class="comment">#年数</span></span><br><span class="line">  D  = D - int2(<span class="number">365.25</span>*r$Y);  </span><br><span class="line">  r$M = int2(D/<span class="number">30.601</span>); <span class="comment">#月数</span></span><br><span class="line">  D  = D - int2(<span class="number">30.601</span>*r$M);</span><br><span class="line">  r$D = D; <span class="comment">#日数</span></span><br><span class="line">  <span class="keyword">if</span>(r$M&gt;<span class="number">13</span>)&#123;</span><br><span class="line">      r$M = r$M -<span class="number">13</span>;</span><br><span class="line">      r$Y = r$Y -<span class="number">4715</span>;</span><br><span class="line">   &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      r$M = r$M -  <span class="number">1</span>;</span><br><span class="line">      r$Y = r$Y -<span class="number">4716</span>;</span><br><span class="line">   &#125;</span><br><span class="line">  <span class="comment">#日的小数转为时分秒</span></span><br><span class="line">  <span class="built_in">F</span> = <span class="built_in">F</span> *<span class="number">24</span>;</span><br><span class="line">  r$h=int2(<span class="built_in">F</span>);</span><br><span class="line">  <span class="built_in">F</span> = <span class="built_in">F</span> - r$h;</span><br><span class="line">  <span class="built_in">F</span> = <span class="built_in">F</span> *<span class="number">60</span>;</span><br><span class="line">  r$m=int2(<span class="built_in">F</span>);</span><br><span class="line">  <span class="built_in">F</span> = <span class="built_in">F</span> -r$m;</span><br><span class="line">  <span class="built_in">F</span> = <span class="built_in">F</span> *<span class="number">60</span>;</span><br><span class="line">  r$s=<span class="built_in">F</span>;</span><br><span class="line">  <span class="built_in">return</span>(r);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">sunRTScalc &lt;-<span class="keyword">function</span>(year, month, day, longitude, latitude,  zone,</span><br><span class="line">                      bGregorianCalendar =<span class="literal">TRUE</span>,</span><br><span class="line">                      type =<span class="built_in">c</span>(<span class="string">&quot;rise&quot;</span>, <span class="string">&quot;transit&quot;</span>, <span class="string">&quot;set&quot;</span>))&#123;</span><br><span class="line">   type &lt;- match.arg(type)</span><br><span class="line">   JD = CAADate_DateToJD(year, month, day, bGregorianCalendar);</span><br><span class="line">   SunDetails1 = CAAElliptical_Calculate_Sun(JD -<span class="number">1</span>)</span><br><span class="line">   Alpha1 = SunDetails1$ApparentGeocentricRA;</span><br><span class="line">   Delta1 = SunDetails1$ApparentGeocentricDeclination;</span><br><span class="line">   SunDetails2 = CAAElliptical_Calculate_Sun(JD)</span><br><span class="line">   Alpha2 = SunDetails2$ApparentGeocentricRA;</span><br><span class="line">   Delta2 = SunDetails2$ApparentGeocentricDeclination;</span><br><span class="line">   SunDetails3 = CAAElliptical_Calculate_Sun(JD +<span class="number">1</span>)</span><br><span class="line">   Alpha3 = SunDetails3$ApparentGeocentricRA;</span><br><span class="line">   Delta3 = SunDetails3$ApparentGeocentricDeclination;</span><br><span class="line">   RiseTransitSetTime =CAARiseTransitSet_Calculate(JD,</span><br><span class="line">   Alpha1, Delta1, Alpha2, Delta2, Alpha3,Delta3,</span><br><span class="line">   longitude, latitude, -<span class="number">0.8333</span>);</span><br><span class="line">   <span class="keyword">if</span>(type ==<span class="string">&quot;rise&quot;</span>)&#123;</span><br><span class="line">       rtsJD =(JD +(RiseTransitSetTime$details.Rise/<span class="number">24.00</span>));</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">if</span>(type ==<span class="string">&quot;set&quot;</span>)&#123;</span><br><span class="line">       rtsJD =(JD +(RiseTransitSetTime$details.Set/<span class="number">24.00</span>));</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">if</span>(type ==<span class="string">&quot;transit&quot;</span>)&#123;</span><br><span class="line">       rtsJD =(JD +(RiseTransitSetTime$details.Transit/<span class="number">24.00</span>));</span><br><span class="line">   &#125;</span><br><span class="line">   lclJD = rtsJD -(zone/<span class="number">24.00</span>);</span><br><span class="line">   <span class="built_in">return</span>(Julian2Date(lclJD))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-sunRTScalc &lt;-function(year, month, day, longitude, latitude,  zone,
-                      bGregorianCalendar =TRUE,
-                      type =c(&quot;rise&quot;, &quot;transit&quot;, &quot;set&quot;))&#123;
-   type &lt;- match.arg(type)
-   JD = CAADate_DateToJD(year, month, day, bGregorianCalendar);
-   SunDetails1 = CAAElliptical_Calculate_Sun(JD -1)
-   Alpha1 = SunDetails1$ApparentGeocentricRA;
-   Delta1 = SunDetails1$ApparentGeocentricDeclination;
-   SunDetails2 = CAAElliptical_Calculate_Sun(JD)
-   Alpha2 = SunDetails2$ApparentGeocentricRA;
-   Delta2 = SunDetails2$ApparentGeocentricDeclination;
-   SunDetails3 = CAAElliptical_Calculate_Sun(JD +1)
-   Alpha3 = SunDetails3$ApparentGeocentricRA;
-   Delta3 = SunDetails3$ApparentGeocentricDeclination;
-   RiseTransitSetTime =CAARiseTransitSet_Calculate(JD,
-   Alpha1, Delta1, Alpha2, Delta2, Alpha3,Delta3,
-   longitude, latitude, -0.8333);
-   if(type ==&quot;rise&quot;)&#123;
-       rtsJD =(JD +(RiseTransitSetTime$details.Rise/24.00));
-   &#125;
-   if(type ==&quot;set&quot;)&#123;
-       rtsJD =(JD +(RiseTransitSetTime$details.Set/24.00));
-   &#125;
-   if(type ==&quot;transit&quot;)&#123;
-       rtsJD =(JD +(RiseTransitSetTime$details.Transit/24.00));
-   &#125;
-   lclJD = rtsJD -(zone/24.00);
-   return(Julian2Date(lclJD))
-&#125;
-</code></pre>
-<pre><code class="R">### 例一
-### 计算美国波士顿 (西经 74.73057,  北纬 39.275787) 2009年8月9日的日出日落时刻
-sunRTScalc(year =2009, month =8, day =9, longitude =74.73057,  
-          latitude =39.275787, zone =4, bGregorianCalendar=TRUE, type =&quot;rise&quot;)
-### 因为波士顿的日落已经发生在格林尼治子午圈的下一天 (波士顿当地时间(西四区)2009年8月9日20h01m39m，对应世界时2009年8月10日00h01m39m)， 所里这里在日期上需要加1.
-
-sunRTScalc(year =2009, month =8, day =10, longitude =74.73057,  
-          latitude =39.275787, zone =4, bGregorianCalendar=TRUE, type =&quot;set&quot;)
-
-
-### 例二
-### 计算北京天安门 (东经 -116.391325,  北纬 39.907356) 2014年1月5日的日出日落时刻
-### 日出 因为北京的日出时刻发生在北京时间4h45m43.7s，对应的世界时为1月4日23h36m13.8s， 因此， 在日期上需要减去一天
-sunRTScalc(year =2014, month =1, day =4, longitude =-116.391325,  
-          latitude =39.907356, zone =-8, bGregorianCalendar =TRUE, type =&quot;rise&quot;)
-### 日落
-sunRTScalc(year =2014, month =1, day =5, longitude =-116.391325,  
-          latitude =39.907356, zone =-8, bGregorianCalendar =TRUE, type =&quot;set&quot;)
-### 中天
-sunRTScalc(year =2014, month =1, day =5, longitude =-116.391325,  
-          latitude =39.907356, zone =-8, bGregorianCalendar =TRUE, type =&quot;transit&quot;)
-
-### 例三
-### 计算2014年6月20日北京天安门 (东经 -116.391325,  北纬 39.907356) 的日出日落时刻
-### 日出 因为北京的日出时刻发生在北京时间4h45m43.7s，对应的世界时为6月19日22h45m43.7s， 因此， 在日期上需要减去一天
-sunRTScalc(year =2014, month =6, day =19, longitude =-116.391325,  
-          latitude =39.907356, zone =-8, bGregorianCalendar =TRUE, type =&quot;rise&quot;)
-### 日落
-sunRTScalc(year =2014, month =6, day =20, longitude =-116.391325,  
-          latitude =39.907356, zone =-8, bGregorianCalendar =TRUE, type =&quot;set&quot;)
-### 中天
-sunRTScalc(year =2014, month =6, day =20, longitude =-116.391325,  
-          latitude =39.907356, zone =-8, bGregorianCalendar =TRUE, type =&quot;transit&quot;)
-
-####例四
-### 计算2020年1月15日澳大利亚墨尔本(东经 -144.963171, 南纬-37.814247) 的日出日落时刻
-### 墨尔本为位于东10区，澳大利亚夏时制开始于上一年10月的第一个星期天， 下一年4月第一个星期天止。1月15日，正处于夏令时， 因此时区取-11
-### 日出, 由于澳大利亚日出时， 世界时仍然处在2020年1月14日， 因此这里day取14
-sunRTScalc(year =2020, month =1, day =14, longitude =-144.963171,  
-          latitude =-37.814247, zone =-11, bGregorianCalendar =TRUE, type =&quot;rise&quot;)
-### 日落
-sunRTScalc(year =2020, month =1, day =15, longitude =-144.963171,  
-          latitude =-37.814247, zone =-11, bGregorianCalendar =TRUE, type =&quot;set&quot;)
-### 中天
-sunRTScalc(year =2020, month =1, day =15, longitude =-144.963171,  
-          latitude =-37.814247, zone =-11, bGregorianCalendar =TRUE, type =&quot;transit&quot;)
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### 例一</span></span><br><span class="line"><span class="comment">### 计算美国波士顿 (西经 74.73057,  北纬 39.275787) 2009年8月9日的日出日落时刻</span></span><br><span class="line">sunRTScalc(year =<span class="number">2009</span>, month =<span class="number">8</span>, day =<span class="number">9</span>, longitude =<span class="number">74.73057</span>,  </span><br><span class="line">          latitude =<span class="number">39.275787</span>, zone =<span class="number">4</span>, bGregorianCalendar=<span class="literal">TRUE</span>, type =<span class="string">&quot;rise&quot;</span>)</span><br><span class="line"><span class="comment">### 因为波士顿的日落已经发生在格林尼治子午圈的下一天 (波士顿当地时间(西四区)2009年8月9日20h01m39m，对应世界时2009年8月10日00h01m39m)， 所里这里在日期上需要加1.</span></span><br><span class="line"></span><br><span class="line">sunRTScalc(year =<span class="number">2009</span>, month =<span class="number">8</span>, day =<span class="number">10</span>, longitude =<span class="number">74.73057</span>,  </span><br><span class="line">          latitude =<span class="number">39.275787</span>, zone =<span class="number">4</span>, bGregorianCalendar=<span class="literal">TRUE</span>, type =<span class="string">&quot;set&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">### 例二</span></span><br><span class="line"><span class="comment">### 计算北京天安门 (东经 -116.391325,  北纬 39.907356) 2014年1月5日的日出日落时刻</span></span><br><span class="line"><span class="comment">### 日出 因为北京的日出时刻发生在北京时间4h45m43.7s，对应的世界时为1月4日23h36m13.8s， 因此， 在日期上需要减去一天</span></span><br><span class="line">sunRTScalc(year =<span class="number">2014</span>, month =<span class="number">1</span>, day =<span class="number">4</span>, longitude =-<span class="number">116.391325</span>,  </span><br><span class="line">          latitude =<span class="number">39.907356</span>, zone =-<span class="number">8</span>, bGregorianCalendar =<span class="literal">TRUE</span>, type =<span class="string">&quot;rise&quot;</span>)</span><br><span class="line"><span class="comment">### 日落</span></span><br><span class="line">sunRTScalc(year =<span class="number">2014</span>, month =<span class="number">1</span>, day =<span class="number">5</span>, longitude =-<span class="number">116.391325</span>,  </span><br><span class="line">          latitude =<span class="number">39.907356</span>, zone =-<span class="number">8</span>, bGregorianCalendar =<span class="literal">TRUE</span>, type =<span class="string">&quot;set&quot;</span>)</span><br><span class="line"><span class="comment">### 中天</span></span><br><span class="line">sunRTScalc(year =<span class="number">2014</span>, month =<span class="number">1</span>, day =<span class="number">5</span>, longitude =-<span class="number">116.391325</span>,  </span><br><span class="line">          latitude =<span class="number">39.907356</span>, zone =-<span class="number">8</span>, bGregorianCalendar =<span class="literal">TRUE</span>, type =<span class="string">&quot;transit&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 例三</span></span><br><span class="line"><span class="comment">### 计算2014年6月20日北京天安门 (东经 -116.391325,  北纬 39.907356) 的日出日落时刻</span></span><br><span class="line"><span class="comment">### 日出 因为北京的日出时刻发生在北京时间4h45m43.7s，对应的世界时为6月19日22h45m43.7s， 因此， 在日期上需要减去一天</span></span><br><span class="line">sunRTScalc(year =<span class="number">2014</span>, month =<span class="number">6</span>, day =<span class="number">19</span>, longitude =-<span class="number">116.391325</span>,  </span><br><span class="line">          latitude =<span class="number">39.907356</span>, zone =-<span class="number">8</span>, bGregorianCalendar =<span class="literal">TRUE</span>, type =<span class="string">&quot;rise&quot;</span>)</span><br><span class="line"><span class="comment">### 日落</span></span><br><span class="line">sunRTScalc(year =<span class="number">2014</span>, month =<span class="number">6</span>, day =<span class="number">20</span>, longitude =-<span class="number">116.391325</span>,  </span><br><span class="line">          latitude =<span class="number">39.907356</span>, zone =-<span class="number">8</span>, bGregorianCalendar =<span class="literal">TRUE</span>, type =<span class="string">&quot;set&quot;</span>)</span><br><span class="line"><span class="comment">### 中天</span></span><br><span class="line">sunRTScalc(year =<span class="number">2014</span>, month =<span class="number">6</span>, day =<span class="number">20</span>, longitude =-<span class="number">116.391325</span>,  </span><br><span class="line">          latitude =<span class="number">39.907356</span>, zone =-<span class="number">8</span>, bGregorianCalendar =<span class="literal">TRUE</span>, type =<span class="string">&quot;transit&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">####例四</span></span><br><span class="line"><span class="comment">### 计算2020年1月15日澳大利亚墨尔本(东经 -144.963171, 南纬-37.814247) 的日出日落时刻</span></span><br><span class="line"><span class="comment">### 墨尔本为位于东10区，澳大利亚夏时制开始于上一年10月的第一个星期天， 下一年4月第一个星期天止。1月15日，正处于夏令时， 因此时区取-11</span></span><br><span class="line"><span class="comment">### 日出, 由于澳大利亚日出时， 世界时仍然处在2020年1月14日， 因此这里day取14</span></span><br><span class="line">sunRTScalc(year =<span class="number">2020</span>, month =<span class="number">1</span>, day =<span class="number">14</span>, longitude =-<span class="number">144.963171</span>,  </span><br><span class="line">          latitude =-<span class="number">37.814247</span>, zone =-<span class="number">11</span>, bGregorianCalendar =<span class="literal">TRUE</span>, type =<span class="string">&quot;rise&quot;</span>)</span><br><span class="line"><span class="comment">### 日落</span></span><br><span class="line">sunRTScalc(year =<span class="number">2020</span>, month =<span class="number">1</span>, day =<span class="number">15</span>, longitude =-<span class="number">144.963171</span>,  </span><br><span class="line">          latitude =-<span class="number">37.814247</span>, zone =-<span class="number">11</span>, bGregorianCalendar =<span class="literal">TRUE</span>, type =<span class="string">&quot;set&quot;</span>)</span><br><span class="line"><span class="comment">### 中天</span></span><br><span class="line">sunRTScalc(year =<span class="number">2020</span>, month =<span class="number">1</span>, day =<span class="number">15</span>, longitude =-<span class="number">144.963171</span>,  </span><br><span class="line">          latitude =-<span class="number">37.814247</span>, zone =-<span class="number">11</span>, bGregorianCalendar =<span class="literal">TRUE</span>, type =<span class="string">&quot;transit&quot;</span>)</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/01/05/2014-01-05-sunrise/" data-id="ckmq42ail00581k8442vofb7t" data-title="用skycalc计算日出日落时刻" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/01/05/2014-01-05-sunrise/" data-id="ckmt6y7m4005fmgyafwrwcqgj" data-title="用skycalc计算日出日落时刻" class="article-share-link">Share</a>
       
       
       

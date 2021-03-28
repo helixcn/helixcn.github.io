@@ -6,15 +6,15 @@
   
   <title>使用knitr处理Rnw文档 | Jinlong Zhang&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Rnw文档是保存了R代码的Latex文档。人们希望Latex中的R代码可以自动运行， 并将运行结果， 复制到Latex代码中。 同时， 给出绘制的图形等。 例如以下的代码， 是一篇Rnw文档的内容， 将其拷贝， 粘贴到记事本中， 另存为test.Rnw文件即可。 注意编码要选ANSI。 \documentclass[CJK]&amp;#123;cctart&amp;#125; \usepackage&amp;#123;v">
+  <meta name="description" content="Rnw文档是保存了R代码的Latex文档。人们希望Latex中的R代码可以自动运行， 并将运行结果， 复制到Latex代码中。 同时， 给出绘制的图形等。 例如以下的代码， 是一篇Rnw文档的内容， 将其拷贝， 粘贴到记事本中， 另存为test.Rnw文件即可。 注意编码要选ANSI。 1234567891011121314151617181920212223242526272829303132\">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用knitr处理Rnw文档">
 <meta property="og:url" content="https://helixcn.github.io/2014/01/08/2014-1-8-knitr/index.html">
 <meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
-<meta property="og:description" content="Rnw文档是保存了R代码的Latex文档。人们希望Latex中的R代码可以自动运行， 并将运行结果， 复制到Latex代码中。 同时， 给出绘制的图形等。 例如以下的代码， 是一篇Rnw文档的内容， 将其拷贝， 粘贴到记事本中， 另存为test.Rnw文件即可。 注意编码要选ANSI。 \documentclass[CJK]&amp;#123;cctart&amp;#125; \usepackage&amp;#123;v">
+<meta property="og:description" content="Rnw文档是保存了R代码的Latex文档。人们希望Latex中的R代码可以自动运行， 并将运行结果， 复制到Latex代码中。 同时， 给出绘制的图形等。 例如以下的代码， 是一篇Rnw文档的内容， 将其拷贝， 粘贴到记事本中， 另存为test.Rnw文件即可。 注意编码要选ANSI。 1234567891011121314151617181920212223242526272829303132\">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2014-01-08T01:47:54.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:34:24.549Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:26.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="排版">
 <meta name="twitter:card" content="summary">
@@ -100,49 +100,16 @@
       
         <p>Rnw文档是保存了R代码的Latex文档。人们希望Latex中的R代码可以自动运行， 并将运行结果， 复制到Latex代码中。 同时， 给出绘制的图形等。</p>
 <p>例如以下的代码， 是一篇Rnw文档的内容， 将其拷贝， 粘贴到记事本中， 另存为test.Rnw文件即可。 注意编码要选ANSI。</p>
-<pre><code class="latex">\documentclass[CJK]&#123;cctart&#125;
-\usepackage&#123;verbatim&#125;
-\title&#123;中文文章里面如何使用knitr？ &#125;
-\author&#123;张金龙&#125;
-\begin&#123;document&#125;
-\maketitle
-在本例子中， 我们将演示在R中， 如何调用 hclust() 并且将结果写入 LaTeX&#123;&#125; 文件中:
-&lt;&lt;&gt;&gt;=
-x&lt;-c(1,2,6,8,11)
-dim(x)&lt;-c(5,1)
-d&lt;-dist(x)
-d
-hc&lt;-hclust(d, &quot;single&quot;)
-dend&lt;-as.dendrogram(hc)
-@
-绘制的树状图:， 目前，kintr程序包在处理Rnw文档时， 不允许注释中有中文
-begin&#123;center&#125;
-&lt;&lt;fig=TRUE,echo=FALSE&gt;&gt;=
-par(mfrow = c(2, 2),mar = c(4,3,1,2))
-plot(dend)
-plot(dend, nodePar=list(pch = c(1,NA),
-   cex=0.8, lab.cex=0.8), type = &quot;t&quot;,
-   center=TRUE)
-plot(dend, edgePar=list(col = 1:2,
-   lty = 2:3), dLeaf=1,
-   edge.root = TRUE)
-plot(dend, nodePar=list(pch = 2:1,
-   cex=.4*2:1, col=2:3),
-   horiz=TRUE)
-@
-\end&#123;center&#125;
-\end&#123;document&#125;
-</code></pre>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\documentclass</span>[CJK]&#123;cctart&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;verbatim&#125;</span><br><span class="line"><span class="keyword">\title</span>&#123;中文文章里面如何使用knitr？ &#125;</span><br><span class="line"><span class="keyword">\author</span>&#123;张金龙&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line"><span class="keyword">\maketitle</span></span><br><span class="line">在本例子中， 我们将演示在R中， 如何调用 hclust() 并且将结果写入 LaTeX&#123;&#125; 文件中:</span><br><span class="line">&lt;&lt;&gt;&gt;=</span><br><span class="line">x&lt;-c(1,2,6,8,11)</span><br><span class="line">dim(x)&lt;-c(5,1)</span><br><span class="line">d&lt;-dist(x)</span><br><span class="line">d</span><br><span class="line">hc&lt;-hclust(d, &quot;single&quot;)</span><br><span class="line">dend&lt;-as.dendrogram(hc)</span><br><span class="line">@</span><br><span class="line">绘制的树状图:， 目前，kintr程序包在处理Rnw文档时， 不允许注释中有中文</span><br><span class="line">begin&#123;center&#125;</span><br><span class="line">&lt;&lt;fig=TRUE,echo=FALSE&gt;&gt;=</span><br><span class="line">par(mfrow = c(2, 2),mar = c(4,3,1,2))</span><br><span class="line">plot(dend)</span><br><span class="line">plot(dend, nodePar=list(pch = c(1,NA),</span><br><span class="line">   cex=0.8, lab.cex=0.8), type = &quot;t&quot;,</span><br><span class="line">   center=TRUE)</span><br><span class="line">plot(dend, edgePar=list(col = 1:2,</span><br><span class="line">   lty = 2:3), dLeaf=1,</span><br><span class="line">   edge.root = TRUE)</span><br><span class="line">plot(dend, nodePar=list(pch = 2:1,</span><br><span class="line">   cex=.4*2:1, col=2:3),</span><br><span class="line">   horiz=TRUE)</span><br><span class="line">@</span><br><span class="line"><span class="keyword">\end</span>&#123;center&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br></pre></td></tr></table></figure>
+
 <p>在Rnw文档中， R代码需要放在 <code>&lt;&lt;fig=TRUE,echo=TRUE&gt;&gt;=</code> 和 <code>@</code> 之间。 其中的代码一定要可以执行。 在后续处理中，R的Sweave函数和knitr程序包中的knitr函数， 都能够生成相应的tex文件， 以及所需要包含的pdf图形。</p>
 <p><code>fig=TRUE</code> 表示， 要包括代码生成的图形；<br><code>echo=TRUE</code> 表示， 要包括运行结果所生成的代码。</p>
 <p>Sweave函数就是为了处理Rnw文件而生的。 但是Sweave在处理中文的Latex文档时， 需要设定的参数很多， 并且常常出错。幸运的是，我们还有谢益辉编写的knitr程序包。</p>
 <p>kintr在处理Rnw文档非常方便。 假设Rnw文档放在</p>
 <p><code>C:/Users/Jinlong/Desktop/Sweave</code></p>
 <p>文件夹之下，名为test.Rmw， 则使用以下R代码:</p>
-<pre><code class="R">setwd(&quot;C:/Users/USER/Desktop/Sweave&quot;) ### 转换到工作目录，
-library(kintr) ###导入kintr程序包
-knit(&quot;test.Rnw&quot;)
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;C:/Users/USER/Desktop/Sweave&quot;</span>) <span class="comment">### 转换到工作目录，</span></span><br><span class="line">library(kintr) <span class="comment">###导入kintr程序包</span></span><br><span class="line">knit(<span class="string">&quot;test.Rnw&quot;</span>)</span><br></pre></td></tr></table></figure>
+
 <p>即可在该目录下， 生成.tex文档， 以及需要包含的文件。</p>
 <p>用TexWorks编译成pdf文档即可。</p>
 <p>注意：kintr程序包在处理Rnw文档时，R代码的注释中不允许注释中有中文</p>
@@ -150,7 +117,7 @@ knit(&quot;test.Rnw&quot;)
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/01/08/2014-1-8-knitr/" data-id="ckmq42aip005k1k84aowhdvp5" data-title="使用knitr处理Rnw文档" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/01/08/2014-1-8-knitr/" data-id="ckmt6y7m9005rmgyabrhc0pre" data-title="使用knitr处理Rnw文档" class="article-share-link">Share</a>
       
       
       

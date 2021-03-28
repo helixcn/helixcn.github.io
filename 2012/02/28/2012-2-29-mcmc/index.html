@@ -14,7 +14,7 @@
 <meta property="og:description" content="Metropolis Hasting（下面简称MH）是蒙特卡罗马尔科夫链中一种重要的抽样方法。本文简要介绍MH算法，并给出一个实例。 MH算法在参数空间随机取值，作为起始点。按照参数的概率分布生成随机的参数，按照这一系列参数的组合，计算当前点的概率密度。依据当前点和起始点概率密度比值是否大于(0,1)之间的随机数来判断是否保留当前点。若当前点的概率密度大于该随机数，就称这种状态为接受状态，此时，在">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2012-02-28T15:54:54.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:34:24.526Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:26.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="统计">
 <meta name="twitter:card" content="summary">
@@ -103,69 +103,14 @@
 <p>下面是用MCMC MH抽样法生成满足一定条件二元正态分布的例子，供感兴趣的同仁参考。<br>问题：对于一个二元正态分布，给定输入数据点向量x （x包含两个元素，x1，x2）， 平均值参数向量mu（x1，x2），和sigma（方差矩阵），写出二元正态分布的概率密度函数。</p>
 <p>该问题引自： <a target="_blank" rel="noopener" href="http://users.aims.ac.za/~ioana/">http://users.aims.ac.za/~ioana/</a></p>
 <p>由于本人对MCMC理解不深，对一些概念的理解难免出现错误，望读者能够批评得阅读，若发现问题，请及时告知本人。</p>
-<pre><code class="R">## 解答：
-mvdnorm &lt;- function(x, mu, sigma)&#123;
-    #从x减去mu
-    x.minus.mu &lt;- x - mu 
-    exp.arg    &lt;- -0.5 * sum(x.minus.mu * solve(sigma, x.minus.mu))  
-    # det(sigma) sigma 的行列式
-    return( 1 / (2 * pi * sqrt(det(sigma))) * exp(exp.arg) )
-&#125;
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 解答：</span></span><br><span class="line">mvdnorm &lt;- <span class="keyword">function</span>(x, mu, sigma)&#123;</span><br><span class="line">    <span class="comment">#从x减去mu</span></span><br><span class="line">    x.minus.mu &lt;- x - mu </span><br><span class="line">    exp.arg    &lt;- -<span class="number">0.5</span> * <span class="built_in">sum</span>(x.minus.mu * solve(sigma, x.minus.mu))  </span><br><span class="line">    <span class="comment"># det(sigma) sigma 的行列式</span></span><br><span class="line">    <span class="built_in">return</span>( <span class="number">1</span> / (<span class="number">2</span> * <span class="built_in">pi</span> * <span class="built_in">sqrt</span>(det(sigma))) * <span class="built_in">exp</span>(exp.arg) )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">## 问题二</span></span><br><span class="line"><span class="comment">## 假设二元正态分布的参数如下： </span></span><br><span class="line"><span class="comment">## 两个维度的平均值分别为 2， 3</span></span><br><span class="line"><span class="comment"># 协方差矩阵为</span></span><br><span class="line"><span class="comment"># 4 1</span></span><br><span class="line"><span class="comment"># 1 4</span></span><br><span class="line"><span class="comment"># 尝试用蒙特卡洛马尔科夫链 Metropolis Hastings 抽样法生成后验分布，进行10000次随机抽样，并计算随机点的接受率。</span></span><br><span class="line"><span class="comment"># 答： 按照题意，有</span></span><br><span class="line">mu &lt;- <span class="built_in">c</span>(<span class="number">2</span> ,<span class="number">3</span>)</span><br><span class="line">sigma &lt;- matrix(<span class="built_in">c</span>(<span class="number">4</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">4</span>), nrow = <span class="number">2</span>)</span><br><span class="line"><span class="comment"># 限制sampler在空间的移动速率，数值越大，变化越快，该数值的设定待进一步讨论。</span></span><br><span class="line">sd.proposal &lt;- 2</span><br><span class="line"><span class="comment">## 设定模拟的次数</span></span><br><span class="line">n &lt;- 10000</span><br><span class="line"><span class="comment">## 生成NA组成的矩阵，用于保存模拟的结果</span></span><br><span class="line">x &lt;- matrix(nrow = n, ncol = <span class="number">2</span>)</span><br><span class="line"><span class="comment"># 设定sampler的初始值，假定数据点从 0, 0开始 （实际上该sampler可以从任意点开始移动）</span></span><br><span class="line">cur.x &lt;- <span class="built_in">c</span>(<span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line"><span class="comment"># 计算给定初始值时的概率密度</span></span><br><span class="line">cur.f &lt;- mvdnorm(cur.x, mu, sigma)</span><br><span class="line"><span class="comment">### 蒙特卡洛马尔科夫链</span></span><br><span class="line">n.accepted &lt;- 0</span><br><span class="line"><span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:n)&#123;</span><br><span class="line">    new.x &lt;- cur.x + sd.proposal * rnorm(<span class="number">2</span>)  <span class="comment">## 随机生成x</span></span><br><span class="line">    new.f &lt;- mvdnorm(new.x, mu, sigma)       <span class="comment">## 计算概率密度</span></span><br><span class="line">    <span class="keyword">if</span>(runif(<span class="number">1</span>) &lt; new.f/cur.f)&#123;  </span><br><span class="line">        <span class="comment">## new.f/cur.f 概率密度的比率 和 (0,1)之间的随机数相比</span></span><br><span class="line">        <span class="comment">## 若该比率小于随机数，则接受该点</span></span><br><span class="line">       n.accepted &lt;- n.accepted + <span class="number">1</span></span><br><span class="line">       cur.x &lt;- new.x</span><br><span class="line">       cur.f &lt;- new.f</span><br><span class="line">       &#125;</span><br><span class="line">    x[i,] &lt;- cur.x                            <span class="comment">## 将cur.x存到第i行</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">#查看接受率</span></span><br><span class="line">n.accepted/n</span><br><span class="line"><span class="comment">#查看每个变量的随机变化情况</span></span><br><span class="line">par(mfrow=<span class="built_in">c</span>(<span class="number">2</span>,<span class="number">1</span>))</span><br><span class="line">plot(x[,<span class="number">1</span>], type=<span class="string">&quot;l&quot;</span>, xlab=<span class="string">&quot;t&quot;</span>, ylab=<span class="string">&quot;X_1&quot;</span>, main=<span class="string">&quot;Sample path of X_1&quot;</span>)</span><br><span class="line">plot(x[,<span class="number">2</span>], type=<span class="string">&quot;l&quot;</span>, xlab=<span class="string">&quot;t&quot;</span>, ylab=<span class="string">&quot;X_2&quot;</span>, main=<span class="string">&quot;Sample path of X_2&quot;</span>)</span><br><span class="line"><span class="comment">## 绘制椭圆概率密度图</span></span><br><span class="line">library(MASS)</span><br><span class="line">proline.density &lt;- kde2d(x[,<span class="number">1</span>], x[,<span class="number">2</span>], h = <span class="number">5</span>)</span><br><span class="line">par(mfrow = <span class="built_in">c</span>(<span class="number">1</span>, <span class="number">1</span>))</span><br><span class="line">plot(x, col = <span class="string">&quot;gray&quot;</span>)</span><br><span class="line">contour(proline.density, add = <span class="literal">TRUE</span>)</span><br><span class="line">points(<span class="number">2</span>,<span class="number">3</span>, pch = <span class="number">3</span>)</span><br></pre></td></tr></table></figure>
 
-## 问题二
-## 假设二元正态分布的参数如下： 
-## 两个维度的平均值分别为 2， 3
-# 协方差矩阵为
-# 4 1
-# 1 4
-# 尝试用蒙特卡洛马尔科夫链 Metropolis Hastings 抽样法生成后验分布，进行10000次随机抽样，并计算随机点的接受率。
-# 答： 按照题意，有
-mu &lt;- c(2 ,3)
-sigma &lt;- matrix(c(4, 1, 1, 4), nrow = 2)
-# 限制sampler在空间的移动速率，数值越大，变化越快，该数值的设定待进一步讨论。
-sd.proposal &lt;- 2
-## 设定模拟的次数
-n &lt;- 10000
-## 生成NA组成的矩阵，用于保存模拟的结果
-x &lt;- matrix(nrow = n, ncol = 2)
-# 设定sampler的初始值，假定数据点从 0, 0开始 （实际上该sampler可以从任意点开始移动）
-cur.x &lt;- c(0, 0)
-# 计算给定初始值时的概率密度
-cur.f &lt;- mvdnorm(cur.x, mu, sigma)
-### 蒙特卡洛马尔科夫链
-n.accepted &lt;- 0
-for(i in 1:n)&#123;
-    new.x &lt;- cur.x + sd.proposal * rnorm(2)  ## 随机生成x
-    new.f &lt;- mvdnorm(new.x, mu, sigma)       ## 计算概率密度
-    if(runif(1) &lt; new.f/cur.f)&#123;  
-        ## new.f/cur.f 概率密度的比率 和 (0,1)之间的随机数相比
-        ## 若该比率小于随机数，则接受该点
-       n.accepted &lt;- n.accepted + 1
-       cur.x &lt;- new.x
-       cur.f &lt;- new.f
-       &#125;
-    x[i,] &lt;- cur.x                            ## 将cur.x存到第i行
-&#125;
-#查看接受率
-n.accepted/n
-#查看每个变量的随机变化情况
-par(mfrow=c(2,1))
-plot(x[,1], type=&quot;l&quot;, xlab=&quot;t&quot;, ylab=&quot;X_1&quot;, main=&quot;Sample path of X_1&quot;)
-plot(x[,2], type=&quot;l&quot;, xlab=&quot;t&quot;, ylab=&quot;X_2&quot;, main=&quot;Sample path of X_2&quot;)
-## 绘制椭圆概率密度图
-library(MASS)
-proline.density &lt;- kde2d(x[,1], x[,2], h = 5)
-par(mfrow = c(1, 1))
-plot(x, col = &quot;gray&quot;)
-contour(proline.density, add = TRUE)
-points(2,3, pch = 3)
-</code></pre>
 <p>抽样后的概率密度<br>Trace plot</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2012/02/28/2012-2-29-mcmc/" data-id="ckmq42ai0003p1k845h5sbbho" data-title="MCMC中的Metropolis Hastings抽样法" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2012/02/28/2012-2-29-mcmc/" data-id="ckmt6y7lg003vmgya7aqn21lq" data-title="MCMC中的Metropolis Hastings抽样法" class="article-share-link">Share</a>
       
       
       

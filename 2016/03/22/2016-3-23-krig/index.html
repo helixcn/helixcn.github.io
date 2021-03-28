@@ -14,7 +14,7 @@
 <meta property="og:description" content="克里格是一种空间插值的方法. 克里格插值, 是法国地统计学家 Georges Matheron (1930-2000)基于南非工程师Danie G. Krige (1919-2013)的硕士论文发展起来的方法. D. Krige硕士论文研究的问题是如何根据金矿探测点的含金量推断含金量在空间上的变化.  所谓空间插值, 就是通过一些列具有空间关系的点数据, 来推广到面上数据的方法. 除了克里格方法之">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2016-03-22T09:09:54.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:34:24.571Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:26.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="统计">
 <meta name="twitter:card" content="summary">
@@ -102,54 +102,7 @@
 <p>所谓空间插值, 就是通过一些列具有空间关系的点数据, 来推广到面上数据的方法.</p>
 <p>除了克里格方法之外, 从点数据推断面的数据变化, 还有线性插值, 距离反平方插值等多种方法. 而克里格其实也是一类方法的通称, 它包括普通克里格, 通用克里格, 通用模块克里格等等. 但是克里格方法可以求得模型的无偏估计,并且方便得获得预测的误差, 这对于其他方法来讲常常难易实现. </p>
 <p>这里只简单介绍用gstat程序包实现普通克里格, 以及通过一套模拟数据获得高程图.除了gstat程序包外, geoR程序包以及fields程序包也提供了克里格插值方法.</p>
-<pre><code class="R">#### 首先生成一套模拟数据simdat, 通过Volcano数据随机提取1000个点, 用raster的extract函数提取
-
-library(raster)
-rrr &lt;- raster(t(volcano), xmn=0, xmx= 870 , ymn=0, ymx=610)
-x11()
-plot(rrr, col = terrain.colors(100))
-
-set.seed(12345)
-loc &lt;- data.frame(x = round(runif(1000, min = 0, max = 870), 2), y = round(runif(1000,min = 0, max = 610), 2))
-value &lt;- extract(rrr, loc)
-simdat &lt;- data.frame(loc, alt = value) ### The simulated data
-
-
-#### Krig准备工作开始, 导入程序包
-library(sp)
-library(gstat)
-
-#### simdat需要转换为sp格式, 需要指定坐标
-coordinates(simdat) &lt;- ~x+y
-### bubble(simdat, &quot;alt&quot;)
-spplot(simdat, &quot;alt&quot;) ### 查看每个点的值 
-
-#### 创建克里格所用的网格, 20m方格的中心位置
-xgrid &lt;- seq(ceiling(min(simdat$x)), floor(max(simdat$x)), by = 20) 
-ygrid &lt;- seq(ceiling(min(simdat$y)), floor(max(simdat$y)), by = 20) 
-basexy &lt;- expand.grid(xgrid, ygrid)
-#### plot(y ~ x, basexy)
-colnames(basexy) &lt;- c(&quot;x&quot;, &quot;y&quot;)
-coordinates(basexy) &lt;- ~x+y
-gridded(basexy) &lt;- TRUE
-
-### 因Kriging需要基于 Variogram以及相应的模型.Variogram横轴是距离, 纵轴是方差. 做模型拟合时, 应先查看 Variogram. Variogram根据点与点之间的距离, 分成若干段, 并计算每一段的方差, 再通过拟合Variogram模型, 获得Krig所需要的参数. 拟合Variogram模型时, 需要提供模型的初始值,再进行迭代优化, 否则很难获得模型的准确参数. 
-
-######### 若所进行的是普通克里格插值, 则需要插值的变量只与自身取样点的距离相关,用公式表示为 alt~1, 这里的~1是variogram的规定 (参见 ?variogram). 
-vgm1 &lt;- variogram(alt~1, simdat)
-plot(vgm1, plot.numbers = TRUE) 
-
-### variogram的模型常包括
-### Circular
-### Spherical
-### Exponential
-### Gaussian
-### Linear
-### gstat程序包提供的模型可以通过 vgm() 查看
-
-m &lt;- fit.variogram(vgm1,vgm(.01,&quot;Sph&quot;,100,300))
-plot(vgm1, model=m)
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#### 首先生成一套模拟数据simdat, 通过Volcano数据随机提取1000个点, 用raster的extract函数提取</span></span><br><span class="line"></span><br><span class="line">library(raster)</span><br><span class="line">rrr &lt;- raster(t(volcano), xmn=<span class="number">0</span>, xmx= <span class="number">870</span> , ymn=<span class="number">0</span>, ymx=<span class="number">610</span>)</span><br><span class="line">x11()</span><br><span class="line">plot(rrr, col = terrain.colors(<span class="number">100</span>))</span><br><span class="line"></span><br><span class="line">set.seed(<span class="number">12345</span>)</span><br><span class="line">loc &lt;- data.frame(x = <span class="built_in">round</span>(runif(<span class="number">1000</span>, <span class="built_in">min</span> = <span class="number">0</span>, <span class="built_in">max</span> = <span class="number">870</span>), <span class="number">2</span>), y = <span class="built_in">round</span>(runif(<span class="number">1000</span>,<span class="built_in">min</span> = <span class="number">0</span>, <span class="built_in">max</span> = <span class="number">610</span>), <span class="number">2</span>))</span><br><span class="line">value &lt;- extract(rrr, loc)</span><br><span class="line">simdat &lt;- data.frame(loc, alt = value) <span class="comment">### The simulated data</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#### Krig准备工作开始, 导入程序包</span></span><br><span class="line">library(sp)</span><br><span class="line">library(gstat)</span><br><span class="line"></span><br><span class="line"><span class="comment">#### simdat需要转换为sp格式, 需要指定坐标</span></span><br><span class="line">coordinates(simdat) &lt;- ~x+y</span><br><span class="line"><span class="comment">### bubble(simdat, &quot;alt&quot;)</span></span><br><span class="line">spplot(simdat, <span class="string">&quot;alt&quot;</span>) <span class="comment">### 查看每个点的值 </span></span><br><span class="line"></span><br><span class="line"><span class="comment">#### 创建克里格所用的网格, 20m方格的中心位置</span></span><br><span class="line">xgrid &lt;- seq(<span class="built_in">ceiling</span>(<span class="built_in">min</span>(simdat$x)), <span class="built_in">floor</span>(<span class="built_in">max</span>(simdat$x)), by = <span class="number">20</span>) </span><br><span class="line">ygrid &lt;- seq(<span class="built_in">ceiling</span>(<span class="built_in">min</span>(simdat$y)), <span class="built_in">floor</span>(<span class="built_in">max</span>(simdat$y)), by = <span class="number">20</span>) </span><br><span class="line">basexy &lt;- expand.grid(xgrid, ygrid)</span><br><span class="line"><span class="comment">#### plot(y ~ x, basexy)</span></span><br><span class="line">colnames(basexy) &lt;- <span class="built_in">c</span>(<span class="string">&quot;x&quot;</span>, <span class="string">&quot;y&quot;</span>)</span><br><span class="line">coordinates(basexy) &lt;- ~x+y</span><br><span class="line">gridded(basexy) &lt;- <span class="literal">TRUE</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### 因Kriging需要基于 Variogram以及相应的模型.Variogram横轴是距离, 纵轴是方差. 做模型拟合时, 应先查看 Variogram. Variogram根据点与点之间的距离, 分成若干段, 并计算每一段的方差, 再通过拟合Variogram模型, 获得Krig所需要的参数. 拟合Variogram模型时, 需要提供模型的初始值,再进行迭代优化, 否则很难获得模型的准确参数. </span></span><br><span class="line"></span><br><span class="line"><span class="comment">######### 若所进行的是普通克里格插值, 则需要插值的变量只与自身取样点的距离相关,用公式表示为 alt~1, 这里的~1是variogram的规定 (参见 ?variogram). </span></span><br><span class="line">vgm1 &lt;- variogram(alt~<span class="number">1</span>, simdat)</span><br><span class="line">plot(vgm1, plot.numbers = <span class="literal">TRUE</span>) </span><br><span class="line"></span><br><span class="line"><span class="comment">### variogram的模型常包括</span></span><br><span class="line"><span class="comment">### Circular</span></span><br><span class="line"><span class="comment">### Spherical</span></span><br><span class="line"><span class="comment">### Exponential</span></span><br><span class="line"><span class="comment">### Gaussian</span></span><br><span class="line"><span class="comment">### Linear</span></span><br><span class="line"><span class="comment">### gstat程序包提供的模型可以通过 vgm() 查看</span></span><br><span class="line"></span><br><span class="line">m &lt;- fit.variogram(vgm1,vgm(<span class="number">.01</span>,<span class="string">&quot;Sph&quot;</span>,<span class="number">100</span>,<span class="number">300</span>))</span><br><span class="line">plot(vgm1, model=m)</span><br></pre></td></tr></table></figure>
 <h3 id="在拟合gm模型时-需要提供以下几个参数的初始值"><a href="#在拟合gm模型时-需要提供以下几个参数的初始值" class="headerlink" title="在拟合gm模型时, 需要提供以下几个参数的初始值"></a>在拟合gm模型时, 需要提供以下几个参数的初始值</h3><ul>
 <li>psill: partial sill</li>
 <li>model: 模型的类型</li>
@@ -165,22 +118,15 @@ plot(vgm1, model=m)
 <li>300 为范围</li>
 <li>nugget为 块金值. </li>
 </ul>
-<pre><code class="R">### 设定vgm模型的初始值
-m &lt;- vgm(.01,&quot;Sph&quot;,300, 0.2)
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### 设定vgm模型的初始值</span></span><br><span class="line">m &lt;- vgm(<span class="number">.01</span>,<span class="string">&quot;Sph&quot;</span>,<span class="number">300</span>, <span class="number">0.2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 进行克里格</span></span><br><span class="line">krige_res &lt;- krige(alt~<span class="number">1</span>, simdat, basexy, model = m)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 查看克里格插值的结果</span></span><br><span class="line">spplot(krige_res, zcol = <span class="string">&quot;var1.pred&quot;</span>, main = <span class="string">&quot;Predictions of altitude based on the randomly sampled data&quot;</span>, col.regions = terrain.colors(<span class="number">100</span>))</span><br></pre></td></tr></table></figure>
 
-### 进行克里格
-krige_res &lt;- krige(alt~1, simdat, basexy, model = m)
-
-### 查看克里格插值的结果
-spplot(krige_res, zcol = &quot;var1.pred&quot;, main = &quot;Predictions of altitude based on the randomly sampled data&quot;, col.regions = terrain.colors(100))
-</code></pre>
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考:"></a>参考:</h1><p><a target="_blank" rel="noopener" href="http://planet.botany.uwc.ac.za/nisl/GIS/spatial/images/pic024.jpg">http://planet.botany.uwc.ac.za/nisl/GIS/spatial/images/pic024.jpg</a><br><a target="_blank" rel="noopener" href="http://webhelp.esri.com/arcgisdesktop/9.3/index.cfm?TopicName=How%20Krige%20and%20Variogram%20work">http://webhelp.esri.com/arcgisdesktop/9.3/index.cfm?TopicName=How%20Krige%20and%20Variogram%20work</a></p>
 <p><a target="_blank" rel="noopener" href="http://geostat-course.org/**system**/files/lewis_tutortPM.pdf">http://geostat-course.org/**system**/files/lewis_tutortPM.pdf</a><br>苏姝,林爱文,刘庆华 (2004) 普通 Kriging 法在空间内插中的运用 江南大学学报 (自然科学版) 3(1):18-21</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2016/03/22/2016-3-23-krig/" data-id="ckmq42ajg00821k84g8sj8n90" data-title="克里格空间插值Kriging及其在R的实现" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2016/03/22/2016-3-23-krig/" data-id="ckmt6y7ng008amgyaff9b26nn" data-title="克里格空间插值Kriging及其在R的实现" class="article-share-link">Share</a>
       
       
       

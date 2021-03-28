@@ -14,7 +14,7 @@
 <meta property="og:description" content="前段时间，一个去过哪些省份的微信小程序刷爆朋友圈：用户设定去过的省份之后，后台就自动生成地图。本人之前编写了ggplot2版本的R代码，用来绘制去过哪些省份。不过ggplot2的代码较为繁琐。这里给出tmap版。相比ggplot2，tmap的代码更容易理解。 本代码也适宜批量生成物种分布图。闲言少叙，直接贴代码了。 数据下载：http:&#x2F;&#x2F;blog.sciencenet.cn&#x2F;home.php?m">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2018-10-08T03:22:54.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:34:24.606Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:26.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="地理">
 <meta name="twitter:card" content="summary">
@@ -101,50 +101,8 @@
         <p>前段时间，一个去过哪些省份的微信小程序刷爆朋友圈：用户设定去过的省份之后，后台就自动生成地图。本人之前编写了ggplot2版本的R代码，用来绘制去过哪些省份。不过ggplot2的代码较为繁琐。这里给出tmap版。相比ggplot2，tmap的代码更容易理解。</p>
 <p>本代码也适宜批量生成物种分布图。闲言少叙，直接贴代码了。</p>
 <p>数据下载：<a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=attachment&id=208159">http://blog.sciencenet.cn/home.php?mod=attachment&amp;id=208159</a></p>
-<pre><code class="R">setwd(&quot;...&quot;)
-library(rgdal)
-library(dplyr)
-library(tmap)
-library(tmaptools)
-rm(list = ls())
-## 直接读取地图shp文件
-country      &lt;- readOGR(&quot;bou1_4l.shp&quot;)             ## 国界
-province     &lt;- readOGR(&quot;province_polygon.shp&quot;)    ## 省界
-sort(province$ID)
-## 指定去过的省份
-visited &lt;- c( &quot;Beijing&quot;, &quot;Chongqing&quot;, &quot;Fujian&quot;, &quot;Guangdong&quot;, &quot;Guangxi&quot;, 
-              &quot;Guizhou&quot;, &quot;Hainan&quot;, &quot;Hebei&quot;, &quot;Heilongjiang&quot;, &quot;Henan&quot;, 
-              &quot;Hubei&quot;, &quot;Hunan&quot;, &quot;Jiangsu&quot;, &quot;Jiangxi&quot;, &quot;Jilin&quot;, &quot;Liaoning&quot;, 
-              &quot;NeiMongol&quot;, &quot;Shanghai&quot;,  &quot;Sichuan&quot;, &quot;Tianjin&quot;, &quot;Xianggang&quot;, 
-              &quot;Yunnan&quot;, &quot;Zhejiang&quot;)
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;...&quot;</span>)</span><br><span class="line">library(rgdal)</span><br><span class="line">library(dplyr)</span><br><span class="line">library(tmap)</span><br><span class="line">library(tmaptools)</span><br><span class="line">rm(<span class="built_in">list</span> = ls())</span><br><span class="line"><span class="comment">## 直接读取地图shp文件</span></span><br><span class="line">country      &lt;- readOGR(<span class="string">&quot;bou1_4l.shp&quot;</span>)             <span class="comment">## 国界</span></span><br><span class="line">province     &lt;- readOGR(<span class="string">&quot;province_polygon.shp&quot;</span>)    <span class="comment">## 省界</span></span><br><span class="line">sort(province$ID)</span><br><span class="line"><span class="comment">## 指定去过的省份</span></span><br><span class="line">visited &lt;- <span class="built_in">c</span>( <span class="string">&quot;Beijing&quot;</span>, <span class="string">&quot;Chongqing&quot;</span>, <span class="string">&quot;Fujian&quot;</span>, <span class="string">&quot;Guangdong&quot;</span>, <span class="string">&quot;Guangxi&quot;</span>, </span><br><span class="line">              <span class="string">&quot;Guizhou&quot;</span>, <span class="string">&quot;Hainan&quot;</span>, <span class="string">&quot;Hebei&quot;</span>, <span class="string">&quot;Heilongjiang&quot;</span>, <span class="string">&quot;Henan&quot;</span>, </span><br><span class="line">              <span class="string">&quot;Hubei&quot;</span>, <span class="string">&quot;Hunan&quot;</span>, <span class="string">&quot;Jiangsu&quot;</span>, <span class="string">&quot;Jiangxi&quot;</span>, <span class="string">&quot;Jilin&quot;</span>, <span class="string">&quot;Liaoning&quot;</span>, </span><br><span class="line">              <span class="string">&quot;NeiMongol&quot;</span>, <span class="string">&quot;Shanghai&quot;</span>,  <span class="string">&quot;Sichuan&quot;</span>, <span class="string">&quot;Tianjin&quot;</span>, <span class="string">&quot;Xianggang&quot;</span>, </span><br><span class="line">              <span class="string">&quot;Yunnan&quot;</span>, <span class="string">&quot;Zhejiang&quot;</span>)</span><br><span class="line"></span><br><span class="line">province$ID &lt;- <span class="built_in">as.character</span>(province$ID)</span><br><span class="line">province$ID2 &lt;- ifelse(province$ID %in% visited, <span class="string">&quot;Visited&quot;</span>, <span class="string">&quot;Not Visited&quot;</span>)</span><br><span class="line">province$ID2 &lt;- as.factor(province$ID2)</span><br><span class="line"><span class="comment">## 投影转换：西安80坐标系(EPSG 2343)，高斯-克吕格投影</span></span><br><span class="line">country &lt;- set_projection(country, projection = <span class="number">2343</span>)  </span><br><span class="line">province &lt;- set_projection(province, projection = <span class="number">2343</span>)  </span><br><span class="line"></span><br><span class="line"><span class="comment">## 保存高分辨率地图</span></span><br><span class="line"><span class="comment">## tiff(filename = &quot;visitation.tiff&quot;,</span></span><br><span class="line"><span class="comment">##     width = 4200, height = 4600, units = &quot;px&quot;, pointsize = 12,</span></span><br><span class="line"><span class="comment">##     compression = &quot;lzw&quot;, res = 600)</span></span><br><span class="line"><span class="comment">## 显示地图</span></span><br><span class="line"></span><br><span class="line">tm_shape(country) + </span><br><span class="line">tm_lines(col=<span class="string">&quot;dodgerblue3&quot;</span>) + </span><br><span class="line">tm_shape(province) +</span><br><span class="line">tm_fill(<span class="string">&quot;ID2&quot;</span>, </span><br><span class="line">  title =<span class="string">&quot;Provinces I have been to:&quot;</span>, </span><br><span class="line">  palette=<span class="string">&quot;Pastel2&quot;</span>) + </span><br><span class="line">tm_borders(<span class="string">&quot;grey40&quot;</span>, lwd = <span class="number">1</span>) +</span><br><span class="line">tm_scale_bar(position=<span class="built_in">c</span>(<span class="string">&quot;left&quot;</span>, <span class="string">&quot;bottom&quot;</span>)) + </span><br><span class="line">tm_compass(type = <span class="string">&quot;4star&quot;</span>, position=<span class="built_in">c</span>(<span class="string">&quot;left&quot;</span>, <span class="string">&quot;top&quot;</span>)) + </span><br><span class="line">tm_layout(inner.margins=<span class="built_in">c</span>(<span class="number">0.12</span>,<span class="number">0.03</span>,<span class="number">0.08</span>,<span class="number">0.03</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">## 保存地图</span></span><br><span class="line">dev.off()</span><br></pre></td></tr></table></figure>
 
-province$ID &lt;- as.character(province$ID)
-province$ID2 &lt;- ifelse(province$ID %in% visited, &quot;Visited&quot;, &quot;Not Visited&quot;)
-province$ID2 &lt;- as.factor(province$ID2)
-## 投影转换：西安80坐标系(EPSG 2343)，高斯-克吕格投影
-country &lt;- set_projection(country, projection = 2343)  
-province &lt;- set_projection(province, projection = 2343)  
-
-## 保存高分辨率地图
-## tiff(filename = &quot;visitation.tiff&quot;,
-##     width = 4200, height = 4600, units = &quot;px&quot;, pointsize = 12,
-##     compression = &quot;lzw&quot;, res = 600)
-## 显示地图
-
-tm_shape(country) + 
-tm_lines(col=&quot;dodgerblue3&quot;) + 
-tm_shape(province) +
-tm_fill(&quot;ID2&quot;, 
-  title =&quot;Provinces I have been to:&quot;, 
-  palette=&quot;Pastel2&quot;) + 
-tm_borders(&quot;grey40&quot;, lwd = 1) +
-tm_scale_bar(position=c(&quot;left&quot;, &quot;bottom&quot;)) + 
-tm_compass(type = &quot;4star&quot;, position=c(&quot;left&quot;, &quot;top&quot;)) + 
-tm_layout(inner.margins=c(0.12,0.03,0.08,0.03))
-
-## 保存地图
-dev.off()
-</code></pre>
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
 <li><a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/blog-255662-1117385.html">http://blog.sciencenet.cn/blog-255662-1117385.html</a></li>
 <li><a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/blog-255662-1121513.html">http://blog.sciencenet.cn/blog-255662-1121513.html</a></li>
@@ -154,7 +112,7 @@ dev.off()
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/10/08/2018-10-08-tmap-province/" data-id="ckmq42ak400ad1k84godk7cc3" data-title="R绘制中国地图：你去过哪些省份? (tmap版)" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/10/08/2018-10-08-tmap-province/" data-id="ckmt6y7ou00azmgya6x3z13v4" data-title="R绘制中国地图：你去过哪些省份? (tmap版)" class="article-share-link">Share</a>
       
       
       

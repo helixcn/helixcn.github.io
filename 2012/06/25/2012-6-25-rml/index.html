@@ -14,7 +14,7 @@
 <meta property="og:description" content="人们经常用样本(sample)来估计总体(population)的参数， 假定一个概率密度函数，如正态分布，并给出所有可能的参数组合，那么每一种参数组合所生成当前样本的可能性分别有多大？将最可能产生当前样本的参数，作为总体参数的估计，这就是极大似然(Maximum Likelihood)思想的体现。 在实际的计算中， 人们往往需要先假定某一概率密度， 如正态分布，  $p.d.f. (y) &#x3D; \">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2012-06-24T17:42:54.000Z">
-<meta property="article:modified_time" content="2021-03-26T05:34:24.531Z">
+<meta property="article:modified_time" content="2021-03-26T05:34:26.000Z">
 <meta property="article:author" content="Jinlong Zhang">
 <meta property="article:tag" content="统计">
 <meta name="twitter:card" content="summary">
@@ -101,8 +101,8 @@
         <p>人们经常用样本(sample)来估计总体(population)的参数， 假定一个概率密度函数，如正态分布，并给出所有可能的参数组合，那么每一种参数组合所生成当前样本的可能性分别有多大？将最可能产生当前样本的参数，作为总体参数的估计，这就是极大似然(Maximum Likelihood)思想的体现。</p>
 <p>在实际的计算中， 人们往往需要先假定某一概率密度， 如正态分布， </p>
 <p>$p.d.f. (y) = \frac{1} {\sqrt{2 \pi} \sigma} e^{-1/2 \frac{(y- \mu)^2} {\sigma^2}}$</p>
-<pre><code class="R">pdfi &lt;- 1/(sqrt(2*pi)*sigma) * exp(-1/2 * (obs - mu)^2/(sigma^2))
-</code></pre>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pdfi &lt;- 1/(<span class="built_in">sqrt</span>(<span class="number">2</span>*<span class="built_in">pi</span>)*sigma) * <span class="built_in">exp</span>(-<span class="number">1</span>/<span class="number">2</span> * (obs - mu)^<span class="number">2</span>/(sigma^<span class="number">2</span>))</span><br></pre></td></tr></table></figure>
+
 <p>其中, </p>
 <ul>
 <li><code>obs</code>为某一次观测值</li>
@@ -136,91 +136,15 @@
 <p>由此看来， 极大似然估计， 首先是按照假定的概率密度， 求得联合概率密度， 即似然函数，进一步写成对数似然函数， 再用数值优化的方法， 求得对数似然函数所对应的点(各参数)。即获得参数的极大然估计。</p>
 <p>下面提供一个实例：<br>问题：<br>假设一批树木中抽取若干个体，胸径分别为 150, 124, 100, 107, 170, 144, 113, 108, 92, 129, 123, 118，试求这批树木胸径的平均值和标准差。</p>
 <p>分析：<br>如果用这批样本数据直接计算平均值和方差， 可以得到总体平均值和标准差的估计。</p>
-<pre><code class="R">dat &lt;- c(150, 124, 100, 107, 170, 144, 113, 108, 92, 129, 123, 118)
-
-&gt; mean(dat)
-[1] 123.1667
-
-### 求样本平均值
-mean.sample &lt;- sum(dat)/length(dat)
-
-### 设置空向量
-var.sample &lt;- c()
-for(i in 1:length(dat))&#123;
-   var.sample[i] &lt;- (dat[i] - mean.sample)^2
-&#125;
-dd &lt;- sum(var.sample)
-
-## 求样本标准差
-sqrt(dd/(length(dat)))
-
-## 求总体标准差
-sqrt(dd/(length(dat) - 1))
-以上是普通的估计方法
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">dat &lt;- <span class="built_in">c</span>(<span class="number">150</span>, <span class="number">124</span>, <span class="number">100</span>, <span class="number">107</span>, <span class="number">170</span>, <span class="number">144</span>, <span class="number">113</span>, <span class="number">108</span>, <span class="number">92</span>, <span class="number">129</span>, <span class="number">123</span>, <span class="number">118</span>)</span><br><span class="line"></span><br><span class="line">&gt; mean(dat)</span><br><span class="line">[<span class="number">1</span>] <span class="number">123.1667</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### 求样本平均值</span></span><br><span class="line">mean.sample &lt;- <span class="built_in">sum</span>(dat)/<span class="built_in">length</span>(dat)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 设置空向量</span></span><br><span class="line">var.sample &lt;- <span class="built_in">c</span>()</span><br><span class="line"><span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(dat))&#123;</span><br><span class="line">   var.sample[i] &lt;- (dat[i] - mean.sample)^<span class="number">2</span></span><br><span class="line">&#125;</span><br><span class="line">dd &lt;- <span class="built_in">sum</span>(var.sample)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 求样本标准差</span></span><br><span class="line"><span class="built_in">sqrt</span>(dd/(<span class="built_in">length</span>(dat)))</span><br><span class="line"></span><br><span class="line"><span class="comment">## 求总体标准差</span></span><br><span class="line"><span class="built_in">sqrt</span>(dd/(<span class="built_in">length</span>(dat) - <span class="number">1</span>))</span><br><span class="line">以上是普通的估计方法</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">下面用极大似然方法估计</span><br><span class="line"><span class="comment">###########################################################################</span></span><br><span class="line"><span class="comment">### 联合概率密度</span></span><br><span class="line"></span><br><span class="line">like = <span class="keyword">function</span>(data, mu, sigma) &#123;</span><br><span class="line"> like = <span class="number">1</span></span><br><span class="line"> <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(data))&#123;</span><br><span class="line">   <span class="comment"># like = like *( 1/(sqrt(2*pi)*sigma) * exp(-1/2 * (data[i] - mu)^2/(sigma^2)))</span></span><br><span class="line">like = like * dnorm(x = dat[i], mean = mu, sd = sigma)</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="built_in">return</span>(like)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">like(dat, <span class="number">120</span>, <span class="number">20</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 对数似然函数</span></span><br><span class="line">loglike = <span class="keyword">function</span>(data, mu, sigma) &#123;</span><br><span class="line"> loglike = <span class="number">0</span></span><br><span class="line">   <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(data))&#123;</span><br><span class="line">     loglike = loglike + <span class="built_in">log</span>(dnorm(x = dat[i], mean = mu, sd = sigma))</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="built_in">return</span>(loglike)</span><br><span class="line">&#125;</span><br><span class="line">loglike(dat, <span class="number">122</span>, <span class="number">20</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 扩展参数组合</span></span><br><span class="line">params = expand.grid(mu = seq(<span class="number">50</span>, <span class="number">200</span>, <span class="number">1</span>),</span><br><span class="line">                    sigma = seq(<span class="number">10</span>, <span class="number">40</span>, <span class="number">1</span>))</span><br><span class="line">LogLik.surf = with(params, loglike(dat, mu, sigma))</span><br><span class="line"></span><br><span class="line"><span class="built_in">dim</span>(LogLik.surf) &lt;- <span class="built_in">c</span>(<span class="built_in">length</span>(seq(<span class="number">50</span>, <span class="number">200</span>, <span class="number">1</span>)), <span class="built_in">length</span>(seq(<span class="number">10</span>, <span class="number">40</span>, <span class="number">1</span>))) </span><br><span class="line"></span><br><span class="line">library(lattice)</span><br><span class="line">contourplot(LogLik.surf ~ mu*sigma, data = params, cuts = <span class="number">20</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Zooming in</span></span><br><span class="line">params = expand.grid(mu = seq(<span class="number">120</span>, <span class="number">126</span>, <span class="number">0.01</span>), sigma = seq(<span class="number">18</span>, <span class="number">25</span>, <span class="number">0.1</span>))</span><br><span class="line">LogLik.surf.zoom = with(params, loglike(dat, mu, sigma))</span><br><span class="line"></span><br><span class="line"><span class="built_in">dim</span>(LogLik.surf.zoom) &lt;- <span class="built_in">c</span>(<span class="built_in">length</span>(seq(<span class="number">120</span>, <span class="number">126</span>, <span class="number">0.01</span>)), <span class="built_in">length</span>(seq(<span class="number">18</span>, <span class="number">25</span>, <span class="number">0.1</span>))) </span><br><span class="line"></span><br><span class="line">library(lattice)</span><br><span class="line">contourplot(LogLik.surf.zoom ~ mu*sigma, data = params, cuts = <span class="number">20</span>, region = <span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">### nlm进行极大似然优化， 需要提供初始值</span></span><br><span class="line"><span class="comment">### 对数似然函数</span></span><br><span class="line">loglike000 = <span class="keyword">function</span>(p) &#123;</span><br><span class="line">   loglike = <span class="number">0</span></span><br><span class="line">   <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(dat))&#123;</span><br><span class="line">     loglike = loglike + <span class="built_in">log</span>(dnorm(x = dat[i], mean = p[<span class="number">1</span>], sd = p[<span class="number">2</span>]))</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="built_in">return</span>(-loglike)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">(MLEst &lt;- nlm(f = loglike000, p = <span class="built_in">c</span>(<span class="number">100</span>, <span class="number">10</span>)))</span><br></pre></td></tr></table></figure>
 
 
-下面用极大似然方法估计
-###########################################################################
-### 联合概率密度
-
-like = function(data, mu, sigma) &#123;
- like = 1
- for(i in 1:length(data))&#123;
-   # like = like *( 1/(sqrt(2*pi)*sigma) * exp(-1/2 * (data[i] - mu)^2/(sigma^2)))
-like = like * dnorm(x = dat[i], mean = mu, sd = sigma)
- &#125;
- return(like)
-&#125;
-
-like(dat, 120, 20)
-
-### 对数似然函数
-loglike = function(data, mu, sigma) &#123;
- loglike = 0
-   for(i in 1:length(data))&#123;
-     loglike = loglike + log(dnorm(x = dat[i], mean = mu, sd = sigma))
-   &#125;
-   return(loglike)
-&#125;
-loglike(dat, 122, 20)
-
-### 扩展参数组合
-params = expand.grid(mu = seq(50, 200, 1),
-                    sigma = seq(10, 40, 1))
-LogLik.surf = with(params, loglike(dat, mu, sigma))
-
-dim(LogLik.surf) &lt;- c(length(seq(50, 200, 1)), length(seq(10, 40, 1))) 
-
-library(lattice)
-contourplot(LogLik.surf ~ mu*sigma, data = params, cuts = 20)
-
-# Zooming in
-params = expand.grid(mu = seq(120, 126, 0.01), sigma = seq(18, 25, 0.1))
-LogLik.surf.zoom = with(params, loglike(dat, mu, sigma))
-
-dim(LogLik.surf.zoom) &lt;- c(length(seq(120, 126, 0.01)), length(seq(18, 25, 0.1))) 
-
-library(lattice)
-contourplot(LogLik.surf.zoom ~ mu*sigma, data = params, cuts = 20, region = TRUE)
-
-### nlm进行极大似然优化， 需要提供初始值
-### 对数似然函数
-loglike000 = function(p) &#123;
-   loglike = 0
-   for(i in 1:length(dat))&#123;
-     loglike = loglike + log(dnorm(x = dat[i], mean = p[1], sd = p[2]))
-   &#125;
-   return(-loglike)
-&#125;
-
-(MLEst &lt;- nlm(f = loglike000, p = c(100, 10)))
-</code></pre>
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="http://www.quantumforest.com/2011/10/maximum-likelihood/">http://www.quantumforest.com/2011/10/maximum-likelihood/</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2012/06/25/2012-6-25-rml/" data-id="ckmq42ai500441k8417al9u5m" data-title="R中的极大似然估计" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2012/06/25/2012-6-25-rml/" data-id="ckmt6y7ll0049mgyag2yz72lo" data-title="R中的极大似然估计" class="article-share-link">Share</a>
       
       
       
