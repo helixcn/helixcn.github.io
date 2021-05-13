@@ -73,6 +73,56 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2011-5-30-svn" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2011/05/29/2011-5-30-svn/" class="article-date">
+  <time class="dt-published" datetime="2011-05-29T11:51:54.000Z" itemprop="datePublished">2011-05-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2011/05/29/2011-5-30-svn/">Tortoise SVN管理本地代码</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="什么是Tortoise-SVN"><a href="#什么是Tortoise-SVN" class="headerlink" title="什么是Tortoise SVN?"></a>什么是Tortoise SVN?</h1><p>TortoiseSVN是一个windows下的文档版本管理的开源软件。用户每次对自己编写的代码进行修改，都会记录在SVN的数据库中。Tortoise SVN能够在设定好的文件夹上添加相应的“对号”，“问号”等标识，标识当前代码的编辑状态，特别是有没有在数据库中保存。 对于代码的修改，用户可以添加相应的标注。对于每一次修改，数据库都有详细的记录，从而保证所编写的文档可以回到作者保存过的任何一个版本。</p>
+<p>这种版本控制策略在软件开发中是极为重要的，当然，在R程序包的开发中也十分重要。</p>
+<h1 id="用Tortoise-SVN管理本地R代码的大体过程如下："><a href="#用Tortoise-SVN管理本地R代码的大体过程如下：" class="headerlink" title="用Tortoise SVN管理本地R代码的大体过程如下："></a>用Tortoise SVN管理本地R代码的大体过程如下：</h1><ol>
+<li>下载和安装Tortoise SVN软件，各项均选择默认即可，网址如下 <a target="_blank" rel="noopener" href="http://tortoisesvn.net/downloads.html">http://tortoisesvn.net/downloads.html</a></li>
+<li>在本地硬盘上创建一个新目录，作为数据库的保存文件夹。例如 D:/packages/phylotools</li>
+<li>右键点击phylotools文件夹，Tortoise SVN&gt;Create a repository here.完成后，打开phylotools文件夹，我们会发现其中新增了一些文件和文件夹。这是版本数据库相应的文件，我们暂且不管。</li>
+<li>在本地硬盘上创建一个新文件夹，例如在C:/developing/. 点击鼠标右键，选择SVN Checkout。我们看到，developing文件夹下出现了一个phylotools空文件夹，该文件夹上有一个绿色的对号。我们发现，该文件夹是空的，绿色的对号表示，文件夹下的内容已经与数据库中的版本相同了。</li>
+<li>在该文件夹下创建新文件，或者将之前编写好的代码拷贝到C:/developing/phylotools文件夹下。此时发现每个文件上都被加上了蓝色的问号，这表明这些文件还没有和数据库链接起来。此时我们回到上级目录，C:packages, 右键点击phylotools文件夹，点击SVN Commit这样，该文件夹下的文件就全部导入数据，并且关联起来了。</li>
+<li>之后对其中任何代码的修改，均可以提供Comments，并且隔一段时间进行保存。<br>这样以后恢复到以前的版本，就容易多了。而不用隔一段时间备份一下新文件。因为SVN已经帮你把修改信息全部存到数据库里了。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2011/05/29/2011-5-30-svn/" data-id="ckmt6y7la003gmgya13gm06ou" data-title="Tortoise SVN管理本地代码" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" rel="tag">版本控制</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-2011-05-28-slides" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2011/05/28/2011-05-28-slides/" class="article-date">
@@ -852,47 +902,6 @@
 
 
   
-    <article id="post-2011-02-11-snow" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2011/02/14/2011-02-11-snow/" class="article-date">
-  <time class="dt-published" datetime="2011-02-14T04:00:54.000Z" itemprop="datePublished">2011-02-14</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2011/02/14/2011-02-11-snow/">北京的春雪</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="北京的春雪"><a href="#北京的春雪" class="headerlink" title="北京的春雪"></a>北京的春雪</h1><p>2月13日北京大雪，上午在植物园拍雪</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2011/02/14/2011-02-11-snow/" data-id="ckmt6y7km0024mgya44k4a0qj" data-title="北京的春雪" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" rel="tag">行摄匆匆</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -943,6 +952,10 @@
       <ul>
         
           <li>
+            <a href="/2021/05/13/new-distribution/">新种、新分布与植物爱好者的“发现权”</a>
+          </li>
+        
+          <li>
             <a href="/2021/05/13/life/">生活的答案</a>
           </li>
         
@@ -956,10 +969,6 @@
         
           <li>
             <a href="/2021/03/18/2021-03-18/">为什么《xxxx在XX研究中取得进展》这类文章很少有人转发？</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/16/2021-02-16/">如何恢复森林？– 从嘉道理农场的森林恢复样地说起</a>
           </li>
         
       </ul>
