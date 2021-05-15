@@ -73,6 +73,49 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2014-5-11-codes" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2014/05/11/2014-5-11-codes/" class="article-date">
+  <time class="dt-published" datetime="2014-05-11T00:12:54.000Z" itemprop="datePublished">2014-05-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2014/05/11/2014-5-11-codes/">生态和进化中的现代统计：基于R语言的应用-练习和代码</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>经过多次努力， 练习用的代码终于上传成功。</p>
+<p>全部练习和代码</p>
+<p><a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=attachment&id=53773">Kuming R training.zip</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2014/05/11/2014-5-11-codes/" data-id="ckmt6y7ml006fmgya4gfe5nvd" data-title="生态和进化中的现代统计：基于R语言的应用-练习和代码" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8A%A5%E5%91%8A/" rel="tag">报告</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-2014-05-11-slides1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2014/05/10/2014-05-11-slides1/" class="article-date">
@@ -591,68 +634,6 @@
 
 
   
-    <article id="post-2014-1-3-skycalc" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2014/01/03/2014-1-3-skycalc/" class="article-date">
-  <time class="dt-published" datetime="2014-01-02T22:27:54.000Z" itemprop="datePublished">2014-01-03</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2014/01/03/2014-1-3-skycalc/">AAplus天文算法C++库在R中的实现：skycalc程序包</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>1991年， 比利时天文学家Jean Meeus的著作 天文算法 出版。 该书分为四十几个章节， 每章介绍一些天象的计算方法， 同时介绍用计算机如何实现。 该书出版后很快吸引了众多的天文爱好者。 当时， 真正实现计算机窗口化的Windows95还没有诞生， 但是从那时起， 利用Jean Meeus提出的算法， 用计算机程序来进行天象计算，就已经成为很多对天文和计算爱好的一部分。</p>
-<p>该书从插值方法、迭代方法开始讲起， 继而介绍日期的转换， 节日的确定以及日月和各大行星的位置， 亮度的计算方法和各种坐标系统的相互转换，如地平坐标、赤道坐标、黄道坐标、 银河系坐标、 太阳中心坐标等，至此， 可以方便计算各天体的出没时刻以及晨昏蒙影的时刻。 书中还包括土星环， 土星卫星， 木星卫星， 各行星近日点时刻， 春分， 夏至， 秋分， 冬至的计算等等。该书采用VOS87行星运动理论，星体位置的计算， 考虑到了多方面的摄动影响， 用多项式表示天体位置， 达到了极高的计算精度。因此， 该书从出版至今，被认为是学习天文历算的最佳入门和练习教程之一。</p>
-<p>国内外的很多天文爱好者， 一直在致力于用计算机语言实现该书所介绍的各种算法，并因此诞生了多个语言的多个版本。如</p>
-<ul>
-<li><p><a target="_blank" rel="noopener" href="http://www.christophedavid.org/w/c/w.php/AstronomicalAlgorithms/HomePage">http://www.christophedavid.org/w/c/w.php/AstronomicalAlgorithms/HomePage</a></p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="http://www.projectpluto.com/source.htm">http://www.projectpluto.com/source.htm</a></p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://code.google.com/p/astroalgo/">https://code.google.com/p/astroalgo/</a></p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="http://www.tig12.net/spip/Astronomy-programs.html">http://www.tig12.net/spip/Astronomy-programs.html</a></p>
-</li>
-</ul>
-<p>其中， 爱尔兰软件工程师 P.J. Naughter 用C++写成的AAplus库， 按照章节， 实现了天文算法的大部分算法， 并且公布了源代码（<a target="_blank" rel="noopener" href="http://www.naughter.com/aa.html%EF%BC%89%E3%80%82">http://www.naughter.com/aa.html）。</a> 该库大约每一两个月更新一次， 更正其中的错误， 添加一些新的参数等。每个函数， 都有对于参数和返回值的详细说明， 并有检验的程序， 对函数的功能进行检验。所以， 对于对天文历算感兴趣的人来说，该C++库可以说是极好的入门材料。</p>
-<p>由于是C++的源代码库， 该库的可移植性应该是很好的， 可以在多个平台上运行。但是C++必须要经过编译和连接之后才能执行， 因此， 每个函数在调用的时候， 都需要用C++写相应的main函数，这为程序调试， 学习带来了很多不便之处。</p>
-<p>由于R语言可以直接给出函数的运行结果，在调用时， 非常方便。 函数的运行结果， 还可以绘图， 并进一步编写星历表等。为此，从2013年11月开始， 笔者根据R语言Rcpp程序包提供的R语言和C++接口，将绝大部分AAplus的函数参数，转换为SEXP对象，SEXP对象在AAplus中可以编译执行。函数的返回值， 若为单个数值， 则用wrap函数， 转变为R可以识别的SEXP对象， 若为多个数值， 则返回R的list。 至此， AAplus库的300多个函数，其中363个函数添加了R语言的参数接口。C++的程序写完后，我便着手写R的wrapper函数，在Windows下， C++函数， 都需要先编译成dll动态链接库， 而R中， 用.C函数， 可以调用dll函数。 所有的wrapperfunction写完后， 又为每个R函数准备相应的帮助文档， 以及运行实例。 这样前后大约花了一个半月。</p>
-<p>最后程序包取名为skycalc， 取天象计算之意， 目前的版本是0.1。</p>
-<p>由于本人水平有限， 对于天文历算的很多问题理解不深，程序包中难免存在着很多错误， 敬请用户批评指正， 以便在后续版本中， 及时改正。  </p>
-<p>张金龙 谨识</p>
-<p>2014年1月</p>
-<p>于香港新界大埔</p>
-<p>源代码及安装 <a target="_blank" rel="noopener" href="https://github.com/helixcn/skycalc">https://github.com/helixcn/skycalc</a> </p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/01/03/2014-1-3-skycalc/" data-id="ckmt6y7m8005nmgyae8l7gg55" data-title="AAplus天文算法C++库在R中的实现：skycalc程序包" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A9%E6%96%87/" rel="tag">天文</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -703,6 +684,10 @@
       <ul>
         
           <li>
+            <a href="/2021/05/15/graduate-students/">生态学研究生要清楚的三件事：从《生态学家必读的100篇论文》说起</a>
+          </li>
+        
+          <li>
             <a href="/2021/05/13/life/">生活的答案</a>
           </li>
         
@@ -716,10 +701,6 @@
         
           <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/18/2021-03-18/">为什么《xxxx在XX研究中取得进展》这类文章很少有人转发？</a>
           </li>
         
       </ul>

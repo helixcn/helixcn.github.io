@@ -73,6 +73,48 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2013-3-7-clustering" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2013/03/07/2013-3-7-clustering/" class="article-date">
+  <time class="dt-published" datetime="2013-03-06T18:14:54.000Z" itemprop="datePublished">2013-03-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2013/03/07/2013-3-7-clustering/">物种按照数量性状聚类并且保存为树状图</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>物种按照数量性状聚类并且保存为树状图</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">######### Generate a simulated data set ##########</span></span><br><span class="line"></span><br><span class="line">trait1 &lt;- runif(<span class="number">30</span>)*<span class="number">8</span> + <span class="number">15</span></span><br><span class="line"></span><br><span class="line">trait2 &lt;- runif(<span class="number">30</span>)*<span class="number">500</span> + <span class="number">2300</span></span><br><span class="line"></span><br><span class="line">trait3 &lt;- runif(<span class="number">30</span>)*<span class="number">120</span> + <span class="number">450</span></span><br><span class="line"></span><br><span class="line">dat &lt;- data.frame(trait1, trait2, trait3)</span><br><span class="line"></span><br><span class="line">rownames(dat) &lt;- paste(<span class="string">&quot;SP&quot;</span>, <span class="number">1</span>:<span class="number">30</span>, sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">##############################</span></span><br><span class="line"></span><br><span class="line"><span class="comment">###################</span></span><br><span class="line"><span class="comment">### Rescale (standarization and centralization) all the columns</span></span><br><span class="line">scaled.dat &lt;- scale(dat)</span><br><span class="line"></span><br><span class="line"><span class="comment">## Euclidean Distance matrix for Trait1 </span></span><br><span class="line">dist.trait1 &lt;- dist(scaled.dat[,<span class="number">1</span>])</span><br><span class="line">dist.trait2 &lt;- dist(scaled.dat[,<span class="number">2</span>])</span><br><span class="line">dist.trait3 &lt;- dist(scaled.dat[,<span class="number">2</span>])</span><br><span class="line">dist.traits &lt;- dist(scaled.dat)</span><br><span class="line"><span class="comment">## Hierachical clustering of the distance matrices, using UPGMA</span></span><br><span class="line"></span><br><span class="line">hclust.trait1 &lt;- hclust(dist.trait1, method = <span class="string">&quot;average&quot;</span>)</span><br><span class="line">hclust.trait2 &lt;- hclust(dist.trait2, method = <span class="string">&quot;average&quot;</span>)</span><br><span class="line">hclust.trait3 &lt;- hclust(dist.trait3, method = <span class="string">&quot;average&quot;</span>)</span><br><span class="line">hclust.traits &lt;- hclust(dist.traits, method = <span class="string">&quot;average&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#### May not be displayed properly</span></span><br><span class="line">par(mfrow = <span class="built_in">c</span>(<span class="number">2</span>, <span class="number">2</span>))</span><br><span class="line">plot(hclust.trait1 )</span><br><span class="line">plot(hclust.trait2 )</span><br><span class="line">plot(hclust.trait3 )</span><br><span class="line">plot(hclust.traits )</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">## Convert the hclust into dendrograms</span></span><br><span class="line">dendro.trait1 &lt;- as.dendrogram(hclust.trait1)</span><br><span class="line">dendro.trait2 &lt;- as.dendrogram(hclust.trait2)</span><br><span class="line">dendro.trait3 &lt;- as.dendrogram(hclust.trait3)</span><br><span class="line">dendro.traits &lt;- as.dendrogram(hclust.traits)</span><br><span class="line"></span><br><span class="line"><span class="comment">#### Plot the dendrogram #########</span></span><br><span class="line">plot(dendro.trait1, horiz = <span class="literal">TRUE</span>)</span><br><span class="line">plot(dendro.trait2, horiz = <span class="literal">TRUE</span>)</span><br><span class="line">plot(dendro.trait3, horiz = <span class="literal">TRUE</span>)</span><br><span class="line">plot(dendro.traits, horiz = <span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#### Using APE package to convert the dendrograms to phylo, so that the &quot;phylo&quot; objects can be saved as newick tree files for subsequent analysis.</span></span><br><span class="line">library(ape)</span><br><span class="line">tree.trait1 &lt;- as.phylo(hclust.trait1)</span><br><span class="line">tree.trait2 &lt;- as.phylo(hclust.trait2)</span><br><span class="line">tree.trait3 &lt;- as.phylo(hclust.trait3)</span><br><span class="line">tree.trait4 &lt;- as.phylo(hclust.traits)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#### Save the phylogenies to disk</span></span><br><span class="line">write.tree(tree.trait1, <span class="string">&quot;tree.trait1.tre&quot;</span>)</span><br><span class="line">write.tree(tree.trait2, <span class="string">&quot;tree.trait2.tre&quot;</span>)</span><br><span class="line">write.tree(tree.trait3, <span class="string">&quot;tree.trait3.tre&quot;</span>)</span><br><span class="line">write.tree(tree.trait4, <span class="string">&quot;tree.trait4.tre&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2013/03/07/2013-3-7-clustering/" data-id="ckmt6y7lx0053mgya5yvog32q" data-title="物种按照数量性状聚类并且保存为树状图" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BB%9F%E8%AE%A1/" rel="tag">统计</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-2013-2-7-pcr" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2013/02/07/2013-2-7-pcr/" class="article-date">
@@ -877,53 +919,6 @@
 
 
   
-    <article id="post-2012-7-8-editfigures" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2012/07/08/2012-7-8-editfigures/" class="article-date">
-  <time class="dt-published" datetime="2012-07-08T03:51:54.000Z" itemprop="datePublished">2012-07-08</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2012/07/08/2012-7-8-editfigures/">论文投稿用什么软件修改图片？</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>学术期刊要求在投稿时， 一般要求矢量图(eps, pdf, svg等)或者高分辨率（600DPI以上）的栅格图(一般为TIFF)。</p>
-<p>这里简要总结如下：</p>
-<h1 id="1-生成图片"><a href="#1-生成图片" class="headerlink" title="1 生成图片"></a>1 生成图片</h1><p>绘制用散点图、柱状图、 折线图等，一般用R （免费）、GNUplot （免费）、Python（免费）、Matlab （需购买）、 SigmaPlot（需购买）、Excel等；绘制进化树，使用FigTree （免费）；绘制地图等用ArcGIS （需购买）； 绘制流程图等，用OpenOffice的Draw（免费）。处理公式， 常用MathType（需购买）, 也可以用EqualX Equation Editor (免费)。</p>
-<h1 id="2-不同格式图的修改"><a href="#2-不同格式图的修改" class="headerlink" title="2 不同格式图的修改"></a>2 不同格式图的修改</h1><p>修改矢量图，一般保存为pdf格式或eps格式，以pdf最方便处理和浏览。</p>
-<p>eps、 pdf等格式的矢量图， 可以用inkscape （免费）、Adobe Illustrator （需购买） 修改。</p>
-<p>tiff等栅格图（包括照片）， 一般需要在600dpi以上，可以用paint.net （免费）、 GIMP （免费）或Adobe Photoshop （需购买）修改，</p>
-<p>总之， R、 OpenOffice、 Inkscape、GIMP、paint.net、EqualX Equation Editor 等免费软件， 完全可以保证对图片作出符合投稿要求的修改。 科研工作者几乎不需要购买昂贵的软件或使用盗版软件， 即可获得高质量的图片， 更好地展示自己的科研成果。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2012/07/08/2012-7-8-editfigures/" data-id="ckmt6y7lp004hmgya5gx7ghdf" data-title="论文投稿用什么软件修改图片？" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" rel="tag">图像处理</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -974,6 +969,10 @@
       <ul>
         
           <li>
+            <a href="/2021/05/15/graduate-students/">生态学研究生要清楚的三件事：从《生态学家必读的100篇论文》说起</a>
+          </li>
+        
+          <li>
             <a href="/2021/05/13/life/">生活的答案</a>
           </li>
         
@@ -987,10 +986,6 @@
         
           <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/18/2021-03-18/">为什么《xxxx在XX研究中取得进展》这类文章很少有人转发？</a>
           </li>
         
       </ul>

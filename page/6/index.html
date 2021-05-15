@@ -73,6 +73,56 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2018-10-08-tmap-province" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/10/08/2018-10-08-tmap-province/" class="article-date">
+  <time class="dt-published" datetime="2018-10-08T03:22:54.000Z" itemprop="datePublished">2018-10-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/10/08/2018-10-08-tmap-province/">R绘制中国地图：你去过哪些省份? (tmap版)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>前段时间，一个去过哪些省份的微信小程序刷爆朋友圈：用户设定去过的省份之后，后台就自动生成地图。本人之前编写了ggplot2版本的R代码，用来绘制去过哪些省份。不过ggplot2的代码较为繁琐。这里给出tmap版。相比ggplot2，tmap的代码更容易理解。</p>
+<p>本代码也适宜批量生成物种分布图。闲言少叙，直接贴代码了。</p>
+<p>数据下载：<a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=attachment&id=208159">http://blog.sciencenet.cn/home.php?mod=attachment&amp;id=208159</a></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;...&quot;</span>)</span><br><span class="line">library(rgdal)</span><br><span class="line">library(dplyr)</span><br><span class="line">library(tmap)</span><br><span class="line">library(tmaptools)</span><br><span class="line">rm(<span class="built_in">list</span> = ls())</span><br><span class="line"><span class="comment">## 直接读取地图shp文件</span></span><br><span class="line">country      &lt;- readOGR(<span class="string">&quot;bou1_4l.shp&quot;</span>)             <span class="comment">## 国界</span></span><br><span class="line">province     &lt;- readOGR(<span class="string">&quot;province_polygon.shp&quot;</span>)    <span class="comment">## 省界</span></span><br><span class="line">sort(province$ID)</span><br><span class="line"><span class="comment">## 指定去过的省份</span></span><br><span class="line">visited &lt;- <span class="built_in">c</span>( <span class="string">&quot;Beijing&quot;</span>, <span class="string">&quot;Chongqing&quot;</span>, <span class="string">&quot;Fujian&quot;</span>, <span class="string">&quot;Guangdong&quot;</span>, <span class="string">&quot;Guangxi&quot;</span>, </span><br><span class="line">              <span class="string">&quot;Guizhou&quot;</span>, <span class="string">&quot;Hainan&quot;</span>, <span class="string">&quot;Hebei&quot;</span>, <span class="string">&quot;Heilongjiang&quot;</span>, <span class="string">&quot;Henan&quot;</span>, </span><br><span class="line">              <span class="string">&quot;Hubei&quot;</span>, <span class="string">&quot;Hunan&quot;</span>, <span class="string">&quot;Jiangsu&quot;</span>, <span class="string">&quot;Jiangxi&quot;</span>, <span class="string">&quot;Jilin&quot;</span>, <span class="string">&quot;Liaoning&quot;</span>, </span><br><span class="line">              <span class="string">&quot;NeiMongol&quot;</span>, <span class="string">&quot;Shanghai&quot;</span>,  <span class="string">&quot;Sichuan&quot;</span>, <span class="string">&quot;Tianjin&quot;</span>, <span class="string">&quot;Xianggang&quot;</span>, </span><br><span class="line">              <span class="string">&quot;Yunnan&quot;</span>, <span class="string">&quot;Zhejiang&quot;</span>)</span><br><span class="line"></span><br><span class="line">province$ID &lt;- <span class="built_in">as.character</span>(province$ID)</span><br><span class="line">province$ID2 &lt;- ifelse(province$ID %in% visited, <span class="string">&quot;Visited&quot;</span>, <span class="string">&quot;Not Visited&quot;</span>)</span><br><span class="line">province$ID2 &lt;- as.factor(province$ID2)</span><br><span class="line"><span class="comment">## 投影转换：西安80坐标系(EPSG 2343)，高斯-克吕格投影</span></span><br><span class="line">country &lt;- set_projection(country, projection = <span class="number">2343</span>)  </span><br><span class="line">province &lt;- set_projection(province, projection = <span class="number">2343</span>)  </span><br><span class="line"></span><br><span class="line"><span class="comment">## 保存高分辨率地图</span></span><br><span class="line"><span class="comment">## tiff(filename = &quot;visitation.tiff&quot;,</span></span><br><span class="line"><span class="comment">##     width = 4200, height = 4600, units = &quot;px&quot;, pointsize = 12,</span></span><br><span class="line"><span class="comment">##     compression = &quot;lzw&quot;, res = 600)</span></span><br><span class="line"><span class="comment">## 显示地图</span></span><br><span class="line"></span><br><span class="line">tm_shape(country) + </span><br><span class="line">tm_lines(col=<span class="string">&quot;dodgerblue3&quot;</span>) + </span><br><span class="line">tm_shape(province) +</span><br><span class="line">tm_fill(<span class="string">&quot;ID2&quot;</span>, </span><br><span class="line">  title =<span class="string">&quot;Provinces I have been to:&quot;</span>, </span><br><span class="line">  palette=<span class="string">&quot;Pastel2&quot;</span>) + </span><br><span class="line">tm_borders(<span class="string">&quot;grey40&quot;</span>, lwd = <span class="number">1</span>) +</span><br><span class="line">tm_scale_bar(position=<span class="built_in">c</span>(<span class="string">&quot;left&quot;</span>, <span class="string">&quot;bottom&quot;</span>)) + </span><br><span class="line">tm_compass(type = <span class="string">&quot;4star&quot;</span>, position=<span class="built_in">c</span>(<span class="string">&quot;left&quot;</span>, <span class="string">&quot;top&quot;</span>)) + </span><br><span class="line">tm_layout(inner.margins=<span class="built_in">c</span>(<span class="number">0.12</span>,<span class="number">0.03</span>,<span class="number">0.08</span>,<span class="number">0.03</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">## 保存地图</span></span><br><span class="line">dev.off()</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/blog-255662-1117385.html">http://blog.sciencenet.cn/blog-255662-1117385.html</a></li>
+<li><a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/blog-255662-1121513.html">http://blog.sciencenet.cn/blog-255662-1121513.html</a></li>
+<li></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/10/08/2018-10-08-tmap-province/" data-id="ckmt6y7ou00azmgya6x3z13v4" data-title="R绘制中国地图：你去过哪些省份? (tmap版)" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9C%B0%E7%90%86/" rel="tag">地理</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-2018-10-02" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2018/10/02/2018-10-02/" class="article-date">
@@ -1098,63 +1148,6 @@
 
 
   
-    <article id="post-2018-6-25-programmingr" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/06/25/2018-6-25-programmingr/" class="article-date">
-  <time class="dt-published" datetime="2018-06-25T06:57:54.000Z" itemprop="datePublished">2018-06-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/06/25/2018-6-25-programmingr/">《R语言编程概述》讲座前言</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>R语言是一种统计绘图用的计算机脚本语言。近年来在生态学与环境、进化、遗传学、经济学等领域都得到广泛应用。截至2018年6月，R程序包集成网络CRAN上已经有12000多个程序包，并且仍在增加中。此外，在Bioconductor, R-Forge, Github等多个网站上还有为数众多的R程序包。了解和学习R编程无疑能帮助科研人员用好这些宝贵的资源。</p>
-<p>最近，生态学与进化研究领域的论文公开研究数据及计算机程序成为一大趋势。 R语言是其中不可或缺的重要分析工具，其中，由Rstudio公司谢益辉等编写的knitr, rmarkdown, bookdown, blogdown等R程序包更是可重复研究的中坚力量。在knitr和rmarkdown程序包帮助下，markdown文档中可直接运行R脚本，编译后的文档可保存运行结果以及绘制的图形，并转换为网页文件、 PDF文件等多种格式。不仅如此， 众多的程序包也在使用Rmarkdown撰写使用说明。因此，掌握Rmarkdown文档，无疑在R程序包编写以及R文档共享中发挥重要作用。本课程的全部内容就都是用Rmarkdown编写，用Rstudio编译为pdf的。</p>
-<p>工欲善其事，必先利其器。编写R程序包所需要的工具软件一般包括 Rtools、MikTeX和Rstudio等。由于R软件有时候会用C, C++或者Fortran等语言的源代码，在使用时需要将这些语言的源代码编译成为动态链接库， 因此需要Rtools中提供的gcc等编译器。MikTeX保证能将R帮助文档和Sweave文档转换为pdf。 Rstudio则提供了一系列工具，结合devtools和roxygen2等程序包，为编写、检查、安装R程序包提供了极大方便。</p>
-<p>任何程序都以结果准确为第一重要，同时要方便调用，能高效运行等。 要做到这些，需要编写程序的人有扎实的编程功底。</p>
-<p>首先， 对数据类型、结构以及基本操作的理解与熟练掌握无疑是十分重要的。向量、矩阵、数据框、列表以及下标、索引、 流程控制、向量化编程，字符串操作等等，都是编写R函数的基础， 需要扎实掌握。</p>
-<p>其次， R程序包看似结构简单，但是对于非计算机专业的科学家来说，各种知识点仍然比较多。如程序包需要有好的结构， NAMESPACE, DESCRIPTION文件， R, man, data, vignettes, test, src等文件夹中的对象和撰写要求，非常琐碎和细致。</p>
-<p>再次，R面向对象编程。虽然R面向对象编程的功能比较弱， 但是S3 和S4这两种方式也是广泛应用的， 都能够降低R程序包的使用难度。S3和S4在泛型函数、子函数、类型创建等几乎都是编写R程序包所必需的。Bioconductor网站更是要求所有的R程序包都遵循S4编程。</p>
-<p>最后，R的编程风格是保证程序可读性的重要保证。R中对象中的名称要精心设计，做到“观其名，知其意”，并撰写详尽的帮助文件和使用指南等。</p>
-<p>近几年新工具也在不断涌现，常给人一种无所适从的感觉。因此本课程较为系统地介绍这些零散的知识点，以便熟悉编程过程中的各种概念和流程，主要包括：</p>
-<p>第一，R程序包的结构，编译和检查。过去编写R程序包，一般是用package.skeletons()函数生成R程序包的骨架，然后对其中的各文件修改后，再进行编译和检查。这样生成的程序包虽然结构比较简单，但其文档是用类似Latex代码写成的Rd文件， 但难以维护。最近五年来的新工具在一定程度是降低了R程序包的开发和维护的门槛。如devtools程序包整合了Rcmd工具中检查、安装等命令，用户不必再通过Windows的Command Prompt运行Rcmd命令即可编译。而Roxygen2程序包能将R脚本中的oxygen标签转换为Rd文件，省去了寻找和编辑Rd文件的麻烦。</p>
-<p>第二， 程序是否能准确运行，需要进行准确测试，以确定在不同的情形下各函数以及程序包的行为是否符合预期。Hadley Wickham编写的testthat程序包能够很好地解决这个问题。</p>
-<p>第三， R程序包的版本控制和共享。任何程序都可能会出错，发现错误后不得不对源代码进行修改。 此时就会用到版本控制软件，如git和svn软件等。R程序包编写好后又离不开分享，主要分享渠道是github, rforge, CRAN, Bioconductor等网站。每个网站都有对程序包几乎都有不同的要求，这是编程人员需要特别留意的。</p>
-<p>《R语言编程概述》是为2018年6月23日在广州热带林业研究所举办的《基于R语言的生态与环境科学数据分析培训班》准备的，内容包括上述各方面，幻灯片和练习的代码保存在 <a target="_blank" rel="noopener" href="https://github.com/helixcn/programing_in_r_cn">https://github.com/helixcn/programing_in_r_cn</a> 。不过当时只有三小时的时间讲解， 将这么多内容高度浓缩是很困难的。限于篇幅和讲解时间，不能对每一部分都深入展开，一些高级内容， 如用Rcpp程序包整合C++程序编程，也无法收录，只能在将来有机会再介绍了。</p>
-<p>由于本人学识和水平有限，幻灯片中难免有不少错误和不足， 敬请各位读者批评指正。</p>
-<p>张金龙</p>
-<p>2018年6月25日</p>
-<p>于香港大埔</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/06/25/2018-6-25-programmingr/" data-id="ckmt6y7pw00cxmgyade9h64l6" data-title="《R语言编程概述》讲座前言" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/R%E7%BC%96%E7%A8%8B/" rel="tag">R编程</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -1205,6 +1198,10 @@
       <ul>
         
           <li>
+            <a href="/2021/05/15/graduate-students/">生态学研究生要清楚的三件事：从《生态学家必读的100篇论文》说起</a>
+          </li>
+        
+          <li>
             <a href="/2021/05/13/life/">生活的答案</a>
           </li>
         
@@ -1218,10 +1215,6 @@
         
           <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/18/2021-03-18/">为什么《xxxx在XX研究中取得进展》这类文章很少有人转发？</a>
           </li>
         
       </ul>

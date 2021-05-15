@@ -73,6 +73,91 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2011-2-27-mrt" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2011/02/27/2011-2-27-mrt/" class="article-date">
+  <time class="dt-published" datetime="2011-02-27T03:56:54.000Z" itemprop="datePublished">2011-02-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2011/02/27/2011-2-27-mrt/">什么是多元回归树？</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><strong>多元回归树：条件限制聚类</strong></p>
+<p>多元回归树是一种聚类的方法，不需要人为指定划分成的类群数量或者人为设定判别标准。多元回归树能够很好的处理非线性问题，经过交叉验证等一系列筛选过程，多元回归树能够发挥很好的预测作用。</p>
+<p>多元回归树在经济决策领域、生态学领域等正受到越来越多的重视。</p>
+<p>本文是根据《Numerical Ecology with R》中对多元回归树的部分翻译整理过来的。希望对感兴趣的读者有帮助。</p>
+<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>多元回归树（MRT, De’ath 2002） 是单变量回归树的推广，是用来对一系列数量变量递归划分成多个类群的一种方法，其划分的依据为这一系列变量所对应的数量或者分等级的解释变量。这样的过程有时候称为条件限制聚类。其结果为一个树状结构图，其“叶片”分别为各操作单元，这些单元分处于各类群中，各个类群内的总方差最小。但是类群的划分有一个临界值，或者受到解释变量准确程度的限制。在海量的类群划分方案中，人们倾向于找到“最具预测能力的”划分方案。</p>
+<p>多元回归树在多种数据处理的场合都是十分稳健的，并且显示出强大的功能。在缺失值存在的情况下，以及变量和解释变量之间的关系为非线性时，仍然能够得到较好的结果。</p>
+<h1 id="计算原理"><a href="#计算原理" class="headerlink" title="计算原理"></a>计算原理</h1><p>多元回归树包含两步：</p>
+<ol>
+<li><p>条件限制数据分割</p>
+</li>
+<li><p>对结果的交叉验证</p>
+</li>
+</ol>
+<p>下面对两个的计算过程分别作检验的介绍。</p>
+<h1 id="1-条件限制数据分割"><a href="#1-条件限制数据分割" class="headerlink" title="1. 条件限制数据分割"></a>1. 条件限制数据分割</h1><p>对每一个解释变量，将样点划分成两个类群的所有可能都给出。对于数量变量，首先将要样点按照解释变量排序，之后，顺序的将其划分成两类，从第一个，第二个，第n-1个点处划分。对于分等级的变量，将样点划分为两个类群，将所有可能组合均给出。在所有可能的情况下，计算响应变量的每个小组内各数据和小组平均值的平方和。保留平方和最小的划分方案，记录该划分方案中解释变量或等级变量的数值。</p>
+<p>对划分出的两个子类群，分别再重复上述过程，分别筛选出最优的划分方案，并记录该划分方案中解释变量或等级变量的数值。</p>
+<p>重复上述过程，直至所有的样点均被划分成自己的类群中。继而搜寻类群数适当的划分方案，以满足研究的需要。如果数据分析的目的是为了预测，那么就必须进行下一步的交叉验证，以便找到预测效果最优的树。</p>
+<p>出了末端样点的数量，也就是所谓的“叶片”的数量和组成之外，相对误差（relative error，RE）也是多元回归树的一个重要特征。例如，组间平方和与总平方的商。换句话说，这就是该回归树没能解释的方差变化。在没有经过交叉验证时，应该保留的是使得RE最小的回归树。这与保留R^2最大的情形类似。但是，这种情况下，回归树只具有解释功能，而缺乏预测功能。De’ath（2002）年指出：“RE给出的是回归树对于新数据的预测能力的过优化估计，而回归树预测的准确性能够从交叉验证相对误差（cross-validated relative error ，CVRE)获得更准确的估计”。</p>
+<h1 id="2-回归树的交叉验证和剪接："><a href="#2-回归树的交叉验证和剪接：" class="headerlink" title="2. 回归树的交叉验证和剪接："></a>2. 回归树的交叉验证和剪接：</h1><p>应该在什么水平上对回归树进行修剪？也就是如何保留最为敏感的划分位点？为了回答这一问题，人们利用如下方法：将样点划分成两个子集，其中一个为“训练集合”， 另一个为“验证集合”。具有良好预测能力的回归树会将验证集合中的各样点划分到合适的类群中。例如，验证集合中新增加的样点，其响应变量的数值与预测的该组响应变量的数值的差较小。回归树的预测能力可以用其预测误差进行评估。</p>
+<p>预测误差的度量为CVRE,其公式为</p>
+<p><code>CVRE = sum(sum((y[i,j][k] - y_estimate[k])^2))/sum(sum((y[i,j] - y_mean[j])^2))</code><br>其中 y[i,j][k] 为验证数据集k的一个样点</p>
+<p>y_estimate[k] 是该点的预测值，</p>
+<p>分母部分表示数据的总方差。</p>
+<p>因此，CVRE可以定义为回归树没有解释的方差，除以响应数据的总方差。当然，回归树的划分有一点儿变化，则相应的分子也会发生变化。理想的预测情况下，CVRE的值为0，而回归树的预测效果越差，CVRE的值越接近于1.</p>
+<h1 id="3-MRT的过程"><a href="#3-MRT的过程" class="headerlink" title="3 MRT的过程"></a>3 MRT的过程</h1><p>以下是多元回归树交叉验证的总过程。</p>
+<ol>
+<li><p>将数据随机划分成k组（默认为10组）。</p>
+</li>
+<li><p>随机保留其中一组作为“验证组”（test groups），利用条件限制分类，按照组内平方和最小的原则，选取一棵最优的回归树。</p>
+</li>
+<li><p>将以上过程重复k-1次，每次保留一个预测组。</p>
+</li>
+<li><p>在以上的k个划分方案中，重新指派训练集合（什么意思？）。 计算每个划分方案的CVRE。</p>
+</li>
+<li><p>对回归树进行剪接：保留CVRE最小的划分方案。另一种方法是，保留CVRE与CVRE标准误相加最小的划分方案。这种方法是称为一标准误原则。</p>
+</li>
+<li><p>为了获得这一过程的误差，将其他随机分配的对象划分成k组，将这一或称重复多次（如500 - 1000次）。</p>
+</li>
+<li><p>最后获得的回归树是所有随机排列组合中CVRE值最小的，或者是1SE值最小的。</p>
+</li>
+</ol>
+<p>在多元回归树分析中，平方和的计算是在欧几里得空间中进行的。如果数据需要保留自身的特性，则需要进行相应的转换。</p>
+<h1 id="4-多元回归树实例：mvpart程序包"><a href="#4-多元回归树实例：mvpart程序包" class="headerlink" title="4 多元回归树实例：mvpart程序包"></a>4 多元回归树实例：mvpart程序包</h1><p>mvpart程序包最初是Terry M Therneau和Beth Atkinson编写的， Glenn De’ath对其进行了扩展，并负责该程序包的更新和维护。其计算用到的主要函数为<code>rpart()</code>。该函数需要输入的响应变量为matrix,解释变量为<code>data.frame()</code>. 两者的关系采用R的标准公示格式（可参考?lm）.</p>
+<p>示例来自mvpart程序包的帮助：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">library(mvpart)</span><br><span class="line"></span><br><span class="line">data(spider)</span><br><span class="line">mvpart(data.matrix(spider[,<span class="number">1</span>:<span class="number">12</span>])~herbs+reft+moss+sand+twigs+</span><br><span class="line">water,spider) <span class="comment"># defaults</span></span><br><span class="line">mvpart(data.matrix(spider[,<span class="number">1</span>:<span class="number">12</span>])~herbs+reft+moss+sand+twigs+</span><br><span class="line">water,spider,xv=<span class="string">&quot;p&quot;</span>) <span class="comment"># pick the tree size</span></span><br><span class="line">\<span class="comment"># pick cv size and do PCA</span></span><br><span class="line">fit &lt;- mvpart(data.matrix(spider[,<span class="number">1</span>:<span class="number">12</span>])~herbs+reft+moss+sand+</span><br><span class="line">twigs+water,spider,xv=<span class="string">&quot;1se&quot;</span>,pca=<span class="literal">TRUE</span>)</span><br><span class="line">rpart.pca(fit,interact=<span class="literal">TRUE</span>,wgt.ave=<span class="literal">TRUE</span>) <span class="comment"># interactive PCA plot of saved multivariate tree</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2011/02/27/2011-2-27-mrt/" data-id="ckmt6y7kz0030mgya66umdeel" data-title="什么是多元回归树？" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BB%9F%E8%AE%A1/" rel="tag">统计</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-2011-02-11-snow" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2011/02/14/2011-02-11-snow/" class="article-date">
@@ -880,65 +965,6 @@
 
 
   
-    <article id="post-2010-9-21-daydiff" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2010/09/21/2010-9-21-daydiff/" class="article-date">
-  <time class="dt-published" datetime="2010-09-20T19:05:54.000Z" itemprop="datePublished">2010-09-21</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2010/09/21/2010-9-21-daydiff/">如何计算两日期相差的天数？</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>今天讲的日期是公历日期，农历日期由于涉及到朔望月等较为高深的内容，暂时已经超出了本人的能力范围，故先不探讨。</p>
-<p>现行的公历随月份及年份天数不同，如何计算两个日期之间相隔多少天？</p>
-<p>这里，介绍一种天文上常用的儒略日，并介绍儒略日与公历的相互转换方法，附上相应的R语言程序。</p>
-<p>儒略日是天文上常用的一种计时方法，从公元前4713年1月1日格林尼治平太阳间正午12点开始，每增加一天，儒略日增加1，一直向下累加。(以下内容改写自维基百科)</p>
-<p>儒略日是法国学者Joseph Justus Scliger（1540-1609）为纪念他的父亲Julius Caesar Scaliger（1484-1558）在1583年提出来的。 　　<br>儒略日的起点确定考虑了太阳、月亮的运行周期，以及古罗马税收的间隔。</p>
-<p>Joseph Scliger定义儒略周期为7980年，是因28、19、15的最小公倍数，28×19×15=7980。<br>其中：</p>
-<ul>
-<li><p>28年为一太阳周期(solar cycle)，经过一太阳周期，则星期的日序与月的日序会重复。 　　</p>
-</li>
-<li><p>19年为一太阴周期，或称默冬章(Metonic cycle)，因235朔望月=19回归年，经过一太阴周期则阴历月年的日序重复。</p>
-</li>
-<li><p>15年为一小纪(indiction cycle)，此为罗马皇帝君士坦丁（Constantine）所颁，每15年评定财产价值以供课税，是古罗马用的一个纪元单位，故以7980年为一儒略周期，而所选的起点公元前4713年，则是这三个循环周期同时开始的最近年份。</p>
-</li>
-</ul>
-<p>在中国科学院紫金山天文台编纂的《中国天文年历》上，有相应年份逐日的儒略日表，可供参考。</p>
-<p>还是回到原来的问题，如何计算公历中两个日期相差的天数？办法之一，就是将二者都转换成儒略日，计算其差值。实际上，天文学家也是依靠儒略日来计算天体动态的。</p>
-<p>下面是已知日期计算儒略日和已知儒略日计算日期的方法。用R语言写成。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### 已知日期计算儒略日</span></span><br><span class="line"><span class="comment">### y 年 m 月 d日</span></span><br><span class="line"></span><br><span class="line">date2jd &lt;- <span class="keyword">function</span>(y,m,d)&#123;</span><br><span class="line">   n=<span class="number">0</span></span><br><span class="line">   G=<span class="number">0</span></span><br><span class="line">   <span class="keyword">if</span>(y*<span class="number">372</span>+m*<span class="number">31</span>+<span class="built_in">floor</span>(d)&gt;=<span class="number">588829</span>)&#123;</span><br><span class="line">   G=<span class="number">1</span></span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">if</span>(m&lt;=<span class="number">2</span>) &#123;</span><br><span class="line">   m = m +<span class="number">12</span></span><br><span class="line">   y = y -<span class="number">1</span></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span>(G) &#123;</span><br><span class="line">   n=<span class="built_in">floor</span>(y/<span class="number">100</span>)</span><br><span class="line">   n=<span class="number">2</span>-n+<span class="built_in">floor</span>(n/<span class="number">4</span>)</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   res &lt;- <span class="built_in">floor</span>(<span class="number">365.25</span>*(y+<span class="number">4716</span>)) + <span class="built_in">floor</span>(<span class="number">30.6001</span>*(m+<span class="number">1</span>)) + d + n - <span class="number">1524.5</span></span><br><span class="line">   <span class="built_in">return</span>(res)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">### 已知儒略日，计算日期的公式</span></span><br><span class="line"><span class="comment">###</span></span><br><span class="line"></span><br><span class="line">jd2date &lt;- <span class="keyword">function</span>(jd)&#123;</span><br><span class="line">    <span class="comment">### 转换日期格式</span></span><br><span class="line">    <span class="comment">### 已知儒略日，用jd2date求得到日期，变为年，月，日</span></span><br><span class="line">    jdate2vect &lt;- <span class="keyword">function</span>(xxx)&#123;</span><br><span class="line">        year = xxx[[<span class="number">1</span>]]</span><br><span class="line">        month = xxx[[<span class="number">2</span>]]</span><br><span class="line">        day &lt;- xxx[[<span class="number">3</span>]]</span><br><span class="line">        frac &lt;- xxx[[<span class="number">6</span>]]/(<span class="number">60</span>*<span class="number">60</span>*<span class="number">24</span>)+xxx[[<span class="number">5</span>]]/(<span class="number">60</span>*<span class="number">24</span>)+xxx[[<span class="number">4</span>]]/<span class="number">24</span></span><br><span class="line">        day.dec &lt;- day + frac</span><br><span class="line">        res &lt;- <span class="built_in">c</span>(year, month, day.dec)</span><br><span class="line">        <span class="built_in">names</span>(res) &lt;- <span class="built_in">c</span>(<span class="string">&quot;Year&quot;</span>,<span class="string">&quot;Month&quot;</span>,<span class="string">&quot;Day&quot;</span>)</span><br><span class="line">        <span class="built_in">return</span>(res)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">   D = <span class="built_in">floor</span>(jd+<span class="number">0.5</span>)</span><br><span class="line">   <span class="built_in">F</span>= jd+<span class="number">0.5</span>-D</span><br><span class="line">   <span class="keyword">if</span>(D&gt;=<span class="number">2299161</span>) &#123;</span><br><span class="line">      <span class="built_in">c</span> = <span class="built_in">floor</span>((D-<span class="number">1867216.25</span>)/<span class="number">36524.25</span>)</span><br><span class="line">      D = D + <span class="number">1</span>+<span class="built_in">c</span>-<span class="built_in">floor</span>(<span class="built_in">c</span>/<span class="number">4</span>);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   D = D + <span class="number">1524</span>;              </span><br><span class="line">   r.Y = <span class="built_in">floor</span>((D-<span class="number">122.1</span>)/<span class="number">365.25</span>);</span><br><span class="line">   D = D - <span class="built_in">floor</span>(<span class="number">365.25</span>*r.Y);  </span><br><span class="line">   r.M = <span class="built_in">floor</span>(D/<span class="number">30.601</span>);</span><br><span class="line">   D = D- <span class="built_in">floor</span>(<span class="number">30.601</span>*r.M);  </span><br><span class="line">   r.D = D;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span>(r.M&gt;<span class="number">13</span>)&#123;</span><br><span class="line">      r.M=r.M - <span class="number">13</span></span><br><span class="line">      r.Y=r.Y  - <span class="number">4715</span>;</span><br><span class="line">   &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      r.M =r.M - <span class="number">1</span></span><br><span class="line">      r.Y = r.Y- <span class="number">4716</span></span><br><span class="line">   &#125;</span><br><span class="line">   <span class="built_in">F</span>= <span class="built_in">F</span>*<span class="number">24</span>;</span><br><span class="line">   r.h=<span class="built_in">floor</span>(<span class="built_in">F</span>);</span><br><span class="line">   <span class="built_in">F</span>= <span class="built_in">F</span> -r.h;</span><br><span class="line">   <span class="built_in">F</span> = <span class="built_in">F</span> * <span class="number">60</span>;</span><br><span class="line">   r.m=<span class="built_in">floor</span>(<span class="built_in">F</span>);</span><br><span class="line">   <span class="built_in">F</span>= <span class="built_in">F</span> - r.m;</span><br><span class="line">   <span class="built_in">F</span> = <span class="built_in">F</span> * <span class="number">60</span>;</span><br><span class="line">   r.s=<span class="built_in">F</span>;</span><br><span class="line">   res &lt;- <span class="built_in">list</span>(r.Y, r.M, r.D, r.h, r.m, <span class="built_in">round</span>(r.s,<span class="number">2</span>))</span><br><span class="line">   <span class="built_in">names</span>(res) &lt;- <span class="built_in">c</span>(<span class="string">&quot;Year&quot;</span>,<span class="string">&quot;Month&quot;</span>,<span class="string">&quot;Day&quot;</span>,<span class="string">&quot;Hour&quot;</span>,<span class="string">&quot;Minute&quot;</span>,<span class="string">&quot;Second&quot;</span>)</span><br><span class="line">   <span class="built_in">return</span>(jdate2vect(res));</span><br><span class="line"></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ## date2jd 举例</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># ## 求2010年9月21日与1980年1月1日相差的天数</span></span><br><span class="line">date2jd(<span class="number">2010</span>,<span class="number">9</span>,<span class="number">21</span>) - date2jd(<span class="number">1980</span>,<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line"><span class="comment"># 结果：11221天</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># ## 求2035年9月2日北京日全食距离现在的天数</span></span><br><span class="line">date2jd(<span class="number">2035</span>,<span class="number">9</span>,<span class="number">2</span>) - date2jd(<span class="number">2010</span>,<span class="number">9</span>,<span class="number">21</span>)</span><br><span class="line"><span class="comment"># 结果：9112天</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># ## 求美国独立距离现在的天数</span></span><br><span class="line">date2jd(<span class="number">2010</span>,<span class="number">9</span>,<span class="number">21</span>) - date2jd(<span class="number">1776</span>,<span class="number">7</span>,<span class="number">4</span>)</span><br><span class="line"><span class="comment"># 结果：85545天</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ## 求公元前841年1月1日（西周共和元年）距离现在的天数</span></span><br><span class="line">date2jd(<span class="number">2010</span>,<span class="number">9</span>,<span class="number">21</span>) - date2jd(-<span class="number">841</span>,<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line"><span class="comment"># 结果：1041578 天</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ## 儒略日转年月日举例</span></span><br><span class="line"><span class="comment"># #已知儒略日为2455230.5，求其对应的公历日期。</span></span><br><span class="line">jd2date(<span class="number">2455230.5</span>)</span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># 结果：</span></span><br><span class="line"><span class="comment">#  Year Month   Day</span></span><br><span class="line"><span class="comment">#  2010     2     3</span></span><br><span class="line"><span class="comment">#  是2010年2月3日。</span></span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2010/09/21/2010-9-21-daydiff/" data-id="ckmt6y7ki001umgyad14gf97s" data-title="如何计算两日期相差的天数？" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A9%E6%96%87/" rel="tag">天文</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -989,6 +1015,10 @@
       <ul>
         
           <li>
+            <a href="/2021/05/15/graduate-students/">生态学研究生要清楚的三件事：从《生态学家必读的100篇论文》说起</a>
+          </li>
+        
+          <li>
             <a href="/2021/05/13/life/">生活的答案</a>
           </li>
         
@@ -1002,10 +1032,6 @@
         
           <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/18/2021-03-18/">为什么《xxxx在XX研究中取得进展》这类文章很少有人转发？</a>
           </li>
         
       </ul>

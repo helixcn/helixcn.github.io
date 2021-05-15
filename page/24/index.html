@@ -73,6 +73,70 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2010-04-8-biodiversity" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2010/04/08/2010-04-8-biodiversity/" class="article-date">
+  <time class="dt-published" datetime="2010-04-07T21:52:54.000Z" itemprop="datePublished">2010-04-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2010/04/08/2010-04-8-biodiversity/">R软件计算生物多样性指数</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>生物多样性指数的计算在R中计算十分简单，这里介绍一下用vegan包计算生物多样性指数的方法。</p>
+<p>首先要将R软件和用到的程序包安装好。在数据处理和格式转换过程中，需要用到openxlsx、reshape2和vegan包。如果没有安装这几个程序包，就在R console中输入以下命令安装。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">&#x27;reshape2&#x27;</span>)</span><br><span class="line">install.packages(<span class="string">&#x27;openxlsx&#x27;</span>)</span><br><span class="line">install.packages(<span class="string">&#x27;vegan&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="第一步-在Excel中输入数据"><a href="#第一步-在Excel中输入数据" class="headerlink" title="第一步 在Excel中输入数据"></a>第一步 在Excel中输入数据</h1><p>建议将数据整理成样方、物种、个体数格式，这也是样方调查时最常见的一种格式，将数据输入到Excel中。注意:Excel文件列的名字要与下面的格式完全一致，因为R对大小写敏感，所以大小写也要一致。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">plotname species abundance</span><br><span class="line">plot1     sp1         3</span><br><span class="line">plot1     sp2         6</span><br><span class="line">plot1     sp3         1</span><br><span class="line">plot1     sp4         2</span><br><span class="line">plot1     sp5         1</span><br><span class="line">plot2     sp1         8</span><br><span class="line">plot2     sp3        30</span><br><span class="line">plot3     sp4         2</span><br><span class="line">plot3     sp2         1</span><br><span class="line">plot3     sp6         1</span><br><span class="line">plot3     sp7         3</span><br><span class="line">.....</span><br></pre></td></tr></table></figure>
+
+<p>保存为 herbplots.xlsx，假设保存在“D:/herb/”。</p>
+<h1 id="第二步-读取Excel文件"><a href="#第二步-读取Excel文件" class="headerlink" title="第二步 读取Excel文件"></a>第二步 读取Excel文件</h1><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">library(openxlsx)</span><br><span class="line">library(reshape2)</span><br><span class="line">library(vegan)</span><br><span class="line">herb.data &lt;- read.xlsx(<span class="string">&quot;D:/herb/herbplots.xlsx&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="第三步-转换为样方-物种矩阵"><a href="#第三步-转换为样方-物种矩阵" class="headerlink" title="第三步 转换为样方-物种矩阵"></a>第三步 转换为样方-物种矩阵</h1><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">library(reshape2)</span><br><span class="line">herb.mat &lt;- acast(herb.data, </span><br><span class="line">             formula = plotname ~ species , </span><br><span class="line">             value.var = <span class="string">&quot;abundance&quot;</span>, </span><br><span class="line">             fill = <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>此时生成的矩阵，格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">       sp1 sp2 sp3 sp4 sp5 sp6 sp7</span><br><span class="line">plot1   3   6   1   2   1   0   0</span><br><span class="line">plot2   8   0  30   0   0   0   0</span><br><span class="line">plot3   0   1   0   2   0   1   3</span><br></pre></td></tr></table></figure>
+
+<h1 id="第四步-计算生物多样性指数"><a href="#第四步-计算生物多样性指数" class="headerlink" title="第四步 计算生物多样性指数"></a>第四步 计算生物多样性指数</h1><h2 id="Shannon-Wiener指数"><a href="#Shannon-Wiener指数" class="headerlink" title="Shannon-Wiener指数"></a>Shannon-Wiener指数</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Shannon.Wiener &lt;- diversity(herb.mat, index = <span class="string">&quot;shannon&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Simpson指数"><a href="#Simpson指数" class="headerlink" title="Simpson指数"></a>Simpson指数</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Simpson &lt;- diversity(herb.mat, index = <span class="string">&quot;simpson&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Inverse-Simpson指数"><a href="#Inverse-Simpson指数" class="headerlink" title="Inverse Simpson指数"></a>Inverse Simpson指数</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Inverse.Simpson &lt;- diversity(herb.mat, index = <span class="string">&quot;inv&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="物种累计数"><a href="#物种累计数" class="headerlink" title="物种累计数"></a>物种累计数</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">S &lt;- specnumber(herb.mat)</span><br><span class="line">plot(S)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Pielou均匀度指数"><a href="#Pielou均匀度指数" class="headerlink" title="#Pielou均匀度指数"></a>#Pielou均匀度指数</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">J &lt;- Shannon.Wiener/<span class="built_in">log</span>(S)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2010/04/08/2010-04-8-biodiversity/" data-id="ckmt6y7k20010mgya23b4a5wu" data-title="R软件计算生物多样性指数" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%94%9F%E6%80%81/" rel="tag">生态</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-2010-03-27-hamma" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2010/03/27/2010-03-27-hamma/" class="article-date">
@@ -546,58 +610,6 @@
 
 
   
-    <article id="post-2009-8-6-sweave" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2009/08/06/2009-8-6-sweave/" class="article-date">
-  <time class="dt-published" datetime="2009-08-06T06:50:54.000Z" itemprop="datePublished">2009-08-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2009/08/06/2009-8-6-sweave/">统计结果的保存：Sweave in R</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>Sweave是R中的一个函数，用来生成统计报告的。如果你希望将R的代码和LaTeX的代码整合到一个文件中，可以用Sweave函数生成.tex文件，利用安装好的LaTeX编译TeX文件就能生成包含相应计算结果的pdf文件。<br>Sweave处理的是.Snw文件，其格式几乎与.TeX文<br>件相同，不同的是，其中的R代码包含在&lt;&lt;&gt;&gt;= 和 @ 之间，其中&lt;&lt;&gt;&gt;内部可以放置Sweave处理时的参数。<br>下面是一个简单的.Rnw文件的内容：</p>
-<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">documentclass[a4paper]&#123;article&#125;</span><br><span class="line">title&#123;How to use Sweave? &#125;</span><br><span class="line">author&#123;Jinlong Zhang&#125;</span><br><span class="line">begin&#123;document&#125;</span><br><span class="line">maketitle</span><br><span class="line">In this example we use hclust() in R to perform a cluster analysis into a LaTeX&#123;&#125; document:</span><br><span class="line">&lt;&lt;&gt;&gt;=</span><br><span class="line">x&lt;-c(1,2,6,8,11) </span><br><span class="line">dim(x)&lt;-c(5,1) </span><br><span class="line">d&lt;-dist(x) </span><br><span class="line">d</span><br><span class="line">hc&lt;-hclust(d, &quot;single&quot;) </span><br><span class="line">dend&lt;-as.dendrogram(hc) </span><br><span class="line">@</span><br><span class="line">the dendrograms are also included:</span><br><span class="line">begin&#123;center&#125;</span><br><span class="line">&lt;&lt;fig=TRUE,echo=FALSE&gt;&gt;=</span><br><span class="line">par(mfrow = c(2, 2),mar = c(4,3,1,2)) </span><br><span class="line">plot(dend) </span><br><span class="line">plot(dend, nodePar=list(pch = c(1,NA), cex=0.8, lab.cex=0.8), type = &quot;t&quot;, center=TRUE) </span><br><span class="line">plot(dend, edgePar=list(col = 1:2, lty = 2:3), dLeaf=1, edge.root = TRUE) </span><br><span class="line">plot(dend, nodePar=list(pch = 2:1, cex=.4*2:1, col=2:3), horiz=TRUE) </span><br><span class="line">@</span><br><span class="line">end&#123;center&#125;</span><br><span class="line">end&#123;document&#125;</span><br></pre></td></tr></table></figure>
-
-<p> 将以上代码粘贴到记事本中，另存为test.Rnw文件，放置到R的工作目录，运行Sweave(“test.Rnw”)即可生成.TeX文件和相应的图形文件。eps图形文件等将在变异TeX文档时引用图形时用到。</p>
-<p>可以看到，其中包含了两块R代码：<br>第一部分为 </p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;&lt;&gt;&gt;=</span><br><span class="line">x&lt;-<span class="built_in">c</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">6</span>,<span class="number">8</span>,<span class="number">11</span>) </span><br><span class="line"><span class="built_in">dim</span>(x)&lt;-<span class="built_in">c</span>(<span class="number">5</span>,<span class="number">1</span>) </span><br><span class="line">d&lt;-dist(x) </span><br><span class="line">hc&lt;-hclust(d, <span class="string">&quot;single&quot;</span>) </span><br><span class="line">dend&lt;-as.dendrogram(hc) </span><br><span class="line">@</span><br></pre></td></tr></table></figure>
-<p>第二部分为</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;&lt;fig=<span class="literal">TRUE</span>,echo=<span class="literal">FALSE</span>&gt;&gt;=</span><br><span class="line">par(mfrow = <span class="built_in">c</span>(<span class="number">2</span>, <span class="number">2</span>),mar = <span class="built_in">c</span>(<span class="number">4</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">2</span>)) </span><br><span class="line">plot(dend) </span><br><span class="line">plot(dend, nodePar=<span class="built_in">list</span>(pch = <span class="built_in">c</span>(<span class="number">1</span>,<span class="literal">NA</span>), cex=<span class="number">0.8</span>, lab.cex=<span class="number">0.8</span>), type = <span class="string">&quot;t&quot;</span>, center=<span class="literal">TRUE</span>) </span><br><span class="line">plot(dend, edgePar=<span class="built_in">list</span>(col = <span class="number">1</span>:<span class="number">2</span>, lty = <span class="number">2</span>:<span class="number">3</span>), dLeaf=<span class="number">1</span>, edge.root = <span class="literal">TRUE</span>) </span><br><span class="line">plot(dend, nodePar=<span class="built_in">list</span>(pch = <span class="number">2</span>:<span class="number">1</span>, cex=<span class="number">.4</span>*<span class="number">2</span>:<span class="number">1</span>, col=<span class="number">2</span>:<span class="number">3</span>), horiz=<span class="literal">TRUE</span>) </span><br><span class="line">@</span><br></pre></td></tr></table></figure>
-
-<p>如果想要生成相应的pdf，只需用LaTeX变异相应的TeX文件即可。</p>
-<p>注意：编译的时候，LaTeX会可能会提示找不到Sweave.sty文件，该文件可在C:Program FilesRR-2.9.0sharetexmf目录下找到，拷贝到TeX文件所在的目录下即可。</p>
-<p>提供几个进一步学习的链接：<br>Sweave函数的作者Friedrich Leisch的主页：<br><a target="_blank" rel="noopener" href="http://www.stat.uni-muenchen.de/~leisch/Sweave/">http://www.stat.uni-muenchen.de/~leisch/Sweave/</a><br><a target="_blank" rel="noopener" href="http://www.stat.umn.edu/~charlie/Sweave">www.stat.umn.edu/~charlie/Sweave</a><br><a target="_blank" rel="noopener" href="http://stat.epfl.ch/webdav/site/stat/shared/Regression/EPFL-Sweave-powerdot.pdf">http://stat.epfl.ch/webdav/site/stat/shared/Regression/EPFL-Sweave-powerdot.pdf</a><br><a target="_blank" rel="noopener" href="http://biosun1.harvard.edu/courses/individual/bio271/lectures/L7/Sweave-manual-20021007.pdf">http://biosun1.harvard.edu/courses/individual/bio271/lectures/L7/Sweave-manual-20021007.pdf</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2009/08/06/2009-8-6-sweave/" data-id="ckmt6y7jr000emgyac5xpd957" data-title="统计结果的保存：Sweave in R" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8E%92%E7%89%88/" rel="tag">排版</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -648,6 +660,10 @@
       <ul>
         
           <li>
+            <a href="/2021/05/15/graduate-students/">生态学研究生要清楚的三件事：从《生态学家必读的100篇论文》说起</a>
+          </li>
+        
+          <li>
             <a href="/2021/05/13/life/">生活的答案</a>
           </li>
         
@@ -661,10 +677,6 @@
         
           <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/18/2021-03-18/">为什么《xxxx在XX研究中取得进展》这类文章很少有人转发？</a>
           </li>
         
       </ul>

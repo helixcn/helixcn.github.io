@@ -73,6 +73,65 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2010-9-21-daydiff" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2010/09/21/2010-9-21-daydiff/" class="article-date">
+  <time class="dt-published" datetime="2010-09-20T19:05:54.000Z" itemprop="datePublished">2010-09-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2010/09/21/2010-9-21-daydiff/">如何计算两日期相差的天数？</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>今天讲的日期是公历日期，农历日期由于涉及到朔望月等较为高深的内容，暂时已经超出了本人的能力范围，故先不探讨。</p>
+<p>现行的公历随月份及年份天数不同，如何计算两个日期之间相隔多少天？</p>
+<p>这里，介绍一种天文上常用的儒略日，并介绍儒略日与公历的相互转换方法，附上相应的R语言程序。</p>
+<p>儒略日是天文上常用的一种计时方法，从公元前4713年1月1日格林尼治平太阳间正午12点开始，每增加一天，儒略日增加1，一直向下累加。(以下内容改写自维基百科)</p>
+<p>儒略日是法国学者Joseph Justus Scliger（1540-1609）为纪念他的父亲Julius Caesar Scaliger（1484-1558）在1583年提出来的。 　　<br>儒略日的起点确定考虑了太阳、月亮的运行周期，以及古罗马税收的间隔。</p>
+<p>Joseph Scliger定义儒略周期为7980年，是因28、19、15的最小公倍数，28×19×15=7980。<br>其中：</p>
+<ul>
+<li><p>28年为一太阳周期(solar cycle)，经过一太阳周期，则星期的日序与月的日序会重复。 　　</p>
+</li>
+<li><p>19年为一太阴周期，或称默冬章(Metonic cycle)，因235朔望月=19回归年，经过一太阴周期则阴历月年的日序重复。</p>
+</li>
+<li><p>15年为一小纪(indiction cycle)，此为罗马皇帝君士坦丁（Constantine）所颁，每15年评定财产价值以供课税，是古罗马用的一个纪元单位，故以7980年为一儒略周期，而所选的起点公元前4713年，则是这三个循环周期同时开始的最近年份。</p>
+</li>
+</ul>
+<p>在中国科学院紫金山天文台编纂的《中国天文年历》上，有相应年份逐日的儒略日表，可供参考。</p>
+<p>还是回到原来的问题，如何计算公历中两个日期相差的天数？办法之一，就是将二者都转换成儒略日，计算其差值。实际上，天文学家也是依靠儒略日来计算天体动态的。</p>
+<p>下面是已知日期计算儒略日和已知儒略日计算日期的方法。用R语言写成。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### 已知日期计算儒略日</span></span><br><span class="line"><span class="comment">### y 年 m 月 d日</span></span><br><span class="line"></span><br><span class="line">date2jd &lt;- <span class="keyword">function</span>(y,m,d)&#123;</span><br><span class="line">   n=<span class="number">0</span></span><br><span class="line">   G=<span class="number">0</span></span><br><span class="line">   <span class="keyword">if</span>(y*<span class="number">372</span>+m*<span class="number">31</span>+<span class="built_in">floor</span>(d)&gt;=<span class="number">588829</span>)&#123;</span><br><span class="line">   G=<span class="number">1</span></span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">if</span>(m&lt;=<span class="number">2</span>) &#123;</span><br><span class="line">   m = m +<span class="number">12</span></span><br><span class="line">   y = y -<span class="number">1</span></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span>(G) &#123;</span><br><span class="line">   n=<span class="built_in">floor</span>(y/<span class="number">100</span>)</span><br><span class="line">   n=<span class="number">2</span>-n+<span class="built_in">floor</span>(n/<span class="number">4</span>)</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   res &lt;- <span class="built_in">floor</span>(<span class="number">365.25</span>*(y+<span class="number">4716</span>)) + <span class="built_in">floor</span>(<span class="number">30.6001</span>*(m+<span class="number">1</span>)) + d + n - <span class="number">1524.5</span></span><br><span class="line">   <span class="built_in">return</span>(res)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">### 已知儒略日，计算日期的公式</span></span><br><span class="line"><span class="comment">###</span></span><br><span class="line"></span><br><span class="line">jd2date &lt;- <span class="keyword">function</span>(jd)&#123;</span><br><span class="line">    <span class="comment">### 转换日期格式</span></span><br><span class="line">    <span class="comment">### 已知儒略日，用jd2date求得到日期，变为年，月，日</span></span><br><span class="line">    jdate2vect &lt;- <span class="keyword">function</span>(xxx)&#123;</span><br><span class="line">        year = xxx[[<span class="number">1</span>]]</span><br><span class="line">        month = xxx[[<span class="number">2</span>]]</span><br><span class="line">        day &lt;- xxx[[<span class="number">3</span>]]</span><br><span class="line">        frac &lt;- xxx[[<span class="number">6</span>]]/(<span class="number">60</span>*<span class="number">60</span>*<span class="number">24</span>)+xxx[[<span class="number">5</span>]]/(<span class="number">60</span>*<span class="number">24</span>)+xxx[[<span class="number">4</span>]]/<span class="number">24</span></span><br><span class="line">        day.dec &lt;- day + frac</span><br><span class="line">        res &lt;- <span class="built_in">c</span>(year, month, day.dec)</span><br><span class="line">        <span class="built_in">names</span>(res) &lt;- <span class="built_in">c</span>(<span class="string">&quot;Year&quot;</span>,<span class="string">&quot;Month&quot;</span>,<span class="string">&quot;Day&quot;</span>)</span><br><span class="line">        <span class="built_in">return</span>(res)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">   D = <span class="built_in">floor</span>(jd+<span class="number">0.5</span>)</span><br><span class="line">   <span class="built_in">F</span>= jd+<span class="number">0.5</span>-D</span><br><span class="line">   <span class="keyword">if</span>(D&gt;=<span class="number">2299161</span>) &#123;</span><br><span class="line">      <span class="built_in">c</span> = <span class="built_in">floor</span>((D-<span class="number">1867216.25</span>)/<span class="number">36524.25</span>)</span><br><span class="line">      D = D + <span class="number">1</span>+<span class="built_in">c</span>-<span class="built_in">floor</span>(<span class="built_in">c</span>/<span class="number">4</span>);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   D = D + <span class="number">1524</span>;              </span><br><span class="line">   r.Y = <span class="built_in">floor</span>((D-<span class="number">122.1</span>)/<span class="number">365.25</span>);</span><br><span class="line">   D = D - <span class="built_in">floor</span>(<span class="number">365.25</span>*r.Y);  </span><br><span class="line">   r.M = <span class="built_in">floor</span>(D/<span class="number">30.601</span>);</span><br><span class="line">   D = D- <span class="built_in">floor</span>(<span class="number">30.601</span>*r.M);  </span><br><span class="line">   r.D = D;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span>(r.M&gt;<span class="number">13</span>)&#123;</span><br><span class="line">      r.M=r.M - <span class="number">13</span></span><br><span class="line">      r.Y=r.Y  - <span class="number">4715</span>;</span><br><span class="line">   &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      r.M =r.M - <span class="number">1</span></span><br><span class="line">      r.Y = r.Y- <span class="number">4716</span></span><br><span class="line">   &#125;</span><br><span class="line">   <span class="built_in">F</span>= <span class="built_in">F</span>*<span class="number">24</span>;</span><br><span class="line">   r.h=<span class="built_in">floor</span>(<span class="built_in">F</span>);</span><br><span class="line">   <span class="built_in">F</span>= <span class="built_in">F</span> -r.h;</span><br><span class="line">   <span class="built_in">F</span> = <span class="built_in">F</span> * <span class="number">60</span>;</span><br><span class="line">   r.m=<span class="built_in">floor</span>(<span class="built_in">F</span>);</span><br><span class="line">   <span class="built_in">F</span>= <span class="built_in">F</span> - r.m;</span><br><span class="line">   <span class="built_in">F</span> = <span class="built_in">F</span> * <span class="number">60</span>;</span><br><span class="line">   r.s=<span class="built_in">F</span>;</span><br><span class="line">   res &lt;- <span class="built_in">list</span>(r.Y, r.M, r.D, r.h, r.m, <span class="built_in">round</span>(r.s,<span class="number">2</span>))</span><br><span class="line">   <span class="built_in">names</span>(res) &lt;- <span class="built_in">c</span>(<span class="string">&quot;Year&quot;</span>,<span class="string">&quot;Month&quot;</span>,<span class="string">&quot;Day&quot;</span>,<span class="string">&quot;Hour&quot;</span>,<span class="string">&quot;Minute&quot;</span>,<span class="string">&quot;Second&quot;</span>)</span><br><span class="line">   <span class="built_in">return</span>(jdate2vect(res));</span><br><span class="line"></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ## date2jd 举例</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># ## 求2010年9月21日与1980年1月1日相差的天数</span></span><br><span class="line">date2jd(<span class="number">2010</span>,<span class="number">9</span>,<span class="number">21</span>) - date2jd(<span class="number">1980</span>,<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line"><span class="comment"># 结果：11221天</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># ## 求2035年9月2日北京日全食距离现在的天数</span></span><br><span class="line">date2jd(<span class="number">2035</span>,<span class="number">9</span>,<span class="number">2</span>) - date2jd(<span class="number">2010</span>,<span class="number">9</span>,<span class="number">21</span>)</span><br><span class="line"><span class="comment"># 结果：9112天</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># ## 求美国独立距离现在的天数</span></span><br><span class="line">date2jd(<span class="number">2010</span>,<span class="number">9</span>,<span class="number">21</span>) - date2jd(<span class="number">1776</span>,<span class="number">7</span>,<span class="number">4</span>)</span><br><span class="line"><span class="comment"># 结果：85545天</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ## 求公元前841年1月1日（西周共和元年）距离现在的天数</span></span><br><span class="line">date2jd(<span class="number">2010</span>,<span class="number">9</span>,<span class="number">21</span>) - date2jd(-<span class="number">841</span>,<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line"><span class="comment"># 结果：1041578 天</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ## 儒略日转年月日举例</span></span><br><span class="line"><span class="comment"># #已知儒略日为2455230.5，求其对应的公历日期。</span></span><br><span class="line">jd2date(<span class="number">2455230.5</span>)</span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># 结果：</span></span><br><span class="line"><span class="comment">#  Year Month   Day</span></span><br><span class="line"><span class="comment">#  2010     2     3</span></span><br><span class="line"><span class="comment">#  是2010年2月3日。</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2010/09/21/2010-9-21-daydiff/" data-id="ckmt6y7ki001umgyad14gf97s" data-title="如何计算两日期相差的天数？" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A9%E6%96%87/" rel="tag">天文</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-2010-9-18-npp" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2010/09/18/2010-9-18-npp/" class="article-date">
@@ -628,70 +687,6 @@
 
 
   
-    <article id="post-2010-04-8-biodiversity" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2010/04/08/2010-04-8-biodiversity/" class="article-date">
-  <time class="dt-published" datetime="2010-04-07T21:52:54.000Z" itemprop="datePublished">2010-04-08</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2010/04/08/2010-04-8-biodiversity/">R软件计算生物多样性指数</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>生物多样性指数的计算在R中计算十分简单，这里介绍一下用vegan包计算生物多样性指数的方法。</p>
-<p>首先要将R软件和用到的程序包安装好。在数据处理和格式转换过程中，需要用到openxlsx、reshape2和vegan包。如果没有安装这几个程序包，就在R console中输入以下命令安装。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">&#x27;reshape2&#x27;</span>)</span><br><span class="line">install.packages(<span class="string">&#x27;openxlsx&#x27;</span>)</span><br><span class="line">install.packages(<span class="string">&#x27;vegan&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<h1 id="第一步-在Excel中输入数据"><a href="#第一步-在Excel中输入数据" class="headerlink" title="第一步 在Excel中输入数据"></a>第一步 在Excel中输入数据</h1><p>建议将数据整理成样方、物种、个体数格式，这也是样方调查时最常见的一种格式，将数据输入到Excel中。注意:Excel文件列的名字要与下面的格式完全一致，因为R对大小写敏感，所以大小写也要一致。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">plotname species abundance</span><br><span class="line">plot1     sp1         3</span><br><span class="line">plot1     sp2         6</span><br><span class="line">plot1     sp3         1</span><br><span class="line">plot1     sp4         2</span><br><span class="line">plot1     sp5         1</span><br><span class="line">plot2     sp1         8</span><br><span class="line">plot2     sp3        30</span><br><span class="line">plot3     sp4         2</span><br><span class="line">plot3     sp2         1</span><br><span class="line">plot3     sp6         1</span><br><span class="line">plot3     sp7         3</span><br><span class="line">.....</span><br></pre></td></tr></table></figure>
-
-<p>保存为 herbplots.xlsx，假设保存在“D:/herb/”。</p>
-<h1 id="第二步-读取Excel文件"><a href="#第二步-读取Excel文件" class="headerlink" title="第二步 读取Excel文件"></a>第二步 读取Excel文件</h1><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">library(openxlsx)</span><br><span class="line">library(reshape2)</span><br><span class="line">library(vegan)</span><br><span class="line">herb.data &lt;- read.xlsx(<span class="string">&quot;D:/herb/herbplots.xlsx&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<h1 id="第三步-转换为样方-物种矩阵"><a href="#第三步-转换为样方-物种矩阵" class="headerlink" title="第三步 转换为样方-物种矩阵"></a>第三步 转换为样方-物种矩阵</h1><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">library(reshape2)</span><br><span class="line">herb.mat &lt;- acast(herb.data, </span><br><span class="line">             formula = plotname ~ species , </span><br><span class="line">             value.var = <span class="string">&quot;abundance&quot;</span>, </span><br><span class="line">             fill = <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
-
-<p>此时生成的矩阵，格式如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">       sp1 sp2 sp3 sp4 sp5 sp6 sp7</span><br><span class="line">plot1   3   6   1   2   1   0   0</span><br><span class="line">plot2   8   0  30   0   0   0   0</span><br><span class="line">plot3   0   1   0   2   0   1   3</span><br></pre></td></tr></table></figure>
-
-<h1 id="第四步-计算生物多样性指数"><a href="#第四步-计算生物多样性指数" class="headerlink" title="第四步 计算生物多样性指数"></a>第四步 计算生物多样性指数</h1><h2 id="Shannon-Wiener指数"><a href="#Shannon-Wiener指数" class="headerlink" title="Shannon-Wiener指数"></a>Shannon-Wiener指数</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Shannon.Wiener &lt;- diversity(herb.mat, index = <span class="string">&quot;shannon&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<h2 id="Simpson指数"><a href="#Simpson指数" class="headerlink" title="Simpson指数"></a>Simpson指数</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Simpson &lt;- diversity(herb.mat, index = <span class="string">&quot;simpson&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<h2 id="Inverse-Simpson指数"><a href="#Inverse-Simpson指数" class="headerlink" title="Inverse Simpson指数"></a>Inverse Simpson指数</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Inverse.Simpson &lt;- diversity(herb.mat, index = <span class="string">&quot;inv&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<h2 id="物种累计数"><a href="#物种累计数" class="headerlink" title="物种累计数"></a>物种累计数</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">S &lt;- specnumber(herb.mat)</span><br><span class="line">plot(S)</span><br></pre></td></tr></table></figure>
-
-<h2 id="Pielou均匀度指数"><a href="#Pielou均匀度指数" class="headerlink" title="#Pielou均匀度指数"></a>#Pielou均匀度指数</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">J &lt;- Shannon.Wiener/<span class="built_in">log</span>(S)</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2010/04/08/2010-04-8-biodiversity/" data-id="ckmt6y7k20010mgya23b4a5wu" data-title="R软件计算生物多样性指数" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%94%9F%E6%80%81/" rel="tag">生态</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -742,6 +737,10 @@
       <ul>
         
           <li>
+            <a href="/2021/05/15/graduate-students/">生态学研究生要清楚的三件事：从《生态学家必读的100篇论文》说起</a>
+          </li>
+        
+          <li>
             <a href="/2021/05/13/life/">生活的答案</a>
           </li>
         
@@ -755,10 +754,6 @@
         
           <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/18/2021-03-18/">为什么《xxxx在XX研究中取得进展》这类文章很少有人转发？</a>
           </li>
         
       </ul>

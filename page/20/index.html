@@ -73,6 +73,54 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2012-2-29-mcmc" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/02/28/2012-2-29-mcmc/" class="article-date">
+  <time class="dt-published" datetime="2012-02-28T15:54:54.000Z" itemprop="datePublished">2012-02-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/02/28/2012-2-29-mcmc/">MCMC中的Metropolis Hastings抽样法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>Metropolis Hasting（下面简称MH）是蒙特卡罗马尔科夫链中一种重要的抽样方法。本文简要介绍MH算法，并给出一个实例。</p>
+<p>MH算法在参数空间随机取值，作为起始点。按照参数的概率分布生成随机的参数，按照这一系列参数的组合，计算当前点的概率密度。依据当前点和起始点概率密度比值是否大于(0,1)之间的随机数来判断是否保留当前点。若当前点的概率密度大于该随机数，就称这种状态为接受状态，此时，在满足参数概率分布的前提下，继续随机抽取参数的组合，作为下一点，计算下一点的概率密度，并计算下一点概率密度和概率密度的比值，并继续循环。若当前点不能被接受，则继续在满足参数概率分布的前提下，继续生成随机数，作为新的参数组合，直到参数组合能够被接受为止。</p>
+<p>下面是用MCMC MH抽样法生成满足一定条件二元正态分布的例子，供感兴趣的同仁参考。<br>问题：对于一个二元正态分布，给定输入数据点向量x （x包含两个元素，x1，x2）， 平均值参数向量mu（x1，x2），和sigma（方差矩阵），写出二元正态分布的概率密度函数。</p>
+<p>该问题引自： <a target="_blank" rel="noopener" href="http://users.aims.ac.za/~ioana/">http://users.aims.ac.za/~ioana/</a></p>
+<p>由于本人对MCMC理解不深，对一些概念的理解难免出现错误，望读者能够批评得阅读，若发现问题，请及时告知本人。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 解答：</span></span><br><span class="line">mvdnorm &lt;- <span class="keyword">function</span>(x, mu, sigma)&#123;</span><br><span class="line">    <span class="comment">#从x减去mu</span></span><br><span class="line">    x.minus.mu &lt;- x - mu </span><br><span class="line">    exp.arg    &lt;- -<span class="number">0.5</span> * <span class="built_in">sum</span>(x.minus.mu * solve(sigma, x.minus.mu))  </span><br><span class="line">    <span class="comment"># det(sigma) sigma 的行列式</span></span><br><span class="line">    <span class="built_in">return</span>( <span class="number">1</span> / (<span class="number">2</span> * <span class="built_in">pi</span> * <span class="built_in">sqrt</span>(det(sigma))) * <span class="built_in">exp</span>(exp.arg) )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">## 问题二</span></span><br><span class="line"><span class="comment">## 假设二元正态分布的参数如下： </span></span><br><span class="line"><span class="comment">## 两个维度的平均值分别为 2， 3</span></span><br><span class="line"><span class="comment"># 协方差矩阵为</span></span><br><span class="line"><span class="comment"># 4 1</span></span><br><span class="line"><span class="comment"># 1 4</span></span><br><span class="line"><span class="comment"># 尝试用蒙特卡洛马尔科夫链 Metropolis Hastings 抽样法生成后验分布，进行10000次随机抽样，并计算随机点的接受率。</span></span><br><span class="line"><span class="comment"># 答： 按照题意，有</span></span><br><span class="line">mu &lt;- <span class="built_in">c</span>(<span class="number">2</span> ,<span class="number">3</span>)</span><br><span class="line">sigma &lt;- matrix(<span class="built_in">c</span>(<span class="number">4</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">4</span>), nrow = <span class="number">2</span>)</span><br><span class="line"><span class="comment"># 限制sampler在空间的移动速率，数值越大，变化越快，该数值的设定待进一步讨论。</span></span><br><span class="line">sd.proposal &lt;- 2</span><br><span class="line"><span class="comment">## 设定模拟的次数</span></span><br><span class="line">n &lt;- 10000</span><br><span class="line"><span class="comment">## 生成NA组成的矩阵，用于保存模拟的结果</span></span><br><span class="line">x &lt;- matrix(nrow = n, ncol = <span class="number">2</span>)</span><br><span class="line"><span class="comment"># 设定sampler的初始值，假定数据点从 0, 0开始 （实际上该sampler可以从任意点开始移动）</span></span><br><span class="line">cur.x &lt;- <span class="built_in">c</span>(<span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line"><span class="comment"># 计算给定初始值时的概率密度</span></span><br><span class="line">cur.f &lt;- mvdnorm(cur.x, mu, sigma)</span><br><span class="line"><span class="comment">### 蒙特卡洛马尔科夫链</span></span><br><span class="line">n.accepted &lt;- 0</span><br><span class="line"><span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:n)&#123;</span><br><span class="line">    new.x &lt;- cur.x + sd.proposal * rnorm(<span class="number">2</span>)  <span class="comment">## 随机生成x</span></span><br><span class="line">    new.f &lt;- mvdnorm(new.x, mu, sigma)       <span class="comment">## 计算概率密度</span></span><br><span class="line">    <span class="keyword">if</span>(runif(<span class="number">1</span>) &lt; new.f/cur.f)&#123;  </span><br><span class="line">        <span class="comment">## new.f/cur.f 概率密度的比率 和 (0,1)之间的随机数相比</span></span><br><span class="line">        <span class="comment">## 若该比率小于随机数，则接受该点</span></span><br><span class="line">       n.accepted &lt;- n.accepted + <span class="number">1</span></span><br><span class="line">       cur.x &lt;- new.x</span><br><span class="line">       cur.f &lt;- new.f</span><br><span class="line">       &#125;</span><br><span class="line">    x[i,] &lt;- cur.x                            <span class="comment">## 将cur.x存到第i行</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">#查看接受率</span></span><br><span class="line">n.accepted/n</span><br><span class="line"><span class="comment">#查看每个变量的随机变化情况</span></span><br><span class="line">par(mfrow=<span class="built_in">c</span>(<span class="number">2</span>,<span class="number">1</span>))</span><br><span class="line">plot(x[,<span class="number">1</span>], type=<span class="string">&quot;l&quot;</span>, xlab=<span class="string">&quot;t&quot;</span>, ylab=<span class="string">&quot;X_1&quot;</span>, main=<span class="string">&quot;Sample path of X_1&quot;</span>)</span><br><span class="line">plot(x[,<span class="number">2</span>], type=<span class="string">&quot;l&quot;</span>, xlab=<span class="string">&quot;t&quot;</span>, ylab=<span class="string">&quot;X_2&quot;</span>, main=<span class="string">&quot;Sample path of X_2&quot;</span>)</span><br><span class="line"><span class="comment">## 绘制椭圆概率密度图</span></span><br><span class="line">library(MASS)</span><br><span class="line">proline.density &lt;- kde2d(x[,<span class="number">1</span>], x[,<span class="number">2</span>], h = <span class="number">5</span>)</span><br><span class="line">par(mfrow = <span class="built_in">c</span>(<span class="number">1</span>, <span class="number">1</span>))</span><br><span class="line">plot(x, col = <span class="string">&quot;gray&quot;</span>)</span><br><span class="line">contour(proline.density, add = <span class="literal">TRUE</span>)</span><br><span class="line">points(<span class="number">2</span>,<span class="number">3</span>, pch = <span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+
+<p>抽样后的概率密度<br>Trace plot</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2012/02/28/2012-2-29-mcmc/" data-id="ckmt6y7lg003vmgya7aqn21lq" data-title="MCMC中的Metropolis Hastings抽样法" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BB%9F%E8%AE%A1/" rel="tag">统计</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-2012-01-18-relaxed-phylip" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2012/01/18/2012-01-18-relaxed-phylip/" class="article-date">
@@ -598,61 +646,6 @@
 
 
   
-    <article id="post-2011-7-28-pcnm" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2011/07/28/2011-7-28-pcnm/" class="article-date">
-  <time class="dt-published" datetime="2011-07-28T03:29:54.000Z" itemprop="datePublished">2011-07-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2011/07/28/2011-7-28-pcnm/">PCNM动画展示：生态学与空间统计学</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>PCNM (Principal Coordinates of Neighbourhood Matrix)是Legendre教授等开发出的表示空间关系的方法，类似于pcoa。常用于生物多样性空间格局研究中，例如在古田山beta多样性研究中，Legendre**(<strong>2009</strong>)**就使用了这种方法。用样地的规则栅格距离可以对点两两之间的距离关系进行PCNM模拟。 这里用到了vegan程序包将距离矩阵转换成PCNM的特征向量，用imagevect函数绘制PCNM特征向量在样地中的分布。希望对有兴趣的研究人员有帮助。</p>
-<p>将以下代码在R中运行即可。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#### Function imagevect</span></span><br><span class="line"><span class="comment">#### By Jinlong Zhang  &lt;Jinlongzhang01@gmail.com&gt;</span></span><br><span class="line"><span class="comment">#### Institute of Botany, the Chinese Academy of Sciences, Beijing ,China</span></span><br><span class="line"><span class="comment">#### Aug. 18, 2011</span></span><br><span class="line"> </span><br><span class="line">imagevect &lt;- <span class="keyword">function</span> (x, labels, contour = <span class="literal">FALSE</span>, gridsize = <span class="number">20</span>,</span><br><span class="line">                        axes = <span class="literal">TRUE</span>, nlabx = <span class="number">5</span>, nlaby = <span class="number">5</span>, ...)</span><br><span class="line">&#123;</span><br><span class="line">    require(fields)</span><br><span class="line">   dimension &lt;- <span class="keyword">function</span>(x, unique = <span class="literal">FALSE</span>, sort = <span class="literal">FALSE</span>)&#123;</span><br><span class="line">        ncharX &lt;- substring(x, <span class="number">2</span>, regexpr(<span class="string">&quot;Y&quot;</span>, x)-<span class="number">1</span>)</span><br><span class="line">        ncharY &lt;- substring(x, nchar(ncharX)+<span class="number">3</span>, nchar(x))</span><br><span class="line">        <span class="keyword">if</span>(unique)&#123;</span><br><span class="line">            ncharX = unique(ncharX)</span><br><span class="line">            ncharY = unique(ncharY)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(sort)&#123;</span><br><span class="line">            ncharX = sort(<span class="built_in">as.numeric</span>(ncharX))</span><br><span class="line">            ncharY = sort(<span class="built_in">as.numeric</span>(ncharY))</span><br><span class="line">        &#125;</span><br><span class="line">        res &lt;- <span class="built_in">list</span>(ncharX, ncharY)</span><br><span class="line">        <span class="built_in">return</span>(res)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    formatXY &lt;- <span class="keyword">function</span>(x)&#123;</span><br><span class="line">        ncharX &lt;- substring(x, <span class="number">2</span>, regexpr(<span class="string">&quot;Y&quot;</span>, x)-<span class="number">1</span>)</span><br><span class="line">        ncharY &lt;- substring(x, nchar(ncharX)+<span class="number">3</span>, nchar(x))</span><br><span class="line">        resX &lt;- <span class="built_in">c</span>()</span><br><span class="line">        <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(ncharX))&#123;</span><br><span class="line">            n0x &lt;- paste( <span class="built_in">rep</span>(<span class="built_in">rep</span>(<span class="number">0</span>, <span class="built_in">length</span>(ncharX[i])),</span><br><span class="line">                         times = (<span class="built_in">max</span>(nchar(ncharX)) - nchar(ncharX[i]) + <span class="number">1</span>)),</span><br><span class="line">                         collapse = <span class="string">&quot;&quot;</span>, sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">            resX[i] &lt;- paste(<span class="string">&quot;X&quot;</span>, substring(n0x, <span class="number">2</span>, nchar(n0x)), ncharX[i], collapse = <span class="string">&quot;&quot;</span>, sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        resY &lt;- <span class="built_in">c</span>()</span><br><span class="line">        <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(ncharY))&#123;</span><br><span class="line">            n0x &lt;- paste( <span class="built_in">rep</span>(<span class="built_in">rep</span>(<span class="number">0</span>, <span class="built_in">length</span>(ncharY[i])),</span><br><span class="line">                         times = (<span class="built_in">max</span>(nchar(ncharY)) - nchar(ncharY[i]) + <span class="number">1</span>)),</span><br><span class="line">                         collapse = <span class="string">&quot;&quot;</span>, sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">            resY[i] &lt;- paste(<span class="string">&quot;Y&quot;</span>, substring(n0x, <span class="number">2</span>, nchar(n0x)), ncharY[i], collapse = <span class="string">&quot;&quot;</span>, sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        res &lt;- paste(resX, resY, sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">        <span class="built_in">return</span>(res)</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    sort.x &lt;- x[order(formatXY(labels))]</span><br><span class="line">    rrr &lt;- dimension(labels, unique = <span class="literal">TRUE</span>, sort = <span class="literal">TRUE</span>)</span><br><span class="line">    dims &lt;- <span class="built_in">c</span>(<span class="built_in">length</span>(rrr[[<span class="number">2</span>]]), <span class="built_in">length</span>(rrr[[<span class="number">1</span>]]))</span><br><span class="line">    <span class="built_in">dim</span>(sort.x) &lt;- dims</span><br><span class="line">    par(xaxs = <span class="string">&quot;i&quot;</span>, yaxs = <span class="string">&quot;i&quot;</span>)</span><br><span class="line">    image.plot(nnn &lt;- t(sort.x), axes = <span class="literal">FALSE</span>, ...)</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">if</span> (contour) &#123;</span><br><span class="line">        contour(nnn, add = <span class="literal">TRUE</span>, ...)</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">    <span class="keyword">if</span> (axes) &#123;</span><br><span class="line">        points(<span class="number">0</span>, <span class="number">0</span>, pch = <span class="string">&quot; &quot;</span>, cex = <span class="number">3</span>)                      <span class="comment">## invoke the large plot</span></span><br><span class="line">       </span><br><span class="line">     get.axis.ticks &lt;-</span><br><span class="line">              <span class="keyword">function</span>(nlabs = <span class="literal">NULL</span>, gridsize = <span class="literal">NULL</span>, limit_max = <span class="literal">NULL</span>)&#123;</span><br><span class="line">    </span><br><span class="line">         ngrid &lt;- (limit_max-<span class="number">0</span>)/gridsize                      <span class="comment">## Obtain number of labels to plot</span></span><br><span class="line">         per_grid &lt;- 1/(ngrid-<span class="number">1</span>)                              <span class="comment">## Obtain length for each grid</span></span><br><span class="line">         start &lt;- 0 - (<span class="number">1</span>/(ngrid-<span class="number">1</span>))/<span class="number">2</span>                         <span class="comment">## starting point for the ticks</span></span><br><span class="line">         stop &lt;- 1 + (<span class="number">1</span>/(ngrid-<span class="number">1</span>))/<span class="number">2</span>                          <span class="comment">## stopping point for the ticks</span></span><br><span class="line">        </span><br><span class="line">         lab &lt;-(<span class="number">0</span>:nlabs*(limit_max/nlabs))</span><br><span class="line">         at &lt;- seq(from = start, to = stop,</span><br><span class="line">                   by = ((<span class="number">1</span> + per_grid))/((<span class="built_in">length</span>(lab)-<span class="number">1</span>)))   <span class="comment">## Position of the ticks</span></span><br><span class="line">        </span><br><span class="line">         <span class="built_in">return</span>(<span class="built_in">list</span>(lab, at))</span><br><span class="line">        </span><br><span class="line">     &#125;</span><br><span class="line">       xaxis.position &lt;- get.axis.ticks(nlabs = nlabx, gridsize = gridsize,</span><br><span class="line">                                limit_max = gridsize * nrow(nnn))</span><br><span class="line">       yaxis.position &lt;- get.axis.ticks(nlabs = nlaby, gridsize = gridsize,</span><br><span class="line">                                limit_max = gridsize * ncol(nnn))</span><br><span class="line">       </span><br><span class="line">        axis(<span class="number">1</span>, labels = xaxis.position[[<span class="number">1</span>]], at = xaxis.position[[<span class="number">2</span>]])</span><br><span class="line">        axis(<span class="number">2</span>, labels = yaxis.position[[<span class="number">1</span>]], at = yaxis.position[[<span class="number">2</span>]])</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">invisible</span>(nnn)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">library(vegan)</span><br><span class="line"> </span><br><span class="line"><span class="comment">## 模拟一套数据</span></span><br><span class="line">X &lt;- seq(<span class="number">10</span>, <span class="number">590</span>, by = <span class="number">20</span>)</span><br><span class="line">Y &lt;- seq(<span class="number">10</span>, <span class="number">390</span>, by = <span class="number">20</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">## Label</span></span><br><span class="line">XY &lt;- expand.grid(X, Y)</span><br><span class="line">names &lt;- paste(<span class="string">&quot;X&quot;</span>, (XY[,<span class="number">1</span>] + <span class="number">10</span>)/<span class="number">20</span> ,<span class="string">&quot;Y&quot;</span>, (XY[,<span class="number">2</span>] + <span class="number">10</span>)/<span class="number">20</span> , sep = <span class="string">&quot;&quot;</span>)</span><br><span class="line">rownames(XY) &lt;- <span class="built_in">names</span></span><br><span class="line"><span class="comment">## 计算样方两两之间的距离</span></span><br><span class="line">distXY &lt;- dist(XY)</span><br><span class="line"> </span><br><span class="line"><span class="comment">## 进行pcnm</span></span><br><span class="line">gtsPCNM &lt;- pcnm(distXY)</span><br><span class="line">head(gtsPCNM$vectors)</span><br><span class="line"> </span><br><span class="line"><span class="comment">## 绘制pcnm图</span></span><br><span class="line"><span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="number">10</span>)&#123;</span><br><span class="line">    imagevect(gtsPCNM$vectors[,i], labels = <span class="built_in">names</span>,</span><br><span class="line">               col = topo.colors(<span class="number">100</span>))</span><br><span class="line">    Sys.sleep(<span class="number">0.3</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="http://image.sciencenet.cn/album/201107/28/192937icc5eoui067zzscc.jpg" alt="img"></p>
-<p><img src="http://image.sciencenet.cn/album/201107/28/192937y4umyez4m3359wef.jpg" alt="img"></p>
-<p><img src="http://image.sciencenet.cn/album/201107/28/192938zxzre2su2ttal9et.jpg" alt="img"></p>
-<p><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></p>
-<p><img src="http://image.sciencenet.cn/album/201107/28/192938m7agg44ggap0uzgt.jpg" alt="img"></p>
-<p><img src="http://image.sciencenet.cn/album/201107/28/192938lctlee4ppm344i8p.jpg" alt="img"></p>
-<p><img src="http://image.sciencenet.cn/album/201107/28/1929397vtm7zu61d0fn75h.jpg" alt="img"></p>
-<p><img src="http://image.sciencenet.cn/album/201107/28/192939zpyslgc6clc6mpcc.jpg" alt="img"></p>
-<p><img src="http://image.sciencenet.cn/album/201107/28/192939ispollo4sxpo0s0g.jpg" alt="img"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2011/07/28/2011-7-28-pcnm/" data-id="ckmt6y7lb003imgya98cv6129" data-title="PCNM动画展示：生态学与空间统计学" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -703,6 +696,10 @@
       <ul>
         
           <li>
+            <a href="/2021/05/15/graduate-students/">生态学研究生要清楚的三件事：从《生态学家必读的100篇论文》说起</a>
+          </li>
+        
+          <li>
             <a href="/2021/05/13/life/">生活的答案</a>
           </li>
         
@@ -716,10 +713,6 @@
         
           <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/18/2021-03-18/">为什么《xxxx在XX研究中取得进展》这类文章很少有人转发？</a>
           </li>
         
       </ul>

@@ -73,6 +73,69 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2020-11-29" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/11/29/2020-11-29/" class="article-date">
+  <time class="dt-published" datetime="2020-11-29T06:08:00.000Z" itemprop="datePublished">2020-11-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/11/29/2020-11-29/">tmap手工调整采样点地图的图例</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>tmap是用来绘制地图的R程序包，作者是荷兰统计学家Martijn Tennekes (<a target="_blank" rel="noopener" href="https://github.com/mtennekes/tmap)%E3%80%82tmap%E7%BB%93%E5%90%88sf%E3%80%81sp%E7%AD%89%E7%A8%8B%E5%BA%8F%E5%8C%85%EF%BC%8C%E7%BB%98%E5%88%B6%E8%AE%BE%E8%89%B2%E5%9C%B0%E5%9B%BE%E3%80%81%E7%82%B9%E5%88%86%E5%B8%83%E5%9B%BE%E3%80%81%E6%A0%85%E6%A0%BC%E5%9B%BE%E7%AD%89%E5%8D%81%E5%88%86%E6%96%B9%E4%BE%BF%EF%BC%8C%E6%9C%AC%E5%8D%9A%E5%AE%A2%E4%BB%A5%E5%89%8D%E4%B9%9F%E6%9C%89%E4%BB%8B%E7%BB%8D%E3%80%82">https://github.com/mtennekes/tmap)。tmap结合sf、sp等程序包，绘制设色地图、点分布图、栅格图等十分方便，本博客以前也有介绍。</a></p>
+<p>不过，tmap在绘制复杂的采样点分布图时，默认的图例往往不太理想。tmap用点的形状、颜色分别表示采样点的类型（如森林、湿地、草原），用大小表示数量（物种丰富度等），此时，形状、颜色和大小三个维度是分开的，图例也默认相应分开，而这并不是用户想要的，因此需要对代码进行修改。</p>
+<p>本文给出一些示例代码，主要参考Xu S. et al. (2020)论文和附件。相应数据和代码可在 <a target="_blank" rel="noopener" href="https://github.com/helixcn/ecoinformatics">https://github.com/helixcn/ecoinformatics</a> 下载。</p>
+<h2 id="读取数据"><a href="#读取数据" class="headerlink" title="读取数据"></a>读取数据</h2><p>图中需要有指北针和比例尺，要求用蓝色实心三角，表示森林（forest）；绿色实心圆点，表示草地（grassland）；藕荷色实心菱形，表示湿地（wetland）。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;/Users/jinlong/Documents/ecoinformatics/2020-11-29_tmap/&quot;</span>)</span><br><span class="line">library(tmap)</span><br><span class="line">library(tmaptools)</span><br><span class="line">library(sf)</span><br><span class="line"><span class="comment">## Linking to GEOS 3.8.1, GDAL 3.1.1, PROJ 6.3.1</span></span><br><span class="line">library(sp)</span><br><span class="line">library(openxlsx)</span><br><span class="line"></span><br><span class="line">rm(<span class="built_in">list</span> = ls()) <span class="comment"># 删除工作空间中原来的对象</span></span><br><span class="line">sites &lt;- read.xlsx(<span class="string">&quot;rspb20202063_si_002.xlsx&quot;</span>)</span><br><span class="line">head(sites)</span><br><span class="line"><span class="comment">##              Variable           References Country Latitude          Longitude</span></span><br><span class="line"><span class="comment">## 1 Aboveground biomass     Liu et al. 2017b Germany 51.33857 12.378462000000001</span></span><br><span class="line"><span class="comment">## 2 Aboveground biomass     Liu et al. 2017b Germany 51.33857 12.378462000000001</span></span><br><span class="line"><span class="comment">## 3 Belowground biomass Brassard et al. 2011  Canada 49.50000              -89.6</span></span><br><span class="line"><span class="comment">## 4 Belowground biomass Brassard et al. 2011  Canada 49.17000             -89.83</span></span><br><span class="line"><span class="comment">## 5 Belowground biomass    Finér et al. 2017   Spain 40.70000               −1.9</span></span><br><span class="line"><span class="comment">## 6 Belowground biomass    Finér et al. 2017   Spain 40.70000               −1.9</span></span><br><span class="line"><span class="comment">##   MAT.(℃) MAP.(mm) Ecosystem Duration Plant.diversity.level Plot.area.(m2)</span></span><br><span class="line"><span class="comment">## 1   9.545      544    forest     0.29                     2         0.0881</span></span><br><span class="line"><span class="comment">## 2   9.545      544    forest     0.29                     4         0.0881</span></span><br><span class="line"><span class="comment">## 3   2.500      712    forest     1.00                    NA       400.0000</span></span><br><span class="line"><span class="comment">## 4   0.600      823    forest     1.00                    NA       400.0000</span></span><br><span class="line"><span class="comment">## 5  10.200      499    forest       NA                     2       900.0000</span></span><br><span class="line"><span class="comment">## 6  10.200      499    forest       NA                     3       900.0000</span></span><br><span class="line"><span class="comment">##          LnRR</span></span><br><span class="line"><span class="comment">## 1  0.06509796</span></span><br><span class="line"><span class="comment">## 2  0.31643103</span></span><br><span class="line"><span class="comment">## 3  0.53959844</span></span><br><span class="line"><span class="comment">## 4  0.32157929</span></span><br><span class="line"><span class="comment">## 5 -0.36161104</span></span><br><span class="line"><span class="comment">## 6 -0.62003058</span></span><br><span class="line">sites$Longitude &lt;- <span class="built_in">as.numeric</span>(sites$Longitude) </span><br><span class="line"><span class="comment"># 某些Longitude或者Latitude记录可能为空，不能识别为numeric类型，因此先要用as.numeric转换。</span></span><br><span class="line"><span class="comment">## Warning: NAs introduced by coercion</span></span><br><span class="line">sites$Latitude &lt;- <span class="built_in">as.numeric</span>(sites$Latitude)</span><br><span class="line"></span><br><span class="line">sites &lt;- sites[!(<span class="built_in">is.na</span>(sites$Longitude)|<span class="built_in">is.na</span>(sites$Latitude)),] </span><br><span class="line"><span class="comment"># 去掉Longitude和latitude为NA的记录</span></span><br><span class="line"><span class="comment"># 建立spatial data.frame</span></span><br><span class="line">coordinates(sites) &lt;- ~Longitude+Latitude</span><br><span class="line">proj4string(sites) &lt;- CRS(<span class="string">&quot;+proj=longlat +datum=WGS84&quot;</span>) <span class="comment"># 设定WGS84投影</span></span><br><span class="line">head(sites)</span><br><span class="line"><span class="comment">## class       : SpatialPointsDataFrame </span></span><br><span class="line"><span class="comment">## features    : 6 </span></span><br><span class="line"><span class="comment">## extent      : -89.83, 26, 47.3, 51.33857  (xmin, xmax, ymin, ymax)</span></span><br><span class="line"><span class="comment">## crs         : +proj=longlat +datum=WGS84 +no_defs </span></span><br><span class="line"><span class="comment">## variables   : 10</span></span><br><span class="line"><span class="comment">## names       :            Variable,           References, Country,          MAT.(℃), MAP.(mm), Ecosystem, Duration, Plant.diversity.level, Plot.area.(m2),               LnRR </span></span><br><span class="line"><span class="comment">## min values  : Aboveground biomass, Brassard et al. 2011,  Canada,              0.6,      544,    forest,     0.29,                     2,         0.0881, -0.217864917184295 </span></span><br><span class="line"><span class="comment">## max values  : Belowground biomass,     Liu et al. 2017b, Romania, 9.54499998254081,      823,    forest,        1,                     4,            900,  0.539598438991999</span></span><br><span class="line">world &lt;- read_sf(<span class="string">&quot;world20200121_polygon.shp&quot;</span>) </span><br><span class="line"><span class="comment">#读取shape文件（注意：本图为多边形，没有九段线）</span></span><br><span class="line">st_crs(world) &lt;- <span class="number">4326</span> <span class="comment"># 确定WGS84投影</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="绘制采样点分布图"><a href="#绘制采样点分布图" class="headerlink" title="绘制采样点分布图"></a>绘制采样点分布图</h2><p>默认情况下，地图的图例有三种，分别按照颜色、形状和大小给出。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 01</span></span><br><span class="line">map01 &lt;- tm_shape(world) +</span><br><span class="line">    tm_borders(<span class="string">&quot;grey60&quot;</span>, lwd = <span class="number">1</span>) + <span class="comment"># 国界线为灰色</span></span><br><span class="line">    tm_shape(sites) +</span><br><span class="line">    tm_symbols(shape= <span class="string">&quot;Ecosystem&quot;</span>, </span><br><span class="line">        alpha = <span class="number">1</span>,</span><br><span class="line">        col = <span class="string">&quot;Ecosystem&quot;</span>, <span class="comment"># 点的颜色按照Ecosystem显示</span></span><br><span class="line">        border.lwd = <span class="number">2</span>,</span><br><span class="line">        palette = <span class="built_in">c</span>(<span class="string">&quot;blue&quot;</span>, <span class="string">&quot;seagreen4&quot;</span>, <span class="string">&quot;magenta2&quot;</span>), <span class="comment"># 指定三种颜色</span></span><br><span class="line">        shapes = <span class="built_in">c</span>(<span class="number">17</span>, <span class="number">19</span>, <span class="number">18</span>), <span class="comment"># 点的形状按照Ecosystem显示，分别为17、19、18</span></span><br><span class="line">        size = <span class="number">0.3</span>,</span><br><span class="line">        labels = <span class="built_in">c</span>(<span class="string">&quot;forest&quot;</span>, <span class="string">&quot;grassland&quot;</span>, <span class="string">&quot;wetland&quot;</span>), <span class="comment"># 点的名称设定为forest、grassland、wetland</span></span><br><span class="line">        title.col = <span class="string">&quot;Ecosystem&quot;</span>, <span class="comment"># 图例名称为Ecosystem</span></span><br><span class="line">        legend.col.show = <span class="literal">TRUE</span>,  <span class="comment"># 在图例中显示颜色</span></span><br><span class="line">        legend.shape.show = <span class="literal">TRUE</span>) + <span class="comment"># 在图例中显示形状</span></span><br><span class="line">    tm_scale_bar(breaks = <span class="built_in">c</span>(<span class="number">0</span>, <span class="number">2500</span>, <span class="number">5000</span>, <span class="number">10000</span>), <span class="comment"># 比例尺</span></span><br><span class="line">        position=<span class="built_in">c</span>(<span class="number">0.60</span>, <span class="number">0.0</span>), <span class="comment"># 比例尺在地图中的位置</span></span><br><span class="line">        text.size = <span class="number">1</span>) +</span><br><span class="line">    tm_compass(type = <span class="string">&quot;4star&quot;</span>, <span class="comment"># 指北针类型</span></span><br><span class="line">        position=<span class="built_in">c</span>(<span class="string">&quot;right&quot;</span>, <span class="string">&quot;top&quot;</span>), <span class="comment"># 指北针位置</span></span><br><span class="line">        size = <span class="number">2.5</span>) + <span class="comment"># 指北针大小</span></span><br><span class="line">    tm_layout(inner.margins=<span class="built_in">c</span>(<span class="number">0.12</span>,<span class="number">0.03</span>,<span class="number">0.08</span>,<span class="number">0.03</span>), <span class="comment"># 地图边缘的大小</span></span><br><span class="line">        legend.stack = <span class="string">&quot;horizontal&quot;</span>, <span class="comment"># 图例排列</span></span><br><span class="line">        fontfamily = <span class="string">&quot;FreeSerif&quot;</span>) +  <span class="comment"># Times New Roman （MacOS）</span></span><br><span class="line">    tm_legend(position=<span class="built_in">c</span>(<span class="number">0.05</span>, <span class="number">0.20</span>), <span class="comment"># 图例放在图左下角</span></span><br><span class="line">        legend.text.size = <span class="number">0.8</span>,</span><br><span class="line">        legend.title.size = <span class="number">1.2</span>) +</span><br><span class="line">    tm_add_legend(</span><br><span class="line">        type = <span class="string">&quot;symbol&quot;</span>,</span><br><span class="line">        title = <span class="string">&quot;Ecosystem&quot;</span> <span class="comment"># 图例标题</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">map01</span><br><span class="line"><span class="comment">## Scale bar set for latitude km and will be different at the top and bottom of the map.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## 8inches by 5 inches, 600dpi</span></span><br><span class="line"><span class="comment"># jpeg(&quot;map01.jpeg&quot;, width = 8*600, height = 5*600, res = 600)</span></span><br><span class="line"><span class="comment"># map01</span></span><br><span class="line"><span class="comment"># dev.off()</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="更改图例后的地图"><a href="#更改图例后的地图" class="headerlink" title="更改图例后的地图"></a>更改图例后的地图</h2><p>用tm_add_legend手工调整：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">tm_add_legend(</span><br><span class="line">    type &#x3D; &quot;symbol&quot;,</span><br><span class="line">    labels &#x3D; c(&quot;grassland&quot;, &quot;forest&quot;, &quot;wetland&quot;),</span><br><span class="line">    col &#x3D; c(&quot;seagreen4&quot;, &quot;blue&quot;, &quot;magenta2&quot;),</span><br><span class="line">    shape &#x3D; c(19, 17, 18),</span><br><span class="line">    title &#x3D; &quot;Ecosystem&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>更改后的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"># 02map02 &lt;- tm_shape(world) +</span><br><span class="line">    tm_borders(&quot;grey60&quot;, lwd &#x3D; 1) +</span><br><span class="line">    tm_shape(sites) +</span><br><span class="line">    tm_symbols(shape&#x3D; &quot;Ecosystem&quot;,</span><br><span class="line">        alpha &#x3D; 1,</span><br><span class="line">        col &#x3D; &quot;Ecosystem&quot;,</span><br><span class="line">        border.lwd &#x3D; 2,</span><br><span class="line">        palette &#x3D; c(&quot;blue&quot;, &quot;seagreen4&quot;, &quot;magenta2&quot;),</span><br><span class="line">        shapes &#x3D; c(17, 19, 18),</span><br><span class="line">        size &#x3D; 0.3,</span><br><span class="line">        labels &#x3D; c(&quot;forest&quot;, &quot;grassland&quot;, &quot;wetland&quot;),</span><br><span class="line">        title.col &#x3D; &quot;Ecosystem&quot;,</span><br><span class="line">        legend.col.show &#x3D; FALSE,</span><br><span class="line">        legend.shape.show &#x3D; FALSE) +</span><br><span class="line">    tm_scale_bar(breaks &#x3D; c(0, 2500, 5000, 10000),</span><br><span class="line">        position&#x3D;c(0.60, 0.0),</span><br><span class="line">        text.size &#x3D; 1) +</span><br><span class="line">    tm_compass(type &#x3D; &quot;4star&quot;,</span><br><span class="line">        position&#x3D;c(&quot;right&quot;, &quot;top&quot;),</span><br><span class="line">        size &#x3D; 2.5) +</span><br><span class="line">    tm_layout(inner.margins&#x3D;c(0.12,0.03,0.08,0.03),</span><br><span class="line">        legend.stack &#x3D; &quot;horizontal&quot;,</span><br><span class="line">        fontfamily &#x3D; &quot;serif&quot;) +</span><br><span class="line">    tm_legend(position&#x3D;c(0.05, 0.20),</span><br><span class="line">        legend.text.size &#x3D; 0.8,</span><br><span class="line">        legend.title.size &#x3D; 1.2) +</span><br><span class="line">    tm_add_legend(</span><br><span class="line">        type &#x3D; &quot;symbol&quot;,</span><br><span class="line">        labels &#x3D; c(&quot;grassland&quot;, &quot;forest&quot;, &quot;wetland&quot;), # 图例的标签</span><br><span class="line">        col &#x3D; c(&quot;seagreen4&quot;, &quot;blue&quot;, &quot;magenta2&quot;), # 图例颜色</span><br><span class="line">        shape &#x3D; c(19, 17, 18), # 图例</span><br><span class="line">        title &#x3D; &quot;Ecosystem&quot;</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">map02</span><br><span class="line">## Scale bar set for latitude km and will be different at the top and bottom of the map.</span><br><span class="line"></span><br><span class="line">## 8inches by 5 inches, 600dpi</span><br><span class="line"># jpeg(&quot;map02.jpeg&quot;, width &#x3D; 8*600, height &#x3D; 5*600, res &#x3D; 600)</span><br><span class="line"># map02# dev.off()</span><br></pre></td></tr></table></figure>
+
+<h2 id="附：绘制欧洲部分的地图"><a href="#附：绘制欧洲部分的地图" class="headerlink" title="附：绘制欧洲部分的地图"></a>附：绘制欧洲部分的地图</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># 03map03 &lt;- tm_shape(world,</span><br><span class="line">        xlim &#x3D; c(-15, 40), # 经度范围</span><br><span class="line">        ylim &#x3D; c(35, 70)) + # 纬度范围</span><br><span class="line">    tm_borders(&quot;grey60&quot;, lwd &#x3D; 1) +</span><br><span class="line">    tm_shape(sites) +</span><br><span class="line">    tm_symbols(shape&#x3D; &quot;Ecosystem&quot;,</span><br><span class="line">        col &#x3D; &quot;Ecosystem&quot;,</span><br><span class="line">        palette &#x3D; c(&quot;blue&quot;, &quot;seagreen4&quot;, &quot;magenta2&quot;),</span><br><span class="line">        size &#x3D; 0.2,</span><br><span class="line">        shapes &#x3D; c(17, 19, 18),</span><br><span class="line">        border.lwd &#x3D; 1.8) +</span><br><span class="line">    tm_scale_bar(position &#x3D; c(&quot;left&quot;, &quot;top&quot;)) +</span><br><span class="line">    tm_layout(legend.show &#x3D; FALSE, fontfamily &#x3D; &quot;serif&quot;)</span><br><span class="line"></span><br><span class="line">map03</span><br><span class="line">## Scale bar set for latitude km and will be different at the top and bottom of the map.</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 4 inches by 5 inches, 400dpi</span></span><br><span class="line"><span class="comment"># jpeg(&quot;map03.jpeg&quot;, width = 4*400, height = 5*400, res = 600)</span></span><br><span class="line"><span class="comment"># map03</span></span><br><span class="line"><span class="comment"># dev.off()</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><ul>
+<li>Xu, S., Eisenhauer, N., Ferlian, O., Zhang, J., Zhou, G., Lu, X., Liu, C., &amp; Zhang, D. (2020). Species richness promotes ecosystem carbon storage: Evidence from biodiversity-ecosystem functioning experiments. Proceedings of the Royal Society B, 287(1939), 20202063. (<a target="_blank" rel="noopener" href="https://doi.org/10.1098/rspb.2020.2063">https://doi.org/10.1098/rspb.2020.2063</a>)</li>
+<li>Tennekes M (2018). “tmap: Thematic Maps in R.” Journal of Statistical Software, 84(6), 1-39. doi: 10.18637/jss.v084.i06 (<a target="_blank" rel="noopener" href="https://doi.org/10.18637/jss.v084.i06">https://doi.org/10.18637/jss.v084.i06</a>).</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2020/11/29/2020-11-29/" data-id="ckmt6y7qe00e5mgyabqufdoz3" data-title="tmap手工调整采样点地图的图例" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-2020-06-29" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2020/06/29/2020-06-29/" class="article-date">
@@ -1091,68 +1154,6 @@
 
 
   
-    <article id="post-2019-7-29-icecream" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2019/07/29/2019-7-29-icecream/" class="article-date">
-  <time class="dt-published" datetime="2019-07-28T16:45:02.000Z" itemprop="datePublished">2019-07-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2019/07/29/2019-7-29-icecream/">冰糕、奶糕</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>华北，6月中旬，深蓝的天空万里无云。盛夏的太阳散发着威力，炙烤着金黄色的麦田。干热风吹过，麦穗沙沙作响。此时，麦穗早已又干又脆，轻轻一碰，麦粒就会掉在地上。</p>
-<p>晌午，割麦子的人挥汗如雨。镰刀轻轻往回一收，麦杆就清脆地断开了。每割一下，地上就升起一丝尘土，仿佛一缕淡淡的青烟。每呼吸一下，干燥的空气就带走嗓子里的一点水分，仿佛要把肺抽干。塑料水壶里的水早已被烤得发烫，喝上几大口，也不觉得多解渴。</p>
-<p>远远的，有一个小白点来了。借着麦浪，声音传得更远：“冰糕、奶糕、刨冰……”：一个不到二十岁的姑娘，推着一辆飞鸽牌二十八加重自行车，车后座挂着两个冰棍儿箱子。这是二十多年前，麦收时候的一天中午。</p>
-<p>卖冰棍儿姑娘的出现，比凉爽的风更让人激动。</p>
-<p>掀开冰棍儿箱的盖子，一股凉气让拿冰棍儿的手别提多舒服了。冰棍儿上面盖着一个白色的小棉被。掀开被子，冰棍儿、雪糕整齐码着：这边是奶油，那边是小豆，还有巧克力的，“俩色俩味”的……另一个箱子里是“刨冰”，坚韧的塑料袋里冻着糖水，这个“刨冰”也很受欢迎。</p>
-<p>干渴至极的时候能吃到冰棍儿，让人难掩内心的激动。割麦子的人赶紧掏出两元钱，冰棍儿两毛，刨冰五毛，不仅仅是给一起下地干活的孩子，自己也要赶紧吃上两块消暑。</p>
-<p>如果天气不热，大部分人是不舍得买冰棍儿吃的。只有在烈日下，冰棍儿的销路才好。今天生意确实不错。</p>
-<p>姑娘扶了扶草帽。汗水从额头流下来，沾湿了头发，她赶忙擦了擦汗。口渴难耐，她赶紧打开水壶，灌了几口早上在家里罐好的井水。“的确良”衬衫也早已湿透。还好，还差几块钱，本钱就上来了，这样一来，剩下的二十几只冰棍儿就全是今天赚的，也许能挣上十几块。想到此处，姑娘心里宽慰了许多。</p>
-<p>冰棍儿都是一早上从二十多里路以外的县城趸回来的。天蒙蒙亮就要出发，那还是早上四点多。</p>
-<p>姑娘从小到大一直在学校读书：家里人都觉得读书是改变命运的唯一希望，所以一直全力支持。只是姑娘高考发挥失常，没有考上大学，落榜在家。</p>
-<p>没有什么选择，只有安心务农，早早找户人家嫁了。出嫁之前要努力挣点儿钱，给自己攒点儿嫁妆。</p>
-<p>之前，她没受过多少日晒雨淋，都一直是在教室里学习，听老师讲语、数、外、史、地、生，做各种练习题，参加各种测试，对未来充满憧憬，从未想过自己要去卖冰棍儿。</p>
-<p>住校的几年，她一直都是吃家里带的咸菜，营养不良，身体瘦弱。自行车上挂上两个空冰棍儿箱子，她觉得很不好控制，特别是上下车，右腿都要跨过车的大梁，很不习惯。</p>
-<p>从家里出发一个小时，终于骑到了冰棍儿厂了。天早已大亮，太阳升起来，照着稚嫩的脸。前面还有很多人在往箱子里装冰棍，趸冰棍儿要挨个儿。好不容易交上钱，装好箱，两个箱子忽然仿佛装满了两大桶水，沉重异常，车子就更难控制。</p>
-<p>来到田间小路，她不敢再骑，生怕撞到树上或者拐进沟里，瘦小的她只能慢慢向前推着车子，边走，边吆喝，“冰糕、奶糕、刨冰……”。她知道，只有最暴晒的麦田里，冰棍儿才有人买。就这样，她在烈日下转了几个钟头，早已有点儿头晕目眩，中午也只是啃了两口凉馒头就咸菜。</p>
-<p>太阳慢慢转到西边了，没那么热了，现在还有十几根冰棍儿没有卖出去。虽然天气不太热了，但是箱子里开始暖和起来，冰棍儿变得很软，马上就要化了。</p>
-<p>她也赶紧回到村里，将软到快要拿不起来的贱卖处理，原来五毛钱一块的，现在一块钱给三块、四块。还好，最终只是还剩几块在箱子里融化了，箱子里，糖水上漂着几根木棍儿……辛苦了一整天，挣了几块钱，姑娘心里说不出的滋味。</p>
-<p>天快黑了，她回到家。</p>
-<p>父母没有说她。父亲沉默不语，在一旁抽着烟。母亲帮她把箱子擦干净。</p>
-<p>晚饭很简单，炒土豆，煮凉汤（过水面）。她吃了几口，眼泪落下来，然后独自回房间了。一个高考落榜姑娘的一天就这样结束了。</p>
-<p>其实，这里的姑娘，跟我高考落榜的姑姑所经历的，并没有什么区别。我两个姑姑在高中毕业后，在九十年代都卖过冰棍儿。二十多年后的今天，我还能想起姑姑冰棍儿没有卖完，回来后一家人一起吃冰棍儿的情景。</p>
-<p>行走在烈日下，我经常想起麦田边上那个由远及近的小白点，一个瘦弱的姑娘，推着自行车，后面挂着冰棍儿箱子，不停吆喝着：“冰糕、奶糕、刨冰……”</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2019/07/29/2019-7-29-icecream/" data-id="ckmt6y7q900dvmgya7v0pao4l" data-title="冰糕、奶糕" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -1203,6 +1204,10 @@
       <ul>
         
           <li>
+            <a href="/2021/05/15/graduate-students/">生态学研究生要清楚的三件事：从《生态学家必读的100篇论文》说起</a>
+          </li>
+        
+          <li>
             <a href="/2021/05/13/life/">生活的答案</a>
           </li>
         
@@ -1216,10 +1221,6 @@
         
           <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/18/2021-03-18/">为什么《xxxx在XX研究中取得进展》这类文章很少有人转发？</a>
           </li>
         
       </ul>

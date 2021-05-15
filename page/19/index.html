@@ -73,6 +73,53 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2012-7-8-editfigures" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2012/07/08/2012-7-8-editfigures/" class="article-date">
+  <time class="dt-published" datetime="2012-07-08T03:51:54.000Z" itemprop="datePublished">2012-07-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2012/07/08/2012-7-8-editfigures/">论文投稿用什么软件修改图片？</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>学术期刊要求在投稿时， 一般要求矢量图(eps, pdf, svg等)或者高分辨率（600DPI以上）的栅格图(一般为TIFF)。</p>
+<p>这里简要总结如下：</p>
+<h1 id="1-生成图片"><a href="#1-生成图片" class="headerlink" title="1 生成图片"></a>1 生成图片</h1><p>绘制用散点图、柱状图、 折线图等，一般用R （免费）、GNUplot （免费）、Python（免费）、Matlab （需购买）、 SigmaPlot（需购买）、Excel等；绘制进化树，使用FigTree （免费）；绘制地图等用ArcGIS （需购买）； 绘制流程图等，用OpenOffice的Draw（免费）。处理公式， 常用MathType（需购买）, 也可以用EqualX Equation Editor (免费)。</p>
+<h1 id="2-不同格式图的修改"><a href="#2-不同格式图的修改" class="headerlink" title="2 不同格式图的修改"></a>2 不同格式图的修改</h1><p>修改矢量图，一般保存为pdf格式或eps格式，以pdf最方便处理和浏览。</p>
+<p>eps、 pdf等格式的矢量图， 可以用inkscape （免费）、Adobe Illustrator （需购买） 修改。</p>
+<p>tiff等栅格图（包括照片）， 一般需要在600dpi以上，可以用paint.net （免费）、 GIMP （免费）或Adobe Photoshop （需购买）修改，</p>
+<p>总之， R、 OpenOffice、 Inkscape、GIMP、paint.net、EqualX Equation Editor 等免费软件， 完全可以保证对图片作出符合投稿要求的修改。 科研工作者几乎不需要购买昂贵的软件或使用盗版软件， 即可获得高质量的图片， 更好地展示自己的科研成果。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2012/07/08/2012-7-8-editfigures/" data-id="ckmt6y7lp004hmgya5gx7ghdf" data-title="论文投稿用什么软件修改图片？" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" rel="tag">图像处理</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-2012-7-5-genera" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2012/07/05/2012-7-5-genera/" class="article-date">
@@ -974,54 +1021,6 @@
 
 
   
-    <article id="post-2012-2-29-mcmc" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2012/02/28/2012-2-29-mcmc/" class="article-date">
-  <time class="dt-published" datetime="2012-02-28T15:54:54.000Z" itemprop="datePublished">2012-02-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2012/02/28/2012-2-29-mcmc/">MCMC中的Metropolis Hastings抽样法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>Metropolis Hasting（下面简称MH）是蒙特卡罗马尔科夫链中一种重要的抽样方法。本文简要介绍MH算法，并给出一个实例。</p>
-<p>MH算法在参数空间随机取值，作为起始点。按照参数的概率分布生成随机的参数，按照这一系列参数的组合，计算当前点的概率密度。依据当前点和起始点概率密度比值是否大于(0,1)之间的随机数来判断是否保留当前点。若当前点的概率密度大于该随机数，就称这种状态为接受状态，此时，在满足参数概率分布的前提下，继续随机抽取参数的组合，作为下一点，计算下一点的概率密度，并计算下一点概率密度和概率密度的比值，并继续循环。若当前点不能被接受，则继续在满足参数概率分布的前提下，继续生成随机数，作为新的参数组合，直到参数组合能够被接受为止。</p>
-<p>下面是用MCMC MH抽样法生成满足一定条件二元正态分布的例子，供感兴趣的同仁参考。<br>问题：对于一个二元正态分布，给定输入数据点向量x （x包含两个元素，x1，x2）， 平均值参数向量mu（x1，x2），和sigma（方差矩阵），写出二元正态分布的概率密度函数。</p>
-<p>该问题引自： <a target="_blank" rel="noopener" href="http://users.aims.ac.za/~ioana/">http://users.aims.ac.za/~ioana/</a></p>
-<p>由于本人对MCMC理解不深，对一些概念的理解难免出现错误，望读者能够批评得阅读，若发现问题，请及时告知本人。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 解答：</span></span><br><span class="line">mvdnorm &lt;- <span class="keyword">function</span>(x, mu, sigma)&#123;</span><br><span class="line">    <span class="comment">#从x减去mu</span></span><br><span class="line">    x.minus.mu &lt;- x - mu </span><br><span class="line">    exp.arg    &lt;- -<span class="number">0.5</span> * <span class="built_in">sum</span>(x.minus.mu * solve(sigma, x.minus.mu))  </span><br><span class="line">    <span class="comment"># det(sigma) sigma 的行列式</span></span><br><span class="line">    <span class="built_in">return</span>( <span class="number">1</span> / (<span class="number">2</span> * <span class="built_in">pi</span> * <span class="built_in">sqrt</span>(det(sigma))) * <span class="built_in">exp</span>(exp.arg) )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">## 问题二</span></span><br><span class="line"><span class="comment">## 假设二元正态分布的参数如下： </span></span><br><span class="line"><span class="comment">## 两个维度的平均值分别为 2， 3</span></span><br><span class="line"><span class="comment"># 协方差矩阵为</span></span><br><span class="line"><span class="comment"># 4 1</span></span><br><span class="line"><span class="comment"># 1 4</span></span><br><span class="line"><span class="comment"># 尝试用蒙特卡洛马尔科夫链 Metropolis Hastings 抽样法生成后验分布，进行10000次随机抽样，并计算随机点的接受率。</span></span><br><span class="line"><span class="comment"># 答： 按照题意，有</span></span><br><span class="line">mu &lt;- <span class="built_in">c</span>(<span class="number">2</span> ,<span class="number">3</span>)</span><br><span class="line">sigma &lt;- matrix(<span class="built_in">c</span>(<span class="number">4</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">4</span>), nrow = <span class="number">2</span>)</span><br><span class="line"><span class="comment"># 限制sampler在空间的移动速率，数值越大，变化越快，该数值的设定待进一步讨论。</span></span><br><span class="line">sd.proposal &lt;- 2</span><br><span class="line"><span class="comment">## 设定模拟的次数</span></span><br><span class="line">n &lt;- 10000</span><br><span class="line"><span class="comment">## 生成NA组成的矩阵，用于保存模拟的结果</span></span><br><span class="line">x &lt;- matrix(nrow = n, ncol = <span class="number">2</span>)</span><br><span class="line"><span class="comment"># 设定sampler的初始值，假定数据点从 0, 0开始 （实际上该sampler可以从任意点开始移动）</span></span><br><span class="line">cur.x &lt;- <span class="built_in">c</span>(<span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line"><span class="comment"># 计算给定初始值时的概率密度</span></span><br><span class="line">cur.f &lt;- mvdnorm(cur.x, mu, sigma)</span><br><span class="line"><span class="comment">### 蒙特卡洛马尔科夫链</span></span><br><span class="line">n.accepted &lt;- 0</span><br><span class="line"><span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:n)&#123;</span><br><span class="line">    new.x &lt;- cur.x + sd.proposal * rnorm(<span class="number">2</span>)  <span class="comment">## 随机生成x</span></span><br><span class="line">    new.f &lt;- mvdnorm(new.x, mu, sigma)       <span class="comment">## 计算概率密度</span></span><br><span class="line">    <span class="keyword">if</span>(runif(<span class="number">1</span>) &lt; new.f/cur.f)&#123;  </span><br><span class="line">        <span class="comment">## new.f/cur.f 概率密度的比率 和 (0,1)之间的随机数相比</span></span><br><span class="line">        <span class="comment">## 若该比率小于随机数，则接受该点</span></span><br><span class="line">       n.accepted &lt;- n.accepted + <span class="number">1</span></span><br><span class="line">       cur.x &lt;- new.x</span><br><span class="line">       cur.f &lt;- new.f</span><br><span class="line">       &#125;</span><br><span class="line">    x[i,] &lt;- cur.x                            <span class="comment">## 将cur.x存到第i行</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">#查看接受率</span></span><br><span class="line">n.accepted/n</span><br><span class="line"><span class="comment">#查看每个变量的随机变化情况</span></span><br><span class="line">par(mfrow=<span class="built_in">c</span>(<span class="number">2</span>,<span class="number">1</span>))</span><br><span class="line">plot(x[,<span class="number">1</span>], type=<span class="string">&quot;l&quot;</span>, xlab=<span class="string">&quot;t&quot;</span>, ylab=<span class="string">&quot;X_1&quot;</span>, main=<span class="string">&quot;Sample path of X_1&quot;</span>)</span><br><span class="line">plot(x[,<span class="number">2</span>], type=<span class="string">&quot;l&quot;</span>, xlab=<span class="string">&quot;t&quot;</span>, ylab=<span class="string">&quot;X_2&quot;</span>, main=<span class="string">&quot;Sample path of X_2&quot;</span>)</span><br><span class="line"><span class="comment">## 绘制椭圆概率密度图</span></span><br><span class="line">library(MASS)</span><br><span class="line">proline.density &lt;- kde2d(x[,<span class="number">1</span>], x[,<span class="number">2</span>], h = <span class="number">5</span>)</span><br><span class="line">par(mfrow = <span class="built_in">c</span>(<span class="number">1</span>, <span class="number">1</span>))</span><br><span class="line">plot(x, col = <span class="string">&quot;gray&quot;</span>)</span><br><span class="line">contour(proline.density, add = <span class="literal">TRUE</span>)</span><br><span class="line">points(<span class="number">2</span>,<span class="number">3</span>, pch = <span class="number">3</span>)</span><br></pre></td></tr></table></figure>
-
-<p>抽样后的概率密度<br>Trace plot</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2012/02/28/2012-2-29-mcmc/" data-id="ckmt6y7lg003vmgya7aqn21lq" data-title="MCMC中的Metropolis Hastings抽样法" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BB%9F%E8%AE%A1/" rel="tag">统计</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -1072,6 +1071,10 @@
       <ul>
         
           <li>
+            <a href="/2021/05/15/graduate-students/">生态学研究生要清楚的三件事：从《生态学家必读的100篇论文》说起</a>
+          </li>
+        
+          <li>
             <a href="/2021/05/13/life/">生活的答案</a>
           </li>
         
@@ -1085,10 +1088,6 @@
         
           <li>
             <a href="/2021/03/25/2021-03-25/">用pkgdown为R程序包建立网站</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/18/2021-03-18/">为什么《xxxx在XX研究中取得进展》这类文章很少有人转发？</a>
           </li>
         
       </ul>
