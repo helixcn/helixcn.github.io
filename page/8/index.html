@@ -73,6 +73,51 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2018-4-28-arrow" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/04/27/2018-4-28-arrow/" class="article-date">
+  <time class="dt-published" datetime="2018-04-27T09:03:54.000Z" itemprop="datePublished">2018-04-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/04/27/2018-4-28-arrow/">用R绘制采样点地图——带指北针、比例尺、图例</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="用R绘制采样点地图——带指北针、比例尺、图例"><a href="#用R绘制采样点地图——带指北针、比例尺、图例" class="headerlink" title="用R绘制采样点地图——带指北针、比例尺、图例"></a>用R绘制采样点地图——带指北针、比例尺、图例</h1><p>已有 4286 次阅读 2018-4-28 01:03 |系统分类:<a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=space&do=blog&view=all&uid=255662&catid=1">科研笔记</a>    <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/###">推荐到群组</a>  </p>
+<p>本例子中的代码已经不推荐使用，tmap版本的地图示例参见 <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/blog-255662-1144743.html">http://blog.sciencenet.cn/blog-255662-1144743.html </a></p>
+<p>如果所示： 用R绘制的采样点地图——带指北针、比例尺、图例等 </p>
+<p>更多请参考 <a target="_blank" rel="noopener" href="https://news-at.zhihu.com/story/9275383">https://news-at.zhihu.com/story/9275383</a></p>
+<p>源代码和数据下载 <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=attachment&id=194129">用R绘制采样点地图.zip</a></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;/Users/jinlong/world map&quot;</span>)</span><br><span class="line"></span><br><span class="line">library(maps)     <span class="comment">## 提供绘制世界地图的函数</span></span><br><span class="line"></span><br><span class="line">library(mapdata)  <span class="comment">## 提供世界地图</span></span><br><span class="line"></span><br><span class="line">library(openxlsx) <span class="comment">## 读取xlsx文件</span></span><br><span class="line"></span><br><span class="line">library(ggplot2)  <span class="comment">## 绘图核心函数</span></span><br><span class="line"></span><br><span class="line">library(ggsn)     <span class="comment">## 提供指北针</span></span><br><span class="line"></span><br><span class="line">library(legendMap) <span class="comment">## 提供比例尺</span></span><br><span class="line"></span><br><span class="line">\<span class="comment">### devtools::install_github(&quot;3wen/legendMap&quot;)</span></span><br><span class="line"></span><br><span class="line">library(maptools) <span class="comment">## 提供readShapePoly函数， 读取中国多边形数据</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">\<span class="comment">### Download https://simplemaps.com/static/data/world-cities/basic/simplemaps-worldcities-basic.csv</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">china0   &lt;-readShapePoly(<span class="string">&quot;bou1_4p&quot;</span>) <span class="comment">## 读取中国地图</span></span><br><span class="line"></span><br><span class="line">china_df &lt;-fortify(china0) <span class="comment">## 将list转换为ggplot可以使用的dataframe</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">\<span class="comment">##读取数据https://simplemaps.com/static/data/world-cities/basic/simplemaps-worldcities-basic.csv</span></span><br><span class="line"></span><br><span class="line">cities &lt;-read.csv(<span class="string">&quot;simplemaps-worldcities-basic.csv&quot;</span>)</span><br><span class="line"></span><br><span class="line">cities &lt;-cities[sample(<span class="number">1</span>:nrow(cities),size =<span class="number">200</span>), ] <span class="comment">## 元数据有7000条， 这里随机选出100条</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pdf(file =<span class="string">&quot;sampling sites location.pdf&quot;</span>,width =<span class="number">11.5</span>,height =<span class="number">5.8</span>)</span><br><span class="line"></span><br><span class="line">\<span class="comment">### tiff(filename = &quot;sampling sites location.tiff&quot;,</span></span><br><span class="line"></span><br><span class="line">\<span class="comment">###      width = 7200, height = 3600, res = 600,</span></span><br><span class="line"></span><br><span class="line">\<span class="comment">###      compression = &quot;lzw&quot;)  ## 如果输出tiff文件，600dpi，宽度7200像素，高度3600像素</span></span><br><span class="line"></span><br><span class="line">rrr &lt;-ggplot()+</span><br><span class="line"></span><br><span class="line">borders(colour=<span class="string">&#x27;darkgrey&#x27;</span>)+                 <span class="comment">##添加世界地图</span></span><br><span class="line"></span><br><span class="line">geom_polygon(data =china_df,</span><br><span class="line"></span><br><span class="line"> aes(x =long, y =lat, group =group), colour =<span class="string">&quot;darkgrey&quot;</span>,</span><br><span class="line"></span><br><span class="line"> fill =<span class="string">&quot;white&quot;</span>)+                          <span class="comment">##添加中国地图</span></span><br><span class="line"></span><br><span class="line">geom_point(data =cities,</span><br><span class="line"></span><br><span class="line"> aes(x=lng,y=lat,colour=pop),size =<span class="number">2</span>)+ <span class="comment">##点的颜色代表人口</span></span><br><span class="line"></span><br><span class="line"> theme_bw()+                               <span class="comment">##简约风格主题</span></span><br><span class="line"></span><br><span class="line"> ggtitle(<span class="string">&quot;Population of World Cities&quot;</span>)+    <span class="comment">##标题</span></span><br><span class="line"></span><br><span class="line"> scale_bar(lon =<span class="number">100</span>,lat =-<span class="number">60</span>,</span><br><span class="line"></span><br><span class="line">​           distance_lon =<span class="number">1000</span>,distance_lat =<span class="number">200</span>,</span><br><span class="line"></span><br><span class="line">​           distance_legend =<span class="number">500</span>,dist_unit =<span class="string">&quot;km&quot;</span>,</span><br><span class="line"></span><br><span class="line">​           arrow_length =<span class="number">0</span>,arrow_distance =<span class="number">0</span>,</span><br><span class="line"></span><br><span class="line">​           arrow_north_size =<span class="number">0</span>)+    <span class="comment">##比例尺</span></span><br><span class="line"></span><br><span class="line"> xlab(<span class="string">&quot;Longitude (Degree)&quot;</span>)+         <span class="comment">##横坐标</span></span><br><span class="line"></span><br><span class="line"> ylab(<span class="string">&quot;Latitude (Degree)&quot;</span>)+          <span class="comment">##纵坐标</span></span><br><span class="line"></span><br><span class="line"> scale_colour_gradientn(colours=<span class="built_in">c</span>(<span class="string">&quot;green&quot;</span>,<span class="string">&quot;yellow&quot;</span>,<span class="string">&quot;orange&quot;</span>,<span class="string">&quot;red&quot;</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">north2(rrr,<span class="number">.82</span>,<span class="number">.88</span>)                   <span class="comment">## 数字是指定指北针的位置</span></span><br><span class="line"></span><br><span class="line">dev.off()</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/04/27/2018-4-28-arrow/" data-id="ckrsvkzc600az90w02ndjgucv" data-title="用R绘制采样点地图——带指北针、比例尺、图例" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9C%B0%E7%90%86/" rel="tag">地理</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-2018-4-24-fdp" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2018/04/24/2018-4-24-fdp/" class="article-date">
@@ -116,7 +161,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/04/24/2018-4-24-fdp/" data-id="ckmt6y7p900bwmgya7lgvhbuq" data-title="大样地海拔数据的克里格插值与地形图绘制" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/04/24/2018-4-24-fdp/" data-id="ckrsvkzc500ax90w09tlg2axy" data-title="大样地海拔数据的克里格插值与地形图绘制" class="article-share-link">Share</a>
       
       
       
@@ -169,7 +214,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/04/12/2018-04-12-waybackmachine/" data-id="ckmt6y7od00a2mgya07hdg7zp" data-title="网络时光与网络时光机" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/04/12/2018-04-12-waybackmachine/" data-id="ckrsvkzbd009790w09snq7wso" data-title="网络时光与网络时光机" class="article-share-link">Share</a>
       
       
       
@@ -224,7 +269,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/04/06/2018-4-6-review/" data-id="ckmt6y7pe00c2mgya0ms0bd7z" data-title="修改综述遇到的一些问题" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/04/06/2018-4-6-review/" data-id="ckrsvkzc700b190w06p4y33y8" data-title="修改综述遇到的一些问题" class="article-share-link">Share</a>
       
       
       
@@ -281,7 +326,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/04/03/2018-04-03-rss/" data-id="ckmt6y7oc00a0mgyaho4v7urk" data-title="用RSS追踪研究植物生态学研究进展简明教程" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/04/03/2018-04-03-rss/" data-id="ckrsvkzbc009590w0ckzr7f4b" data-title="用RSS追踪研究植物生态学研究进展简明教程" class="article-share-link">Share</a>
       
       
       
@@ -358,7 +403,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/03/28/2018-3-28-moutains/" data-id="ckmt6y7p900bumgya08fb6pkk" data-title="行走山间" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/03/28/2018-3-28-moutains/" data-id="ckrsvkzc400av90w005vq1mvk" data-title="行走山间" class="article-share-link">Share</a>
       
       
       
@@ -411,7 +456,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/02/22/2018-2-22-styler/" data-id="ckmt6y7p700bqmgya9xsp4fgl" data-title="R代码的可读性与编程风格" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/02/22/2018-2-22-styler/" data-id="ckrsvkzc200ar90w0asoeajtl" data-title="R代码的可读性与编程风格" class="article-share-link">Share</a>
       
       
       
@@ -479,7 +524,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/02/21/2018-2-21-paper/" data-id="ckmt6y7p500bomgyaf8w42cgs" data-title="高水平论文讨论的写法 -- 从祝燕等(2018)的论文说起" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/02/21/2018-2-21-paper/" data-id="ckrsvkzc100ap90w06cj107pz" data-title="高水平论文讨论的写法 -- 从祝燕等(2018)的论文说起" class="article-share-link">Share</a>
       
       
       
@@ -595,7 +640,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/02/20/2018-2-20-compoundleaves/" data-id="ckmt6y7p500bmmgyad00f6h5z" data-title="怎样鉴定羽状复叶植物的营养体？" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/02/20/2018-2-20-compoundleaves/" data-id="ckrsvkzc100an90w0c0i3g2d1" data-title="怎样鉴定羽状复叶植物的营养体？" class="article-share-link">Share</a>
       
       
       
@@ -652,7 +697,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/02/14/2018-2-15-theory/" data-id="ckmt6y7p400bkmgyaf8tlhdin" data-title="从高端制瓷业到进化生态的理论研究" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/02/14/2018-2-15-theory/" data-id="ckrsvkzc000al90w0ekk98cxc" data-title="从高端制瓷业到进化生态的理论研究" class="article-share-link">Share</a>
       
       
       
@@ -666,86 +711,11 @@
 
 
   
-    <article id="post-2018-02-11-writingreview" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/02/10/2018-02-11-writingreview/" class="article-date">
-  <time class="dt-published" datetime="2018-02-10T10:18:54.000Z" itemprop="datePublished">2018-02-10</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/02/10/2018-02-11-writingreview/">撰写综述的十个原则</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>综述是对学科中某个研究方向进行总结和展望的论文，一般是由对该领域有深刻理解的学者撰写。撰写综述需要阅读大量的文献，需要作者检索文献，筛选文献，从文献中提取重要的信息以及进行批判性的思考。为了让学生对所研究问题有深入的理解，有时候也有学生撰写综述。</p>
-<p>法国国家科学研究院(CNRS)功能与进化生态学中心的Marco Pautasso就曾在PLOS Computational Biology 撰文，列出了撰写综述的十个原则。以下是笔者的阅读笔记，撰写综述时，这些原则还是很重要的，供生态与进化方向的同仁参考。</p>
-<h1 id="1-确定主题和读者"><a href="#1-确定主题和读者" class="headerlink" title="1. 确定主题和读者"></a>1. 确定主题和读者</h1><p>选择的主题必须：</p>
-<p>（1）你特别感兴趣， 最好是最近有一些新的研究论文，出现了一些新的问题等，需要写综述；</p>
-<p>（2）对于学科是重要的，这样，你所能参考的文献就比较多，而且也会有很多人愿意看你写的综述；</p>
-<p>（3）有非常明确的研究问题，否则，所包含的文献就会有上千篇，太泛泛的综述对别人是没有什么帮助的。</p>
-<p>要综述的主题往往来源于已有研究所提出的问题，也可能是阅读或者讨论时兴致所致。综述所针对的读者群最好能专一些，如果是跨学科的综述，其他领域的学者也可能感兴趣。</p>
-<h1 id="2-文献检索与再检索"><a href="#2-文献检索与再检索" class="headerlink" title="2. 文献检索与再检索"></a>2. 文献检索与再检索</h1><p>确定好题目后，就要开始检索文献。</p>
-<p>以下是检索文献的五条建议：</p>
-<p>（1）记录检索的过程，以便可以重复检索</p>
-<p>（2）对于找不到pdf的文献，要记下题目、作者和期刊，之后再通过其他方式获取。</p>
-<p>（3）一定要使用文献管理系统，如Mendeley，Papers，Qiqqa，Sente 等。（个人最喜欢Zotero）</p>
-<p>（4）早些确定哪些论文应该保留，哪些不应该保留的标准。这一标准，也就是文献检索涵盖的范围，可以在综述中做出相应介绍。</p>
-<p>（5）不仅要看研究论文，也要看之前的综述。 假如某一领域已经有相关的综述，也不要轻易放弃， 而是要继续准备你自己的综述。这时候可以这样应对：</p>
-<p>（i）在你的综述中讨论之前综述的研究方法，不足和结论；</p>
-<p>（ii）努力找出一个之前综述没有涉及或者讨论不够深入的方向；</p>
-<p>（iii）整合该综述之后出现的新的研究成果</p>
-<p>检索研究论文和综述论文时，一定要记得以下三个原则：</p>
-<p>（i）要全面</p>
-<p>（ii）要在不同数据库中检索， DBLP，Google Scholar，ISI Proceedings，JSTOR Search, Medline, Scopus, Web of Science….</p>
-<p>（iii)要检索相关文献以及图书被引用的情况</p>
-<h1 id="3-读文献时要做好笔记"><a href="#3-读文献时要做好笔记" class="headerlink" title="3. 读文献时要做好笔记"></a>3. 读文献时要做好笔记</h1><p>如果读文献时，自己想到的如果不及时写下来，那么在写综述的时候，就需要超级好的记忆力。不过大多数人没有这么好的记忆力，所以， 读文献时，最好能将重要的内容和自己的想法写下来。要想一下，这篇文献应该放在综述里面的什么位置。有了这些笔记，写作时再进一步组织正文就容易得多。 最好避免在没有阅读笔记时写综述，因为那样难度极高。也要注意，文献阅读笔记要用自己的话写出来，避免直接拷贝原文的句子。笔记要写写清楚作者，年份，题目等， 以备参考。文献管理软件这时候肯定能帮到你。</p>
-<h1 id="4-选择综述的类型"><a href="#4-选择综述的类型" class="headerlink" title="4. 选择综述的类型"></a>4. 选择综述的类型</h1><p>按照长短，综述可以粗略分成小综述（minireview）和大综述 （full review）。小综述有字数以及引用文献数的限制，内容短小，一般只包括最近几年的研究进展，受到一些杂志的青睐。小综述一般来说不会列出一些进展的细节。大综述则比较自由，可能会包括一些研究进展的细节，同时也会列出一系列文献，让有兴趣的读者进一步阅读。按照内容，有描述性综述（descriptive）和 整合性综述 （integrative）之分。描述性综述着重方法、进展以及相应的解释。整合性综述着重于研究的思想以及概念。除此之外，还有叙述性综述以及定性综述，系统性综述等。系统性综述基于现有文献的数据，检验假说，整合分析（metaanalysis）是常用方法。各种类型的综述之间并无明确的界限，需要根据问题、文献、作者以及刊物等灵活选择。</p>
-<h1 id="5-综述要聚焦，但又能引起很多人的兴趣"><a href="#5-综述要聚焦，但又能引起很多人的兴趣" class="headerlink" title="5.综述要聚焦，但又能引起很多人的兴趣"></a>5.综述要聚焦，但又能引起很多人的兴趣</h1><p>综述要讨论的问题要明确，同时也要放在学科发展的大背景中。这样既有同行阅读，也可能有其他领域的学者阅读。</p>
-<h1 id="6-要有批判性和一致性"><a href="#6-要有批判性和一致性" class="headerlink" title="6. 要有批判性和一致性"></a>6. 要有批判性和一致性</h1><p>好的综述并不是只是介绍当前的进展，罗列文献。综述需要指出研究方法上的问题以及研究中的不足等。读者在读完一篇好的综述， 应该了解：</p>
-<p>（i）所综述领域的主要进展</p>
-<p>（ii）有争议的领域</p>
-<p>（iii）主要的研究问题</p>
-<p>当然，要实现这三个目标是不容易的。不同的人擅长不同的方向，邀请不同的作者撰写不同方面，有助于写出一篇优秀的综述。从写作风格上，好的综述在行文（语态、时态等）也会保持统一。</p>
-<h1 id="7-逻辑结构"><a href="#7-逻辑结构" class="headerlink" title="7. 逻辑结构"></a>7. 逻辑结构</h1><p>优秀的结构往往有以下特征，让人开篇有益： 1. 反映最新进展；2.有良好的结构；3.行文流畅；4.聚焦；5.具批判性。研究性论文用到的前言、材料与方法、结果与讨论、结论等类似的结构，并不适用于综述性论文。但是综述论文也要交待清楚综述的背景和意义，通篇要有清晰的逻辑，列清楚综述的主要结论以及要传递的最重要信息（takehome message），这些和研究性论文是相通的。系统性综述近年来常常包括文献检索的方法，如给出用了哪些数据库， 用了哪些关键词， 检索的时间范围等。</p>
-<p>为了让综述的结构更清楚，可以画一个流程图， 设定好各部分的内容，分别撰写，再将各部分串起来， 以便吸引读者和引导读者阅读并得出相应的结论。流程图不但对于写综述是十分有用的， 甚至可以放在综述中。</p>
-<h1 id="8-听取同行的意见"><a href="#8-听取同行的意见" class="headerlink" title="8. 听取同行的意见"></a>8. 听取同行的意见</h1><p>综述论文会跟研究论文一样，需要审稿，需要同行评议。写综述时，由于涉及的内容很多，很容易引入一些小错误。审稿人一般能发现综述稿件中表达模糊、不准确或前后不一致的地方。一般在提交之前，要仔细检查稿件的字词、语法等错误，以免让审稿人提出一些让人尴尬的意见。写好的稿件也可以先发给同事或者合作者们看一看，以了解一下不同的合作者有什么意见。对于有争议的观点，获得反馈是很重要的，修改后可以进一步提升综述的质量。</p>
-<h1 id="9-综述包括自己的研究时，要尽可能客观"><a href="#9-综述包括自己的研究时，要尽可能客观" class="headerlink" title="9.综述包括自己的研究时，要尽可能客观"></a>9.综述包括自己的研究时，要尽可能客观</h1><p>有些人在综述中对自己的研究评价过高，或者可以贬低一些同行的研究，甚至完全不提及。这样都是不好的。由于从事的领域相近，一些研究人员难免会有利益冲突的情况发生。此时最好能够客观公正地评价竞争者的贡献。邀请多个人参与撰写综述，在一定程度上能提高客观性。</p>
-<h1 id="10-综述要涵盖最新进展，也不能遗漏年代久远的“睡美人”"><a href="#10-综述要涵盖最新进展，也不能遗漏年代久远的“睡美人”" class="headerlink" title="10.综述要涵盖最新进展，也不能遗漏年代久远的“睡美人”"></a>10.综述要涵盖最新进展，也不能遗漏年代久远的“睡美人”</h1><p>从发表到收录的数据库可能需要一段时间，有时候甚至是几个月。所以稿子写出来的时候，其实就已经过时了。在稿件的修改阶段再进行文献检索，以涵盖最新进展是很必要的。由于综述本身要指出研究中的不足以及研究方向等，有时候，一些很久以前的文献，虽然可能很少被引用过，但其重要性需要重新评估，这些被遗忘的文献，可以称为“睡美人”。新旧兼顾，是一篇优秀综述所要做好的工作。</p>
-<h1 id="参考文献："><a href="#参考文献：" class="headerlink" title="参考文献："></a>参考文献：</h1><p>Pautasso, Marco.2013. “Ten Simple Rules for Writing a Literature Review.” Editedby Philip E. Bourne. PLoS Computational Biology 9 (7): e1003149.<a target="_blank" rel="noopener" href="https://doi.org/10.1371/journal.pcbi.1003149">https://doi.org/10.1371/journal.pcbi.1003149</a>.</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/02/10/2018-02-11-writingreview/" data-id="ckmt6y7ob009wmgya2tcdg10b" data-title="撰写综述的十个原则" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%86%99%E4%BD%9C/" rel="tag">写作</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/9/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/9/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -791,23 +761,23 @@
       <ul>
         
           <li>
-            <a href="/2021/07/19/2021-07-19/">植物学和生态学的一些R语言学习资源</a>
+            <a href="/2021/07/25/2021-07-25beans/">种豆记</a>
           </li>
         
           <li>
-            <a href="/2021/05/15/graduate-students/">生态学研究生要清楚的三件事：从《生态学家必读的100篇论文》说起</a>
+            <a href="/2021/07/19/2021-07-19-rresources/">植物学和生态学的一些R语言学习资源</a>
           </li>
         
           <li>
-            <a href="/2021/05/13/life/">生活的答案</a>
+            <a href="/2021/05/15/2021-05-15-ecopapers100/">生态学研究生要清楚的三件事：从《生态学家必读的100篇论文》说起</a>
           </li>
         
           <li>
-            <a href="/2021/05/07/new-distribution/">新种、新分布与植物爱好者的“发现权”</a>
+            <a href="/2021/05/13/2021-05-13-life/">生活的答案</a>
           </li>
         
           <li>
-            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+            <a href="/2021/05/07/2021-05-7-new-distribution/">新种、新分布与植物爱好者的“发现权”</a>
           </li>
         
       </ul>

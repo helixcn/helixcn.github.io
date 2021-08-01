@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>tmap手工调整采样点地图的图例 | Jinlong Zhang&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="tmap是用来绘制地图的R程序包，作者是荷兰统计学家Martijn Tennekes (https:&#x2F;&#x2F;github.com&#x2F;mtennekes&#x2F;tmap)。tmap结合sf、sp等程序包，绘制设色地图、点分布图、栅格图等十分方便，本博客以前也有介绍。 不过，tmap在绘制复杂的采样点分布图时，默认的图例往往不太理想。tmap用点的形状、颜色分别表示采样点的类型（如森林、湿地、草原），用大小表示数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tmap手工调整采样点地图的图例">
+<meta property="og:url" content="https://helixcn.github.io/2020/11/29/2020-11-29-usingtmap/index.html">
+<meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
+<meta property="og:description" content="tmap是用来绘制地图的R程序包，作者是荷兰统计学家Martijn Tennekes (https:&#x2F;&#x2F;github.com&#x2F;mtennekes&#x2F;tmap)。tmap结合sf、sp等程序包，绘制设色地图、点分布图、栅格图等十分方便，本博客以前也有介绍。 不过，tmap在绘制复杂的采样点分布图时，默认的图例往往不太理想。tmap用点的形状、颜色分别表示采样点的类型（如森林、湿地、草原），用大小表示数">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-11-29T06:08:00.000Z">
+<meta property="article:modified_time" content="2021-03-26T07:21:46.000Z">
+<meta property="article:author" content="Jinlong Zhang">
+<meta property="article:tag" content="随笔">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Jinlong Zhang's blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jinlong Zhang&#39;s blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://helixcn.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-2020-11-29-usingtmap" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/11/29/2020-11-29-usingtmap/" class="article-date">
+  <time class="dt-published" datetime="2020-11-29T06:08:00.000Z" itemprop="datePublished">2020-11-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      tmap手工调整采样点地图的图例
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>tmap是用来绘制地图的R程序包，作者是荷兰统计学家Martijn Tennekes (<a target="_blank" rel="noopener" href="https://github.com/mtennekes/tmap)%E3%80%82tmap%E7%BB%93%E5%90%88sf%E3%80%81sp%E7%AD%89%E7%A8%8B%E5%BA%8F%E5%8C%85%EF%BC%8C%E7%BB%98%E5%88%B6%E8%AE%BE%E8%89%B2%E5%9C%B0%E5%9B%BE%E3%80%81%E7%82%B9%E5%88%86%E5%B8%83%E5%9B%BE%E3%80%81%E6%A0%85%E6%A0%BC%E5%9B%BE%E7%AD%89%E5%8D%81%E5%88%86%E6%96%B9%E4%BE%BF%EF%BC%8C%E6%9C%AC%E5%8D%9A%E5%AE%A2%E4%BB%A5%E5%89%8D%E4%B9%9F%E6%9C%89%E4%BB%8B%E7%BB%8D%E3%80%82">https://github.com/mtennekes/tmap)。tmap结合sf、sp等程序包，绘制设色地图、点分布图、栅格图等十分方便，本博客以前也有介绍。</a></p>
+<p>不过，tmap在绘制复杂的采样点分布图时，默认的图例往往不太理想。tmap用点的形状、颜色分别表示采样点的类型（如森林、湿地、草原），用大小表示数量（物种丰富度等），此时，形状、颜色和大小三个维度是分开的，图例也默认相应分开，而这并不是用户想要的，因此需要对代码进行修改。</p>
+<p>本文给出一些示例代码，主要参考Xu S. et al. (2020)论文和附件。相应数据和代码可在 <a target="_blank" rel="noopener" href="https://github.com/helixcn/ecoinformatics">https://github.com/helixcn/ecoinformatics</a> 下载。</p>
+<h2 id="读取数据"><a href="#读取数据" class="headerlink" title="读取数据"></a>读取数据</h2><p>图中需要有指北针和比例尺，要求用蓝色实心三角，表示森林（forest）；绿色实心圆点，表示草地（grassland）；藕荷色实心菱形，表示湿地（wetland）。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;/Users/jinlong/Documents/ecoinformatics/2020-11-29_tmap/&quot;</span>)</span><br><span class="line">library(tmap)</span><br><span class="line">library(tmaptools)</span><br><span class="line">library(sf)</span><br><span class="line"><span class="comment">## Linking to GEOS 3.8.1, GDAL 3.1.1, PROJ 6.3.1</span></span><br><span class="line">library(sp)</span><br><span class="line">library(openxlsx)</span><br><span class="line"></span><br><span class="line">rm(<span class="built_in">list</span> = ls()) <span class="comment"># 删除工作空间中原来的对象</span></span><br><span class="line">sites &lt;- read.xlsx(<span class="string">&quot;rspb20202063_si_002.xlsx&quot;</span>)</span><br><span class="line">head(sites)</span><br><span class="line"><span class="comment">##              Variable           References Country Latitude          Longitude</span></span><br><span class="line"><span class="comment">## 1 Aboveground biomass     Liu et al. 2017b Germany 51.33857 12.378462000000001</span></span><br><span class="line"><span class="comment">## 2 Aboveground biomass     Liu et al. 2017b Germany 51.33857 12.378462000000001</span></span><br><span class="line"><span class="comment">## 3 Belowground biomass Brassard et al. 2011  Canada 49.50000              -89.6</span></span><br><span class="line"><span class="comment">## 4 Belowground biomass Brassard et al. 2011  Canada 49.17000             -89.83</span></span><br><span class="line"><span class="comment">## 5 Belowground biomass    Finér et al. 2017   Spain 40.70000               −1.9</span></span><br><span class="line"><span class="comment">## 6 Belowground biomass    Finér et al. 2017   Spain 40.70000               −1.9</span></span><br><span class="line"><span class="comment">##   MAT.(℃) MAP.(mm) Ecosystem Duration Plant.diversity.level Plot.area.(m2)</span></span><br><span class="line"><span class="comment">## 1   9.545      544    forest     0.29                     2         0.0881</span></span><br><span class="line"><span class="comment">## 2   9.545      544    forest     0.29                     4         0.0881</span></span><br><span class="line"><span class="comment">## 3   2.500      712    forest     1.00                    NA       400.0000</span></span><br><span class="line"><span class="comment">## 4   0.600      823    forest     1.00                    NA       400.0000</span></span><br><span class="line"><span class="comment">## 5  10.200      499    forest       NA                     2       900.0000</span></span><br><span class="line"><span class="comment">## 6  10.200      499    forest       NA                     3       900.0000</span></span><br><span class="line"><span class="comment">##          LnRR</span></span><br><span class="line"><span class="comment">## 1  0.06509796</span></span><br><span class="line"><span class="comment">## 2  0.31643103</span></span><br><span class="line"><span class="comment">## 3  0.53959844</span></span><br><span class="line"><span class="comment">## 4  0.32157929</span></span><br><span class="line"><span class="comment">## 5 -0.36161104</span></span><br><span class="line"><span class="comment">## 6 -0.62003058</span></span><br><span class="line">sites$Longitude &lt;- <span class="built_in">as.numeric</span>(sites$Longitude) </span><br><span class="line"><span class="comment"># 某些Longitude或者Latitude记录可能为空，不能识别为numeric类型，因此先要用as.numeric转换。</span></span><br><span class="line"><span class="comment">## Warning: NAs introduced by coercion</span></span><br><span class="line">sites$Latitude &lt;- <span class="built_in">as.numeric</span>(sites$Latitude)</span><br><span class="line"></span><br><span class="line">sites &lt;- sites[!(<span class="built_in">is.na</span>(sites$Longitude)|<span class="built_in">is.na</span>(sites$Latitude)),] </span><br><span class="line"><span class="comment"># 去掉Longitude和latitude为NA的记录</span></span><br><span class="line"><span class="comment"># 建立spatial data.frame</span></span><br><span class="line">coordinates(sites) &lt;- ~Longitude+Latitude</span><br><span class="line">proj4string(sites) &lt;- CRS(<span class="string">&quot;+proj=longlat +datum=WGS84&quot;</span>) <span class="comment"># 设定WGS84投影</span></span><br><span class="line">head(sites)</span><br><span class="line"><span class="comment">## class       : SpatialPointsDataFrame </span></span><br><span class="line"><span class="comment">## features    : 6 </span></span><br><span class="line"><span class="comment">## extent      : -89.83, 26, 47.3, 51.33857  (xmin, xmax, ymin, ymax)</span></span><br><span class="line"><span class="comment">## crs         : +proj=longlat +datum=WGS84 +no_defs </span></span><br><span class="line"><span class="comment">## variables   : 10</span></span><br><span class="line"><span class="comment">## names       :            Variable,           References, Country,          MAT.(℃), MAP.(mm), Ecosystem, Duration, Plant.diversity.level, Plot.area.(m2),               LnRR </span></span><br><span class="line"><span class="comment">## min values  : Aboveground biomass, Brassard et al. 2011,  Canada,              0.6,      544,    forest,     0.29,                     2,         0.0881, -0.217864917184295 </span></span><br><span class="line"><span class="comment">## max values  : Belowground biomass,     Liu et al. 2017b, Romania, 9.54499998254081,      823,    forest,        1,                     4,            900,  0.539598438991999</span></span><br><span class="line">world &lt;- read_sf(<span class="string">&quot;world20200121_polygon.shp&quot;</span>) </span><br><span class="line"><span class="comment">#读取shape文件（注意：本图为多边形，没有九段线）</span></span><br><span class="line">st_crs(world) &lt;- <span class="number">4326</span> <span class="comment"># 确定WGS84投影</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="绘制采样点分布图"><a href="#绘制采样点分布图" class="headerlink" title="绘制采样点分布图"></a>绘制采样点分布图</h2><p>默认情况下，地图的图例有三种，分别按照颜色、形状和大小给出。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 01</span></span><br><span class="line">map01 &lt;- tm_shape(world) +</span><br><span class="line">    tm_borders(<span class="string">&quot;grey60&quot;</span>, lwd = <span class="number">1</span>) + <span class="comment"># 国界线为灰色</span></span><br><span class="line">    tm_shape(sites) +</span><br><span class="line">    tm_symbols(shape= <span class="string">&quot;Ecosystem&quot;</span>, </span><br><span class="line">        alpha = <span class="number">1</span>,</span><br><span class="line">        col = <span class="string">&quot;Ecosystem&quot;</span>, <span class="comment"># 点的颜色按照Ecosystem显示</span></span><br><span class="line">        border.lwd = <span class="number">2</span>,</span><br><span class="line">        palette = <span class="built_in">c</span>(<span class="string">&quot;blue&quot;</span>, <span class="string">&quot;seagreen4&quot;</span>, <span class="string">&quot;magenta2&quot;</span>), <span class="comment"># 指定三种颜色</span></span><br><span class="line">        shapes = <span class="built_in">c</span>(<span class="number">17</span>, <span class="number">19</span>, <span class="number">18</span>), <span class="comment"># 点的形状按照Ecosystem显示，分别为17、19、18</span></span><br><span class="line">        size = <span class="number">0.3</span>,</span><br><span class="line">        labels = <span class="built_in">c</span>(<span class="string">&quot;forest&quot;</span>, <span class="string">&quot;grassland&quot;</span>, <span class="string">&quot;wetland&quot;</span>), <span class="comment"># 点的名称设定为forest、grassland、wetland</span></span><br><span class="line">        title.col = <span class="string">&quot;Ecosystem&quot;</span>, <span class="comment"># 图例名称为Ecosystem</span></span><br><span class="line">        legend.col.show = <span class="literal">TRUE</span>,  <span class="comment"># 在图例中显示颜色</span></span><br><span class="line">        legend.shape.show = <span class="literal">TRUE</span>) + <span class="comment"># 在图例中显示形状</span></span><br><span class="line">    tm_scale_bar(breaks = <span class="built_in">c</span>(<span class="number">0</span>, <span class="number">2500</span>, <span class="number">5000</span>, <span class="number">10000</span>), <span class="comment"># 比例尺</span></span><br><span class="line">        position=<span class="built_in">c</span>(<span class="number">0.60</span>, <span class="number">0.0</span>), <span class="comment"># 比例尺在地图中的位置</span></span><br><span class="line">        text.size = <span class="number">1</span>) +</span><br><span class="line">    tm_compass(type = <span class="string">&quot;4star&quot;</span>, <span class="comment"># 指北针类型</span></span><br><span class="line">        position=<span class="built_in">c</span>(<span class="string">&quot;right&quot;</span>, <span class="string">&quot;top&quot;</span>), <span class="comment"># 指北针位置</span></span><br><span class="line">        size = <span class="number">2.5</span>) + <span class="comment"># 指北针大小</span></span><br><span class="line">    tm_layout(inner.margins=<span class="built_in">c</span>(<span class="number">0.12</span>,<span class="number">0.03</span>,<span class="number">0.08</span>,<span class="number">0.03</span>), <span class="comment"># 地图边缘的大小</span></span><br><span class="line">        legend.stack = <span class="string">&quot;horizontal&quot;</span>, <span class="comment"># 图例排列</span></span><br><span class="line">        fontfamily = <span class="string">&quot;FreeSerif&quot;</span>) +  <span class="comment"># Times New Roman （MacOS）</span></span><br><span class="line">    tm_legend(position=<span class="built_in">c</span>(<span class="number">0.05</span>, <span class="number">0.20</span>), <span class="comment"># 图例放在图左下角</span></span><br><span class="line">        legend.text.size = <span class="number">0.8</span>,</span><br><span class="line">        legend.title.size = <span class="number">1.2</span>) +</span><br><span class="line">    tm_add_legend(</span><br><span class="line">        type = <span class="string">&quot;symbol&quot;</span>,</span><br><span class="line">        title = <span class="string">&quot;Ecosystem&quot;</span> <span class="comment"># 图例标题</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">map01</span><br><span class="line"><span class="comment">## Scale bar set for latitude km and will be different at the top and bottom of the map.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## 8inches by 5 inches, 600dpi</span></span><br><span class="line"><span class="comment"># jpeg(&quot;map01.jpeg&quot;, width = 8*600, height = 5*600, res = 600)</span></span><br><span class="line"><span class="comment"># map01</span></span><br><span class="line"><span class="comment"># dev.off()</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="更改图例后的地图"><a href="#更改图例后的地图" class="headerlink" title="更改图例后的地图"></a>更改图例后的地图</h2><p>用tm_add_legend手工调整：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">tm_add_legend(</span><br><span class="line">    type &#x3D; &quot;symbol&quot;,</span><br><span class="line">    labels &#x3D; c(&quot;grassland&quot;, &quot;forest&quot;, &quot;wetland&quot;),</span><br><span class="line">    col &#x3D; c(&quot;seagreen4&quot;, &quot;blue&quot;, &quot;magenta2&quot;),</span><br><span class="line">    shape &#x3D; c(19, 17, 18),</span><br><span class="line">    title &#x3D; &quot;Ecosystem&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>更改后的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"># 02map02 &lt;- tm_shape(world) +</span><br><span class="line">    tm_borders(&quot;grey60&quot;, lwd &#x3D; 1) +</span><br><span class="line">    tm_shape(sites) +</span><br><span class="line">    tm_symbols(shape&#x3D; &quot;Ecosystem&quot;,</span><br><span class="line">        alpha &#x3D; 1,</span><br><span class="line">        col &#x3D; &quot;Ecosystem&quot;,</span><br><span class="line">        border.lwd &#x3D; 2,</span><br><span class="line">        palette &#x3D; c(&quot;blue&quot;, &quot;seagreen4&quot;, &quot;magenta2&quot;),</span><br><span class="line">        shapes &#x3D; c(17, 19, 18),</span><br><span class="line">        size &#x3D; 0.3,</span><br><span class="line">        labels &#x3D; c(&quot;forest&quot;, &quot;grassland&quot;, &quot;wetland&quot;),</span><br><span class="line">        title.col &#x3D; &quot;Ecosystem&quot;,</span><br><span class="line">        legend.col.show &#x3D; FALSE,</span><br><span class="line">        legend.shape.show &#x3D; FALSE) +</span><br><span class="line">    tm_scale_bar(breaks &#x3D; c(0, 2500, 5000, 10000),</span><br><span class="line">        position&#x3D;c(0.60, 0.0),</span><br><span class="line">        text.size &#x3D; 1) +</span><br><span class="line">    tm_compass(type &#x3D; &quot;4star&quot;,</span><br><span class="line">        position&#x3D;c(&quot;right&quot;, &quot;top&quot;),</span><br><span class="line">        size &#x3D; 2.5) +</span><br><span class="line">    tm_layout(inner.margins&#x3D;c(0.12,0.03,0.08,0.03),</span><br><span class="line">        legend.stack &#x3D; &quot;horizontal&quot;,</span><br><span class="line">        fontfamily &#x3D; &quot;serif&quot;) +</span><br><span class="line">    tm_legend(position&#x3D;c(0.05, 0.20),</span><br><span class="line">        legend.text.size &#x3D; 0.8,</span><br><span class="line">        legend.title.size &#x3D; 1.2) +</span><br><span class="line">    tm_add_legend(</span><br><span class="line">        type &#x3D; &quot;symbol&quot;,</span><br><span class="line">        labels &#x3D; c(&quot;grassland&quot;, &quot;forest&quot;, &quot;wetland&quot;), # 图例的标签</span><br><span class="line">        col &#x3D; c(&quot;seagreen4&quot;, &quot;blue&quot;, &quot;magenta2&quot;), # 图例颜色</span><br><span class="line">        shape &#x3D; c(19, 17, 18), # 图例</span><br><span class="line">        title &#x3D; &quot;Ecosystem&quot;</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">map02</span><br><span class="line">## Scale bar set for latitude km and will be different at the top and bottom of the map.</span><br><span class="line"></span><br><span class="line">## 8inches by 5 inches, 600dpi</span><br><span class="line"># jpeg(&quot;map02.jpeg&quot;, width &#x3D; 8*600, height &#x3D; 5*600, res &#x3D; 600)</span><br><span class="line"># map02# dev.off()</span><br></pre></td></tr></table></figure>
+
+<h2 id="附：绘制欧洲部分的地图"><a href="#附：绘制欧洲部分的地图" class="headerlink" title="附：绘制欧洲部分的地图"></a>附：绘制欧洲部分的地图</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># 03map03 &lt;- tm_shape(world,</span><br><span class="line">        xlim &#x3D; c(-15, 40), # 经度范围</span><br><span class="line">        ylim &#x3D; c(35, 70)) + # 纬度范围</span><br><span class="line">    tm_borders(&quot;grey60&quot;, lwd &#x3D; 1) +</span><br><span class="line">    tm_shape(sites) +</span><br><span class="line">    tm_symbols(shape&#x3D; &quot;Ecosystem&quot;,</span><br><span class="line">        col &#x3D; &quot;Ecosystem&quot;,</span><br><span class="line">        palette &#x3D; c(&quot;blue&quot;, &quot;seagreen4&quot;, &quot;magenta2&quot;),</span><br><span class="line">        size &#x3D; 0.2,</span><br><span class="line">        shapes &#x3D; c(17, 19, 18),</span><br><span class="line">        border.lwd &#x3D; 1.8) +</span><br><span class="line">    tm_scale_bar(position &#x3D; c(&quot;left&quot;, &quot;top&quot;)) +</span><br><span class="line">    tm_layout(legend.show &#x3D; FALSE, fontfamily &#x3D; &quot;serif&quot;)</span><br><span class="line"></span><br><span class="line">map03</span><br><span class="line">## Scale bar set for latitude km and will be different at the top and bottom of the map.</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 4 inches by 5 inches, 400dpi</span></span><br><span class="line"><span class="comment"># jpeg(&quot;map03.jpeg&quot;, width = 4*400, height = 5*400, res = 600)</span></span><br><span class="line"><span class="comment"># map03</span></span><br><span class="line"><span class="comment"># dev.off()</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><ul>
+<li>Xu, S., Eisenhauer, N., Ferlian, O., Zhang, J., Zhou, G., Lu, X., Liu, C., &amp; Zhang, D. (2020). Species richness promotes ecosystem carbon storage: Evidence from biodiversity-ecosystem functioning experiments. Proceedings of the Royal Society B, 287(1939), 20202063. (<a target="_blank" rel="noopener" href="https://doi.org/10.1098/rspb.2020.2063">https://doi.org/10.1098/rspb.2020.2063</a>)</li>
+<li>Tennekes M (2018). “tmap: Thematic Maps in R.” Journal of Statistical Software, 84(6), 1-39. doi: 10.18637/jss.v084.i06 (<a target="_blank" rel="noopener" href="https://doi.org/10.18637/jss.v084.i06">https://doi.org/10.18637/jss.v084.i06</a>).</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2020/11/29/2020-11-29-usingtmap/" data-id="ckrsvkzd500cv90w04fhvbecg" data-title="tmap手工调整采样点地图的图例" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/12/07/2020-12-07-realityofecology/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          十年后遇见真实的生态学
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/06/29/2020-06-29-howtousespaa/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">种间联结和生态位重叠的计算：spaa程序包</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/R%E7%BC%96%E7%A8%8B/" rel="tag">R编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%BA%E7%89%A9/" rel="tag">人物</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%99%E4%BD%9C/" rel="tag">写作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" rel="tag">可视化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E4%B9%A6/" rel="tag">图书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" rel="tag">图像处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9C%B0%E7%90%86/" rel="tag">地理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A3%B0%E6%98%8E/" rel="tag">声明</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A9%E6%96%87/" rel="tag">天文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90/" rel="tag">学习资源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%AF%9D%E5%BD%95/" rel="tag">对话录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%83%E5%BE%97/" rel="tag">心得</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E5%91%8A/" rel="tag">报告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E7%89%88/" rel="tag">排版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%85%E4%B9%A1/" rel="tag">故乡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" rel="tag">标本馆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%88%86%E7%B1%BB/" rel="tag">植物分类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%90%8D/" rel="tag">植物学名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%82%E8%81%8C/" rel="tag">求职</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" rel="tag">版本控制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%80%81/" rel="tag">生态</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%80%81%E8%B5%84%E8%AE%AF/" rel="tag">生态资讯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%94%E7%A9%B6%E8%B5%84%E8%AE%AF/" rel="tag">研究资讯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B3%BB%E7%BB%9F%E5%8F%91%E8%82%B2/" rel="tag">系统发育</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%9F%E8%AE%A1/" rel="tag">统计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" rel="tag">行摄匆匆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%81%E9%97%BB%E5%BD%95/" rel="tag">见闻录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%97%E6%AD%8C/" rel="tag">诗歌</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E5%8C%96/" rel="tag">进化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E6%83%B3/" rel="tag">随想</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A9%B3%E8%AE%BA/" rel="tag">驳论</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/R%E7%BC%96%E7%A8%8B/" style="font-size: 18.75px;">R编程</a> <a href="/tags/%E4%BA%BA%E7%89%A9/" style="font-size: 11.88px;">人物</a> <a href="/tags/%E5%86%99%E4%BD%9C/" style="font-size: 13.13px;">写作</a> <a href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" style="font-size: 12.5px;">可视化</a> <a href="/tags/%E5%9B%BE%E4%B9%A6/" style="font-size: 10px;">图书</a> <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" style="font-size: 11.88px;">图像处理</a> <a href="/tags/%E5%9C%B0%E7%90%86/" style="font-size: 17.5px;">地理</a> <a href="/tags/%E5%A3%B0%E6%98%8E/" style="font-size: 10.63px;">声明</a> <a href="/tags/%E5%A4%A9%E6%96%87/" style="font-size: 16.25px;">天文</a> <a href="/tags/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90/" style="font-size: 10px;">学习资源</a> <a href="/tags/%E5%AF%B9%E8%AF%9D%E5%BD%95/" style="font-size: 10px;">对话录</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 10px;">心得</a> <a href="/tags/%E6%8A%A5%E5%91%8A/" style="font-size: 12.5px;">报告</a> <a href="/tags/%E6%8E%92%E7%89%88/" style="font-size: 13.75px;">排版</a> <a href="/tags/%E6%95%85%E4%B9%A1/" style="font-size: 10.63px;">故乡</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10.63px;">数据库</a> <a href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" style="font-size: 14.38px;">标本馆</a> <a href="/tags/%E6%A4%8D%E7%89%A9%E5%88%86%E7%B1%BB/" style="font-size: 10px;">植物分类</a> <a href="/tags/%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%90%8D/" style="font-size: 10px;">植物学名</a> <a href="/tags/%E6%B1%82%E8%81%8C/" style="font-size: 10px;">求职</a> <a href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" style="font-size: 11.25px;">版本控制</a> <a href="/tags/%E7%94%9F%E6%80%81/" style="font-size: 16.88px;">生态</a> <a href="/tags/%E7%94%9F%E6%80%81%E8%B5%84%E8%AE%AF/" style="font-size: 10px;">生态资讯</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E8%B5%84%E8%AE%AF/" style="font-size: 10px;">研究资讯</a> <a href="/tags/%E7%B3%BB%E7%BB%9F%E5%8F%91%E8%82%B2/" style="font-size: 10px;">系统发育</a> <a href="/tags/%E7%BB%9F%E8%AE%A1/" style="font-size: 18.13px;">统计</a> <a href="/tags/%E7%BC%96%E7%A8%8B/" style="font-size: 10.63px;">编程</a> <a href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" style="font-size: 15px;">行摄匆匆</a> <a href="/tags/%E8%A7%81%E9%97%BB%E5%BD%95/" style="font-size: 10px;">见闻录</a> <a href="/tags/%E8%AF%97%E6%AD%8C/" style="font-size: 15.63px;">诗歌</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 19.38px;">软件</a> <a href="/tags/%E8%BF%9B%E5%8C%96/" style="font-size: 10.63px;">进化</a> <a href="/tags/%E9%9A%8F%E6%83%B3/" style="font-size: 11.25px;">随想</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 20px;">随笔</a> <a href="/tags/%E9%A9%B3%E8%AE%BA/" style="font-size: 10px;">驳论</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">January 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">December 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">October 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05/">May 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">May 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">December 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">August 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">March 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">April 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/01/">January 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/08/">August 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/07/">July 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/06/">June 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">May 2009</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/07/25/2021-07-25beans/">种豆记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/07/19/2021-07-19-rresources/">植物学和生态学的一些R语言学习资源</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/15/2021-05-15-ecopapers100/">生态学研究生要清楚的三件事：从《生态学家必读的100篇论文》说起</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/13/2021-05-13-life/">生活的答案</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/07/2021-05-7-new-distribution/">新种、新分布与植物爱好者的“发现权”</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 Jinlong Zhang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

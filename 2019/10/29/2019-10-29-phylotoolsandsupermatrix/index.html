@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>用phylotools建立supermatrix | Jinlong Zhang&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="phylotools是用来建立DNA supermatrix矩阵的R程序包，是为了将比对好的基因文件（Fasta文件或Phylip文件）合并成超级矩阵（supermatrix）而编写的。 Supermatrix与Relaxed Phylip格式supermatrix，就是将不同基因的片段分别比对后，再按照物种名合并形成的大型数据集，以便建立进化树用。 supermatrix一般为Relaxed P">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用phylotools建立supermatrix">
+<meta property="og:url" content="https://helixcn.github.io/2019/10/29/2019-10-29-phylotoolsandsupermatrix/index.html">
+<meta property="og:site_name" content="Jinlong Zhang&#39;s blog">
+<meta property="og:description" content="phylotools是用来建立DNA supermatrix矩阵的R程序包，是为了将比对好的基因文件（Fasta文件或Phylip文件）合并成超级矩阵（supermatrix）而编写的。 Supermatrix与Relaxed Phylip格式supermatrix，就是将不同基因的片段分别比对后，再按照物种名合并形成的大型数据集，以便建立进化树用。 supermatrix一般为Relaxed P">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-10-28T17:41:00.000Z">
+<meta property="article:modified_time" content="2021-03-29T03:25:20.000Z">
+<meta property="article:author" content="Jinlong Zhang">
+<meta property="article:tag" content="随笔">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Jinlong Zhang's blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jinlong Zhang&#39;s blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://helixcn.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-2019-10-29-phylotoolsandsupermatrix" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2019/10/29/2019-10-29-phylotoolsandsupermatrix/" class="article-date">
+  <time class="dt-published" datetime="2019-10-28T17:41:00.000Z" itemprop="datePublished">2019-10-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      用phylotools建立supermatrix
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>phylotools是用来建立DNA supermatrix矩阵的R程序包，是为了将比对好的基因文件（Fasta文件或Phylip文件）合并成超级矩阵（supermatrix）而编写的。</p>
+<h2 id="Supermatrix与Relaxed-Phylip格式"><a href="#Supermatrix与Relaxed-Phylip格式" class="headerlink" title="Supermatrix与Relaxed Phylip格式"></a>Supermatrix与Relaxed Phylip格式</h2><p>supermatrix，就是将不同基因的片段分别比对后，再按照物种名合并形成的大型数据集，以便建立进化树用。</p>
+<p>supermatrix一般为Relaxed Phylip格式。这是因为能够建立大型进化树的软件，如RAxML、Q-Tree等，都能识别这种格式。</p>
+<p>Relaxed Phylip格式是Phylip格式的扩展，即第一行的两个数字分别声明序列数和位点数，两个数字中间有一个空格。第二行以序列名开始，序列名称和序列数据之间，有一个空格。传统的Phylip文件，序列名称只允许10个字符，如果超过10个字符，Phylip等软件在建树时会将名称截断，只取前10个字符。Relaxed Phylip格式则没有这种限制。</p>
+<h2 id="建立supermatrix的几个常用片段"><a href="#建立supermatrix的几个常用片段" class="headerlink" title="建立supermatrix的几个常用片段"></a>建立supermatrix的几个常用片段</h2><p>为什么建立进化树要用多个DNA片段呢？这主要是因为DNA条形码的单个基因一般都太短，难以全面反映物种之间的关系，所以建立更为可信的进化树，一般需要更长的序列，即所谓多基因策略。</p>
+<p>不同的序列，由于编码功能的差别，有些突变的速度快，有些速度慢。有些基因片段就较为稳定，在不同科属之间差异较小，而有些则变异很快，在同一个种不同个体之间都有很大的区别。在DNA条形码研究中，常用比较稳定的rbcLa基因确定植物物种的大致类群，一般可确定到科的水平；用matK等变异稍快的类群鉴定到属甚至到种的水平；用trnH-psbA等变异速率非常快的非编码基因确定更精确的种或种下的水平等。</p>
+<p>上述三个DNA条形码序列，都是属于叶绿体基因组。当然，除上述基因外，还有很多别的基因，如ITS等也可用来建树。</p>
+<p>DNA条形码序列一般是对PCR产物用传统的桑格测序法获得的，对样品和反应条件的要求较高，有一定的失败率。理想情况下， 一份样品的几个条形码序列都应该是完整的。但是由于各种各样的原因，有些种的某些序列总是不能正常扩增和测序，造成数据缺失。</p>
+<h2 id="supermatrix的基本内容"><a href="#supermatrix的基本内容" class="headerlink" title="supermatrix的基本内容"></a>supermatrix的基本内容</h2><p>在建树开始之前，每个基因的序列需要单独比对，然后再拼接在一起。当然，这时候需要保证同一个种的不同序列要接在一起，但是位点的顺序不能错位。与此同时，若某一个种的某一个基因的序列缺失，则其对应的全部位点都需要用<code>?</code>补齐。</p>
+<h2 id="类似软件"><a href="#类似软件" class="headerlink" title="类似软件"></a>类似软件</h2><p>用比对好的序列文件建立supermatrix，除了phylotools，还有以下软件：</p>
+<ol>
+<li>Biopython (<a target="_blank" rel="noopener" href="https://biopython.org/wiki/Concatenate_nexus">https://biopython.org/wiki/Concatenate_nexus</a>)</li>
+<li>Utensils (<a target="_blank" rel="noopener" href="https://github.com/ballesterus/Utensils">https://github.com/ballesterus/Utensils</a>)</li>
+<li>Geneious (<a target="_blank" rel="noopener" href="https://assets.geneious.com/manual/11.1/GeneiousManualsu53.html">https://assets.geneious.com/manual/11.1/GeneiousManualsu53.html</a>)</li>
+<li>catfasta2phyml (<a target="_blank" rel="noopener" href="https://github.com/nylander/catfasta2phyml">https://github.com/nylander/catfasta2phyml</a>)</li>
+<li>SEDA (<a target="_blank" rel="noopener" href="http://www.sing-group.org/seda/">http://www.sing-group.org/seda/</a> , <a target="_blank" rel="noopener" href="https://www.biostars.org/p/332853/">https://www.biostars.org/p/332853/</a>)</li>
+<li>SuperMatrix: (<a target="_blank" rel="noopener" href="http://coleoguy.blogspot.com/2015/04/r-concatenate-alignments-into.html">http://coleoguy.blogspot.com/2015/04/r-concatenate-alignments-into.html</a>)</li>
+<li>concat (<a target="_blank" rel="noopener" href="https://figshare.com/articles/concatenation_R/3839538">https://figshare.com/articles/concatenation_R/3839538</a>)</li>
+<li>AMAS (<a target="_blank" rel="noopener" href="https://www.ncbi.nlm.nih.gov/pmc/articl::es/PMC4734057/">https://www.ncbi.nlm.nih.gov/pmc/articl::es/PMC4734057/</a>)</li>
+</ol>
+<p>其中Genious可以通过图形界面实现。</p>
+<h2 id="Phylotools的特点"><a href="#Phylotools的特点" class="headerlink" title="Phylotools的特点"></a>Phylotools的特点</h2><ul>
+<li>phylotools全部用R写成，操作简单。</li>
+<li>phylotools假设同一个种，在不同的fasta或者phylip文件中有相同的名称。</li>
+<li>phylotools的supermatrix可以识别比对好的fasta文件或者phylip文件，生成的supermatrix以Relaxed Phylip格式保存。</li>
+</ul>
+<h2 id="phylotools的安装"><a href="#phylotools的安装" class="headerlink" title="phylotools的安装"></a>phylotools的安装</h2><p>phylotools的最新版保存在github上，而并未上传到CRAN。要安装phylotools，可使用如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">devtools::install_github(&quot;helixcn&#x2F;phylotools&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>若未安装devtools，可使用 <code>install.packages(&quot;devtools&quot;)</code>安装</p>
+<h2 id="phylotools程序包函数列表"><a href="#phylotools程序包函数列表" class="headerlink" title="phylotools程序包函数列表"></a>phylotools程序包函数列表</h2><ul>
+<li><code>clean.fasta.name</code> 用于清除fasta序列名中的特殊字符，以便建树的时候能够正常输入和显示</li>
+<li><code>dat2fasta</code> 将读取为data.frame的DNA序列转换为fasta文件</li>
+<li><code>dat2phylip</code> 将读取为data.frame的DNA序列转换为phylip格式</li>
+<li><code>get.fasta.name</code> 获取fasta文件中所有序列的名称</li>
+<li><code>get.phylip.name</code> 获取phylip文件中所有序列的名称</li>
+<li><code>read.fasta</code> 读取fasta文件</li>
+<li><code>read.phylip</code> 读取phylip文件</li>
+<li><code>rename.fasta</code> 重命名fasta文件</li>
+<li><code>rm.sequence.fasta</code> 从fasta文件中删除某一条特定的序列</li>
+<li><code>split_dat</code> 根据序列所在的分组，将数据分成独立的fasta文件，例如，可用于trnH-psbA序列按照目(orders)分组</li>
+<li><code>sub.taxa.label</code> 替换进化树中的物种名</li>
+<li><code>supermat</code> 用已经比对好的fasta文件或者phylip文件建立supermatrix超级矩阵以及RAxML分隔文件。</li>
+</ul>
+<h2 id="用phylip文件生成Relaxed-Phylip格式的supermatrix"><a href="#用phylip文件生成Relaxed-Phylip格式的supermatrix" class="headerlink" title="用phylip文件生成Relaxed Phylip格式的supermatrix"></a>用phylip文件生成Relaxed Phylip格式的supermatrix</h2><p>假设现有三个Phylip文件，分别编码不同的基因，建立者三个基因的supermatrix，并保存为Relaxed Phylip格式，同时生成RAxML Partition File，记录每个基因的起讫位点。</p>
+<p>相应代码如下：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">cat(<span class="string">&quot;6 22&quot;</span>,</span><br><span class="line"><span class="string">&quot;seq_1 --TTACAAATTGACTTATTATA&quot;</span>,</span><br><span class="line"><span class="string">&quot;seq_2 GATTACAAATTGACTTATTATA&quot;</span>,</span><br><span class="line"><span class="string">&quot;seq_3 GATTACAAATTGACTTATTATA&quot;</span>,</span><br><span class="line"><span class="string">&quot;seq_5 GATTACAAATTGACTTATTATA&quot;</span>,</span><br><span class="line"><span class="string">&quot;seq_8 GATTACAAATTGACTTATTATA&quot;</span>,</span><br><span class="line"><span class="string">&quot;seq_10---TACAAATTGAATTATTATA&quot;</span>,file = <span class="string">&quot;matk.phy&quot;</span>, sep = <span class="string">&quot;\n&quot;</span>)</span><br><span class="line"></span><br><span class="line">cat(<span class="string">&quot;5 15&quot;</span>,</span><br><span class="line"><span class="string">&quot;seq_1  GATTACAAATTGACT&quot;</span>,</span><br><span class="line"><span class="string">&quot;seq_3  GATTACAAATTGACT&quot;</span>,</span><br><span class="line"><span class="string">&quot;seq_4  GATTACAAATTGACT&quot;</span>,</span><br><span class="line"><span class="string">&quot;seq_5  GATTACAAATTGACT&quot;</span>,</span><br><span class="line"><span class="string">&quot;seq_8  GATTACAAATTGACT&quot;</span>,</span><br><span class="line">file = <span class="string">&quot;rbcla.phy&quot;</span>, sep = <span class="string">&quot;\n&quot;</span>)</span><br><span class="line"></span><br><span class="line">cat(<span class="string">&quot;5 50&quot;</span>,</span><br><span class="line"><span class="string">&quot;seq_2 GTCTTATAAGAAAGAATAAGAAAG--AAATACAAA-------AAAAAAGA&quot;</span>,</span><br><span class="line"><span class="string">&quot;seq_3 GTCTTATAAGAAAGAAATAGAAAAGTAAAAAAAAA-------AAAAAAAG&quot;</span>,</span><br><span class="line"><span class="string">&quot;seq_5 GACATAAGACATAAAATAGAATACTCAATCAGAAACCAACCCATAAAAAC&quot;</span>,</span><br><span class="line"><span class="string">&quot;seq_8 ATTCCAAAATAAAATACAAAAAGAAAAAACTAGAAAGTTTTTTTTCTTTG&quot;</span>,</span><br><span class="line"><span class="string">&quot;seq_9 ATTCTTTGTTCTTTTTTTTCTTTAATCTTTAAATAAACCTTTTTTTTTTA&quot;</span>,</span><br><span class="line">file = <span class="string">&quot;trn1.phy&quot;</span>, sep = <span class="string">&quot;\n&quot;</span>)</span><br><span class="line"></span><br><span class="line">supermat(infiles = <span class="built_in">c</span>(<span class="string">&quot;matk.phy&quot;</span>, <span class="string">&quot;rbcla.phy&quot;</span>, <span class="string">&quot;trn1.phy&quot;</span>))</span><br></pre></td></tr></table></figure>
+
+<h2 id="用fasta文件生成supermatrix"><a href="#用fasta文件生成supermatrix" class="headerlink" title="用fasta文件生成supermatrix"></a>用fasta文件生成supermatrix</h2><p>要使用比对好的fasta文件生成supermatrix， 则命令改为对应的fasta文件名即可：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">cat(<span class="string">&quot;&gt;seq_1&quot;</span>,  <span class="string">&quot;--TTACAAATTGACTTATTATA&quot;</span>,</span><br><span class="line"><span class="string">&quot;&gt;seq_2&quot;</span>,  <span class="string">&quot;GATTACAAATTGACTTATTATA&quot;</span>,</span><br><span class="line"><span class="string">&quot;&gt;seq_3&quot;</span>,  <span class="string">&quot;GATTACAAATTGACTTATTATA&quot;</span>,</span><br><span class="line"><span class="string">&quot;&gt;seq_5&quot;</span>,  <span class="string">&quot;GATTACAAATTGACTTATTATA&quot;</span>,</span><br><span class="line"><span class="string">&quot;&gt;seq_8&quot;</span>,  <span class="string">&quot;GATTACAAATTGACTTATTATA&quot;</span>,</span><br><span class="line"><span class="string">&quot;&gt;seq_10&quot;</span>, <span class="string">&quot;---TACAAATTGAATTATTATA&quot;</span>,</span><br><span class="line">file = <span class="string">&quot;matk.fasta&quot;</span>, sep = <span class="string">&quot;\n&quot;</span>)</span><br><span class="line"></span><br><span class="line">cat(</span><br><span class="line"><span class="string">&quot;&gt;seq_1&quot;</span>, <span class="string">&quot;GATTACAAATTGACT&quot;</span>,</span><br><span class="line"><span class="string">&quot;&gt;seq_3&quot;</span>, <span class="string">&quot;GATTACAAATTGACT&quot;</span>,</span><br><span class="line"><span class="string">&quot;&gt;seq_4&quot;</span>, <span class="string">&quot;GATTACAAATTGACT&quot;</span>,</span><br><span class="line"><span class="string">&quot;&gt;seq_5&quot;</span>, <span class="string">&quot;GATTACAAATTGACT&quot;</span>,</span><br><span class="line"><span class="string">&quot;&gt;seq_8&quot;</span>, <span class="string">&quot;GATTACAAATTGACT&quot;</span>,</span><br><span class="line">file = <span class="string">&quot;rbcla.fasta&quot;</span>, sep = <span class="string">&quot;\n&quot;</span>)</span><br><span class="line"></span><br><span class="line">cat(</span><br><span class="line"><span class="string">&quot;&gt;seq_2&quot;</span>, <span class="string">&quot;GTCTTATAAGAAAGAATAAGAAAG--AAATACAAA-------AAAAAAGA&quot;</span>,</span><br><span class="line"><span class="string">&quot;&gt;seq_3&quot;</span>, <span class="string">&quot;GTCTTATAAGAAAGAAATAGAAAAGTAAAAAAAAA-------AAAAAAAG&quot;</span>,</span><br><span class="line"><span class="string">&quot;&gt;seq_5&quot;</span>, <span class="string">&quot;GACATAAGACATAAAATAGAATACTCAATCAGAAACCAACCCATAAAAAC&quot;</span>,</span><br><span class="line"><span class="string">&quot;&gt;seq_8&quot;</span>, <span class="string">&quot;ATTCCAAAATAAAATACAAAAAGAAAAAACTAGAAAGTTTTTTTTCTTTG&quot;</span>,</span><br><span class="line"><span class="string">&quot;&gt;seq_9&quot;</span>, <span class="string">&quot;ATTCTTTGTTCTTTTTTTTCTTTAATCTTTAAATAAACCTTTTTTTTTTA&quot;</span>,</span><br><span class="line">file = <span class="string">&quot;trn1.fasta&quot;</span>, sep = <span class="string">&quot;\n&quot;</span>)</span><br><span class="line"></span><br><span class="line">supermat(infiles = <span class="built_in">c</span>(<span class="string">&quot;matk.fasta&quot;</span>, <span class="string">&quot;rbcla.fasta&quot;</span>, <span class="string">&quot;trn1.fasta&quot;</span>))</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li>Kress, W. J., Erickson, D. L., Jones, F. A., Swenson, N. G., Perez, R., Sanjur, O., &amp; Bermingham, E. (2009). Plant DNA barcodes and a community phylogeny of a tropical forest dynamics plot in Panama. Proceedings of the National Academy of Sciences, 106(44), 18621-18626.</li>
+<li>裴男才, 张金龙, 米湘成, 葛学军 (2011) 植物DNA条形码促进系统发育群落生态学发展, 生物多样性, 19(3):284–294</li>
+<li>Roquet, C., Thuiller, W., &amp; Lavergne, S. (2013). Building megaphylogenies for macroecology: taking up the challenge. Ecography, 36(1), 13-26.</li>
+<li><a target="_blank" rel="noopener" href="https://cme.h-its.org/exelixis/web/software/raxml/index.html">https://cme.h-its.org/exelixis/web/software/raxml/index.html</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2019/10/29/2019-10-29-phylotoolsandsupermatrix/" data-id="ckrsvkzcz00cj90w0fef96vqo" data-title="用phylotools建立supermatrix" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/01/10/2020-01-10-mrca/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          计算进化树末端节点出现的时间及两节点共同祖先（MRCA）的年龄
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/10/21/2019-10-21-samplingefficiency/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">怎样确定一个地区标本采集的完整程度</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/R%E7%BC%96%E7%A8%8B/" rel="tag">R编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%BA%E7%89%A9/" rel="tag">人物</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%86%99%E4%BD%9C/" rel="tag">写作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" rel="tag">可视化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E4%B9%A6/" rel="tag">图书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" rel="tag">图像处理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9C%B0%E7%90%86/" rel="tag">地理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A3%B0%E6%98%8E/" rel="tag">声明</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%A9%E6%96%87/" rel="tag">天文</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90/" rel="tag">学习资源</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E8%AF%9D%E5%BD%95/" rel="tag">对话录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%83%E5%BE%97/" rel="tag">心得</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%A5%E5%91%8A/" rel="tag">报告</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%92%E7%89%88/" rel="tag">排版</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%85%E4%B9%A1/" rel="tag">故乡</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" rel="tag">标本馆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%88%86%E7%B1%BB/" rel="tag">植物分类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%90%8D/" rel="tag">植物学名</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%82%E8%81%8C/" rel="tag">求职</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" rel="tag">版本控制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%80%81/" rel="tag">生态</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%80%81%E8%B5%84%E8%AE%AF/" rel="tag">生态资讯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A0%94%E7%A9%B6%E8%B5%84%E8%AE%AF/" rel="tag">研究资讯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B3%BB%E7%BB%9F%E5%8F%91%E8%82%B2/" rel="tag">系统发育</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%9F%E8%AE%A1/" rel="tag">统计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" rel="tag">行摄匆匆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%81%E9%97%BB%E5%BD%95/" rel="tag">见闻录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%97%E6%AD%8C/" rel="tag">诗歌</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E5%8C%96/" rel="tag">进化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E6%83%B3/" rel="tag">随想</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A9%B3%E8%AE%BA/" rel="tag">驳论</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/R%E7%BC%96%E7%A8%8B/" style="font-size: 18.75px;">R编程</a> <a href="/tags/%E4%BA%BA%E7%89%A9/" style="font-size: 11.88px;">人物</a> <a href="/tags/%E5%86%99%E4%BD%9C/" style="font-size: 13.13px;">写作</a> <a href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/" style="font-size: 12.5px;">可视化</a> <a href="/tags/%E5%9B%BE%E4%B9%A6/" style="font-size: 10px;">图书</a> <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" style="font-size: 11.88px;">图像处理</a> <a href="/tags/%E5%9C%B0%E7%90%86/" style="font-size: 17.5px;">地理</a> <a href="/tags/%E5%A3%B0%E6%98%8E/" style="font-size: 10.63px;">声明</a> <a href="/tags/%E5%A4%A9%E6%96%87/" style="font-size: 16.25px;">天文</a> <a href="/tags/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90/" style="font-size: 10px;">学习资源</a> <a href="/tags/%E5%AF%B9%E8%AF%9D%E5%BD%95/" style="font-size: 10px;">对话录</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 10px;">心得</a> <a href="/tags/%E6%8A%A5%E5%91%8A/" style="font-size: 12.5px;">报告</a> <a href="/tags/%E6%8E%92%E7%89%88/" style="font-size: 13.75px;">排版</a> <a href="/tags/%E6%95%85%E4%B9%A1/" style="font-size: 10.63px;">故乡</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10.63px;">数据库</a> <a href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" style="font-size: 14.38px;">标本馆</a> <a href="/tags/%E6%A4%8D%E7%89%A9%E5%88%86%E7%B1%BB/" style="font-size: 10px;">植物分类</a> <a href="/tags/%E6%A4%8D%E7%89%A9%E5%AD%A6%E5%90%8D/" style="font-size: 10px;">植物学名</a> <a href="/tags/%E6%B1%82%E8%81%8C/" style="font-size: 10px;">求职</a> <a href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" style="font-size: 11.25px;">版本控制</a> <a href="/tags/%E7%94%9F%E6%80%81/" style="font-size: 16.88px;">生态</a> <a href="/tags/%E7%94%9F%E6%80%81%E8%B5%84%E8%AE%AF/" style="font-size: 10px;">生态资讯</a> <a href="/tags/%E7%A0%94%E7%A9%B6%E8%B5%84%E8%AE%AF/" style="font-size: 10px;">研究资讯</a> <a href="/tags/%E7%B3%BB%E7%BB%9F%E5%8F%91%E8%82%B2/" style="font-size: 10px;">系统发育</a> <a href="/tags/%E7%BB%9F%E8%AE%A1/" style="font-size: 18.13px;">统计</a> <a href="/tags/%E7%BC%96%E7%A8%8B/" style="font-size: 10.63px;">编程</a> <a href="/tags/%E8%A1%8C%E6%91%84%E5%8C%86%E5%8C%86/" style="font-size: 15px;">行摄匆匆</a> <a href="/tags/%E8%A7%81%E9%97%BB%E5%BD%95/" style="font-size: 10px;">见闻录</a> <a href="/tags/%E8%AF%97%E6%AD%8C/" style="font-size: 15.63px;">诗歌</a> <a href="/tags/%E8%BD%AF%E4%BB%B6/" style="font-size: 19.38px;">软件</a> <a href="/tags/%E8%BF%9B%E5%8C%96/" style="font-size: 10.63px;">进化</a> <a href="/tags/%E9%9A%8F%E6%83%B3/" style="font-size: 11.25px;">随想</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 20px;">随笔</a> <a href="/tags/%E9%A9%B3%E8%AE%BA/" style="font-size: 10px;">驳论</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">January 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">December 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">October 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05/">May 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">May 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">December 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">August 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">March 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">April 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/01/">January 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/08/">August 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/07/">July 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/06/">June 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">May 2009</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/07/25/2021-07-25beans/">种豆记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/07/19/2021-07-19-rresources/">植物学和生态学的一些R语言学习资源</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/15/2021-05-15-ecopapers100/">生态学研究生要清楚的三件事：从《生态学家必读的100篇论文》说起</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/13/2021-05-13-life/">生活的答案</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/07/2021-05-7-new-distribution/">新种、新分布与植物爱好者的“发现权”</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 Jinlong Zhang<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -73,9 +73,95 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-2020-12-07" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-2020-12-14-coordinatestransformation" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2020/12/07/2020-12-07/" class="article-date">
+    <a href="/2020/12/14/2020-12-14-coordinatestransformation/" class="article-date">
+  <time class="dt-published" datetime="2020-12-13T17:39:00.000Z" itemprop="datePublished">2020-12-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/12/14/2020-12-14-coordinatestransformation/">WGS84坐标和HK80坐标之间的相互转换</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>HK80（Hong Kong 1980 Grid System）是香港的一种坐标系（EPSG：2326），一般用于地图绘制、工程勘测、树木调查等。不过，生态学研究中最常用的坐标系为WGS84（EPSG：4326），例如GPS一般就是直接给出WGS84的经纬度，Google Earth等也用WGS84坐标系。那么HK80坐标如何转换为WGS84坐标呢？</p>
+<p>香港地政署测绘处给出了测量基准说明（<a target="_blank" rel="noopener" href="https://www.geodetic.gov.hk/common/data/pdf/explanatorynotes_c.pdf%EF%BC%89%EF%BC%8C">https://www.geodetic.gov.hk/common/data/pdf/explanatorynotes_c.pdf），</a> 其中有非常详细的转换公式。根据这些公式，本人曾于2014年编写了HK80 R程序包（<a target="_blank" rel="noopener" href="https://cran.r-project.org/web/packages/HK80/index.html%EF%BC%89%E3%80%82">https://cran.r-project.org/web/packages/HK80/index.html）。</a></p>
+<p>近几年来，也有不少新工具诞生：例如，香港地政署测绘处的HK80坐标在线转换工具（<a target="_blank" rel="noopener" href="https://www.geodetic.gov.hk/en/services/tform/tform.aspx">https://www.geodetic.gov.hk/en/services/tform/tform.aspx</a> ）公开了API，该API可以根据用户在网址中传入的参数返回json数据。sf程序包也在proj程序包的基础上开发了st_transform函数，让不同坐标系之间的转换变得非常方便。也有人基于pyproj（<a target="_blank" rel="noopener" href="https://pyproj4.github.io/pyproj/stable/#%EF%BC%8Chttps://proj.org/%EF%BC%89%E5%BC%80%E5%8F%91%E4%BA%86hk80">https://pyproj4.github.io/pyproj/stable/#，https://proj.org/）开发了hk80</a> python程序包（<a target="_blank" rel="noopener" href="https://pypi.org/project/hk80/%EF%BC%89%E7%AD%89%E3%80%82">https://pypi.org/project/hk80/）等。</a></p>
+<p>本文给出在R中进行WGS84和HK80坐标相互转换的三种方法，其中首选为香港地政署的在线转换工具，但是由于服务器可能会有一定的限制，如果有大量数据需要准换，访问会较为频繁，用户IP可能受限。下载到本地的sf和HK80程序包就没有这些限制。sf和HK80的程序包的结果都是可靠的。相比之下，在sf中建立坐标点并进行转换批量转换更为方便。HK80程序包的结果可以作为参考。</p>
+<p>地理坐标转换常涉及度、分、秒和十进制的转换，本文也给出两种方法，作为附录，以方便读者。</p>
+<h1 id="HK80GRID坐标转换为WGS84坐标"><a href="#HK80GRID坐标转换为WGS84坐标" class="headerlink" title="HK80GRID坐标转换为WGS84坐标"></a>HK80GRID坐标转换为WGS84坐标</h1><h2 id="The-HK80-R-package"><a href="#The-HK80-R-package" class="headerlink" title="The HK80 R package"></a>The HK80 R package</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">library(HK80)</span><br><span class="line">HK1980GRID_TO_WGS84GEO(N &#x3D; 820359.389, E &#x3D; 832591.320)</span><br><span class="line">##   latitude longitude</span><br><span class="line">## 1 22.32225  114.1412</span><br></pre></td></tr></table></figure>
+
+<h2 id="The-official-online-conversion-tool"><a href="#The-official-online-conversion-tool" class="headerlink" title="The official online conversion tool"></a>The official online conversion tool</h2><p>the Geodetic Survey Section, Lands Department, Hong Kong SAR Gov.</p>
+<p>API example: <code>http://www.geodetic.gov.hk/transform/v2/?inSys=hkgrid&amp;e=832591.320&amp;n=820359.389</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">library(jsonlite)data1 &lt;- fromJSON(&quot; </span><br><span class="line">names(data1)</span><br><span class="line">##  [1] &quot;wgsLat&quot;      &quot;wgsLong&quot;     &quot;hkLat&quot;       &quot;hkLong&quot;      &quot;utmGridZone&quot;</span><br><span class="line">##  [6] &quot;utmGridE&quot;    &quot;utmGridN&quot;    &quot;utmRefZone&quot;  &quot;utmRefE&quot;     &quot;utmRefN&quot;</span><br><span class="line">data1$wgsLat</span><br><span class="line">## [1] 22.32224</span><br><span class="line">data1$wgsLong</span><br><span class="line">## [1] 114.1412</span><br></pre></td></tr></table></figure>
+
+<h2 id="The-sf-package"><a href="#The-sf-package" class="headerlink" title="The sf package"></a>The sf package</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">library(sf)</span><br><span class="line">## Linking to GEOS 3.8.1, GDAL 3.1.1, PROJ 6.3.1</span><br><span class="line">p1 &#x3D; st_point(c(832591.320, 820359.389))</span><br><span class="line">sfc &#x3D; st_sfc(p1, crs &#x3D; 2326)</span><br><span class="line">(st_transform(sfc, 4326))</span><br><span class="line">## Geometry set for 1 feature </span><br><span class="line">## geometry type:  POINT</span><br><span class="line">## dimension:      XY</span><br><span class="line">## bbox:           xmin: 114.1412 ymin: 22.32224 xmax: 114.1412 ymax: 22.32224</span><br><span class="line">## geographic CRS: WGS 84</span><br><span class="line">## POINT (114.1412 22.32224)</span><br></pre></td></tr></table></figure>
+
+<h1 id="WGS84-坐标转换为HK80GRID坐标"><a href="#WGS84-坐标转换为HK80GRID坐标" class="headerlink" title="WGS84 坐标转换为HK80GRID坐标"></a>WGS84 坐标转换为HK80GRID坐标</h1><h2 id="The-HK80-R-package-1"><a href="#The-HK80-R-package-1" class="headerlink" title="The HK80 R package"></a>The HK80 R package</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">library(HK80)</span><br><span class="line">WGS84GEO_TO_HK1980GRID(latitude &#x3D; 22.32224, longitude &#x3D; 114.14118)</span><br><span class="line">##          N        E</span><br><span class="line">## 1 820358.7 832591.4</span><br></pre></td></tr></table></figure>
+
+<h2 id="The-official-online-conversion-tool-1"><a href="#The-official-online-conversion-tool-1" class="headerlink" title="The official online conversion tool"></a>The official online conversion tool</h2><p>from the Geodetic Survey Section, Lands Department, Hong Kong SAR Gov.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># Copy the following URL to browser</span><br><span class="line">#  </span><br><span class="line"># &#123;&quot;hkN&quot;: 820358.910,&quot;hkE&quot;: 832590.508,&quot;hkpd&quot;: 26.009&#125;</span><br><span class="line">library(jsonlite)</span><br><span class="line">data1 &lt;- fromJSON(&quot; </span><br><span class="line">names(data1)</span><br><span class="line">## [1] &quot;hkN&quot;  &quot;hkE&quot;  &quot;hkpd&quot;</span><br><span class="line">data1$hkN</span><br><span class="line">## [1] 820358.9</span><br><span class="line">data1$hkE</span><br><span class="line">## [1] 832590.5</span><br></pre></td></tr></table></figure>
+
+<h2 id="The-sf-package-1"><a href="#The-sf-package-1" class="headerlink" title="The sf package"></a>The sf package</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">library(sf)</span><br><span class="line">p1 &#x3D; st_point(c(114.14118, 22.32224))</span><br><span class="line">sfc &#x3D; st_sfc(p1, crs &#x3D; 4326)</span><br><span class="line">(ccc &lt;- st_transform(sfc, 2326))</span><br><span class="line">## Geometry set for 1 feature </span><br><span class="line">## geometry type:  POINT</span><br><span class="line">## dimension:      XY</span><br><span class="line">## bbox:           xmin: 832590.5 ymin: 820358.9 xmax: 832590.5 ymax: 820358.9</span><br><span class="line">## projected CRS:  Hong Kong 1980 Grid System</span><br><span class="line">## POINT (832590.5 820358.9)</span><br></pre></td></tr></table></figure>
+
+<h1 id="附录-度、分、秒和十进制格式的相互转换"><a href="#附录-度、分、秒和十进制格式的相互转换" class="headerlink" title="附录: 度、分、秒和十进制格式的相互转换"></a>附录: 度、分、秒和十进制格式的相互转换</h1><h2 id="Using-the-sp-package"><a href="#Using-the-sp-package" class="headerlink" title="Using the sp package"></a>Using the sp package</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">library(sp)</span><br><span class="line">dd2dms(114.14118) </span><br><span class="line"># decimal to Degree, Minute, Second format</span><br><span class="line">## [1] 114d8&#39;28.248&quot;E</span><br><span class="line">as.numeric(dd2dms(114.14118)) </span><br><span class="line">#</span><br><span class="line">## [1] 114.1412</span><br><span class="line">char2dms(&quot;47d15&#39;6.12\&quot;E&quot;)</span><br><span class="line">## [1] 47d15&#39;6.12&quot;E</span><br><span class="line">as.numeric(char2dms(&quot;47d15&#39;6.12\&quot;E&quot;))</span><br><span class="line">## [1] 47.2517</span><br></pre></td></tr></table></figure>
+
+<h2 id="Using-the-biogeo-package"><a href="#Using-the-biogeo-package" class="headerlink" title="Using the biogeo package"></a>Using the biogeo package</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">library(biogeo)</span><br><span class="line">res &lt;- dms2dd(47,15,6.12,&quot;E&quot;) # ns letters (N,S,E,W)</span><br><span class="line">print(res)</span><br><span class="line">## [1] 47.2517</span><br><span class="line">dd2dmslong(114.14118)</span><br><span class="line">##   xdeg xmin xsec EW</span><br><span class="line">## 1  114    8 28.2  E</span><br><span class="line">dd2dmslat(22.32224)</span><br><span class="line">##   ydeg ymin ysec NS</span><br><span class="line">## 1   22   19 20.1  N</span><br></pre></td></tr></table></figure>
+
+<h1 id="进一步阅读"><a href="#进一步阅读" class="headerlink" title="进一步阅读"></a>进一步阅读</h1><ul>
+<li><p>Ooms J. (2014). The jsonlite Package: A Practical and Consistent Mapping Between JSON Data and R Objects. arXiv:1403.2805 [stat.CO] URL <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1403.2805">https://arxiv.org/abs/1403.2805</a>.</p>
+</li>
+<li><p>Zhang J.  (2016). HK80: Conversion Tools for HK80 Geographical Coordinate System. R package version 0.0.2. <a target="_blank" rel="noopener" href="https://cran.r-project.org/package=HK80">https://CRAN.R-project.org/package=HK80</a></p>
+</li>
+<li><p>Robertson M. (2016). biogeo: Point Data Quality Assessment and Coordinate Conversion. R package version 1.0. <a target="_blank" rel="noopener" href="https://cran.r-project.org/package=biogeo">https://CRAN.R-project.org/package=biogeo</a></p>
+</li>
+<li><p>Pebesma, E., (2018). Simple Features for R: Standardized Support for Spatial Vector Data. The R Journal 10 (1), 439-446, <a target="_blank" rel="noopener" href="https://doi.org/10.32614/RJ-2018-009">https://doi.org/10.32614/RJ-2018-009</a></p>
+</li>
+<li><p>Roger S. Bivand, Edzer Pebesma, Virgilio Gomez-Rubio,(</p>
+</li>
+<li><ol start="2013">
+<li>Applied spatial data analysis with R, Second edition. Springer, NY. <a target="_blank" rel="noopener" href="https://asdar-book.org/">https://asdar-book.org/</a></li>
+</ol>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://pypi.org/project/hk80/">https://pypi.org/project/hk80/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://spatialreference.org/ref/?search=Hong+Kong">https://spatialreference.org/ref/?search=Hong+Kong</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.geodetic.gov.hk/en/download.htm">https://www.geodetic.gov.hk/en/download.htm</a></p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2020/12/14/2020-12-14-coordinatestransformation/" data-id="ckrsvkzd700cz90w0gnlfdqvo" data-title="WGS84坐标和HK80坐标之间的相互转换" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-2020-12-07-realityofecology" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/12/07/2020-12-07-realityofecology/" class="article-date">
   <time class="dt-published" datetime="2020-12-06T20:49:00.000Z" itemprop="datePublished">2020-12-07</time>
 </a>
     
@@ -87,7 +173,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/12/07/2020-12-07/">十年后遇见真实的生态学</a>
+      <a class="p-name article-title" href="/2020/12/07/2020-12-07-realityofecology/">十年后遇见真实的生态学</a>
     </h1>
   
 
@@ -120,7 +206,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2020/12/07/2020-12-07/" data-id="ckmt6y7qj00e7mgyae6403gub" data-title="十年后遇见真实的生态学" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2020/12/07/2020-12-07-realityofecology/" data-id="ckrsvkzd600cx90w0bse4fvf8" data-title="十年后遇见真实的生态学" class="article-share-link">Share</a>
       
       
       
@@ -134,9 +220,9 @@
 
 
   
-    <article id="post-2020-11-29" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-2020-11-29-usingtmap" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2020/11/29/2020-11-29/" class="article-date">
+    <a href="/2020/11/29/2020-11-29-usingtmap/" class="article-date">
   <time class="dt-published" datetime="2020-11-29T06:08:00.000Z" itemprop="datePublished">2020-11-29</time>
 </a>
     
@@ -148,7 +234,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/11/29/2020-11-29/">tmap手工调整采样点地图的图例</a>
+      <a class="p-name article-title" href="/2020/11/29/2020-11-29-usingtmap/">tmap手工调整采样点地图的图例</a>
     </h1>
   
 
@@ -183,7 +269,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2020/11/29/2020-11-29/" data-id="ckmt6y7qe00e5mgyabqufdoz3" data-title="tmap手工调整采样点地图的图例" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2020/11/29/2020-11-29-usingtmap/" data-id="ckrsvkzd500cv90w04fhvbecg" data-title="tmap手工调整采样点地图的图例" class="article-share-link">Share</a>
       
       
       
@@ -197,9 +283,9 @@
 
 
   
-    <article id="post-2020-06-29" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-2020-06-29-howtousespaa" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2020/06/29/2020-06-29/" class="article-date">
+    <a href="/2020/06/29/2020-06-29-howtousespaa/" class="article-date">
   <time class="dt-published" datetime="2020-06-28T21:03:00.000Z" itemprop="datePublished">2020-06-29</time>
 </a>
     
@@ -211,7 +297,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/06/29/2020-06-29/">种间联结和生态位重叠的计算：spaa程序包</a>
+      <a class="p-name article-title" href="/2020/06/29/2020-06-29-howtousespaa/">种间联结和生态位重叠的计算：spaa程序包</a>
     </h1>
   
 
@@ -550,7 +636,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2020/06/29/2020-06-29/" data-id="ckmt6y7qs00ermgyagjtzco8g" data-title="种间联结和生态位重叠的计算：spaa程序包" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2020/06/29/2020-06-29-howtousespaa/" data-id="ckrsvkzdn00dj90w02u3kgges" data-title="种间联结和生态位重叠的计算：spaa程序包" class="article-share-link">Share</a>
       
       
       
@@ -564,9 +650,9 @@
 
 
   
-    <article id="post-2020-05-11" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-2020-05-11-plantlist" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2020/05/11/2020-05-11/" class="article-date">
+    <a href="/2020/05/11/2020-05-11-plantlist/" class="article-date">
   <time class="dt-published" datetime="2020-05-10T20:36:00.000Z" itemprop="datePublished">2020-05-11</time>
 </a>
     
@@ -578,7 +664,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/05/11/2020-05-11/">用plantlist程序包查询和处理植物学名 (plantlist 0.6.5)</a>
+      <a class="p-name article-title" href="/2020/05/11/2020-05-11-plantlist/">用plantlist程序包查询和处理植物学名 (plantlist 0.6.5)</a>
     </h1>
   
 
@@ -704,7 +790,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2020/05/11/2020-05-11/" data-id="ckmt6y7qd00e3mgya2u04difg" data-title="用plantlist程序包查询和处理植物学名 (plantlist 0.6.5)" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2020/05/11/2020-05-11-plantlist/" data-id="ckrsvkzd400ct90w0hvma4y1w" data-title="用plantlist程序包查询和处理植物学名 (plantlist 0.6.5)" class="article-share-link">Share</a>
       
       
       
@@ -718,9 +804,9 @@
 
 
   
-    <article id="post-2020-02-20" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-2020-02-20-whatispic" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2020/02/19/2020-02-20/" class="article-date">
+    <a href="/2020/02/19/2020-02-20-whatispic/" class="article-date">
   <time class="dt-published" datetime="2020-02-19T08:16:00.000Z" itemprop="datePublished">2020-02-19</time>
 </a>
     
@@ -732,7 +818,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/02/19/2020-02-20/">什么是系统发育独立差（Phylogenetic Independent Contrast）？</a>
+      <a class="p-name article-title" href="/2020/02/19/2020-02-20-whatispic/">什么是系统发育独立差（Phylogenetic Independent Contrast）？</a>
     </h1>
   
 
@@ -790,7 +876,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2020/02/19/2020-02-20/" data-id="ckmt6y7qc00e1mgyad8mmb8c9" data-title="什么是系统发育独立差（Phylogenetic Independent Contrast）？" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2020/02/19/2020-02-20-whatispic/" data-id="ckrsvkzd300cr90w05ls815ru" data-title="什么是系统发育独立差（Phylogenetic Independent Contrast）？" class="article-share-link">Share</a>
       
       
       
@@ -804,9 +890,9 @@
 
 
   
-    <article id="post-2020-01-23" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-2020-01-23-tiefeng" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2020/01/23/2020-01-23/" class="article-date">
+    <a href="/2020/01/23/2020-01-23-tiefeng/" class="article-date">
   <time class="dt-published" datetime="2020-01-22T23:09:00.000Z" itemprop="datePublished">2020-01-23</time>
 </a>
     
@@ -818,7 +904,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/01/23/2020-01-23/">再忆铁峰</a>
+      <a class="p-name article-title" href="/2020/01/23/2020-01-23-tiefeng/">再忆铁峰</a>
     </h1>
   
 
@@ -859,7 +945,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2020/01/23/2020-01-23/" data-id="ckmt6y7qb00dzmgyad1x42vjz" data-title="再忆铁峰" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2020/01/23/2020-01-23-tiefeng/" data-id="ckrsvkzd200cp90w08myj7xk5" data-title="再忆铁峰" class="article-share-link">Share</a>
       
       
       
@@ -873,9 +959,9 @@
 
 
   
-    <article id="post-2020-01-10" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-2020-01-10-mrca" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2020/01/10/2020-01-10/" class="article-date">
+    <a href="/2020/01/10/2020-01-10-mrca/" class="article-date">
   <time class="dt-published" datetime="2020-01-09T22:27:00.000Z" itemprop="datePublished">2020-01-10</time>
 </a>
     
@@ -887,7 +973,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/01/10/2020-01-10/">计算进化树末端节点出现的时间及两节点共同祖先（MRCA）的年龄</a>
+      <a class="p-name article-title" href="/2020/01/10/2020-01-10-mrca/">计算进化树末端节点出现的时间及两节点共同祖先（MRCA）的年龄</a>
     </h1>
   
 
@@ -930,7 +1016,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2020/01/10/2020-01-10/" data-id="ckmt6y7qa00dxmgyaeyjo6mys" data-title="计算进化树末端节点出现的时间及两节点共同祖先（MRCA）的年龄" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2020/01/10/2020-01-10-mrca/" data-id="ckrsvkzd100cn90w0cqp9918j" data-title="计算进化树末端节点出现的时间及两节点共同祖先（MRCA）的年龄" class="article-share-link">Share</a>
       
       
       
@@ -944,9 +1030,9 @@
 
 
   
-    <article id="post-2019-10-29" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-2019-10-29-phylotoolsandsupermatrix" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2019/10/29/2019-10-29/" class="article-date">
+    <a href="/2019/10/29/2019-10-29-phylotoolsandsupermatrix/" class="article-date">
   <time class="dt-published" datetime="2019-10-28T17:41:00.000Z" itemprop="datePublished">2019-10-29</time>
 </a>
     
@@ -958,7 +1044,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2019/10/29/2019-10-29/">用phylotools建立supermatrix</a>
+      <a class="p-name article-title" href="/2019/10/29/2019-10-29-phylotoolsandsupermatrix/">用phylotools建立supermatrix</a>
     </h1>
   
 
@@ -1027,7 +1113,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2019/10/29/2019-10-29/" data-id="ckmt6y7q500dlmgya8xv78bti" data-title="用phylotools建立supermatrix" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2019/10/29/2019-10-29-phylotoolsandsupermatrix/" data-id="ckrsvkzcz00cj90w0fef96vqo" data-title="用phylotools建立supermatrix" class="article-share-link">Share</a>
       
       
       
@@ -1041,9 +1127,9 @@
 
 
   
-    <article id="post-2019-10-21" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-2019-10-21-samplingefficiency" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2019/10/21/2019-10-21/" class="article-date">
+    <a href="/2019/10/21/2019-10-21-samplingefficiency/" class="article-date">
   <time class="dt-published" datetime="2019-10-20T16:32:00.000Z" itemprop="datePublished">2019-10-21</time>
 </a>
     
@@ -1055,7 +1141,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2019/10/21/2019-10-21/">怎样确定一个地区标本采集的完整程度</a>
+      <a class="p-name article-title" href="/2019/10/21/2019-10-21-samplingefficiency/">怎样确定一个地区标本采集的完整程度</a>
     </h1>
   
 
@@ -1089,52 +1175,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2019/10/21/2019-10-21/" data-id="ckmt6y7q400djmgya1oybh29x" data-title="怎样确定一个地区标本采集的完整程度" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-2019-10-10DNA" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2019/10/10/2019-10-10DNA/" class="article-date">
-  <time class="dt-published" datetime="2019-10-09T18:26:02.000Z" itemprop="datePublished">2019-10-10</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2019/10/10/2019-10-10DNA/">从DNA序列到系统发育多样性-在环保部环科院的讲座</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>讲座内容包括：</p>
-<p>1 进化树及相关基本概念<br>2 DNA 序列的获取和比对<br>3 进化模型及其筛选<br>4 建立进化树的方法<br>5 启发式搜索和 bootstrap 可靠性评估<br>6 贝叶斯法建树<br>7 分化时间的校对：分子钟<br>8 通过植物学名建立进化树<br>9 系统发育多样性分析： ape、 vegan 和 picante</p>
-<p>本讲座是2019年9月16日应环保部环境科学研究院的刘勇波副研究员（<a target="_blank" rel="noopener" href="http://www.craes.cn/zjhky/craes_kydw/sssds/201808/t20180819_454216.shtml%EF%BC%89%E7%9A%84%E9%82%80%E8%AF%B7%E8%80%8C%E5%87%86%E5%A4%87%E7%9A%84%EF%BC%8C%E5%9C%A8%E6%AD%A4%E7%89%B9%E5%88%AB%E6%84%9F%E8%B0%A2%E5%88%98%E5%B8%88%E5%85%84%E7%9A%84%E9%82%80%E8%AF%B7%E5%92%8C%E7%83%AD%E6%83%85%E6%AC%BE%E5%BE%85%E3%80%82">http://www.craes.cn/zjhky/craes_kydw/sssds/201808/t20180819_454216.shtml）的邀请而准备的，在此特别感谢刘师兄的邀请和热情款待。</a></p>
-<p>特别感谢沈泽昊、张英、杨拓、高芳銮、向小果、刘勇波、俞方圆、曾思金等老师提出宝贵意见！</p>
-<p>更多内容敬请关注 <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/u/zjlcas">http://blog.sciencenet.cn/u/zjlcas</a> 和 <a target="_blank" rel="noopener" href="https://github.com/helixcn">https://github.com/helixcn</a> 。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2019/10/10/2019-10-10DNA/" data-id="ckmt6y7q400dhmgyaecag167b" data-title="从DNA序列到系统发育多样性-在环保部环科院的讲座" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2019/10/21/2019-10-21-samplingefficiency/" data-id="ckrsvkzcy00ch90w023fz620n" data-title="怎样确定一个地区标本采集的完整程度" class="article-share-link">Share</a>
       
       
       
@@ -1152,7 +1193,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -1198,23 +1239,23 @@
       <ul>
         
           <li>
-            <a href="/2021/07/19/2021-07-19/">植物学和生态学的一些R语言学习资源</a>
+            <a href="/2021/07/25/2021-07-25beans/">种豆记</a>
           </li>
         
           <li>
-            <a href="/2021/05/15/graduate-students/">生态学研究生要清楚的三件事：从《生态学家必读的100篇论文》说起</a>
+            <a href="/2021/07/19/2021-07-19-rresources/">植物学和生态学的一些R语言学习资源</a>
           </li>
         
           <li>
-            <a href="/2021/05/13/life/">生活的答案</a>
+            <a href="/2021/05/15/2021-05-15-ecopapers100/">生态学研究生要清楚的三件事：从《生态学家必读的100篇论文》说起</a>
           </li>
         
           <li>
-            <a href="/2021/05/07/new-distribution/">新种、新分布与植物爱好者的“发现权”</a>
+            <a href="/2021/05/13/2021-05-13-life/">生活的答案</a>
           </li>
         
           <li>
-            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+            <a href="/2021/05/07/2021-05-7-new-distribution/">新种、新分布与植物爱好者的“发现权”</a>
           </li>
         
       </ul>

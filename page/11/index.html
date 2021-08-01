@@ -73,6 +73,85 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2017-05-15-search" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2017/05/15/2017-05-15-search/" class="article-date">
+  <time class="dt-published" datetime="2017-05-15T01:29:54.000Z" itemprop="datePublished">2017-05-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2017/05/15/2017-05-15-search/">基于DataTables Javascript库建立本地版物种信息快速查询网页</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>小型标本馆可能并没有足够的经费开发自己的数据管理系统。然而建立自己的标本查询系统又是很多小型标本馆梦寐以求的。对于藏品只有几万份的标本馆来说，一般在开发服务器版本的网页之前， 可以考虑先建立一个基于局域网的本地小型查询系统。</p>
+<p>html和Javascript是开发过程中绕不开的两种语言：html用来生成网页布局， 而javascript可用来实现本地版本的动态网页。</p>
+<p>在网页中用表格展示数据表， 已经有若干JS脚本, DataTables （<a target="_blank" rel="noopener" href="https://datatables.net/%EF%BC%89">https://datatables.net/）</a> 就是其中之一。这里主要介绍将IUCN数据导入DataTables, 并通过html展示。标本记录数据与之类似。</p>
+<h3 id="1-创建文件夹"><a href="#1-创建文件夹" class="headerlink" title="1. 创建文件夹"></a>1. 创建文件夹</h3><p>先创建文件夹， 改名为IUCN，例如位置在 <code>C:UsersjlzhangDesktopIUCN</code></p>
+<h3 id="2-下载DataTables库"><a href="#2-下载DataTables库" class="headerlink" title="2. 下载DataTables库"></a>2. 下载DataTables库</h3><p>解压缩到IUCN文件夹下。 以版本DataTables-1.10.15为例， 所有内容解压缩到<code>C:Users/jlzhang/Desktop/IUCN/DataTables-1.10.15</code></p>
+<h3 id="3-创建index-html文件"><a href="#3-创建index-html文件" class="headerlink" title="3. 创建index.html文件"></a>3. 创建index.html文件</h3><p>创建一个叫做index.html的纯文本文件。</p>
+<p>代码的编码改为UTF-8。拷贝如下内容</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span><span class="tag">&lt;<span class="name">meta</span>  <span class="attr">http-equiv</span>=<span class="string">&quot;Content-Type&quot;</span><span class="attr">content</span>=<span class="string">&quot;text/html; charset=UTF-8&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"> <span class="tag">&lt;<span class="name">link</span>  <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span><span class="attr">type</span>=<span class="string">&quot;text/css&quot;</span><span class="attr">href</span>=<span class="string">&quot;./DataTables-1.10.15/media/css/jquery.dataTables.css&quot;</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">head</span>&gt;</span><span class="tag">&lt;<span class="name">body</span>&gt;</span><span class="tag">&lt;<span class="name">table</span>  <span class="attr">id</span>=<span class="string">&quot;example&quot;</span><span class="attr">class</span>=<span class="string">&quot;display&quot;</span><span class="attr">width</span>=<span class="string">&quot;100%&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">script</span>  <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span><span class="attr">charset</span>=<span class="string">&quot;utf8&quot;</span><span class="attr">src</span>=<span class="string">&quot;./DataTables-1.10.15/media/js/jquery.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>  </span><br><span class="line"> <span class="tag">&lt;<span class="name">script</span>  <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span><span class="attr">charset</span>=<span class="string">&quot;utf8&quot;</span><span class="attr">src</span>=<span class="string">&quot;./DataTables-1.10.15/media/js/jquery.dataTables.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">script</span>  <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span><span class="attr">charset</span>=<span class="string">&quot;utf8&quot;</span><span class="attr">src</span>=<span class="string">&quot;./dat.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"> <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript"> $(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">   $(<span class="string">&#x27;#example&#x27;</span>).DataTable(&#123;       <span class="attr">data</span>:dataSet,       <span class="attr">columns</span>:[</span></span><br><span class="line"><span class="javascript">           &#123; <span class="attr">title</span>:   <span class="string">&quot;科&quot;</span>     &#125;,<span class="comment">//barcode</span></span></span><br><span class="line"><span class="javascript">           &#123; <span class="attr">title</span>:   <span class="string">&quot;中文科名&quot;</span>  &#125;,<span class="comment">//locationof the storage</span></span></span><br><span class="line"><span class="javascript">           &#123; <span class="attr">title</span>:   <span class="string">&quot;学名&quot;</span>&#125;,</span></span><br><span class="line"><span class="javascript">           &#123; <span class="attr">title</span>:   <span class="string">&quot;中文名&quot;</span>   &#125;,</span></span><br><span class="line"><span class="javascript">           &#123; <span class="attr">title</span>:   <span class="string">&quot;濒危等级&quot;</span>     &#125;,</span></span><br><span class="line"><span class="javascript">           &#123; <span class="attr">title</span>:   <span class="string">&quot;是否特有&quot;</span>   &#125;</span></span><br><span class="line"><span class="javascript">           ],<span class="comment">//Link to the photo</span></span></span><br><span class="line">     &#125;);  </span><br><span class="line">    &#125;);      </span><br><span class="line"> <span class="tag">&lt;/<span class="name">script</span>&gt;</span><span class="tag">&lt;/<span class="name">body</span>&gt;</span><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>其中：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link  rel=<span class="string">&quot;stylesheet&quot;</span>type=<span class="string">&quot;text/css&quot;</span>href=<span class="string">&quot;./DataTables-1.10.15/media/css/jquery.dataTables.css&quot;</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<p>是引用dataTables所带的css样式表， 以调整网页的外观。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script  type=<span class="string">&quot;text/javascript&quot;</span>charset=<span class="string">&quot;utf8&quot;</span>src=<span class="string">&quot;./DataTables-1.10.15/media/js/jquery.js&quot;</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>是读取 JQuery函数库。因为dataTable是依赖于JQuery库的， 所以必须要先载入。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script  type=<span class="string">&quot;text/javascript&quot;</span>charset=<span class="string">&quot;utf8&quot;</span>src=<span class="string">&quot;./DataTables-1.10.15/media/js/jquery.dataTables.js&quot;</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>是读取 jquery.dataTables.js 里面的函数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script  type=<span class="string">&quot;text/javascript&quot;</span>charset=<span class="string">&quot;utf8&quot;</span>src=<span class="string">&quot;./dat.js&quot;</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>是读取 dat.js中的数据。该数据以Json格式保存。</p>
+<h3 id="4-将数据导入-dat-js文件"><a href="#4-将数据导入-dat-js文件" class="headerlink" title="4. 将数据导入 dat.js文件"></a>4. 将数据导入 dat.js文件</h3><p>IUCN_CN.xlsx 中保存的是IUCN红色名录数据。用以下R代码将Excel中的数据保存为Json数据。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#### Rscript for generatingjson data</span></span><br><span class="line">setwd(<span class="string">&quot;C:/Users/jlzhang/Desktop/IUCN&quot;</span>)</span><br><span class="line">library(openxlsx)</span><br><span class="line">library(jsonlite)</span><br><span class="line">dat &lt;- read.xlsx(<span class="string">&quot;IUCN_CN.xlsx&quot;</span>)<span class="comment">#### </span></span><br><span class="line">colnames(dat)</span><br><span class="line">rrrr &lt;- toJSON(dat, dataframe=<span class="string">&quot;values&quot;</span>)</span><br><span class="line">writeLines(<span class="built_in">c</span>(<span class="string">&quot;vardataSet = &quot;</span>, rrrr, <span class="string">&quot;;&quot;</span>),<span class="string">&quot;dat.js&quot;</span>,useBytes =<span class="literal">TRUE</span>)</span><br><span class="line"><span class="comment">###useBytes 保证存储的数据是UTF-8格式</span></span><br></pre></td></tr></table></figure>
+
+<p>IUCN_CN.xlsx 数据表对应的各列名称为:</p>
+<p>科, 中文科名, 学名, 中文种名,濒危等级, 是否中国特有</p>
+<p>因此， 在html文件的Javascript脚本中创建表格对象时， 要设定DataTable对象要展示的各列。</p>
+<p>对应的Javascript代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line"> $(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">   $(<span class="string">&#x27;#example&#x27;</span>).DataTable(&#123;       </span><br><span class="line">   data:dataSet,       </span><br><span class="line">   columns:[</span><br><span class="line">           &#123; <span class="attr">title</span>:   <span class="string">&quot;科&quot;</span>     &#125;,<span class="comment">//barcode</span></span><br><span class="line">           &#123; <span class="attr">title</span>:   <span class="string">&quot;中文科名&quot;</span>  &#125;,<span class="comment">//locationof the storage</span></span><br><span class="line">           &#123; <span class="attr">title</span>:   <span class="string">&quot;学名&quot;</span>&#125;,</span><br><span class="line">           &#123; <span class="attr">title</span>:   <span class="string">&quot;中文名&quot;</span>   &#125;,</span><br><span class="line">           &#123; <span class="attr">title</span>:   <span class="string">&quot;濒危等级&quot;</span>     &#125;,</span><br><span class="line">           &#123; <span class="attr">title</span>:   <span class="string">&quot;是否特有&quot;</span>   &#125;</span><br><span class="line">           ],<span class="comment">//Link to the photo</span></span><br><span class="line">     &#125;);  </span><br><span class="line">    &#125;);      </span><br><span class="line"> &lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-浏览-index-html-文件"><a href="#5-浏览-index-html-文件" class="headerlink" title="5. 浏览 index.html 文件"></a>5. 浏览 index.html 文件</h3><p>保存index.html 文件。 用Firefox或者Chrome打开， 即可浏览。DataTable将导入dat.js数据，并以表格的形式展示出来，并提供表格的查找， 排序等功能。如果已经标本已经数字化， 则可以在R中，生成文件的链接。</p>
+<p>本文所述 源代码和数据下载  </p>
+<p><a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=attachment&id=98213">IUCN.zip</a></p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201705/15/172728lhiqly2nxwnzlbnq.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img"></a></p>
+<p>图1. IUCN物种分布示例数据</p>
+<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/201705/15/1727453t8e6r1wddzrdj18.jpg"><img src="http://blog.sciencenet.cn/static/js/grey.gif" alt="img">
+</a></p>
+<p>图2 用DataTable生成的网页版可查询页面</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2017/05/15/2017-05-15-search/" data-id="ckrsvkzas007x90w0ff7g41ka" data-title="基于DataTables Javascript库建立本地版物种信息快速查询网页" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" rel="tag">标本馆</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-2017-4-25-baotianman" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2017/04/24/2017-4-25-baotianman/" class="article-date">
@@ -118,7 +197,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2017/04/24/2017-4-25-baotianman/" data-id="ckmt6y7o3009gmgyahm1y2mtm" data-title="宝天曼随想" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2017/04/24/2017-4-25-baotianman/" data-id="ckrsvkzb3008n90w0ad8t3kaw" data-title="宝天曼随想" class="article-share-link">Share</a>
       
       
       
@@ -162,7 +241,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2017/04/21/2017-4-21-plantlist23/" data-id="ckmt6y7o4009imgyaenwy06lk" data-title="用plantlist批量查找植物学名、分布保护等级的信息" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2017/04/21/2017-4-21-plantlist23/" data-id="ckrsvkzb2008l90w076do0te3" data-title="用plantlist批量查找植物学名、分布保护等级的信息" class="article-share-link">Share</a>
       
       
       
@@ -230,7 +309,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2017/04/18/2017-4-18-forest/" data-id="ckmt6y7o00098mgyac0kv526b" data-title="4月18日的森林" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2017/04/18/2017-4-18-forest/" data-id="ckrsvkzb1008h90w01e7dftse" data-title="4月18日的森林" class="article-share-link">Share</a>
       
       
       
@@ -279,7 +358,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2017/04/12/2017-4-12-exif/" data-id="ckmt6y7o1009cmgya5aok7e6c" data-title="用exiftool一次为多个文件夹下的照片添加经纬度" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2017/04/12/2017-4-12-exif/" data-id="ckrsvkzb0008f90w09bjpfbpf" data-title="用exiftool一次为多个文件夹下的照片添加经纬度" class="article-share-link">Share</a>
       
       
       
@@ -334,7 +413,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2017/04/10/2017-4-11-plantlist/" data-id="ckmt6y7o1009amgya37o7072z" data-title="plantlist程序包已经恢复从Rforge下载或安装" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2017/04/10/2017-4-11-plantlist/" data-id="ckrsvkzaz008d90w0cuupaziq" data-title="plantlist程序包已经恢复从Rforge下载或安装" class="article-share-link">Share</a>
       
       
       
@@ -393,7 +472,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2017/04/02/2017-4-2-laogu/" data-id="ckmt6y7o2009emgyafy0k6rc1" data-title="怀念老姑" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2017/04/02/2017-4-2-laogu/" data-id="ckrsvkzb2008j90w06pmr6s35" data-title="怀念老姑" class="article-share-link">Share</a>
       
       
       
@@ -478,7 +557,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2017/02/21/2017-2-21-tools3/" data-id="ckmt6y7ny0096mgya9xiiesk0" data-title="简短笔记一则：查找并删除重复文件" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2017/02/21/2017-2-21-tools3/" data-id="ckrsvkzay008b90w02snxg4xj" data-title="简短笔记一则：查找并删除重复文件" class="article-share-link">Share</a>
       
       
       
@@ -522,7 +601,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2016/12/14/2016-12-14-map/" data-id="ckmt6y7nm008gmgyah4cq9ouo" data-title="基于地理坐标提取地图中的属性信息" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2016/12/14/2016-12-14-map/" data-id="ckrsvkzam007f90w05mrc20si" data-title="基于地理坐标提取地图中的属性信息" class="article-share-link">Share</a>
       
       
       
@@ -596,7 +675,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2016/11/25/2016-11-25-distributionmaps/" data-id="ckmt6y7ne0085mgyae6m5ftng" data-title="通过数码照片以及GPS航迹绘制物种分布图" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2016/11/25/2016-11-25-distributionmaps/" data-id="ckrsvkzal007d90w081dk3yft" data-title="通过数码照片以及GPS航迹绘制物种分布图" class="article-share-link">Share</a>
       
       
       
@@ -610,53 +689,11 @@
 
 
   
-    <article id="post-2016-11-16-hainan" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2016/11/16/2016-11-16-hainan/" class="article-date">
-  <time class="dt-published" datetime="2016-11-16T04:20:54.000Z" itemprop="datePublished">2016-11-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2016/11/16/2016-11-16-hainan/">海南大学报告:什么是系统发育比较分析?</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>应海南大学园艺学院丁琼博士和任明迅教授邀请, 本人向从事系统发育分析的研究生介绍了什么是系统发育比较分析.以下为报告内容(幻灯片为英文)</p>
-<p><a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=attachment&id=91695">What is Phylogenetic Comparative Analysis.pdf</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2016/11/16/2016-11-16-hainan/" data-id="ckmt6y7nc0082mgya1fv03vxx" data-title="海南大学报告:什么是系统发育比较分析?" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8A%A5%E5%91%8A/" rel="tag">报告</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/10/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><a class="extend next" rel="next" href="/page/12/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/10/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><a class="extend next" rel="next" href="/page/12/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -702,23 +739,23 @@
       <ul>
         
           <li>
-            <a href="/2021/07/19/2021-07-19/">植物学和生态学的一些R语言学习资源</a>
+            <a href="/2021/07/25/2021-07-25beans/">种豆记</a>
           </li>
         
           <li>
-            <a href="/2021/05/15/graduate-students/">生态学研究生要清楚的三件事：从《生态学家必读的100篇论文》说起</a>
+            <a href="/2021/07/19/2021-07-19-rresources/">植物学和生态学的一些R语言学习资源</a>
           </li>
         
           <li>
-            <a href="/2021/05/13/life/">生活的答案</a>
+            <a href="/2021/05/15/2021-05-15-ecopapers100/">生态学研究生要清楚的三件事：从《生态学家必读的100篇论文》说起</a>
           </li>
         
           <li>
-            <a href="/2021/05/07/new-distribution/">新种、新分布与植物爱好者的“发现权”</a>
+            <a href="/2021/05/13/2021-05-13-life/">生活的答案</a>
           </li>
         
           <li>
-            <a href="/2021/03/26/2021-3-26/">使用hexo生成和部署网站</a>
+            <a href="/2021/05/07/2021-05-7-new-distribution/">新种、新分布与植物爱好者的“发现权”</a>
           </li>
         
       </ul>
