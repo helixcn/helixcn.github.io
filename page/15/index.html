@@ -73,6 +73,73 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2015-1-31-exiftools" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2015/01/30/2015-1-31-exiftools/" class="article-date">
+  <time class="dt-published" datetime="2015-01-30T08:45:54.000Z" itemprop="datePublished">2015-01-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2015/01/30/2015-1-31-exiftools/">用exiftool为照片添加经纬度并生成照片经纬度列表</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>exiftool是为数码照片管理exif信息的软件，虽然只有命令行，但使用起来十分方便。下面就介绍如何用exiftool和GPS航迹文件，为数码照片添加经纬度和海拔，同时介绍如何从照片中批量导出经纬度。</p>
+<p>操作系统 Windows 10, 64bit<br>Exiftool: version 11.25, 2019-01-15</p>
+<ol>
+<li><p>在野外， 将GPS和相机设定为相同时间，野外工作完成后保存航迹。野外工作结束，尽快从GPS导出航迹， 格式为gpx格式，例如 track20150131.gpx 。</p>
+</li>
+<li><p>从相机导出照片，到某文件夹下，注意路径中不能有中文（但文件名可以有中文）, 例如D:/plantphotos/20150101， 命名为 IMG_0001.jpg, IMG_0002.jpg</p>
+</li>
+<li><p>下载 exiftool（ <a target="_blank" rel="noopener" href="http://www.sno.phy.queensu.ca/~phil/exiftool/">http://www.sno.phy.queensu.ca/~phil/exiftool/</a> ）的Windows可执行文件， 解压缩， 将 exiftool(-k).exe 重命名为 exiftool.exe ， 拷贝到照片所在的路径。注意照片的完整路径不能有中文。</p>
+</li>
+<li><p>创建一个纯文本文件， 命名为 csv.mft，内容为：</p>
+</li>
+</ol>
+<p><code>$filename,$gpslongitude#,$gpslatitude#,$gpsaltitude#</code></p>
+<p>该文件为csv文件的模板， 用于之后从每张照片的exif文件中导出经纬度。</p>
+<ol start="5">
+<li><p>创建一个纯文本文件， 命名为 run_exiftool_geotaging.bat，内容为：</p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">exiftool -geotag=track20150131.gpx ./</span><br><span class="line"><span class="built_in">pause</span></span><br></pre></td></tr></table></figure></li>
+<li><p>创建一个纯文本文件， 命名为 run_exiftool_creat_csv.bat，内容为</p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">exiftool -p csv.mft ./&gt;test.csv</span><br><span class="line"><span class="built_in">pause</span></span><br></pre></td></tr></table></figure></li>
+<li><p>双击run_exiftool_geotaging.bat文件， exiftool从航迹提取信息， 并为该文件夹下对应时间的照片添加经纬度和海拔。</p>
+</li>
+<li><p>双击 run_exiftool_creat_csv.bat 文件， exiftool读取每张照片的经纬度和海拔， 并保存到相应.csv文件中。</p>
+</li>
+<li><p>该csv文件默认为UTF-8编码，用Excel打开时中文会出现乱码，为了能在Excel中能正常处理，可以用Notepad++打开，并将文件转换为UTF-8-BOM编码，再用Excel打开即可。</p>
+</li>
+</ol>
+<p>更多信息请参见： <a target="_blank" rel="noopener" href="https://www.sno.phy.queensu.ca/~phil/exiftool/geotag.html">https://www.sno.phy.queensu.ca/~phil/exiftool/geotag.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2015/01/30/2015-1-31-exiftools/" data-id="ckrsvkza5006b90w0ersp5fhr" data-title="用exiftool为照片添加经纬度并生成照片经纬度列表" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" rel="tag">图像处理</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-2015-1-27-errickson" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2015/01/27/2015-1-27-errickson/" class="article-date">
@@ -825,116 +892,6 @@
 
 
   
-    <article id="post-2014-10-15-Rcpp" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2014/10/15/2014-10-15-Rcpp/" class="article-date">
-  <time class="dt-published" datetime="2014-10-15T05:00:00.000Z" itemprop="datePublished">2014-10-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2014/10/15/2014-10-15-Rcpp/">R程序包整合C++：Rcpp使用简明指南</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>R语言轻巧简洁，便于开发新算法。但是R函数运行速度较慢， 在进行迭代计算或者跑蒙特卡罗马尔科夫链时，常常不能满足要求。 此外， 由于用C或者C++已经有很多算法库，人们希望能直接调用这些库中的函数。Rcpp正是为了让R开发者更方便地运用C++函数生的。 本文简要介绍如何编写一个含有C++函数的R程序包。</p>
-<p>要在Windows下创建R程序包，首先要安装：</p>
-<ul>
-<li>R软件 <a target="_blank" rel="noopener" href="http://cran.r-project.org/bin/windows/base/%EF%BC%8C">http://cran.r-project.org/bin/windows/base/，</a></li>
-<li>Rtools <a target="_blank" rel="noopener" href="http://cran.r-project.org/bin/windows/Rtools/%EF%BC%8C%E4%BB%A5%E5%8F%8A">http://cran.r-project.org/bin/windows/Rtools/，以及</a></li>
-<li>Miktex <a target="_blank" rel="noopener" href="http://miktex.org,/">http://miktex.org，</a></li>
-</ul>
-<p>然后，还需要安装 Rcpp （<a target="_blank" rel="noopener" href="http://cran.r-project.org/web/packages/Rcpp/index.html">http://cran.r-project.org/web/packages/Rcpp/index.html</a> ）程序包。</p>
-<p>并配置好启动 路径， 即将所需要的任何exe文件的路径， 拷贝到 电脑&gt;属性&gt;高级系统设置&gt;高级&gt;环境变量&gt;系统变量&gt;路径 中 如:</p>
-<p>此外， 这里假设读者使用文本编辑器 Notepad++ 。</p>
-<p>Rcpp程序包已经提供了多种C++的类模板， 可以让C++函数返回多种R对象。假设现有一个C++函数， 名叫Eccentricity，该函数用于计算某天体的轨道偏心率随时间的变化，输入参数为儒略日（日期的某种记录方法）, 在正常的C++语法中， 该函数定义如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">Eccentricity</span><span class="params">(<span class="keyword">double</span> JD)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">double</span> JD3  = JD;</span><br><span class="line"><span class="keyword">double</span> T = (JD3 - <span class="number">2451545.0</span>) / <span class="number">36525.0</span>;</span><br><span class="line"><span class="keyword">double</span> Tsquared = T*T;</span><br><span class="line"><span class="keyword">return</span> ((<span class="number">1</span> - <span class="number">0.002516</span>*T - <span class="number">0.0000074</span>*Tsquared));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>现在我们需要有一个Rcpp形成的包骨架(package skeleton)，假设名叫 skycalc。在R中运行如下命令生成基于Rcpp的R包骨架:</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">library(Rcpp)</span><br><span class="line">Rcpp.package.skeleton(<span class="string">&quot;skycalc&quot;</span>)</span><br><span class="line">getwd()</span><br></pre></td></tr></table></figure>
-
-<p>skycalc保存在getwd()所示的文件夹下， 有 man、R、src三个文件夹以及DESCRIPTION、NAMESPACE 以及 Read-and-delete-me三个文本文件，这个三个文件没有任何扩展名。</p>
-<ul>
-<li>man文件夹保存的是所有R函数以及R程序包的帮助文件文件，遵循是Latex格式，需要逐项填写。</li>
-<li>R文件夹保存的是R函数的文件，每个R函数单独一个文件</li>
-<li>src文件夹放的是cpp文件， 即c++的源文件</li>
-</ul>
-<p>默认的情况下，各文件夹下有以下示例文件：</p>
-<ul>
-<li>man文件夹中包含 rcpp_hello_world.Rd 文件，</li>
-<li>R文件夹中包含RcppExports.R文件</li>
-<li>src 文件夹中包含rcpp_hello_world.cpp 和 RcppExports.cpp 两个C++源文件</li>
-</ul>
-<p>这些示例文件在本例中均可以删除。</p>
-<p>我们的目标是：将Eccentricity函数，放在C++源代码中。假设函数保存在名为Eccentricity.cpp的纯文本文件， 为了能够在R中直接调用该函数， 需要将其参数数据类型以及返回值的数据类型更改为R能够识别的格式。因为R只能识别一种称为SEXP的数据类型， 所以这里做如下更改：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">RcppExport SEXP <span class="title">Eccentricity</span><span class="params">(SEXP JD)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">double</span> JD3  = Rcpp::as&lt;<span class="keyword">double</span>&gt;(JD);</span><br><span class="line"><span class="keyword">double</span> T = (JD3 - <span class="number">2451545.0</span>) / <span class="number">36525.0</span>;</span><br><span class="line"><span class="keyword">double</span> Tsquared = T*T;</span><br><span class="line"><span class="keyword">return</span> (<span class="built_in">wrap</span>(<span class="number">1</span> - <span class="number">0.002516</span>*T - <span class="number">0.0000074</span>*Tsquared));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在类型前，更加上RcppExport，返回值return里面，先套用wrap函数，以便返回为R能识别的SEXP数据类型。</p>
-<p>为在Eccentricity.cpp文件中加上引用的头文件：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Rcpp.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> Rcpp;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br></pre></td></tr></table></figure>
-<p>此时， Eccentricity.cpp文件内容如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">///////////////cpp文件开始//////////////////////</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Rcpp.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> Rcpp;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function">RcppExport SEXP <span class="title">Eccentricity</span><span class="params">(SEXP JD)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">double</span> JD3  = Rcpp::as&lt;<span class="keyword">double</span>&gt;(JD);</span><br><span class="line"><span class="keyword">double</span> T = (JD3 - <span class="number">2451545.0</span>) / <span class="number">36525.0</span>;</span><br><span class="line"><span class="keyword">double</span> Tsquared = T*T;</span><br><span class="line"><span class="keyword">return</span> (<span class="built_in">wrap</span>(<span class="number">1</span> - <span class="number">0.002516</span>*T - <span class="number">0.0000074</span>*Tsquared));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">///////////////cpp文件结束//////////////////////</span></span><br></pre></td></tr></table></figure>
-
-<p>这样 Eccentricity.cpp 文件就准备好了，将其保存在src文件夹中。</p>
-<p>为了能够在R中调用编译后的C++函数，可使用R的.Call()函数调用dll库（cpp文件经过编译后， 在Windows中编译为dll文件）。但为了更为方便地使用这些函数，一般为编写一个与C++函数形式上类似的R函数，该R函数的名称和各参数最好能与C++函数对应。为此，我们可以写一个R函数EccentricityR， 该R函数可定义如下：</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">EccentricityR &lt;- <span class="keyword">function</span>(JD) &#123;</span><br><span class="line">   .Call(<span class="string">&#x27;Eccentricity&#x27;</span>, JD, PACKAGE = <span class="string">&#x27;skycalc&#x27;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>其中JD为该R函数的参数， 直接通过.Call传递给DLL中的Eccentricity。</p>
-<p>在Notepad++中，拷贝以上R函数， 并且另存为 EccentricityR.R 文件， 放在skycalc程序包下的R文件夹下。</p>
-<p>为了生成该EccentricityR函数的帮助文件，需要将该函数粘贴到Rconsole中， 之后运行R命令 prompt(EccentricityR)，所形成的EccentricityR.Rd 文件需要进一步根据参数的意义填写和编辑。之后放到man文件夹下。</p>
-<p>编辑和填写DESCRIPTION以及NAMESPACE两个文本文件 (参考 <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/blog-255662-247614.html">http://blog.sciencenet.cn/blog-255662-247614.html</a> )。删除 Read-and-delete-me文件。这样，程序包的源文件就做好了。</p>
-<p>下面准备编译或安装R程序包的Window批处理文件，bat文件</p>
-<h2 id="R包的检查的bat文件"><a href="#R包的检查的bat文件" class="headerlink" title="R包的检查的bat文件"></a>R包的检查的bat文件</h2><p>新建一个纯文本文件，并将扩展名txt更改为.bat，将以下内容拷贝到该文件夹中：</p>
-<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Rcmd check skycalc</span><br><span class="line"><span class="built_in">PAUSE</span></span><br></pre></td></tr></table></figure>
-
-<p>将该文件命名为 check skycalc package.bat， 双击该bat文件， 可以对skycalc程序包中的错误进行检查。 如果要提交程序包到CRAN，检查过程中不能有任何错误或者warning。</p>
-<h2 id="建立Windows版本的安装包的bat文件"><a href="#建立Windows版本的安装包的bat文件" class="headerlink" title="建立Windows版本的安装包的bat文件"></a>建立Windows版本的安装包的bat文件</h2><p>(2)新建一个纯文本文件，并将扩展名txt更改为.bat</p>
-<p>将以下内容拷贝到该文件夹中</p>
-<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Rcmd INSTALL --build skycalc</span><br><span class="line"><span class="built_in">PAUSE</span></span><br></pre></td></tr></table></figure>
-<p>将该文件命名为 build skycalc package Windows Binary.bat， 双击该文件， 可以建立Windows系统下的R程序包。</p>
-<h2 id="创建源代码包的bat文件"><a href="#创建源代码包的bat文件" class="headerlink" title="创建源代码包的bat文件"></a>创建源代码包的bat文件</h2><p>新建一个纯文本文件，并将扩展名txt更改为.bat，将以下内容拷贝到该文件夹中</p>
-<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Rcmd build skycalc</span><br><span class="line"><span class="built_in">pause</span></span><br></pre></td></tr></table></figure>
-
-<p>将该文件命名为 build skycalc package Linux Source Code.bat， 双击该文件，可以建立Linux系统下的安装包，其实是源文件。</p>
-<h2 id="直接安装程序包的bat文件"><a href="#直接安装程序包的bat文件" class="headerlink" title="直接安装程序包的bat文件"></a>直接安装程序包的bat文件</h2><p>新建一个纯文本文件，并将扩展名txt更改为.bat，将以下内容拷贝到该文件夹中：</p>
-<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Rcmd INSTALL skycalc</span><br><span class="line"><span class="built_in">PAUSE</span></span><br></pre></td></tr></table></figure>
-<p>将该文件命名为 install skycalc package.bat， 双击该文件， 可以安装skycalc到当前的R中。</p>
-<h1 id="运行批处理命令"><a href="#运行批处理命令" class="headerlink" title="运行批处理命令"></a>运行批处理命令</h1><p>将以上四个.bat文件， 放置到skycalc文件夹所在的文件夹（例如， skycalc所 在的文件夹为study， 则bat文件需要放置在study文件夹下）</p>
-<p>双击文件， 即可完成程序包的编译和检查等。</p>
-<p>注意： 如果使用的64bit的Windows，源代码 skycalc文件夹下， 每次都会生成 src-x64 和 src-i386两个文件夹， 在编译linux源代码的时候， 需要删除。</p>
-<h1 id="进一步阅读"><a href="#进一步阅读" class="headerlink" title="进一步阅读"></a>进一步阅读</h1><ul>
-<li><a target="_blank" rel="noopener" href="https://kbroman.org/pkg_primer/">https://kbroman.org/pkg_primer/</a></li>
-<li><a target="_blank" rel="noopener" href="http://cos.name/2013/12/rcpp-introduction/">http://cos.name/2013/12/rcpp-introduction/</a></li>
-<li><a target="_blank" rel="noopener" href="http://cran.r-project.org/web/packages/Rcpp/">http://cran.r-project.org/web/packages/Rcpp/</a></li>
-<li><a target="_blank" rel="noopener" href="http://adv-r.had.co.nz/Rcpp.html">http://adv-r.had.co.nz/Rcpp.html</a></li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/10/15/2014-10-15-Rcpp/" data-id="ckrsvkz9p005990w0cm3q4udb" data-title="R程序包整合C++：Rcpp使用简明指南" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -972,7 +929,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">January 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">December 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">October 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05/">May 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">May 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">December 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">August 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">March 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">April 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/01/">January 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/08/">August 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/07/">July 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/06/">June 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">May 2009</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">January 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">December 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">October 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05/">May 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">May 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">December 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">August 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">March 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">April 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/01/">January 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/08/">August 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/07/">July 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/06/">June 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">May 2009</a></li></ul>
     </div>
   </div>
 
@@ -983,6 +940,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2022/01/15/dangxia/">当下</a>
+          </li>
         
           <li>
             <a href="/2021/11/05/2021-11-05lamtsuenriver/">林村河</a>
@@ -1000,10 +961,6 @@
             <a href="/2021/07/19/2021-07-19-rresources/">植物学和生态学的一些R语言学习资源</a>
           </li>
         
-          <li>
-            <a href="/2021/05/15/2021-05-15-ecopapers100/">生态学研究生要清楚的三件事：从《生态学家必读的100篇论文》说起</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1017,7 +974,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       
-      &copy; 2021 Jinlong Zhang<br>
+      &copy; 2022 Jinlong Zhang<br>
       Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
