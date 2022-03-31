@@ -73,6 +73,478 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2009-6-25-statistics" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2009/06/24/2009-6-25-statistics/" class="article-date">
+  <time class="dt-published" datetime="2009-06-24T08:36:54.000Z" itemprop="datePublished">2009-06-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2009/06/24/2009-6-25-statistics/">R语言：常用统计检验方法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>R已经成为当前国际学术界最流行的统计和绘图软件之一，该语言较为简单易学，统计分析功能强大，且具有很强的绘图功能，能够绘制学术出版要求的多种图表.R语言在生物信息学，进化生物学、生态学与环境、经济学、语言学等领域有着极为广泛的应用。</p>
+<p>R软件是跨平台的，可以在Linux， MacOs， Windows等多种系统上运行。针对每个研究方向，有大量的科研人员编写了相关的程序包，可以导入到基本的程序平台上运行。现有的程序包已经超过了1800个，并且还在增加中。</p>
+<p>不仅如此，R是完全免费的，而且全部代码是公开的。</p>
+<p>读者可以到 <a target="_blank" rel="noopener" href="https://cran.r-project.org/">https://cran.r-project.org/</a> 下载windows版的R软件，安装程序仅为30M。</p>
+<p>学习并掌握R语言，对于需要用到统计学的研究人员和学生都是非常必要的。</p>
+<p>这里选取了R语言中若干操作实例，所有的命令行均可以在R中运行，并得到结果。</p>
+<h1 id="正态总体均值的假设检验"><a href="#正态总体均值的假设检验" class="headerlink" title="正态总体均值的假设检验"></a>正态总体均值的假设检验</h1><h1 id="t检验"><a href="#t检验" class="headerlink" title="t检验"></a>t检验</h1><h2 id="单个总体"><a href="#单个总体" class="headerlink" title="单个总体"></a>单个总体</h2><p>例一<br>某种元件的寿命X（小时），服从正态分布，N（mu,sigma^2），其中mu,sigma^2均未知，16只元件的寿命如下：问是否有理由认为元件的平均寿命大于255小时。<br>命令：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">X &lt;- <span class="built_in">c</span>(<span class="number">159</span>, <span class="number">280</span>, <span class="number">101</span>, <span class="number">212</span>, <span class="number">224</span>, <span class="number">379</span>, <span class="number">179</span>, <span class="number">264</span>,</span><br><span class="line">222, <span class="number">362</span>, <span class="number">168</span>, <span class="number">250</span>, <span class="number">149</span>, <span class="number">260</span>, <span class="number">485</span>, <span class="number">170</span>)</span><br><span class="line">t.test(X, alternative = <span class="string">&quot;greater&quot;</span>, mu = <span class="number">225</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="两个总体"><a href="#两个总体" class="headerlink" title="两个总体"></a>两个总体</h2><p>例二<br>X为旧炼钢炉出炉率，Y为新炼钢炉出炉率，问新的操作能否提高出炉率<br>命令：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">X &lt;- <span class="built_in">c</span>(<span class="number">78.1</span>,<span class="number">72.4</span>,<span class="number">76.2</span>,<span class="number">74.3</span>,<span class="number">77.4</span>,<span class="number">78.4</span>,<span class="number">76.0</span>,<span class="number">75.5</span>,<span class="number">76.7</span>,<span class="number">77.3</span>)</span><br><span class="line">Y &lt;- <span class="built_in">c</span>(<span class="number">79.1</span>,<span class="number">81.0</span>,<span class="number">77.3</span>,<span class="number">79.1</span>,<span class="number">80.0</span>,<span class="number">79.1</span>,<span class="number">79.1</span>,<span class="number">77.3</span>,<span class="number">80.2</span>,<span class="number">82.1</span>)</span><br><span class="line">t.test(X, Y, var.equal=<span class="literal">TRUE</span>, alternative = <span class="string">&quot;less&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="配对t检验"><a href="#配对t检验" class="headerlink" title="配对t检验"></a>配对t检验</h2><p>例三<br>对每个高炉进行配对t检验<br>命令：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">X &lt;- <span class="built_in">c</span>(<span class="number">78.1</span>,<span class="number">72.4</span>,<span class="number">76.2</span>,<span class="number">74.3</span>,<span class="number">77.4</span>,<span class="number">78.4</span>,<span class="number">76.0</span>,<span class="number">75.5</span>,<span class="number">76.7</span>,<span class="number">77.3</span>)</span><br><span class="line">Y &lt;- <span class="built_in">c</span>(<span class="number">79.1</span>,<span class="number">81.0</span>,<span class="number">77.3</span>,<span class="number">79.1</span>,<span class="number">80.0</span>,<span class="number">79.1</span>,<span class="number">79.1</span>,<span class="number">77.3</span>,<span class="number">80.2</span>,<span class="number">82.1</span>)</span><br><span class="line">t.test(X - Y, alternative = <span class="string">&quot;less&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h1 id="正态总体方差的假设检验"><a href="#正态总体方差的假设检验" class="headerlink" title="正态总体方差的假设检验"></a>正态总体方差的假设检验</h1><p>例四<br>从小学5年级男生中抽取20名，测量其身高（厘米）如下：<br>问，在0.05显著性水平下，平均值是否等于149，sigma^2 是否等于 75</p>
+<p>命令：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">X &lt;- <span class="built_in">c</span>(<span class="number">136</span>, <span class="number">144</span>, <span class="number">143</span>, <span class="number">157</span>, <span class="number">137</span>, <span class="number">159</span>, <span class="number">135</span>, <span class="number">158</span>, <span class="number">147</span>, <span class="number">165</span>,</span><br><span class="line">158, <span class="number">142</span>, <span class="number">159</span>, <span class="number">150</span>, <span class="number">156</span>, <span class="number">152</span>, <span class="number">140</span>, <span class="number">149</span>, <span class="number">148</span>, <span class="number">155</span>)</span><br><span class="line">var.test(X,Y)</span><br></pre></td></tr></table></figure>
+
+<p>例五<br>对炼钢炉的数据进行分析，命令：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">X &lt;- <span class="built_in">c</span>(<span class="number">78.1</span>,<span class="number">72.4</span>,<span class="number">76.2</span>,<span class="number">74.3</span>,<span class="number">77.4</span>,<span class="number">78.4</span>,<span class="number">76.0</span>,<span class="number">75.5</span>,<span class="number">76.7</span>,<span class="number">77.3</span>)</span><br><span class="line">Y &lt;- <span class="built_in">c</span>(<span class="number">79.1</span>,<span class="number">81.0</span>,<span class="number">77.3</span>,<span class="number">79.1</span>,<span class="number">80.0</span>,<span class="number">79.1</span>,<span class="number">79.1</span>,<span class="number">77.3</span>,<span class="number">80.2</span>,<span class="number">82.1</span>)</span><br><span class="line">var.test(X,Y)</span><br></pre></td></tr></table></figure>
+
+<h1 id="二项分布的总体检验"><a href="#二项分布的总体检验" class="headerlink" title="二项分布的总体检验"></a>二项分布的总体检验</h1><p>例六 有一批蔬菜种子的平均发芽率为P=0.85,现在随机抽取500粒，用种衣剂进行浸种处理，结果有445粒发芽，问种衣剂有无效果。<br>命令：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binom.test(<span class="number">445</span>,<span class="number">500</span>,p=<span class="number">0.85</span>)</span><br></pre></td></tr></table></figure>
+
+<p>例七 按照以往经验，新生儿染色体异常率一般为1%，某医院观察了当地400名新生儿，有一例染色体异常，问该地区新生儿染色体是否低于一般水平？<br>命令：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binom.test(<span class="number">1</span>,<span class="number">400</span>,p=<span class="number">0.01</span>,alternative=<span class="string">&quot;less&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>非参数检验</p>
+<h1 id="数据是否正态分布的Neyman-Pearson-拟合优度检验-chisq"><a href="#数据是否正态分布的Neyman-Pearson-拟合优度检验-chisq" class="headerlink" title="数据是否正态分布的Neyman-Pearson 拟合优度检验-chisq"></a>数据是否正态分布的Neyman-Pearson 拟合优度检验-chisq</h1><p>例八 5种品牌啤酒爱好者的人数如下： </p>
+<table>
+<thead>
+<tr>
+<th>啤酒品牌</th>
+<th>人数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A</td>
+<td>210</td>
+</tr>
+<tr>
+<td>B</td>
+<td>312</td>
+</tr>
+<tr>
+<td>C</td>
+<td>170</td>
+</tr>
+<tr>
+<td>D</td>
+<td>85</td>
+</tr>
+<tr>
+<td>E</td>
+<td>223</td>
+</tr>
+</tbody></table>
+<p>问不同品牌啤酒爱好者人数之间有没有差异？</p>
+<p>命令：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">X &lt;- <span class="built_in">c</span>(<span class="number">210</span>, <span class="number">312</span>, <span class="number">170</span>, <span class="number">85</span>, <span class="number">223</span>)</span><br><span class="line">chisq.test(X)</span><br></pre></td></tr></table></figure>
+
+<p>例九<br>检验学生成绩是否符合正态分布<br>命令：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">X &lt;- <span class="built_in">c</span>(<span class="number">25</span>,<span class="number">45</span>,<span class="number">50</span>,<span class="number">54</span>,<span class="number">55</span>,<span class="number">61</span>,<span class="number">64</span>,<span class="number">68</span>,<span class="number">72</span>,<span class="number">75</span>,<span class="number">75</span>,</span><br><span class="line">78,<span class="number">79</span>,<span class="number">81</span>,<span class="number">83</span>,<span class="number">84</span>,<span class="number">84</span>,<span class="number">84</span>,<span class="number">85</span>,<span class="number">86</span>,<span class="number">86</span>,<span class="number">86</span>,</span><br><span class="line">87,<span class="number">89</span>,<span class="number">89</span>,<span class="number">89</span>,<span class="number">90</span>,<span class="number">91</span>,<span class="number">91</span>,<span class="number">92</span>,<span class="number">100</span>)</span><br><span class="line"></span><br><span class="line">A &lt;- table(cut(X, br=<span class="built_in">c</span>(<span class="number">0</span>,<span class="number">69</span>,<span class="number">79</span>,<span class="number">89</span>,<span class="number">100</span>)))</span><br><span class="line">p &lt;- pnorm(<span class="built_in">c</span>(<span class="number">70</span>,<span class="number">80</span>,<span class="number">90</span>,<span class="number">100</span>), mean(X), sd(X))</span><br><span class="line">p &lt;- <span class="built_in">c</span>(p[<span class="number">1</span>], p[<span class="number">2</span>]-p[<span class="number">1</span>], p[<span class="number">3</span>]-p[<span class="number">2</span>], <span class="number">1</span>-p[<span class="number">3</span>])</span><br><span class="line">chisq.test(A,p=p)</span><br></pre></td></tr></table></figure>
+<p>说明： </p>
+<ul>
+<li>cut 将变量区域划分为若干区间</li>
+<li>table 计算因子合并后的个数</li>
+<li>均值之间有无显著区别</li>
+</ul>
+<p>大麦的杂交后代芒性状的比例 无芒：长芒： 短芒=9：3：4,而实际观测值为335：125：160 ,检验观测值是否符合理论假设？<br>命令：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chisq.test(<span class="built_in">c</span>(<span class="number">335</span>, <span class="number">125</span>, <span class="number">160</span>), p=<span class="built_in">c</span>(<span class="number">9</span>,<span class="number">3</span>,<span class="number">4</span>)/<span class="number">16</span>)</span><br></pre></td></tr></table></figure>
+
+<p>例十 现有42个数据，分别表示某一时间段内电话总机接到呼叫的次数，<br>接到呼叫的次数 0   1   2   3   4   5   6<br>出现的频率     7   10  12  8   3   2   0</p>
+<h1 id="问：某个时间段内接到的呼叫次数是否符合Possion分布？"><a href="#问：某个时间段内接到的呼叫次数是否符合Possion分布？" class="headerlink" title="问：某个时间段内接到的呼叫次数是否符合Possion分布？"></a>问：某个时间段内接到的呼叫次数是否符合Possion分布？</h1><p>命令：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">x &lt;- 0:<span class="number">6</span></span><br><span class="line">y &lt;- <span class="built_in">c</span>(<span class="number">7</span>,<span class="number">10</span>,<span class="number">12</span>,<span class="number">8</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">0</span>)</span><br><span class="line">mean &lt;- mean(<span class="built_in">rep</span>(x,y))</span><br><span class="line">q &lt;- ppois(x,mean)</span><br><span class="line">n &lt;- <span class="built_in">length</span>(y)</span><br><span class="line">p[<span class="number">1</span>] &lt;- q[<span class="number">1</span>]</span><br><span class="line">p[n] &lt;- <span class="number">1</span>-q[n-<span class="number">1</span>]</span><br><span class="line"><span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">2</span>:(n-<span class="number">1</span>)) &#123;</span><br><span class="line">    p &lt;- q-q</span><br><span class="line">&#125;</span><br><span class="line">chisq.test(y, p=p)</span><br><span class="line">Z &lt;- <span class="built_in">c</span>(<span class="number">7</span>, <span class="number">10</span>, <span class="number">12</span>, <span class="number">8</span>)</span><br><span class="line">n &lt;- <span class="built_in">length</span>(Z); p &lt;- p[<span class="number">1</span>:n-<span class="number">1</span>]; p[n] &lt;- <span class="number">1</span>-q[n-<span class="number">1</span>]</span><br><span class="line">chisq.test(Z, p=p)</span><br></pre></td></tr></table></figure>
+<p>按：处理方法有点儿复杂，貌似不是最好的方法</p>
+<h1 id="理论分布依赖于若干未知参数时"><a href="#理论分布依赖于若干未知参数时" class="headerlink" title="理论分布依赖于若干未知参数时"></a>理论分布依赖于若干未知参数时</h1><h1 id="Kolmogorov-Smirnov-检验-ks-test"><a href="#Kolmogorov-Smirnov-检验-ks-test" class="headerlink" title="Kolmogorov-Smirnov 检验 ks.test()"></a>Kolmogorov-Smirnov 检验 ks.test()</h1><p>例一 对一台设备进行寿命检验，记录十次无故障操作时间，并按从小到大的次序排列如下，用ks检验方法检验此设备无故障工作时间是否符合rambda=1/1500的指数分布</p>
+<p>命令：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">X &lt;- <span class="built_in">c</span>(<span class="number">420</span>, <span class="number">500</span>, <span class="number">920</span>, <span class="number">1380</span>, <span class="number">1510</span>, <span class="number">1650</span>, <span class="number">1760</span>, <span class="number">2100</span>, <span class="number">2300</span>, <span class="number">2350</span>)</span><br><span class="line">ks.test(X, <span class="string">&quot;pexp&quot;</span>, <span class="number">1</span>/<span class="number">1500</span>)</span><br></pre></td></tr></table></figure>
+<p>例二 假设从分布函数F(x)和G(x)的总体中分别随机抽取25个和20个观察值样本，检验F(x)和G(x)是否相同。</p>
+<h1 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h1><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">X &lt;- <span class="built_in">c</span>(</span><br><span class="line">0.61,<span class="number">0.29</span>,<span class="number">0.06</span>,<span class="number">0.59</span>,-<span class="number">1.73</span>,-<span class="number">0.74</span>,<span class="number">0.51</span>,-<span class="number">0.56</span>,<span class="number">0.39</span>,</span><br><span class="line">1.64,<span class="number">0.05</span>,-<span class="number">0.06</span>,<span class="number">0.64</span>,-<span class="number">0.82</span>,<span class="number">0.37</span>,<span class="number">1.77</span>,<span class="number">1.09</span>,-<span class="number">1.28</span>,</span><br><span class="line">2.36,<span class="number">1.31</span>,<span class="number">1.05</span>,-<span class="number">0.32</span>,-<span class="number">0.40</span>,<span class="number">1.06</span>,-<span class="number">2.47</span>)</span><br><span class="line"></span><br><span class="line">Y &lt;- <span class="built_in">c</span>(<span class="number">2.20</span>,<span class="number">1.66</span>,<span class="number">1.38</span>,<span class="number">0.20</span>,<span class="number">0.36</span>,<span class="number">0.00</span>,<span class="number">0.96</span>,<span class="number">1.56</span>,<span class="number">0.44</span>,</span><br><span class="line">1.50,-<span class="number">0.30</span>,<span class="number">0.66</span>,<span class="number">2.31</span>,<span class="number">3.29</span>,-<span class="number">0.27</span>,-<span class="number">0.37</span>,<span class="number">0.38</span>,<span class="number">0.70</span>,</span><br><span class="line">0.52,-<span class="number">0.71</span>)</span><br><span class="line"></span><br><span class="line">ks.test(X, Y)</span><br></pre></td></tr></table></figure>
+
+<p>ks多样本检验的局限性，只用在理论分布为一维连续分布，且分布完全已知的情形。ks检验可用的情况下，功效一般优于Pearson chisq检验</p>
+<h1 id="列联表（contingerncy-table）的独立性检验"><a href="#列联表（contingerncy-table）的独立性检验" class="headerlink" title="列联表（contingerncy table）的独立性检验"></a>列联表（contingerncy table）的独立性检验</h1><h2 id="Pearson-chisquare-进行独立性检验"><a href="#Pearson-chisquare-进行独立性检验" class="headerlink" title="Pearson chisquare 进行独立性检验"></a>Pearson chisquare 进行独立性检验</h2><p>例三 为了研究吸烟是否与肺癌有关，对63位患者及43名非肺癌患者调查了其中的吸烟人数，得到2*2列联表</p>
+<table>
+<thead>
+<tr>
+<th>数据</th>
+<th>肺癌</th>
+<th>健康</th>
+<th>合计</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>吸烟</td>
+<td>60</td>
+<td>32</td>
+<td>92</td>
+</tr>
+<tr>
+<td>不吸烟</td>
+<td>3</td>
+<td>11</td>
+<td>14</td>
+</tr>
+<tr>
+<td>合计</td>
+<td>63</td>
+<td>43</td>
+<td>106</td>
+</tr>
+</tbody></table>
+<h1 id="命令-1"><a href="#命令-1" class="headerlink" title="命令"></a>命令</h1><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">x &lt;- <span class="built_in">c</span>(<span class="number">60</span>, <span class="number">3</span>, <span class="number">32</span>, <span class="number">11</span>)</span><br><span class="line"><span class="built_in">dim</span>(x) &lt;- <span class="built_in">c</span>(<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line">chisq.test(x,correct = <span class="literal">FALSE</span>) <span class="comment"># 不带连续校正的情况</span></span><br><span class="line">chisq.test(x) <span class="comment"># 带连续校正的情况</span></span><br></pre></td></tr></table></figure>
+
+<p>例四 在一次社会调查中，以问卷方式调查了901人的年收入，及其对工作的满意程度，其中年收入A分为四档：小于6000元，6000-15000元，15000元至25000元，超过25000元。对工作的满意程度B 分为 很不满意，较不满意，基本满意和很满意四档，结果如下</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>很不满意</th>
+<th>较不满意</th>
+<th>基本满意</th>
+<th>很满意</th>
+<th>合计</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&lt; 6000</td>
+<td>20</td>
+<td>24</td>
+<td>80</td>
+<td>82</td>
+<td>206</td>
+</tr>
+<tr>
+<td>6000 ~15000</td>
+<td>22</td>
+<td>38</td>
+<td>104</td>
+<td>125</td>
+<td>289</td>
+</tr>
+<tr>
+<td>15000~25000</td>
+<td>13</td>
+<td>28</td>
+<td>81</td>
+<td>113</td>
+<td>235</td>
+</tr>
+<tr>
+<td>&gt; 25000</td>
+<td>7</td>
+<td>18</td>
+<td>54</td>
+<td>92</td>
+<td>171</td>
+</tr>
+<tr>
+<td>合计</td>
+<td>62</td>
+<td>108</td>
+<td>319</td>
+<td>412</td>
+<td>901</td>
+</tr>
+</tbody></table>
+<h1 id="命令如下"><a href="#命令如下" class="headerlink" title="命令如下"></a>命令如下</h1><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">x &lt;- <span class="built_in">c</span>(<span class="number">20</span>,<span class="number">24</span>,<span class="number">80</span>,<span class="number">82</span>,<span class="number">22</span>,<span class="number">38</span>,<span class="number">104</span>,<span class="number">125</span>,</span><br><span class="line">13,<span class="number">28</span>,<span class="number">81</span>,<span class="number">113</span>,<span class="number">7</span>,<span class="number">18</span>,<span class="number">54</span>,<span class="number">92</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">dim</span>(x) &lt;- <span class="built_in">c</span>(<span class="number">4</span>,<span class="number">4</span>)</span><br><span class="line">chisq.test(x)</span><br></pre></td></tr></table></figure>
+<h1 id="Fisher-精确的独立检验"><a href="#Fisher-精确的独立检验" class="headerlink" title="Fisher 精确的独立检验"></a>Fisher 精确的独立检验</h1><h1 id="试用条件-样本数小于4"><a href="#试用条件-样本数小于4" class="headerlink" title="试用条件 样本数小于4"></a>试用条件 样本数小于4</h1><p>例五  某医师研究乙肝免疫球蛋白防止子宫内胎儿感染HBV的效果，将33例HBsAg阳性孕妇随机分为预防注射组和对照组，结果由下表所示，两组新生儿HBV总体感染率有无差别</p>
+<table>
+<thead>
+<tr>
+<th>组别</th>
+<th>阳性</th>
+<th>阴性</th>
+<th>合计</th>
+<th>感染率</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>预防注射组</td>
+<td>4</td>
+<td>18</td>
+<td>22</td>
+<td>18.8</td>
+</tr>
+<tr>
+<td>对照组</td>
+<td>5</td>
+<td>6</td>
+<td>11</td>
+<td>45.5</td>
+</tr>
+</tbody></table>
+<p>命令如下</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x &lt;- <span class="built_in">c</span>(<span class="number">4</span>,<span class="number">5</span>,<span class="number">18</span>,<span class="number">6</span>)</span><br><span class="line"><span class="built_in">dim</span>(x) &lt;- <span class="built_in">c</span>(<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line">fisher.test(x)</span><br></pre></td></tr></table></figure>
+<h1 id="对前面提到的肺癌进行检验"><a href="#对前面提到的肺癌进行检验" class="headerlink" title="对前面提到的肺癌进行检验"></a>对前面提到的肺癌进行检验</h1><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x &lt;- <span class="built_in">c</span>(<span class="number">60</span>, <span class="number">3</span>, <span class="number">32</span>, <span class="number">11</span>)</span><br><span class="line"><span class="built_in">dim</span>(x) &lt;- <span class="built_in">c</span>(<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line">fisher.test(x)</span><br></pre></td></tr></table></figure>
+
+<h1 id="McNemar检验"><a href="#McNemar检验" class="headerlink" title="McNemar检验"></a>McNemar检验</h1><p>McNemar检验不是独立性检验，但是是关于列连表的检验</p>
+<p>例六 甲、乙两种方法检测细菌的结果如下，问：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>甲</th>
+<th>乙</th>
+<th>合计</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>+</td>
+<td>49</td>
+<td>25</td>
+<td>74</td>
+</tr>
+<tr>
+<td>-</td>
+<td>21</td>
+<td>107</td>
+<td>128</td>
+</tr>
+<tr>
+<td>合计</td>
+<td>70</td>
+<td>132</td>
+<td>202</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>命令</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">X  &lt;-  <span class="built_in">c</span>(<span class="number">49</span>, <span class="number">21</span>, <span class="number">25</span>, <span class="number">107</span>);</span><br><span class="line"><span class="built_in">dim</span>(X)  &lt;-  <span class="built_in">c</span>(<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line">mcnemar.test(X,correct=<span class="literal">FALSE</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="符号检验"><a href="#符号检验" class="headerlink" title="符号检验"></a>符号检验</h1><h1 id="1-假设一个样本是否来自某个总体"><a href="#1-假设一个样本是否来自某个总体" class="headerlink" title="1 假设一个样本是否来自某个总体"></a>1 假设一个样本是否来自某个总体</h1><p>例七 联合国人员在世界上66个大城市的生活花费指数（以纽约1996年12月为100），按照从小到大的次序排列如下，其中北京的指数为99。假设这个样本是从世界大城市中随机抽样得到的。用符号检验分析，北京是在中位数之上，还是中位数之下。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">X &lt;- <span class="built_in">c</span>(</span><br><span class="line">    <span class="number">66</span>,<span class="number">75</span>,<span class="number">78</span>,<span class="number">80</span>,<span class="number">81</span>,<span class="number">81</span>,<span class="number">82</span>,<span class="number">83</span>,<span class="number">83</span>,<span class="number">83</span>,<span class="number">83</span>,</span><br><span class="line">    <span class="number">84</span>,<span class="number">85</span>,<span class="number">85</span>,<span class="number">86</span>,<span class="number">86</span>,<span class="number">86</span>,<span class="number">86</span>,<span class="number">87</span>,<span class="number">87</span>,<span class="number">88</span>,<span class="number">88</span>,</span><br><span class="line">    <span class="number">88</span>,<span class="number">88</span>,<span class="number">88</span>,<span class="number">89</span>,<span class="number">89</span>,<span class="number">89</span>,<span class="number">89</span>,<span class="number">90</span>,<span class="number">90</span>,<span class="number">91</span>,<span class="number">91</span>,</span><br><span class="line">    <span class="number">91</span>,<span class="number">91</span>,<span class="number">92</span>,<span class="number">93</span>,<span class="number">93</span>,<span class="number">96</span>,<span class="number">96</span>,<span class="number">96</span>,<span class="number">97</span>,<span class="number">99</span>,<span class="number">100</span>,</span><br><span class="line">    <span class="number">101</span>,<span class="number">102</span>,<span class="number">103</span>,<span class="number">103</span>,<span class="number">104</span>,<span class="number">104</span>,<span class="number">104</span>,<span class="number">105</span>,<span class="number">106</span>,<span class="number">109</span>,<span class="number">109</span>,</span><br><span class="line">    <span class="number">110</span>,<span class="number">110</span>,<span class="number">110</span>,<span class="number">111</span>,<span class="number">113</span>,<span class="number">115</span>,<span class="number">116</span>,<span class="number">117</span>,<span class="number">118</span>,<span class="number">155</span>,<span class="number">192</span>)</span><br><span class="line"></span><br><span class="line">binom.test(<span class="built_in">sum</span>(X&gt;<span class="number">99</span>),<span class="built_in">length</span>(X), al=<span class="string">&quot;l&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="2-用成对样本检验两总体间是否有差异"><a href="#2-用成对样本检验两总体间是否有差异" class="headerlink" title="2 用成对样本检验两总体间是否有差异"></a>2 用成对样本检验两总体间是否有差异</h1><p> 例八  两种不同饲料，对猪增重情况如下，分析两种饲料养猪有无差异</p>
+<h1 id="命令-2"><a href="#命令-2" class="headerlink" title="命令"></a>命令</h1><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x &lt;- <span class="built_in">c</span>(<span class="number">25</span>,<span class="number">30</span>,<span class="number">28</span>,<span class="number">23</span>,<span class="number">27</span>,<span class="number">35</span>,<span class="number">30</span>,<span class="number">28</span>,<span class="number">32</span>,<span class="number">29</span>,<span class="number">30</span>,<span class="number">30</span>,<span class="number">31</span>,<span class="number">16</span>)</span><br><span class="line">y &lt;- <span class="built_in">c</span>(<span class="number">19</span>,<span class="number">32</span>,<span class="number">21</span>,<span class="number">19</span>,<span class="number">25</span>,<span class="number">31</span>,<span class="number">31</span>,<span class="number">26</span>,<span class="number">30</span>,<span class="number">25</span>,<span class="number">28</span>,<span class="number">31</span>,<span class="number">25</span>,<span class="number">25</span>)</span><br><span class="line">binom.test(<span class="built_in">sum</span>(x&lt;y), <span class="built_in">length</span>(x))</span><br></pre></td></tr></table></figure>
+<p>例九 某饮料店为调查了顾客对饮料的爱好情况，某日随机调查了13为顾客，喜欢奶茶超过咖啡用-表示，喜欢咖啡超过奶茶用+表示，两者都喜欢用0表示，结果如下，分析顾客是更喜欢咖啡开始奶茶。</p>
+<table>
+<thead>
+<tr>
+<th>顾客编号</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+<th>11</th>
+<th>12</th>
+<th>13</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>喜欢咖啡</td>
+<td>1</td>
+<td></td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td></td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td></td>
+<td>1</td>
+</tr>
+<tr>
+<td>喜欢奶茶</td>
+<td></td>
+<td>1</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>1</td>
+<td></td>
+<td></td>
+<td></td>
+<td>1</td>
+<td></td>
+</tr>
+</tbody></table>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binom.test(<span class="number">3</span>,<span class="number">12</span>,p=<span class="number">1</span>/<span class="number">2</span>, al=<span class="string">&quot;l&quot;</span>, conf.level = <span class="number">0.90</span>)</span><br></pre></td></tr></table></figure>
+<h1 id="Spearman秩相关检验"><a href="#Spearman秩相关检验" class="headerlink" title="Spearman秩相关检验"></a>Spearman秩相关检验</h1><p>例十  一项有六人参加表演的竞赛，有两人进行评定，评定结果用如表所示，试用Spearman秩相关检验方法检验这两个评定员对于等级评定有无相关性</p>
+<table>
+<thead>
+<tr>
+<th>选手编号</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>甲的打分</td>
+<td>4</td>
+<td>2</td>
+<td>2</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+</tr>
+<tr>
+<td>乙的打分</td>
+<td>5</td>
+<td>3</td>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+<td>5</td>
+</tr>
+</tbody></table>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x &lt;- <span class="built_in">c</span>(<span class="number">4</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>)</span><br><span class="line">y &lt;- <span class="built_in">c</span>(<span class="number">5</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">5</span>)</span><br><span class="line">cor.test(x, y, method = <span class="string">&quot;spearman&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h1 id="Kendall相关检验"><a href="#Kendall相关检验" class="headerlink" title="Kendall相关检验"></a>Kendall相关检验</h1><p>例十一 某幼儿园对9对双胞胎的智力进行测验，并按照百分制打分，试用Kendall相关检验方法检验双胞胎的智力是否相关。</p>
+<table>
+<thead>
+<tr>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>86</td>
+<td>77</td>
+<td>68</td>
+<td>91</td>
+<td>70</td>
+<td>71</td>
+<td>85</td>
+<td>87</td>
+<td>63</td>
+</tr>
+<tr>
+<td>88</td>
+<td>76</td>
+<td>64</td>
+<td>96</td>
+<td>65</td>
+<td>80</td>
+<td>81</td>
+<td>72</td>
+<td>60</td>
+</tr>
+</tbody></table>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">X &lt;- <span class="built_in">c</span>(<span class="number">86</span>, <span class="number">77</span>, <span class="number">68</span>, <span class="number">91</span>, <span class="number">70</span>, <span class="number">71</span>, <span class="number">85</span>, <span class="number">87</span>, <span class="number">63</span>)</span><br><span class="line">Y &lt;- <span class="built_in">c</span>(<span class="number">88</span>, <span class="number">76</span>, <span class="number">64</span>, <span class="number">96</span>, <span class="number">65</span>, <span class="number">80</span>, <span class="number">81</span>, <span class="number">72</span>, <span class="number">60</span>)</span><br><span class="line">cor.test(X, Y, method = <span class="string">&quot;kendall&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h1 id="Wilcoxon秩检验——-考虑了样本观察值月总体中位数的差。"><a href="#Wilcoxon秩检验——-考虑了样本观察值月总体中位数的差。" class="headerlink" title="Wilcoxon秩检验—— 考虑了样本观察值月总体中位数的差。"></a>Wilcoxon秩检验—— 考虑了样本观察值月总体中位数的差。</h1><h1 id="1-对于来自同一个总体样本的检验"><a href="#1-对于来自同一个总体样本的检验" class="headerlink" title="1 对于来自同一个总体样本的检验"></a>1 对于来自同一个总体样本的检验</h1><p>例十二  某电池厂称其生产的某种电池，中位数为140安培小时，现随机从其新生产的电池中抽取20个，检验其寿命：137.0, 140.0, 138.3, 139.0, 144.3, 139.1, 141.7, 137.3, 133.5, 138.2, 141.1, 139.2, 136.5, 136.5, 135.6, 138.0, 140.9, 140.6, 136.3, 134.1</p>
+<h1 id="用Wilcoxon符号检验分析该厂生产的电池是否符合标准"><a href="#用Wilcoxon符号检验分析该厂生产的电池是否符合标准" class="headerlink" title="用Wilcoxon符号检验分析该厂生产的电池是否符合标准"></a>用Wilcoxon符号检验分析该厂生产的电池是否符合标准</h1><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">X &lt;- <span class="built_in">c</span>(<span class="number">137.0</span>, <span class="number">140.0</span>, <span class="number">138.3</span>, <span class="number">139.0</span>, <span class="number">144.3</span>, <span class="number">139.1</span>, <span class="number">141.7</span>, <span class="number">137.3</span>, <span class="number">133.5</span>,</span><br><span class="line">       <span class="number">138.2</span>, <span class="number">141.1</span>, <span class="number">139.2</span>, <span class="number">136.5</span>, <span class="number">136.5</span>, <span class="number">135.6</span>, <span class="number">138.0</span>, <span class="number">140.9</span>, <span class="number">140.6</span>, <span class="number">136.3</span>, <span class="number">134.1</span>)</span><br><span class="line"></span><br><span class="line">wilcox.test(X,mu=<span class="number">140</span>, alternative=<span class="string">&quot;less&quot;</span>,exact=<span class="literal">FALSE</span>, correct=<span class="literal">FALSE</span>, conf.int=<span class="literal">TRUE</span>)</span><br></pre></td></tr></table></figure>
+<h1 id="该方法也可用于成对样本的检验"><a href="#该方法也可用于成对样本的检验" class="headerlink" title="该方法也可用于成对样本的检验"></a>该方法也可用于成对样本的检验</h1><p>例十三  为检验某种新肥料，将现有麦地分为十块，再将每一块分为两部分，一半施普通肥料，一半儿施新肥料，用Wilcoxon符号检验法检验新复合肥能否显著提高小麦产量。</p>
+<table>
+<thead>
+<tr>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>10</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>459</td>
+<td>367</td>
+<td>303</td>
+<td>392</td>
+<td>310</td>
+<td>342</td>
+<td>421</td>
+<td>446</td>
+<td>430</td>
+<td>412</td>
+</tr>
+<tr>
+<td>414</td>
+<td>306</td>
+<td>321</td>
+<td>443</td>
+<td>281</td>
+<td>301</td>
+<td>353</td>
+<td>391</td>
+<td>405</td>
+<td>390</td>
+</tr>
+</tbody></table>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">x &lt;- <span class="built_in">c</span>(<span class="number">459</span>, <span class="number">367</span>, <span class="number">303</span>, <span class="number">392</span>, <span class="number">310</span>, <span class="number">342</span>, <span class="number">421</span>, <span class="number">446</span>, <span class="number">430</span>, <span class="number">412</span>)</span><br><span class="line">y &lt;- <span class="built_in">c</span>(<span class="number">414</span>, <span class="number">306</span>, <span class="number">321</span>, <span class="number">443</span>, <span class="number">281</span>, <span class="number">301</span>, <span class="number">353</span>, <span class="number">391</span>, <span class="number">405</span>, <span class="number">390</span>)</span><br><span class="line">wilcox.test(x, y, alternative = <span class="string">&quot;greater&quot;</span>, paired = <span class="literal">TRUE</span>)</span><br><span class="line">wilcox.test(x-y, alternative = <span class="string">&quot;greater&quot;</span>)</span><br><span class="line">binom.test(<span class="built_in">sum</span>(x&gt;y), <span class="built_in">length</span>(x), alternative = <span class="string">&quot;greater&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h1 id="非成对样本的秩次和检验"><a href="#非成对样本的秩次和检验" class="headerlink" title="非成对样本的秩次和检验"></a>非成对样本的秩次和检验</h1><h2 id="Wilcoxon-Mann-Whitney-统计量-U"><a href="#Wilcoxon-Mann-Whitney-统计量-U" class="headerlink" title="Wilcoxon-Mann-Whitney 统计量 U"></a>Wilcoxon-Mann-Whitney 统计量 U</h2><p>例十四  测量了10名不同作业组的工人血铅含量，分析两组之间是否有差别。</p>
+<p>非铅作业组 24 26 29 34 43 58 63 72 87 101</p>
+<p>含铅作业组 82 87 97 121 164 208 213</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">x &lt;- <span class="built_in">c</span>(<span class="number">24</span>, <span class="number">26</span>, <span class="number">29</span>, <span class="number">34</span>, <span class="number">43</span>, <span class="number">58</span>, <span class="number">63</span>, <span class="number">72</span>, <span class="number">87</span>, <span class="number">101</span>)</span><br><span class="line">y &lt;- <span class="built_in">c</span>(<span class="number">82</span>, <span class="number">87</span>, <span class="number">97</span>, <span class="number">121</span>, <span class="number">164</span>, <span class="number">208</span>, <span class="number">213</span>)</span><br><span class="line">wilcox.test(x,y,alternative=<span class="string">&quot;less&quot;</span>,exact=<span class="literal">FALSE</span>,correct=<span class="literal">FALSE</span>)</span><br><span class="line">wilcox.test(x, y, alternative=<span class="string">&quot;less&quot;</span>, exact=<span class="literal">FALSE</span>)</span><br></pre></td></tr></table></figure>
+<p>例十五 学生数学能力排序: 新方法 3 5 7 9 10, 原方法 1 2 4 6 8。 问新旧方法之间是否有差别。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x &lt;- <span class="built_in">c</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">9</span>, <span class="number">10</span>);</span><br><span class="line">y &lt;- <span class="built_in">c</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">8</span>)</span><br><span class="line">wilcox.test(x, y, alternative=<span class="string">&quot;greater&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h1 id=""><a href="#" class="headerlink" title=""></a></h1><p>例十六 检验一种药物对于慢性支气管炎有没有效果，抽取了216个病例，治疗效果。分析该药物对两种慢性支气管炎的治疗效果是否相同。</p>
+<pre><code>   控制 显效 进步 无效
+</code></pre>
+<p> 单纯型 62   41   14   11<br> 喘息型 20   37   16   15</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x &lt;- <span class="built_in">rep</span>(<span class="number">1</span>:<span class="number">4</span>, <span class="built_in">c</span>(<span class="number">62</span>, <span class="number">41</span>, <span class="number">14</span>,<span class="number">11</span>));</span><br><span class="line">y &lt;- <span class="built_in">rep</span>(<span class="number">1</span>:<span class="number">4</span>, <span class="built_in">c</span>(<span class="number">20</span>, <span class="number">37</span>, <span class="number">16</span>, <span class="number">15</span>))</span><br><span class="line">wilcox.test(x, y, exact=<span class="literal">FALSE</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li>薛毅 陈立萍 《统计建模与Ｒ软件》 清华大学出版社 2006</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2009/06/24/2009-6-25-statistics/" data-id="cl1egp2co00045884efo799hs" data-title="R语言：常用统计检验方法" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/R%E7%BC%96%E7%A8%8B/" rel="tag">R编程</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-2009-6-24-boxplot" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2009/06/24/2009-6-24-boxplot/" class="article-date">
@@ -116,7 +588,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2009/06/24/2009-6-24-boxplot/" data-id="ckrsvkz73000590w02m3r1v4s" data-title="什么是箱线图" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2009/06/24/2009-6-24-boxplot/" data-id="cl1egp2cl000258849lz1dn6m" data-title="什么是箱线图" class="article-share-link">Share</a>
       
       
       
@@ -164,7 +636,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2009/05/15/2009-5-15-adonis/" data-id="ckrsvkz6z000190w0cou4awon" data-title="冰凌花" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2009/05/15/2009-5-15-adonis/" data-id="cl1egp2cj000158844b3feci7" data-title="冰凌花" class="article-share-link">Share</a>
       
       
       
@@ -250,7 +722,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2009/05/12/2009-05-13-science/" data-id="ckrsvkz6u000090w07c0e7g8v" data-title="科学的价值及其认知误区" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2009/05/12/2009-05-13-science/" data-id="cl1egp2cs00095884fhlg97jz" data-title="科学的价值及其认知误区" class="article-share-link">Share</a>
       
       
       
@@ -294,7 +766,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2009/05/12/2009-05-12-fanjingshan/" data-id="ckrsvkz74000790w04bx3003c" data-title="何人遗此万卷书-贵州梵净山" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2009/05/12/2009-05-12-fanjingshan/" data-id="cl1egp2cx000i5884b305autr" data-title="何人遗此万卷书-贵州梵净山" class="article-share-link">Share</a>
       
       
       
@@ -345,7 +817,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">January 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">December 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">October 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05/">May 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">May 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">December 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">August 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">March 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">April 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/01/">January 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/08/">August 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/07/">July 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/06/">June 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">May 2009</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">January 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">December 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">October 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05/">May 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">May 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">December 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">August 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">March 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">April 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/01/">January 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/08/">August 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/07/">July 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/06/">June 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">May 2009</a></li></ul>
     </div>
   </div>
 
@@ -358,7 +830,11 @@
       <ul>
         
           <li>
-            <a href="/2022/01/15/dangxia/">当下</a>
+            <a href="/2022/03/31/2022-03-31run_phylomatic/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/01/15/2022-01-15dangxia/">当下</a>
           </li>
         
           <li>
@@ -371,10 +847,6 @@
         
           <li>
             <a href="/2021/07/25/2021-07-25beans/">种豆记</a>
-          </li>
-        
-          <li>
-            <a href="/2021/07/19/2021-07-19-rresources/">植物学和生态学的一些R语言学习资源</a>
           </li>
         
       </ul>

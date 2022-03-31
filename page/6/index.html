@@ -73,6 +73,48 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2018-11-06-tmap" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/11/05/2018-11-06-tmap/" class="article-date">
+  <time class="dt-published" datetime="2018-11-05T09:30:54.000Z" itemprop="datePublished">2018-11-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/11/05/2018-11-06-tmap/">用tmap程序包绘制带指北针、图例和经纬网的采样点地图</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;C:/Users/jlzhang/Desktop/sample_map&quot;</span>)</span><br><span class="line"><span class="comment">#### 导入所需要的程序包</span></span><br><span class="line">library(rgdal)</span><br><span class="line">library(tmap)</span><br><span class="line">library(tmaptools)</span><br><span class="line">library(sp)</span><br><span class="line">rm(<span class="built_in">list</span> = ls())</span><br><span class="line"><span class="comment">## 读取地图</span></span><br><span class="line">country &lt;- readOGR(<span class="string">&quot;bou1_4l.shp&quot;</span>)</span><br><span class="line">province &lt;- readOGR(<span class="string">&quot;province_polygon.shp&quot;</span>)</span><br><span class="line">world &lt;- readOGR(<span class="string">&quot;ne_50m_admin_0_countries.shp&quot;</span>)</span><br><span class="line"><span class="comment"># Source: https://www.naturalearthdata.com/downloads/50m-cultural-vectors/ </span></span><br><span class="line">world &lt;- set_projection(world, <span class="string">&quot;longlat&quot;</span>)    </span><br><span class="line">country &lt;- set_projection(country, <span class="string">&quot;longlat&quot;</span>)    </span><br><span class="line">province &lt;- set_projection(province, <span class="string">&quot;longlat&quot;</span>)    </span><br><span class="line">province &lt;- set_projection(province, <span class="string">&quot;longlat&quot;</span>)    </span><br><span class="line">data(World)</span><br><span class="line"><span class="comment"># 城市</span></span><br><span class="line">city &lt;- read.csv(<span class="string">&quot;simplemaps-worldcities-basic.csv&quot;</span>, header = <span class="literal">TRUE</span>)</span><br><span class="line">city &lt;- city[sample(<span class="number">1</span>:nrow(city), <span class="number">400</span>),] <span class="comment"># 随机筛选400个</span></span><br><span class="line">coordinates(city) &lt;- ~lng+lat </span><br><span class="line">proj4string(city) &lt;- CRS(<span class="string">&quot;+proj=longlat +datum=WGS84&quot;</span>)</span><br><span class="line"></span><br><span class="line">World$name[World$name == <span class="string">&quot;Taiwan&quot;</span>] &lt;- <span class="literal">NA</span></span><br><span class="line"><span class="comment"># 转换为spatial dataframe</span></span><br><span class="line"><span class="comment"># 绘图</span></span><br><span class="line">tm_shape(world, </span><br><span class="line">         xlim = <span class="built_in">c</span>(<span class="number">60</span>, <span class="number">140</span>), </span><br><span class="line">         ylim = <span class="built_in">c</span>(<span class="number">0</span>, <span class="number">60</span>)) + </span><br><span class="line">  tm_borders(<span class="string">&quot;grey40&quot;</span>, lwd = <span class="number">1.5</span>) + </span><br><span class="line">  tm_grid()+ </span><br><span class="line">tm_shape(province) +</span><br><span class="line">  tm_fill(col = <span class="string">&quot;lightgrey&quot;</span>) + </span><br><span class="line">  tm_borders(<span class="string">&quot;grey60&quot;</span>, lwd = <span class="number">0.8</span>) + </span><br><span class="line">tm_shape(country) + </span><br><span class="line">  tm_lines(col=<span class="string">&quot;grey40&quot;</span>, lwd = <span class="number">1.5</span>) + </span><br><span class="line">tm_scale_bar(position=<span class="built_in">c</span>(<span class="number">0.05</span>,<span class="number">0.0</span>)) + </span><br><span class="line">tm_compass(type = <span class="string">&quot;4star&quot;</span>, </span><br><span class="line">           position=<span class="built_in">c</span>(<span class="string">&quot;left&quot;</span>, <span class="string">&quot;top&quot;</span>)) +     </span><br><span class="line">tm_layout(inner.margins=<span class="built_in">c</span>(<span class="number">0.12</span>,<span class="number">0.03</span>,<span class="number">0.08</span>,<span class="number">0.03</span>), </span><br><span class="line">          legend.stack = <span class="string">&quot;horizontal&quot;</span>) + </span><br><span class="line">tm_shape(city) +</span><br><span class="line">    tm_bubbles(<span class="string">&quot;pop&quot;</span>, </span><br><span class="line">               col = <span class="string">&quot;red&quot;</span>, </span><br><span class="line">               scale=<span class="number">.5</span>,</span><br><span class="line">               border.col = <span class="string">&quot;red&quot;</span>) + </span><br><span class="line">    tm_text(<span class="string">&quot;city&quot;</span>, size=<span class="number">0.5</span>) + </span><br><span class="line">tm_legend(legend.position = <span class="built_in">c</span>(<span class="number">0.05</span>, <span class="number">0.08</span>)) + </span><br><span class="line">tm_shape(World) +</span><br><span class="line">    tm_text(<span class="string">&quot;name&quot;</span>, size=<span class="number">1.0</span>)</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/11/05/2018-11-06-tmap/" data-id="cl1egp2gr00bk58842qmg8xnr" data-title="用tmap程序包绘制带指北针、图例和经纬网的采样点地图" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9C%B0%E7%90%86/" rel="tag">地理</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-2018-11-05-r8sinwin10" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2018/11/05/2018-11-05-r8sinwin10/" class="article-date">
@@ -122,7 +164,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/11/05/2018-11-05-r8sinwin10/" data-id="ckrsvkzbv00a990w0196bc2pz" data-title="怎样在Windows10系统中编译和运行r8s" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/11/05/2018-11-05-r8sinwin10/" data-id="cl1egp2gn00b95884feok7w23" data-title="怎样在Windows10系统中编译和运行r8s" class="article-share-link">Share</a>
       
       
       
@@ -203,7 +245,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/10/26/2018-10-26-forest/" data-id="ckrsvkzbu00a790w0corp69in" data-title="黑龙江畔的森林" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/10/26/2018-10-26-forest/" data-id="cl1egp2gm00b55884ch5i3hr8" data-title="黑龙江畔的森林" class="article-share-link">Share</a>
       
       
       
@@ -246,7 +288,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/10/25/2018-10-25-community-species/" data-id="ckrsvkzbt00a590w09zv1fshz" data-title="样方调查数据怎样转换成群落-物种矩阵？" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/10/25/2018-10-25-community-species/" data-id="cl1egp2gm00b35884c8vr0tco" data-title="样方调查数据怎样转换成群落-物种矩阵？" class="article-share-link">Share</a>
       
       
       
@@ -370,7 +412,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/10/12/2018-10-12-managing/" data-id="ckrsvkzbs00a390w0ea8i0ggb" data-title="谈谈科研论文的追踪、管理和阅读" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/10/12/2018-10-12-managing/" data-id="cl1egp2gk00az588487fg2cf5" data-title="谈谈科研论文的追踪、管理和阅读" class="article-share-link">Share</a>
       
       
       
@@ -500,7 +542,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/10/09/2018-10-09-review/" data-id="ckrsvkzbr00a190w0843eddhh" data-title="怎样为学术期刊审稿？" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/10/09/2018-10-09-review/" data-id="cl1egp2gn00b758842c6od1om" data-title="怎样为学术期刊审稿？" class="article-share-link">Share</a>
       
       
       
@@ -550,7 +592,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/10/08/2018-10-08-tmap-province/" data-id="ckrsvkzbr009z90w05o7w2kbz" data-title="R绘制中国地图：你去过哪些省份? (tmap版)" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/10/08/2018-10-08-tmap-province/" data-id="cl1egp2gj00ax58846jnm0g1l" data-title="R绘制中国地图：你去过哪些省份? (tmap版)" class="article-share-link">Share</a>
       
       
       
@@ -595,7 +637,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/10/02/2018-10-02-opening-ecoinformatics/" data-id="ckrsvkzbq009x90w094tnd7wo" data-title="为什么要开通“ecoinformatics”公众号？" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/10/02/2018-10-02-opening-ecoinformatics/" data-id="cl1egp2gj00au58844q4w9tcx" data-title="为什么要开通“ecoinformatics”公众号？" class="article-share-link">Share</a>
       
       
       
@@ -648,7 +690,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/09/14/2018-09-14-rhodes/" data-id="ckrsvkzbm009n90w00qjk73ap" data-title="天文爱好者Brandon Rhodes和他的程序包PyEphem, Skyfield" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/09/14/2018-09-14-rhodes/" data-id="cl1egp2gg00am588465gx3v2k" data-title="天文爱好者Brandon Rhodes和他的程序包PyEphem, Skyfield" class="article-share-link">Share</a>
       
       
       
@@ -709,67 +751,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/08/22/2018-08-22-youth/" data-id="ckrsvkzbl009l90w0d9l8c89d" data-title="为什么不要把引进的青年教师称为“论文写手”？" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/08/22/2018-08-22-youth/" data-id="cl1egp2gc00ah58847vvf7yt8" data-title="为什么不要把引进的青年教师称为“论文写手”？" class="article-share-link">Share</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%A9%B3%E8%AE%BA/" rel="tag">驳论</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-2018-07-19-ecologist" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/07/19/2018-07-19-ecologist/" class="article-date">
-  <time class="dt-published" datetime="2018-07-19T07:48:54.000Z" itemprop="datePublished">2018-07-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/07/19/2018-07-19-ecologist/">生态学家、生态学研究与媒体</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>最近，中国科学院植物研究所一项雾霾与植物生长的研究结果表明，雾霾可能能促进树木生长，研究人员记录和分析了白杨在雾霾天的生长情况，深入探讨了其中的可能机制，研究成果发表在Global Change Biology上[1]。昨天，《中国青年报》以《雾霾越深，森林越壮》为标题介绍了这项研究[2]，报道刊登到网站后，主要门户网站如中新网、新浪、网易等竞相转载[3,4,5]。一时间，该研究在网友中间引起轩然大波，质疑声和咒骂声不断。</p>
-<p>其实这并不奇怪。</p>
-<p>雾霾，本来就是人们避之所不及，人人谈之色变。通过科学实验得出雾霾能促进树木生长的结论，很容易让人以为是荒谬至极。很多人并没有阅读论文的原文，只是看了该报道，甚至只是看了标题就开始批判。网友评论也是一边倒，大有声讨生态学家智商之意。</p>
-<p>不过事实并不这么简单。从论文原文来看，中科院植物所的科学家们并没有去评判雾霾的好坏，该研究旨在探讨雾霾是怎样促进树木生长的，这属于理论研究的范畴。而这种理论上的研究或者探讨，是在学术讨论范围内的。为了理解自然，我们需要收集数据与发现新现象，并探讨现象背后的机制是什么。虽然我本人不做全球变化、元素循环或污染等相关研究，但据我所知，探讨植物对气候变化与污染的响应过程和机制对于深刻理解全球变化，更好地应对环境污染是十分重要的，相关研究是关乎国计民生的知识及理论储备，是环境保护以及正确决策的前提，因此该研究仍然具有很重要的意义。</p>
-<p>生态系统是非常复杂的开放系统，在生态学研究中，不同情形下得出的结论很可能完全相反。研究过程中除了结论本身有重要意义以外，实验或者数据分析用到的新方法，开发出的新工具也具有非常重要的价值，这是一些网友所不了解的。在互联网如此发达的今天，还有部分网友用二分法看问题，非黑即白，简单粗暴地对科研人员进行人身攻击，显然是不妥的。</p>
-<p>当然，类似的新闻报道媒体也可能有一定责任。科学家在接触媒体时要很小心，因为有些媒体会在不提供研究背景的情况下，将一些结论或者学术讨论过度解读。更有些媒体为了博人眼球，刻意渲染在某些特定条件下才成立的结论。公众在这些报道的误导下，所了解的是失真、偏颇的研究进展或结论。而舆论一旦被引导到这个陷阱中，就可能对学术研究，甚至科学家造成伤害。</p>
-<p>类似事件国外也有。去年年底，美国《华盛顿邮报》刊登了一篇文章，《濒危种无需保护，因为灭绝是进化的一部分》[6]。这篇文章的作者Alex Pyron是一所大学的副教授，进化生物学家，主要研究两栖和爬行动物在地质历史上的物种灭绝。在他看来，进化过程中出现物种灭绝是再自然不过了。但是他可能没有和《华盛顿邮报》沟通好，观点刊出时才用了上面的题目。此文一出，立即受到保育人士和公众的猛烈批评[如7]，为此，Pyron不得不公开道歉。</p>
-<p>人人都喜爱清新的空气，没有人喜欢雾霾，相信树木也如此。植物所的这项研究，应该只是想澄清雾霾过程中植物是怎样响应的。当然，从实验用的杨树推广到整个森林生态系统未必合适，而新闻报道的题目更值得商榷。但无论怎样，在这个时代，科学家都需要更为宽松自由的学术环境。在现在这种情况下，接触媒体时谨慎一些都是好的，而一些网友也需要提高自身的判断力。</p>
-<p>参考：</p>
-<p>[1] Wang X, Wu J, Chen M, et al. Field evidences for the positive effects of aerosols on tree growth. Glob Change Biol. 2018;00:1–10. <a target="_blank" rel="noopener" href="https://doi.org/10.1111/gcb.14339">https://doi.org/10.1111/gcb.14339</a></p>
-<p>[2] <a target="_blank" rel="noopener" href="http://zqb.cyol.com/html/2018-07/18/nw.D110000zgqnb_20180718_1-11.htm">http://zqb.cyol.com/html/2018-07/18/nw.D110000zgqnb_20180718_1-11.htm</a></p>
-<p>[3] <a target="_blank" rel="noopener" href="http://news.sina.com.cn/o/2018-07-18/doc-ihfnsvyz7451437.shtml">http://news.sina.com.cn/o/2018-07-18/doc-ihfnsvyz7451437.shtml</a></p>
-<p>[4] <a target="_blank" rel="noopener" href="http://www.chinanews.com/sh/2018/07-18/8570635.shtml">http://www.chinanews.com/sh/2018/07-18/8570635.shtml</a></p>
-<p>[5] <a target="_blank" rel="noopener" href="https://3g.163.com/all/article/DN0H3I2A0001875N.html">https://3g.163.com/all/article/DN0H3I2A0001875N.html</a></p>
-<p>[6]<a target="_blank" rel="noopener" href="https://www.washingtonpost.com/outlook/we-dont-need-to-save-endangered-species-extinction-is-part-of-evolution/2017/11/21/57fc5658-cdb4-11e7-a1a3-0d1e45a6de3d_story.html?noredirect=on">https://www.washingtonpost.com/outlook/we-dont-need-to-save-endangered-species-extinction-is-part-of-evolution/2017/11/21/57fc5658-cdb4-11e7-a1a3-0d1e45a6de3d_story.html?noredirect=on</a></p>
-<p>[7] <a target="_blank" rel="noopener" href="http://evol-eco.blogspot.com/2017/11/of-course-we-need-to-save-endangered.html">http://evol-eco.blogspot.com/2017/11/of-course-we-need-to-save-endangered.html</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/07/19/2018-07-19-ecologist/" data-id="ckrsvkzbk009j90w08rfmes4w" data-title="生态学家、生态学研究与媒体" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
 
     </footer>
   </div>
@@ -816,7 +802,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">January 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">December 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">October 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05/">May 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">May 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">December 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">August 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">March 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">April 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/01/">January 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/08/">August 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/07/">July 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/06/">June 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">May 2009</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">January 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">December 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">October 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05/">May 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">May 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">December 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">August 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">March 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">April 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/01/">January 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/08/">August 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/07/">July 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/06/">June 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">May 2009</a></li></ul>
     </div>
   </div>
 
@@ -829,7 +815,11 @@
       <ul>
         
           <li>
-            <a href="/2022/01/15/dangxia/">当下</a>
+            <a href="/2022/03/31/2022-03-31run_phylomatic/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/01/15/2022-01-15dangxia/">当下</a>
           </li>
         
           <li>
@@ -842,10 +832,6 @@
         
           <li>
             <a href="/2021/07/25/2021-07-25beans/">种豆记</a>
-          </li>
-        
-          <li>
-            <a href="/2021/07/19/2021-07-19-rresources/">植物学和生态学的一些R语言学习资源</a>
           </li>
         
       </ul>

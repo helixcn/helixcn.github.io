@@ -73,6 +73,88 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2018-05-29-skyatlas" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/05/29/2018-05-29-skyatlas/" class="article-date">
+  <time class="dt-published" datetime="2018-05-29T06:29:54.000Z" itemprop="datePublished">2018-05-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/05/29/2018-05-29-skyatlas/">天文年历中几种常见天象图的绘制</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>中科院紫金山天文台和北京天文馆《天文爱好者》杂志社曾连续多年编纂《天文普及年历》， 其中就有不少行星周年视运动、日月和大行星的升没时刻和中天时刻图、木星伽利略卫星动态等。类似的图形，在《香港天文年历》中也有出现， 如 <a target="_blank" rel="noopener" href="http://www.weather.gov.hk/gts/astron2018/2018transit.pdf">http://www.weather.gov.hk/gts/astron2018/2018transit.pdf</a> ， <a target="_blank" rel="noopener" href="http://www.weather.gov.hk/gts/astron2018/2018rise-set.pdf">http://www.weather.gov.hk/gts/astron2018/2018rise-set.pdf</a> </p>
+<p>这里提供一些R代码， 用于绘制类似图形。这些图形有些已经用于近几年的《爱牧夫天文台历》等 （参见 <a target="_blank" rel="noopener" href="http://bbs.imufu.cn/thread-689955-1-1.html">http://bbs.imufu.cn/thread-689955-1-1.html</a>  ）。由于学识有限，错误和疏漏在所难免， 恳请广大读者指正。</p>
+<p>用到的R程序包及其安装<br>天象图全部是用R语言程序包 skycalc, moonsun和ephem， 假设已安装了devtools程序包以及Rtools(针对Windows用户)， 可以用以下命令安装上述三个程序包，需要按照如下顺序安装：</p>
+<h3 id="先安装Rcpp"><a href="#先安装Rcpp" class="headerlink" title="先安装Rcpp"></a>先安装Rcpp</h3><p>install.packages(“Rcpp”)</p>
+<h3 id="skycalck安装："><a href="#skycalck安装：" class="headerlink" title="skycalck安装："></a>skycalck安装：</h3><p>devtools::install_github(“helixcn/skycalc”)</p>
+<h3 id="ephem包安装："><a href="#ephem包安装：" class="headerlink" title="ephem包安装："></a>ephem包安装：</h3><p>devtools::install_github(“helixcn/ephem”)</p>
+<h3 id="moonsun程序包-install-packages-“moonsun”"><a href="#moonsun程序包-install-packages-“moonsun”" class="headerlink" title="moonsun程序包: install.packages(“moonsun”)"></a>moonsun程序包: install.packages(“moonsun”)</h3><p>R脚本<br>library(ephem)</p>
+<h2 id="Loading-required-package-moonsun"><a href="#Loading-required-package-moonsun" class="headerlink" title="Loading required package: moonsun"></a>Loading required package: moonsun</h2><h2 id="Loading-required-package-skycalc"><a href="#Loading-required-package-skycalc" class="headerlink" title="Loading required package: skycalc"></a>Loading required package: skycalc</h2><h2 id="Loading-required-package-Rcpp"><a href="#Loading-required-package-Rcpp" class="headerlink" title="Loading required package: Rcpp"></a>Loading required package: Rcpp</h2><p>library(skycalc)<br>options(longitude = 120) ## 假设经度为东经120度<br>金星和水星在日出日落时的高度和方位<br>venus_sunset(CAADate_DateToJD(2018, 1, 1, TRUE),<br>              latitude = 40, days = 365, label_interval = 10 )<br>2018年金星在日落时的高度和方位</p>
+<p>2018年金星在日落时的高度和方位</p>
+<p> venus_sunrise(CAADate_DateToJD(2018, 1, 1, TRUE),<br>               latitude = 40, days = 365, label_interval = 10)<br>2018年金星在日出时的高度和方位</p>
+<p>2018年金星在日出时的高度和方位</p>
+<p>  mercury_sunrise( CAADate_DateToJD(2018, 1, 1, TRUE) ,<br>                  latitude = 40, days = 365, label_interval = 10)<br>2018年水星在日出时的高度和方位</p>
+<p>2018年水星在日出时的高度和方位</p>
+<p> mercury_sunset(CAADate_DateToJD(2018, 1, 1, TRUE),<br>                latitude = 40, days = 365, label_interval = 10 )<br>2018年水星在日落时的高度和方位</p>
+<p>2018年水星在日落时的高度和方位</p>
+<p>2018年日月和大行星每月中旬在星空背景中的位置<br> plot_location_atlas(CAADate_DateToJD(Year = 2018,<br>                                      Month =1,<br>                                      Day =15,<br>                                      TRUE))</p>
+<h2 id="Warning-in-log-constellation-MAG-NaNs-produced"><a href="#Warning-in-log-constellation-MAG-NaNs-produced" class="headerlink" title="Warning in log(constellation$MAG): NaNs produced"></a>Warning in log(constellation$MAG): NaNs produced</h2><h2 id="Warning-in-log-constellation-MAG-NaNs-produced-1"><a href="#Warning-in-log-constellation-MAG-NaNs-produced-1" class="headerlink" title="Warning in log(constellation$MAG): NaNs produced"></a>Warning in log(constellation$MAG): NaNs produced</h2><h2 id="Warning-in-log-constellation-MAG-NaNs-produced-2"><a href="#Warning-in-log-constellation-MAG-NaNs-produced-2" class="headerlink" title="Warning in log(constellation$MAG): NaNs produced"></a>Warning in log(constellation$MAG): NaNs produced</h2><p>2018年1月15日月和大行星在星空背景中的位置</p>
+<p>2018年1月15日月和大行星在星空背景中的位置</p>
+<h2 id="ra-d-phase-angle-dist-size-mag"><a href="#ra-d-phase-angle-dist-size-mag" class="headerlink" title="ra             d phase  angle  dist size  mag"></a>ra             d phase  angle  dist size  mag</h2><h2 id="2018-01-15-Sun-19h-46m-53s-22-49’-43’’-NA-NA-0-98-0-5-NA"><a href="#2018-01-15-Sun-19h-46m-53s-22-49’-43’’-NA-NA-0-98-0-5-NA" class="headerlink" title="2018-01-15-Sun     19h 46m 53s -22* 49’ 43’’    NA     NA  0.98  0.5   NA"></a>2018-01-15-Sun     19h 46m 53s -22* 49’ 43’’    NA     NA  0.98  0.5   NA</h2><h2 id="2018-01-15-Moon-18h-9m-11s-24-38’-15’’-3-9-89-2-1-05-29-6-NA"><a href="#2018-01-15-Moon-18h-9m-11s-24-38’-15’’-3-9-89-2-1-05-29-6-NA" class="headerlink" title="2018-01-15-Moon    18h  9m 11s -24* 38’ 15’’   3.9   89.2  1.05 29.6   NA"></a>2018-01-15-Moon    18h  9m 11s -24* 38’ 15’’   3.9   89.2  1.05 29.6   NA</h2><h2 id="2018-01-15-Mercury-18h-23m-22s-24-33’-59’’-85-4-87-4-1-25-5-4-1-5"><a href="#2018-01-15-Mercury-18h-23m-22s-24-33’-59’’-85-4-87-4-1-25-5-4-1-5" class="headerlink" title="2018-01-15-Mercury 18h 23m 22s -24* 33’ 59’’  85.4   87.4  1.25  5.4 -1.5"></a>2018-01-15-Mercury 18h 23m 22s -24* 33’ 59’’  85.4   87.4  1.25  5.4 -1.5</h2><h2 id="2018-01-15-Venus-19h-51m-40s-22-4’-13’’-100-0-55-9-1-71-9-9-3-9"><a href="#2018-01-15-Venus-19h-51m-40s-22-4’-13’’-100-0-55-9-1-71-9-9-3-9" class="headerlink" title="2018-01-15-Venus   19h 51m 40s -22*  4’ 13’’ 100.0  -55.9  1.71  9.9 -3.9"></a>2018-01-15-Venus   19h 51m 40s -22*  4’ 13’’ 100.0  -55.9  1.71  9.9 -3.9</h2><h2 id="2018-01-15-Mars-15h-18m-55s-18-32’-58’’-92-1-105-3-1-82-5-1-0-9"><a href="#2018-01-15-Mars-15h-18m-55s-18-32’-58’’-92-1-105-3-1-82-5-1-0-9" class="headerlink" title="2018-01-15-Mars    15h 18m 55s -18* 32’ 58’’  92.1  105.3  1.82  5.1  0.9"></a>2018-01-15-Mars    15h 18m 55s -18* 32’ 58’’  92.1  105.3  1.82  5.1  0.9</h2><h2 id="2018-01-15-Jupiter-15h-5m-39s-17-41’-9’’-99-3-106-4-5-76-34-2-1-9"><a href="#2018-01-15-Jupiter-15h-5m-39s-17-41’-9’’-99-3-106-4-5-76-34-2-1-9" class="headerlink" title="2018-01-15-Jupiter 15h  5m 39s -17* 41’  9’’  99.3  106.4  5.76 34.2 -1.9"></a>2018-01-15-Jupiter 15h  5m 39s -17* 41’  9’’  99.3  106.4  5.76 34.2 -1.9</h2><h2 id="2018-01-15-Saturn-18h-11m-18s-23-28’-40’’-100-0-91-1-10-99-15-1-1-3"><a href="#2018-01-15-Saturn-18h-11m-18s-23-28’-40’’-100-0-91-1-10-99-15-1-1-3" class="headerlink" title="2018-01-15-Saturn  18h 11m 18s -23* 28’ 40’’ 100.0   91.1 10.99 15.1  1.3"></a>2018-01-15-Saturn  18h 11m 18s -23* 28’ 40’’ 100.0   91.1 10.99 15.1  1.3</h2><h2 id="2018-01-15-Uranus-1h-33m-44s-9-11’-8’’-99-9-111-4-19-90-3-3-5-8"><a href="#2018-01-15-Uranus-1h-33m-44s-9-11’-8’’-99-9-111-4-19-90-3-3-5-8" class="headerlink" title="2018-01-15-Uranus   1h 33m 44s   9* 11’  8’’  99.9 -111.4 19.90  3.3  5.8"></a>2018-01-15-Uranus   1h 33m 44s   9* 11’  8’’  99.9 -111.4 19.90  3.3  5.8</h2><h2 id="2018-01-15-Neptune-22h-52m-20s-9-50’-40’’-100-0-111-5-30-66-2-0-7-9"><a href="#2018-01-15-Neptune-22h-52m-20s-9-50’-40’’-100-0-111-5-30-66-2-0-7-9" class="headerlink" title="2018-01-15-Neptune 22h 52m 20s  -9* 50’ 40’’ 100.0 -111.5 30.66  2.0  7.9"></a>2018-01-15-Neptune 22h 52m 20s  -9* 50’ 40’’ 100.0 -111.5 30.66  2.0  7.9</h2><h2 id="2018-01-15-Pluto-18h-45m-15s-21-55’-52’’-100-0-97-1-33-40-0-2-14-2"><a href="#2018-01-15-Pluto-18h-45m-15s-21-55’-52’’-100-0-97-1-33-40-0-2-14-2" class="headerlink" title="2018-01-15-Pluto   18h 45m 15s -21* 55’ 52’’ 100.0   97.1 33.40  0.2 14.2"></a>2018-01-15-Pluto   18h 45m 15s -21* 55’ 52’’ 100.0   97.1 33.40  0.2 14.2</h2><h2 id=""><a href="#" class="headerlink" title=""></a></h2><h2 id="2018-01-15-Sun-Sgr"><a href="#2018-01-15-Sun-Sgr" class="headerlink" title="2018-01-15-Sun     Sgr"></a>2018-01-15-Sun     Sgr</h2><h2 id="2018-01-15-Moon-Sgr"><a href="#2018-01-15-Moon-Sgr" class="headerlink" title="2018-01-15-Moon    Sgr"></a>2018-01-15-Moon    Sgr</h2><h2 id="2018-01-15-Mercury-Sgr"><a href="#2018-01-15-Mercury-Sgr" class="headerlink" title="2018-01-15-Mercury Sgr"></a>2018-01-15-Mercury Sgr</h2><h2 id="2018-01-15-Venus-Sgr"><a href="#2018-01-15-Venus-Sgr" class="headerlink" title="2018-01-15-Venus   Sgr"></a>2018-01-15-Venus   Sgr</h2><h2 id="2018-01-15-Mars-Lib"><a href="#2018-01-15-Mars-Lib" class="headerlink" title="2018-01-15-Mars    Lib"></a>2018-01-15-Mars    Lib</h2><h2 id="2018-01-15-Jupiter-Lib"><a href="#2018-01-15-Jupiter-Lib" class="headerlink" title="2018-01-15-Jupiter Lib"></a>2018-01-15-Jupiter Lib</h2><h2 id="2018-01-15-Saturn-Sgr"><a href="#2018-01-15-Saturn-Sgr" class="headerlink" title="2018-01-15-Saturn  Sgr"></a>2018-01-15-Saturn  Sgr</h2><h2 id="2018-01-15-Uranus-Psc"><a href="#2018-01-15-Uranus-Psc" class="headerlink" title="2018-01-15-Uranus  Psc"></a>2018-01-15-Uranus  Psc</h2><h2 id="2018-01-15-Neptune-Aqr"><a href="#2018-01-15-Neptune-Aqr" class="headerlink" title="2018-01-15-Neptune Aqr"></a>2018-01-15-Neptune Aqr</h2><h2 id="2018-01-15-Pluto-Sgr"><a href="#2018-01-15-Pluto-Sgr" class="headerlink" title="2018-01-15-Pluto   Sgr"></a>2018-01-15-Pluto   Sgr</h2><p>2018年日月和大行星中天时刻<br> plot_transit_table(transit_table(<br>   CAADate_DateToJD(Year = 2018,<br>                    Month =1,<br>                    Day =1,<br>                    TRUE),<br>   days =365),<br>   legend = TRUE)<br>2018年日月和大行星的中天时刻</p>
+<p>2018年日月和大行星的中天时刻</p>
+<p>2018年行星的周年视运动<br>library(moonsun)<br>data(starcat)<br>ephem.mercury &lt;- mercury(jd(year = 2018,<br>                            month = 1,<br>                            day = 1,<br>                            length = 365))<br>track(ephem.mercury,<br>      mag = 4,<br>      interval.lab = 30,<br>      bright.lab = TRUE,<br>      starcat = starcat,<br>      bright = bright)<br>2018年水星的周年视运动</p>
+<p>2018年水星的周年视运动</p>
+<p>ephem.venus &lt;- venus(jd(year = 2018,<br>                        month = 1,<br>                        day = 1,<br>                        length = 365))<br>track(ephem.venus, mag = 4,<br>      interval.lab = 30,<br>      bright.lab = TRUE,<br>      starcat = starcat,<br>      bright = bright)<br>2018年金星的周年视运动</p>
+<p>2018年金星的周年视运动</p>
+<p>ephem.mars &lt;- mars(jd(year = 2018,<br>                      month = 1,<br>                      day = 1,<br>                      length = 365))<br>track(ephem.mars,<br>      mag = 4,<br>      interval.lab = 30,<br>      bright.lab = TRUE,<br>      starcat = starcat,<br>      bright = bright)<br>2018年火星的周年视运动</p>
+<p>2018年火星的周年视运动</p>
+<p>ephem.jupiter &lt;- jupiter(jd(year = 2018,<br>                            month = 1,<br>                            day = 1,<br>                            length = 365))<br>track(ephem.jupiter,<br>      mag = 6,<br>      interval.lab = 30,<br>      bright.lab = TRUE,<br>      starcat = starcat,<br>      bright = bright)<br>2018年木星的周年视运动</p>
+<p>2018年木星的周年视运动</p>
+<p>ephem.saturn &lt;- saturn(jd(year = 2018,<br>                          month = 1,<br>                          day = 1,<br>                          length = 365))<br>track(ephem.saturn,<br>      mag = 8,<br>      interval.lab = 30,<br>      bright.lab = TRUE,<br>      starcat = starcat,<br>      bright = bright)<br>2018年土星的周年视运动</p>
+<p>2018年土星的周年视运动</p>
+<p>ephem.uranus &lt;- uranus(jd(year = 2018,<br>                          month = 1,<br>                          day = 1,<br>                          length = 365))<br>track(ephem.uranus,<br>      mag = 8,<br>      interval.lab = 30,<br>      bright.lab = TRUE,<br>      starcat = starcat,<br>      bright = bright)<br>2018年天王星的周年视运动</p>
+<p>2018年天王星的周年视运动</p>
+<p>ephem.neptune &lt;- neptune(jd(year = 2018,<br>                            month = 1,<br>                            day = 1,<br>                            length = 365))<br>track(ephem.neptune,<br>      mag = 8,<br>      interval.lab = 30,<br>      bright.lab = TRUE,<br>      starcat = starcat,<br>      bright = bright)<br> 2018年海王星的周年视运动</p>
+<p>2018年海王星的周年视运动</p>
+<p>ephem.pluto &lt;- pluto(jd(year = 2018,<br>                        month = 1,<br>                        day = 1,<br>                        length = 365))<br>track(ephem.pluto,<br>      mag = 8,<br>      interval.lab = 30,<br>      bright.lab = TRUE,<br>      starcat = starcat,<br>      bright = bright)<br>2018年冥王星的周年视运动</p>
+<p>2018年冥王星的周年视运动</p>
+<p>木星伽利略卫星的位置变化<br> plot_juptermoons(CAADate_DateToJD(Year = 2018,<br>                                   Month = 1,<br>                                   Day =1,<br>                                   TRUE),<br>                  days = 31, increment = 1/24)<br>2018年1月木星伽利略卫星的位置变化</p>
+<p>2018年1月木星伽利略卫星的位置变化</p>
+<p>参考文献</p>
+<p>Komsta, Lukasz. 2013. Moonsun: Basic Astronomical Calculations with R. <a target="_blank" rel="noopener" href="https://cran.r-project.org/package=moonsun">https://CRAN.R-project.org/package=moonsun</a>.</p>
+<p>Zhang, Jinlong. 2015. Skycalc: Computational Astronomy in R Based on Pj Naughter’s Aa+ Library. <a target="_blank" rel="noopener" href="https://github.com/helixcn/skycalc/">https://github.com/helixcn/skycalc/</a>.</p>
+<p>Zhang, Jinlong.. 2016. Ephem: Creating Figures for Astronomical Almanac.<a target="_blank" rel="noopener" href="https://github.com/helixcn/">https://github.com/helixcn/</a>. </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2018/05/29/2018-05-29-skyatlas/" data-id="cl1egp2g800a25884b8ztfc92" data-title="天文年历中几种常见天象图的绘制" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A9%E6%96%87/" rel="tag">天文</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-2018-5-29-extractaltitude" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2018/05/29/2018-5-29-extractaltitude/" class="article-date">
@@ -130,7 +212,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/05/29/2018-5-29-extractaltitude/" data-id="ckrsvkzc800b590w0cudd3902" data-title="利用R提取海拔、温度和降水等信息" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/05/29/2018-5-29-extractaltitude/" data-id="cl1egp2h000c05884br5k8tow" data-title="利用R提取海拔、温度和降水等信息" class="article-share-link">Share</a>
       
       
       
@@ -256,7 +338,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/05/28/2018-05-29-species/" data-id="ckrsvkzbf009b90w0cxvjer8w" data-title="在R中分析物种和系统发育多样性" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/05/28/2018-05-29-species/" data-id="cl1egp2gc00af5884674nhhg2" data-title="在R中分析物种和系统发育多样性" class="article-share-link">Share</a>
       
       
       
@@ -313,7 +395,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/05/25/2018-5-25-morning/" data-id="ckrsvkzc700b390w0g6aq0pq8" data-title="清晨" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/05/25/2018-5-25-morning/" data-id="cl1egp2h100c25884c8fw1pqh" data-title="清晨" class="article-share-link">Share</a>
       
       
       
@@ -358,7 +440,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/04/27/2018-4-28-arrow/" data-id="ckrsvkzc600az90w02ndjgucv" data-title="用R绘制采样点地图——带指北针、比例尺、图例" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/04/27/2018-4-28-arrow/" data-id="cl1egp2gx00bu58841cho5cr4" data-title="用R绘制采样点地图——带指北针、比例尺、图例" class="article-share-link">Share</a>
       
       
       
@@ -415,7 +497,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/04/24/2018-4-24-fdp/" data-id="ckrsvkzc500ax90w09tlg2axy" data-title="大样地海拔数据的克里格插值与地形图绘制" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/04/24/2018-4-24-fdp/" data-id="cl1egp2h100c4588496hr5hyx" data-title="大样地海拔数据的克里格插值与地形图绘制" class="article-share-link">Share</a>
       
       
       
@@ -468,7 +550,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/04/12/2018-04-12-waybackmachine/" data-id="ckrsvkzbd009790w09snq7wso" data-title="网络时光与网络时光机" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/04/12/2018-04-12-waybackmachine/" data-id="cl1egp2g6009y58848e7pfgu2" data-title="网络时光与网络时光机" class="article-share-link">Share</a>
       
       
       
@@ -523,7 +605,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/04/06/2018-4-6-review/" data-id="ckrsvkzc700b190w06p4y33y8" data-title="修改综述遇到的一些问题" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/04/06/2018-4-6-review/" data-id="cl1egp2gz00by5884byuf2oxh" data-title="修改综述遇到的一些问题" class="article-share-link">Share</a>
       
       
       
@@ -580,7 +662,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/04/03/2018-04-03-rss/" data-id="ckrsvkzbc009590w0ckzr7f4b" data-title="用RSS追踪研究植物生态学研究进展简明教程" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/04/03/2018-04-03-rss/" data-id="cl1egp2g700a058840osrfned" data-title="用RSS追踪研究植物生态学研究进展简明教程" class="article-share-link">Share</a>
       
       
       
@@ -657,64 +739,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/03/28/2018-3-28-moutains/" data-id="ckrsvkzc400av90w005vq1mvk" data-title="行走山间" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2018/03/28/2018-3-28-moutains/" data-id="cl1egp2gw00bs58844gjsb77p" data-title="行走山间" class="article-share-link">Share</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AF%97%E6%AD%8C/" rel="tag">诗歌</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-2018-2-22-styler" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/02/22/2018-2-22-styler/" class="article-date">
-  <time class="dt-published" datetime="2018-02-21T22:10:54.000Z" itemprop="datePublished">2018-02-22</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/02/22/2018-2-22-styler/">R代码的可读性与编程风格</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>最近收到不少R编程方面的求助，请求帮忙修改代码。不过有些人的代码， 实在很难看懂。 计算机代码是高度考验逻辑思维、记忆力和想象力的，代码的每一步都应该简单直接，易于理解， 这样整个脚本才能容易理解。</p>
-<p>为了能看懂这些代码，对相关的求助也必须提出基本要求： 必须要有R脚本和数据，二者缺一不可， 否则这活儿根本接不了。本来帮忙看代码，帮回答或者解决技术问题就是义务性的，看到糟糕的代码，不知道要多耗费多少脑细胞， 心情也差了很多。</p>
-<p>看看收到的R代码有什么常见问题：</p>
-<h2 id="1-脚本没有列明目的"><a href="#1-脚本没有列明目的" class="headerlink" title="1. 脚本没有列明目的"></a>1. 脚本没有列明目的</h2><p>R脚本一般是为了计算或者绘图， 如果目的不够明确， 说明作者可能没有想清楚。 如果脚本想要干什么都说不清楚， 是没有办法将目标化繁为简， 用计算机语言实现的。 所以最重要的一步， 就是要在计算机脚本最前面写一个标题， 上面说清楚这个脚本是干什么的， 是谁写的，什么时候写的。</p>
-<h2 id="2-重要步骤没有备注，重要函数和算法没有列出参考文献"><a href="#2-重要步骤没有备注，重要函数和算法没有列出参考文献" class="headerlink" title="2. 重要步骤没有备注，重要函数和算法没有列出参考文献"></a>2. 重要步骤没有备注，重要函数和算法没有列出参考文献</h2><p>计算机语言中， 一些核心的算法， 往往是最复杂的， 也是程序的核心部分，最好能有清楚的注释， 有时候还要列出参考文献， 以便核对。 否则计算机代码就很容易成为天书。</p>
-<h2 id="3-变量名极短，常用a、b、c、d等命名但是没有注释"><a href="#3-变量名极短，常用a、b、c、d等命名但是没有注释" class="headerlink" title="3. 变量名极短，常用a、b、c、d等命名但是没有注释"></a>3. 变量名极短，常用a、b、c、d等命名但是没有注释</h2><p>让计算机代码成为天书的另外一种方法就是使用极为简短的变量名， a, b, c, d, var 或者 data这样的变量名, 一个星期之后，连编写代码的人也看不懂了。 计算机代码要想能让人看懂，变量名称要有良好的注释， 最好能自明其意， 同时变量名称之间不能太相似。 trait, community, species, specielist, community_structure, res_pd都是好的变量名，而 a, b, var, t, data, 都是不好的变量名。 说到这里，不得不说一下变量命名的风格：有人建议用大小写命名区分变量的不同部分， 增加可读性， 例如 ComStruct， 这本来无可厚非， 但是输入过程中频繁切换大小写， 其实是很麻烦的事，最好能避免。有人建议用点 . 分隔，也就是com.struct，这本来是很好的选择，但是.也用来做S3子函数的命名， 所以有时候用.命名并不十分妥当。 我个人比较推荐用下环线分隔不同的部分，例如 com_struct, 这样在Notepad++等编辑器里面也更容易找到同一个词， 便于查看数据处理的流程。</p>
-<h2 id="4-没有缩进"><a href="#4-没有缩进" class="headerlink" title="4. 没有缩进"></a>4. 没有缩进</h2><p>代码没有良好的缩进，说明编写代码的人没有很好的编程习惯， 或多或少会造成阅读的障碍。</p>
-<h2 id="5-变量重复命名，同一变量出现多次或者用常用函数名命名"><a href="#5-变量重复命名，同一变量出现多次或者用常用函数名命名" class="headerlink" title="5. 变量重复命名，同一变量出现多次或者用常用函数名命名"></a>5. 变量重复命名，同一变量出现多次或者用常用函数名命名</h2><p>让人费解的是， 变量名称有几乎无数种可能，但有些人偏偏喜欢让某变量名在一个脚本中要反复出现，并且不断覆盖前面的变量。 这样做的后果就是，检查脚本的时候自己都糊涂了， 不知道哪个函数控制哪个变量。 最可怕的是data 作为变量名出现多次。 要知道， data在R中是调取内部数据的函数，所有的变量在取名的时候应该避免和R的常用函数重名。</p>
-<h2 id="6-运算过程过于隐晦，-在不必要的时候使用apply函数或者循环"><a href="#6-运算过程过于隐晦，-在不必要的时候使用apply函数或者循环" class="headerlink" title="6. 运算过程过于隐晦， 在不必要的时候使用apply函数或者循环"></a>6. 运算过程过于隐晦， 在不必要的时候使用apply函数或者循环</h2><p>简单明了的代码，才能长远。 但是有些代码太复杂了， 复杂的原因是因为运算过程太隐晦， 太难理解，例如本来就没有几个要读取的数据表，不知道为什么要用sapply或者for循环来读取，造成读取后的数据结果复杂， 难以访问。 任何一个单层循环或者多层循环，看似复杂， 其实都是从最简单的一层数据开始的，然后用[i]或者[j]控制下标的走向完成循环。 apply函数家族实现了矢量预算，能节省循环，但为了简单明了，编程时应该尽量避开循环和apply函数。apply虽好， 但最好也不要贪杯。</p>
-<h2 id="7-lt-或者-两侧缺少空格"><a href="#7-lt-或者-两侧缺少空格" class="headerlink" title="7. &lt;- 或者 = 两侧缺少空格"></a>7. &lt;- 或者 = 两侧缺少空格</h2><p>在&lt;- 或者 = 两侧加上空格， 是R用户的基本修养， 这里就不多说了。</p>
-<p>说了这么多， 只是希望所见到的R脚本能够：目标明确，结构清楚，变量自己能表明自己的意思，尽量不用注释，也能够看懂。 当然，关键语句的注释仍然是必不可少的。要编写高质量R脚本， 有兴趣的老师同学还可以参考 Google R风格指南 <a target="_blank" rel="noopener" href="https://google.github.io/styleguide/Rguide.xml">https://google.github.io/styleguide/Rguide.xml</a> 或其中文版 <a target="_blank" rel="noopener" href="https://nanx.me/rstyle/">https://nanx.me/rstyle/</a> 。 虽然风格是只是形式上的， 但好的风格会对编程有很大的帮助。</p>
-<p>2017-9-19 初稿</p>
-<p>2018-2-22 修改</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2018/02/22/2018-2-22-styler/" data-id="ckrsvkzc200ar90w0asoeajtl" data-title="R代码的可读性与编程风格" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a></li></ul>
 
     </footer>
   </div>
@@ -761,7 +790,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">January 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">December 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">October 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05/">May 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">May 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">December 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">August 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">March 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">April 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/01/">January 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/08/">August 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/07/">July 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/06/">June 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">May 2009</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">January 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">December 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">October 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05/">May 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">May 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">December 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">August 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">March 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">April 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/01/">January 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/08/">August 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/07/">July 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/06/">June 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">May 2009</a></li></ul>
     </div>
   </div>
 
@@ -774,7 +803,11 @@
       <ul>
         
           <li>
-            <a href="/2022/01/15/dangxia/">当下</a>
+            <a href="/2022/03/31/2022-03-31run_phylomatic/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/01/15/2022-01-15dangxia/">当下</a>
           </li>
         
           <li>
@@ -787,10 +820,6 @@
         
           <li>
             <a href="/2021/07/25/2021-07-25beans/">种豆记</a>
-          </li>
-        
-          <li>
-            <a href="/2021/07/19/2021-07-19-rresources/">植物学和生态学的一些R语言学习资源</a>
           </li>
         
       </ul>
