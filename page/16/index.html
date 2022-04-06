@@ -32,7 +32,7 @@
 <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
 
   
-<meta name="generator" content="Hexo 5.4.0"></head>
+</head>
 
 <body>
   <div id="container">
@@ -73,6 +73,59 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-2014-11-8-mlinlm" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2014/11/07/2014-11-8-mlinlm/" class="article-date">
+  <time class="dt-published" datetime="2014-11-07T09:16:54.000Z" itemprop="datePublished">2014-11-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2014/11/07/2014-11-8-mlinlm/">线性模型参数的极大似然估计</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>要了解响应变量y与因变量x之间的关系， 人们常用到线性回归。 常用 y = a*x + b表示， 然而更一般格式为</p>
+<p><code>y = beta1*x + beta0 + error</code></p>
+<p>其中beta0， beta1是参数,分别为截距和因变量的系数，error为残差。按照线性模型的假设， 残差应符合正态分布，一般取均值mean为0， 只需要估计标准差sd即可。 。</p>
+<p>本文的目的是用R程序的实例说明如何用极大似然估计进行简单的线性回归的参数。 按照以下步骤完成：</p>
+<p>因本文需要用到bbmle程序包， 没有安装的读者， 需要用 <code>install.packages(&quot;bbmle&quot;)</code>安装bbmle程序包。</p>
+<p>步骤：</p>
+<ol>
+<li>生成要拟合的数据， 并绘图</li>
+<li>通过R函数的内置lm方法建立线性模型， 并计算AIC以及LogLikelihood以便进行比较</li>
+<li>建立对数似然函数 Log Likelihood</li>
+<li>利用bbmle程序包的 mle2函数， 用数值优化算法(Optimization)求似然函数的最大值，从而给出所求参数的估计值。</li>
+<li>基于最大对数似然值 Maximum Log Likelihood求该模型的AIC值（Akaike Information Criterion）</li>
+</ol>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">library(bbmle)  <span class="comment">### 导入bbmle程序包</span></span><br><span class="line">set.seed(<span class="number">12345</span>) <span class="comment">### 设定随机数种子</span></span><br><span class="line">x = <span class="number">1</span>:<span class="number">60</span>        <span class="comment">### 生成x数据， 共60个值</span></span><br><span class="line">y = x*<span class="number">5</span> + <span class="number">20</span> + rnorm(<span class="number">60</span>, <span class="number">0</span>, <span class="number">20</span>) <span class="comment">## 生成y数据， 这里假设已知 beta1 = 5， beta0 = 20， mu = 0, sd = 20</span></span><br><span class="line">plot(y ~ x, main = <span class="string">&quot;Fitting of a Linear Model &quot;</span>) <span class="comment">## 观察数据</span></span><br><span class="line">linmod &lt;- lm(y ~ x) <span class="comment">## 建立线性模型</span></span><br><span class="line">lines(x, fitted(linmod) , lty = <span class="number">1</span>, col = <span class="string">&quot;red&quot;</span>, lwd = <span class="number">2</span>)  <span class="comment">## 添加线段</span></span><br><span class="line">segments(x0 = x, y0 = y, x1 = x, y1 = fitted(linmod))  <span class="comment">## 添加残差线</span></span><br><span class="line">summary(linmod)  <span class="comment">## 查看模型的拟合参数</span></span><br><span class="line">(AIC1 &lt;- AIC(linmod))  <span class="comment">## Akaike Information Criterion</span></span><br><span class="line">(logLik1 &lt;- logLik(linmod)) <span class="comment">## Loglikelihood</span></span><br><span class="line"></span><br><span class="line"><span class="comment">##################################################</span></span><br><span class="line"><span class="comment">### Log Likelihood Function</span></span><br><span class="line"><span class="comment">### 函数的一般形式</span></span><br><span class="line"><span class="comment">### y = beta1*x + beta0 + error</span></span><br><span class="line"><span class="comment">### 而error一项， 服从正态分布</span></span><br><span class="line"><span class="comment">### 所以 error = y - beta1*x - beta0</span></span><br><span class="line"><span class="comment">### 所以Loglikelihood函数可以写成如下形式：</span></span><br><span class="line">LL &lt;- <span class="keyword">function</span>(beta0, beta1, mu, sigma)&#123;</span><br><span class="line">   R = y - x*beta1 - beta0  </span><br><span class="line">   -<span class="built_in">sum</span>(dnorm(R, mu, sigma, <span class="built_in">log</span> = <span class="literal">TRUE</span>))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">### mle2函数， 可以用来估计似然函数去极值时，各参数的取值， 调用方式如下：</span></span><br><span class="line">res &lt;- mle2(LL, start = <span class="built_in">list</span>(beta0 = <span class="number">1</span>, beta1 = <span class="number">2</span>, mu = <span class="number">1</span>, sigma = <span class="number">1</span>), fixed = <span class="built_in">list</span>(mu = <span class="number">0</span>))</span><br><span class="line">summary(res)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 因为mle2的结果是S4类型， 所以这里用@提取</span></span><br><span class="line"><span class="comment">### 基于参数估计，计算y2的取值</span></span><br><span class="line">y2 = x*(res@coef[<span class="number">2</span>]) + res@coef[<span class="number">1</span>]</span><br><span class="line"><span class="comment">### 添加极大似然估计值</span></span><br><span class="line">points(y2 ~ x, col= <span class="string">&quot;blue&quot;</span>, type = <span class="string">&quot;b&quot;</span>, pch = <span class="number">19</span>)</span><br><span class="line"><span class="comment">### 用mle2得出来的Maximum Log Likelihood</span></span><br><span class="line">(logLik2 &lt;- logLik(res))</span><br><span class="line"><span class="comment">### 计算AIC, 的公式为 AIC = -2*logLik + 2*p, 其中logLike为 Maximum Log Likelihood， p为参数的个数。</span></span><br><span class="line"><span class="comment">### 因为在参数估计中， mu为一个常数0，我们只估计了sigma， 所以估计的参数是3个</span></span><br><span class="line">(AIC2 = -<span class="number">2</span>*logLik(res) + <span class="number">2</span>*<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2014/11/07/2014-11-8-mlinlm/" data-id="cl1n7qj4a0065eo840ycl57kg" data-title="线性模型参数的极大似然估计" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BB%9F%E8%AE%A1/" rel="tag">统计</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-2014-10-31-fitting" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2014/10/31/2014-10-31-fitting/" class="article-date">
@@ -100,7 +153,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/10/31/2014-10-31-fitting/" data-id="cl1egwrkk005wrw84co3cab2u" data-title="R拟合统计分布并绘制曲线" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/10/31/2014-10-31-fitting/" data-id="cl1n7qj47005zeo84bxxjepui" data-title="R拟合统计分布并绘制曲线" class="article-share-link">Share</a>
       
       
       
@@ -210,7 +263,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/10/15/2014-10-15-Rcpp/" data-id="cl1egwrkk005urw841mi3hyl0" data-title="R程序包整合C++：Rcpp使用简明指南" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/10/15/2014-10-15-Rcpp/" data-id="cl1n7qj46005xeo84ayrxbnza" data-title="R程序包整合C++：Rcpp使用简明指南" class="article-share-link">Share</a>
       
       
       
@@ -251,7 +304,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/09/25/2014-9-25-fitting/" data-id="cl1egwrkv006orw847s269kl4" data-title="在频率直方图上添加拟合的曲线－以对数正态分布为例" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/09/25/2014-9-25-fitting/" data-id="cl1n7qj4n006peo84b6hk3omg" data-title="在频率直方图上添加拟合的曲线－以对数正态分布为例" class="article-share-link">Share</a>
       
       
       
@@ -332,7 +385,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/09/22/2014-9-13-pyephem/" data-id="cl1egwrkt006krw84c57l593i" data-title="PyEphem基本功能介绍" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/09/22/2014-9-13-pyephem/" data-id="cl1n7qj4p006seo840bw11i0c" data-title="PyEphem基本功能介绍" class="article-share-link">Share</a>
       
       
       
@@ -377,7 +430,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/09/11/2014-9-11-heilongjiangplants/" data-id="cl1egwrku006mrw847k0q4wol" data-title="《黑龙江常见野生植物图鉴》出版" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/09/11/2014-9-11-heilongjiangplants/" data-id="cl1n7qj4m006neo844c4uek9z" data-title="《黑龙江常见野生植物图鉴》出版" class="article-share-link">Share</a>
       
       
       
@@ -419,7 +472,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/07/17/2014-7-17-interpolation/" data-id="cl1egwrkt006irw84b3lmgjn8" data-title="一个简单的线性插值问题" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/07/17/2014-7-17-interpolation/" data-id="cl1n7qj4l006leo84596e09oa" data-title="一个简单的线性插值问题" class="article-share-link">Share</a>
       
       
       
@@ -462,7 +515,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/05/11/2014-5-11-codes/" data-id="cl1egwrks006grw84eqof8vo6" data-title="生态和进化中的现代统计：基于R语言的应用-练习和代码" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/05/11/2014-5-11-codes/" data-id="cl1n7qj4k006jeo844clbetlf" data-title="生态和进化中的现代统计：基于R语言的应用-练习和代码" class="article-share-link">Share</a>
       
       
       
@@ -505,7 +558,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/05/10/2014-05-11-slides1/" data-id="cl1egwrkg005krw84dccrb59p" data-title="生态和进化中的现代统计：基于R语言的应用" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/05/10/2014-05-11-slides1/" data-id="cl1n7qj40005neo84e5xc8m0r" data-title="生态和进化中的现代统计：基于R语言的应用" class="article-share-link">Share</a>
       
       
       
@@ -591,59 +644,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/05/04/2014-05-4-rpacks/" data-id="cl1egwrki005orw845pa0baa4" data-title="R packages for Phylogenetic Comparative Methods" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2014/05/04/2014-05-4-rpacks/" data-id="cl1n7qj41005peo84hkvdb3jo" data-title="R packages for Phylogenetic Comparative Methods" class="article-share-link">Share</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6/" rel="tag">软件</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-2014-03-31-photos2llist" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2014/03/31/2014-03-31-photos2llist/" class="article-date">
-  <time class="dt-published" datetime="2014-03-31T01:39:54.000Z" itemprop="datePublished">2014-03-31</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2014/03/31/2014-03-31-photos2llist/">通过重命名的照片整理植物名录</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>在生物多样性调查中， 数码照片是快速记录物种信息的手段之一。 调查人员如果对一个地点的植物已经足够熟悉， 无需将所有植物踏查结果写到记录本上， 而是对见到的每种植物拍照， 可回到办公室再进行鉴定和整理。 这样既提高了野外工作的效率， 也提高了鉴定的准确性。 植物照片， 作为的一广义的标本，若有疑问， 可以供专家进一步研究和分析， 并且， 实在有必要， 可以回到野外， 采集标本。 </p>
-<p>拍摄的照片， 一般是按照地点， 放到文件夹中。按照相机的品牌和型号不同， 照片的名称以IMG_，DSC或DSCN开头，后面是照片的顺序号， 除专业摄影师， 方便后期的处理， 保存为别的格式之外， 一般情况下， 照片均保存为.JPG格式。.JPG的扩展名一般不要修改， 否则在Windows中打开文件会遇到困难。 </p>
-<p>对照片的重命名， 一般用标准中文名称（中国植物志的正式中文名）， 这样便于管理。依据照片中的物种， 为植物重命名， 一般加在.JPG之前， 而前面的IMG以及顺序号均保留。 一些浏览照片的程序包，如ACDSee， XnView等， 提供重命名的快捷方式， 以及批量重命名的方法；天南星等网友准备的植物名称词库， 也可以快速准确的输入中文植物名，因此， 如果对照片中的植物熟悉的话， 对照片重命名一般可以很快完成。 </p>
-<p>有了重命名的照片， 可以用以下方法，快速生成植物名录。这里仍然用本人比较熟悉的R软件：</p>
-<p>（注意： 本功能已经置于 R 程序包 plantlist中, <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=space&uid=255662&do=blog&id=813796">http://blog.sciencenet.cn/home.php?mod=space&amp;uid=255662&amp;do=blog&amp;id=813796</a>  ， 用户只需给出路径， 即可获得结果， 该结果同时包括APGIII系统的分科）</p>
-<p>以下代码仅供参考， 请使用最新版（Ver 0.0.4）的 tpllist<br>定义一个R函数：</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">cnplist &lt;- <span class="keyword">function</span>(path)&#123;</span><br><span class="line">   setwd(path)</span><br><span class="line">   temp.photo.list &lt;- list.files()</span><br><span class="line">   photo.list &lt;- temp.photo.list[grepl(<span class="string">&quot;.JPG&quot;</span>, temp.photo.list)]</span><br><span class="line">   list.res &lt;- <span class="built_in">list</span>()</span><br><span class="line">   sp.list.cn &lt;- unique(gsub(<span class="string">&quot;.JPG&quot;</span>,<span class="string">&quot;&quot;</span>,gsub(<span class="string">&quot;[0-9]&quot;</span>,<span class="string">&quot;&quot;</span>,gsub(<span class="string">&quot;DSC&quot;</span>, <span class="string">&quot;&quot;</span>, gsub(pattern = <span class="string">&quot;DSCN&quot;</span>, <span class="string">&quot;&quot;</span>, gsub(pattern = <span class="string">&quot;IMG_&quot;</span>, replacement = <span class="string">&quot;&quot;</span>, x = photo.list))))))</span><br><span class="line">   sp.list.cn &lt;- sp.list.cn[!sp.list.cn == <span class="string">&quot;&quot;</span>]</span><br><span class="line">   sp.list.cn.data.frame &lt;- as.data.frame(sp.list.cn)</span><br><span class="line">   res &lt;- merge(x = sp.list.cn.data.frame,  y = spdat, by.x = <span class="string">&quot;sp.list.cn&quot;</span>, by.y = <span class="string">&quot;NAME_CN&quot;</span>, all.x = <span class="literal">TRUE</span> )</span><br><span class="line">   write.csv(res, paste(<span class="string">&quot;checklist.csv&quot;</span>, sep = <span class="string">&quot;&quot;</span>))</span><br><span class="line">   <span class="built_in">return</span>(res)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>读取中文名学名对照表（参见本文附件 <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=attachment&id=51735">plantnames.csv</a> ）：</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">spdat &lt;- read.csv(<span class="string">&quot;plantnames.csv&quot;</span>, header = <span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#### 函数的使用方法举例</span></span><br><span class="line"><span class="comment">#### 列出梧桐寨瀑布文件夹下， 所有物种的名录</span></span><br><span class="line">cnplist(<span class="string">&quot;C:\Plant photos database\2014\20140120梧桐寨瀑布&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#### 列出2014目录下，每个文件夹中包括的物种名：</span></span><br><span class="line"></span><br><span class="line">dirs &lt;- <span class="string">&quot;C:\Plant photos database\2014&quot;</span></span><br><span class="line">aaa &lt;- list.dirs(dirs)</span><br><span class="line"><span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:<span class="built_in">length</span>(aaa))&#123;</span><br><span class="line">   cnplist(aaa[i])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2014/03/31/2014-03-31-photos2llist/" data-id="cl1egwrkf005irw84e3wgb4ga" data-title="通过重命名的照片整理植物名录" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%87%E6%9C%AC%E9%A6%86/" rel="tag">标本馆</a></li></ul>
 
     </footer>
   </div>
@@ -690,7 +695,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">January 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">December 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">October 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05/">May 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">May 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">December 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">August 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">March 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">April 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/01/">January 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/08/">August 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/07/">July 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/06/">June 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">May 2009</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">January 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">December 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">October 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05/">May 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">May 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">December 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">August 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">March 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">April 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/01/">January 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/08/">August 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/07/">July 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/06/">June 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">May 2009</a></li></ul>
     </div>
   </div>
 
@@ -701,6 +706,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2022/04/01/2022-03-31run_phylomatic/">(no title)</a>
+          </li>
         
           <li>
             <a href="/2022/03/31/2022-03-31run_phylomatic/">在本地运行awk版本的phylomatic-awk利用植物名录生成进化树</a>
@@ -716,10 +725,6 @@
         
           <li>
             <a href="/2021/09/13/2021-10-19school/">最初的小学时光</a>
-          </li>
-        
-          <li>
-            <a href="/2021/07/25/2021-07-25beans/">种豆记</a>
           </li>
         
       </ul>

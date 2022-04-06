@@ -32,7 +32,7 @@
 <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
 
   
-<meta name="generator" content="Hexo 5.4.0"></head>
+</head>
 
 <body>
   <div id="container">
@@ -72,6 +72,81 @@
 
       <div class="outer">
         <section id="main">
+  
+    <article id="post-2021-3-26-using.hexo" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/26/2021-3-26-using.hexo/" class="article-date">
+  <time class="dt-published" datetime="2021-03-26T01:22:00.000Z" itemprop="datePublished">2021-03-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/03/26/2021-3-26-using.hexo/">使用hexo生成和部署网站</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="1-下载和安装nodejs"><a href="#1-下载和安装nodejs" class="headerlink" title="1. 下载和安装nodejs"></a>1. 下载和安装nodejs</h2><p><a target="_blank" rel="noopener" href="https://nodejs.org/en/">https://nodejs.org/en/</a></p>
+<h2 id="2-下载和安装hexo"><a href="#2-下载和安装hexo" class="headerlink" title="2. 下载和安装hexo"></a>2. 下载和安装hexo</h2><p><a target="_blank" rel="noopener" href="https://hexo.io/">https://hexo.io/</a></p>
+<h2 id="3-建立一个文件夹，用来保存hexo项目文件"><a href="#3-建立一个文件夹，用来保存hexo项目文件" class="headerlink" title="3. 建立一个文件夹，用来保存hexo项目文件"></a>3. 建立一个文件夹，用来保存hexo项目文件</h2><p>例如 C:\someone\hexo blog someone</p>
+<h2 id="4-初始化hexo项目"><a href="#4-初始化hexo项目" class="headerlink" title="4. 初始化hexo项目"></a>4. 初始化hexo项目</h2><p>在 git bash里面输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init</span><br><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
+
+<p>项目即在<code>hexo blog someone</code>文件夹下建立了。</p>
+<h2 id="5-编辑网站基本信息"><a href="#5-编辑网站基本信息" class="headerlink" title="5. 编辑网站基本信息"></a>5. 编辑网站基本信息</h2><p>在 C:\someone\hexo blog someone文件夹下，编辑 _config.yml 文件</p>
+<p>其中：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Site</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">someone&#x27;s</span> <span class="string">blog</span></span><br><span class="line"><span class="attr">author:</span> <span class="string">someone</span></span><br><span class="line"><span class="comment"># URL</span></span><br><span class="line"><span class="attr">url:</span> <span class="string">https://someone.github.io</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Deployment</span></span><br><span class="line"><span class="comment">## Docs: https://hexo.io/docs/one-command-deployment</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repository:</span> <span class="string">https://github.com/someone/someone.github.io</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="6-拷贝markdown文档到-post文件夹"><a href="#6-拷贝markdown文档到-post文件夹" class="headerlink" title="6. 拷贝markdown文档到_post文件夹"></a>6. 拷贝markdown文档到_post文件夹</h2><p>将准备好的markdown文件，拷贝到 <code>\hexo blog someone\source\_posts</code> 中。<br>最好按照如下方式命名：</p>
+<p><code>2010-01-04-ubuntur8s.md</code></p>
+<p>另外， 在每个markdown文件的头部增加YAML说明。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">layout:</span> <span class="string">post</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">&quot;群落系统发育研究不能脱离理论框架&quot;</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2020-12-30 09:14:00+08:00</span></span><br><span class="line"><span class="attr">tags:</span> [<span class="string">随笔</span>]</span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="7-生成网站"><a href="#7-生成网站" class="headerlink" title="7. 生成网站"></a>7. 生成网站</h2><p>在git bash中输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-预览网站"><a href="#8-预览网站" class="headerlink" title="8. 预览网站"></a>8. 预览网站</h2><p>在git bash中输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo serve</span><br></pre></td></tr></table></figure>
+<p>然后， 在浏览器地址栏输入<code>localhost:4000/</code>即可预览网站</p>
+<h2 id="9-增加关于本人的about页面："><a href="#9-增加关于本人的about页面：" class="headerlink" title="9. 增加关于本人的about页面："></a>9. 增加关于本人的about页面：</h2><p>分成两步</p>
+<h3 id="（1）-在网站下，保证-someone-github-io-about-网址有相应网页"><a href="#（1）-在网站下，保证-someone-github-io-about-网址有相应网页" class="headerlink" title="（1） 在网站下，保证 someone.github.io/about 网址有相应网页"></a>（1） 在网站下，保证 someone.github.io/about 网址有相应网页</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new page about</span><br></pre></td></tr></table></figure>
+
+<p>此命令运行之后，<code>hexo blog someone\source</code> 下即生成about文件夹。编辑其中的 index.md 内容即可。</p>
+<h3 id="（2）让网站首页显示about的链接"><a href="#（2）让网站首页显示about的链接" class="headerlink" title="（2）让网站首页显示about的链接"></a>（2）让网站首页显示about的链接</h3><p>在需要更改<code>hexo blog someone\node_modules\hexo-theme-landscape</code>下的_config.yml文件，<br>在<code>menu:</code> 下增加 <code>About: /about</code> 一行。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Header</span></span><br><span class="line"><span class="attr">menu:</span></span><br><span class="line">  <span class="attr">Home:</span> <span class="string">/</span></span><br><span class="line">  <span class="attr">Archives:</span> <span class="string">/archives</span></span><br><span class="line">  <span class="attr">About:</span> <span class="string">/about</span></span><br><span class="line"><span class="attr">rss:</span> <span class="string">/atom.xml</span></span><br><span class="line"><span class="attr">banner:</span> <span class="string">&quot;images/banner.jpg&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>如要显示不同的banner, 则将<code>banner.jpg</code>的照片做相应置换即可。</p>
+<h2 id="10-部署到github"><a href="#10-部署到github" class="headerlink" title="10. 部署到github"></a>10. 部署到github</h2><p>安装hexo-deployer-git，在git bash中输入命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+<p>在git bash中输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://helixcn.github.io/2021/03/26/2021-3-26-using.hexo/" data-id="cl1n7qj9v00f3eo842ntwc46x" data-title="使用hexo生成和部署网站" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
   
     <article id="post-2021-03-25-howtousepkgdown" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
@@ -176,7 +251,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2021/03/25/2021-03-25-howtousepkgdown/" data-id="cl1egwrox00fdrw84bbvtcp0q" data-title="用pkgdown为R程序包建立网站" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2021/03/25/2021-03-25-howtousepkgdown/" data-id="cl1n7qjbp00fgeo8474w69ytr" data-title="用pkgdown为R程序包建立网站" class="article-share-link">Share</a>
       
       
       
@@ -225,7 +300,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2021/03/18/2021-03-18-whyadvancement/" data-id="cl1egwrnq00egrw842xf8cpyf" data-title="为什么《xxxx在XX研究中取得进展》这类文章很少有人转发？" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2021/03/18/2021-03-18-whyadvancement/" data-id="cl1n7qj9i00eheo84922cbx8p" data-title="为什么《xxxx在XX研究中取得进展》这类文章很少有人转发？" class="article-share-link">Share</a>
       
       
       
@@ -434,7 +509,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2021/02/16/2021-02-16-restoringforest/" data-id="cl1egwrnp00eerw8410hy7upc" data-title="如何恢复森林？– 从嘉道理农场的森林恢复样地说起" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2021/02/16/2021-02-16-restoringforest/" data-id="cl1n7qj9h00efeo84g43f78ga" data-title="如何恢复森林？– 从嘉道理农场的森林恢复样地说起" class="article-share-link">Share</a>
       
       
       
@@ -501,7 +576,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2020/12/30/2020-12-30-comphyloframework/" data-id="cl1egwrno00ecrw846in7gb52" data-title="群落系统发育研究不能脱离理论框架" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2020/12/30/2020-12-30-comphyloframework/" data-id="cl1n7qj9g00edeo8400w879n5" data-title="群落系统发育研究不能脱离理论框架" class="article-share-link">Share</a>
       
       
       
@@ -587,7 +662,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2020/12/14/2020-12-14-coordinatestransformation/" data-id="cl1egwrno00earw849d0y21qb" data-title="WGS84坐标和HK80坐标之间的相互转换" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2020/12/14/2020-12-14-coordinatestransformation/" data-id="cl1n7qj9k00eleo84gtysbib7" data-title="WGS84坐标和HK80坐标之间的相互转换" class="article-share-link">Share</a>
       
       
       
@@ -648,7 +723,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2020/12/07/2020-12-07-realityofecology/" data-id="cl1egwrnn00e8rw84enmk4ds1" data-title="十年后遇见真实的生态学" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2020/12/07/2020-12-07-realityofecology/" data-id="cl1n7qj9f00ebeo8455sz2hdg" data-title="十年后遇见真实的生态学" class="article-share-link">Share</a>
       
       
       
@@ -711,7 +786,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2020/11/29/2020-11-29-usingtmap/" data-id="cl1egwrnn00e6rw84fe6h7c6c" data-title="tmap手工调整采样点地图的图例" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2020/11/29/2020-11-29-usingtmap/" data-id="cl1n7qj9e00e9eo84dgc2bg83" data-title="tmap手工调整采样点地图的图例" class="article-share-link">Share</a>
       
       
       
@@ -1078,7 +1153,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2020/06/29/2020-06-29-howtousespaa/" data-id="cl1egwrou00fbrw849vqwgilz" data-title="种间联结和生态位重叠的计算：spaa程序包" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2020/06/29/2020-06-29-howtousespaa/" data-id="cl1n7qjbo00ffeo847vky6lj2" data-title="种间联结和生态位重叠的计算：spaa程序包" class="article-share-link">Share</a>
       
       
       
@@ -1232,93 +1307,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2020/05/11/2020-05-11-plantlist/" data-id="cl1egwrnm00e4rw84g2behykb" data-title="用plantlist程序包查询和处理植物学名 (plantlist 0.6.5)" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-2020-02-20-whatispic" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/02/19/2020-02-20-whatispic/" class="article-date">
-  <time class="dt-published" datetime="2020-02-19T08:16:00.000Z" itemprop="datePublished">2020-02-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/02/19/2020-02-20-whatispic/">什么是系统发育独立差（Phylogenetic Independent Contrast）？</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>系统发育独立差（Phylogenetic Independent Contrast, PIC）是去除性状分析中物种系统发育关系的一种方法，是美国进化生物学家 J. Felsenstein于1985年提出的。</p>
-<p>当时，有动物学家检验了若干哺乳动物脑容量和体重的相关性。然而，所用统计方法都假设各个种的性状是相互独立的，采集自同一个正态分布的总体。由于不同种之间存在系统发育上的联系，因此不能直接套用常规统计模型，所以所得结果也就不可信了。在Felsenstein之前，一些学者已经意识到这个问题，但是都没能给出理想的解决方案。</p>
-<p>Felsenstain认真思考了这个问题，并且认为：研究多个不同性状的相关性时，必须考虑系统发育关系。他提出：假设物种性状的进化服从布朗运动，那么用系统发育关系上最近的分类单元性状的差值，再经过枝长加权，就可以得到一组新的数据。这组新的数据去掉了进化信息的干扰，因此可以用常规统计方法检验。上述方法新获得的数据就称为系统发育独立差 （The Phylogenetic Independent Contrast, PIC）。</p>
-<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/202002/20/162337u5u13hjeqj10911u.png"><img src="http://image.sciencenet.cn/home/202002/20/162337u5u13hjeqj10911u.png" alt="img"></a></p>
-<p>图1. Felsenstein (1985) 的论文</p>
-<p>举例来说，如果要研究哺乳动物脑容量和体重的关系，就要先获得这些种之间的进化关系，也就是经过分子钟校订的进化树。然后再计算脑容量的PIC和体重的PIC，再用脑容量的PIC和体重的PIC建立线性模型，进行相关性检验。</p>
-<p>如果假设每个性状的进化服从布朗运动模型，也就是每个子代的性状的值是从祖先节点的性状随机变化而来的，那么进化树上相邻节点的两个种性状偏离于最近共同祖先性状的期望应该是0，且二者之间的差异正比于分化时间，也就是进化树的枝长。</p>
-<p>在1985年的论文中，Felsenstein提出了如下算法：</p>
-<ol>
-<li>假设相邻的分类单元为<em>i</em>和<em>j</em>，其性状分别为<em>X_i</em>和<em>X_j</em>，<em>i</em>和<em>j</em>的共同祖先是节点为<em>k</em>。</li>
-<li>先计算<em>X_i</em> - <em>X_j</em>，作为<em>X</em>和<em>Y</em>的contrast。该contrast的期望为0，方差与枝长<em>v_i</em>+<em>v_j</em>成正比</li>
-<li>从进化树中去掉节点<em>i</em>和<em>j</em>，保留节点<em>k</em>，将<em>k</em>当做末端节点。具体来说，就是以<em>X_i</em>和<em>X_j</em>的加权平均值作为<em>X_k</em>，公式如下：</li>
-</ol>
-<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/202002/20/162259xjn15une5xw55nw5.png"><img src="http://image.sciencenet.cn/home/202002/20/162259xjn15une5xw55nw5.png" alt="img"></a></p>
-<ol start="4">
-<li>将<em>k</em>节点下的枝长从<em>v_k</em>延长为<em>v_k</em> + <em>v_i**</em>v_j*/(<em>v_i</em> + <em>v_j</em>)。这样做的原因是，第3步中，<em>k</em>节点的<em>X_k</em>并非真实值，而是用<em>X_i</em> 、 <em>X_j</em>计算到的。</li>
-</ol>
-<p>经过1-4步，进化树上的末端分类单元就减少了1个，同时，也计算出了一个contrast的值。</p>
-<p>重复1-4步，直到进化树中只有一个节点。如果进化树中有<em>n</em>个末端节点，那么上述过程将得到*n-*1个独立差(contrast)。图2-3展示了只有五个物种的进化树，PIC的计算公式。</p>
-<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/202002/20/162439xcxju1t4ujw89wno.png"><img src="http://image.sciencenet.cn/home/202002/20/162439xcxju1t4ujw89wno.png" alt="img"></a></p>
-<p>图 2. 拥有5个分类单元的进化树，分类单元名称(1-5为末端节点，6-8为内部节点)、枝长（V）</p>
-<p><a target="_blank" rel="noopener" href="http://image.sciencenet.cn/home/202002/20/162556bl09vjtnlsoj16j9.png"><img src="http://image.sciencenet.cn/home/202002/20/162556bl09vjtnlsoj16j9.png" alt="img"></a></p>
-<p>图3. PIC的计算公式</p>
-<p>ape程序包提供了计算PIC的函数pic()，该函数使用的正是Felsenstein （1985）的算法。一般用户并不需要了解函数内部的机制，只需要提供进化树和性状向量即可。</p>
-<p>以下为ape程序包中pic函数的示例：</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">library(ape)</span><br><span class="line"><span class="comment">### The example in Phylip 3.5c (originally from Lynch 1991)</span></span><br><span class="line">cat(<span class="string">&quot;((((Homo:0.21,Pongo:0.21):0.28,&quot;</span>,   </span><br><span class="line"><span class="string">&quot;Macaca:0.49):0.13,Ateles:0.62):0.38,Galago:1.00);&quot;</span>,   </span><br><span class="line">file = <span class="string">&quot;ex.tre&quot;</span>, sep = <span class="string">&quot;\n&quot;</span>)</span><br><span class="line">tree.primates &lt;- read.tree(<span class="string">&quot;ex.tre&quot;</span>)</span><br><span class="line">X &lt;- <span class="built_in">c</span>(<span class="number">4.09434</span>, <span class="number">3.61092</span>, <span class="number">2.37024</span>, <span class="number">2.02815</span>, -<span class="number">1.46968</span>)</span><br><span class="line">Y &lt;- <span class="built_in">c</span>(<span class="number">4.74493</span>, <span class="number">3.33220</span>, <span class="number">3.36730</span>, <span class="number">2.89037</span>, <span class="number">2.30259</span>)</span><br><span class="line"><span class="built_in">names</span>(X) &lt;- <span class="built_in">names</span>(Y) &lt;- <span class="built_in">c</span>(<span class="string">&quot;Homo&quot;</span>, <span class="string">&quot;Pongo&quot;</span>, <span class="string">&quot;Macaca&quot;</span>, <span class="string">&quot;Ateles&quot;</span>, <span class="string">&quot;Galago&quot;</span>)</span><br><span class="line">pic.X &lt;- pic(X, tree.primates)</span><br><span class="line">pic.Y &lt;- pic(Y, tree.primates)</span><br><span class="line">cor.test(X, Y)</span><br><span class="line"><span class="comment">####  Pearson&#x27;s product-moment correlation</span></span><br><span class="line"><span class="comment">#### data:  X and Y</span></span><br><span class="line"><span class="comment">## t = 2.5736, df = 3, p-value = 0.08224</span></span><br><span class="line"><span class="comment">## alternative hypothesis: true correlation is not equal to 0</span></span><br><span class="line"><span class="comment">## 95 percent confidence interval:</span></span><br><span class="line"><span class="comment">##  -0.1964310  0.9884173</span></span><br><span class="line"><span class="comment">## sample estimates:</span></span><br><span class="line"><span class="comment">##       cor</span></span><br><span class="line"><span class="comment">## 0.8296107</span></span><br><span class="line">cor.test(pic.X, pic.Y)</span><br><span class="line"><span class="comment">####  Pearson&#x27;s product-moment correlation</span></span><br><span class="line"><span class="comment">#### data:  pic.X and pic.Y</span></span><br><span class="line"><span class="comment">## t = -0.85623, df = 2, p-value = 0.4821</span></span><br><span class="line"><span class="comment">## alternative hypothesis: true correlation is not equal to 0</span></span><br><span class="line"><span class="comment">## 95 percent confidence interval:</span></span><br><span class="line"><span class="comment">##  -0.9874751  0.8823934</span></span><br><span class="line"><span class="comment">## sample estimates:</span></span><br><span class="line"><span class="comment">##        cor</span></span><br><span class="line"><span class="comment">## -0.5179156</span></span><br><span class="line">lm(pic.Y ~ pic.X - <span class="number">1</span>) <span class="comment"># both regressions</span></span><br><span class="line"><span class="comment">#### Call:</span></span><br><span class="line"><span class="comment">## lm(formula = pic.Y ~ pic.X - 1)</span></span><br><span class="line"><span class="comment">#### Coefficients:</span></span><br><span class="line"><span class="comment">##  pic.X</span></span><br><span class="line"><span class="comment">## 0.4319</span></span><br><span class="line">lm(pic.X ~ pic.Y - <span class="number">1</span>) </span><br><span class="line"><span class="comment"># through the origin</span></span><br><span class="line"><span class="comment">#### Call:</span></span><br><span class="line"><span class="comment">## lm(formula = pic.X ~ pic.Y - 1)</span></span><br><span class="line"><span class="comment">#### Coefficients:</span></span><br><span class="line"><span class="comment">## pic.Y</span></span><br><span class="line"><span class="comment">## 0.998</span></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p>从以上结果可以看出，将性状直接进行相关分析以及用性状的PIC进行相关分析，所得结果是有差异的：去除了系统发育关系之后，性状X和性状Y之间的相关性降低了。去除系统发育关系之前 （Pearson’s <em>r</em> = 0.8296, <em>t</em> = 2.5736, <em>df</em> = 3, <em>p</em>-value = 0.08224），去除系统发育关系之后（Pearson’s <em>r</em> = -0.5179156, <em>t</em> = -0.85623, <em>df</em> = 2, <em>p</em>-value = 0.4821 ）。</p>
-<p>这里比较难以理解的是，计算出来的PIC总是比真实性状数据少一个，但是不同性状的PIC都是比真实数据少一个，用不同性状的PIC向量建立线性模型，所得结果，就是我们要计算的性状之间的相关性。</p>
-<p>ape的pic函数要求不同种性状出现的顺序与在进化树中出现的顺序完全相同。为此，picante程序包提供了match.phylo.data()函数，只要用户为性状数据（无论是data.frame还是vector）提供了对应的物种名（如果是多个性状，格式应该为dataframe，其行名应该是物种名），该函数就能将性状数据按照进化树中出现的顺序排好，非常方便。</p>
-<p>以下代码展示的就是怎样通过植物物种名（拉丁名）获得进化树，再计算植株高度的PIC，源数据来自S. Kembel博士的培训资料。</p>
-<p>Felsenstein在1985年的论文中说，他提出的算法可计算多分枝结构的PIC，但是ape的pic函数不能处理含有多分枝结构的进化树，所以下面的代码调用了multi2di()函数，将进化树转换为二叉树。转换的方法是为每一个多分支节点随机添加一个很小的枝长，由于枝长很小，对结果的影响很小，几乎可以忽略不计。</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">setwd(<span class="string">&quot;...&quot;</span>)</span><br><span class="line">library(plantlist)</span><br><span class="line"><span class="comment">## This is plantlist 0.6.1.</span></span><br><span class="line"><span class="comment"># devtools::install_github(&quot;helixcn/plantlist&quot;)</span></span><br><span class="line">library(V.PhyloMaker)</span><br><span class="line"><span class="comment"># devtools::install_github(&quot;jinyizju/V.PhyloMaker&quot;)</span></span><br><span class="line">library(picante)</span><br><span class="line">library(ape)</span><br><span class="line">dat &lt;- read.csv(<span class="string">&quot;trait_herb_114.csv&quot;</span>, header = <span class="literal">TRUE</span>)</span><br><span class="line">head(dat)</span><br><span class="line"><span class="comment">##                 species height</span></span><br><span class="line"><span class="comment">## 1     Stipa_albasiensis   48.5</span></span><br><span class="line"><span class="comment">## 2 Heteropappus_altaicus   15.6</span></span><br><span class="line"><span class="comment">## 3  Roegneria_alashanica   43.7</span></span><br><span class="line"><span class="comment">## 4 Saussurea_alaschanica   21.5</span></span><br><span class="line"><span class="comment">## 5 Astragalus_alaschanus   18.0</span></span><br><span class="line"><span class="comment">## 6      Panzerina_lanata   12.5</span></span><br><span class="line">height &lt;- dat$height</span><br><span class="line"><span class="built_in">names</span>(height) &lt;- dat$species</span><br><span class="line"></span><br><span class="line"><span class="comment"># Build a phylogeny using phylo.maker</span></span><br><span class="line">species &lt;- gsub(<span class="string">&quot;_&quot;</span>, <span class="string">&quot; &quot;</span>, <span class="built_in">as.character</span>(dat$species))</span><br><span class="line">tab2 &lt;- subset(TPL(gsub(<span class="string">&quot;_&quot;</span>, <span class="string">&quot; &quot;</span>, species)),              </span><br><span class="line">select = <span class="built_in">c</span>(<span class="string">&quot;YOUR_SEARCH&quot;</span>, <span class="string">&quot;POSSIBLE_GENUS&quot;</span>, <span class="string">&quot;FAMILY&quot;</span>))</span><br><span class="line">colnames(tab2) &lt;- <span class="built_in">c</span>(<span class="string">&quot;species&quot;</span>, <span class="string">&quot;genus&quot;</span>, <span class="string">&quot;family&quot;</span>)</span><br><span class="line">result1 &lt;- phylo.maker(tab2, scenarios = <span class="built_in">c</span>(<span class="string">&quot;S1&quot;</span>))</span><br><span class="line"><span class="comment">## [1] &quot;Taxonomic classification not consistent between sp.list and tree.&quot;##           genus family_in_sp.list family_in_tree## 77 Hemerocallis  Xanthorrhoeaceae  Asphodelaceae</span></span><br><span class="line"><span class="comment"># write.tree(result1[[1]], &quot;tree1.newick&quot;) </span></span><br><span class="line"><span class="comment"># If you want to examine the tree</span></span><br><span class="line">tree &lt;- multi2di(result1[[<span class="number">1</span>]])</span><br><span class="line"><span class="comment"># plot(tree)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># &quot;If x has names, its values are matched to the tip labels of phy, otherwise its values are taken to be in the same order than the tip labels of phy.&quot;</span></span><br><span class="line">data_matched &lt;- match.phylo.data(phy = tree, data = height )</span><br><span class="line"><span class="comment"># Phylogenetic Independent Contrastheight_pic &lt;- pic(data_matched$data, data_matched$phy)</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
-<li>Felsenstein, J. (1985) Phylogenies and the comparative method. American Naturalist, 125, 1–15.</li>
-<li>Jin, Y., &amp; Qian, H. (2019). V. PhyloMaker: an R package that can generate very large phylogenies for vascular plants. Ecography, 42(8), 1353-1359.</li>
-<li>Kembel, S. W., Cowan, P. D., Helmus, M. R., Cornwell, W. K., Morlon, H., Ackerly, D. D., … &amp; Webb, C. O. (2010). Picante: R tools for integrating phylogenies and ecology. Bioinformatics, 26(11), 1463-1464.</li>
-<li>Kembel S. 编， 张金龙 译， 在R中分析物种和系统发育多样性 <a target="_blank" rel="noopener" href="http://blog.sciencenet.cn/home.php?mod=space&amp;uid=255662&amp;do=blog&amp;id=1116212">http://blog.sciencenet.cn/home.php?mod=space&amp;uid=255662&amp;do=blog&amp;id=1116212</a></li>
-<li>Paradis, E., &amp; Schliep, K. (2019). ape 5.0: an environment for modern phylogenetics and evolutionary analyses in R. <em>Bioinformatics</em>, <em>35</em>(3), 526-528.</li>
-<li>Zhang, J.L. (2018). plantlist: Looking Up the Status of Plant Scientific Names based on The Plant List Database. R package version 0.6.1. <a target="_blank" rel="noopener" href="https://github.com/helixcn/plantlist/">https://github.com/helixcn/plantlist/</a></li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://helixcn.github.io/2020/02/19/2020-02-20-whatispic/" data-id="cl1egwrnl00e2rw84h3iidgv3" data-title="什么是系统发育独立差（Phylogenetic Independent Contrast）？" class="article-share-link">Share</a>
+      <a data-url="https://helixcn.github.io/2020/05/11/2020-05-11-plantlist/" data-id="cl1n7qj9c00e7eo84e40wezds" data-title="用plantlist程序包查询和处理植物学名 (plantlist 0.6.5)" class="article-share-link">Share</a>
       
       
       
@@ -1369,7 +1358,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">January 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">December 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">October 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05/">May 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">May 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">December 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">August 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">March 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">April 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/01/">January 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/08/">August 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/07/">July 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/06/">June 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">May 2009</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">July 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">May 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">March 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">February 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">January 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">December 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">October 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05/">May 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">April 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">March 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02/">February 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08/">August 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">July 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/06/">June 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">May 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">January 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12/">December 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">November 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">October 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08/">August 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">July 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">May 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/04/">April 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/03/">March 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02/">February 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">December 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/11/">November 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/09/">September 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/08/">August 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07/">July 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/06/">June 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05/">May 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">April 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03/">March 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/01/">January 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/08/">August 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/07/">July 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/06/">June 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">May 2009</a></li></ul>
     </div>
   </div>
 
@@ -1380,6 +1369,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2022/04/01/2022-03-31run_phylomatic/">(no title)</a>
+          </li>
         
           <li>
             <a href="/2022/03/31/2022-03-31run_phylomatic/">在本地运行awk版本的phylomatic-awk利用植物名录生成进化树</a>
@@ -1395,10 +1388,6 @@
         
           <li>
             <a href="/2021/09/13/2021-10-19school/">最初的小学时光</a>
-          </li>
-        
-          <li>
-            <a href="/2021/07/25/2021-07-25beans/">种豆记</a>
           </li>
         
       </ul>
